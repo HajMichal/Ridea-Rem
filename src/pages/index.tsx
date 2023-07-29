@@ -1,11 +1,14 @@
 import { signIn, signOut, useSession } from "next-auth/react";
 import Head from "next/head";
 import { api } from "~/utils/api";
+import fs from "fs";
+import { useState } from "react";
 
 export default function Home() {
+  const [state, setState] = useState<{ imie: string }>({ imie: "" });
   const { mutate } = api.dataFlow.setFile.useMutation();
   const { data } = api.dataFlow.downloadFile.useQuery();
-  console.log(data);
+  console.log(data?.imie);
 
   return (
     <>
@@ -16,7 +19,15 @@ export default function Home() {
       </Head>
       <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c]">
         <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16 ">
-          <button onClick={() => mutate()} className="text-white">
+          <input
+            type="text"
+            name="imie"
+            onChange={(e) => setState({ imie: e.target.value })}
+          />
+          <button
+            className="rounded-full bg-white/10 px-10 py-3 font-semibold text-white no-underline transition hover:bg-white/20"
+            onClick={() => mutate(state)}
+          >
             Set File
           </button>
           <div className="flex flex-col items-center gap-2">

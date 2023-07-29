@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 import fs from "fs";
+import { z } from "zod";
 import AWS from "aws-sdk";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 import { GetObjectCommand, S3Client } from "@aws-sdk/client-s3";
-
-const jsonFile = fs.readFileSync("./data.json");
+import { streamToString } from "~/functions/streamToString";
 
 const s3 = new AWS.S3();
 AWS.config.update({
@@ -13,29 +13,26 @@ AWS.config.update({
   region: "eu-central-1",
 });
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-redundant-type-constituents
-function streamToString(stream: any): Promise<string> {
-  return new Promise((resolve, reject) => {
-    const chunks: Uint8Array[] = [];
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    stream.on("data", (chunk: Uint8Array) => chunks.push(chunk));
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    stream.on("error", reject);
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    stream.on("end", () => resolve(Buffer.concat(chunks).toString("utf8")));
-  });
-}
-
 export const dataFlowRouter = createTRPCRouter({
-  setFile: publicProcedure.mutation(async () => {
-    await s3
-      .putObject({
-        Bucket: "ridearem",
-        Key: "data.json",
-        Body: jsonFile,
-      })
-      .promise();
-  }),
+  setFile: publicProcedure
+    .input(z.object({ imie: z.string() }))
+    .mutation(async ({ input }) => {
+      const jsonFile = fs.readFileSync("./data.json");
+
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      const data = JSON.parse(jsonFile.toString());
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      data.przywitanie = input.imie;
+      const updatedFileContent = JSON.stringify(data);
+
+      await s3
+        .putObject({
+          Bucket: "ridearem",
+          Key: "data.json",
+          Body: updatedFileContent,
+        })
+        .promise();
+    }),
   downloadFile: publicProcedure.query(async () => {
     const s3Client = new S3Client({ region: "eu-central-1" });
     const getObjectCommand = new GetObjectCommand({
@@ -55,7 +52,13 @@ export const dataFlowRouter = createTRPCRouter({
         Key: "data.json",
       })
       .promise();
+    const jsonContent = dataFile.Body?.toString();
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    if (!jsonContent) return null;
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    const jsonObject = JSON.parse(jsonContent);
 
-    return JSON.stringify(dataFile);
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+    return jsonObject;
   }),
 });
