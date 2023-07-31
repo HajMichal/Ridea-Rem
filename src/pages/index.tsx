@@ -6,9 +6,11 @@ import { useState } from "react";
 
 export default function Home() {
   const [state, setState] = useState<{ imie: string }>({ imie: "" });
-  const { mutate } = api.dataFlow.setFile.useMutation();
+  const { mutate } = api.dataFlow.setJSONFile.useMutation();
   const { data } = api.dataFlow.downloadFile.useQuery();
-  console.log(data?.imie);
+
+  const { mutate: setSQL } = api.dataFlow.setSQLiteFile.useMutation();
+  // const { data: getSQL } = api.dataFlow.downloadSQLiteFile.useQuery();
 
   return (
     <>
@@ -29,6 +31,12 @@ export default function Home() {
             onClick={() => mutate(state)}
           >
             Set File
+          </button>
+          <button
+            className="rounded-full bg-white/10 px-10 py-3 font-semibold text-white no-underline transition hover:bg-white/20"
+            onClick={() => setSQL()}
+          >
+            Set SQL
           </button>
           <div className="flex flex-col items-center gap-2">
             <AuthShowcase />

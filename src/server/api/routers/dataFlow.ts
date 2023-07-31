@@ -13,25 +13,28 @@ AWS.config.update({
   region: "eu-central-1",
 });
 
+const setFileToBucket = (fileContent: Buffer, key: string) => {
+  const params = {
+    Bucket: "ridearem",
+    Key: key,
+    Body: fileContent,
+  };
+  s3.putObject(params, (err, data) => {
+    if (err) {
+      console.error(err);
+    } else {
+      console.log(`File uploaded successfully. ETag: ${data.ETag}`);
+    }
+  });
+};
+
 export const dataFlowRouter = createTRPCRouter({
-  setFile: publicProcedure
+  setJSONFile: publicProcedure
     .input(z.object({ imie: z.string() }))
     .mutation(async ({ input }) => {
-      const jsonFile = fs.readFileSync("./data.json");
+      const fileContent = fs.readFileSync("./data.json");
 
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      const data = JSON.parse(jsonFile.toString());
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      data.przywitanie = input.imie;
-      const updatedFileContent = JSON.stringify(data);
-
-      await s3
-        .putObject({
-          Bucket: "ridearem",
-          Key: "data.json",
-          Body: updatedFileContent,
-        })
-        .promise();
+      setFileToBucket(fileContent, "data.json");
     }),
   downloadFile: publicProcedure.query(async () => {
     const s3Client = new S3Client({ region: "eu-central-1" });
@@ -42,7 +45,7 @@ export const dataFlowRouter = createTRPCRouter({
 
     const { Body } = await s3Client.send(getObjectCommand);
     const fileContents = await streamToString(Body!);
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+
     const jsonData = JSON.parse(fileContents);
     fs.writeFileSync("data.json", JSON.stringify(jsonData));
 
@@ -52,13 +55,30 @@ export const dataFlowRouter = createTRPCRouter({
         Key: "data.json",
       })
       .promise();
-    const jsonContent = dataFile.Body?.toString();
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    if (!jsonContent) return null;
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    const jsonObject = JSON.parse(jsonContent);
 
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-    return jsonObject;
+    return JSON.parse(dataFile?.Body?.toString() || "null");
+  }),
+  setSQLiteFile: publicProcedure.mutation(async () => {
+    const fileContent = fs.readFileSync("./prisma/db.sqlite");
+
+    setFileToBucket(fileContent, "db.sqlite");
+  }),
+  downloadSQLiteFile: publicProcedure.query(async () => {
+    s3.getObject(
+      {
+        Bucket: "ridearem",
+        Key: "db.sqlite",
+      },
+      (err, data) => {
+        if (err) {
+          console.error(err);
+        } else {
+          const fileData = data.Body!;
+          // @ts-ignore
+          fs.writeFileSync("prisma/db.sqlite", fileData);
+        }
+      }
+    );
+    return "success";
   }),
 });

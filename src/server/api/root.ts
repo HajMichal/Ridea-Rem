@@ -1,5 +1,6 @@
 import { createTRPCRouter } from "~/server/api/trpc";
 import { dataFlowRouter } from "./routers/dataFlow";
+import { loginRouter } from "./routers/login";
 
 /**
  * This is the primary router for your server.
@@ -8,6 +9,7 @@ import { dataFlowRouter } from "./routers/dataFlow";
  */
 export const appRouter = createTRPCRouter({
   dataFlow: dataFlowRouter,
+  login: loginRouter,
 });
 
 // export type definition of API

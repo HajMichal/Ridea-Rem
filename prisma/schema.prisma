@@ -50,8 +50,14 @@ model Session {
 model User {
     id            String    @id @default(cuid())
     name          String?
+    login         String    @unique
+    // no 1 = ADMIN 
+    // no 2 = MENAGER
+    // no 3 = WORKER
+    role          Int       @default(3)
     email         String?   @unique
     emailVerified DateTime?
+    password      String
     image         String?
     accounts      Account[]
     sessions      Session[]
