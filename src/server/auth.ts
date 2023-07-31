@@ -17,7 +17,7 @@ declare module "next-auth" {
     user: DefaultSession["user"] & {
       id: string;
       // ...other properties
-      // role: UserRole;
+      role: number;
     };
   }
 
@@ -34,22 +34,25 @@ declare module "next-auth" {
  */
 
 import CredentialsProvider from "next-auth/providers/credentials";
-import { api } from "~/utils/api";
 import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
 export const authOptions: NextAuthOptions = {
   callbacks: {
-    session: ({ session, user }) => ({
-      ...session,
-      user: {
-        ...session.user,
-        id: user.id,
-      },
-    }),
+    async jwt({ token, user }) {
+      return { ...token, ...user };
+    },
+    async session({ session, token, user }) {
+      // @ts-ignore
+      session.user = token;
+      return session;
+    },
   },
   adapter: PrismaAdapter(prisma),
+  session: {
+    strategy: "jwt",
+  },
   providers: [
     CredentialsProvider({
       // The name to display on the sign in form (e.g. "Sign in with...")
@@ -66,10 +69,6 @@ export const authOptions: NextAuthOptions = {
         Hasło: { label: "Hasło", type: "password" },
       },
       async authorize(credentials, req) {
-        // Add logic here to look up the user from the credentials supplied
-        // const { data } = api.login.getAllUsers.useQuery();
-        // console.log(data);
-
         const user = await prisma.user.findUnique({
           where: {
             login: credentials?.Login,

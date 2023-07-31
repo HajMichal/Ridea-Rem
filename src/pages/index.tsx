@@ -1,8 +1,8 @@
 import { signIn, signOut, useSession } from "next-auth/react";
 import Head from "next/head";
 import { api } from "~/utils/api";
-import fs from "fs";
 import { useState } from "react";
+import Link from "next/link";
 
 export default function Home() {
   const [state, setState] = useState<{ imie: string }>({ imie: "" });
@@ -11,6 +11,8 @@ export default function Home() {
 
   const { mutate: setSQL } = api.dataFlow.setSQLiteFile.useMutation();
   // const { data: getSQL } = api.dataFlow.downloadSQLiteFile.useQuery();
+
+  const { data: session } = useSession();
 
   return (
     <>
@@ -38,6 +40,12 @@ export default function Home() {
           >
             Set SQL
           </button>
+          <Link
+            className="rounded-full bg-white/10 px-10 py-3 font-semibold text-white no-underline transition hover:bg-white/20"
+            href={"/create/account"}
+          >
+            Create account
+          </Link>
           <div className="flex flex-col items-center gap-2">
             <AuthShowcase />
           </div>
