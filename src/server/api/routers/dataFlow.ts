@@ -13,7 +13,7 @@ AWS.config.update({
   region: "eu-central-1",
 });
 
-const setFileToBucket = (fileContent: Buffer, key: string) => {
+export const setFileToBucket = (fileContent: Buffer, key: string) => {
   const params = {
     Bucket: "ridearem",
     Key: key,

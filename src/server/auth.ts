@@ -35,6 +35,8 @@ declare module "next-auth" {
 
 import CredentialsProvider from "next-auth/providers/credentials";
 import { PrismaClient } from "@prisma/client";
+import bcrypt from "bcrypt";
+import { api } from "~/utils/api";
 
 const prisma = new PrismaClient();
 
@@ -74,7 +76,13 @@ export const authOptions: NextAuthOptions = {
             login: credentials?.Login,
           },
         });
-        if (user && user.password === credentials?.Hasło) {
+        if (user && credentials) {
+          const passwordMatch = await bcrypt.compare(
+            credentials.Hasło,
+            user.password
+          );
+
+          if (!passwordMatch) return null;
           return user;
         }
         return null;

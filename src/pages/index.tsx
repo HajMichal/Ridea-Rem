@@ -10,9 +10,7 @@ export default function Home() {
   const { data } = api.dataFlow.downloadFile.useQuery();
 
   const { mutate: setSQL } = api.dataFlow.setSQLiteFile.useMutation();
-  // const { data: getSQL } = api.dataFlow.downloadSQLiteFile.useQuery();
-
-  const { data: session } = useSession();
+  api.dataFlow.downloadSQLiteFile.useQuery();
 
   return (
     <>

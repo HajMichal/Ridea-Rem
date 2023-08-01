@@ -1,8 +1,53 @@
+import { useForm, SubmitHandler } from "react-hook-form";
 import { useSession } from "next-auth/react";
-import React from "react";
+import { useRouter } from "next/router";
+import React, { useEffect } from "react";
+import { api } from "~/utils/api";
+
+interface FormTypes {
+  name: string;
+  login: string;
+  password: string;
+  role: number;
+}
 
 const account = () => {
+  const router = useRouter();
   const { data: session } = useSession();
+  const { mutate } = api.login.createAccount.useMutation({
+    onSuccess: () => {
+      router.push("/");
+    },
+  });
+
+  const { register, handleSubmit } = useForm<FormTypes>({
+    defaultValues: {
+      login: "",
+      name: "",
+      password: "",
+      role: 3,
+    },
+  });
+
+  useEffect(() => {
+    if (
+      session?.user.role! === 3 ||
+      session === undefined ||
+      session === null
+    ) {
+      router.push("/");
+    }
+  }, [session]);
+
+  const onSubmit: SubmitHandler<FormTypes> = (data) => {
+    console.log(data);
+    mutate({
+      login: data.login,
+      name: data.name,
+      password: data.password,
+      role: Number(data.role),
+    });
+  };
 
   return (
     <div className="flex min-h-screen w-screen items-start justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c]">
@@ -10,10 +55,29 @@ const account = () => {
         <h1 className="mb-4 text-xl font-medium text-white">
           Stwórz nowe konto
         </h1>
-        <form className="flex w-min max-w-[350px] flex-wrap justify-center gap-3">
-          <input type="text" placeholder="Imię" className="p-1" />
-          <input type="text" placeholder="Login" className="p-1" />
-          <input type="text" placeholder="Hasło" className="p-1" />
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="flex w-min max-w-[350px] flex-wrap justify-center gap-3"
+        >
+          <input
+            {...register("name", { required: true })}
+            autoComplete="false"
+            placeholder="Imię"
+            className="p-1"
+          />
+          <input
+            {...register("login", { required: true })}
+            autoComplete="false"
+            placeholder="Login"
+            className="p-1"
+          />
+          <input
+            {...register("password", { required: true })}
+            autoComplete="false"
+            type="password"
+            placeholder="Hasło"
+            className="p-1"
+          />
           {session?.user.role === 1 && (
             <>
               <label htmlFor="role" className="w-full text-center text-white">
@@ -23,10 +87,20 @@ const account = () => {
                 <label htmlFor="role" className="text-white">
                   Menager
                 </label>
-                <input type="radio" name="role" />
+                <input
+                  {...register("role", { required: true })}
+                  type="radio"
+                  name="role"
+                  value={2}
+                />
               </div>
               <div className="flex gap-1">
-                <input type="radio" name="role" />
+                <input
+                  {...register("role", { required: true })}
+                  type="radio"
+                  name="role"
+                  value={3}
+                />
                 <label htmlFor="role" className="text-white">
                   Pracownik
                 </label>
