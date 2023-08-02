@@ -31,7 +31,7 @@ export const setFileToBucket = (fileContent: Buffer, key: string) => {
 export const dataFlowRouter = createTRPCRouter({
   setJSONFile: publicProcedure
     .input(z.object({ imie: z.string() }))
-    .mutation(async ({ input }) => {
+    .mutation(() => {
       const fileContent = fs.readFileSync("./data.json");
 
       setFileToBucket(fileContent, "data.json");
@@ -46,6 +46,7 @@ export const dataFlowRouter = createTRPCRouter({
     const { Body } = await s3Client.send(getObjectCommand);
     const fileContents = await streamToString(Body!);
 
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const jsonData = JSON.parse(fileContents);
     fs.writeFileSync("data.json", JSON.stringify(jsonData));
 
@@ -56,14 +57,15 @@ export const dataFlowRouter = createTRPCRouter({
       })
       .promise();
 
-    return JSON.parse(dataFile?.Body?.toString() || "null");
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+    return JSON.parse(dataFile?.Body?.toString() ?? "null");
   }),
-  setSQLiteFile: publicProcedure.mutation(async () => {
+  setSQLiteFile: publicProcedure.mutation(() => {
     const fileContent = fs.readFileSync("./prisma/db.sqlite");
 
     setFileToBucket(fileContent, "db.sqlite");
   }),
-  downloadSQLiteFile: publicProcedure.query(async () => {
+  downloadSQLiteFile: publicProcedure.query(() => {
     s3.getObject(
       {
         Bucket: "ridearem",
@@ -74,6 +76,7 @@ export const dataFlowRouter = createTRPCRouter({
           console.error(err);
         } else {
           const fileData = data.Body!;
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-ignore
           fs.writeFileSync("prisma/db.sqlite", fileData);
         }

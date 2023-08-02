@@ -36,16 +36,18 @@ declare module "next-auth" {
 import CredentialsProvider from "next-auth/providers/credentials";
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
-import { api } from "~/utils/api";
 
 const prisma = new PrismaClient();
 
 export const authOptions: NextAuthOptions = {
   callbacks: {
+    // eslint-disable-next-line @typescript-eslint/require-await
     async jwt({ token, user }) {
       return { ...token, ...user };
     },
-    async session({ session, token, user }) {
+    // eslint-disable-next-line @typescript-eslint/require-await
+    async session({ session, token }) {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       session.user = token;
       return session;
@@ -70,7 +72,7 @@ export const authOptions: NextAuthOptions = {
         },
         Hasło: { label: "Hasło", type: "password" },
       },
-      async authorize(credentials, req) {
+      async authorize(credentials) {
         const user = await prisma.user.findUnique({
           where: {
             login: credentials?.Login,
