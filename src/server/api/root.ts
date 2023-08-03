@@ -1,6 +1,7 @@
 import { createTRPCRouter } from "~/server/api/trpc";
 import { dataFlowRouter } from "./routers/dataFlow";
 import { loginRouter } from "./routers/login";
+import { photovoltaics_calculator } from "./routers/photovoltaics_calculator";
 
 /**
  * This is the primary router for your server.
@@ -10,6 +11,7 @@ import { loginRouter } from "./routers/login";
 export const appRouter = createTRPCRouter({
   dataFlow: dataFlowRouter,
   login: loginRouter,
+  photovoltaics: photovoltaics_calculator,
 });
 
 // export type definition of API

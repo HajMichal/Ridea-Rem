@@ -1,12 +1,8 @@
-import Head from "next/head";
 import Link from "next/link";
 
 export default function Home() {
   return (
     <>
-      <Head>
-        <title>RideaRem</title>
-      </Head>
       <main>
         <div className="w-full bg-red-500">
           <Link href={"/kalkulator/fotowoltaika"}>Fotowoltaika</Link>

@@ -1,6 +1,8 @@
 import React from "react";
+import { api } from "~/utils/api";
 
 const Dashboard = () => {
+  api.dataFlow.downloadSQLiteFile.useQuery();
   return (
     <div>
       <div>Fotowoltaika</div>

@@ -40,7 +40,6 @@ const account = () => {
   }, [session]);
 
   const onSubmit: SubmitHandler<FormTypes> = (data) => {
-    console.log(data);
     mutate({
       login: data.login,
       name: data.name,
