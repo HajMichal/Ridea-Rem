@@ -40,5 +40,6 @@ export const loginRouter = createTRPCRouter({
       const fileContent = fs.readFileSync("./prisma/db.sqlite");
 
       setFileToBucket(fileContent, "db.sqlite");
+      return { status: 200 };
     }),
 });
