@@ -1,4 +1,4 @@
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm, type SubmitHandler } from "react-hook-form";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import React, { useEffect } from "react";
@@ -11,12 +11,12 @@ interface FormTypes {
   role: number;
 }
 
-const account = () => {
+const Account = () => {
   const router = useRouter();
   const { data: session } = useSession();
   const { mutate } = api.login.createAccount.useMutation({
     onSuccess: () => {
-      router.push("/");
+      void router.push("/");
     },
   });
 
@@ -30,14 +30,10 @@ const account = () => {
   });
 
   useEffect(() => {
-    if (
-      session?.user.role! === 3 ||
-      session === undefined ||
-      session === null
-    ) {
-      router.push("/");
+    if (session?.user.role === 3 || session === undefined || session === null) {
+      void router.push("/");
     }
-  }, [session]);
+  }, [session, router]);
 
   const onSubmit: SubmitHandler<FormTypes> = (data) => {
     mutate({
@@ -55,7 +51,7 @@ const account = () => {
           Stwórz nowe konto
         </h1>
         <form
-          onSubmit={handleSubmit(onSubmit)}
+          onSubmit={() => handleSubmit(onSubmit)}
           className="flex w-min max-w-[350px] flex-wrap justify-center gap-3"
         >
           <input
@@ -118,4 +114,4 @@ const account = () => {
   );
 };
 
-export default account;
+export default Account;

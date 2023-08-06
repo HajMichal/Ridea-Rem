@@ -1,7 +1,6 @@
 import { signIn, signOut, useSession } from "next-auth/react";
 import { api } from "~/utils/api";
 import { useCallback, useEffect, useState } from "react";
-import Link from "next/link";
 import { useRouter } from "next/router";
 
 const Fotowoltaika = () => {
@@ -11,7 +10,6 @@ const Fotowoltaika = () => {
   const [prizeOutOfLimit, setPrizeOutOfLimit] = useState<number>();
   const [recentYearTrendUsage, setRecentYearTrendUsage] = useState<number>();
   const [autoconsumption_step, setAutoconsumption_step] = useState<number>(0.1); // stopien autokonsupcji w procentach (ex: 0.3)
-  const [modulesCount, setModulesCount] = useState<number>();
 
   const { data: sessionData } = useSession();
   const router = useRouter();
@@ -39,7 +37,7 @@ const Fotowoltaika = () => {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call
       void router.push("/api/auth/signin");
     }
-  }, [sessionData]);
+  }, [sessionData, router]);
 
   // D5 = C6 -> Ilość energii zużywanej średnio rocznie
   // D20 -> autokonsumpcja -> D18*D19 =
@@ -63,7 +61,7 @@ const Fotowoltaika = () => {
         system_power: system_power,
       });
     }
-  }, [system_power, southRoof]);
+  }, [system_power, southRoof, set_estimated_kWh_prod]);
 
   useEffect(() => {
     if (autoconsumption_step && estimated_kWh_prod)
@@ -71,7 +69,12 @@ const Fotowoltaika = () => {
         autoconsumption_step: autoconsumption_step,
         estimated_kWh_prod: estimated_kWh_prod,
       });
-  }, [autoconsumption_step, estimated_kWh_prod]);
+  }, [
+    autoconsumption_step,
+    estimated_kWh_prod,
+    set_estimated_kWh_prod,
+    set_autoconsumption,
+  ]);
 
   useEffect(() => {
     if (
@@ -90,9 +93,11 @@ const Fotowoltaika = () => {
   }, [
     autoconsumption,
     prizeInLimit,
+    usageLimit,
     prizeOutOfLimit,
     recentYearTrendUsage,
-    recentYearTrendUsage,
+    set_autoconsumption,
+    set_total_payment_energy_transfer,
   ]);
 
   const inLimitOnChange = useCallback(
@@ -100,14 +105,14 @@ const Fotowoltaika = () => {
       set_limit_prize_trend(e.target.valueAsNumber);
       setPrizeInLimit(e.target.valueAsNumber);
     },
-    []
+    [set_limit_prize_trend]
   );
   const outOfLimitOnChange = useCallback(
     (e: { target: { valueAsNumber: number } }) => {
       set_outOfLimit_prize_trend(e.target.valueAsNumber);
       setPrizeOutOfLimit(e.target.valueAsNumber);
     },
-    []
+    [set_outOfLimit_prize_trend]
   );
 
   return (
