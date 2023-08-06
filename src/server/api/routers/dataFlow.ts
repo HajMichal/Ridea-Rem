@@ -32,9 +32,9 @@ export const dataFlowRouter = createTRPCRouter({
   setJSONFile: publicProcedure
     .input(z.object({ imie: z.string() }))
     .mutation(() => {
-      const fileContent = fs.readFileSync("./data.json");
+      const fileContent = fs.readFileSync("./tmp/data.json");
 
-      setFileToBucket(fileContent, "data.json");
+      setFileToBucket(fileContent, "./tmp/data.json");
     }),
   downloadFile: publicProcedure.query(async () => {
     const s3Client = new S3Client({ region: "eu-central-1" });
@@ -48,7 +48,7 @@ export const dataFlowRouter = createTRPCRouter({
 
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const jsonData = JSON.parse(fileContents);
-    fs.writeFileSync("data.json", JSON.stringify(jsonData));
+    fs.writeFileSync("./tmp/data.json", JSON.stringify(jsonData));
 
     const dataFile = await s3
       .getObject({
@@ -76,6 +76,8 @@ export const dataFlowRouter = createTRPCRouter({
           console.error(err);
         } else {
           const fileData = data.Body!;
+          console.log("success");
+
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-ignore
           fs.writeFileSync("prisma/db.sqlite", fileData);
