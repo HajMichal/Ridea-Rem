@@ -15,7 +15,7 @@ const Fotowoltaika = () => {
   const router = useRouter();
 
   // const { mutate } = api.dataFlow.setJSONFile.useMutation();
-  api.dataFlow.downloadFile.useQuery();
+  // api.dataFlow.downloadFile.useQuery();
 
   const { mutate: set_limit_prize_trend, data: limit_prize_trend } =
     api.photovoltaics.prize_trend.useMutation();
@@ -38,6 +38,12 @@ const Fotowoltaika = () => {
       void router.push("/api/auth/signin");
     }
   }, [sessionData, router]);
+
+  const hadnelClick = async () => {
+    const response = await fetch("/api/saveS3JsonFile");
+    const data = await response.json();
+    console.log(data.response);
+  };
 
   // D5 = C6 -> Ilość energii zużywanej średnio rocznie
   // D20 -> autokonsumpcja -> D18*D19 =
@@ -118,6 +124,9 @@ const Fotowoltaika = () => {
   return (
     <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c]">
       <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16 text-white">
+        <button className="text-white" onClick={() => hadnelClick()}>
+          TEST
+        </button>
         <div>
           <label className="font-bold">Cena energii</label>
           <div className="my-1 flex gap-1">
