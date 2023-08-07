@@ -44,13 +44,6 @@ const Fotowoltaika = () => {
   //   }
   // }, [sessionData, router]);
 
-  // const hadnelClick = async () => {
-  //   const response = await fetch("/api/saveS3JsonFile");
-  //   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  //   const data: JsonFileData = await response.json();
-  //   console.log(data);
-  // };
-
   // D5 = C6 -> Ilość energii zużywanej średnio rocznie
   // D20 -> autokonsumpcja -> D18*D19 =
   //      D18 -> szacowana produkcja -> if(F9){ 1020 * C11 } esle if(!F9) {920 * C11}
@@ -130,9 +123,6 @@ const Fotowoltaika = () => {
   return (
     <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c]">
       <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16 text-white">
-        {/* <button className="text-white" onClick={() => void hadnelClick()}>
-          TEST
-        </button> */}
         <div>
           <label className="font-bold">Cena energii</label>
           <div className="my-1 flex gap-1">
