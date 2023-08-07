@@ -13,7 +13,7 @@ const Fotowoltaika = () => {
   const [prizeInLimit, setPrizeInLimit] = useState<number>();
   const [prizeOutOfLimit, setPrizeOutOfLimit] = useState<number>();
   const [recentYearTrendUsage, setRecentYearTrendUsage] = useState<number>();
-  const [autoconsumption_step, setAutoconsumption_step] = useState<number>(0.1); // stopien autokonsupcji w procentach (ex: 0.3)
+  const [autoconsumption_step, setAutoconsumption_step] = useState<number>(0.1); // D19 stopien autokonsupcji w procentach (ex: 0.3)
 
   const { data: sessionData } = useSession();
   const router = useRouter();
@@ -23,19 +23,31 @@ const Fotowoltaika = () => {
   console.log(data);
 
   const { mutate: set_limit_prize_trend, data: limit_prize_trend } =
-    api.photovoltaics.prize_trend.useMutation();
+    api.photovoltaics.prize_trend.useMutation(); // G3
   const { mutate: set_outOfLimit_prize_trend, data: outOfLimit_prize_trend } =
-    api.photovoltaics.prize_trend.useMutation();
+    api.photovoltaics.prize_trend.useMutation(); // G4
   const { mutate: set_system_power, data: system_power } =
-    api.photovoltaics.system_power.useMutation();
+    api.photovoltaics.system_power.useMutation(); // D17
   const { mutate: set_estimated_kWh_prod, data: estimated_kWh_prod } =
-    api.photovoltaics.estimated_kWh_production.useMutation();
+    api.photovoltaics.estimated_kWh_production.useMutation(); // D18
   const { mutate: set_autoconsumption, data: autoconsumption } =
-    api.photovoltaics.autoconsumption.useMutation();
+    api.photovoltaics.autoconsumption.useMutation(); // D20
   const {
     mutate: set_total_payment_energy_transfer,
-    data: total_payment_energy_transfer,
+    data: total_payment_energy_transfer, // D13
   } = api.photovoltaics.total_payment_energy_transfer.useMutation();
+  const {
+    mutate: set_energy_sold_to_distributor,
+    data: energy_sold_to_distributor, // D21
+  } = api.photovoltaics.energy_sold_to_distributor.useMutation();
+  const {
+    mutate: set_accumulated_funds_on_account,
+    data: accumulated_funds_on_account, // D23
+  } = api.photovoltaics.accumulated_funds_on_account.useMutation();
+  const {
+    mutate: set_total_energy_trend_fee,
+    data: total_energy_trend_fee, // D23
+  } = api.photovoltaics.total_energy_trend_fee.useMutation();
 
   // useEffect(() => {
   //   if (sessionData === null) {
@@ -54,8 +66,8 @@ const Fotowoltaika = () => {
   // D21 -> odsprzedana energia -> D18 - D20
   // D23 -> zgromadzone srodki na koncie rozliczeniowym -> D21 * (srednia cena sprzedazy kWh = 0.72)
   // H3 = E4 -> limit zuzycia
-  // G3 = F3 = G2 * 49.1%
-  // G4 = F4 = G3 * 49.1%
+  // G3 = F3 = G2<dobór instalacji> * 49.1%
+  // G4 = F4 = G3<dobór instalacji>  * 49.1%
 
   // D13 -> Łączna opłata za przesył energii elektrycznej  if( (D5 - D20) > H3 ) { (G3 * H3) + (G4 * (D5 - D20 - H3)) } else { (D5 - D20) * G3 }
 
@@ -104,6 +116,52 @@ const Fotowoltaika = () => {
     set_autoconsumption,
     set_total_payment_energy_transfer,
   ]);
+
+  useEffect(() => {
+    if (autoconsumption && estimated_kWh_prod)
+      set_energy_sold_to_distributor({
+        autoconsumption: autoconsumption,
+        estimated_kWh_prod: estimated_kWh_prod,
+      });
+  }, [
+    autoconsumption,
+    estimated_kWh_prod,
+    set_energy_sold_to_distributor,
+    set_autoconsumption,
+  ]);
+  useEffect(() => {
+    if (energy_sold_to_distributor)
+      set_accumulated_funds_on_account({
+        energy_sold_to_distributor: energy_sold_to_distributor,
+      });
+  }, [energy_sold_to_distributor, set_accumulated_funds_on_account]);
+
+  useEffect(() => {
+    if (
+      accumulated_funds_on_account &&
+      autoconsumption &&
+      prizeInLimit &&
+      prizeOutOfLimit &&
+      recentYearTrendUsage
+    ) {
+      set_total_energy_trend_fee({
+        accumulated_funds_on_account: accumulated_funds_on_account,
+        autoconsumption: autoconsumption,
+        prizeInLimit: prizeInLimit,
+        prizeOutOfLimit: prizeOutOfLimit,
+        usageLimit: usageLimit,
+        recentYearTrendUsage: recentYearTrendUsage,
+      });
+    }
+  }, [
+    accumulated_funds_on_account,
+    autoconsumption,
+    prizeInLimit,
+    prizeOutOfLimit,
+    usageLimit,
+    set_total_energy_trend_fee,
+  ]);
+  console.log(total_energy_trend_fee);
 
   const inLimitOnChange = useCallback(
     (e: { target: { valueAsNumber: number } }) => {
@@ -215,6 +273,16 @@ const Fotowoltaika = () => {
         <div>
           Łączna opłata za przesył energii elektrycznej{" "}
           {total_payment_energy_transfer} PLN
+        </div>
+        <div>
+          Łączna opłata energii elektrycznej {total_energy_trend_fee} PLN
+        </div>
+        <div>
+          Rachunek roczny z fotowoltaiką{" "}
+          {!Number.isNaN(
+            total_energy_trend_fee! + total_payment_energy_transfer!
+          ) && total_energy_trend_fee! + total_payment_energy_transfer!}{" "}
+          PLN
         </div>
       </div>
       <div className="flex flex-col items-center gap-2">
