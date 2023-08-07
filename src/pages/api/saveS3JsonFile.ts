@@ -3,12 +3,10 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { GetObjectCommand, S3Client } from "@aws-sdk/client-s3";
 import { streamToString } from "~/functions/streamToString";
 import fs from "fs";
-interface ResponseData {
-  response: unknown;
-}
+
 export default async function saveFile(
   req: NextApiRequest,
-  res: NextApiResponse<ResponseData>
+  res: NextApiResponse<unknown>
 ) {
   const s3 = new AWS.S3();
   AWS.config.update({
@@ -36,7 +34,6 @@ export default async function saveFile(
       Key: "data.json",
     })
     .promise();
-  res
-    .status(200)
-    .json({ response: JSON.parse(dataFile?.Body?.toString() ?? "null") });
+  const resData: unknown = JSON.parse(dataFile?.Body?.toString() ?? "null");
+  res.status(200).json(resData);
 }

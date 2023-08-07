@@ -47,7 +47,7 @@ const Fotowoltaika = () => {
     const response = await fetch("/api/saveS3JsonFile");
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const data: JsonFileData = await response.json();
-    console.log(data.response);
+    console.log(data);
   };
 
   // D5 = C6 -> Ilość energii zużywanej średnio rocznie
