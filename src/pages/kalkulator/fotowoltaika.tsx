@@ -36,12 +36,12 @@ const Fotowoltaika = () => {
     data: total_payment_energy_transfer,
   } = api.photovoltaics.total_payment_energy_transfer.useMutation();
 
-  useEffect(() => {
-    if (sessionData === null) {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-      void router.push("/api/auth/signin");
-    }
-  }, [sessionData, router]);
+  // useEffect(() => {
+  //   if (sessionData === null) {
+  //     // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+  //     void router.push("/api/auth/signin");
+  //   }
+  // }, [sessionData, router]);
 
   const hadnelClick = async () => {
     const response = await fetch("/api/saveS3JsonFile");
