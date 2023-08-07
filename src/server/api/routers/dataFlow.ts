@@ -37,18 +37,18 @@ export const dataFlowRouter = createTRPCRouter({
       setFileToBucket(fileContent, "./tmp/data.json");
     }),
   downloadFile: publicProcedure.query(async () => {
-    const s3Client = new S3Client({ region: "eu-central-1" });
-    const getObjectCommand = new GetObjectCommand({
-      Bucket: "ridearem",
-      Key: "data.json",
-    });
+    // const s3Client = new S3Client({ region: "eu-central-1" });
+    // const getObjectCommand = new GetObjectCommand({
+    //   Bucket: "ridearem",
+    //   Key: "data.json",
+    // });
 
-    const { Body } = await s3Client.send(getObjectCommand);
-    const fileContents = await streamToString(Body!);
+    // const { Body } = await s3Client.send(getObjectCommand);
+    // const fileContents = await streamToString(Body!);
 
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    const jsonData = JSON.parse(fileContents);
-    fs.writeFileSync("./tmp/data.json", JSON.stringify(jsonData));
+    // const jsonData = JSON.parse(fileContents);
+    // fs.writeFileSync("./tmp/data.json", JSON.stringify(jsonData));
 
     const dataFile = await s3
       .getObject({
