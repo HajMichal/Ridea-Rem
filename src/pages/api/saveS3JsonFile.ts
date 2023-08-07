@@ -35,5 +35,5 @@ export default async function saveFile(
     })
     .promise();
   const resData: unknown = JSON.parse(dataFile?.Body?.toString() ?? "null");
-  res.status(200).json(resData);
+  res.status(200).send(resData);
 }
