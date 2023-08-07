@@ -3,6 +3,10 @@ import { api } from "~/utils/api";
 import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
+interface JsonFileData {
+  response: unknown;
+}
+
 const Fotowoltaika = () => {
   const [southRoof, setSouthRoof] = useState(false);
   const [usageLimit, setUsageLimit] = useState<number>(2000);
@@ -41,7 +45,8 @@ const Fotowoltaika = () => {
 
   const hadnelClick = async () => {
     const response = await fetch("/api/saveS3JsonFile");
-    const data = await response.json();
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    const data: JsonFileData = await response.json();
     console.log(data.response);
   };
 
@@ -124,7 +129,7 @@ const Fotowoltaika = () => {
   return (
     <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c]">
       <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16 text-white">
-        <button className="text-white" onClick={() => hadnelClick()}>
+        <button className="text-white" onClick={() => void hadnelClick()}>
           TEST
         </button>
         <div>

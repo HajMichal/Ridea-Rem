@@ -1,12 +1,14 @@
 import AWS from "aws-sdk";
-import { NextApiRequest, NextApiResponse } from "next";
+import type { NextApiRequest, NextApiResponse } from "next";
 import { GetObjectCommand, S3Client } from "@aws-sdk/client-s3";
 import { streamToString } from "~/functions/streamToString";
 import fs from "fs";
-
+interface ResponseData {
+  response: unknown;
+}
 export default async function saveFile(
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse<ResponseData>
 ) {
   const s3 = new AWS.S3();
   AWS.config.update({
