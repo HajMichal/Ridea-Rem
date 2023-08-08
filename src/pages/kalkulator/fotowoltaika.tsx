@@ -1,7 +1,9 @@
-import { signIn, signOut, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { api } from "~/utils/api";
 import { useCallback, useEffect, useState } from "react";
+import { Navbar } from "../../components/Navbar";
 import { useRouter } from "next/router";
+import { SideBar } from "~/components/SideBar";
 
 interface JsonFileData {
   response: unknown;
@@ -179,135 +181,118 @@ const Fotowoltaika = () => {
   );
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c]">
-      <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16 text-white">
-        <div>
-          <label className="font-bold">Cena energii</label>
-          <div className="my-1 flex gap-1">
-            <input
-              type="number"
-              className="text-black"
-              onBlur={inLimitOnChange}
-            />
-            <p>w limicie (G2)</p>
+    <main className="flex h-full min-h-screen justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c]">
+      <SideBar />
+      <div className="w-full">
+        <Navbar />
+        <div className="container flex flex-col  justify-center gap-12 px-4 py-16 text-white">
+          <div>
+            <label className="font-bold">Cena energii</label>
+            <div className="my-1 flex gap-1">
+              <input
+                type="number"
+                className="text-black"
+                onBlur={inLimitOnChange}
+              />
+              <p>w limicie (G2)</p>
+            </div>
+            <div className="my-1 flex gap-1">
+              <input
+                type="number"
+                className="text-black"
+                onBlur={outOfLimitOnChange}
+              />
+              <p>poza limitem(G3)</p>
+            </div>
           </div>
-          <div className="my-1 flex gap-1">
-            <input
-              type="number"
-              className="text-black"
-              onBlur={outOfLimitOnChange}
-            />
-            <p>poza limitem(G3)</p>
-          </div>
-        </div>
 
-        <div>
-          <label className="font-bold">Cena prądu w limicie kWh</label>
-          <div className="flex gap-1">
-            <p>{limit_prize_trend}</p>
+          <div>
+            <label className="font-bold">Cena prądu w limicie kWh</label>
+            <div className="flex gap-1">
+              <p>{limit_prize_trend}</p>
+              <p>PLN/kWh</p>
+              <label>Limit zużycia (E4)</label>
+              <select
+                className="text-black"
+                onChange={(e) => {
+                  setUsageLimit(Number(e.target.value));
+                }}
+              >
+                <option value="2000">2000</option>
+                <option value="2600">2600</option>
+                <option value="3000">3000</option>
+              </select>
+            </div>
+          </div>
+          <div className="flex gap-3">
+            <p>cena prądu po przekroczeniu 2000kWh: </p>
+            <p>{outOfLimit_prize_trend}</p>
             <p>PLN/kWh</p>
-            <label>Limit zużycia (E4)</label>
+          </div>
+          <div>
+            <p>Ilość energii zużywanej średnio rocznie w kWh (C6)</p>
+            <input
+              type="number"
+              onBlur={(e) => {
+                setRecentYearTrendUsage(e.target.valueAsNumber);
+              }}
+              className="text-black"
+            />
+          </div>
+          <div>
+            <p>Ilość modułów (E11)</p>
+            <input
+              type="number"
+              onBlur={(e) => set_system_power(e.target.valueAsNumber)}
+              className="text-black"
+            />
+          </div>
+          <div>
+            <p>Stopień autokonsumpcji energii z PV (H6)</p>
             <select
               className="text-black"
               onChange={(e) => {
-                setUsageLimit(Number(e.target.value));
+                setAutoconsumption_step(Number(e.target.value));
               }}
             >
-              <option value="2000">2000</option>
-              <option value="2600">2600</option>
-              <option value="3000">3000</option>
+              <option value="0.1">10%</option>
+              <option value="0.2">20%</option>
+              <option value="0.3">30%</option>
+              <option value="0.4">40%</option>
+              <option value="0.5">50%</option>
+              <option value="0.6">60%</option>
+              <option value="0.7">70%</option>
+              <option value="0.8">80%</option>
             </select>
           </div>
+          <div className="flex gap-2">
+            <label htmlFor="">Dach południowy (F9)</label>
+            <select
+              className="text-black"
+              onChange={(e) => setSouthRoof(e.target.value == "true")}
+            >
+              <option value={"false"}>Nie</option>
+              <option value={"true"}>Tak</option>
+            </select>
+          </div>
+          <div>
+            Łączna opłata za przesył energii elektrycznej{" "}
+            {total_payment_energy_transfer} PLN
+          </div>
+          <div>
+            Łączna opłata energii elektrycznej {total_energy_trend_fee} PLN
+          </div>
+          <div>
+            Rachunek roczny z fotowoltaiką{" "}
+            {!Number.isNaN(
+              total_energy_trend_fee! + total_payment_energy_transfer!
+            ) && total_energy_trend_fee! + total_payment_energy_transfer!}{" "}
+            PLN
+          </div>
         </div>
-        <div className="flex gap-3">
-          <p>cena prądu po przekroczeniu 2000kWh: </p>
-          <p>{outOfLimit_prize_trend}</p>
-          <p>PLN/kWh</p>
-        </div>
-        <div>
-          <p>Ilość energii zużywanej średnio rocznie w kWh (C6)</p>
-          <input
-            type="number"
-            onBlur={(e) => {
-              setRecentYearTrendUsage(e.target.valueAsNumber);
-            }}
-            className="text-black"
-          />
-        </div>
-        <div>
-          <p>Ilość modułów (E11)</p>
-          <input
-            type="number"
-            onBlur={(e) => set_system_power(e.target.valueAsNumber)}
-            className="text-black"
-          />
-        </div>
-        <div>
-          <p>Stopień autokonsumpcji energii z PV (H6)</p>
-          <select
-            className="text-black"
-            onChange={(e) => {
-              setAutoconsumption_step(Number(e.target.value));
-            }}
-          >
-            <option value="0.1">10%</option>
-            <option value="0.2">20%</option>
-            <option value="0.3">30%</option>
-            <option value="0.4">40%</option>
-            <option value="0.5">50%</option>
-            <option value="0.6">60%</option>
-            <option value="0.7">70%</option>
-            <option value="0.8">80%</option>
-          </select>
-        </div>
-        <div className="flex gap-2">
-          <label htmlFor="">Dach południowy (F9)</label>
-          <select
-            className="text-black"
-            onChange={(e) => setSouthRoof(e.target.value == "true")}
-          >
-            <option value={"false"}>Nie</option>
-            <option value={"true"}>Tak</option>
-          </select>
-        </div>
-        <div>
-          Łączna opłata za przesył energii elektrycznej{" "}
-          {total_payment_energy_transfer} PLN
-        </div>
-        <div>
-          Łączna opłata energii elektrycznej {total_energy_trend_fee} PLN
-        </div>
-        <div>
-          Rachunek roczny z fotowoltaiką{" "}
-          {!Number.isNaN(
-            total_energy_trend_fee! + total_payment_energy_transfer!
-          ) && total_energy_trend_fee! + total_payment_energy_transfer!}{" "}
-          PLN
-        </div>
-      </div>
-      <div className="flex flex-col items-center gap-2">
-        <AuthShowcase />
       </div>
     </main>
   );
 };
-
-function AuthShowcase() {
-  const { data: sessionData } = useSession();
-
-  return (
-    <div className="flex flex-col items-center justify-center gap-4">
-      <p className="text-center text-2xl text-white">
-        {sessionData && <span>Logged in as {sessionData.user?.name}</span>}
-      </p>
-      <button
-        className="rounded-full bg-white/10 px-10 py-3 font-semibold text-white no-underline transition hover:bg-white/20"
-        onClick={sessionData ? () => void signOut() : () => void signIn()}
-      >
-        {sessionData ? "Sign out" : "Sign in"}
-      </button>
-    </div>
-  );
-}
 
 export default Fotowoltaika;
