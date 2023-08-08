@@ -12,8 +12,8 @@ interface JsonFileData {
 const Fotowoltaika = () => {
   const [southRoof, setSouthRoof] = useState(false);
   const [usageLimit, setUsageLimit] = useState<number>(2000);
-  const [prizeInLimit, setPrizeInLimit] = useState<number>();
-  const [prizeOutOfLimit, setPrizeOutOfLimit] = useState<number>();
+  const [energyPrizeInLimit, setEnergyPrizeInLimit] = useState<number>();
+  const [energyPrizeOutOfLimit, setEnergyPrizeOutOfLimit] = useState<number>();
   const [recentYearTrendUsage, setRecentYearTrendUsage] = useState<number>();
   const [autoconsumption_step, setAutoconsumption_step] = useState<number>(0.1); // D19 stopien autokonsupcji w procentach (ex: 0.3)
 
@@ -22,12 +22,11 @@ const Fotowoltaika = () => {
 
   // const { mutate } = api.dataFlow.setJSONFile.useMutation();
   const { data } = api.dataFlow.downloadFile.useQuery<JsonFileData>();
-  console.log(data);
 
   const { mutate: set_limit_prize_trend, data: limit_prize_trend } =
-    api.photovoltaics.prize_trend.useMutation(); // G3
+    api.photovoltaics.prize_trend.useMutation(); // D3
   const { mutate: set_outOfLimit_prize_trend, data: outOfLimit_prize_trend } =
-    api.photovoltaics.prize_trend.useMutation(); // G4
+    api.photovoltaics.prize_trend.useMutation(); // D4
   const { mutate: set_system_power, data: system_power } =
     api.photovoltaics.system_power.useMutation(); // D17
   const { mutate: set_estimated_kWh_prod, data: estimated_kWh_prod } =
@@ -50,6 +49,16 @@ const Fotowoltaika = () => {
     mutate: set_total_energy_trend_fee,
     data: total_energy_trend_fee, // D23
   } = api.photovoltaics.total_energy_trend_fee.useMutation();
+  const {
+    mutate: set_yearly_bill_without_photovolatics,
+    data: yearly_bill_without_photovolatics,
+  } = api.photovoltaics.yearly_bill_without_photovolatics.useMutation();
+  const { mutate: set_yearly_total_fees, data: yearly_total_fees } =
+    api.photovoltaics.yearly_total_fees.useMutation();
+  const {
+    mutate: set_yearly_costs_with_photovoltaics,
+    data: yearly_costs_with_photovoltaics,
+  } = api.photovoltaics.yearly_costs_with_photovoltaics.useMutation();
 
   // useEffect(() => {
   //   if (sessionData === null) {
@@ -81,7 +90,6 @@ const Fotowoltaika = () => {
       });
     }
   }, [system_power, southRoof, set_estimated_kWh_prod]);
-
   useEffect(() => {
     if (autoconsumption_step && estimated_kWh_prod)
       set_autoconsumption({
@@ -94,31 +102,29 @@ const Fotowoltaika = () => {
     set_estimated_kWh_prod,
     set_autoconsumption,
   ]);
-
   useEffect(() => {
     if (
       autoconsumption &&
-      prizeInLimit &&
-      prizeOutOfLimit &&
+      energyPrizeInLimit &&
+      energyPrizeOutOfLimit &&
       recentYearTrendUsage
     )
       set_total_payment_energy_transfer({
         autoconsumption: autoconsumption,
-        prizeInLimit: prizeInLimit,
-        prizeOutOfLimit: prizeOutOfLimit,
+        prizeInLimit: energyPrizeInLimit,
+        prizeOutOfLimit: energyPrizeOutOfLimit,
         recentYearTrendUsage: recentYearTrendUsage,
         usageLimit: usageLimit,
       });
   }, [
     autoconsumption,
-    prizeInLimit,
+    energyPrizeInLimit,
     usageLimit,
-    prizeOutOfLimit,
+    energyPrizeOutOfLimit,
     recentYearTrendUsage,
     set_autoconsumption,
     set_total_payment_energy_transfer,
   ]);
-
   useEffect(() => {
     if (autoconsumption && estimated_kWh_prod)
       set_energy_sold_to_distributor({
@@ -137,20 +143,19 @@ const Fotowoltaika = () => {
         energy_sold_to_distributor: energy_sold_to_distributor,
       });
   }, [energy_sold_to_distributor, set_accumulated_funds_on_account]);
-
   useEffect(() => {
     if (
       accumulated_funds_on_account &&
       autoconsumption &&
-      prizeInLimit &&
-      prizeOutOfLimit &&
+      energyPrizeInLimit &&
+      energyPrizeOutOfLimit &&
       recentYearTrendUsage
     ) {
       set_total_energy_trend_fee({
         accumulated_funds_on_account: accumulated_funds_on_account,
         autoconsumption: autoconsumption,
-        prizeInLimit: prizeInLimit,
-        prizeOutOfLimit: prizeOutOfLimit,
+        prizeInLimit: energyPrizeInLimit,
+        prizeOutOfLimit: energyPrizeOutOfLimit,
         usageLimit: usageLimit,
         recentYearTrendUsage: recentYearTrendUsage,
       });
@@ -158,24 +163,67 @@ const Fotowoltaika = () => {
   }, [
     accumulated_funds_on_account,
     autoconsumption,
-    prizeInLimit,
-    prizeOutOfLimit,
+    energyPrizeInLimit,
+    energyPrizeOutOfLimit,
     usageLimit,
     set_total_energy_trend_fee,
   ]);
-  console.log(total_energy_trend_fee);
+  useEffect(() => {
+    if (limit_prize_trend && outOfLimit_prize_trend && recentYearTrendUsage)
+      set_yearly_bill_without_photovolatics({
+        limit_prize_trend: limit_prize_trend,
+        outOfLimit_prize_trend: outOfLimit_prize_trend,
+        recentYearTrendUsage: recentYearTrendUsage,
+        usageLimit: usageLimit,
+      });
+  }, [
+    usageLimit,
+    recentYearTrendUsage,
+    outOfLimit_prize_trend,
+    limit_prize_trend,
+    set_yearly_bill_without_photovolatics,
+  ]);
+  useEffect(() => {
+    if (energyPrizeInLimit && energyPrizeOutOfLimit && recentYearTrendUsage)
+      set_yearly_total_fees({
+        energyPrizeInLimit: energyPrizeInLimit,
+        energyPrizeOutOfLimit: energyPrizeOutOfLimit,
+        recentYearTrendUsage: recentYearTrendUsage,
+        usageLimit: usageLimit,
+      });
+  }, [
+    usageLimit,
+    recentYearTrendUsage,
+    energyPrizeInLimit,
+    energyPrizeOutOfLimit,
+    set_yearly_total_fees,
+  ]);
+  useEffect(() => {
+    if (
+      total_energy_trend_fee &&
+      (total_payment_energy_transfer ?? total_payment_energy_transfer === 0)
+    )
+      set_yearly_costs_with_photovoltaics({
+        total_energy_trend_fee: total_energy_trend_fee,
+        total_payment_energy_transfer: total_payment_energy_transfer,
+      });
+  }, [
+    total_energy_trend_fee,
+    total_payment_energy_transfer,
+    set_yearly_costs_with_photovoltaics,
+  ]);
 
   const inLimitOnChange = useCallback(
     (e: { target: { valueAsNumber: number } }) => {
       set_limit_prize_trend(e.target.valueAsNumber);
-      setPrizeInLimit(e.target.valueAsNumber);
+      setEnergyPrizeInLimit(e.target.valueAsNumber);
     },
     [set_limit_prize_trend]
   );
   const outOfLimitOnChange = useCallback(
     (e: { target: { valueAsNumber: number } }) => {
       set_outOfLimit_prize_trend(e.target.valueAsNumber);
-      setPrizeOutOfLimit(e.target.valueAsNumber);
+      setEnergyPrizeOutOfLimit(e.target.valueAsNumber);
     },
     [set_outOfLimit_prize_trend]
   );
@@ -283,11 +331,28 @@ const Fotowoltaika = () => {
             Łączna opłata energii elektrycznej {total_energy_trend_fee} PLN
           </div>
           <div>
-            Rachunek roczny z fotowoltaiką{" "}
-            {!Number.isNaN(
-              total_energy_trend_fee! + total_payment_energy_transfer!
-            ) && total_energy_trend_fee! + total_payment_energy_transfer!}{" "}
+            Rachunek roczny z fotowoltaiką {yearly_costs_with_photovoltaics}
             PLN
+          </div>
+          <div className="flex gap-2">
+            <p>Rachunek roczny za prąd bez fotowoltaiki</p>
+            {yearly_bill_without_photovolatics}
+            <p>PLN/rok</p>
+          </div>
+          <div className="flex gap-2">
+            <p>Roczna łączna opłata energii elektrycznej </p>
+            {yearly_total_fees?.yearly_total_trend_fee}
+            <p>PLN/rok</p>
+          </div>
+          <div className="flex gap-2">
+            <p>Roczna łączna opłata za przesył energii elektrycznej </p>
+            {yearly_total_fees?.yearly_total_fee_for_energy_transfer}
+          </div>
+          <div className="flex gap-2">
+            <p>ŁĄCZNIE OSZCZĘDZASZ </p>
+
+            {/* {yearly_bill_without_photovolatics - year} */}
+            <p>PLN/rok</p>
           </div>
         </div>
       </div>
