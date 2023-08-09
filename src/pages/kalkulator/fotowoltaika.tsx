@@ -206,7 +206,9 @@ const Fotowoltaika = () => {
   ]);
   useEffect(() => {
     if (
+      // eslint-disable-next-line
       (total_energy_trend_fee || total_energy_trend_fee === 0) &&
+      // eslint-disable-next-line
       (total_payment_energy_transfer || total_payment_energy_transfer === 0)
     )
       set_yearly_costs_with_photovoltaics({
