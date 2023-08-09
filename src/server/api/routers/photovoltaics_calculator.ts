@@ -120,11 +120,13 @@ export const photovoltaics_calculator = createTRPCRouter({
     )
     .mutation(({ input }) => {
       if (input.recentYearTrendUsage > input.usageLimit) {
-        return (
-          input.limit_prize_trend * input.usageLimit +
-          input.outOfLimit_prize_trend *
-            (input.recentYearTrendUsage - input.usageLimit)
-        ).toFixed(2);
+        return Number(
+          (
+            input.limit_prize_trend * input.usageLimit +
+            input.outOfLimit_prize_trend *
+              (input.recentYearTrendUsage - input.usageLimit)
+          ).toFixed(2)
+        );
       } else {
         return Number(
           (input.recentYearTrendUsage * input.limit_prize_trend).toFixed(2)
@@ -185,6 +187,21 @@ export const photovoltaics_calculator = createTRPCRouter({
       return Number(
         (
           input.total_energy_trend_fee + input.total_payment_energy_transfer
+        ).toFixed(2)
+      );
+    }),
+  total_save: publicProcedure
+    .input(
+      z.object({
+        yearly_bill_without_photovolatics: z.number(),
+        yearly_costs_with_photovoltaics: z.number(),
+      })
+    )
+    .mutation(({ input }) => {
+      return Number(
+        (
+          input.yearly_bill_without_photovolatics -
+          input.yearly_costs_with_photovoltaics
         ).toFixed(2)
       );
     }),

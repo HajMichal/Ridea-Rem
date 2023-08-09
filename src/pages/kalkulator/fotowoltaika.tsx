@@ -4,6 +4,9 @@ import { useCallback, useEffect, useState } from "react";
 import { Navbar } from "../../components/Navbar";
 import { useRouter } from "next/router";
 import { SideBar } from "~/components/SideBar";
+import { Select } from "@mantine/core";
+
+import { MdOutlinePlaylistAddCheckCircle } from "react-icons/md";
 
 interface JsonFileData {
   response: unknown;
@@ -11,6 +14,7 @@ interface JsonFileData {
 
 const Fotowoltaika = () => {
   const [southRoof, setSouthRoof] = useState(false);
+  const [solarEdge, setSolarEdge] = useState(false);
   const [usageLimit, setUsageLimit] = useState<number>(2000);
   const [energyPrizeInLimit, setEnergyPrizeInLimit] = useState<number>();
   const [energyPrizeOutOfLimit, setEnergyPrizeOutOfLimit] = useState<number>();
@@ -59,6 +63,8 @@ const Fotowoltaika = () => {
     mutate: set_yearly_costs_with_photovoltaics,
     data: yearly_costs_with_photovoltaics,
   } = api.photovoltaics.yearly_costs_with_photovoltaics.useMutation();
+  const { mutate: set_total_save, data: total_save } =
+    api.photovoltaics.total_save.useMutation();
 
   // useEffect(() => {
   //   if (sessionData === null) {
@@ -200,8 +206,8 @@ const Fotowoltaika = () => {
   ]);
   useEffect(() => {
     if (
-      total_energy_trend_fee &&
-      (total_payment_energy_transfer ?? total_payment_energy_transfer === 0)
+      (total_energy_trend_fee || total_energy_trend_fee === 0) &&
+      (total_payment_energy_transfer || total_payment_energy_transfer === 0)
     )
       set_yearly_costs_with_photovoltaics({
         total_energy_trend_fee: total_energy_trend_fee,
@@ -211,6 +217,17 @@ const Fotowoltaika = () => {
     total_energy_trend_fee,
     total_payment_energy_transfer,
     set_yearly_costs_with_photovoltaics,
+  ]);
+  useEffect(() => {
+    if (yearly_costs_with_photovoltaics && yearly_bill_without_photovolatics)
+      set_total_save({
+        yearly_bill_without_photovolatics: yearly_bill_without_photovolatics,
+        yearly_costs_with_photovoltaics: yearly_costs_with_photovoltaics,
+      });
+  }, [
+    yearly_costs_with_photovoltaics,
+    yearly_bill_without_photovolatics,
+    set_total_save,
   ]);
 
   const inLimitOnChange = useCallback(
@@ -260,16 +277,14 @@ const Fotowoltaika = () => {
               <p>{limit_prize_trend}</p>
               <p>PLN/kWh</p>
               <label>Limit zużycia (E4)</label>
-              <select
-                className="text-black"
+              <Select
                 onChange={(e) => {
-                  setUsageLimit(Number(e.target.value));
+                  setUsageLimit(Number(e));
                 }}
-              >
-                <option value="2000">2000</option>
-                <option value="2600">2600</option>
-                <option value="3000">3000</option>
-              </select>
+                className="max-w-xs text-black"
+                defaultValue={"2000"}
+                data={["2000", "2600", "3000"]}
+              />
             </div>
           </div>
           <div className="flex gap-3">
@@ -297,31 +312,37 @@ const Fotowoltaika = () => {
           </div>
           <div>
             <p>Stopień autokonsumpcji energii z PV (H6)</p>
-            <select
-              className="text-black"
+            <Select
               onChange={(e) => {
-                setAutoconsumption_step(Number(e.target.value));
+                setAutoconsumption_step(Number(e));
               }}
-            >
-              <option value="0.1">10%</option>
-              <option value="0.2">20%</option>
-              <option value="0.3">30%</option>
-              <option value="0.4">40%</option>
-              <option value="0.5">50%</option>
-              <option value="0.6">60%</option>
-              <option value="0.7">70%</option>
-              <option value="0.8">80%</option>
-            </select>
+              className=" max-w-xs text-black"
+              icon={<MdOutlinePlaylistAddCheckCircle size="1.5rem" />}
+              data={[
+                { value: "0.1", label: "10%" },
+                { value: "0.2", label: "20%" },
+                { value: "0.3", label: "30%" },
+                { value: "0.4", label: "40%" },
+                { value: "0.5", label: "50%" },
+                { value: "0.6", label: "60%" },
+                { value: "0.7", label: "70%" },
+                { value: "0.8", label: "80%" },
+              ]}
+            />
           </div>
           <div className="flex gap-2">
             <label htmlFor="">Dach południowy (F9)</label>
-            <select
-              className="text-black"
-              onChange={(e) => setSouthRoof(e.target.value == "true")}
-            >
-              <option value={"false"}>Nie</option>
-              <option value={"true"}>Tak</option>
-            </select>
+            <Select
+              onChange={(e) => setSouthRoof(e == "true")}
+              data={[
+                { value: "true", label: "Tak" },
+                { value: "false", label: "Nie" },
+              ]}
+              icon={<MdOutlinePlaylistAddCheckCircle size="1.5rem" />}
+              defaultValue={"false"}
+              allowDeselect
+              className="max-w-xs text-black"
+            />
           </div>
           <div>
             Łączna opłata za przesył energii elektrycznej{" "}
@@ -350,9 +371,21 @@ const Fotowoltaika = () => {
           </div>
           <div className="flex gap-2">
             <p>ŁĄCZNIE OSZCZĘDZASZ </p>
-
-            {/* {yearly_bill_without_photovolatics - year} */}
+            {total_save}
             <p>PLN/rok</p>
+          </div>
+          <div>
+            <label>Montaż na wielu powierzchniach dachu z Solar Edge</label>
+            <Select
+              onChange={(e) => setSolarEdge(e == "true")}
+              data={[
+                { value: "true", label: "Tak" },
+                { value: "false", label: "Nie" },
+              ]}
+              icon={<MdOutlinePlaylistAddCheckCircle size="1.5rem" />}
+              defaultValue={"false"}
+              className="max-w-xs text-black"
+            />
           </div>
         </div>
       </div>
