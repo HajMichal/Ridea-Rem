@@ -15,6 +15,7 @@ interface JsonFileData {
 const Fotowoltaika = () => {
   const [southRoof, setSouthRoof] = useState(false);
   const [solarEdge, setSolarEdge] = useState(false);
+  const [heatStore, setHeatStore] = useState(false);
   const [usageLimit, setUsageLimit] = useState<number>(2000);
   const [energyPrizeInLimit, setEnergyPrizeInLimit] = useState<number>();
   const [energyPrizeOutOfLimit, setEnergyPrizeOutOfLimit] = useState<number>();
@@ -248,7 +249,7 @@ const Fotowoltaika = () => {
   );
 
   return (
-    <main className="flex h-full min-h-screen justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c]">
+    <main className="flex h-full min-h-screen justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c] font-orkney">
       <SideBar />
       <div className="w-full">
         <Navbar />
@@ -389,6 +390,147 @@ const Fotowoltaika = () => {
               className="max-w-xs text-black"
             />
           </div>
+          <div>
+            <label>Montaż dach płaski - Ekierki ( kąt dachu poniżej 20º)</label>
+            <Select
+              // onChange={(e) => setSolarEdge(e == "true")}
+              data={[
+                { value: "true", label: "Tak" },
+                { value: "false", label: "Nie" },
+              ]}
+              icon={<MdOutlinePlaylistAddCheckCircle size="1.5rem" />}
+              defaultValue={"false"}
+              className="max-w-xs text-black"
+            />
+          </div>
+          <div>
+            <label>
+              System dachowy obciążeniowy, balastowy. (tylko na membramie, każdy
+              inny kotwiony do dachu)
+            </label>
+            <Select
+              // onChange={(e) => setSolarEdge(e == "true")}
+              data={[
+                { value: "true", label: "Tak" },
+                { value: "false", label: "Nie" },
+              ]}
+              icon={<MdOutlinePlaylistAddCheckCircle size="1.5rem" />}
+              defaultValue={"false"}
+              className="max-w-xs text-black"
+            />
+          </div>
+          <div>
+            <label>
+              Montaż NA GRUNCIE (konstrukcja wbijana lub wylane stopy betonowe)
+            </label>
+            <Select
+              // onChange={(e) => setSolarEdge(e == "true")}
+              data={[
+                { value: "true", label: "Tak" },
+                { value: "false", label: "Nie" },
+              ]}
+              icon={<MdOutlinePlaylistAddCheckCircle size="1.5rem" />}
+              defaultValue={"false"}
+              className="max-w-xs text-black"
+            />
+          </div>
+          <div>
+            <label>
+              Zainstalowanie optymalizatorów TIGO do zacienionych modułów
+              (Wybierz 1 + ilość opymaliz.)
+            </label>
+            <input type="number" />
+          </div>
+          <div>
+            <label>Montaż , dowóz , uruchomienie ( narzut doradcy )</label>
+            <input type="number" />
+          </div>
+          <div>
+            <label>Inwerter hybrydowy</label>
+            <Select
+              // onChange={(e) => setSolarEdge(e == "true")}
+              data={[
+                { value: "true", label: "Tak" },
+                { value: "false", label: "Nie" },
+              ]}
+              icon={<MdOutlinePlaylistAddCheckCircle size="1.5rem" />}
+              defaultValue={"false"}
+              className="max-w-xs text-black"
+            />
+          </div>
+          <div>
+            <label>Voucher Holiday</label>
+            <Select
+              // onChange={(e) => setSolarEdge(e == "true")}
+              data={[
+                { value: "true", label: "Tak" },
+                { value: "false", label: "Nie" },
+              ]}
+              icon={<MdOutlinePlaylistAddCheckCircle size="1.5rem" />}
+              defaultValue={"false"}
+              className="max-w-xs text-black"
+            />
+          </div>
+          <div>
+            <label>Podatek VAT FIRMA 23%</label>
+            <Select
+              // onChange={(e) => setSolarEdge(e == "true")}
+              data={[
+                { value: "true", label: "Tak" },
+                { value: "false", label: "Nie" },
+              ]}
+              icon={<MdOutlinePlaylistAddCheckCircle size="1.5rem" />}
+              defaultValue={"false"}
+              className="max-w-xs text-black"
+            />
+          </div>
+          <div>
+            <label>Magazyn ciepła wraz z montażem</label>
+            <Select
+              onChange={(e) => setHeatStore(e == "true")}
+              data={[
+                { value: "true", label: "Tak" },
+                { value: "false", label: "Nie" },
+              ]}
+              icon={<MdOutlinePlaylistAddCheckCircle size="1.5rem" />}
+              defaultValue={"false"}
+              className="max-w-xs text-black"
+            />
+          </div>
+          <div>
+            <label>Wielkość zbiornika CWU</label>
+            Tu trzeba dac dane z pliku json
+          </div>
+          <div>
+            <label>Systemem zarządzania energią HMS</label>
+            <Select
+              // onChange={(e) => setSolarEdge(e == "true")}
+              data={[
+                { value: "true", label: "Tak" },
+                { value: "false", label: "Nie" },
+              ]}
+              icon={<MdOutlinePlaylistAddCheckCircle size="1.5rem" />}
+              defaultValue={"false"}
+              className="max-w-xs text-black"
+            />
+          </div>
+          {/* DOtacja do magazynu ciepła  */}
+          {heatStore && (
+            <>
+              <div>
+                <label>Mój prąd fotowoltaika</label>
+                (Obliczenia)
+              </div>
+              <div>
+                <label>Manager energii</label>
+                (Obliczenia)
+              </div>
+              <div>
+                <label>Ulga podatkowa</label>
+                Dane do wyboru z pliku json
+              </div>
+            </>
+          )}
         </div>
       </div>
     </main>

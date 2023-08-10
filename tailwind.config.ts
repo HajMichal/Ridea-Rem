@@ -10,6 +10,9 @@ module.exports = {
         ...violet,
         ...mauve,
       },
+      fontFamily: {
+        orkney: "Orkney",
+      },
     },
   },
   plugins: [],
