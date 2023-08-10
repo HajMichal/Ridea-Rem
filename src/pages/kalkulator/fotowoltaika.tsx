@@ -15,7 +15,18 @@ interface JsonFileData {
 const Fotowoltaika = () => {
   const [southRoof, setSouthRoof] = useState(false);
   const [solarEdge, setSolarEdge] = useState(false);
+  const [eccentrics, setEccentrics] = useState(false);
+  const [roofWeightSystem, setRoofWeightSystem] = useState(false);
+  const [groundMontage, setGroundMontage] = useState(false);
+  const [hybridInverter, setHybridInverter] = useState(false);
+  const [voucherHoliday, setVoucherHoliday] = useState(false);
+  const [companyFee, setCompanyFee] = useState(false);
   const [heatStore, setHeatStore] = useState(false);
+  const [energyManageSystem, setEnergyManageSystem] = useState(false);
+  const [taxCredit, setTaxCredit] = useState(0); // wynik w procentach
+  const [tankSize, setTankSize] = useState<string>("Zbiornik 100L");
+  const [optymalizatorsInstall, setOptymalizatorsInstall] = useState(0);
+  const [consultantMarkup, setConsultantMarkup] = useState(0);
   const [usageLimit, setUsageLimit] = useState<number>(2000);
   const [energyPrizeInLimit, setEnergyPrizeInLimit] = useState<number>();
   const [energyPrizeOutOfLimit, setEnergyPrizeOutOfLimit] = useState<number>();
@@ -173,6 +184,7 @@ const Fotowoltaika = () => {
     energyPrizeInLimit,
     energyPrizeOutOfLimit,
     usageLimit,
+    recentYearTrendUsage,
     set_total_energy_trend_fee,
   ]);
   useEffect(() => {
@@ -393,7 +405,7 @@ const Fotowoltaika = () => {
           <div>
             <label>Montaż dach płaski - Ekierki ( kąt dachu poniżej 20º)</label>
             <Select
-              // onChange={(e) => setSolarEdge(e == "true")}
+              onChange={(e) => setEccentrics(e == "true")}
               data={[
                 { value: "true", label: "Tak" },
                 { value: "false", label: "Nie" },
@@ -409,7 +421,7 @@ const Fotowoltaika = () => {
               inny kotwiony do dachu)
             </label>
             <Select
-              // onChange={(e) => setSolarEdge(e == "true")}
+              onChange={(e) => setRoofWeightSystem(e == "true")}
               data={[
                 { value: "true", label: "Tak" },
                 { value: "false", label: "Nie" },
@@ -424,7 +436,7 @@ const Fotowoltaika = () => {
               Montaż NA GRUNCIE (konstrukcja wbijana lub wylane stopy betonowe)
             </label>
             <Select
-              // onChange={(e) => setSolarEdge(e == "true")}
+              onChange={(e) => setGroundMontage(e == "true")}
               data={[
                 { value: "true", label: "Tak" },
                 { value: "false", label: "Nie" },
@@ -439,16 +451,44 @@ const Fotowoltaika = () => {
               Zainstalowanie optymalizatorów TIGO do zacienionych modułów
               (Wybierz 1 + ilość opymaliz.)
             </label>
-            <input type="number" />
+            <input
+              type="number"
+              onBlur={(e) => setOptymalizatorsInstall(e.target.valueAsNumber)}
+            />
           </div>
           <div>
             <label>Montaż , dowóz , uruchomienie ( narzut doradcy )</label>
-            <input type="number" />
+            <Select
+              onChange={(e) => {
+                setConsultantMarkup(Number(e));
+              }}
+              className=" max-w-xs text-black"
+              icon={<MdOutlinePlaylistAddCheckCircle size="1.5rem" />}
+              defaultValue={"0"}
+              data={[
+                { value: "0", label: "0" },
+                { value: "100", label: "100" },
+                { value: "200", label: "200" },
+                { value: "300", label: "300" },
+                { value: "400", label: "400" },
+                { value: "500", label: "500" },
+                { value: "550", label: "550" },
+                { value: "600", label: "600" },
+                { value: "650", label: "650" },
+                { value: "700", label: "700" },
+                { value: "750", label: "750" },
+                { value: "800", label: "800" },
+                { value: "850", label: "850" },
+                { value: "900", label: "900" },
+                { value: "950", label: "950" },
+                { value: "1000", label: "1000" },
+              ]}
+            />
           </div>
           <div>
             <label>Inwerter hybrydowy</label>
             <Select
-              // onChange={(e) => setSolarEdge(e == "true")}
+              onChange={(e) => setHybridInverter(e == "true")}
               data={[
                 { value: "true", label: "Tak" },
                 { value: "false", label: "Nie" },
@@ -461,7 +501,7 @@ const Fotowoltaika = () => {
           <div>
             <label>Voucher Holiday</label>
             <Select
-              // onChange={(e) => setSolarEdge(e == "true")}
+              onChange={(e) => setVoucherHoliday(e == "true")}
               data={[
                 { value: "true", label: "Tak" },
                 { value: "false", label: "Nie" },
@@ -474,7 +514,7 @@ const Fotowoltaika = () => {
           <div>
             <label>Podatek VAT FIRMA 23%</label>
             <Select
-              // onChange={(e) => setSolarEdge(e == "true")}
+              onChange={(e) => setCompanyFee(e == "true")}
               data={[
                 { value: "true", label: "Tak" },
                 { value: "false", label: "Nie" },
@@ -499,12 +539,26 @@ const Fotowoltaika = () => {
           </div>
           <div>
             <label>Wielkość zbiornika CWU</label>
-            Tu trzeba dac dane z pliku json
+            <Select
+              onChange={(e) => setTankSize(e!)}
+              defaultValue={"Zbiornik 100L"}
+              data={[
+                { value: "Zbiornik 100L", label: "Zbiornik 100L" },
+                { value: "Zbiornik 140L", label: "Zbiornik 140L" },
+                { value: "Zbiornik 200L", label: "Zbiornik 200L" },
+                {
+                  value: "Zbiornik 200L z wężownicą",
+                  label: "Zbiornik 200L z wężownicą",
+                },
+              ]}
+              icon={<MdOutlinePlaylistAddCheckCircle size="1.5rem" />}
+              className="max-w-xs text-black"
+            />
           </div>
           <div>
             <label>Systemem zarządzania energią HMS</label>
             <Select
-              // onChange={(e) => setSolarEdge(e == "true")}
+              onChange={(e) => setEnergyManageSystem(e == "true")}
               data={[
                 { value: "true", label: "Tak" },
                 { value: "false", label: "Nie" },
@@ -527,7 +581,17 @@ const Fotowoltaika = () => {
               </div>
               <div>
                 <label>Ulga podatkowa</label>
-                Dane do wyboru z pliku json
+                <Select
+                  onChange={(e) => setTaxCredit(Number(e))}
+                  data={[
+                    { value: "0", label: "0%" },
+                    { value: "12", label: "12%" },
+                    { value: "32", label: "32%" },
+                  ]}
+                  icon={<MdOutlinePlaylistAddCheckCircle size="1.5rem" />}
+                  defaultValue={"false"}
+                  className="max-w-xs text-black"
+                />
               </div>
             </>
           )}

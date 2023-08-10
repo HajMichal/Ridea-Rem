@@ -9,6 +9,9 @@ module.exports = {
         ...blackA,
         ...violet,
         ...mauve,
+        brand: "#FEEB1A",
+        dark: "#303030",
+        white: "#FFFFFF",
       },
       fontFamily: {
         orkney: "Orkney",

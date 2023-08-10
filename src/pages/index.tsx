@@ -5,7 +5,7 @@ export default function Home() {
   api.dataFlow.downloadSQLiteFile.useQuery();
   return (
     <>
-      <main>
+      <main className="font-orkney">
         <div className="w-full bg-red-500">
           <Link href={"/kalkulator/fotowoltaika"}>Fotowoltaika</Link>
         </div>
