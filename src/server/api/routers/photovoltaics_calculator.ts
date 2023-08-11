@@ -205,4 +205,28 @@ export const photovoltaics_calculator = createTRPCRouter({
         ).toFixed(2)
       );
     }),
+  prize_for_1_KW: publicProcedure
+    .input(z.object({ system_power: z.number() }))
+    .mutation(({ input }) => {
+      //   if (input.system_power < 2) {
+      //     return B2;
+      // } else if (input.system_power < 4) {
+      //     return B3;
+      // } else if (input.system_power < 6) {
+      //     return B4;
+      // } else if (input.system_power < 8) {
+      //     return B5;
+      // } else if (input.system_power < 12) {
+      //     return B6;
+      // } else if (input.system_power < 20) {
+      //     return B7;
+      // } else if (input.system_power < 30) {
+      //     return B8;
+      // } else if (input.system_power < 50) {
+      //     return B9;
+      // } else {
+      //     // You can handle a default case here if needed
+      //     return /* default value */;
+      // }
+    }),
 });

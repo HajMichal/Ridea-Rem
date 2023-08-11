@@ -332,6 +332,7 @@ const Fotowoltaika = () => {
                 setAutoconsumption_step(Number(e));
               }}
               className=" max-w-xs text-black"
+              defaultValue={"0.1"}
               icon={<MdOutlinePlaylistAddCheckCircle size="1.5rem" />}
               data={[
                 { value: "0.1", label: "10%" },
@@ -589,7 +590,7 @@ const Fotowoltaika = () => {
                     { value: "32", label: "32%" },
                   ]}
                   icon={<MdOutlinePlaylistAddCheckCircle size="1.5rem" />}
-                  defaultValue={"false"}
+                  defaultValue={"0"}
                   className="max-w-xs text-black"
                 />
               </div>
