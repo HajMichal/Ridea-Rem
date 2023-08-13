@@ -205,28 +205,40 @@ export const photovoltaics_calculator = createTRPCRouter({
         ).toFixed(2)
       );
     }),
+
   prize_for_1_KW: publicProcedure
-    .input(z.object({ system_power: z.number() }))
+    .input(
+      z.object({
+        system_power: z.number(),
+        dane: z.object({
+          dwa: z.number(),
+          cztery: z.number(),
+          szesc: z.number(),
+          osiem: z.number(),
+          dwanascie: z.number(),
+          dwadziescia: z.number(),
+          trzydziesci: z.number(),
+          piecdziesiat: z.number(),
+        }),
+      })
+    )
     .mutation(({ input }) => {
-      //   if (input.system_power < 2) {
-      //     return B2;
-      // } else if (input.system_power < 4) {
-      //     return B3;
-      // } else if (input.system_power < 6) {
-      //     return B4;
-      // } else if (input.system_power < 8) {
-      //     return B5;
-      // } else if (input.system_power < 12) {
-      //     return B6;
-      // } else if (input.system_power < 20) {
-      //     return B7;
-      // } else if (input.system_power < 30) {
-      //     return B8;
-      // } else if (input.system_power < 50) {
-      //     return B9;
-      // } else {
-      //     // You can handle a default case here if needed
-      //     return /* default value */;
-      // }
+      if (input.system_power < 2) {
+        return input.dane.dwa;
+      } else if (input.system_power < 4) {
+        return input.dane.cztery;
+      } else if (input.system_power < 6) {
+        return input.dane.szesc;
+      } else if (input.system_power < 8) {
+        return input.dane.osiem;
+      } else if (input.system_power < 12) {
+        return input.dane.dwanascie;
+      } else if (input.system_power < 20) {
+        return input.dane.dwadziescia;
+      } else if (input.system_power < 30) {
+        return input.dane.trzydziesci;
+      } else if (input.system_power < 50) {
+        return input.dane.piecdziesiat;
+      }
     }),
 });

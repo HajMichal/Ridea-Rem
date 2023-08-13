@@ -9,7 +9,22 @@ import { Select } from "@mantine/core";
 import { MdOutlinePlaylistAddCheckCircle } from "react-icons/md";
 
 interface JsonFileData {
-  response: unknown;
+  kalkulator: {
+    dane: {
+      dwa: number;
+      cztery: number;
+      szesc: number;
+      osiem: number;
+      dwanascie: number;
+      dwadziescia: number;
+      trzydziesci: number;
+      piecdziesiat: number;
+    };
+    dotacje: object;
+    koszty_dodatkowe: object;
+    magazyn_ciepla: number;
+    tarcza_solidarnosciowa: number[];
+  };
 }
 
 const Fotowoltaika = () => {
@@ -77,6 +92,8 @@ const Fotowoltaika = () => {
   } = api.photovoltaics.yearly_costs_with_photovoltaics.useMutation();
   const { mutate: set_total_save, data: total_save } =
     api.photovoltaics.total_save.useMutation();
+  const { mutate: set_prize_for_1_KW, data: prize_for_1_KW } =
+    api.photovoltaics.prize_for_1_KW.useMutation();
 
   // useEffect(() => {
   //   if (sessionData === null) {
@@ -244,6 +261,14 @@ const Fotowoltaika = () => {
     yearly_bill_without_photovolatics,
     set_total_save,
   ]);
+  useEffect(() => {
+    if (system_power && data) {
+      set_prize_for_1_KW({
+        system_power: system_power,
+        dane: data?.kalkulator.dane,
+      });
+    }
+  }, [data, system_power, set_prize_for_1_KW]);
 
   const inLimitOnChange = useCallback(
     (e: { target: { valueAsNumber: number } }) => {
@@ -259,6 +284,8 @@ const Fotowoltaika = () => {
     },
     [set_outOfLimit_prize_trend]
   );
+
+  console.log(prize_for_1_KW);
 
   return (
     <main className="flex h-full min-h-screen justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c] font-orkney">
@@ -596,6 +623,9 @@ const Fotowoltaika = () => {
               </div>
             </>
           )}
+          <div>
+            <p>Cena za 1KW: {prize_for_1_KW} PLN</p>
+          </div>
         </div>
       </div>
     </main>

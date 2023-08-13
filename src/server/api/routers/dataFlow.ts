@@ -27,13 +27,11 @@ export const setFileToBucket = (fileContent: Buffer, key: string) => {
 };
 
 export const dataFlowRouter = createTRPCRouter({
-  setJSONFile: publicProcedure
-    .input(z.object({ imie: z.string() }))
-    .mutation(() => {
-      const fileContent = fs.readFileSync("./data.json");
+  setJSONFile: publicProcedure.mutation(() => {
+    const fileContent = fs.readFileSync("data.json");
 
-      setFileToBucket(fileContent, "./data.json");
-    }),
+    setFileToBucket(fileContent, "data.json");
+  }),
   downloadFile: publicProcedure.query(async () => {
     const dataFile = await s3
       .getObject({
