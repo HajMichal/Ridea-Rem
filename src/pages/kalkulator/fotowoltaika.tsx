@@ -43,8 +43,8 @@ const Fotowoltaika = () => {
   const [optymalizatorsInstall, setOptymalizatorsInstall] = useState(0);
   const [consultantMarkup, setConsultantMarkup] = useState(0);
   const [usageLimit, setUsageLimit] = useState<number>(2000);
-  const [energyPrizeInLimit, setEnergyPrizeInLimit] = useState<number>();
-  const [energyPrizeOutOfLimit, setEnergyPrizeOutOfLimit] = useState<number>();
+  const [energyPriceInLimit, setEnergyPriceInLimit] = useState<number>();
+  const [energyPriceOutOfLimit, setEnergyPriceOutOfLimit] = useState<number>();
   const [recentYearTrendUsage, setRecentYearTrendUsage] = useState<number>();
   const [autoconsumption_step, setAutoconsumption_step] = useState<number>(0.1); // D19 stopien autokonsupcji w procentach (ex: 0.3)
 
@@ -54,10 +54,10 @@ const Fotowoltaika = () => {
   // const { mutate } = api.dataFlow.setJSONFile.useMutation();
   const { data } = api.dataFlow.downloadFile.useQuery<JsonFileData>();
 
-  const { mutate: set_limit_prize_trend, data: limit_prize_trend } =
-    api.photovoltaics.prize_trend.useMutation(); // D3
-  const { mutate: set_outOfLimit_prize_trend, data: outOfLimit_prize_trend } =
-    api.photovoltaics.prize_trend.useMutation(); // D4
+  const { mutate: set_limit_price_trend, data: limit_price_trend } =
+    api.photovoltaics.price_trend.useMutation(); // D3
+  const { mutate: set_outOfLimit_price_trend, data: outOfLimit_price_trend } =
+    api.photovoltaics.price_trend.useMutation(); // D4
   const { mutate: set_system_power, data: system_power } =
     api.photovoltaics.system_power.useMutation(); // D17
   const { mutate: set_estimated_kWh_prod, data: estimated_kWh_prod } =
@@ -92,8 +92,10 @@ const Fotowoltaika = () => {
   } = api.photovoltaics.yearly_costs_with_photovoltaics.useMutation();
   const { mutate: set_total_save, data: total_save } =
     api.photovoltaics.total_save.useMutation();
-  const { mutate: set_prize_for_1_KW, data: prize_for_1_KW } =
-    api.photovoltaics.prize_for_1_KW.useMutation();
+  const {
+    mutate: set_installationAndPer1KW_price,
+    data: installationAndPer1KW_price,
+  } = api.photovoltaics.price_for_1_KW.useMutation();
 
   // useEffect(() => {
   //   if (sessionData === null) {
@@ -140,22 +142,22 @@ const Fotowoltaika = () => {
   useEffect(() => {
     if (
       autoconsumption &&
-      energyPrizeInLimit &&
-      energyPrizeOutOfLimit &&
+      energyPriceInLimit &&
+      energyPriceOutOfLimit &&
       recentYearTrendUsage
     )
       set_total_payment_energy_transfer({
         autoconsumption: autoconsumption,
-        prizeInLimit: energyPrizeInLimit,
-        prizeOutOfLimit: energyPrizeOutOfLimit,
+        priceInLimit: energyPriceInLimit,
+        priceOutOfLimit: energyPriceOutOfLimit,
         recentYearTrendUsage: recentYearTrendUsage,
         usageLimit: usageLimit,
       });
   }, [
     autoconsumption,
-    energyPrizeInLimit,
+    energyPriceInLimit,
     usageLimit,
-    energyPrizeOutOfLimit,
+    energyPriceOutOfLimit,
     recentYearTrendUsage,
     set_autoconsumption,
     set_total_payment_energy_transfer,
@@ -182,15 +184,15 @@ const Fotowoltaika = () => {
     if (
       accumulated_funds_on_account &&
       autoconsumption &&
-      energyPrizeInLimit &&
-      energyPrizeOutOfLimit &&
+      energyPriceInLimit &&
+      energyPriceOutOfLimit &&
       recentYearTrendUsage
     ) {
       set_total_energy_trend_fee({
         accumulated_funds_on_account: accumulated_funds_on_account,
         autoconsumption: autoconsumption,
-        prizeInLimit: energyPrizeInLimit,
-        prizeOutOfLimit: energyPrizeOutOfLimit,
+        priceInLimit: energyPriceInLimit,
+        priceOutOfLimit: energyPriceOutOfLimit,
         usageLimit: usageLimit,
         recentYearTrendUsage: recentYearTrendUsage,
       });
@@ -198,40 +200,40 @@ const Fotowoltaika = () => {
   }, [
     accumulated_funds_on_account,
     autoconsumption,
-    energyPrizeInLimit,
-    energyPrizeOutOfLimit,
+    energyPriceInLimit,
+    energyPriceOutOfLimit,
     usageLimit,
     recentYearTrendUsage,
     set_total_energy_trend_fee,
   ]);
   useEffect(() => {
-    if (limit_prize_trend && outOfLimit_prize_trend && recentYearTrendUsage)
+    if (limit_price_trend && outOfLimit_price_trend && recentYearTrendUsage)
       set_yearly_bill_without_photovolatics({
-        limit_prize_trend: limit_prize_trend,
-        outOfLimit_prize_trend: outOfLimit_prize_trend,
+        limit_price_trend: limit_price_trend,
+        outOfLimit_price_trend: outOfLimit_price_trend,
         recentYearTrendUsage: recentYearTrendUsage,
         usageLimit: usageLimit,
       });
   }, [
     usageLimit,
     recentYearTrendUsage,
-    outOfLimit_prize_trend,
-    limit_prize_trend,
+    outOfLimit_price_trend,
+    limit_price_trend,
     set_yearly_bill_without_photovolatics,
   ]);
   useEffect(() => {
-    if (energyPrizeInLimit && energyPrizeOutOfLimit && recentYearTrendUsage)
+    if (energyPriceInLimit && energyPriceOutOfLimit && recentYearTrendUsage)
       set_yearly_total_fees({
-        energyPrizeInLimit: energyPrizeInLimit,
-        energyPrizeOutOfLimit: energyPrizeOutOfLimit,
+        energyPriceInLimit: energyPriceInLimit,
+        energyPriceOutOfLimit: energyPriceOutOfLimit,
         recentYearTrendUsage: recentYearTrendUsage,
         usageLimit: usageLimit,
       });
   }, [
     usageLimit,
     recentYearTrendUsage,
-    energyPrizeInLimit,
-    energyPrizeOutOfLimit,
+    energyPriceInLimit,
+    energyPriceOutOfLimit,
     set_yearly_total_fees,
   ]);
   useEffect(() => {
@@ -263,29 +265,29 @@ const Fotowoltaika = () => {
   ]);
   useEffect(() => {
     if (system_power && data) {
-      set_prize_for_1_KW({
+      set_installationAndPer1KW_price({
         system_power: system_power,
         dane: data?.kalkulator.dane,
       });
     }
-  }, [data, system_power, set_prize_for_1_KW]);
+  }, [data, system_power, set_installationAndPer1KW_price]);
 
   const inLimitOnChange = useCallback(
     (e: { target: { valueAsNumber: number } }) => {
-      set_limit_prize_trend(e.target.valueAsNumber);
-      setEnergyPrizeInLimit(e.target.valueAsNumber);
+      set_limit_price_trend(e.target.valueAsNumber);
+      setEnergyPriceInLimit(e.target.valueAsNumber);
     },
-    [set_limit_prize_trend]
+    [set_limit_price_trend]
   );
   const outOfLimitOnChange = useCallback(
     (e: { target: { valueAsNumber: number } }) => {
-      set_outOfLimit_prize_trend(e.target.valueAsNumber);
-      setEnergyPrizeOutOfLimit(e.target.valueAsNumber);
+      set_outOfLimit_price_trend(e.target.valueAsNumber);
+      setEnergyPriceOutOfLimit(e.target.valueAsNumber);
     },
-    [set_outOfLimit_prize_trend]
+    [set_outOfLimit_price_trend]
   );
 
-  console.log(prize_for_1_KW);
+  console.log(installationAndPer1KW_price);
 
   return (
     <main className="flex h-full min-h-screen justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c] font-orkney">
@@ -316,7 +318,7 @@ const Fotowoltaika = () => {
           <div>
             <label className="font-bold">Cena prądu w limicie kWh</label>
             <div className="flex gap-1">
-              <p>{limit_prize_trend}</p>
+              <p>{limit_price_trend}</p>
               <p>PLN/kWh</p>
               <label>Limit zużycia (E4)</label>
               <Select
@@ -331,7 +333,7 @@ const Fotowoltaika = () => {
           </div>
           <div className="flex gap-3">
             <p>cena prądu po przekroczeniu 2000kWh: </p>
-            <p>{outOfLimit_prize_trend}</p>
+            <p>{outOfLimit_price_trend}</p>
             <p>PLN/kWh</p>
           </div>
           <div>
@@ -624,7 +626,13 @@ const Fotowoltaika = () => {
             </>
           )}
           <div>
-            <p>Cena za 1KW: {prize_for_1_KW} PLN</p>
+            <p>Cena za 1KW: {installationAndPer1KW_price?.price_per_1KW} PLN</p>
+          </div>
+          <div>
+            <p>
+              WYLICZONA CENA ZA INSTALACJĘ BAZA:{" "}
+              {installationAndPer1KW_price?.base_installation_price} PLN
+            </p>
           </div>
         </div>
       </div>
