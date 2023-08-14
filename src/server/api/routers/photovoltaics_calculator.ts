@@ -265,4 +265,106 @@ export const photovoltaics_calculator = createTRPCRouter({
         };
       }
     }),
+  addon_tigo: publicProcedure
+    .input(
+      z.object({
+        tigo_price: z.number(),
+        isTigoChoosed: z.boolean(),
+        tigo_count: z.number(),
+      })
+    )
+    .mutation(({ input }) => {
+      if (!input.isTigoChoosed) return 0;
+      return input.tigo_price * input.tigo_count;
+    }),
+  addon_ekierki: publicProcedure
+    .input(
+      z.object({
+        ekierki_price: z.number(),
+        isEkierkiChoosed: z.boolean(),
+        modules_count: z.number(),
+      })
+    )
+    .mutation(({ input }) => {
+      if (!input.isEkierkiChoosed) return 0;
+      return input.ekierki_price * input.modules_count;
+    }),
+  addon_bloczki: publicProcedure
+    .input(
+      z.object({
+        bloczki_price: z.number(),
+        isBloczkiChoosed: z.boolean(),
+        system_power: z.number(),
+      })
+    )
+    .mutation(({ input }) => {
+      if (!input.isBloczkiChoosed) return 0;
+      return input.bloczki_price * input.system_power;
+    }),
+  addon_grunt: publicProcedure
+    .input(
+      z.object({
+        grunt_price: z.number(),
+        isGruntChoosed: z.boolean(),
+        system_power: z.number(),
+      })
+    )
+    .mutation(({ input }) => {
+      if (!input.isGruntChoosed) return 0;
+      return input.grunt_price * input.system_power;
+    }),
+  addon_solarEdge: publicProcedure
+    .input(
+      z.object({
+        solarEdge_price: z.number(),
+        isSolarEdgeChoosed: z.boolean(),
+        modules_count: z.number(),
+      })
+    )
+    .mutation(({ input }) => {
+      if (!input.isSolarEdgeChoosed) return 0;
+      return input.solarEdge_price * input.modules_count;
+    }),
+  addon_hybridInwerter: publicProcedure
+    .input(
+      z.object({
+        hybridInwerter_price: z.number(),
+        isHybridInwerterChoosed: z.boolean(),
+      })
+    )
+    .mutation(({ input }) => {
+      if (!input.isHybridInwerterChoosed) return 0;
+      return input.hybridInwerter_price;
+    }),
+  isVoucher: publicProcedure
+    .input(z.object({ isVoucher: z.boolean() }))
+    .mutation(({ input }) => {
+      if (!input.isVoucher) return 0;
+      return 900;
+    }),
+  addon_cost: publicProcedure
+    .input(
+      z.object({
+        voucher: z.number(),
+        ekierki: z.number(),
+        hybridInwerter: z.number(),
+        tigo: z.number(),
+        bloczki: z.number(),
+        grunt: z.number(),
+        solarEdge: z.number(),
+      })
+    )
+    .mutation(({ input }) => {
+      return Number(
+        (
+          input.voucher +
+          input.ekierki +
+          input.hybridInwerter +
+          input.tigo +
+          input.bloczki +
+          input.grunt +
+          input.solarEdge
+        ).toFixed(2)
+      );
+    }),
 });

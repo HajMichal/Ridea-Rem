@@ -53,6 +53,7 @@ const Fotowoltaika = () => {
 
   // const { mutate } = api.dataFlow.setJSONFile.useMutation();
   const { data } = api.dataFlow.downloadFile.useQuery<JsonFileData>();
+  console.log(data);
 
   const { mutate: set_limit_price_trend, data: limit_price_trend } =
     api.photovoltaics.price_trend.useMutation(); // D3
@@ -286,8 +287,6 @@ const Fotowoltaika = () => {
     },
     [set_outOfLimit_price_trend]
   );
-
-  console.log(installationAndPer1KW_price);
 
   return (
     <main className="flex h-full min-h-screen justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c] font-orkney">
