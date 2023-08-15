@@ -269,12 +269,10 @@ export const photovoltaics_calculator = createTRPCRouter({
     .input(
       z.object({
         tigo_price: z.number(),
-        isTigoChoosed: z.boolean(),
         tigo_count: z.number(),
       })
     )
     .mutation(({ input }) => {
-      if (!input.isTigoChoosed) return 0;
       return input.tigo_price * input.tigo_count;
     }),
   addon_ekierki: publicProcedure
@@ -345,25 +343,45 @@ export const photovoltaics_calculator = createTRPCRouter({
   addon_cost: publicProcedure
     .input(
       z.object({
-        voucher: z.number(),
-        ekierki: z.number(),
-        hybridInwerter: z.number(),
-        tigo: z.number(),
-        bloczki: z.number(),
-        grunt: z.number(),
-        solarEdge: z.number(),
+        voucher: z.boolean().optional(),
+        ekierki: z.number().optional(),
+        hybridInwerter: z.number().optional(),
+        tigo: z.number().optional(),
+        bloczki: z.number().optional(),
+        grunt: z.number().optional(),
+        solarEdge: z.number().optional(),
+        consultantMarkup: z.number(),
       })
     )
     .mutation(({ input }) => {
       return Number(
         (
-          input.voucher +
-          input.ekierki +
-          input.hybridInwerter +
-          input.tigo +
-          input.bloczki +
-          input.grunt +
-          input.solarEdge
+          (input.voucher ? 900 : 0) +
+          (input.ekierki ? input.ekierki : 0) +
+          (input.hybridInwerter ? input.hybridInwerter : 0) +
+          (input.tigo ? input.tigo : 0) +
+          (input.bloczki ? input.bloczki : 0) +
+          (input.grunt ? input.grunt : 0) +
+          (input.solarEdge ? input.solarEdge : 0) +
+          input.consultantMarkup
+        ).toFixed(2)
+      );
+    }),
+  officeMarkup: publicProcedure
+    .input(
+      z.object({
+        officeFee: z.number(),
+        system_power: z.number(),
+        consultantFee: z.number(),
+        constantFee: z.number(),
+      })
+    )
+    .mutation(({ input }) => {
+      return Number(
+        (
+          input.officeFee * input.system_power +
+          input.consultantFee * input.system_power +
+          input.constantFee
         ).toFixed(2)
       );
     }),

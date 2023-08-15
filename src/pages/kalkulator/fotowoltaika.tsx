@@ -21,7 +21,14 @@ interface JsonFileData {
       piecdziesiat: number;
     };
     dotacje: object;
-    koszty_dodatkowe: object;
+    koszty_dodatkowe: {
+      bloczki: number;
+      tigo: number;
+      ekierki: number;
+      grunt: number;
+      inwerterHybrydowy: number;
+      solarEdge: number;
+    };
     magazyn_ciepla: number;
     tarcza_solidarnosciowa: number[];
   };
@@ -29,11 +36,11 @@ interface JsonFileData {
 
 const Fotowoltaika = () => {
   const [southRoof, setSouthRoof] = useState(false);
-  const [solarEdge, setSolarEdge] = useState(false);
-  const [eccentrics, setEccentrics] = useState(false);
+  const [isSolarEdgeChoosed, setIsSolarEdgeChoosed] = useState(false);
+  const [isEccentricsChoosed, setIsEccentricsChoosed] = useState(false);
   const [roofWeightSystem, setRoofWeightSystem] = useState(false);
-  const [groundMontage, setGroundMontage] = useState(false);
-  const [hybridInverter, setHybridInverter] = useState(false);
+  const [isGroundMontage, setIsGroundMontage] = useState(false);
+  const [isHybridInwerterChoosed, setIsHybridInwerterChoosed] = useState(false);
   const [voucherHoliday, setVoucherHoliday] = useState(false);
   const [companyFee, setCompanyFee] = useState(false);
   const [heatStore, setHeatStore] = useState(false);
@@ -45,6 +52,7 @@ const Fotowoltaika = () => {
   const [usageLimit, setUsageLimit] = useState<number>(2000);
   const [energyPriceInLimit, setEnergyPriceInLimit] = useState<number>();
   const [energyPriceOutOfLimit, setEnergyPriceOutOfLimit] = useState<number>();
+  const [modulesCount, setModulesCount] = useState<number>(0);
   const [recentYearTrendUsage, setRecentYearTrendUsage] = useState<number>();
   const [autoconsumption_step, setAutoconsumption_step] = useState<number>(0.1); // D19 stopien autokonsupcji w procentach (ex: 0.3)
 
@@ -97,6 +105,20 @@ const Fotowoltaika = () => {
     mutate: set_installationAndPer1KW_price,
     data: installationAndPer1KW_price,
   } = api.photovoltaics.price_for_1_KW.useMutation();
+  const { mutate: set_tigo_price, data: tigo_price } =
+    api.photovoltaics.addon_tigo.useMutation();
+  const { mutate: set_ekierki_price, data: ekierki_price } =
+    api.photovoltaics.addon_ekierki.useMutation();
+  const { mutate: set_bloczki_price, data: bloczki_price } =
+    api.photovoltaics.addon_bloczki.useMutation();
+  const { mutate: set_grunt_price, data: grunt_price } =
+    api.photovoltaics.addon_grunt.useMutation();
+  const { mutate: set_hybridInwerter_price, data: hybridInwerter_price } =
+    api.photovoltaics.addon_hybridInwerter.useMutation();
+  const { mutate: set_solarEdge_price, data: solarEdge_price } =
+    api.photovoltaics.addon_solarEdge.useMutation();
+  const { mutate: set_addon_cost, data: addon_cost } =
+    api.photovoltaics.addon_cost.useMutation();
 
   // useEffect(() => {
   //   if (sessionData === null) {
@@ -273,6 +295,69 @@ const Fotowoltaika = () => {
     }
   }, [data, system_power, set_installationAndPer1KW_price]);
 
+  useEffect(() => {
+    if (data && isEccentricsChoosed)
+      set_ekierki_price({
+        ekierki_price: data.kalkulator.koszty_dodatkowe.ekierki,
+        isEkierkiChoosed: isEccentricsChoosed,
+        modules_count: modulesCount,
+      });
+  }, [modulesCount, data, isEccentricsChoosed]);
+  useEffect(() => {
+    if (data && roofWeightSystem && system_power)
+      set_bloczki_price({
+        bloczki_price: data.kalkulator.koszty_dodatkowe.bloczki,
+        isBloczkiChoosed: roofWeightSystem,
+        system_power: system_power,
+      });
+  }, [system_power, data, roofWeightSystem]);
+  useEffect(() => {
+    if (data && isGroundMontage && system_power)
+      set_grunt_price({
+        grunt_price: data.kalkulator.koszty_dodatkowe.grunt,
+        isGruntChoosed: isGroundMontage,
+        system_power: system_power,
+      });
+  }, [system_power, data, isGroundMontage]);
+  useEffect(() => {
+    if (data && isSolarEdgeChoosed && modulesCount)
+      set_solarEdge_price({
+        solarEdge_price: data.kalkulator.koszty_dodatkowe.solarEdge,
+        isSolarEdgeChoosed: isSolarEdgeChoosed,
+        modules_count: modulesCount,
+      });
+  }, [modulesCount, data, isSolarEdgeChoosed]);
+  useEffect(() => {
+    if (data && isHybridInwerterChoosed)
+      set_hybridInwerter_price({
+        hybridInwerter_price:
+          data.kalkulator.koszty_dodatkowe.inwerterHybrydowy,
+        isHybridInwerterChoosed: isHybridInwerterChoosed,
+      });
+  }, [data, isHybridInwerterChoosed]);
+  useEffect(() => {
+    set_addon_cost({
+      bloczki: bloczki_price,
+      ekierki: ekierki_price,
+      grunt: grunt_price,
+      hybridInwerter: hybridInwerter_price,
+      solarEdge: solarEdge_price,
+      tigo: tigo_price,
+      voucher: voucherHoliday,
+      consultantMarkup: consultantMarkup,
+    });
+  }, [
+    bloczki_price,
+    ekierki_price,
+    grunt_price,
+    hybridInwerter_price,
+    solarEdge_price,
+    tigo_price,
+    voucherHoliday,
+    consultantMarkup,
+  ]);
+  console.log(addon_cost);
+
   const inLimitOnChange = useCallback(
     (e: { target: { valueAsNumber: number } }) => {
       set_limit_price_trend(e.target.valueAsNumber);
@@ -286,6 +371,23 @@ const Fotowoltaika = () => {
       setEnergyPriceOutOfLimit(e.target.valueAsNumber);
     },
     [set_outOfLimit_price_trend]
+  );
+  const handleTigoinput = useCallback(
+    (e: { target: { valueAsNumber: number } }) => {
+      if (data)
+        set_tigo_price({
+          tigo_price: data.kalkulator.koszty_dodatkowe.tigo,
+          tigo_count: e.target.valueAsNumber,
+        });
+    },
+    [data, set_tigo_price]
+  );
+  const handleModulesInput = useCallback(
+    (e: { target: { valueAsNumber: number } }) => {
+      set_system_power(e.target.valueAsNumber);
+      setModulesCount(e.target.valueAsNumber);
+    },
+    []
   );
 
   return (
@@ -349,7 +451,7 @@ const Fotowoltaika = () => {
             <p>Ilość modułów (E11)</p>
             <input
               type="number"
-              onBlur={(e) => set_system_power(e.target.valueAsNumber)}
+              onBlur={(e) => handleModulesInput(e)}
               className="text-black"
             />
           </div>
@@ -421,7 +523,7 @@ const Fotowoltaika = () => {
           <div>
             <label>Montaż na wielu powierzchniach dachu z Solar Edge</label>
             <Select
-              onChange={(e) => setSolarEdge(e == "true")}
+              onChange={(e) => setIsSolarEdgeChoosed(e == "true")}
               data={[
                 { value: "true", label: "Tak" },
                 { value: "false", label: "Nie" },
@@ -434,7 +536,7 @@ const Fotowoltaika = () => {
           <div>
             <label>Montaż dach płaski - Ekierki ( kąt dachu poniżej 20º)</label>
             <Select
-              onChange={(e) => setEccentrics(e == "true")}
+              onChange={(e) => setIsEccentricsChoosed(e == "true")}
               data={[
                 { value: "true", label: "Tak" },
                 { value: "false", label: "Nie" },
@@ -465,7 +567,7 @@ const Fotowoltaika = () => {
               Montaż NA GRUNCIE (konstrukcja wbijana lub wylane stopy betonowe)
             </label>
             <Select
-              onChange={(e) => setGroundMontage(e == "true")}
+              onChange={(e) => setIsGroundMontage(e == "true")}
               data={[
                 { value: "true", label: "Tak" },
                 { value: "false", label: "Nie" },
@@ -481,8 +583,9 @@ const Fotowoltaika = () => {
               (Wybierz 1 + ilość opymaliz.)
             </label>
             <input
+              className="text-black"
               type="number"
-              onBlur={(e) => setOptymalizatorsInstall(e.target.valueAsNumber)}
+              onBlur={(e) => handleTigoinput(e)}
             />
           </div>
           <div>
@@ -517,7 +620,7 @@ const Fotowoltaika = () => {
           <div>
             <label>Inwerter hybrydowy</label>
             <Select
-              onChange={(e) => setHybridInverter(e == "true")}
+              onChange={(e) => setIsHybridInwerterChoosed(e == "true")}
               data={[
                 { value: "true", label: "Tak" },
                 { value: "false", label: "Nie" },
