@@ -350,7 +350,7 @@ export const photovoltaics_calculator = createTRPCRouter({
         bloczki: z.number().optional(),
         grunt: z.number().optional(),
         solarEdge: z.number().optional(),
-        consultantMarkup: z.number(),
+        markup_costs: z.number(),
       })
     )
     .mutation(({ input }) => {
@@ -363,7 +363,7 @@ export const photovoltaics_calculator = createTRPCRouter({
           (input.bloczki ? input.bloczki : 0) +
           (input.grunt ? input.grunt : 0) +
           (input.solarEdge ? input.solarEdge : 0) +
-          input.consultantMarkup
+          input.markup_costs
         ).toFixed(2)
       );
     }),
@@ -384,5 +384,19 @@ export const photovoltaics_calculator = createTRPCRouter({
           input.constantFee
         ).toFixed(2)
       );
+    }),
+  totalInstallationCost: publicProcedure
+    .input(
+      z.object({
+        addon_costs: z.number(),
+        base_installation_costs: z.number(),
+      })
+    )
+    .mutation(({ input }) => {
+      const total_cost = input.addon_costs + input.base_installation_costs;
+      return {
+        total_installation_cost: total_cost,
+        total_gross_cost: total_cost + total_cost * 0.08,
+      };
     }),
 });

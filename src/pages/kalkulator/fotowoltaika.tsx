@@ -31,6 +31,7 @@ interface JsonFileData {
     };
     magazyn_ciepla: number;
     tarcza_solidarnosciowa: number[];
+    prowizjaBiura: number;
   };
 }
 
@@ -61,7 +62,6 @@ const Fotowoltaika = () => {
 
   // const { mutate } = api.dataFlow.setJSONFile.useMutation();
   const { data } = api.dataFlow.downloadFile.useQuery<JsonFileData>();
-  console.log(data);
 
   const { mutate: set_limit_price_trend, data: limit_price_trend } =
     api.photovoltaics.price_trend.useMutation(); // D3
@@ -119,6 +119,10 @@ const Fotowoltaika = () => {
     api.photovoltaics.addon_solarEdge.useMutation();
   const { mutate: set_addon_cost, data: addon_cost } =
     api.photovoltaics.addon_cost.useMutation();
+  const { mutate: set_markup_costs, data: markup_costs } =
+    api.photovoltaics.officeMarkup.useMutation();
+  const { mutate: set_totalInstallationCost, data: totalInstallationCost } =
+    api.photovoltaics.totalInstallationCost.useMutation();
 
   // useEffect(() => {
   //   if (sessionData === null) {
@@ -336,6 +340,15 @@ const Fotowoltaika = () => {
       });
   }, [data, isHybridInwerterChoosed]);
   useEffect(() => {
+    if (system_power && data)
+      set_markup_costs({
+        system_power: system_power,
+        officeFee: data?.kalkulator.prowizjaBiura,
+        constantFee: 0,
+        consultantFee: consultantMarkup,
+      });
+  }, [consultantMarkup, system_power, data]);
+  useEffect(() => {
     set_addon_cost({
       bloczki: bloczki_price,
       ekierki: ekierki_price,
@@ -344,7 +357,7 @@ const Fotowoltaika = () => {
       solarEdge: solarEdge_price,
       tigo: tigo_price,
       voucher: voucherHoliday,
-      consultantMarkup: consultantMarkup,
+      markup_costs: markup_costs ?? 0,
     });
   }, [
     bloczki_price,
@@ -354,9 +367,16 @@ const Fotowoltaika = () => {
     solarEdge_price,
     tigo_price,
     voucherHoliday,
-    consultantMarkup,
+    markup_costs,
   ]);
-  console.log(addon_cost);
+  useEffect(() => {
+    if (addon_cost && installationAndPer1KW_price?.base_installation_price)
+      set_totalInstallationCost({
+        addon_costs: addon_cost,
+        base_installation_costs:
+          installationAndPer1KW_price.base_installation_price,
+      });
+  }, [addon_cost, installationAndPer1KW_price?.base_installation_price]);
 
   const inLimitOnChange = useCallback(
     (e: { target: { valueAsNumber: number } }) => {
@@ -387,7 +407,7 @@ const Fotowoltaika = () => {
       set_system_power(e.target.valueAsNumber);
       setModulesCount(e.target.valueAsNumber);
     },
-    []
+    [set_system_power, setModulesCount]
   );
 
   return (
@@ -732,8 +752,16 @@ const Fotowoltaika = () => {
           </div>
           <div>
             <p>
-              WYLICZONA CENA ZA INSTALACJĘ BAZA:{" "}
+              WYLICZONA CENA ZA INSTALACJĘ BAZA:
               {installationAndPer1KW_price?.base_installation_price} PLN
+            </p>
+          </div>
+          <div>
+            <p>
+              Cena łącznie: {totalInstallationCost?.total_installation_cost} PLN
+            </p>
+            <p>
+              Cena łącznie brutto: {totalInstallationCost?.total_gross_cost} PLN
             </p>
           </div>
         </div>
