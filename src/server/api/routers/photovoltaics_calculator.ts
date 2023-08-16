@@ -385,18 +385,91 @@ export const photovoltaics_calculator = createTRPCRouter({
         ).toFixed(2)
       );
     }),
-  totalInstallationCost: publicProcedure
+  totalInstallation_cost: publicProcedure
     .input(
       z.object({
         addon_costs: z.number(),
         base_installation_costs: z.number(),
+        heatStore_energyManager_costs: z.number(),
+        comapnyFee: z.boolean(),
       })
     )
     .mutation(({ input }) => {
-      const total_cost = input.addon_costs + input.base_installation_costs;
+      const total_cost =
+        input.addon_costs +
+        input.base_installation_costs +
+        input.heatStore_energyManager_costs;
+      const fee_value = total_cost * (input.comapnyFee ? 0.23 : 0.08);
       return {
         total_installation_cost: total_cost,
-        total_gross_cost: total_cost + total_cost * 0.08,
+        total_gross_cost: total_cost + fee_value,
+        fee_value: fee_value,
       };
+    }),
+  dotations_sum: publicProcedure
+    .input(
+      z.object({
+        photovoltaics_dotation: z.number(),
+        heatStore_dotation: z.number(),
+        energyStore_dotation: z.number(),
+      })
+    )
+    .mutation(({ input }) => {
+      return (
+        input.photovoltaics_dotation +
+        input.heatStore_dotation +
+        input.energyStore_dotation
+      );
+    }),
+  amount_after_dotation: publicProcedure
+    .input(
+      z.object({
+        summed_dotations: z.number(),
+        gross_instalation_cost: z.number(),
+      })
+    )
+    .mutation(({ input }) => {
+      return input.gross_instalation_cost - input.summed_dotations;
+    }),
+  amount_tax_credit: publicProcedure
+    .input(
+      z.object({
+        amount_after_dotation: z.number(),
+        tax_credit: z.number(),
+      })
+    )
+    .mutation(({ input }) => {
+      return input.amount_after_dotation * input.tax_credit;
+    }),
+  heatStore_cost: publicProcedure
+    .input(
+      z.object({
+        choosed_tank_type: z.string(),
+      })
+    )
+    .mutation(({ input }) => {
+      if (input.choosed_tank_type === "Zbiornik 100L") {
+        return 4900;
+      } else if (input.choosed_tank_type === "Zbiornik 140L") {
+        return 5300;
+      } else if (input.choosed_tank_type === "Zbiornik 200L") {
+        return 5599;
+      } else if (input.choosed_tank_type === "Zbiornik 200L z wężownicą") {
+        return 6200;
+      }
+    }),
+  heatStore_energyManager_costs: publicProcedure
+    .input(
+      z.object({
+        heatStore_cost: z.number(),
+        isEnergyManagerSystem: z.boolean(),
+        isHeatStoreChoosed: z.boolean(),
+      })
+    )
+    .mutation(({ input }) => {
+      return (
+        (input.isHeatStoreChoosed ? input.heatStore_cost : 0) +
+        (input.isEnergyManagerSystem ? 1500 : 0)
+      );
     }),
 });

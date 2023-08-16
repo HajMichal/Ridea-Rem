@@ -20,7 +20,12 @@ interface JsonFileData {
       trzydziesci: number;
       piecdziesiat: number;
     };
-    dotacje: object;
+    dotacje: {
+      magazynCiepla: number;
+      menagerEnergii: number;
+      mojPrad: number;
+      mp_mc: number;
+    };
     koszty_dodatkowe: {
       bloczki: number;
       tigo: number;
@@ -36,32 +41,32 @@ interface JsonFileData {
 }
 
 const Fotowoltaika = () => {
+  const [tankSize, setTankSize] = useState("Zbiornik 100L");
   const [southRoof, setSouthRoof] = useState(false);
-  const [isSolarEdgeChoosed, setIsSolarEdgeChoosed] = useState(false);
-  const [isEccentricsChoosed, setIsEccentricsChoosed] = useState(false);
-  const [roofWeightSystem, setRoofWeightSystem] = useState(false);
-  const [isGroundMontage, setIsGroundMontage] = useState(false);
-  const [isHybridInwerterChoosed, setIsHybridInwerterChoosed] = useState(false);
-  const [voucherHoliday, setVoucherHoliday] = useState(false);
-  const [companyFee, setCompanyFee] = useState(false);
   const [heatStore, setHeatStore] = useState(false);
+  const [companyFee, setCompanyFee] = useState(false);
+  const [voucherHoliday, setVoucherHoliday] = useState(false);
+  const [isGroundMontage, setIsGroundMontage] = useState(false);
+  const [roofWeightSystem, setRoofWeightSystem] = useState(false);
+  const [isSolarEdgeChoosed, setIsSolarEdgeChoosed] = useState(false);
   const [energyManageSystem, setEnergyManageSystem] = useState(false);
+  const [isEccentricsChoosed, setIsEccentricsChoosed] = useState(false);
+  const [isHybridInwerterChoosed, setIsHybridInwerterChoosed] = useState(false);
   const [taxCredit, setTaxCredit] = useState(0); // wynik w procentach
-  const [tankSize, setTankSize] = useState<string>("Zbiornik 100L");
-  const [optymalizatorsInstall, setOptymalizatorsInstall] = useState(0);
+  const [usageLimit, setUsageLimit] = useState(2000);
+  const [modulesCount, setModulesCount] = useState(0);
   const [consultantMarkup, setConsultantMarkup] = useState(0);
-  const [usageLimit, setUsageLimit] = useState<number>(2000);
+  const [autoconsumption_step, setAutoconsumption_step] = useState(0.1); // D19 stopien autokonsupcji w procentach (ex: 0.3)
   const [energyPriceInLimit, setEnergyPriceInLimit] = useState<number>();
   const [energyPriceOutOfLimit, setEnergyPriceOutOfLimit] = useState<number>();
-  const [modulesCount, setModulesCount] = useState<number>(0);
   const [recentYearTrendUsage, setRecentYearTrendUsage] = useState<number>();
-  const [autoconsumption_step, setAutoconsumption_step] = useState<number>(0.1); // D19 stopien autokonsupcji w procentach (ex: 0.3)
 
   const { data: sessionData } = useSession();
   const router = useRouter();
 
   // const { mutate } = api.dataFlow.setJSONFile.useMutation();
   const { data } = api.dataFlow.downloadFile.useQuery<JsonFileData>();
+  console.log(data);
 
   const { mutate: set_limit_price_trend, data: limit_price_trend } =
     api.photovoltaics.price_trend.useMutation(); // D3
@@ -122,7 +127,30 @@ const Fotowoltaika = () => {
   const { mutate: set_markup_costs, data: markup_costs } =
     api.photovoltaics.officeMarkup.useMutation();
   const { mutate: set_totalInstallationCost, data: totalInstallationCost } =
-    api.photovoltaics.totalInstallationCost.useMutation();
+    api.photovoltaics.totalInstallation_cost.useMutation();
+  const { mutate: set_dotations_sum, data: dotations_sum } =
+    api.photovoltaics.dotations_sum.useMutation();
+  const { mutate: set_amount_after_dotation, data: amount_after_dotation } =
+    api.photovoltaics.amount_after_dotation.useMutation();
+  const { mutate: set_amount_tax_credit, data: amount_tax_credit } =
+    api.photovoltaics.amount_tax_credit.useMutation();
+  const { mutate: set_heatStore_cost, data: heatStore_cost } =
+    api.photovoltaics.heatStore_cost.useMutation();
+  const {
+    mutate: set_heatStore_energyManager_costs,
+    data: heatStore_energyManager_costs,
+  } = api.photovoltaics.heatStore_energyManager_costs.useMutation();
+
+  // Dotations
+  const energyStore_dotation = energyManageSystem
+    ? data?.kalkulator.dotacje.menagerEnergii
+    : 0;
+  const photovoltaics_dotation = energyManageSystem
+    ? data?.kalkulator.dotacje.mp_mc
+    : data?.kalkulator.dotacje.mojPrad;
+  const heatStore_dotation = energyManageSystem
+    ? data?.kalkulator.dotacje.magazynCiepla
+    : 0;
 
   // useEffect(() => {
   //   if (sessionData === null) {
@@ -130,21 +158,6 @@ const Fotowoltaika = () => {
   //     void router.push("/api/auth/signin");
   //   }
   // }, [sessionData, router]);
-
-  // D5 = C6 -> Ilość energii zużywanej średnio rocznie
-  // D20 -> autokonsumpcja -> D18*D19 =
-  //      D18 -> szacowana produkcja -> if(F9){ 1020 * C11 } esle if(!F9) {920 * C11}
-  //          F9 -> Dach południowy (tak/nie)
-  //          C11 -> moc systemu = E11 * (moc panela = 400) / 1000
-  //                E11 -> ilość modułow (wybiera user)
-  //      D19 -> stopien autokonspucji w %
-  // D21 -> odsprzedana energia -> D18 - D20
-  // D23 -> zgromadzone srodki na koncie rozliczeniowym -> D21 * (srednia cena sprzedazy kWh = 0.72)
-  // H3 = E4 -> limit zuzycia
-  // G3 = F3 = G2<dobór instalacji> * 49.1%
-  // G4 = F4 = G3<dobór instalacji>  * 49.1%
-
-  // D13 -> Łączna opłata za przesył energii elektrycznej  if( (D5 - D20) > H3 ) { (G3 * H3) + (G4 * (D5 - D20 - H3)) } else { (D5 - D20) * G3 }
 
   useEffect(() => {
     if (system_power) {
@@ -375,8 +388,47 @@ const Fotowoltaika = () => {
         addon_costs: addon_cost,
         base_installation_costs:
           installationAndPer1KW_price.base_installation_price,
+        comapnyFee: companyFee,
+        heatStore_energyManager_costs: heatStore_energyManager_costs ?? 0,
       });
-  }, [addon_cost, installationAndPer1KW_price?.base_installation_price]);
+  }, [
+    addon_cost,
+    installationAndPer1KW_price?.base_installation_price,
+    companyFee,
+    heatStore_energyManager_costs,
+  ]);
+
+  useEffect(() => {
+    set_dotations_sum({
+      energyStore_dotation: energyStore_dotation ?? 0,
+      photovoltaics_dotation: photovoltaics_dotation ?? 0,
+      heatStore_dotation: heatStore_dotation ?? 0,
+    });
+  }, [heatStore_dotation, photovoltaics_dotation, energyStore_dotation]);
+
+  useEffect(() => {
+    if (dotations_sum && totalInstallationCost?.total_gross_cost)
+      set_amount_after_dotation({
+        gross_instalation_cost: totalInstallationCost?.total_gross_cost,
+        summed_dotations: dotations_sum,
+      });
+  }, [dotations_sum, totalInstallationCost?.total_gross_cost]);
+  useEffect(() => {
+    set_heatStore_energyManager_costs({
+      heatStore_cost: heatStore_cost ?? 0,
+      isHeatStoreChoosed: heatStore,
+      isEnergyManagerSystem: energyManageSystem,
+    });
+  }, [heatStore_cost, energyManageSystem, heatStore]);
+
+  useEffect(() => {
+    if (totalInstallationCost?.total_gross_cost && dotations_sum)
+      set_amount_tax_credit({
+        amount_after_dotation:
+          totalInstallationCost?.total_gross_cost - dotations_sum,
+        tax_credit: taxCredit,
+      });
+  }, [totalInstallationCost?.total_gross_cost, taxCredit, dotations_sum]);
 
   const inLimitOnChange = useCallback(
     (e: { target: { valueAsNumber: number } }) => {
@@ -415,6 +467,7 @@ const Fotowoltaika = () => {
       <SideBar />
       <div className="w-full">
         <Navbar />
+        {/* <button onClick={() => mutate()}>test</button> */}
         <div className="container flex flex-col  justify-center gap-12 px-4 py-16 text-white">
           <div>
             <label className="font-bold">Cena energii</label>
@@ -692,8 +745,10 @@ const Fotowoltaika = () => {
           <div>
             <label>Wielkość zbiornika CWU</label>
             <Select
-              onChange={(e) => setTankSize(e!)}
-              defaultValue={"Zbiornik 100L"}
+              onChange={(e: string) =>
+                set_heatStore_cost({ choosed_tank_type: e })
+              }
+              placeholder="Wybierz zbiornik..."
               data={[
                 { value: "Zbiornik 100L", label: "Zbiornik 100L" },
                 { value: "Zbiornik 140L", label: "Zbiornik 140L" },
@@ -720,33 +775,43 @@ const Fotowoltaika = () => {
               className="max-w-xs text-black"
             />
           </div>
-          {/* DOtacja do magazynu ciepła  */}
-          {heatStore && (
-            <>
-              <div>
-                <label>Mój prąd fotowoltaika</label>
-                (Obliczenia)
-              </div>
-              <div>
-                <label>Manager energii</label>
-                (Obliczenia)
-              </div>
-              <div>
-                <label>Ulga podatkowa</label>
-                <Select
-                  onChange={(e) => setTaxCredit(Number(e))}
-                  data={[
-                    { value: "0", label: "0%" },
-                    { value: "12", label: "12%" },
-                    { value: "32", label: "32%" },
-                  ]}
-                  icon={<MdOutlinePlaylistAddCheckCircle size="1.5rem" />}
-                  defaultValue={"0"}
-                  className="max-w-xs text-black"
-                />
-              </div>
-            </>
-          )}
+
+          <div>
+            <p>Mój prąd fotowoltaika</p>
+            {energyManageSystem
+              ? data?.kalkulator.dotacje.mp_mc
+              : data?.kalkulator.dotacje.mojPrad}{" "}
+            PLN
+          </div>
+          <div>
+            <p>Manager energii</p>
+            {energyManageSystem
+              ? data?.kalkulator.dotacje.menagerEnergii
+              : 0}{" "}
+            PLN
+          </div>
+          <div>
+            <p>Magazyn ciepła</p>
+            {energyManageSystem
+              ? data?.kalkulator.dotacje.magazynCiepla
+              : 0}{" "}
+            PLN
+          </div>
+          <div>
+            <label>Ulga podatkowa</label>
+            <Select
+              onChange={(e) => setTaxCredit(Number(e))}
+              data={[
+                { value: "0", label: "0%" },
+                { value: "0.12", label: "12%" },
+                { value: "0.32", label: "32%" },
+              ]}
+              icon={<MdOutlinePlaylistAddCheckCircle size="1.5rem" />}
+              defaultValue={"0"}
+              className="max-w-xs text-black"
+            />
+          </div>
+
           <div>
             <p>Cena za 1KW: {installationAndPer1KW_price?.price_per_1KW} PLN</p>
           </div>
@@ -762,6 +827,12 @@ const Fotowoltaika = () => {
             </p>
             <p>
               Cena łącznie brutto: {totalInstallationCost?.total_gross_cost} PLN
+            </p>
+          </div>
+          <div>
+            <p>
+              Ulga podatkowa:
+              {amount_tax_credit} PLN
             </p>
           </div>
         </div>
