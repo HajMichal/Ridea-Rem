@@ -30,8 +30,10 @@ const Account = () => {
   });
 
   useEffect(() => {
-    if (session?.user.role === 3 || session === undefined || session === null) {
+    if (session?.user.role === 3) {
       void router.push("/");
+    } else if (!session) {
+      void router.push("/api/auth/signin");
     }
   }, [session, router]);
 

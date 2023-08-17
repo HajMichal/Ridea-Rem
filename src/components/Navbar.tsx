@@ -1,4 +1,5 @@
 import { signIn, signOut, useSession } from "next-auth/react";
+import Link from "next/link";
 import React from "react";
 
 export const Navbar = () => {
@@ -8,7 +9,9 @@ export const Navbar = () => {
         <div className="">
           <AuthShowcase />
         </div>
-        <div className="text-black">opcja 1</div>
+        <div className="text-black">
+          <Link href={"/stworz/konto"}>Stworz konto</Link>
+        </div>
         <div className="text-black">opcja 2</div>
         <div className="text-black">opcja 3</div>
         <div className="text-black">opcja 4</div>
