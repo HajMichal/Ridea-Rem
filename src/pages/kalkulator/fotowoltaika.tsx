@@ -152,12 +152,12 @@ const Fotowoltaika = () => {
     ? data?.kalkulator.dotacje.magazynCiepla
     : 0;
 
-  // useEffect(() => {
-  //   if (sessionData === null) {
-  //     // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-  //     void router.push("/api/auth/signin");
-  //   }
-  // }, [sessionData, router]);
+  useEffect(() => {
+    if (sessionData === null) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+      void router.push("/api/auth/signin");
+    }
+  }, [sessionData, router]);
 
   useEffect(() => {
     if (system_power) {

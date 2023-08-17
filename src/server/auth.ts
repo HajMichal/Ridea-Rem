@@ -78,6 +78,7 @@ export const authOptions: NextAuthOptions = {
             login: credentials?.Login,
           },
         });
+
         if (user && credentials) {
           const passwordMatch = await bcrypt.compare(
             credentials.Hasło,

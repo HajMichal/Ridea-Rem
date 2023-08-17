@@ -1,7 +1,5 @@
-import fs from "fs";
 import { z } from "zod";
 import bcrypt from "bcrypt";
-import { setFileToBucket } from "./dataFlow";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 
 export const loginRouter = createTRPCRouter({
@@ -37,9 +35,6 @@ export const loginRouter = createTRPCRouter({
           role: input.role,
         },
       });
-      const fileContent = fs.readFileSync("./prisma/db.sqlite");
-
-      setFileToBucket(fileContent, "db.sqlite");
       return { status: 200 };
     }),
 });
