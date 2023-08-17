@@ -439,7 +439,9 @@ export const photovoltaics_calculator = createTRPCRouter({
       })
     )
     .mutation(({ input }) => {
-      return input.amount_after_dotation * input.tax_credit;
+      return Number(
+        (input.amount_after_dotation * input.tax_credit).toFixed(2)
+      );
     }),
   heatStore_cost: publicProcedure
     .input(
