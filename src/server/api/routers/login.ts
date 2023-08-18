@@ -19,6 +19,7 @@ export const loginRouter = createTRPCRouter({
       const user = await ctx.prisma.user.findFirst({
         where: { login: input.login },
       });
+      console.log(input);
       if (user) {
         throw new Error("User with this login already exists");
       }

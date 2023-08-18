@@ -15,8 +15,11 @@ const Account = () => {
   const router = useRouter();
   const { data: session } = useSession();
   const { mutate } = api.login.createAccount.useMutation({
-    onSuccess: () => {
-      void router.push("/");
+    onError(error, variables, context) {
+      console.log(error);
+    },
+    onSuccess(data) {
+      console.log(data);
     },
   });
 
@@ -30,20 +33,21 @@ const Account = () => {
   });
 
   useEffect(() => {
-    if (session?.user.role === 3) {
-      void router.push("/");
-    } else if (!session) {
-      void router.push("/api/auth/signin");
-    }
+    // if (session?.user.role === 3) {
+    //   void router.push("/");
+    // } else if (!session) {
+    //   void router.push("/api/auth/signin");
+    // }
   }, [session, router]);
 
   const onSubmit: SubmitHandler<FormTypes> = (data) => {
-    mutate({
-      login: data.login,
-      name: data.name,
-      password: data.password,
-      role: Number(data.role),
-    });
+    // mutate({
+    //   login: data.login,
+    //   name: data.name,
+    //   password: data.password,
+    //   role: Number(data.role),
+    // });
+    console.log("test");
   };
 
   return (
@@ -53,7 +57,7 @@ const Account = () => {
           Stwórz nowe konto
         </h1>
         <form
-          onSubmit={() => handleSubmit(onSubmit)}
+          onSubmit={(e) => handleSubmit(onSubmit)}
           className="flex w-min max-w-[350px] flex-wrap justify-center gap-3"
         >
           <input

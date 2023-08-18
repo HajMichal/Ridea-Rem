@@ -153,7 +153,7 @@ const Fotowoltaika = () => {
   useEffect(() => {
     if (sessionData === null) {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-      void router.push("/api/auth/signin");
+      void router.push("/auth/signin");
     }
   }, [sessionData, router]);
 

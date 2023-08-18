@@ -14,6 +14,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
     <>
       <Head>
         <title>RideaRem - Kalkulator 🔢</title>
+        <link rel="icon" href="/logo_solo_white.svg" sizes="any" />
       </Head>
       <SessionProvider session={session}>
         <MantineProvider
