@@ -69,29 +69,26 @@ export const authOptions: NextAuthOptions = {
       // e.g. domain, username, password, 2FA token, etc.
       // You can pass any HTML attribute to the <input> tag through the object.
       credentials: {
-        Login: {
+        login: {
           label: "Login",
-          type: "text",
         },
-        Hasło: { label: "Hasło", type: "password" },
+        password: { label: "Hasło" },
       },
       async authorize(credentials) {
         const user = await prisma.user.findUnique({
           where: {
-            login: credentials?.Login,
+            login: credentials?.login,
           },
         });
-
         if (user && credentials) {
           const passwordMatch = await bcrypt.compare(
-            credentials.Hasło,
+            credentials.password,
             user.password
           );
 
-          if (!passwordMatch) return null;
+          if (!passwordMatch) throw new Error("Invalid Password");
           return user;
-        }
-        return null;
+        } else throw new Error("Invalid Credentials");
       },
     }),
   ],

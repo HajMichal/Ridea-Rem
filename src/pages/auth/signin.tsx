@@ -1,32 +1,35 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
-import { getProviders } from "next-auth/react";
+import { getProviders, signIn } from "next-auth/react";
 import { type GetServerSideProps } from "next";
-import { type AppProps } from "next/app";
 import { TextInput, PasswordInput, Checkbox } from "@mantine/core";
 import Image from "next/image";
+import { useRouter } from "next/router";
 
 interface FormTypes {
-  name: string;
+  login: string;
   password: string;
 }
 
-export default function Signin({ providers }: { providers: AppProps }) {
+export default function Signin() {
+  const [error, setError] = useState<string>();
   const { register, handleSubmit } = useForm<FormTypes>({
     defaultValues: {
-      name: "",
+      login: "",
       password: "",
     },
   });
-  const onSubmit: SubmitHandler<FormTypes> = () => {
-    // mutate({
-    //   login: data.login,
-    //   name: data.name,
-    //   password: data.password,
-    //   role: Number(data.role),
-    // });
-    console.log("test");
+  const router = useRouter();
+  const onSubmit: SubmitHandler<FormTypes> = async (data) => {
+    const res = await signIn("credentials", {
+      login: data.login,
+      password: data.password,
+      redirect: false,
+    });
+    if (res?.error) setError(res.error);
+    else if (res?.ok) await router.push("/");
   };
+  console.log(error);
 
   return (
     <div className="grid h-screen w-screen bg-[#E8E7E7] font-orkney laptop:grid-cols-2">
@@ -49,10 +52,11 @@ export default function Signin({ providers }: { providers: AppProps }) {
           </div>
           <div className="flex w-full justify-center">
             <form
-              onSubmit={void handleSubmit(onSubmit)}
+              onSubmit={handleSubmit(onSubmit)}
               className="flex w-3/5 max-w-sm flex-col gap-5 font-orkneyLight"
             >
               <TextInput
+                {...register("login", { required: true })}
                 maw={620}
                 label="Login"
                 styles={{
@@ -70,6 +74,7 @@ export default function Signin({ providers }: { providers: AppProps }) {
                 }}
               />
               <PasswordInput
+                {...register("password", { required: true })}
                 maw={620}
                 label="Hasło"
                 styles={{
