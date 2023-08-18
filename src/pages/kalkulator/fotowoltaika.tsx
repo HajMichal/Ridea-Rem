@@ -43,7 +43,6 @@ interface JsonFileData {
 const Fotowoltaika = () => {
   const [tankSize, setTankSize] = useState("Zbiornik 100L");
   const [southRoof, setSouthRoof] = useState(false);
-  const [heatStore, setHeatStore] = useState(false);
   const [companyFee, setCompanyFee] = useState(false);
   const [voucherHoliday, setVoucherHoliday] = useState(false);
   const [isGroundMontage, setIsGroundMontage] = useState(false);
@@ -416,10 +415,9 @@ const Fotowoltaika = () => {
   useEffect(() => {
     set_heatStore_energyManager_costs({
       heatStore_cost: heatStore_cost ?? 0,
-      isHeatStoreChoosed: heatStore,
       isEnergyManagerSystem: energyManageSystem,
     });
-  }, [heatStore_cost, energyManageSystem, heatStore]);
+  }, [heatStore_cost, energyManageSystem]);
 
   useEffect(() => {
     if (totalInstallationCost?.total_gross_cost && dotations_sum)
@@ -729,7 +727,7 @@ const Fotowoltaika = () => {
               className="max-w-xs text-black"
             />
           </div>
-          <div>
+          {/* <div>
             <label>Magazyn ciepła wraz z montażem</label>
             <Select
               onChange={(e) => setHeatStore(e == "true")}
@@ -741,7 +739,7 @@ const Fotowoltaika = () => {
               defaultValue={"false"}
               className="max-w-xs text-black"
             />
-          </div>
+          </div> */}
           <div>
             <label>Wielkość zbiornika CWU</label>
             <Select
@@ -833,6 +831,12 @@ const Fotowoltaika = () => {
             <p>
               Ulga podatkowa:
               {amount_tax_credit} PLN
+            </p>
+          </div>
+          <div>
+            <p>
+              Kwota po odjęciu ulg:
+              {amount_after_dotation! - amount_tax_credit!} PLN
             </p>
           </div>
         </div>

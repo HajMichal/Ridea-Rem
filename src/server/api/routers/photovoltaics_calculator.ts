@@ -465,13 +465,9 @@ export const photovoltaics_calculator = createTRPCRouter({
       z.object({
         heatStore_cost: z.number(),
         isEnergyManagerSystem: z.boolean(),
-        isHeatStoreChoosed: z.boolean(),
       })
     )
     .mutation(({ input }) => {
-      return (
-        (input.isHeatStoreChoosed ? input.heatStore_cost : 0) +
-        (input.isEnergyManagerSystem ? 1500 : 0)
-      );
+      return input.isEnergyManagerSystem ? input.heatStore_cost + 1500 : 0;
     }),
 });
