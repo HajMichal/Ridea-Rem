@@ -391,7 +391,6 @@ export const photovoltaics_calculator = createTRPCRouter({
         addon_costs: z.number(),
         base_installation_costs: z.number(),
         heatStore_energyManager_costs: z.number(),
-        comapnyFee: z.boolean(),
       })
     )
     .mutation(({ input }) => {
@@ -399,7 +398,7 @@ export const photovoltaics_calculator = createTRPCRouter({
         input.addon_costs +
         input.base_installation_costs +
         input.heatStore_energyManager_costs;
-      const fee_value = total_cost * (input.comapnyFee ? 0.23 : 0.08);
+      const fee_value = total_cost * 0.08;
       return {
         total_installation_cost: total_cost,
         total_gross_cost: total_cost + fee_value,

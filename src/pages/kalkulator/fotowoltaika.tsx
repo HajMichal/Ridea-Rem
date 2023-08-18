@@ -43,7 +43,6 @@ interface JsonFileData {
 const Fotowoltaika = () => {
   const [tankSize, setTankSize] = useState("Zbiornik 100L");
   const [southRoof, setSouthRoof] = useState(false);
-  const [companyFee, setCompanyFee] = useState(false);
   const [voucherHoliday, setVoucherHoliday] = useState(false);
   const [isGroundMontage, setIsGroundMontage] = useState(false);
   const [roofWeightSystem, setRoofWeightSystem] = useState(false);
@@ -387,13 +386,11 @@ const Fotowoltaika = () => {
         addon_costs: addon_cost,
         base_installation_costs:
           installationAndPer1KW_price.base_installation_price,
-        comapnyFee: companyFee,
         heatStore_energyManager_costs: heatStore_energyManager_costs ?? 0,
       });
   }, [
     addon_cost,
     installationAndPer1KW_price?.base_installation_price,
-    companyFee,
     heatStore_energyManager_costs,
   ]);
 
@@ -586,7 +583,7 @@ const Fotowoltaika = () => {
             <p>Roczna łączna opłata za przesył energii elektrycznej </p>
             {yearly_total_fees?.yearly_total_fee_for_energy_transfer}
           </div>
-          <div className="flex gap-2">
+          <div className="flex gap-2 ">
             <p>ŁĄCZNIE OSZCZĘDZASZ </p>
             {total_save}
             <p>PLN/rok</p>
@@ -714,19 +711,7 @@ const Fotowoltaika = () => {
               className="max-w-xs text-black"
             />
           </div>
-          <div>
-            <label>Podatek VAT FIRMA 23%</label>
-            <Select
-              onChange={(e) => setCompanyFee(e == "true")}
-              data={[
-                { value: "true", label: "Tak" },
-                { value: "false", label: "Nie" },
-              ]}
-              icon={<MdOutlinePlaylistAddCheckCircle size="1.5rem" />}
-              defaultValue={"false"}
-              className="max-w-xs text-black"
-            />
-          </div>
+
           {/* <div>
             <label>Magazyn ciepła wraz z montażem</label>
             <Select
@@ -741,27 +726,7 @@ const Fotowoltaika = () => {
             />
           </div> */}
           <div>
-            <label>Wielkość zbiornika CWU</label>
-            <Select
-              onChange={(e: string) =>
-                set_heatStore_cost({ choosed_tank_type: e })
-              }
-              placeholder="Wybierz zbiornik..."
-              data={[
-                { value: "Zbiornik 100L", label: "Zbiornik 100L" },
-                { value: "Zbiornik 140L", label: "Zbiornik 140L" },
-                { value: "Zbiornik 200L", label: "Zbiornik 200L" },
-                {
-                  value: "Zbiornik 200L z wężownicą",
-                  label: "Zbiornik 200L z wężownicą",
-                },
-              ]}
-              icon={<MdOutlinePlaylistAddCheckCircle size="1.5rem" />}
-              className="max-w-xs text-black"
-            />
-          </div>
-          <div>
-            <label>Systemem zarządzania energią HMS</label>
+            <label>Magazyn ciepła + EMS</label>
             <Select
               onChange={(e) => setEnergyManageSystem(e == "true")}
               data={[
@@ -773,7 +738,28 @@ const Fotowoltaika = () => {
               className="max-w-xs text-black"
             />
           </div>
-
+          {energyManageSystem && (
+            <div>
+              <label>Wielkość zbiornika CWU</label>
+              <Select
+                onChange={(e: string) =>
+                  set_heatStore_cost({ choosed_tank_type: e })
+                }
+                defaultValue={"Zbiornik 100L"}
+                data={[
+                  { value: "Zbiornik 100L", label: "Zbiornik 100L" },
+                  { value: "Zbiornik 140L", label: "Zbiornik 140L" },
+                  { value: "Zbiornik 200L", label: "Zbiornik 200L" },
+                  {
+                    value: "Zbiornik 200L z wężownicą",
+                    label: "Zbiornik 200L z wężownicą",
+                  },
+                ]}
+                icon={<MdOutlinePlaylistAddCheckCircle size="1.5rem" />}
+                className="max-w-xs text-black"
+              />
+            </div>
+          )}
           <div>
             <p>Mój prąd fotowoltaika</p>
             {energyManageSystem
@@ -805,7 +791,7 @@ const Fotowoltaika = () => {
                 { value: "0.32", label: "32%" },
               ]}
               icon={<MdOutlinePlaylistAddCheckCircle size="1.5rem" />}
-              defaultValue={"0"}
+              defaultValue={"0.12"}
               className="max-w-xs text-black"
             />
           </div>
@@ -836,7 +822,8 @@ const Fotowoltaika = () => {
           <div>
             <p>
               Kwota po odjęciu ulg:
-              {amount_after_dotation! - amount_tax_credit!} PLN
+              {amount_after_dotation! - amount_tax_credit!}
+              PLN
             </p>
           </div>
         </div>
