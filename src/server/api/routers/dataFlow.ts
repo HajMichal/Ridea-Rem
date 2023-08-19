@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 import fs from "fs";
-import { z } from "zod";
 import AWS from "aws-sdk";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 
@@ -41,17 +40,5 @@ export const dataFlowRouter = createTRPCRouter({
       .promise();
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return JSON.parse(dataFile?.Body?.toString() ?? "null");
-  }),
-  setSQLiteFile: publicProcedure.mutation(() => {
-    const fileContent = fs.readFileSync("./prisma/db.sqlite");
-
-    setFileToBucket(fileContent, "db.sqlite");
-  }),
-  downloadSQLiteFile: publicProcedure.query(() => {
-    s3.getObject({
-      Bucket: "ridearem",
-      Key: "db.sqlite",
-    });
-    return "success";
   }),
 });

@@ -41,7 +41,6 @@ interface JsonFileData {
 }
 
 const Fotowoltaika = () => {
-  const [tankSize, setTankSize] = useState("Zbiornik 100L");
   const [southRoof, setSouthRoof] = useState(false);
   const [voucherHoliday, setVoucherHoliday] = useState(false);
   const [isGroundMontage, setIsGroundMontage] = useState(false);
@@ -50,7 +49,7 @@ const Fotowoltaika = () => {
   const [energyManageSystem, setEnergyManageSystem] = useState(false);
   const [isEccentricsChoosed, setIsEccentricsChoosed] = useState(false);
   const [isHybridInwerterChoosed, setIsHybridInwerterChoosed] = useState(false);
-  const [taxCredit, setTaxCredit] = useState(0); // wynik w procentach
+  const [taxCredit, setTaxCredit] = useState(0.12); // wynik w procentach
   const [usageLimit, setUsageLimit] = useState(2000);
   const [modulesCount, setModulesCount] = useState(0);
   const [consultantMarkup, setConsultantMarkup] = useState(0);
@@ -134,6 +133,10 @@ const Fotowoltaika = () => {
     api.photovoltaics.amount_tax_credit.useMutation();
   const { mutate: set_heatStore_cost, data: heatStore_cost } =
     api.photovoltaics.heatStore_cost.useMutation();
+  const {
+    mutate: set_finall_installation_cost,
+    data: finall_installation_cost,
+  } = api.photovoltaics.finall_installation_cost.useMutation();
   const {
     mutate: set_heatStore_energyManager_costs,
     data: heatStore_energyManager_costs,
@@ -317,7 +320,7 @@ const Fotowoltaika = () => {
         isEkierkiChoosed: isEccentricsChoosed,
         modules_count: modulesCount,
       });
-  }, [modulesCount, data, isEccentricsChoosed]);
+  }, [modulesCount, data, isEccentricsChoosed, set_ekierki_price]);
   useEffect(() => {
     if (data && roofWeightSystem && system_power)
       set_bloczki_price({
@@ -325,7 +328,7 @@ const Fotowoltaika = () => {
         isBloczkiChoosed: roofWeightSystem,
         system_power: system_power,
       });
-  }, [system_power, data, roofWeightSystem]);
+  }, [system_power, data, roofWeightSystem, set_bloczki_price]);
   useEffect(() => {
     if (data && isGroundMontage && system_power)
       set_grunt_price({
@@ -333,7 +336,7 @@ const Fotowoltaika = () => {
         isGruntChoosed: isGroundMontage,
         system_power: system_power,
       });
-  }, [system_power, data, isGroundMontage]);
+  }, [system_power, data, isGroundMontage, set_grunt_price]);
   useEffect(() => {
     if (data && isSolarEdgeChoosed && modulesCount)
       set_solarEdge_price({
@@ -341,7 +344,7 @@ const Fotowoltaika = () => {
         isSolarEdgeChoosed: isSolarEdgeChoosed,
         modules_count: modulesCount,
       });
-  }, [modulesCount, data, isSolarEdgeChoosed]);
+  }, [modulesCount, data, isSolarEdgeChoosed, set_solarEdge_price]);
   useEffect(() => {
     if (data && isHybridInwerterChoosed)
       set_hybridInwerter_price({
@@ -349,7 +352,7 @@ const Fotowoltaika = () => {
           data.kalkulator.koszty_dodatkowe.inwerterHybrydowy,
         isHybridInwerterChoosed: isHybridInwerterChoosed,
       });
-  }, [data, isHybridInwerterChoosed]);
+  }, [data, isHybridInwerterChoosed, set_hybridInwerter_price]);
   useEffect(() => {
     if (system_power && data)
       set_markup_costs({
@@ -358,7 +361,7 @@ const Fotowoltaika = () => {
         constantFee: 0,
         consultantFee: consultantMarkup,
       });
-  }, [consultantMarkup, system_power, data]);
+  }, [consultantMarkup, system_power, data, set_markup_costs]);
   useEffect(() => {
     set_addon_cost({
       bloczki: bloczki_price,
@@ -379,6 +382,7 @@ const Fotowoltaika = () => {
     tigo_price,
     voucherHoliday,
     markup_costs,
+    set_addon_cost,
   ]);
   useEffect(() => {
     if (addon_cost && installationAndPer1KW_price?.base_installation_price)
@@ -392,6 +396,7 @@ const Fotowoltaika = () => {
     addon_cost,
     installationAndPer1KW_price?.base_installation_price,
     heatStore_energyManager_costs,
+    set_totalInstallationCost,
   ]);
 
   useEffect(() => {
@@ -400,7 +405,12 @@ const Fotowoltaika = () => {
       photovoltaics_dotation: photovoltaics_dotation ?? 0,
       heatStore_dotation: heatStore_dotation ?? 0,
     });
-  }, [heatStore_dotation, photovoltaics_dotation, energyStore_dotation]);
+  }, [
+    heatStore_dotation,
+    photovoltaics_dotation,
+    energyStore_dotation,
+    set_dotations_sum,
+  ]);
 
   useEffect(() => {
     if (dotations_sum && totalInstallationCost?.total_gross_cost)
@@ -408,13 +418,17 @@ const Fotowoltaika = () => {
         gross_instalation_cost: totalInstallationCost?.total_gross_cost,
         summed_dotations: dotations_sum,
       });
-  }, [dotations_sum, totalInstallationCost?.total_gross_cost]);
+  }, [
+    dotations_sum,
+    totalInstallationCost?.total_gross_cost,
+    set_amount_after_dotation,
+  ]);
   useEffect(() => {
     set_heatStore_energyManager_costs({
       heatStore_cost: heatStore_cost ?? 0,
       isEnergyManagerSystem: energyManageSystem,
     });
-  }, [heatStore_cost, energyManageSystem]);
+  }, [heatStore_cost, energyManageSystem, set_heatStore_energyManager_costs]);
 
   useEffect(() => {
     if (totalInstallationCost?.total_gross_cost && dotations_sum)
@@ -423,7 +437,19 @@ const Fotowoltaika = () => {
           totalInstallationCost?.total_gross_cost - dotations_sum,
         tax_credit: taxCredit,
       });
-  }, [totalInstallationCost?.total_gross_cost, taxCredit, dotations_sum]);
+  }, [
+    totalInstallationCost?.total_gross_cost,
+    taxCredit,
+    dotations_sum,
+    set_amount_tax_credit,
+  ]);
+  useEffect(() => {
+    if (amount_after_dotation)
+      set_finall_installation_cost({
+        amount_after_dotation: amount_after_dotation,
+        amount_tax_credit: amount_tax_credit ?? 0,
+      });
+  }, [amount_after_dotation, amount_tax_credit, set_finall_installation_cost]);
 
   const inLimitOnChange = useCallback(
     (e: { target: { valueAsNumber: number } }) => {
@@ -711,20 +737,6 @@ const Fotowoltaika = () => {
               className="max-w-xs text-black"
             />
           </div>
-
-          {/* <div>
-            <label>Magazyn ciepła wraz z montażem</label>
-            <Select
-              onChange={(e) => setHeatStore(e == "true")}
-              data={[
-                { value: "true", label: "Tak" },
-                { value: "false", label: "Nie" },
-              ]}
-              icon={<MdOutlinePlaylistAddCheckCircle size="1.5rem" />}
-              defaultValue={"false"}
-              className="max-w-xs text-black"
-            />
-          </div> */}
           <div>
             <label>Magazyn ciepła + EMS</label>
             <Select
@@ -822,7 +834,7 @@ const Fotowoltaika = () => {
           <div>
             <p>
               Kwota po odjęciu ulg:
-              {amount_after_dotation! - amount_tax_credit!}
+              {finall_installation_cost}
               PLN
             </p>
           </div>

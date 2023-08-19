@@ -1,8 +1,6 @@
 import Link from "next/link";
-import { api } from "~/utils/api";
 
 export default function Home() {
-  api.dataFlow.downloadSQLiteFile.useQuery();
   return (
     <>
       <main className="font-orkney">
