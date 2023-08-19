@@ -67,6 +67,9 @@ export default function Signin() {
                 {...register("login", { required: true })}
                 maw={620}
                 label="Login"
+                onChange={() => {
+                  error === "Invalid Credentials" && setError("");
+                }}
                 styles={{
                   input: {
                     borderTop: 0,
@@ -80,11 +83,18 @@ export default function Signin() {
                     font: "inherit",
                   },
                 }}
+                error={
+                  error === "Invalid Credentials" &&
+                  "Nie prawidłowy login, spróbuj ponownie"
+                }
               />
               <PasswordInput
                 {...register("password", { required: true })}
                 maw={620}
                 label="Hasło"
+                onChange={() => {
+                  error === "Invalid Password" && setError("");
+                }}
                 styles={{
                   input: {
                     borderTop: 0,
@@ -101,6 +111,10 @@ export default function Signin() {
                     color: "#303030",
                   },
                 }}
+                error={
+                  error === "Invalid Password" &&
+                  "Nie prawidłowe hasło, spróbuj ponownie"
+                }
               />
               <Checkbox label="Zapamiętaj mnie" color="dark" />
               <button className="rounded-full bg-brand p-3 font-orkneyBold">
