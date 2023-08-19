@@ -3,6 +3,7 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import React, { useEffect } from "react";
 import { api } from "~/utils/api";
+import { Toaster, toast } from "react-hot-toast";
 
 interface FormTypes {
   name: string;
@@ -14,12 +15,13 @@ interface FormTypes {
 const Account = () => {
   const router = useRouter();
   const { data: session } = useSession();
+
   const { mutate } = api.login.createAccount.useMutation({
-    onError(error, variables, context) {
+    onError(error) {
       console.log(error);
     },
     onSuccess(data) {
-      console.log(data);
+      toast.success(`Konto zostało utworzone dla ${data.userName}`);
     },
   });
 
@@ -33,31 +35,33 @@ const Account = () => {
   });
 
   useEffect(() => {
-    // if (session?.user.role === 3) {
-    //   void router.push("/");
-    // } else if (!session) {
-    //   void router.push("/api/auth/signin");
-    // }
+    if (session?.user.role === 3) {
+      void router.push("/");
+    } else if (session === null) {
+      void router.push("/auth/signin");
+    }
   }, [session, router]);
 
   const onSubmit: SubmitHandler<FormTypes> = (data) => {
-    // mutate({
-    //   login: data.login,
-    //   name: data.name,
-    //   password: data.password,
-    //   role: Number(data.role),
-    // });
-    console.log("test");
+    mutate({
+      login: data.login,
+      name: data.name,
+      password: data.password,
+      role: Number(data.role),
+    });
   };
 
   return (
     <div className="flex min-h-screen w-screen items-start justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c]">
+      <div>
+        <Toaster />
+      </div>
       <div className="mt-40 flex flex-col justify-center p-4">
         <h1 className="mb-4 text-xl font-medium text-white">
           Stwórz nowe konto
         </h1>
         <form
-          onSubmit={(e) => handleSubmit(onSubmit)}
+          onSubmit={handleSubmit(onSubmit)}
           className="flex w-min max-w-[350px] flex-wrap justify-center gap-3"
         >
           <input

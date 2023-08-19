@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
-import { getProviders, signIn } from "next-auth/react";
+import { getProviders, signIn, useSession } from "next-auth/react";
 import { type GetServerSideProps } from "next";
 import { TextInput, PasswordInput, Checkbox } from "@mantine/core";
 import Image from "next/image";
@@ -13,13 +13,15 @@ interface FormTypes {
 
 export default function Signin() {
   const [error, setError] = useState<string>();
+  const { data: sessionData } = useSession();
+  const router = useRouter();
+
   const { register, handleSubmit } = useForm<FormTypes>({
     defaultValues: {
       login: "",
       password: "",
     },
   });
-  const router = useRouter();
   const onSubmit: SubmitHandler<FormTypes> = async (data) => {
     const res = await signIn("credentials", {
       login: data.login,
@@ -29,7 +31,13 @@ export default function Signin() {
     if (res?.error) setError(res.error);
     else if (res?.ok) await router.push("/");
   };
-  console.log(error);
+
+  useEffect(() => {
+    if (sessionData !== null) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+      void router.push("/");
+    }
+  }, [sessionData, router]);
 
   return (
     <div className="grid h-screen w-screen bg-[#E8E7E7] font-orkney laptop:grid-cols-2">

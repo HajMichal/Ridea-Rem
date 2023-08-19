@@ -19,16 +19,15 @@ export const loginRouter = createTRPCRouter({
       const user = await ctx.prisma.user.findFirst({
         where: { login: input.login },
       });
-      console.log(input);
+
       if (user) {
-        throw new Error("User with this login already exists");
+        return { status: 409, message: "Ten login został już użyty" };
       }
 
-      const saltRounds = 10;
-      const salt = await bcrypt.genSalt(saltRounds);
+      const salt = await bcrypt.genSalt(10);
       const hash = await bcrypt.hash(input.password, salt);
 
-      await ctx.prisma.user.create({
+      const userData = await ctx.prisma.user.create({
         data: {
           name: input.name,
           login: input.login,
@@ -36,6 +35,6 @@ export const loginRouter = createTRPCRouter({
           role: input.role,
         },
       });
-      return { status: 200 };
+      return { status: 200, userName: userData.name };
     }),
 });
