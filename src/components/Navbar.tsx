@@ -12,7 +12,9 @@ export const Navbar = () => {
         <div className="text-black">
           <Link href={"/stworz/konto"}>Stworz konto</Link>
         </div>
-        <div className="text-black">opcja 2</div>
+        <div className="text-black">
+          <Link href={"/edycja/daneFotowoltaiki"}>Edycja Wartosci</Link>
+        </div>
         <div className="text-black">opcja 3</div>
         <div className="text-black">opcja 4</div>
       </div>

@@ -5,7 +5,7 @@ import { Navbar } from "../../components/Navbar";
 import { useRouter } from "next/router";
 import { SideBar } from "~/components/SideBar";
 import { Select } from "@mantine/core";
-
+import { create } from "zustand";
 import { MdOutlinePlaylistAddCheckCircle } from "react-icons/md";
 
 interface JsonFileData {
@@ -39,6 +39,83 @@ interface JsonFileData {
     prowizjaBiura: number;
   };
 }
+
+/*
+const useFotowoltaika = () => {
+    const store = useStore();  
+
+    const {data, mutate: updateFotowoltaika} = useMutate();
+
+    const update = (data: T) => {
+      updateFotowoltaika().then((value) => store.setFotowoltaika(value));
+    }
+
+    async function updateSystemPower(data: T) {
+      const response = await set_system_power(data);
+      // ... code here ...
+      return response
+    }
+
+    const { mutate: set_system_power, data: system_power } =
+      api.photovoltaics.system_power.useMutation(); // D17
+
+    const { mutate: set_estimated_kWh_prod, data: estimated_kWh_prod } =
+      api.photovoltaics.estimated_kWh_production.useMutation(); // D18
+
+    const { mutate: set_autoconsumption, data: autoconsumption } =
+      api.photovoltaics.autoconsumption.useMutation(); // D20
+
+    return {
+      fotowoltaika: store.fotowoltaika,
+      mutations: {
+        updateSystemPower,
+      }
+      calculations: {
+        system_power
+      },
+    }
+}
+
+... component
+
+1)
+const {fotowoltaika, calculations} = useFotowoltaika();
+
+return <div>{fotoltowaika}</div>
+2)
+const {fotowoltaika, update} = useFotowoltaika();
+*/
+
+// type State = {
+//   southRoof: number;
+// };
+
+// type Actions = {
+//   setSouthRoof: (southRoof: boolean) => void;
+// };
+
+// type Formula = { southRoof: number; voucherHoliday: boolean };
+
+// function updateFotowoltaika(key: keyof Formula, value: Formula[keyof Formula]);
+
+/*
+const fotowoltaikaSlice = {
+  fotowoltaika: {
+    southRoof: false,
+    ..
+  },
+  updateFotowolatika: (
+    key: keyof Formula,
+    value: Formula[keyof Formula]
+  ) => set((state) => ({...state, fotowoltaika: {...state.fotowoltaika, [key]: value}}))
+}
+
+store.updateFotowoltaika("southRoof", true);
+
+return <div>{store.fotowoltaika.southRoof}</div>
+*/
+
+const useSetSouthRoof = {};
 
 const Fotowoltaika = () => {
   const [southRoof, setSouthRoof] = useState(false);
@@ -217,9 +294,7 @@ const Fotowoltaika = () => {
   ]);
   useEffect(() => {
     if (energy_sold_to_distributor)
-      set_accumulated_funds_on_account({
-        energy_sold_to_distributor: energy_sold_to_distributor,
-      });
+      set_accumulated_funds_on_account(energy_sold_to_distributor);
   }, [energy_sold_to_distributor, set_accumulated_funds_on_account]);
   useEffect(() => {
     if (
@@ -316,32 +391,32 @@ const Fotowoltaika = () => {
   useEffect(() => {
     if (data && isEccentricsChoosed)
       set_ekierki_price({
-        ekierki_price: data.kalkulator.koszty_dodatkowe.ekierki,
-        isEkierkiChoosed: isEccentricsChoosed,
+        price: data.kalkulator.koszty_dodatkowe.ekierki,
+        isChoosed: isEccentricsChoosed,
         modules_count: modulesCount,
       });
   }, [modulesCount, data, isEccentricsChoosed, set_ekierki_price]);
   useEffect(() => {
     if (data && roofWeightSystem && system_power)
       set_bloczki_price({
-        bloczki_price: data.kalkulator.koszty_dodatkowe.bloczki,
-        isBloczkiChoosed: roofWeightSystem,
+        price: data.kalkulator.koszty_dodatkowe.bloczki,
+        isChoosed: roofWeightSystem,
         system_power: system_power,
       });
   }, [system_power, data, roofWeightSystem, set_bloczki_price]);
   useEffect(() => {
     if (data && isGroundMontage && system_power)
       set_grunt_price({
-        grunt_price: data.kalkulator.koszty_dodatkowe.grunt,
-        isGruntChoosed: isGroundMontage,
+        price: data.kalkulator.koszty_dodatkowe.grunt,
+        isChoosed: isGroundMontage,
         system_power: system_power,
       });
   }, [system_power, data, isGroundMontage, set_grunt_price]);
   useEffect(() => {
     if (data && isSolarEdgeChoosed && modulesCount)
       set_solarEdge_price({
-        solarEdge_price: data.kalkulator.koszty_dodatkowe.solarEdge,
-        isSolarEdgeChoosed: isSolarEdgeChoosed,
+        price: data.kalkulator.koszty_dodatkowe.solarEdge,
+        isChoosed: isSolarEdgeChoosed,
         modules_count: modulesCount,
       });
   }, [modulesCount, data, isSolarEdgeChoosed, set_solarEdge_price]);

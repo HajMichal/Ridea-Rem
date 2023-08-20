@@ -1,24 +1,14 @@
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "../trpc";
+import calc from "../../../calc/photovoltaics";
 
+/** hello */
 export const photovoltaics_calculator = createTRPCRouter({
-  price_trend: publicProcedure.input(z.number()).mutation(({ input }) => {
-    return Number((input * 0.491 + input).toFixed(2));
-  }),
-  system_power: publicProcedure.input(z.number()).mutation(({ input }) => {
-    // C11 -> moc systemu = E11 * (moc panela = 400) / 1000
-    return (input * 400) / 1000;
-  }),
+  price_trend: publicProcedure.input(z.number()).mutation(calc.priceTrend),
+  system_power: publicProcedure.input(z.number()).mutation(calc.systemPower),
   estimated_kWh_production: publicProcedure
     .input(z.object({ southRoof: z.boolean(), system_power: z.number() }))
-    .mutation(({ input }) => {
-      //      D18 -> szacowana produkcja -> if(F9){ 1020 * C11 } esle if(!F9) {920 * C11}
-      if (input.southRoof) {
-        return 1020 * input.system_power;
-      } else {
-        return 920 * input.system_power;
-      }
-    }),
+    .mutation(calc.estimatedKWHProd),
   autoconsumption: publicProcedure
     .input(
       z.object({
@@ -26,9 +16,7 @@ export const photovoltaics_calculator = createTRPCRouter({
         estimated_kWh_prod: z.number(),
       })
     )
-    .mutation(({ input }) => {
-      return input.autoconsumption_step * input.estimated_kWh_prod;
-    }),
+    .mutation(calc.autoconsumption),
   total_payment_energy_transfer: publicProcedure
     .input(
       z.object({
@@ -39,21 +27,7 @@ export const photovoltaics_calculator = createTRPCRouter({
         priceOutOfLimit: z.number(),
       })
     )
-    .mutation(({ input }) => {
-      // D13 -> Łączna opłata za przesył energii elektrycznej  if( (D5 - D20) > H3 ) { (G3 * H3) + (G4 * (D5 - D20 - H3)) } else { (D5 - D20) * G3 }
-
-      const diffrence = input.recentYearTrendUsage - input.autoconsumption;
-      if (diffrence > input.usageLimit) {
-        return Number(
-          (
-            input.priceInLimit * 0.491 * input.usageLimit +
-            input.priceOutOfLimit * 0.491 * (diffrence - input.usageLimit)
-          ).toFixed(2)
-        );
-      } else {
-        return Number((diffrence * (input.priceInLimit * 0.491)).toFixed(2));
-      }
-    }),
+    .mutation(calc.totalPaymentEnergyTransfer),
   total_energy_trend_fee: publicProcedure
     .input(
       z.object({
@@ -65,28 +39,7 @@ export const photovoltaics_calculator = createTRPCRouter({
         accumulated_funds_on_account: z.number(),
       })
     )
-    .mutation(({ input }) => {
-      // D12 -> Łączna opłata energii elektrycznej
-      const innerCondition =
-        input.recentYearTrendUsage - input.autoconsumption > input.usageLimit;
-      const innerValue = innerCondition
-        ? input.priceInLimit * 0.491 * input.usageLimit +
-          input.priceOutOfLimit *
-            0.491 *
-            (input.recentYearTrendUsage -
-              input.autoconsumption -
-              input.usageLimit)
-        : (input.recentYearTrendUsage - input.autoconsumption) *
-          (input.priceInLimit * 0.491);
-
-      const result = innerValue - input.accumulated_funds_on_account;
-
-      if (result < 0) {
-        return 0;
-      } else {
-        return result;
-      }
-    }),
+    .mutation(calc.totalEnergyTrendFee),
   energy_sold_to_distributor: publicProcedure
     .input(
       z.object({
@@ -94,21 +47,10 @@ export const photovoltaics_calculator = createTRPCRouter({
         estimated_kWh_prod: z.number(),
       })
     )
-    .mutation(({ input }) => {
-      // D18 - D20  -> Ilośc energii odsprzedanej do Operatora Sieci Dystrybucyjnej (OSD)
-
-      return input.estimated_kWh_prod - input.autoconsumption;
-    }),
+    .mutation(calc.energySoldToDistributor),
   accumulated_funds_on_account: publicProcedure
-    .input(
-      z.object({
-        energy_sold_to_distributor: z.number(),
-      })
-    )
-    .mutation(({ input }) => {
-      // D21 * D22 -> Zgromadzone środki na koncie rozliczeniowym u OSD
-      return Number((input.energy_sold_to_distributor * 0.72).toFixed(2)); // spytac czy wartosc 0.72 to stala wartosc czy modyfikowalna
-    }),
+    .input(z.number())
+    .mutation(calc.accumulated_funds_on_account),
   yearly_bill_without_photovolatics: publicProcedure
     .input(
       z.object({
@@ -118,21 +60,7 @@ export const photovoltaics_calculator = createTRPCRouter({
         usageLimit: z.number(),
       })
     )
-    .mutation(({ input }) => {
-      if (input.recentYearTrendUsage > input.usageLimit) {
-        return Number(
-          (
-            input.limit_price_trend * input.usageLimit +
-            input.outOfLimit_price_trend *
-              (input.recentYearTrendUsage - input.usageLimit)
-          ).toFixed(2)
-        );
-      } else {
-        return Number(
-          (input.recentYearTrendUsage * input.limit_price_trend).toFixed(2)
-        );
-      }
-    }),
+    .mutation(calc.yearlyBillWithoutPhotovolatics),
   yearly_total_fees: publicProcedure
     .input(
       z.object({
@@ -142,40 +70,7 @@ export const photovoltaics_calculator = createTRPCRouter({
         usageLimit: z.number(),
       })
     )
-    .mutation(({ input }) => {
-      if (input.recentYearTrendUsage > input.usageLimit) {
-        return {
-          yearly_total_trend_fee: Number(
-            (
-              input.energyPriceInLimit * input.usageLimit +
-              input.energyPriceOutOfLimit *
-                (input.recentYearTrendUsage - input.usageLimit)
-            ).toFixed(2)
-          ),
-          yearly_total_fee_for_energy_transfer: Number(
-            (
-              input.energyPriceInLimit * 0.491 * input.usageLimit +
-              input.energyPriceOutOfLimit *
-                0.491 *
-                (input.recentYearTrendUsage - input.usageLimit)
-            ).toFixed(2)
-          ),
-        };
-      } else {
-        return {
-          yearly_total_trend_fee: Number(
-            (input.recentYearTrendUsage * input.energyPriceInLimit).toFixed(2)
-          ),
-          yearly_total_fee_for_energy_transfer: Number(
-            (
-              input.recentYearTrendUsage *
-              input.energyPriceInLimit *
-              0.491
-            ).toFixed(2)
-          ),
-        };
-      }
-    }),
+    .mutation(calc.yearlyTotalFees),
   yearly_costs_with_photovoltaics: publicProcedure
     .input(
       z.object({
@@ -183,13 +78,7 @@ export const photovoltaics_calculator = createTRPCRouter({
         total_payment_energy_transfer: z.number(),
       })
     )
-    .mutation(({ input }) => {
-      return Number(
-        (
-          input.total_energy_trend_fee + input.total_payment_energy_transfer
-        ).toFixed(2)
-      );
-    }),
+    .mutation(calc.yearlyCostsWithPhotovoltaics),
   total_save: publicProcedure
     .input(
       z.object({
@@ -197,14 +86,7 @@ export const photovoltaics_calculator = createTRPCRouter({
         yearly_costs_with_photovoltaics: z.number(),
       })
     )
-    .mutation(({ input }) => {
-      return Number(
-        (
-          input.yearly_bill_without_photovolatics -
-          input.yearly_costs_with_photovoltaics
-        ).toFixed(2)
-      );
-    }),
+    .mutation(calc.totalSave),
 
   price_for_1_KW: publicProcedure
     .input(
@@ -222,49 +104,7 @@ export const photovoltaics_calculator = createTRPCRouter({
         }),
       })
     )
-    .mutation(({ input }) => {
-      if (input.system_power < 2) {
-        return {
-          price_per_1KW: input.dane.dwa,
-          base_installation_price: input.system_power * input.dane.dwa,
-        };
-      } else if (input.system_power < 4) {
-        return {
-          price_per_1KW: input.dane.cztery,
-          base_installation_price: input.system_power * input.dane.cztery,
-        };
-      } else if (input.system_power < 6) {
-        return {
-          price_per_1KW: input.dane.szesc,
-          base_installation_price: input.system_power * input.dane.szesc,
-        };
-      } else if (input.system_power < 8) {
-        return {
-          price_per_1KW: input.dane.osiem,
-          base_installation_price: input.system_power * input.dane.osiem,
-        };
-      } else if (input.system_power < 12) {
-        return {
-          price_per_1KW: input.dane.dwanascie,
-          base_installation_price: input.system_power * input.dane.dwanascie,
-        };
-      } else if (input.system_power < 20) {
-        return {
-          price_per_1KW: input.dane.dwadziescia,
-          base_installation_price: input.system_power * input.dane.dwadziescia,
-        };
-      } else if (input.system_power < 30) {
-        return {
-          price_per_1KW: input.dane.trzydziesci,
-          base_installation_price: input.system_power * input.dane.trzydziesci,
-        };
-      } else if (input.system_power < 50) {
-        return {
-          price_per_1KW: input.dane.piecdziesiat,
-          base_installation_price: input.system_power * input.dane.piecdziesiat,
-        };
-      }
-    }),
+    .mutation(calc.priceFor1KW),
   addon_tigo: publicProcedure
     .input(
       z.object({
@@ -272,57 +112,43 @@ export const photovoltaics_calculator = createTRPCRouter({
         tigo_count: z.number(),
       })
     )
-    .mutation(({ input }) => {
-      return input.tigo_price * input.tigo_count;
-    }),
+    .mutation(calc.addonTigo),
   addon_ekierki: publicProcedure
     .input(
       z.object({
-        ekierki_price: z.number(),
-        isEkierkiChoosed: z.boolean(),
+        price: z.number(),
+        isChoosed: z.boolean(),
         modules_count: z.number(),
       })
     )
-    .mutation(({ input }) => {
-      if (!input.isEkierkiChoosed) return 0;
-      return input.ekierki_price * input.modules_count;
-    }),
+    .mutation(calc.addonEkierkiAndSolarEdge),
   addon_bloczki: publicProcedure
     .input(
       z.object({
-        bloczki_price: z.number(),
-        isBloczkiChoosed: z.boolean(),
+        price: z.number(),
+        isChoosed: z.boolean(),
         system_power: z.number(),
       })
     )
-    .mutation(({ input }) => {
-      if (!input.isBloczkiChoosed) return 0;
-      return input.bloczki_price * input.system_power;
-    }),
+    .mutation(calc.addonGruntAndBloczki),
   addon_grunt: publicProcedure
     .input(
       z.object({
-        grunt_price: z.number(),
-        isGruntChoosed: z.boolean(),
+        price: z.number(),
+        isChoosed: z.boolean(),
         system_power: z.number(),
       })
     )
-    .mutation(({ input }) => {
-      if (!input.isGruntChoosed) return 0;
-      return input.grunt_price * input.system_power;
-    }),
+    .mutation(calc.addonGruntAndBloczki),
   addon_solarEdge: publicProcedure
     .input(
       z.object({
-        solarEdge_price: z.number(),
-        isSolarEdgeChoosed: z.boolean(),
+        price: z.number(),
+        isChoosed: z.boolean(),
         modules_count: z.number(),
       })
     )
-    .mutation(({ input }) => {
-      if (!input.isSolarEdgeChoosed) return 0;
-      return input.solarEdge_price * input.modules_count;
-    }),
+    .mutation(calc.addonEkierkiAndSolarEdge),
   addon_hybridInwerter: publicProcedure
     .input(
       z.object({
@@ -330,16 +156,7 @@ export const photovoltaics_calculator = createTRPCRouter({
         isHybridInwerterChoosed: z.boolean(),
       })
     )
-    .mutation(({ input }) => {
-      if (!input.isHybridInwerterChoosed) return 0;
-      return input.hybridInwerter_price;
-    }),
-  isVoucher: publicProcedure
-    .input(z.object({ isVoucher: z.boolean() }))
-    .mutation(({ input }) => {
-      if (!input.isVoucher) return 0;
-      return 900;
-    }),
+    .mutation(calc.addonHybridInwerter),
   addon_cost: publicProcedure
     .input(
       z.object({
@@ -353,20 +170,7 @@ export const photovoltaics_calculator = createTRPCRouter({
         markup_costs: z.number(),
       })
     )
-    .mutation(({ input }) => {
-      return Number(
-        (
-          (input.voucher ? 900 : 0) +
-          (input.ekierki ? input.ekierki : 0) +
-          (input.hybridInwerter ? input.hybridInwerter : 0) +
-          (input.tigo ? input.tigo : 0) +
-          (input.bloczki ? input.bloczki : 0) +
-          (input.grunt ? input.grunt : 0) +
-          (input.solarEdge ? input.solarEdge : 0) +
-          input.markup_costs
-        ).toFixed(2)
-      );
-    }),
+    .mutation(calc.totalAddonCost),
   officeMarkup: publicProcedure
     .input(
       z.object({
@@ -376,15 +180,7 @@ export const photovoltaics_calculator = createTRPCRouter({
         constantFee: z.number(),
       })
     )
-    .mutation(({ input }) => {
-      return Number(
-        (
-          input.officeFee * input.system_power +
-          input.consultantFee * input.system_power +
-          input.constantFee
-        ).toFixed(2)
-      );
-    }),
+    .mutation(calc.officeMarkup),
   totalInstallation_cost: publicProcedure
     .input(
       z.object({
@@ -393,18 +189,7 @@ export const photovoltaics_calculator = createTRPCRouter({
         heatStore_energyManager_costs: z.number(),
       })
     )
-    .mutation(({ input }) => {
-      const total_cost =
-        input.addon_costs +
-        input.base_installation_costs +
-        input.heatStore_energyManager_costs;
-      const fee_value = total_cost * 0.08;
-      return {
-        total_installation_cost: total_cost,
-        total_gross_cost: total_cost + fee_value,
-        fee_value: fee_value,
-      };
-    }),
+    .mutation(calc.totalInstallationCost),
   dotations_sum: publicProcedure
     .input(
       z.object({
@@ -413,13 +198,7 @@ export const photovoltaics_calculator = createTRPCRouter({
         energyStore_dotation: z.number(),
       })
     )
-    .mutation(({ input }) => {
-      return (
-        input.photovoltaics_dotation +
-        input.heatStore_dotation +
-        input.energyStore_dotation
-      );
-    }),
+    .mutation(calc.dotationsSum),
   amount_after_dotation: publicProcedure
     .input(
       z.object({
@@ -427,9 +206,7 @@ export const photovoltaics_calculator = createTRPCRouter({
         gross_instalation_cost: z.number(),
       })
     )
-    .mutation(({ input }) => {
-      return input.gross_instalation_cost - input.summed_dotations;
-    }),
+    .mutation(calc.amountAfterDotation),
   amount_tax_credit: publicProcedure
     .input(
       z.object({
@@ -437,28 +214,14 @@ export const photovoltaics_calculator = createTRPCRouter({
         tax_credit: z.number(),
       })
     )
-    .mutation(({ input }) => {
-      return Number(
-        (input.amount_after_dotation * input.tax_credit).toFixed(2)
-      );
-    }),
+    .mutation(calc.amountTaxCredit),
   heatStore_cost: publicProcedure
     .input(
       z.object({
         choosed_tank_type: z.string(),
       })
     )
-    .mutation(({ input }) => {
-      if (input.choosed_tank_type === "Zbiornik 100L") {
-        return 4900;
-      } else if (input.choosed_tank_type === "Zbiornik 140L") {
-        return 5300;
-      } else if (input.choosed_tank_type === "Zbiornik 200L") {
-        return 5599;
-      } else if (input.choosed_tank_type === "Zbiornik 200L z wężownicą") {
-        return 6200;
-      }
-    }),
+    .mutation(calc.heatStoreCost),
   heatStore_energyManager_costs: publicProcedure
     .input(
       z.object({
@@ -466,9 +229,7 @@ export const photovoltaics_calculator = createTRPCRouter({
         isEnergyManagerSystem: z.boolean(),
       })
     )
-    .mutation(({ input }) => {
-      return input.isEnergyManagerSystem ? input.heatStore_cost + 1500 : 0;
-    }),
+    .mutation(calc.heatStoreWithEnergyManagerCost),
   finall_installation_cost: publicProcedure
     .input(
       z.object({
@@ -476,9 +237,5 @@ export const photovoltaics_calculator = createTRPCRouter({
         amount_after_dotation: z.number(),
       })
     )
-    .mutation(({ input }) => {
-      return Number(
-        (input.amount_after_dotation - input.amount_tax_credit).toFixed(2)
-      );
-    }),
+    .mutation(calc.finallInstallationCost),
 });
