@@ -228,42 +228,42 @@ interface PriceFor1KWType {
   };
 }
 export function priceFor1KW({ input }: { input: PriceFor1KWType }) {
-  if (input.system_power < 2) {
+  if (input.system_power <= 2) {
     return {
       price_per_1KW: input.dane.dwa,
       base_installation_price: input.system_power * input.dane.dwa,
     };
-  } else if (input.system_power < 4) {
+  } else if (input.system_power <= 4) {
     return {
       price_per_1KW: input.dane.cztery,
       base_installation_price: input.system_power * input.dane.cztery,
     };
-  } else if (input.system_power < 6) {
+  } else if (input.system_power <= 6) {
     return {
       price_per_1KW: input.dane.szesc,
       base_installation_price: input.system_power * input.dane.szesc,
     };
-  } else if (input.system_power < 8) {
+  } else if (input.system_power <= 8) {
     return {
       price_per_1KW: input.dane.osiem,
       base_installation_price: input.system_power * input.dane.osiem,
     };
-  } else if (input.system_power < 12) {
+  } else if (input.system_power <= 12) {
     return {
       price_per_1KW: input.dane.dwanascie,
       base_installation_price: input.system_power * input.dane.dwanascie,
     };
-  } else if (input.system_power < 20) {
+  } else if (input.system_power <= 20) {
     return {
       price_per_1KW: input.dane.dwadziescia,
       base_installation_price: input.system_power * input.dane.dwadziescia,
     };
-  } else if (input.system_power < 30) {
+  } else if (input.system_power <= 30) {
     return {
       price_per_1KW: input.dane.trzydziesci,
       base_installation_price: input.system_power * input.dane.trzydziesci,
     };
-  } else if (input.system_power < 50) {
+  } else if (input.system_power <= 50) {
     return {
       price_per_1KW: input.dane.piecdziesiat,
       base_installation_price: input.system_power * input.dane.piecdziesiat,

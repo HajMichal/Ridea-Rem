@@ -5,8 +5,9 @@ import { Navbar } from "../../components/Navbar";
 import { useRouter } from "next/router";
 import { SideBar } from "~/components/SideBar";
 import { Select } from "@mantine/core";
-import { create } from "zustand";
 import { MdOutlinePlaylistAddCheckCircle } from "react-icons/md";
+
+import useStore from "~/store";
 
 interface JsonFileData {
   kalkulator: {
@@ -115,25 +116,8 @@ store.updateFotowoltaika("southRoof", true);
 return <div>{store.fotowoltaika.southRoof}</div>
 */
 
-const useSetSouthRoof = {};
-
 const Fotowoltaika = () => {
-  const [southRoof, setSouthRoof] = useState(false);
-  const [voucherHoliday, setVoucherHoliday] = useState(false);
-  const [isGroundMontage, setIsGroundMontage] = useState(false);
-  const [roofWeightSystem, setRoofWeightSystem] = useState(false);
-  const [isSolarEdgeChoosed, setIsSolarEdgeChoosed] = useState(false);
-  const [energyManageSystem, setEnergyManageSystem] = useState(false);
-  const [isEccentricsChoosed, setIsEccentricsChoosed] = useState(false);
-  const [isHybridInwerterChoosed, setIsHybridInwerterChoosed] = useState(false);
-  const [taxCredit, setTaxCredit] = useState(0.12); // wynik w procentach
-  const [usageLimit, setUsageLimit] = useState(2000);
-  const [modulesCount, setModulesCount] = useState(0);
-  const [consultantMarkup, setConsultantMarkup] = useState(0);
-  const [autoconsumption_step, setAutoconsumption_step] = useState(0.1); // D19 stopien autokonsupcji w procentach (ex: 0.3)
-  const [energyPriceInLimit, setEnergyPriceInLimit] = useState<number>();
-  const [energyPriceOutOfLimit, setEnergyPriceOutOfLimit] = useState<number>();
-  const [recentYearTrendUsage, setRecentYearTrendUsage] = useState<number>();
+  const store = useStore();
 
   const { data: sessionData } = useSession();
   const router = useRouter();
@@ -220,13 +204,13 @@ const Fotowoltaika = () => {
   } = api.photovoltaics.heatStore_energyManager_costs.useMutation();
 
   // Dotations
-  const energyStore_dotation = energyManageSystem
+  const energyStore_dotation = store.photovoltaic.energyManageSystem
     ? data?.kalkulator.dotacje.menagerEnergii
     : 0;
-  const photovoltaics_dotation = energyManageSystem
+  const photovoltaics_dotation = store.photovoltaic.energyManageSystem
     ? data?.kalkulator.dotacje.mp_mc
     : data?.kalkulator.dotacje.mojPrad;
-  const heatStore_dotation = energyManageSystem
+  const heatStore_dotation = store.photovoltaic.energyManageSystem
     ? data?.kalkulator.dotacje.magazynCiepla
     : 0;
 
@@ -240,19 +224,19 @@ const Fotowoltaika = () => {
   useEffect(() => {
     if (system_power) {
       set_estimated_kWh_prod({
-        southRoof: southRoof,
+        southRoof: store.photovoltaic.southRoof,
         system_power: system_power,
       });
     }
-  }, [system_power, southRoof, set_estimated_kWh_prod]);
+  }, [system_power, store.photovoltaic.southRoof, set_estimated_kWh_prod]);
   useEffect(() => {
-    if (autoconsumption_step && estimated_kWh_prod)
+    if (estimated_kWh_prod)
       set_autoconsumption({
-        autoconsumption_step: autoconsumption_step,
+        autoconsumption_step: store.photovoltaic.autoconsumptionInPercent,
         estimated_kWh_prod: estimated_kWh_prod,
       });
   }, [
-    autoconsumption_step,
+    store.photovoltaic.autoconsumptionInPercent,
     estimated_kWh_prod,
     set_estimated_kWh_prod,
     set_autoconsumption,
@@ -260,23 +244,23 @@ const Fotowoltaika = () => {
   useEffect(() => {
     if (
       autoconsumption &&
-      energyPriceInLimit &&
-      energyPriceOutOfLimit &&
-      recentYearTrendUsage
+      store.photovoltaic.energyPriceInLimit &&
+      store.photovoltaic.energyPriceOutOfLimit &&
+      store.photovoltaic.recentYearTrendUsage
     )
       set_total_payment_energy_transfer({
         autoconsumption: autoconsumption,
-        priceInLimit: energyPriceInLimit,
-        priceOutOfLimit: energyPriceOutOfLimit,
-        recentYearTrendUsage: recentYearTrendUsage,
-        usageLimit: usageLimit,
+        priceInLimit: store.photovoltaic.energyPriceInLimit,
+        priceOutOfLimit: store.photovoltaic.energyPriceOutOfLimit,
+        recentYearTrendUsage: store.photovoltaic.recentYearTrendUsage,
+        usageLimit: store.photovoltaic.usageLimit,
       });
   }, [
     autoconsumption,
-    energyPriceInLimit,
-    usageLimit,
-    energyPriceOutOfLimit,
-    recentYearTrendUsage,
+    store.photovoltaic.energyPriceInLimit,
+    store.photovoltaic.usageLimit,
+    store.photovoltaic.energyPriceOutOfLimit,
+    store.photovoltaic.recentYearTrendUsage,
     set_autoconsumption,
     set_total_payment_energy_transfer,
   ]);
@@ -300,56 +284,64 @@ const Fotowoltaika = () => {
     if (
       accumulated_funds_on_account &&
       autoconsumption &&
-      energyPriceInLimit &&
-      energyPriceOutOfLimit &&
-      recentYearTrendUsage
+      store.photovoltaic.energyPriceInLimit &&
+      store.photovoltaic.energyPriceOutOfLimit &&
+      store.photovoltaic.recentYearTrendUsage
     ) {
       set_total_energy_trend_fee({
         accumulated_funds_on_account: accumulated_funds_on_account,
         autoconsumption: autoconsumption,
-        priceInLimit: energyPriceInLimit,
-        priceOutOfLimit: energyPriceOutOfLimit,
-        usageLimit: usageLimit,
-        recentYearTrendUsage: recentYearTrendUsage,
+        priceInLimit: store.photovoltaic.energyPriceInLimit,
+        priceOutOfLimit: store.photovoltaic.energyPriceOutOfLimit,
+        usageLimit: store.photovoltaic.usageLimit,
+        recentYearTrendUsage: store.photovoltaic.recentYearTrendUsage,
       });
     }
   }, [
     accumulated_funds_on_account,
     autoconsumption,
-    energyPriceInLimit,
-    energyPriceOutOfLimit,
-    usageLimit,
-    recentYearTrendUsage,
+    store.photovoltaic.energyPriceInLimit,
+    store.photovoltaic.energyPriceOutOfLimit,
+    store.photovoltaic.usageLimit,
+    store.photovoltaic.recentYearTrendUsage,
     set_total_energy_trend_fee,
   ]);
   useEffect(() => {
-    if (limit_price_trend && outOfLimit_price_trend && recentYearTrendUsage)
+    if (
+      limit_price_trend &&
+      outOfLimit_price_trend &&
+      store.photovoltaic.recentYearTrendUsage
+    )
       set_yearly_bill_without_photovolatics({
         limit_price_trend: limit_price_trend,
         outOfLimit_price_trend: outOfLimit_price_trend,
-        recentYearTrendUsage: recentYearTrendUsage,
-        usageLimit: usageLimit,
+        recentYearTrendUsage: store.photovoltaic.recentYearTrendUsage,
+        usageLimit: store.photovoltaic.usageLimit,
       });
   }, [
-    usageLimit,
-    recentYearTrendUsage,
+    store.photovoltaic.usageLimit,
+    store.photovoltaic.recentYearTrendUsage,
     outOfLimit_price_trend,
     limit_price_trend,
     set_yearly_bill_without_photovolatics,
   ]);
   useEffect(() => {
-    if (energyPriceInLimit && energyPriceOutOfLimit && recentYearTrendUsage)
+    if (
+      store.photovoltaic.energyPriceInLimit &&
+      store.photovoltaic.energyPriceOutOfLimit &&
+      store.photovoltaic.recentYearTrendUsage
+    )
       set_yearly_total_fees({
-        energyPriceInLimit: energyPriceInLimit,
-        energyPriceOutOfLimit: energyPriceOutOfLimit,
-        recentYearTrendUsage: recentYearTrendUsage,
-        usageLimit: usageLimit,
+        energyPriceInLimit: store.photovoltaic.energyPriceInLimit,
+        energyPriceOutOfLimit: store.photovoltaic.energyPriceOutOfLimit,
+        recentYearTrendUsage: store.photovoltaic.recentYearTrendUsage,
+        usageLimit: store.photovoltaic.usageLimit,
       });
   }, [
-    usageLimit,
-    recentYearTrendUsage,
-    energyPriceInLimit,
-    energyPriceOutOfLimit,
+    store.photovoltaic.usageLimit,
+    store.photovoltaic.recentYearTrendUsage,
+    store.photovoltaic.energyPriceInLimit,
+    store.photovoltaic.energyPriceOutOfLimit,
     set_yearly_total_fees,
   ]);
   useEffect(() => {
@@ -389,54 +381,74 @@ const Fotowoltaika = () => {
   }, [data, system_power, set_installationAndPer1KW_price]);
 
   useEffect(() => {
-    if (data && isEccentricsChoosed)
+    if (data && store.photovoltaic.modulesCount)
       set_ekierki_price({
         price: data.kalkulator.koszty_dodatkowe.ekierki,
-        isChoosed: isEccentricsChoosed,
-        modules_count: modulesCount,
+        isChoosed: store.photovoltaic.isEccentricsChoosed,
+        modules_count: store.photovoltaic.modulesCount,
       });
-  }, [modulesCount, data, isEccentricsChoosed, set_ekierki_price]);
+  }, [
+    store.photovoltaic.modulesCount,
+    data,
+    store.photovoltaic.isEccentricsChoosed,
+    set_ekierki_price,
+  ]);
   useEffect(() => {
-    if (data && roofWeightSystem && system_power)
+    if (data && system_power)
       set_bloczki_price({
         price: data.kalkulator.koszty_dodatkowe.bloczki,
-        isChoosed: roofWeightSystem,
+        isChoosed: store.photovoltaic.isRoofWeightSystem,
         system_power: system_power,
       });
-  }, [system_power, data, roofWeightSystem, set_bloczki_price]);
+  }, [
+    system_power,
+    data,
+    store.photovoltaic.isRoofWeightSystem,
+    set_bloczki_price,
+  ]);
   useEffect(() => {
-    if (data && isGroundMontage && system_power)
+    if (data && system_power)
       set_grunt_price({
         price: data.kalkulator.koszty_dodatkowe.grunt,
-        isChoosed: isGroundMontage,
+        isChoosed: store.photovoltaic.isGroundMontage,
         system_power: system_power,
       });
-  }, [system_power, data, isGroundMontage, set_grunt_price]);
+  }, [system_power, data, store.photovoltaic.isGroundMontage, set_grunt_price]);
   useEffect(() => {
-    if (data && isSolarEdgeChoosed && modulesCount)
+    if (data && store.photovoltaic.modulesCount)
       set_solarEdge_price({
         price: data.kalkulator.koszty_dodatkowe.solarEdge,
-        isChoosed: isSolarEdgeChoosed,
-        modules_count: modulesCount,
+        isChoosed: store.photovoltaic.isSolarEdgeChoosed,
+        modules_count: store.photovoltaic.modulesCount,
       });
-  }, [modulesCount, data, isSolarEdgeChoosed, set_solarEdge_price]);
+  }, [
+    store.photovoltaic.modulesCount,
+    data,
+    store.photovoltaic.isSolarEdgeChoosed,
+    set_solarEdge_price,
+  ]);
   useEffect(() => {
-    if (data && isHybridInwerterChoosed)
+    if (data)
       set_hybridInwerter_price({
         hybridInwerter_price:
           data.kalkulator.koszty_dodatkowe.inwerterHybrydowy,
-        isHybridInwerterChoosed: isHybridInwerterChoosed,
+        isHybridInwerterChoosed: store.photovoltaic.isInwerterChoosed,
       });
-  }, [data, isHybridInwerterChoosed, set_hybridInwerter_price]);
+  }, [data, store.photovoltaic.isInwerterChoosed, set_hybridInwerter_price]);
   useEffect(() => {
     if (system_power && data)
       set_markup_costs({
         system_power: system_power,
         officeFee: data?.kalkulator.prowizjaBiura,
         constantFee: 0,
-        consultantFee: consultantMarkup,
+        consultantFee: store.photovoltaic.consultantMarkup,
       });
-  }, [consultantMarkup, system_power, data, set_markup_costs]);
+  }, [
+    store.photovoltaic.consultantMarkup,
+    system_power,
+    data,
+    set_markup_costs,
+  ]);
   useEffect(() => {
     set_addon_cost({
       bloczki: bloczki_price,
@@ -445,7 +457,7 @@ const Fotowoltaika = () => {
       hybridInwerter: hybridInwerter_price,
       solarEdge: solarEdge_price,
       tigo: tigo_price,
-      voucher: voucherHoliday,
+      voucher: store.photovoltaic.voucher,
       markup_costs: markup_costs ?? 0,
     });
   }, [
@@ -455,7 +467,7 @@ const Fotowoltaika = () => {
     hybridInwerter_price,
     solarEdge_price,
     tigo_price,
-    voucherHoliday,
+    store.photovoltaic.voucher,
     markup_costs,
     set_addon_cost,
   ]);
@@ -501,20 +513,24 @@ const Fotowoltaika = () => {
   useEffect(() => {
     set_heatStore_energyManager_costs({
       heatStore_cost: heatStore_cost ?? 0,
-      isEnergyManagerSystem: energyManageSystem,
+      isEnergyManagerSystem: store.photovoltaic.energyManageSystem,
     });
-  }, [heatStore_cost, energyManageSystem, set_heatStore_energyManager_costs]);
+  }, [
+    heatStore_cost,
+    store.photovoltaic.energyManageSystem,
+    set_heatStore_energyManager_costs,
+  ]);
 
   useEffect(() => {
     if (totalInstallationCost?.total_gross_cost && dotations_sum)
       set_amount_tax_credit({
         amount_after_dotation:
           totalInstallationCost?.total_gross_cost - dotations_sum,
-        tax_credit: taxCredit,
+        tax_credit: store.photovoltaic.taxCredit,
       });
   }, [
     totalInstallationCost?.total_gross_cost,
-    taxCredit,
+    store.photovoltaic.taxCredit,
     dotations_sum,
     set_amount_tax_credit,
   ]);
@@ -529,14 +545,14 @@ const Fotowoltaika = () => {
   const inLimitOnChange = useCallback(
     (e: { target: { valueAsNumber: number } }) => {
       set_limit_price_trend(e.target.valueAsNumber);
-      setEnergyPriceInLimit(e.target.valueAsNumber);
+      store.updatePhotovoltaic("energyPriceInLimit", e.target.valueAsNumber);
     },
     [set_limit_price_trend]
   );
   const outOfLimitOnChange = useCallback(
     (e: { target: { valueAsNumber: number } }) => {
       set_outOfLimit_price_trend(e.target.valueAsNumber);
-      setEnergyPriceOutOfLimit(e.target.valueAsNumber);
+      store.updatePhotovoltaic("energyPriceOutOfLimit", e.target.valueAsNumber);
     },
     [set_outOfLimit_price_trend]
   );
@@ -553,9 +569,9 @@ const Fotowoltaika = () => {
   const handleModulesInput = useCallback(
     (e: { target: { valueAsNumber: number } }) => {
       set_system_power(e.target.valueAsNumber);
-      setModulesCount(e.target.valueAsNumber);
+      store.updatePhotovoltaic("modulesCount", e.target.valueAsNumber);
     },
-    [set_system_power, setModulesCount]
+    [set_system_power, store.photovoltaic.modulesCount]
   );
 
   return (
@@ -571,7 +587,10 @@ const Fotowoltaika = () => {
               <input
                 type="number"
                 className="text-black"
-                onBlur={inLimitOnChange}
+                onKeyDown={(e) => e.key === "." && e.preventDefault()}
+                onChange={inLimitOnChange}
+                step={0.1}
+                value={store.photovoltaic.energyPriceInLimit}
               />
               <p>w limicie (G2)</p>
             </div>
@@ -579,7 +598,10 @@ const Fotowoltaika = () => {
               <input
                 type="number"
                 className="text-black"
-                onBlur={outOfLimitOnChange}
+                onKeyDown={(e) => e.key === "." && e.preventDefault()}
+                onChange={outOfLimitOnChange}
+                step={0.1}
+                value={store.photovoltaic.energyPriceOutOfLimit}
               />
               <p>poza limitem(G3)</p>
             </div>
@@ -593,10 +615,10 @@ const Fotowoltaika = () => {
               <label>Limit zużycia (E4)</label>
               <Select
                 onChange={(e) => {
-                  setUsageLimit(Number(e));
+                  store.updatePhotovoltaic("usageLimit", Number(e));
                 }}
                 className="max-w-xs text-black"
-                defaultValue={"2000"}
+                value={String(store.photovoltaic.usageLimit)}
                 data={["2000", "2600", "3000"]}
               />
             </div>
@@ -610,9 +632,17 @@ const Fotowoltaika = () => {
             <p>Ilość energii zużywanej średnio rocznie w kWh (C6)</p>
             <input
               type="number"
-              onBlur={(e) => {
-                setRecentYearTrendUsage(e.target.valueAsNumber);
+              onChange={(e) => {
+                store.updatePhotovoltaic(
+                  "recentYearTrendUsage",
+                  e.target.valueAsNumber
+                );
               }}
+              value={
+                store.photovoltaic.recentYearTrendUsage === 0
+                  ? ""
+                  : store.photovoltaic.recentYearTrendUsage
+              }
               className="text-black"
             />
           </div>
@@ -620,7 +650,12 @@ const Fotowoltaika = () => {
             <p>Ilość modułów (E11)</p>
             <input
               type="number"
-              onBlur={(e) => handleModulesInput(e)}
+              onChange={(e) => handleModulesInput(e)}
+              value={
+                store.photovoltaic.modulesCount === 0
+                  ? ""
+                  : store.photovoltaic.modulesCount
+              }
               className="text-black"
             />
           </div>
@@ -628,10 +663,10 @@ const Fotowoltaika = () => {
             <p>Stopień autokonsumpcji energii z PV (H6)</p>
             <Select
               onChange={(e) => {
-                setAutoconsumption_step(Number(e));
+                store.updatePhotovoltaic("autoconsumptionInPercent", Number(e));
               }}
               className=" max-w-xs text-black"
-              defaultValue={"0.1"}
+              value={String(store.photovoltaic.autoconsumptionInPercent)}
               icon={<MdOutlinePlaylistAddCheckCircle size="1.5rem" />}
               data={[
                 { value: "0.1", label: "10%" },
@@ -648,13 +683,15 @@ const Fotowoltaika = () => {
           <div className="flex gap-2">
             <label htmlFor="">Dach południowy (F9)</label>
             <Select
-              onChange={(e) => setSouthRoof(e == "true")}
+              onChange={(e) =>
+                store.updatePhotovoltaic("southRoof", e == "true")
+              }
               data={[
                 { value: "true", label: "Tak" },
                 { value: "false", label: "Nie" },
               ]}
               icon={<MdOutlinePlaylistAddCheckCircle size="1.5rem" />}
-              defaultValue={"false"}
+              value={String(store.photovoltaic.southRoof)}
               allowDeselect
               className="max-w-xs text-black"
             />
@@ -692,26 +729,30 @@ const Fotowoltaika = () => {
           <div>
             <label>Montaż na wielu powierzchniach dachu z Solar Edge</label>
             <Select
-              onChange={(e) => setIsSolarEdgeChoosed(e == "true")}
+              onChange={(e) =>
+                store.updatePhotovoltaic("isSolarEdgeChoosed", e == "true")
+              }
               data={[
                 { value: "true", label: "Tak" },
                 { value: "false", label: "Nie" },
               ]}
               icon={<MdOutlinePlaylistAddCheckCircle size="1.5rem" />}
-              defaultValue={"false"}
+              value={String(store.photovoltaic.isSolarEdgeChoosed)}
               className="max-w-xs text-black"
             />
           </div>
           <div>
             <label>Montaż dach płaski - Ekierki ( kąt dachu poniżej 20º)</label>
             <Select
-              onChange={(e) => setIsEccentricsChoosed(e == "true")}
+              onChange={(e) =>
+                store.updatePhotovoltaic("isEccentricsChoosed", e == "true")
+              }
               data={[
                 { value: "true", label: "Tak" },
                 { value: "false", label: "Nie" },
               ]}
               icon={<MdOutlinePlaylistAddCheckCircle size="1.5rem" />}
-              defaultValue={"false"}
+              value={String(store.photovoltaic.isEccentricsChoosed)}
               className="max-w-xs text-black"
             />
           </div>
@@ -721,13 +762,15 @@ const Fotowoltaika = () => {
               inny kotwiony do dachu)
             </label>
             <Select
-              onChange={(e) => setRoofWeightSystem(e == "true")}
+              onChange={(e) =>
+                store.updatePhotovoltaic("isRoofWeightSystem", e == "true")
+              }
               data={[
                 { value: "true", label: "Tak" },
                 { value: "false", label: "Nie" },
               ]}
               icon={<MdOutlinePlaylistAddCheckCircle size="1.5rem" />}
-              defaultValue={"false"}
+              value={String(store.photovoltaic.isRoofWeightSystem)}
               className="max-w-xs text-black"
             />
           </div>
@@ -736,13 +779,15 @@ const Fotowoltaika = () => {
               Montaż NA GRUNCIE (konstrukcja wbijana lub wylane stopy betonowe)
             </label>
             <Select
-              onChange={(e) => setIsGroundMontage(e == "true")}
+              onChange={(e) =>
+                store.updatePhotovoltaic("isGroundMontage", e == "true")
+              }
               data={[
                 { value: "true", label: "Tak" },
                 { value: "false", label: "Nie" },
               ]}
               icon={<MdOutlinePlaylistAddCheckCircle size="1.5rem" />}
-              defaultValue={"false"}
+              value={String(store.photovoltaic.isGroundMontage)}
               className="max-w-xs text-black"
             />
           </div>
@@ -754,18 +799,26 @@ const Fotowoltaika = () => {
             <input
               className="text-black"
               type="number"
-              onBlur={(e) => handleTigoinput(e)}
+              onChange={(e) => {
+                store.updatePhotovoltaic("tigoCount", e.target.valueAsNumber);
+                handleTigoinput(e);
+              }}
+              value={
+                store.photovoltaic.tigoCount == 0
+                  ? ""
+                  : store.photovoltaic.tigoCount
+              }
             />
           </div>
           <div>
             <label>Montaż , dowóz , uruchomienie ( narzut doradcy )</label>
             <Select
               onChange={(e) => {
-                setConsultantMarkup(Number(e));
+                store.updatePhotovoltaic("consultantMarkup", Number(e));
               }}
               className=" max-w-xs text-black"
               icon={<MdOutlinePlaylistAddCheckCircle size="1.5rem" />}
-              defaultValue={"0"}
+              value={String(store.photovoltaic.consultantMarkup)}
               data={[
                 { value: "0", label: "0" },
                 { value: "100", label: "100" },
@@ -789,50 +842,55 @@ const Fotowoltaika = () => {
           <div>
             <label>Inwerter hybrydowy</label>
             <Select
-              onChange={(e) => setIsHybridInwerterChoosed(e == "true")}
+              onChange={(e) =>
+                store.updatePhotovoltaic("isInwerterChoosed", e == "true")
+              }
               data={[
                 { value: "true", label: "Tak" },
                 { value: "false", label: "Nie" },
               ]}
               icon={<MdOutlinePlaylistAddCheckCircle size="1.5rem" />}
-              defaultValue={"false"}
+              value={String(store.photovoltaic.isInwerterChoosed)}
               className="max-w-xs text-black"
             />
           </div>
           <div>
             <label>Voucher Holiday</label>
             <Select
-              onChange={(e) => setVoucherHoliday(e == "true")}
+              onChange={(e) => store.updatePhotovoltaic("voucher", e == "true")}
               data={[
                 { value: "true", label: "Tak" },
                 { value: "false", label: "Nie" },
               ]}
               icon={<MdOutlinePlaylistAddCheckCircle size="1.5rem" />}
-              defaultValue={"false"}
+              value={String(store.photovoltaic.voucher)}
               className="max-w-xs text-black"
             />
           </div>
           <div>
             <label>Magazyn ciepła + EMS</label>
             <Select
-              onChange={(e) => setEnergyManageSystem(e == "true")}
+              onChange={(e) =>
+                store.updatePhotovoltaic("energyManageSystem", e == "true")
+              }
               data={[
                 { value: "true", label: "Tak" },
                 { value: "false", label: "Nie" },
               ]}
               icon={<MdOutlinePlaylistAddCheckCircle size="1.5rem" />}
-              defaultValue={"false"}
+              value={String(store.photovoltaic.energyManageSystem)}
               className="max-w-xs text-black"
             />
           </div>
-          {energyManageSystem && (
+          {store.photovoltaic.energyManageSystem && (
             <div>
               <label>Wielkość zbiornika CWU</label>
               <Select
-                onChange={(e: string) =>
-                  set_heatStore_cost({ choosed_tank_type: e })
-                }
-                defaultValue={"Zbiornik 100L"}
+                onChange={(e: string) => {
+                  store.updatePhotovoltaic("tankSize", e);
+                  set_heatStore_cost({ choosed_tank_type: e });
+                }}
+                value={String(store.photovoltaic.tankSize)}
                 data={[
                   { value: "Zbiornik 100L", label: "Zbiornik 100L" },
                   { value: "Zbiornik 140L", label: "Zbiornik 140L" },
@@ -849,36 +907,30 @@ const Fotowoltaika = () => {
           )}
           <div>
             <p>Mój prąd fotowoltaika</p>
-            {energyManageSystem
-              ? data?.kalkulator.dotacje.mp_mc
-              : data?.kalkulator.dotacje.mojPrad}{" "}
+            {photovoltaics_dotation}
             PLN
           </div>
           <div>
             <p>Manager energii</p>
-            {energyManageSystem
-              ? data?.kalkulator.dotacje.menagerEnergii
-              : 0}{" "}
+            {energyStore_dotation}
             PLN
           </div>
           <div>
             <p>Magazyn ciepła</p>
-            {energyManageSystem
-              ? data?.kalkulator.dotacje.magazynCiepla
-              : 0}{" "}
+            {heatStore_dotation}
             PLN
           </div>
           <div>
             <label>Ulga podatkowa</label>
             <Select
-              onChange={(e) => setTaxCredit(Number(e))}
+              onChange={(e) => store.updatePhotovoltaic("taxCredit", Number(e))}
               data={[
                 { value: "0", label: "0%" },
                 { value: "0.12", label: "12%" },
                 { value: "0.32", label: "32%" },
               ]}
               icon={<MdOutlinePlaylistAddCheckCircle size="1.5rem" />}
-              defaultValue={"0.12"}
+              value={String(store.photovoltaic.taxCredit)}
               className="max-w-xs text-black"
             />
           </div>
