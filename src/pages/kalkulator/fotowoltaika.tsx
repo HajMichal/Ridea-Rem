@@ -8,8 +8,9 @@ import { Select } from "@mantine/core";
 import { MdOutlinePlaylistAddCheckCircle } from "react-icons/md";
 
 import useStore from "~/store";
+import { usePhotovoltaic } from "~/hooks/usePhotovoltaic";
 
-interface JsonFileData {
+export interface JsonFileData {
   kalkulator: {
     dane: {
       dwa: number;
@@ -45,7 +46,6 @@ interface JsonFileData {
 const useFotowoltaika = () => {
     const store = useStore();  
 
-    const {data, mutate: updateFotowoltaika} = useMutate();
 
     const update = (data: T) => {
       updateFotowoltaika().then((value) => store.setFotowoltaika(value));
@@ -87,37 +87,9 @@ return <div>{fotoltowaika}</div>
 const {fotowoltaika, update} = useFotowoltaika();
 */
 
-// type State = {
-//   southRoof: number;
-// };
-
-// type Actions = {
-//   setSouthRoof: (southRoof: boolean) => void;
-// };
-
-// type Formula = { southRoof: number; voucherHoliday: boolean };
-
-// function updateFotowoltaika(key: keyof Formula, value: Formula[keyof Formula]);
-
-/*
-const fotowoltaikaSlice = {
-  fotowoltaika: {
-    southRoof: false,
-    ..
-  },
-  updateFotowolatika: (
-    key: keyof Formula,
-    value: Formula[keyof Formula]
-  ) => set((state) => ({...state, fotowoltaika: {...state.fotowoltaika, [key]: value}}))
-}
-
-store.updateFotowoltaika("southRoof", true);
-
-return <div>{store.fotowoltaika.southRoof}</div>
-*/
-
 const Fotowoltaika = () => {
   const store = useStore();
+  const { photovoltaic, calculations, mutations } = usePhotovoltaic();
 
   const { data: sessionData } = useSession();
   const router = useRouter();
@@ -125,83 +97,84 @@ const Fotowoltaika = () => {
   // const { mutate } = api.dataFlow.setJSONFile.useMutation();
   const { data } = api.dataFlow.downloadFile.useQuery<JsonFileData>();
   console.log(data);
+  // console.log(calculations.estimated_kWh_prod);
 
-  const { mutate: set_limit_price_trend, data: limit_price_trend } =
-    api.photovoltaics.price_trend.useMutation(); // D3
-  const { mutate: set_outOfLimit_price_trend, data: outOfLimit_price_trend } =
-    api.photovoltaics.price_trend.useMutation(); // D4
-  const { mutate: set_system_power, data: system_power } =
-    api.photovoltaics.system_power.useMutation(); // D17
-  const { mutate: set_estimated_kWh_prod, data: estimated_kWh_prod } =
-    api.photovoltaics.estimated_kWh_production.useMutation(); // D18
-  const { mutate: set_autoconsumption, data: autoconsumption } =
-    api.photovoltaics.autoconsumption.useMutation(); // D20
-  const {
-    mutate: set_total_payment_energy_transfer,
-    data: total_payment_energy_transfer, // D13
-  } = api.photovoltaics.total_payment_energy_transfer.useMutation();
-  const {
-    mutate: set_energy_sold_to_distributor,
-    data: energy_sold_to_distributor, // D21
-  } = api.photovoltaics.energy_sold_to_distributor.useMutation();
-  const {
-    mutate: set_accumulated_funds_on_account,
-    data: accumulated_funds_on_account, // D23
-  } = api.photovoltaics.accumulated_funds_on_account.useMutation();
-  const {
-    mutate: set_total_energy_trend_fee,
-    data: total_energy_trend_fee, // D23
-  } = api.photovoltaics.total_energy_trend_fee.useMutation();
-  const {
-    mutate: set_yearly_bill_without_photovolatics,
-    data: yearly_bill_without_photovolatics,
-  } = api.photovoltaics.yearly_bill_without_photovolatics.useMutation();
-  const { mutate: set_yearly_total_fees, data: yearly_total_fees } =
-    api.photovoltaics.yearly_total_fees.useMutation();
-  const {
-    mutate: set_yearly_costs_with_photovoltaics,
-    data: yearly_costs_with_photovoltaics,
-  } = api.photovoltaics.yearly_costs_with_photovoltaics.useMutation();
-  const { mutate: set_total_save, data: total_save } =
-    api.photovoltaics.total_save.useMutation();
-  const {
-    mutate: set_installationAndPer1KW_price,
-    data: installationAndPer1KW_price,
-  } = api.photovoltaics.price_for_1_KW.useMutation();
-  const { mutate: set_tigo_price, data: tigo_price } =
-    api.photovoltaics.addon_tigo.useMutation();
-  const { mutate: set_ekierki_price, data: ekierki_price } =
-    api.photovoltaics.addon_ekierki.useMutation();
-  const { mutate: set_bloczki_price, data: bloczki_price } =
-    api.photovoltaics.addon_bloczki.useMutation();
-  const { mutate: set_grunt_price, data: grunt_price } =
-    api.photovoltaics.addon_grunt.useMutation();
-  const { mutate: set_hybridInwerter_price, data: hybridInwerter_price } =
-    api.photovoltaics.addon_hybridInwerter.useMutation();
-  const { mutate: set_solarEdge_price, data: solarEdge_price } =
-    api.photovoltaics.addon_solarEdge.useMutation();
-  const { mutate: set_addon_cost, data: addon_cost } =
-    api.photovoltaics.addon_cost.useMutation();
-  const { mutate: set_markup_costs, data: markup_costs } =
-    api.photovoltaics.officeMarkup.useMutation();
-  const { mutate: set_totalInstallationCost, data: totalInstallationCost } =
-    api.photovoltaics.totalInstallation_cost.useMutation();
-  const { mutate: set_dotations_sum, data: dotations_sum } =
-    api.photovoltaics.dotations_sum.useMutation();
-  const { mutate: set_amount_after_dotation, data: amount_after_dotation } =
-    api.photovoltaics.amount_after_dotation.useMutation();
-  const { mutate: set_amount_tax_credit, data: amount_tax_credit } =
-    api.photovoltaics.amount_tax_credit.useMutation();
-  const { mutate: set_heatStore_cost, data: heatStore_cost } =
-    api.photovoltaics.heatStore_cost.useMutation();
-  const {
-    mutate: set_finall_installation_cost,
-    data: finall_installation_cost,
-  } = api.photovoltaics.finall_installation_cost.useMutation();
-  const {
-    mutate: set_heatStore_energyManager_costs,
-    data: heatStore_energyManager_costs,
-  } = api.photovoltaics.heatStore_energyManager_costs.useMutation();
+  // const { mutate: set_limit_price_trend, data: limit_price_trend } =
+  //   api.photovoltaics.price_trend.useMutation(); // D3
+  // const { mutate: set_outOfLimit_price_trend, data: outOfLimit_price_trend } =
+  //   api.photovoltaics.price_trend.useMutation(); // D4
+  // const { mutate: set_system_power, data: system_power } =
+  //   api.photovoltaics.system_power.useMutation(); // D17
+  // const { mutate: set_estimated_kWh_prod, data: estimated_kWh_prod } =
+  //   api.photovoltaics.estimated_kWh_production.useMutation(); // D18
+  // const { mutate: set_autoconsumption, data: autoconsumption } =
+  //   api.photovoltaics.autoconsumption.useMutation(); // D20
+  // const {
+  //   mutate: set_total_payment_energy_transfer,
+  //   data: total_payment_energy_transfer, // D13
+  // } = api.photovoltaics.total_payment_energy_transfer.useMutation();
+  // const {
+  //   mutate: set_energy_sold_to_distributor,
+  //   data: energy_sold_to_distributor, // D21
+  // } = api.photovoltaics.energy_sold_to_distributor.useMutation();
+  // const {
+  //   mutate: set_accumulated_funds_on_account,
+  //   data: accumulated_funds_on_account, // D23
+  // } = api.photovoltaics.accumulated_funds_on_account.useMutation();
+  // const {
+  //   mutate: set_total_energy_trend_fee,
+  //   data: total_energy_trend_fee, // D23
+  // } = api.photovoltaics.total_energy_trend_fee.useMutation();
+  // const {
+  //   mutate: set_yearly_bill_without_photovolatics,
+  //   data: yearly_bill_without_photovolatics,
+  // } = api.photovoltaics.yearly_bill_without_photovolatics.useMutation();
+  // const { mutate: set_yearly_total_fees, data: yearly_total_fees } =
+  //   api.photovoltaics.yearly_total_fees.useMutation();
+  // const {
+  //   mutate: set_yearly_costs_with_photovoltaics,
+  //   data: yearly_costs_with_photovoltaics,
+  // } = api.photovoltaics.yearly_costs_with_photovoltaics.useMutation();
+  // const { mutate: set_total_save, data: total_save } =
+  //   api.photovoltaics.total_save.useMutation();
+  // const {
+  //   mutate: set_installationAndPer1KW_price,
+  //   data: installationAndPer1KW_price,
+  // } = api.photovoltaics.price_for_1_KW.useMutation();
+  // const { mutate: set_tigo_price, data: tigo_price } =
+  //   api.photovoltaics.addon_tigo.useMutation();
+  // const { mutate: set_ekierki_price, data: ekierki_price } =
+  //   api.photovoltaics.addon_ekierki.useMutation();
+  // const { mutate: set_bloczki_price, data: bloczki_price } =
+  //   api.photovoltaics.addon_bloczki.useMutation();
+  // const { mutate: set_grunt_price, data: grunt_price } =
+  //   api.photovoltaics.addon_grunt.useMutation();
+  // const { mutate: set_hybridInwerter_price, data: hybridInwerter_price } =
+  //   api.photovoltaics.addon_hybridInwerter.useMutation();
+  // const { mutate: set_solarEdge_price, data: solarEdge_price } =
+  //   api.photovoltaics.addon_solarEdge.useMutation();
+  // const { mutate: set_addon_cost, data: addon_cost } =
+  //   api.photovoltaics.addon_cost.useMutation();
+  // const { mutate: set_markup_costs, data: markup_costs } =
+  //   api.photovoltaics.officeMarkup.useMutation();
+  // const { mutate: set_totalInstallationCost, data: totalInstallationCost } =
+  //   api.photovoltaics.totalInstallation_cost.useMutation();
+  // const { mutate: set_dotations_sum, data: dotations_sum } =
+  //   api.photovoltaics.dotations_sum.useMutation();
+  // const { mutate: set_amount_after_dotation, data: amount_after_dotation } =
+  //   api.photovoltaics.amount_after_dotation.useMutation();
+  // const { mutate: set_amount_tax_credit, data: amount_tax_credit } =
+  //   api.photovoltaics.amount_tax_credit.useMutation();
+  // const { mutate: set_heatStore_cost, data: heatStore_cost } =
+  //   api.photovoltaics.heatStore_cost.useMutation();
+  // const {
+  //   mutate: set_finall_installation_cost,
+  //   data: finall_installation_cost,
+  // } = api.photovoltaics.finall_installation_cost.useMutation();
+  // const {
+  //   mutate: set_heatStore_energyManager_costs,
+  //   data: heatStore_energyManager_costs,
+  // } = api.photovoltaics.heatStore_energyManager_costs.useMutation();
 
   // Dotations
   const energyStore_dotation = store.photovoltaic.energyManageSystem
@@ -222,357 +195,301 @@ const Fotowoltaika = () => {
   }, [sessionData, router]);
 
   useEffect(() => {
-    if (system_power) {
-      set_estimated_kWh_prod({
-        southRoof: store.photovoltaic.southRoof,
-        system_power: system_power,
+    if (calculations.system_power) {
+      mutations.set_estimated_kWh_prod({
+        southRoof: photovoltaic.southRoof,
+        system_power: calculations.system_power,
       });
     }
-  }, [system_power, store.photovoltaic.southRoof, set_estimated_kWh_prod]);
+  }, [calculations.system_power, photovoltaic.southRoof]);
   useEffect(() => {
-    if (estimated_kWh_prod)
-      set_autoconsumption({
-        autoconsumption_step: store.photovoltaic.autoconsumptionInPercent,
-        estimated_kWh_prod: estimated_kWh_prod,
+    if (calculations.estimated_kWh_prod)
+      mutations.set_autoconsumption({
+        autoconsumption_step: photovoltaic.autoconsumptionInPercent,
+        estimated_kWh_prod: calculations.estimated_kWh_prod,
       });
   }, [
-    store.photovoltaic.autoconsumptionInPercent,
-    estimated_kWh_prod,
-    set_estimated_kWh_prod,
-    set_autoconsumption,
+    photovoltaic.autoconsumptionInPercent,
+    calculations.estimated_kWh_prod,
+    mutations.set_autoconsumption,
   ]);
   useEffect(() => {
     if (
-      autoconsumption &&
-      store.photovoltaic.energyPriceInLimit &&
-      store.photovoltaic.energyPriceOutOfLimit &&
-      store.photovoltaic.recentYearTrendUsage
+      calculations.autoconsumption &&
+      photovoltaic.energyPriceInLimit &&
+      photovoltaic.energyPriceOutOfLimit &&
+      photovoltaic.recentYearTrendUsage
     )
-      set_total_payment_energy_transfer({
-        autoconsumption: autoconsumption,
-        priceInLimit: store.photovoltaic.energyPriceInLimit,
-        priceOutOfLimit: store.photovoltaic.energyPriceOutOfLimit,
-        recentYearTrendUsage: store.photovoltaic.recentYearTrendUsage,
-        usageLimit: store.photovoltaic.usageLimit,
+      mutations.set_total_payment_energy_transfer({
+        autoconsumption: calculations.autoconsumption,
+        priceInLimit: photovoltaic.energyPriceInLimit,
+        priceOutOfLimit: photovoltaic.energyPriceOutOfLimit,
+        recentYearTrendUsage: photovoltaic.recentYearTrendUsage,
+        usageLimit: photovoltaic.usageLimit,
       });
   }, [
-    autoconsumption,
-    store.photovoltaic.energyPriceInLimit,
-    store.photovoltaic.usageLimit,
-    store.photovoltaic.energyPriceOutOfLimit,
-    store.photovoltaic.recentYearTrendUsage,
-    set_autoconsumption,
-    set_total_payment_energy_transfer,
+    calculations.autoconsumption,
+    photovoltaic.energyPriceInLimit,
+    photovoltaic.usageLimit,
+    photovoltaic.energyPriceOutOfLimit,
+    photovoltaic.recentYearTrendUsage,
   ]);
   useEffect(() => {
-    if (autoconsumption && estimated_kWh_prod)
-      set_energy_sold_to_distributor({
-        autoconsumption: autoconsumption,
-        estimated_kWh_prod: estimated_kWh_prod,
+    if (calculations.autoconsumption && calculations.estimated_kWh_prod)
+      mutations.set_energy_sold_to_distributor({
+        autoconsumption: calculations.autoconsumption,
+        estimated_kWh_prod: calculations.estimated_kWh_prod,
       });
-  }, [
-    autoconsumption,
-    estimated_kWh_prod,
-    set_energy_sold_to_distributor,
-    set_autoconsumption,
-  ]);
+  }, [calculations.autoconsumption, calculations.estimated_kWh_prod]);
   useEffect(() => {
-    if (energy_sold_to_distributor)
-      set_accumulated_funds_on_account(energy_sold_to_distributor);
-  }, [energy_sold_to_distributor, set_accumulated_funds_on_account]);
+    if (calculations.energy_sold_to_distributor)
+      mutations.set_accumulated_funds_on_account(
+        calculations.energy_sold_to_distributor
+      );
+  }, [calculations.energy_sold_to_distributor]);
   useEffect(() => {
     if (
-      accumulated_funds_on_account &&
-      autoconsumption &&
-      store.photovoltaic.energyPriceInLimit &&
-      store.photovoltaic.energyPriceOutOfLimit &&
-      store.photovoltaic.recentYearTrendUsage
+      calculations.accumulated_funds_on_account &&
+      calculations.autoconsumption &&
+      photovoltaic.energyPriceInLimit &&
+      photovoltaic.energyPriceOutOfLimit &&
+      photovoltaic.recentYearTrendUsage
     ) {
-      set_total_energy_trend_fee({
-        accumulated_funds_on_account: accumulated_funds_on_account,
-        autoconsumption: autoconsumption,
-        priceInLimit: store.photovoltaic.energyPriceInLimit,
-        priceOutOfLimit: store.photovoltaic.energyPriceOutOfLimit,
-        usageLimit: store.photovoltaic.usageLimit,
-        recentYearTrendUsage: store.photovoltaic.recentYearTrendUsage,
+      mutations.set_total_energy_trend_fee({
+        accumulated_funds_on_account: calculations.accumulated_funds_on_account,
+        autoconsumption: calculations.autoconsumption,
+        priceInLimit: photovoltaic.energyPriceInLimit,
+        priceOutOfLimit: photovoltaic.energyPriceOutOfLimit,
+        usageLimit: photovoltaic.usageLimit,
+        recentYearTrendUsage: photovoltaic.recentYearTrendUsage,
       });
     }
   }, [
-    accumulated_funds_on_account,
-    autoconsumption,
-    store.photovoltaic.energyPriceInLimit,
-    store.photovoltaic.energyPriceOutOfLimit,
-    store.photovoltaic.usageLimit,
-    store.photovoltaic.recentYearTrendUsage,
-    set_total_energy_trend_fee,
+    calculations.accumulated_funds_on_account,
+    calculations.autoconsumption,
+    photovoltaic.energyPriceInLimit,
+    photovoltaic.energyPriceOutOfLimit,
+    photovoltaic.usageLimit,
+    photovoltaic.recentYearTrendUsage,
   ]);
   useEffect(() => {
     if (
-      limit_price_trend &&
-      outOfLimit_price_trend &&
-      store.photovoltaic.recentYearTrendUsage
+      calculations.limit_price_trend &&
+      calculations.outOfLimit_price_trend &&
+      photovoltaic.recentYearTrendUsage
     )
-      set_yearly_bill_without_photovolatics({
-        limit_price_trend: limit_price_trend,
-        outOfLimit_price_trend: outOfLimit_price_trend,
-        recentYearTrendUsage: store.photovoltaic.recentYearTrendUsage,
-        usageLimit: store.photovoltaic.usageLimit,
+      mutations.set_yearly_bill_without_photovolatics({
+        limit_price_trend: calculations.limit_price_trend,
+        outOfLimit_price_trend: calculations.outOfLimit_price_trend,
+        recentYearTrendUsage: photovoltaic.recentYearTrendUsage,
+        usageLimit: photovoltaic.usageLimit,
       });
   }, [
-    store.photovoltaic.usageLimit,
-    store.photovoltaic.recentYearTrendUsage,
-    outOfLimit_price_trend,
-    limit_price_trend,
-    set_yearly_bill_without_photovolatics,
+    photovoltaic.usageLimit,
+    photovoltaic.recentYearTrendUsage,
+    calculations.outOfLimit_price_trend,
+    calculations.limit_price_trend,
   ]);
   useEffect(() => {
     if (
-      store.photovoltaic.energyPriceInLimit &&
-      store.photovoltaic.energyPriceOutOfLimit &&
-      store.photovoltaic.recentYearTrendUsage
+      photovoltaic.energyPriceInLimit &&
+      photovoltaic.energyPriceOutOfLimit &&
+      photovoltaic.recentYearTrendUsage
     )
-      set_yearly_total_fees({
-        energyPriceInLimit: store.photovoltaic.energyPriceInLimit,
-        energyPriceOutOfLimit: store.photovoltaic.energyPriceOutOfLimit,
-        recentYearTrendUsage: store.photovoltaic.recentYearTrendUsage,
-        usageLimit: store.photovoltaic.usageLimit,
+      mutations.set_yearly_total_fees({
+        energyPriceInLimit: photovoltaic.energyPriceInLimit,
+        energyPriceOutOfLimit: photovoltaic.energyPriceOutOfLimit,
+        recentYearTrendUsage: photovoltaic.recentYearTrendUsage,
+        usageLimit: photovoltaic.usageLimit,
       });
   }, [
-    store.photovoltaic.usageLimit,
-    store.photovoltaic.recentYearTrendUsage,
-    store.photovoltaic.energyPriceInLimit,
-    store.photovoltaic.energyPriceOutOfLimit,
-    set_yearly_total_fees,
+    photovoltaic.usageLimit,
+    photovoltaic.recentYearTrendUsage,
+    photovoltaic.energyPriceInLimit,
+    photovoltaic.energyPriceOutOfLimit,
   ]);
   useEffect(() => {
     if (
       // eslint-disable-next-line
-      (total_energy_trend_fee || total_energy_trend_fee === 0) &&
+      (calculations.total_energy_trend_fee ||
+        calculations.total_energy_trend_fee === 0) &&
       // eslint-disable-next-line
-      (total_payment_energy_transfer || total_payment_energy_transfer === 0)
+      (calculations.total_payment_energy_transfer ||
+        calculations.total_payment_energy_transfer === 0)
     )
-      set_yearly_costs_with_photovoltaics({
-        total_energy_trend_fee: total_energy_trend_fee,
-        total_payment_energy_transfer: total_payment_energy_transfer,
+      mutations.set_yearly_costs_with_photovoltaics({
+        total_energy_trend_fee: calculations.total_energy_trend_fee,
+        total_payment_energy_transfer:
+          calculations.total_payment_energy_transfer,
       });
   }, [
-    total_energy_trend_fee,
-    total_payment_energy_transfer,
-    set_yearly_costs_with_photovoltaics,
+    calculations.total_energy_trend_fee,
+    calculations.total_payment_energy_transfer,
   ]);
   useEffect(() => {
-    if (yearly_costs_with_photovoltaics && yearly_bill_without_photovolatics)
-      set_total_save({
-        yearly_bill_without_photovolatics: yearly_bill_without_photovolatics,
-        yearly_costs_with_photovoltaics: yearly_costs_with_photovoltaics,
+    if (
+      calculations.yearly_costs_with_photovoltaics &&
+      calculations.yearly_bill_without_photovolatics
+    )
+      mutations.set_total_save({
+        yearly_bill_without_photovolatics:
+          calculations.yearly_bill_without_photovolatics,
+        yearly_costs_with_photovoltaics:
+          calculations.yearly_costs_with_photovoltaics,
       });
   }, [
-    yearly_costs_with_photovoltaics,
-    yearly_bill_without_photovolatics,
-    set_total_save,
+    calculations.yearly_costs_with_photovoltaics,
+    calculations.yearly_bill_without_photovolatics,
   ]);
   useEffect(() => {
-    if (system_power && data) {
-      set_installationAndPer1KW_price({
-        system_power: system_power,
+    if (calculations.system_power && data) {
+      mutations.set_installationAndPer1KW_price({
+        system_power: calculations.system_power,
         dane: data?.kalkulator.dane,
       });
     }
-  }, [data, system_power, set_installationAndPer1KW_price]);
+  }, [data, calculations.system_power]);
 
   useEffect(() => {
-    if (data && store.photovoltaic.modulesCount)
-      set_ekierki_price({
+    if (data && photovoltaic.modulesCount)
+      mutations.set_ekierki_price({
         price: data.kalkulator.koszty_dodatkowe.ekierki,
-        isChoosed: store.photovoltaic.isEccentricsChoosed,
-        modules_count: store.photovoltaic.modulesCount,
+        isChoosed: photovoltaic.isEccentricsChoosed,
+        modules_count: photovoltaic.modulesCount,
       });
-  }, [
-    store.photovoltaic.modulesCount,
-    data,
-    store.photovoltaic.isEccentricsChoosed,
-    set_ekierki_price,
-  ]);
+  }, [photovoltaic.modulesCount, data, photovoltaic.isEccentricsChoosed]);
   useEffect(() => {
-    if (data && system_power)
-      set_bloczki_price({
+    if (data && calculations.system_power)
+      mutations.set_bloczki_price({
         price: data.kalkulator.koszty_dodatkowe.bloczki,
-        isChoosed: store.photovoltaic.isRoofWeightSystem,
-        system_power: system_power,
+        isChoosed: photovoltaic.isRoofWeightSystem,
+        system_power: calculations.system_power,
       });
-  }, [
-    system_power,
-    data,
-    store.photovoltaic.isRoofWeightSystem,
-    set_bloczki_price,
-  ]);
+  }, [calculations.system_power, data, photovoltaic.isRoofWeightSystem]);
   useEffect(() => {
-    if (data && system_power)
-      set_grunt_price({
+    if (data && calculations.system_power)
+      mutations.set_grunt_price({
         price: data.kalkulator.koszty_dodatkowe.grunt,
-        isChoosed: store.photovoltaic.isGroundMontage,
-        system_power: system_power,
+        isChoosed: photovoltaic.isGroundMontage,
+        system_power: calculations.system_power,
       });
-  }, [system_power, data, store.photovoltaic.isGroundMontage, set_grunt_price]);
+  }, [calculations.system_power, data, photovoltaic.isGroundMontage]);
   useEffect(() => {
-    if (data && store.photovoltaic.modulesCount)
-      set_solarEdge_price({
+    if (data && photovoltaic.modulesCount)
+      mutations.set_solarEdge_price({
         price: data.kalkulator.koszty_dodatkowe.solarEdge,
-        isChoosed: store.photovoltaic.isSolarEdgeChoosed,
-        modules_count: store.photovoltaic.modulesCount,
+        isChoosed: photovoltaic.isSolarEdgeChoosed,
+        modules_count: photovoltaic.modulesCount,
       });
-  }, [
-    store.photovoltaic.modulesCount,
-    data,
-    store.photovoltaic.isSolarEdgeChoosed,
-    set_solarEdge_price,
-  ]);
+  }, [photovoltaic.modulesCount, photovoltaic.isSolarEdgeChoosed, data]);
   useEffect(() => {
     if (data)
-      set_hybridInwerter_price({
+      mutations.set_hybridInwerter_price({
         hybridInwerter_price:
           data.kalkulator.koszty_dodatkowe.inwerterHybrydowy,
-        isHybridInwerterChoosed: store.photovoltaic.isInwerterChoosed,
+        isHybridInwerterChoosed: photovoltaic.isInwerterChoosed,
       });
-  }, [data, store.photovoltaic.isInwerterChoosed, set_hybridInwerter_price]);
+  }, [data, photovoltaic.isInwerterChoosed]);
   useEffect(() => {
-    if (system_power && data)
-      set_markup_costs({
-        system_power: system_power,
+    if (calculations.system_power && data)
+      mutations.set_markup_costs({
+        system_power: calculations.system_power,
         officeFee: data?.kalkulator.prowizjaBiura,
         constantFee: 0,
-        consultantFee: store.photovoltaic.consultantMarkup,
+        consultantFee: photovoltaic.consultantMarkup,
       });
-  }, [
-    store.photovoltaic.consultantMarkup,
-    system_power,
-    data,
-    set_markup_costs,
-  ]);
+  }, [store.photovoltaic.consultantMarkup, data]);
   useEffect(() => {
-    set_addon_cost({
-      bloczki: bloczki_price,
-      ekierki: ekierki_price,
-      grunt: grunt_price,
-      hybridInwerter: hybridInwerter_price,
-      solarEdge: solarEdge_price,
-      tigo: tigo_price,
-      voucher: store.photovoltaic.voucher,
-      markup_costs: markup_costs ?? 0,
+    mutations.set_addon_cost({
+      bloczki: calculations.bloczki_price,
+      ekierki: calculations.ekierki_price,
+      grunt: calculations.grunt_price,
+      hybridInwerter: calculations.hybridInwerter_price,
+      solarEdge: calculations.solarEdge_price,
+      tigo: calculations.tigo_price,
+      voucher: photovoltaic.voucher,
+      markup_costs: calculations.markup_costs ?? 0,
     });
   }, [
-    bloczki_price,
-    ekierki_price,
-    grunt_price,
-    hybridInwerter_price,
-    solarEdge_price,
-    tigo_price,
-    store.photovoltaic.voucher,
-    markup_costs,
-    set_addon_cost,
+    calculations.bloczki_price,
+    calculations.ekierki_price,
+    calculations.grunt_price,
+    calculations.hybridInwerter_price,
+    calculations.solarEdge_price,
+    calculations.tigo_price,
+    photovoltaic.voucher,
+    calculations.markup_costs,
   ]);
   useEffect(() => {
-    if (addon_cost && installationAndPer1KW_price?.base_installation_price)
-      set_totalInstallationCost({
-        addon_costs: addon_cost,
+    if (
+      calculations.addon_cost &&
+      calculations.installationAndPer1KW_price?.base_installation_price
+    )
+      mutations.set_totalInstallationCost({
+        addon_costs: calculations.addon_cost,
         base_installation_costs:
-          installationAndPer1KW_price.base_installation_price,
-        heatStore_energyManager_costs: heatStore_energyManager_costs ?? 0,
+          calculations.installationAndPer1KW_price.base_installation_price,
+        heatStore_energyManager_costs:
+          calculations.heatStore_energyManager_costs ?? 0,
       });
   }, [
-    addon_cost,
-    installationAndPer1KW_price?.base_installation_price,
-    heatStore_energyManager_costs,
-    set_totalInstallationCost,
+    calculations.addon_cost,
+    calculations.installationAndPer1KW_price?.base_installation_price,
+    calculations.heatStore_energyManager_costs,
   ]);
 
   useEffect(() => {
-    set_dotations_sum({
+    mutations.set_dotations_sum({
       energyStore_dotation: energyStore_dotation ?? 0,
       photovoltaics_dotation: photovoltaics_dotation ?? 0,
       heatStore_dotation: heatStore_dotation ?? 0,
     });
-  }, [
-    heatStore_dotation,
-    photovoltaics_dotation,
-    energyStore_dotation,
-    set_dotations_sum,
-  ]);
+  }, [heatStore_dotation, photovoltaics_dotation, energyStore_dotation]);
 
   useEffect(() => {
-    if (dotations_sum && totalInstallationCost?.total_gross_cost)
-      set_amount_after_dotation({
-        gross_instalation_cost: totalInstallationCost?.total_gross_cost,
-        summed_dotations: dotations_sum,
+    if (
+      calculations.dotations_sum &&
+      calculations.totalInstallationCost?.total_gross_cost
+    )
+      mutations.set_amount_after_dotation({
+        gross_instalation_cost:
+          calculations.totalInstallationCost?.total_gross_cost,
+        summed_dotations: calculations.dotations_sum,
       });
   }, [
-    dotations_sum,
-    totalInstallationCost?.total_gross_cost,
-    set_amount_after_dotation,
+    calculations.dotations_sum,
+    calculations.totalInstallationCost?.total_gross_cost,
   ]);
   useEffect(() => {
-    set_heatStore_energyManager_costs({
-      heatStore_cost: heatStore_cost ?? 0,
-      isEnergyManagerSystem: store.photovoltaic.energyManageSystem,
+    mutations.set_heatStore_energyManager_costs({
+      heatStore_cost: calculations.heatStore_cost ?? 0,
+      isEnergyManagerSystem: photovoltaic.energyManageSystem,
     });
-  }, [
-    heatStore_cost,
-    store.photovoltaic.energyManageSystem,
-    set_heatStore_energyManager_costs,
-  ]);
+  }, [calculations.heatStore_cost, photovoltaic.energyManageSystem]);
 
   useEffect(() => {
-    if (totalInstallationCost?.total_gross_cost && dotations_sum)
-      set_amount_tax_credit({
+    if (
+      calculations.totalInstallationCost?.total_gross_cost &&
+      calculations.dotations_sum
+    )
+      mutations.set_amount_tax_credit({
         amount_after_dotation:
-          totalInstallationCost?.total_gross_cost - dotations_sum,
-        tax_credit: store.photovoltaic.taxCredit,
+          calculations.totalInstallationCost?.total_gross_cost -
+          calculations.dotations_sum,
+        tax_credit: photovoltaic.taxCredit,
       });
   }, [
-    totalInstallationCost?.total_gross_cost,
+    calculations.totalInstallationCost?.total_gross_cost,
     store.photovoltaic.taxCredit,
-    dotations_sum,
-    set_amount_tax_credit,
+    calculations.dotations_sum,
   ]);
   useEffect(() => {
-    if (amount_after_dotation)
-      set_finall_installation_cost({
-        amount_after_dotation: amount_after_dotation,
-        amount_tax_credit: amount_tax_credit ?? 0,
+    if (calculations.amount_after_dotation)
+      mutations.set_finall_installation_cost({
+        amount_after_dotation: calculations.amount_after_dotation,
+        amount_tax_credit: calculations.amount_tax_credit ?? 0,
       });
-  }, [amount_after_dotation, amount_tax_credit, set_finall_installation_cost]);
-
-  const inLimitOnChange = useCallback(
-    (e: { target: { valueAsNumber: number } }) => {
-      set_limit_price_trend(e.target.valueAsNumber);
-      store.updatePhotovoltaic("energyPriceInLimit", e.target.valueAsNumber);
-    },
-    [set_limit_price_trend]
-  );
-  const outOfLimitOnChange = useCallback(
-    (e: { target: { valueAsNumber: number } }) => {
-      set_outOfLimit_price_trend(e.target.valueAsNumber);
-      store.updatePhotovoltaic("energyPriceOutOfLimit", e.target.valueAsNumber);
-    },
-    [set_outOfLimit_price_trend]
-  );
-  const handleTigoinput = useCallback(
-    (e: { target: { valueAsNumber: number } }) => {
-      if (data)
-        set_tigo_price({
-          tigo_price: data.kalkulator.koszty_dodatkowe.tigo,
-          tigo_count: e.target.valueAsNumber,
-        });
-    },
-    [data, set_tigo_price]
-  );
-  const handleModulesInput = useCallback(
-    (e: { target: { valueAsNumber: number } }) => {
-      set_system_power(e.target.valueAsNumber);
-      store.updatePhotovoltaic("modulesCount", e.target.valueAsNumber);
-    },
-    [set_system_power, store.photovoltaic.modulesCount]
-  );
+  }, [calculations.amount_after_dotation, calculations.amount_tax_credit]);
 
   return (
     <main className="flex h-full min-h-screen justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c] font-orkney">
@@ -588,7 +505,7 @@ const Fotowoltaika = () => {
                 type="number"
                 className="text-black"
                 onKeyDown={(e) => e.key === "." && e.preventDefault()}
-                onChange={inLimitOnChange}
+                onChange={mutations.handleInLimitOnChange}
                 step={0.1}
                 value={store.photovoltaic.energyPriceInLimit}
               />
@@ -599,7 +516,7 @@ const Fotowoltaika = () => {
                 type="number"
                 className="text-black"
                 onKeyDown={(e) => e.key === "." && e.preventDefault()}
-                onChange={outOfLimitOnChange}
+                onChange={mutations.handleOutOfLimitOnChange}
                 step={0.1}
                 value={store.photovoltaic.energyPriceOutOfLimit}
               />
@@ -610,7 +527,7 @@ const Fotowoltaika = () => {
           <div>
             <label className="font-bold">Cena prądu w limicie kWh</label>
             <div className="flex gap-1">
-              <p>{limit_price_trend}</p>
+              <p>{calculations.limit_price_trend}</p>
               <p>PLN/kWh</p>
               <label>Limit zużycia (E4)</label>
               <Select
@@ -625,7 +542,7 @@ const Fotowoltaika = () => {
           </div>
           <div className="flex gap-3">
             <p>cena prądu po przekroczeniu 2000kWh: </p>
-            <p>{outOfLimit_price_trend}</p>
+            <p>{calculations.outOfLimit_price_trend}</p>
             <p>PLN/kWh</p>
           </div>
           <div>
@@ -650,7 +567,7 @@ const Fotowoltaika = () => {
             <p>Ilość modułów (E11)</p>
             <input
               type="number"
-              onChange={(e) => handleModulesInput(e)}
+              onChange={(e) => mutations.handleModulesInput(e)}
               value={
                 store.photovoltaic.modulesCount === 0
                   ? ""
@@ -698,32 +615,37 @@ const Fotowoltaika = () => {
           </div>
           <div>
             Łączna opłata za przesył energii elektrycznej{" "}
-            {total_payment_energy_transfer} PLN
+            {calculations.total_payment_energy_transfer} PLN
           </div>
           <div>
-            Łączna opłata energii elektrycznej {total_energy_trend_fee} PLN
+            Łączna opłata energii elektrycznej{" "}
+            {calculations.total_energy_trend_fee} PLN
           </div>
           <div>
-            Rachunek roczny z fotowoltaiką {yearly_costs_with_photovoltaics}
+            Rachunek roczny z fotowoltaiką{" "}
+            {calculations.yearly_costs_with_photovoltaics}
             PLN
           </div>
           <div className="flex gap-2">
             <p>Rachunek roczny za prąd bez fotowoltaiki</p>
-            {yearly_bill_without_photovolatics}
+            {calculations.yearly_bill_without_photovolatics}
             <p>PLN/rok</p>
           </div>
           <div className="flex gap-2">
             <p>Roczna łączna opłata energii elektrycznej </p>
-            {yearly_total_fees?.yearly_total_trend_fee}
+            {calculations.yearly_total_fees?.yearly_total_trend_fee}
             <p>PLN/rok</p>
           </div>
           <div className="flex gap-2">
             <p>Roczna łączna opłata za przesył energii elektrycznej </p>
-            {yearly_total_fees?.yearly_total_fee_for_energy_transfer}
+            {
+              calculations.yearly_total_fees
+                ?.yearly_total_fee_for_energy_transfer
+            }
           </div>
           <div className="flex gap-2 ">
             <p>ŁĄCZNIE OSZCZĘDZASZ </p>
-            {total_save}
+            {calculations.total_save}
             <p>PLN/rok</p>
           </div>
           <div>
@@ -801,7 +723,7 @@ const Fotowoltaika = () => {
               type="number"
               onChange={(e) => {
                 store.updatePhotovoltaic("tigoCount", e.target.valueAsNumber);
-                handleTigoinput(e);
+                mutations.handleTigoinput(e);
               }}
               value={
                 store.photovoltaic.tigoCount == 0
@@ -888,7 +810,7 @@ const Fotowoltaika = () => {
               <Select
                 onChange={(e: string) => {
                   store.updatePhotovoltaic("tankSize", e);
-                  set_heatStore_cost({ choosed_tank_type: e });
+                  mutations.set_heatStore_cost({ choosed_tank_type: e });
                 }}
                 value={String(store.photovoltaic.tankSize)}
                 data={[
@@ -936,32 +858,41 @@ const Fotowoltaika = () => {
           </div>
 
           <div>
-            <p>Cena za 1KW: {installationAndPer1KW_price?.price_per_1KW} PLN</p>
+            <p>
+              Cena za 1KW:{" "}
+              {calculations.installationAndPer1KW_price?.price_per_1KW} PLN
+            </p>
           </div>
           <div>
             <p>
               WYLICZONA CENA ZA INSTALACJĘ BAZA:
-              {installationAndPer1KW_price?.base_installation_price} PLN
+              {
+                calculations.installationAndPer1KW_price
+                  ?.base_installation_price
+              }{" "}
+              PLN
             </p>
           </div>
           <div>
             <p>
-              Cena łącznie: {totalInstallationCost?.total_installation_cost} PLN
+              Cena łącznie:{" "}
+              {calculations.totalInstallationCost?.total_installation_cost} PLN
             </p>
             <p>
-              Cena łącznie brutto: {totalInstallationCost?.total_gross_cost} PLN
+              Cena łącznie brutto:{" "}
+              {calculations.totalInstallationCost?.total_gross_cost} PLN
             </p>
           </div>
           <div>
             <p>
               Ulga podatkowa:
-              {amount_tax_credit} PLN
+              {calculations.amount_tax_credit} PLN
             </p>
           </div>
           <div>
             <p>
               Kwota po odjęciu ulg:
-              {finall_installation_cost}
+              {calculations.finall_installation_cost}
               PLN
             </p>
           </div>
