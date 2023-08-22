@@ -1,6 +1,6 @@
 import { useSession } from "next-auth/react";
 import { api } from "~/utils/api";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Navbar } from "../../components/Navbar";
 import { useRouter } from "next/router";
 import { SideBar } from "~/components/SideBar";
@@ -36,56 +36,11 @@ export interface JsonFileData {
       inwerterHybrydowy: number;
       solarEdge: number;
     };
-    magazyn_ciepla: number;
-    tarcza_solidarnosciowa: number[];
+    magazynCiepla: number;
+    tarczaSolidarnosciowa: string[];
     prowizjaBiura: number;
   };
 }
-
-/*
-const useFotowoltaika = () => {
-    const store = useStore();  
-
-
-    const update = (data: T) => {
-      updateFotowoltaika().then((value) => store.setFotowoltaika(value));
-    }
-
-    async function updateSystemPower(data: T) {
-      const response = await set_system_power(data);
-      // ... code here ...
-      return response
-    }
-
-    const { mutate: set_system_power, data: system_power } =
-      api.photovoltaics.system_power.useMutation(); // D17
-
-    const { mutate: set_estimated_kWh_prod, data: estimated_kWh_prod } =
-      api.photovoltaics.estimated_kWh_production.useMutation(); // D18
-
-    const { mutate: set_autoconsumption, data: autoconsumption } =
-      api.photovoltaics.autoconsumption.useMutation(); // D20
-
-    return {
-      fotowoltaika: store.fotowoltaika,
-      mutations: {
-        updateSystemPower,
-      }
-      calculations: {
-        system_power
-      },
-    }
-}
-
-... component
-
-1)
-const {fotowoltaika, calculations} = useFotowoltaika();
-
-return <div>{fotoltowaika}</div>
-2)
-const {fotowoltaika, update} = useFotowoltaika();
-*/
 
 const Fotowoltaika = () => {
   const store = useStore();
@@ -98,83 +53,6 @@ const Fotowoltaika = () => {
   const { data } = api.dataFlow.downloadFile.useQuery<JsonFileData>();
   console.log(data);
   // console.log(calculations.estimated_kWh_prod);
-
-  // const { mutate: set_limit_price_trend, data: limit_price_trend } =
-  //   api.photovoltaics.price_trend.useMutation(); // D3
-  // const { mutate: set_outOfLimit_price_trend, data: outOfLimit_price_trend } =
-  //   api.photovoltaics.price_trend.useMutation(); // D4
-  // const { mutate: set_system_power, data: system_power } =
-  //   api.photovoltaics.system_power.useMutation(); // D17
-  // const { mutate: set_estimated_kWh_prod, data: estimated_kWh_prod } =
-  //   api.photovoltaics.estimated_kWh_production.useMutation(); // D18
-  // const { mutate: set_autoconsumption, data: autoconsumption } =
-  //   api.photovoltaics.autoconsumption.useMutation(); // D20
-  // const {
-  //   mutate: set_total_payment_energy_transfer,
-  //   data: total_payment_energy_transfer, // D13
-  // } = api.photovoltaics.total_payment_energy_transfer.useMutation();
-  // const {
-  //   mutate: set_energy_sold_to_distributor,
-  //   data: energy_sold_to_distributor, // D21
-  // } = api.photovoltaics.energy_sold_to_distributor.useMutation();
-  // const {
-  //   mutate: set_accumulated_funds_on_account,
-  //   data: accumulated_funds_on_account, // D23
-  // } = api.photovoltaics.accumulated_funds_on_account.useMutation();
-  // const {
-  //   mutate: set_total_energy_trend_fee,
-  //   data: total_energy_trend_fee, // D23
-  // } = api.photovoltaics.total_energy_trend_fee.useMutation();
-  // const {
-  //   mutate: set_yearly_bill_without_photovolatics,
-  //   data: yearly_bill_without_photovolatics,
-  // } = api.photovoltaics.yearly_bill_without_photovolatics.useMutation();
-  // const { mutate: set_yearly_total_fees, data: yearly_total_fees } =
-  //   api.photovoltaics.yearly_total_fees.useMutation();
-  // const {
-  //   mutate: set_yearly_costs_with_photovoltaics,
-  //   data: yearly_costs_with_photovoltaics,
-  // } = api.photovoltaics.yearly_costs_with_photovoltaics.useMutation();
-  // const { mutate: set_total_save, data: total_save } =
-  //   api.photovoltaics.total_save.useMutation();
-  // const {
-  //   mutate: set_installationAndPer1KW_price,
-  //   data: installationAndPer1KW_price,
-  // } = api.photovoltaics.price_for_1_KW.useMutation();
-  // const { mutate: set_tigo_price, data: tigo_price } =
-  //   api.photovoltaics.addon_tigo.useMutation();
-  // const { mutate: set_ekierki_price, data: ekierki_price } =
-  //   api.photovoltaics.addon_ekierki.useMutation();
-  // const { mutate: set_bloczki_price, data: bloczki_price } =
-  //   api.photovoltaics.addon_bloczki.useMutation();
-  // const { mutate: set_grunt_price, data: grunt_price } =
-  //   api.photovoltaics.addon_grunt.useMutation();
-  // const { mutate: set_hybridInwerter_price, data: hybridInwerter_price } =
-  //   api.photovoltaics.addon_hybridInwerter.useMutation();
-  // const { mutate: set_solarEdge_price, data: solarEdge_price } =
-  //   api.photovoltaics.addon_solarEdge.useMutation();
-  // const { mutate: set_addon_cost, data: addon_cost } =
-  //   api.photovoltaics.addon_cost.useMutation();
-  // const { mutate: set_markup_costs, data: markup_costs } =
-  //   api.photovoltaics.officeMarkup.useMutation();
-  // const { mutate: set_totalInstallationCost, data: totalInstallationCost } =
-  //   api.photovoltaics.totalInstallation_cost.useMutation();
-  // const { mutate: set_dotations_sum, data: dotations_sum } =
-  //   api.photovoltaics.dotations_sum.useMutation();
-  // const { mutate: set_amount_after_dotation, data: amount_after_dotation } =
-  //   api.photovoltaics.amount_after_dotation.useMutation();
-  // const { mutate: set_amount_tax_credit, data: amount_tax_credit } =
-  //   api.photovoltaics.amount_tax_credit.useMutation();
-  // const { mutate: set_heatStore_cost, data: heatStore_cost } =
-  //   api.photovoltaics.heatStore_cost.useMutation();
-  // const {
-  //   mutate: set_finall_installation_cost,
-  //   data: finall_installation_cost,
-  // } = api.photovoltaics.finall_installation_cost.useMutation();
-  // const {
-  //   mutate: set_heatStore_energyManager_costs,
-  //   data: heatStore_energyManager_costs,
-  // } = api.photovoltaics.heatStore_energyManager_costs.useMutation();
 
   // Dotations
   const energyStore_dotation = store.photovoltaic.energyManageSystem
@@ -536,7 +414,7 @@ const Fotowoltaika = () => {
                 }}
                 className="max-w-xs text-black"
                 value={String(store.photovoltaic.usageLimit)}
-                data={["2000", "2600", "3000"]}
+                data={data?.kalkulator.tarczaSolidarnosciowa ?? []}
               />
             </div>
           </div>
