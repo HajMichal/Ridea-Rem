@@ -84,14 +84,18 @@ export const usePhotovoltaic = () => {
   } = api.photovoltaics.heatStore_energyManager_costs.useMutation();
 
   const handleInLimitOnChange = (e: { target: { valueAsNumber: number } }) => {
-    set_limit_price_trend(e.target.valueAsNumber);
+    if (e.target.valueAsNumber) {
+      set_limit_price_trend(e.target.valueAsNumber);
+    }
     store.updatePhotovoltaic("energyPriceInLimit", e.target.valueAsNumber);
   };
 
   const handleOutOfLimitOnChange = (e: {
     target: { valueAsNumber: number };
   }) => {
-    set_outOfLimit_price_trend(e.target.valueAsNumber);
+    if (e.target.valueAsNumber) {
+      set_outOfLimit_price_trend(e.target.valueAsNumber);
+    }
     store.updatePhotovoltaic("energyPriceOutOfLimit", e.target.valueAsNumber);
   };
 
@@ -104,10 +108,11 @@ export const usePhotovoltaic = () => {
   };
 
   const handleModulesInput = (e: { target: { valueAsNumber: number } }) => {
-    set_system_power(e.target.valueAsNumber);
+    if (e.target.valueAsNumber) {
+      set_system_power(e.target.valueAsNumber);
+    }
     store.updatePhotovoltaic("modulesCount", e.target.valueAsNumber);
   };
-  console.log(estimated_kWh_prod);
   return {
     photovoltaic: store.photovoltaic,
     mutations: {

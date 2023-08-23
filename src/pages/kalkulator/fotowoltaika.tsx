@@ -1,14 +1,11 @@
 import { useSession } from "next-auth/react";
 import { api } from "~/utils/api";
 import { useEffect } from "react";
-import { Navbar } from "../../components/Navbar";
 import { useRouter } from "next/router";
-import { SideBar } from "~/components/SideBar";
-import { Select } from "@mantine/core";
-import { MdOutlinePlaylistAddCheckCircle } from "react-icons/md";
 
 import useStore from "~/store";
 import { usePhotovoltaic } from "~/hooks/usePhotovoltaic";
+import { SelectComponent, InputComponent, Navbar, SideBar } from "~/components";
 
 export interface JsonFileData {
   kalkulator: {
@@ -369,38 +366,89 @@ const Fotowoltaika = () => {
       });
   }, [calculations.amount_after_dotation, calculations.amount_tax_credit]);
 
+  const yesNoData = [
+    { value: "true", label: "Tak" },
+    { value: "false", label: "Nie" },
+  ];
+
   return (
-    <main className="flex h-full min-h-screen justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c] font-orkney">
+    <main className="flex h-full min-h-screen justify-center bg-[#E8E7E7] font-orkney">
       <SideBar />
       <div className="w-full">
         <Navbar />
         {/* <button onClick={() => mutate()}>test</button> */}
-        <div className="container flex flex-col  justify-center gap-12 px-4 py-16 text-white">
-          <div>
-            <label className="font-bold">Cena energii</label>
-            <div className="my-1 flex gap-1">
-              <input
-                type="number"
-                className="text-black"
-                onKeyDown={(e) => e.key === "." && e.preventDefault()}
+        <div className="flex h-full max-h-[90vw] flex-wrap p-4">
+          <div id="FORM" className="w-[55%] min-w-[500px] p-3">
+            <h1
+              style={{ textShadow: " 24px 24px #bebebe" }}
+              className="z-50 font-orkneyBold text-5xl"
+            >
+              FOTOWOLTAIKA
+            </h1>
+            <div className="mt-10 max-w-[95%]">
+              <h2 className="font-orkneyBold">CENA ENERGII</h2>
+              <InputComponent
+                title="W LIMICIE"
                 onChange={mutations.handleInLimitOnChange}
                 step={0.1}
                 value={store.photovoltaic.energyPriceInLimit}
               />
-              <p>w limicie (G2)</p>
-            </div>
-            <div className="my-1 flex gap-1">
-              <input
-                type="number"
-                className="text-black"
-                onKeyDown={(e) => e.key === "." && e.preventDefault()}
+              <InputComponent
+                title="POZA LIMICIE"
                 onChange={mutations.handleOutOfLimitOnChange}
                 step={0.1}
                 value={store.photovoltaic.energyPriceOutOfLimit}
               />
-              <p>poza limitem(G3)</p>
+              <SelectComponent
+                title="LIMIT ZUŻYCIA"
+                onChange={(e) => {
+                  store.updatePhotovoltaic("usageLimit", Number(e));
+                }}
+                value={store.photovoltaic.usageLimit}
+                data={data?.kalkulator.tarczaSolidarnosciowa ?? []}
+              />
+
+              <h2 className="mt-5 font-orkneyBold">
+                INSTALACJA FOTOWOLTAICZNA
+              </h2>
+              <SelectComponent
+                title="STOPIEŃ RABATU"
+                onChange={(e) =>
+                  store.updatePhotovoltaic("voucher", e == "true")
+                }
+                value={store.photovoltaic.voucher}
+                data={yesNoData}
+              />
+              <InputComponent
+                title="LICZBA MODUŁÓW"
+                onChange={mutations.handleModulesInput}
+                step={1}
+                value={store.photovoltaic.modulesCount}
+              />
             </div>
           </div>
+          <div
+            id="CALCULATIONS"
+            className="mt-10 h-3/4 w-[45%] rounded-[50px] bg-white"
+          >
+            <h2 className="-translate-y-3 text-center font-orkneyBold text-xl">
+              PODGLĄD
+            </h2>
+          </div>
+        </div>
+        {/* <label>Voucher Holiday</label>
+            <Select
+              onChange={}
+              data={}
+              icon={<MdOutlinePlaylistAddCheckCircle size="1.5rem" />}
+              value={String(store.photovoltaic.voucher)}
+              className="max-w-xs text-black"
+            /> */}
+        {/* <div className="container flex flex-col  justify-center gap-12 px-4 py-16 text-dark">
+          <div>
+            <label className="font-bold">Cena energii</label>
+            <div className="my-1 flex gap-1">
+
 
           <div>
             <label className="font-bold">Cena prądu w limicie kWh</label>
@@ -655,17 +703,7 @@ const Fotowoltaika = () => {
             />
           </div>
           <div>
-            <label>Voucher Holiday</label>
-            <Select
-              onChange={(e) => store.updatePhotovoltaic("voucher", e == "true")}
-              data={[
-                { value: "true", label: "Tak" },
-                { value: "false", label: "Nie" },
-              ]}
-              icon={<MdOutlinePlaylistAddCheckCircle size="1.5rem" />}
-              value={String(store.photovoltaic.voucher)}
-              className="max-w-xs text-black"
-            />
+
           </div>
           <div>
             <label>Magazyn ciepła + EMS</label>
@@ -774,7 +812,7 @@ const Fotowoltaika = () => {
               PLN
             </p>
           </div>
-        </div>
+        </div> */}
       </div>
     </main>
   );
