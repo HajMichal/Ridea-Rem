@@ -2,10 +2,12 @@ import { useSession } from "next-auth/react";
 import { api } from "~/utils/api";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
+import { FiChevronDown } from "react-icons/fi";
 
 import useStore from "~/store";
 import { usePhotovoltaic } from "~/hooks/usePhotovoltaic";
 import { SelectComponent, InputComponent, Navbar, SideBar } from "~/components";
+import { Badge, Group, ScrollArea, Text } from "@mantine/core";
 
 export interface JsonFileData {
   kalkulator: {
@@ -372,70 +374,296 @@ const Fotowoltaika = () => {
   ];
 
   return (
-    <main className="flex h-full min-h-screen justify-center bg-[#E8E7E7] font-orkney">
+    <main className="flex h-full max-h-screen justify-center overflow-hidden bg-[#E8E7E7] font-orkney">
       <SideBar />
       <div className="w-full">
         <Navbar />
         {/* <button onClick={() => mutate()}>test</button> */}
-        <div className="flex h-full max-h-[90vw] flex-wrap p-4">
-          <div id="FORM" className="w-[55%] min-w-[500px] p-3">
+        {/* <ScrollArea h={"90%"}> */}
+        <div className="flex h-full max-h-[90vw] flex-wrap justify-center overflow-scroll p-4 laptop:overflow-hidden">
+          <div id="FORM" className="h-full w-[55%] min-w-[500px] p-3 ">
             <h1
               style={{ textShadow: " 24px 24px #bebebe" }}
-              className="z-50 font-orkneyBold text-5xl"
+              className="z-50 mb-10 font-orkneyBold text-5xl"
             >
               FOTOWOLTAIKA
             </h1>
-            <div className="mt-10 max-w-[95%]">
-              <h2 className="font-orkneyBold">CENA ENERGII</h2>
-              <InputComponent
-                title="W LIMICIE"
-                onChange={mutations.handleInLimitOnChange}
-                step={0.1}
-                value={store.photovoltaic.energyPriceInLimit}
-              />
-              <InputComponent
-                title="POZA LIMICIE"
-                onChange={mutations.handleOutOfLimitOnChange}
-                step={0.1}
-                value={store.photovoltaic.energyPriceOutOfLimit}
-              />
-              <SelectComponent
-                title="LIMIT ZUŻYCIA"
-                onChange={(e) => {
-                  store.updatePhotovoltaic("usageLimit", Number(e));
-                }}
-                value={store.photovoltaic.usageLimit}
-                data={data?.kalkulator.tarczaSolidarnosciowa ?? []}
-              />
+            <ScrollArea h={"75%"}>
+              <div className=" mr-4">
+                <h2 className="font-orkneyBold">CENA ENERGII</h2>
+                <InputComponent
+                  title="W LIMICIE"
+                  onChange={mutations.handleInLimitOnChange}
+                  step={0.1}
+                  value={photovoltaic.energyPriceInLimit}
+                />
+                <InputComponent
+                  title="POZA LIMICIE"
+                  onChange={mutations.handleOutOfLimitOnChange}
+                  step={0.1}
+                  value={photovoltaic.energyPriceOutOfLimit}
+                />
+                <InputComponent
+                  title="ILOŚĆ ENERGII ZUŻYWANEJ ŚREDNIO ROCZNIE"
+                  onChange={(e) => {
+                    store.updatePhotovoltaic(
+                      "recentYearTrendUsage",
+                      e.target.valueAsNumber
+                    );
+                  }}
+                  step={500}
+                  value={
+                    store.photovoltaic.recentYearTrendUsage === 0
+                      ? ""
+                      : store.photovoltaic.recentYearTrendUsage
+                  }
+                />
+                <SelectComponent
+                  title="LIMIT ZUŻYCIA"
+                  onChange={(e) => {
+                    store.updatePhotovoltaic("usageLimit", Number(e));
+                  }}
+                  value={photovoltaic.usageLimit}
+                  data={data?.kalkulator.tarczaSolidarnosciowa ?? []}
+                />
 
-              <h2 className="mt-5 font-orkneyBold">
-                INSTALACJA FOTOWOLTAICZNA
-              </h2>
-              <SelectComponent
-                title="STOPIEŃ RABATU"
-                onChange={(e) =>
-                  store.updatePhotovoltaic("voucher", e == "true")
-                }
-                value={store.photovoltaic.voucher}
-                data={yesNoData}
-              />
-              <InputComponent
-                title="LICZBA MODUŁÓW"
-                onChange={mutations.handleModulesInput}
-                step={1}
-                value={store.photovoltaic.modulesCount}
-              />
+                <h2 className="mt-5 font-orkneyBold">
+                  INSTALACJA FOTOWOLTAICZNA
+                </h2>
+                <SelectComponent
+                  title="STOPIEŃ RABATU"
+                  onChange={(e) =>
+                    store.updatePhotovoltaic("voucher", e == "true")
+                  }
+                  value={photovoltaic.voucher}
+                  data={yesNoData}
+                />
+                <InputComponent
+                  title="LICZBA MODUŁÓW"
+                  onChange={mutations.handleModulesInput}
+                  step={1}
+                  value={photovoltaic.modulesCount}
+                />
+                <SelectComponent
+                  title="MONTAŻ NA GRUNCIE"
+                  onChange={(e) =>
+                    store.updatePhotovoltaic("isGroundMontage", e == "true")
+                  }
+                  value={photovoltaic.isGroundMontage}
+                  data={yesNoData}
+                />
+                <SelectComponent
+                  title="STOPIEŃ AUTOKONSUMPCJI ENERGII Z PV"
+                  onChange={(e) => {
+                    store.updatePhotovoltaic(
+                      "autoconsumptionInPercent",
+                      Number(e)
+                    );
+                  }}
+                  value={photovoltaic.autoconsumptionInPercent}
+                  data={[
+                    { value: "0.1", label: "10%" },
+                    { value: "0.2", label: "20%" },
+                    { value: "0.3", label: "30%" },
+                    { value: "0.4", label: "40%" },
+                    { value: "0.5", label: "50%" },
+                    { value: "0.6", label: "60%" },
+                    { value: "0.7", label: "70%" },
+                    { value: "0.8", label: "80%" },
+                  ]}
+                />
+                {!photovoltaic.isGroundMontage && (
+                  <SelectComponent
+                    title="DACH SKIEROWANY NA POŁUDNIE"
+                    onChange={(e) =>
+                      store.updatePhotovoltaic("southRoof", e == "true")
+                    }
+                    value={photovoltaic.southRoof}
+                    data={yesNoData}
+                  />
+                )}
+                <SelectComponent
+                  title="MONTAŻ NA WIELU POWIEŻNIACH - SOLAR EDGE"
+                  onChange={(e) =>
+                    store.updatePhotovoltaic("isSolarEdgeChoosed", e == "true")
+                  }
+                  value={photovoltaic.isSolarEdgeChoosed}
+                  data={yesNoData}
+                />
+                {!photovoltaic.isGroundMontage && (
+                  <SelectComponent
+                    title="MONTAŻ NA DACHU PŁASKIM"
+                    onChange={(e) =>
+                      store.updatePhotovoltaic(
+                        "isEccentricsChoosed",
+                        e == "true"
+                      )
+                    }
+                    value={photovoltaic.isEccentricsChoosed}
+                    data={yesNoData}
+                  />
+                )}
+                {!photovoltaic.isGroundMontage && (
+                  <SelectComponent
+                    title="SYSTEM DACHOWY - OBIĄŻENIOWY LUB BALASTOWY"
+                    onChange={(e) =>
+                      store.updatePhotovoltaic(
+                        "isRoofWeightSystem",
+                        e == "true"
+                      )
+                    }
+                    value={photovoltaic.isRoofWeightSystem}
+                    data={yesNoData}
+                  />
+                )}
+                <InputComponent
+                  title="OPTYMALIZATORY TIGO DO ZACIEMNIONYCH MODUŁÓW"
+                  onChange={(e) => {
+                    store.updatePhotovoltaic(
+                      "tigoCount",
+                      e.target.valueAsNumber
+                    );
+                    mutations.handleTigoinput(e);
+                  }}
+                  step={1}
+                  value={
+                    photovoltaic.tigoCount == 0 ? "" : photovoltaic.tigoCount
+                  }
+                />
+                <SelectComponent
+                  title="MONTAŻ, DOWÓZ, URUCHOMIENIE - NARZUT DORADCY"
+                  onChange={(e) => {
+                    store.updatePhotovoltaic("consultantMarkup", Number(e));
+                  }}
+                  value={photovoltaic.consultantMarkup}
+                  data={[
+                    { value: "0", label: "0" },
+                    { value: "100", label: "100" },
+                    { value: "200", label: "200" },
+                    { value: "300", label: "300" },
+                    { value: "400", label: "400" },
+                    { value: "500", label: "500" },
+                    { value: "550", label: "550" },
+                    { value: "600", label: "600" },
+                    { value: "650", label: "650" },
+                    { value: "700", label: "700" },
+                    { value: "750", label: "750" },
+                    { value: "800", label: "800" },
+                    { value: "850", label: "850" },
+                    { value: "900", label: "900" },
+                    { value: "950", label: "950" },
+                    { value: "1000", label: "1000" },
+                  ]}
+                />
+                <SelectComponent
+                  title="INWERTER HYBRYDOWY"
+                  onChange={(e) =>
+                    store.updatePhotovoltaic("isInwerterChoosed", e == "true")
+                  }
+                  value={photovoltaic.isInwerterChoosed}
+                  data={yesNoData}
+                />
+                <SelectComponent
+                  title="MAGAZYN CIEPŁA + EMS"
+                  onChange={(e) =>
+                    store.updatePhotovoltaic("energyManageSystem", e == "true")
+                  }
+                  value={photovoltaic.energyManageSystem}
+                  data={yesNoData}
+                />
+                {photovoltaic.energyManageSystem && (
+                  <SelectComponent
+                    title={"WIELKOŚĆ ZBIORNIKA CWU"}
+                    onChange={(e) => {
+                      store.updatePhotovoltaic("tankSize", String(e));
+                      mutations.set_heatStore_cost({
+                        choosed_tank_type: String(e),
+                      });
+                    }}
+                    value={photovoltaic.tankSize}
+                    data={[
+                      { value: "Zbiornik 100L", label: "Zbiornik 100L" },
+                      { value: "Zbiornik 140L", label: "Zbiornik 140L" },
+                      { value: "Zbiornik 200L", label: "Zbiornik 200L" },
+                      {
+                        value: "Zbiornik 200L z wężownicą",
+                        label: "Zbiornik 200L z wężownicą",
+                      },
+                    ]}
+                  />
+                )}
+                <SelectComponent
+                  title="ULGA PODATKOWA"
+                  onChange={(e) =>
+                    store.updatePhotovoltaic("taxCredit", Number(e))
+                  }
+                  value={photovoltaic.taxCredit}
+                  data={[
+                    { value: "0", label: "0%" },
+                    { value: "0.12", label: "12%" },
+                    { value: "0.32", label: "32%" },
+                  ]}
+                />
+              </div>
+            </ScrollArea>
+            <div className="mt-5 flex w-full justify-center">
+              <FiChevronDown className="h-10 w-10 animate-pulse font-extrabold text-gray-400" />
             </div>
           </div>
           <div
             id="CALCULATIONS"
-            className="mt-10 h-3/4 w-[45%] rounded-[50px] bg-white"
+            className="mb-40 h-[500px] w-[70%] rounded-[50px] bg-white laptop:mb-0 laptop:mt-10 laptop:h-3/4 laptop:w-[40%]"
           >
             <h2 className="-translate-y-3 text-center font-orkneyBold text-xl">
               PODGLĄD
             </h2>
+            <div className="text-center font-orkneyBold font-semibold">
+              {calculations.limit_price_trend && (
+                <Group position="center" mt="md" mb="xs">
+                  <Text>CENA ENERGII W LIMICIE</Text>
+                  <Badge color="dark" variant="light" size="lg">
+                    {calculations.limit_price_trend}
+                  </Badge>
+                </Group>
+              )}
+              {calculations.outOfLimit_price_trend && (
+                <Group position="center" mt="md" mb="xs">
+                  <Text>CENA ENERGII POZA LIMITEM</Text>
+                  <Badge color="dark" variant="light" size="lg">
+                    {calculations.outOfLimit_price_trend}
+                  </Badge>
+                </Group>
+              )}
+              {calculations.yearly_costs_with_photovoltaics !== undefined && (
+                <Group position="center" mt="md" mb="xs">
+                  <Text>RACHUNEK ROCZNY Z FOTOWOLTAIKĄ</Text>
+                  <Badge color="green" variant="light" size="lg">
+                    {calculations.yearly_costs_with_photovoltaics}
+                  </Badge>
+                </Group>
+              )}
+              {calculations.total_energy_trend_fee !== undefined && (
+                <Group position="center" mt="md" mb="xs">
+                  <Text>ŁĄCZNA OPŁATA ENERGII ELEKTRYCZNEJ Z PV</Text>
+                  <Badge color="yellow" variant="light" size="lg">
+                    {calculations.total_energy_trend_fee}
+                  </Badge>
+                </Group>
+              )}
+              {calculations.total_payment_energy_transfer !== undefined && (
+                <Group position="center" mt="md" mb="xs">
+                  <Text>
+                    ŁĄCZNA OPŁATA ZA PRZESYŁ ENERGII ELEKTRYCZNEJ Z PV
+                  </Text>
+                  <Badge color="orange" variant="light" size="lg">
+                    {calculations.total_payment_energy_transfer}
+                  </Badge>
+                </Group>
+              )}
+            </div>
           </div>
         </div>
+        {/* </ScrollArea> */}
         {/* <label>Voucher Holiday</label>
             <Select
               onChange={}
