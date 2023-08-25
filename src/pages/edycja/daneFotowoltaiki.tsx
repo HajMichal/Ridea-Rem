@@ -1,12 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { api } from "~/utils/api";
 import { Navbar } from "~/components/Navbar";
 import { SideBar } from "~/components/SideBar";
 import { NumberInput } from "@mantine/core";
 import { type JsonFileData } from "../kalkulator/fotowoltaika";
+import { useRouter } from "next/router";
+import { useSession } from "next-auth/react";
 
 const DaneFotowoltaiki = () => {
   const [inptValue, setInptValue] = useState<number>();
+  const router = useRouter();
+  const { data: sessionData } = useSession();
+
   const { data } = api.dataFlow.downloadFile.useQuery<JsonFileData>();
 
   const { mutate } = api.dataFlow.editJSONFile.useMutation();
@@ -19,6 +24,13 @@ const DaneFotowoltaiki = () => {
     }
   };
   console.log(data);
+
+  useEffect(() => {
+    if (sessionData?.user.role !== 1) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+      void router.push("/");
+    }
+  }, [sessionData, router]);
 
   return (
     <div className="flex h-full min-h-screen justify-center bg-[#E8E7E7] font-orkney">

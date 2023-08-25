@@ -21,7 +21,7 @@ export const loginRouter = createTRPCRouter({
       });
 
       if (user) {
-        return { status: 409, message: "Ten login został już użyty" };
+        throw new Error("Ten login został już użyty");
       }
 
       const salt = await bcrypt.genSalt(10);

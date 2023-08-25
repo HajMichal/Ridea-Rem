@@ -18,7 +18,7 @@ const Account = () => {
 
   const { mutate } = api.login.createAccount.useMutation({
     onError(error) {
-      console.log(error);
+      toast.error(error.message);
     },
     onSuccess(data) {
       toast.success(`Konto zostało utworzone dla ${data.userName}`);

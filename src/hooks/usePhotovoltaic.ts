@@ -6,10 +6,16 @@ export const usePhotovoltaic = () => {
   const store = useStore();
   const { data } = api.dataFlow.downloadFile.useQuery<JsonFileData>();
 
-  const { mutate: set_limit_price_trend, data: limit_price_trend } =
-    api.photovoltaics.price_trend.useMutation(); // D3
-  const { mutate: set_outOfLimit_price_trend, data: outOfLimit_price_trend } =
-    api.photovoltaics.price_trend.useMutation(); // D4
+  const {
+    mutate: set_limit_price_trend,
+    data: limit_price_trend,
+    isLoading: limit_price_trend_loading,
+  } = api.photovoltaics.price_trend.useMutation(); // D3
+  const {
+    mutate: set_outOfLimit_price_trend,
+    data: outOfLimit_price_trend,
+    isLoading: outOfLimit_price_trend_loading,
+  } = api.photovoltaics.price_trend.useMutation(); // D4
   const { mutate: set_system_power, data: system_power } =
     api.photovoltaics.system_power.useMutation(); // D17
   const { mutate: set_estimated_kWh_prod, data: estimated_kWh_prod } =
@@ -35,12 +41,17 @@ export const usePhotovoltaic = () => {
   const {
     mutate: set_yearly_bill_without_photovolatics,
     data: yearly_bill_without_photovolatics,
+    isLoading: yearly_bill_without_photovolatics_loading,
   } = api.photovoltaics.yearly_bill_without_photovolatics.useMutation();
-  const { mutate: set_yearly_total_fees, data: yearly_total_fees } =
-    api.photovoltaics.yearly_total_fees.useMutation();
+  const {
+    mutate: set_yearly_total_fees,
+    data: yearly_total_fees,
+    isLoading: yearly_total_fees_loading,
+  } = api.photovoltaics.yearly_total_fees.useMutation();
   const {
     mutate: set_yearly_costs_with_photovoltaics,
     data: yearly_costs_with_photovoltaics,
+    isLoading: yearly_costs_with_photovoltaics_loading,
   } = api.photovoltaics.yearly_costs_with_photovoltaics.useMutation();
   const { mutate: set_total_save, data: total_save } =
     api.photovoltaics.total_save.useMutation();
@@ -115,6 +126,13 @@ export const usePhotovoltaic = () => {
   };
   return {
     photovoltaic: store.photovoltaic,
+    loading: {
+      limit_price_trend_loading,
+      outOfLimit_price_trend_loading,
+      yearly_bill_without_photovolatics_loading,
+      yearly_total_fees_loading,
+      yearly_costs_with_photovoltaics_loading,
+    },
     mutations: {
       handleModulesInput,
       handleTigoinput,

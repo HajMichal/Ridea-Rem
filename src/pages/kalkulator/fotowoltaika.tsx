@@ -13,7 +13,7 @@ import {
   SideBar,
   TextComponent,
 } from "~/components";
-import { ScrollArea } from "@mantine/core";
+import { ScrollArea, Loader } from "@mantine/core";
 
 export interface JsonFileData {
   kalkulator: {
@@ -49,7 +49,7 @@ export interface JsonFileData {
 
 const Fotowoltaika = () => {
   const store = useStore();
-  const { photovoltaic, calculations, mutations } = usePhotovoltaic();
+  const { photovoltaic, calculations, mutations, loading } = usePhotovoltaic();
 
   const { data: sessionData } = useSession();
   const router = useRouter();
@@ -57,7 +57,6 @@ const Fotowoltaika = () => {
   // const { mutate } = api.dataFlow.setJSONFile.useMutation();
   const { data } = api.dataFlow.downloadFile.useQuery<JsonFileData>();
   console.log(data);
-  // console.log(calculations.estimated_kWh_prod);
 
   // Dotations
   const energyStore_dotation = store.photovoltaic.energyManageSystem
@@ -452,8 +451,7 @@ const Fotowoltaika = () => {
       <SideBar />
       <div className="w-full">
         <Navbar />
-        {/* <button onClick={() => mutate()}>test</button> */}
-        {/* <ScrollArea h={"90%"}> */}
+
         <div className="flex h-full max-h-[90vw] flex-wrap justify-center overflow-scroll p-4 laptop:overflow-hidden">
           <div id="FORM" className="h-full w-[55%] min-w-[500px] p-3 ">
             <h1
@@ -691,427 +689,64 @@ const Fotowoltaika = () => {
             <h2 className="-translate-y-3 text-center font-orkneyBold text-xl">
               PODGLĄD
             </h2>
-            <div className="text-center font-orkneyBold font-semibold">
-              <TextComponent
-                title="CENA ENERGII W LIMICIE"
-                calculations={calculations.limit_price_trend}
-              />
-              <TextComponent
-                title="CENA ENERGII POZA LIMITEM"
-                calculations={calculations.outOfLimit_price_trend}
-              />
-              <TextComponent
-                title="RACHUNEK ROCZNY Z FOTOWOLTAIKĄ"
-                calculations={calculations.yearly_costs_with_photovoltaics}
-                color="green"
-              />
-              <TextComponent
-                title="ŁĄCZNA OPŁATA ZA PRZESYŁ ENERGII ELEKTRYCZNEJ Z PV"
-                calculations={calculations.total_energy_trend_fee}
-                color="yellow"
-              />
-              {energyStore_dotation ||
-              photovoltaics_dotation ||
-              heatStore_dotation ? (
-                <div>
-                  <h2 className="mt-10 text-xl">DOTACJE</h2>
-                  <TextComponent
-                    title="MENAGER ENERGII"
-                    calculations={energyStore_dotation}
-                  />
-                  <TextComponent
-                    title="MÓJ PRĄD FOTOWOLTAIKA"
-                    calculations={photovoltaics_dotation}
-                  />
-                  <TextComponent
-                    title="MAGAZYN CIEPŁA"
-                    calculations={heatStore_dotation}
-                  />
-                </div>
+            <div className="flex justify-center">
+              {loading.limit_price_trend_loading ||
+              loading.outOfLimit_price_trend_loading ||
+              loading.yearly_bill_without_photovolatics_loading ||
+              loading.yearly_costs_with_photovoltaics_loading ||
+              loading.yearly_total_fees_loading ? (
+                <Loader
+                  color="yellow"
+                  size="lg"
+                  variant="dots"
+                  className="mt-40"
+                />
               ) : (
-                ""
+                <div className="text-center font-orkneyBold font-semibold">
+                  <TextComponent
+                    title="CENA ENERGII W LIMICIE"
+                    calculations={calculations.limit_price_trend}
+                  />
+                  <TextComponent
+                    title="CENA ENERGII POZA LIMITEM"
+                    calculations={calculations.outOfLimit_price_trend}
+                  />
+                  <TextComponent
+                    title="RACHUNEK ROCZNY Z FOTOWOLTAIKĄ"
+                    calculations={calculations.yearly_costs_with_photovoltaics}
+                    color="green"
+                  />
+                  <TextComponent
+                    title="ŁĄCZNA OPŁATA ZA PRZESYŁ ENERGII ELEKTRYCZNEJ Z PV"
+                    calculations={calculations.total_energy_trend_fee}
+                    color="yellow"
+                  />
+                  {energyStore_dotation ||
+                  photovoltaics_dotation ||
+                  heatStore_dotation ? (
+                    <div>
+                      <h2 className="mt-10 text-xl">DOTACJE</h2>
+                      <TextComponent
+                        title="MENAGER ENERGII"
+                        calculations={energyStore_dotation}
+                      />
+                      <TextComponent
+                        title="MÓJ PRĄD FOTOWOLTAIKA"
+                        calculations={photovoltaics_dotation}
+                      />
+                      <TextComponent
+                        title="MAGAZYN CIEPŁA"
+                        calculations={heatStore_dotation}
+                      />
+                    </div>
+                  ) : (
+                    ""
+                  )}
+                </div>
               )}
             </div>
           </div>
         </div>
-        {/* </ScrollArea> */}
-        {/* <label>Voucher Holiday</label>
-            <Select
-              onChange={}
-              data={}
-              icon={<MdOutlinePlaylistAddCheckCircle size="1.5rem" />}
-              value={String(store.photovoltaic.voucher)}
-              className="max-w-xs text-black"
-            /> */}
-        {/* <div className="container flex flex-col  justify-center gap-12 px-4 py-16 text-dark">
-          <div>
-            <label className="font-bold">Cena energii</label>
-            <div className="my-1 flex gap-1">
-
-
-          <div>
-            <label className="font-bold">Cena prądu w limicie kWh</label>
-            <div className="flex gap-1">
-              <p>{calculations.limit_price_trend}</p>
-              <p>PLN/kWh</p>
-              <label>Limit zużycia (E4)</label>
-              <Select
-                onChange={(e) => {
-                  store.updatePhotovoltaic("usageLimit", Number(e));
-                }}
-                className="max-w-xs text-black"
-                value={String(store.photovoltaic.usageLimit)}
-                data={data?.kalkulator.tarczaSolidarnosciowa ?? []}
-              />
-            </div>
-          </div>
-          <div className="flex gap-3">
-            <p>cena prądu po przekroczeniu 2000kWh: </p>
-            <p>{calculations.outOfLimit_price_trend}</p>
-            <p>PLN/kWh</p>
-          </div>
-          <div>
-            <p>Ilość energii zużywanej średnio rocznie w kWh (C6)</p>
-            <input
-              type="number"
-              onChange={(e) => {
-                store.updatePhotovoltaic(
-                  "recentYearTrendUsage",
-                  e.target.valueAsNumber
-                );
-              }}
-              value={
-                store.photovoltaic.recentYearTrendUsage === 0
-                  ? ""
-                  : store.photovoltaic.recentYearTrendUsage
-              }
-              className="text-black"
-            />
-          </div>
-          <div>
-            <p>Ilość modułów (E11)</p>
-            <input
-              type="number"
-              onChange={(e) => mutations.handleModulesInput(e)}
-              value={
-                store.photovoltaic.modulesCount === 0
-                  ? ""
-                  : store.photovoltaic.modulesCount
-              }
-              className="text-black"
-            />
-          </div>
-          <div>
-            <p>Stopień autokonsumpcji energii z PV (H6)</p>
-            <Select
-              onChange={(e) => {
-                store.updatePhotovoltaic("autoconsumptionInPercent", Number(e));
-              }}
-              className=" max-w-xs text-black"
-              value={String(store.photovoltaic.autoconsumptionInPercent)}
-              icon={<MdOutlinePlaylistAddCheckCircle size="1.5rem" />}
-              data={[
-                { value: "0.1", label: "10%" },
-                { value: "0.2", label: "20%" },
-                { value: "0.3", label: "30%" },
-                { value: "0.4", label: "40%" },
-                { value: "0.5", label: "50%" },
-                { value: "0.6", label: "60%" },
-                { value: "0.7", label: "70%" },
-                { value: "0.8", label: "80%" },
-              ]}
-            />
-          </div>
-          <div className="flex gap-2">
-            <label htmlFor="">Dach południowy (F9)</label>
-            <Select
-              onChange={(e) =>
-                store.updatePhotovoltaic("southRoof", e == "true")
-              }
-              data={[
-                { value: "true", label: "Tak" },
-                { value: "false", label: "Nie" },
-              ]}
-              icon={<MdOutlinePlaylistAddCheckCircle size="1.5rem" />}
-              value={String(store.photovoltaic.southRoof)}
-              allowDeselect
-              className="max-w-xs text-black"
-            />
-          </div>
-          <div>
-            Łączna opłata za przesył energii elektrycznej{" "}
-            {calculations.total_payment_energy_transfer} PLN
-          </div>
-          <div>
-            Łączna opłata energii elektrycznej{" "}
-            {calculations.total_energy_trend_fee} PLN
-          </div>
-          <div>
-            Rachunek roczny z fotowoltaiką{" "}
-            {calculations.yearly_costs_with_photovoltaics}
-            PLN
-          </div>
-          <div className="flex gap-2">
-            <p>Rachunek roczny za prąd bez fotowoltaiki</p>
-            {calculations.yearly_bill_without_photovolatics}
-            <p>PLN/rok</p>
-          </div>
-          <div className="flex gap-2">
-            <p>Roczna łączna opłata energii elektrycznej </p>
-            {calculations.yearly_total_fees?.yearly_total_trend_fee}
-            <p>PLN/rok</p>
-          </div>
-          <div className="flex gap-2">
-            <p>Roczna łączna opłata za przesył energii elektrycznej </p>
-            {
-              calculations.yearly_total_fees
-                ?.yearly_total_fee_for_energy_transfer
-            }
-          </div>
-          <div className="flex gap-2 ">
-            <p>ŁĄCZNIE OSZCZĘDZASZ </p>
-            {calculations.total_save}
-            <p>PLN/rok</p>
-          </div>
-          <div>
-            <label>Montaż na wielu powierzchniach dachu z Solar Edge</label>
-            <Select
-              onChange={(e) =>
-                store.updatePhotovoltaic("isSolarEdgeChoosed", e == "true")
-              }
-              data={[
-                { value: "true", label: "Tak" },
-                { value: "false", label: "Nie" },
-              ]}
-              icon={<MdOutlinePlaylistAddCheckCircle size="1.5rem" />}
-              value={String(store.photovoltaic.isSolarEdgeChoosed)}
-              className="max-w-xs text-black"
-            />
-          </div>
-          <div>
-            <label>Montaż dach płaski - Ekierki ( kąt dachu poniżej 20º)</label>
-            <Select
-              onChange={(e) =>
-                store.updatePhotovoltaic("isEccentricsChoosed", e == "true")
-              }
-              data={[
-                { value: "true", label: "Tak" },
-                { value: "false", label: "Nie" },
-              ]}
-              icon={<MdOutlinePlaylistAddCheckCircle size="1.5rem" />}
-              value={String(store.photovoltaic.isEccentricsChoosed)}
-              className="max-w-xs text-black"
-            />
-          </div>
-          <div>
-            <label>
-              System dachowy obciążeniowy, balastowy. (tylko na membramie, każdy
-              inny kotwiony do dachu)
-            </label>
-            <Select
-              onChange={(e) =>
-                store.updatePhotovoltaic("isRoofWeightSystem", e == "true")
-              }
-              data={[
-                { value: "true", label: "Tak" },
-                { value: "false", label: "Nie" },
-              ]}
-              icon={<MdOutlinePlaylistAddCheckCircle size="1.5rem" />}
-              value={String(store.photovoltaic.isRoofWeightSystem)}
-              className="max-w-xs text-black"
-            />
-          </div>
-          <div>
-            <label>
-              Montaż NA GRUNCIE (konstrukcja wbijana lub wylane stopy betonowe)
-            </label>
-            <Select
-              onChange={(e) =>
-                store.updatePhotovoltaic("isGroundMontage", e == "true")
-              }
-              data={[
-                { value: "true", label: "Tak" },
-                { value: "false", label: "Nie" },
-              ]}
-              icon={<MdOutlinePlaylistAddCheckCircle size="1.5rem" />}
-              value={String(store.photovoltaic.isGroundMontage)}
-              className="max-w-xs text-black"
-            />
-          </div>
-          <div>
-            <label>
-              Zainstalowanie optymalizatorów TIGO do zacienionych modułów
-              (Wybierz 1 + ilość opymaliz.)
-            </label>
-            <input
-              className="text-black"
-              type="number"
-              onChange={(e) => {
-                store.updatePhotovoltaic("tigoCount", e.target.valueAsNumber);
-                mutations.handleTigoinput(e);
-              }}
-              value={
-                store.photovoltaic.tigoCount == 0
-                  ? ""
-                  : store.photovoltaic.tigoCount
-              }
-            />
-          </div>
-          <div>
-            <label>Montaż , dowóz , uruchomienie ( narzut doradcy )</label>
-            <Select
-              onChange={(e) => {
-                store.updatePhotovoltaic("consultantMarkup", Number(e));
-              }}
-              className=" max-w-xs text-black"
-              icon={<MdOutlinePlaylistAddCheckCircle size="1.5rem" />}
-              value={String(store.photovoltaic.consultantMarkup)}
-              data={[
-                { value: "0", label: "0" },
-                { value: "100", label: "100" },
-                { value: "200", label: "200" },
-                { value: "300", label: "300" },
-                { value: "400", label: "400" },
-                { value: "500", label: "500" },
-                { value: "550", label: "550" },
-                { value: "600", label: "600" },
-                { value: "650", label: "650" },
-                { value: "700", label: "700" },
-                { value: "750", label: "750" },
-                { value: "800", label: "800" },
-                { value: "850", label: "850" },
-                { value: "900", label: "900" },
-                { value: "950", label: "950" },
-                { value: "1000", label: "1000" },
-              ]}
-            />
-          </div>
-          <div>
-            <label>Inwerter hybrydowy</label>
-            <Select
-              onChange={(e) =>
-                store.updatePhotovoltaic("isInwerterChoosed", e == "true")
-              }
-              data={[
-                { value: "true", label: "Tak" },
-                { value: "false", label: "Nie" },
-              ]}
-              icon={<MdOutlinePlaylistAddCheckCircle size="1.5rem" />}
-              value={String(store.photovoltaic.isInwerterChoosed)}
-              className="max-w-xs text-black"
-            />
-          </div>
-          <div>
-
-          </div>
-          <div>
-            <label>Magazyn ciepła + EMS</label>
-            <Select
-              onChange={(e) =>
-                store.updatePhotovoltaic("energyManageSystem", e == "true")
-              }
-              data={[
-                { value: "true", label: "Tak" },
-                { value: "false", label: "Nie" },
-              ]}
-              icon={<MdOutlinePlaylistAddCheckCircle size="1.5rem" />}
-              value={String(store.photovoltaic.energyManageSystem)}
-              className="max-w-xs text-black"
-            />
-          </div>
-          {store.photovoltaic.energyManageSystem && (
-            <div>
-              <label>Wielkość zbiornika CWU</label>
-              <Select
-                onChange={(e: string) => {
-                  store.updatePhotovoltaic("tankSize", e);
-                  mutations.set_heatStore_cost({ choosed_tank_type: e });
-                }}
-                value={String(store.photovoltaic.tankSize)}
-                data={[
-                  { value: "Zbiornik 100L", label: "Zbiornik 100L" },
-                  { value: "Zbiornik 140L", label: "Zbiornik 140L" },
-                  { value: "Zbiornik 200L", label: "Zbiornik 200L" },
-                  {
-                    value: "Zbiornik 200L z wężownicą",
-                    label: "Zbiornik 200L z wężownicą",
-                  },
-                ]}
-                icon={<MdOutlinePlaylistAddCheckCircle size="1.5rem" />}
-                className="max-w-xs text-black"
-              />
-            </div>
-          )}
-          <div>
-            <p>Mój prąd fotowoltaika</p>
-            {photovoltaics_dotation}
-            PLN
-          </div>
-          <div>
-            <p>Manager energii</p>
-            {energyStore_dotation}
-            PLN
-          </div>
-          <div>
-            <p>Magazyn ciepła</p>
-            {heatStore_dotation}
-            PLN
-          </div>
-          <div>
-            <label>Ulga podatkowa</label>
-            <Select
-              onChange={(e) => store.updatePhotovoltaic("taxCredit", Number(e))}
-              data={[
-                { value: "0", label: "0%" },
-                { value: "0.12", label: "12%" },
-                { value: "0.32", label: "32%" },
-              ]}
-              icon={<MdOutlinePlaylistAddCheckCircle size="1.5rem" />}
-              value={String(store.photovoltaic.taxCredit)}
-              className="max-w-xs text-black"
-            />
-          </div>
-
-          <div>
-            <p>
-              Cena za 1KW:{" "}
-              {calculations.installationAndPer1KW_price?.price_per_1KW} PLN
-            </p>
-          </div>
-          <div>
-            <p>
-              WYLICZONA CENA ZA INSTALACJĘ BAZA:
-              {
-                calculations.installationAndPer1KW_price
-                  ?.base_installation_price
-              }{" "}
-              PLN
-            </p>
-          </div>
-          <div>
-            <p>
-              Cena łącznie:{" "}
-              {calculations.totalInstallationCost?.total_installation_cost} PLN
-            </p>
-            <p>
-              Cena łącznie brutto:{" "}
-              {calculations.totalInstallationCost?.total_gross_cost} PLN
-            </p>
-          </div>
-          <div>
-            <p>
-              Ulga podatkowa:
-              {calculations.amount_tax_credit} PLN
-            </p>
-          </div>
-          <div>
-            <p>
-              Kwota po odjęciu ulg:
-              {calculations.finall_installation_cost}
-              PLN
-            </p>
-          </div>
-        </div> */}
       </div>
     </main>
   );
