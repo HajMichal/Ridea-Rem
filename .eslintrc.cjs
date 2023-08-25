@@ -11,6 +11,7 @@ const config = {
     "plugin:@typescript-eslint/stylistic-type-checked",
   ],
   rules: {
+    "@typescript-eslint/prefer-nullish-coalescing": "off",
     "@typescript-eslint/consistent-type-imports": [
       "warn",
       {

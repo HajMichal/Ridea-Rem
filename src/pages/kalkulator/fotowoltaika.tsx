@@ -6,8 +6,14 @@ import { FiChevronDown } from "react-icons/fi";
 
 import useStore from "~/store";
 import { usePhotovoltaic } from "~/hooks/usePhotovoltaic";
-import { SelectComponent, InputComponent, Navbar, SideBar } from "~/components";
-import { Badge, Group, ScrollArea, Text } from "@mantine/core";
+import {
+  SelectComponent,
+  InputComponent,
+  Navbar,
+  SideBar,
+  TextComponent,
+} from "~/components";
+import { ScrollArea } from "@mantine/core";
 
 export interface JsonFileData {
   kalkulator: {
@@ -78,7 +84,11 @@ const Fotowoltaika = () => {
         system_power: calculations.system_power,
       });
     }
-  }, [calculations.system_power, photovoltaic.southRoof]);
+  }, [
+    calculations.system_power,
+    photovoltaic.southRoof,
+    mutations.set_estimated_kWh_prod,
+  ]);
   useEffect(() => {
     if (calculations.estimated_kWh_prod)
       mutations.set_autoconsumption({
@@ -110,6 +120,7 @@ const Fotowoltaika = () => {
     photovoltaic.usageLimit,
     photovoltaic.energyPriceOutOfLimit,
     photovoltaic.recentYearTrendUsage,
+    mutations.set_total_payment_energy_transfer,
   ]);
   useEffect(() => {
     if (calculations.autoconsumption && calculations.estimated_kWh_prod)
@@ -117,13 +128,20 @@ const Fotowoltaika = () => {
         autoconsumption: calculations.autoconsumption,
         estimated_kWh_prod: calculations.estimated_kWh_prod,
       });
-  }, [calculations.autoconsumption, calculations.estimated_kWh_prod]);
+  }, [
+    calculations.autoconsumption,
+    calculations.estimated_kWh_prod,
+    mutations.set_energy_sold_to_distributor,
+  ]);
   useEffect(() => {
     if (calculations.energy_sold_to_distributor)
       mutations.set_accumulated_funds_on_account(
         calculations.energy_sold_to_distributor
       );
-  }, [calculations.energy_sold_to_distributor]);
+  }, [
+    calculations.energy_sold_to_distributor,
+    mutations.set_accumulated_funds_on_account,
+  ]);
   useEffect(() => {
     if (
       calculations.accumulated_funds_on_account &&
@@ -148,6 +166,7 @@ const Fotowoltaika = () => {
     photovoltaic.energyPriceOutOfLimit,
     photovoltaic.usageLimit,
     photovoltaic.recentYearTrendUsage,
+    mutations.set_total_energy_trend_fee,
   ]);
   useEffect(() => {
     if (
@@ -166,6 +185,7 @@ const Fotowoltaika = () => {
     photovoltaic.recentYearTrendUsage,
     calculations.outOfLimit_price_trend,
     calculations.limit_price_trend,
+    mutations.set_yearly_bill_without_photovolatics,
   ]);
   useEffect(() => {
     if (
@@ -184,6 +204,7 @@ const Fotowoltaika = () => {
     photovoltaic.recentYearTrendUsage,
     photovoltaic.energyPriceInLimit,
     photovoltaic.energyPriceOutOfLimit,
+    mutations.set_yearly_total_fees,
   ]);
   useEffect(() => {
     if (
@@ -202,6 +223,7 @@ const Fotowoltaika = () => {
   }, [
     calculations.total_energy_trend_fee,
     calculations.total_payment_energy_transfer,
+    mutations.set_yearly_costs_with_photovoltaics,
   ]);
   useEffect(() => {
     if (
@@ -217,6 +239,7 @@ const Fotowoltaika = () => {
   }, [
     calculations.yearly_costs_with_photovoltaics,
     calculations.yearly_bill_without_photovolatics,
+    mutations.set_total_save,
   ]);
   useEffect(() => {
     if (calculations.system_power && data) {
@@ -225,7 +248,11 @@ const Fotowoltaika = () => {
         dane: data?.kalkulator.dane,
       });
     }
-  }, [data, calculations.system_power]);
+  }, [
+    data,
+    calculations.system_power,
+    mutations.set_installationAndPer1KW_price,
+  ]);
 
   useEffect(() => {
     if (data && photovoltaic.modulesCount)
@@ -234,7 +261,12 @@ const Fotowoltaika = () => {
         isChoosed: photovoltaic.isEccentricsChoosed,
         modules_count: photovoltaic.modulesCount,
       });
-  }, [photovoltaic.modulesCount, data, photovoltaic.isEccentricsChoosed]);
+  }, [
+    photovoltaic.modulesCount,
+    data,
+    photovoltaic.isEccentricsChoosed,
+    mutations.set_ekierki_price,
+  ]);
   useEffect(() => {
     if (data && calculations.system_power)
       mutations.set_bloczki_price({
@@ -242,7 +274,12 @@ const Fotowoltaika = () => {
         isChoosed: photovoltaic.isRoofWeightSystem,
         system_power: calculations.system_power,
       });
-  }, [calculations.system_power, data, photovoltaic.isRoofWeightSystem]);
+  }, [
+    calculations.system_power,
+    data,
+    photovoltaic.isRoofWeightSystem,
+    mutations.set_bloczki_price,
+  ]);
   useEffect(() => {
     if (data && calculations.system_power)
       mutations.set_grunt_price({
@@ -250,7 +287,12 @@ const Fotowoltaika = () => {
         isChoosed: photovoltaic.isGroundMontage,
         system_power: calculations.system_power,
       });
-  }, [calculations.system_power, data, photovoltaic.isGroundMontage]);
+  }, [
+    calculations.system_power,
+    data,
+    photovoltaic.isGroundMontage,
+    mutations.set_grunt_price,
+  ]);
   useEffect(() => {
     if (data && photovoltaic.modulesCount)
       mutations.set_solarEdge_price({
@@ -258,7 +300,12 @@ const Fotowoltaika = () => {
         isChoosed: photovoltaic.isSolarEdgeChoosed,
         modules_count: photovoltaic.modulesCount,
       });
-  }, [photovoltaic.modulesCount, photovoltaic.isSolarEdgeChoosed, data]);
+  }, [
+    photovoltaic.modulesCount,
+    photovoltaic.isSolarEdgeChoosed,
+    data,
+    mutations.set_solarEdge_price,
+  ]);
   useEffect(() => {
     if (data)
       mutations.set_hybridInwerter_price({
@@ -266,7 +313,11 @@ const Fotowoltaika = () => {
           data.kalkulator.koszty_dodatkowe.inwerterHybrydowy,
         isHybridInwerterChoosed: photovoltaic.isInwerterChoosed,
       });
-  }, [data, photovoltaic.isInwerterChoosed]);
+  }, [
+    data,
+    photovoltaic.isInwerterChoosed,
+    mutations.set_hybridInwerter_price,
+  ]);
   useEffect(() => {
     if (calculations.system_power && data)
       mutations.set_markup_costs({
@@ -275,7 +326,13 @@ const Fotowoltaika = () => {
         constantFee: 0,
         consultantFee: photovoltaic.consultantMarkup,
       });
-  }, [store.photovoltaic.consultantMarkup, data]);
+  }, [
+    store.photovoltaic.consultantMarkup,
+    calculations.system_power,
+    data,
+    photovoltaic.consultantMarkup,
+    mutations.set_markup_costs,
+  ]);
   useEffect(() => {
     mutations.set_addon_cost({
       bloczki: calculations.bloczki_price,
@@ -296,6 +353,7 @@ const Fotowoltaika = () => {
     calculations.tigo_price,
     photovoltaic.voucher,
     calculations.markup_costs,
+    mutations.set_addon_cost,
   ]);
   useEffect(() => {
     if (
@@ -313,6 +371,7 @@ const Fotowoltaika = () => {
     calculations.addon_cost,
     calculations.installationAndPer1KW_price?.base_installation_price,
     calculations.heatStore_energyManager_costs,
+    mutations.set_totalInstallationCost,
   ]);
 
   useEffect(() => {
@@ -321,7 +380,12 @@ const Fotowoltaika = () => {
       photovoltaics_dotation: photovoltaics_dotation ?? 0,
       heatStore_dotation: heatStore_dotation ?? 0,
     });
-  }, [heatStore_dotation, photovoltaics_dotation, energyStore_dotation]);
+  }, [
+    heatStore_dotation,
+    photovoltaics_dotation,
+    energyStore_dotation,
+    mutations.set_dotations_sum,
+  ]);
 
   useEffect(() => {
     if (
@@ -336,13 +400,18 @@ const Fotowoltaika = () => {
   }, [
     calculations.dotations_sum,
     calculations.totalInstallationCost?.total_gross_cost,
+    mutations.set_amount_after_dotation,
   ]);
   useEffect(() => {
     mutations.set_heatStore_energyManager_costs({
       heatStore_cost: calculations.heatStore_cost ?? 0,
       isEnergyManagerSystem: photovoltaic.energyManageSystem,
     });
-  }, [calculations.heatStore_cost, photovoltaic.energyManageSystem]);
+  }, [
+    calculations.heatStore_cost,
+    photovoltaic.energyManageSystem,
+    mutations.set_heatStore_energyManager_costs,
+  ]);
 
   useEffect(() => {
     if (
@@ -357,8 +426,9 @@ const Fotowoltaika = () => {
       });
   }, [
     calculations.totalInstallationCost?.total_gross_cost,
-    store.photovoltaic.taxCredit,
+    photovoltaic.taxCredit,
     calculations.dotations_sum,
+    mutations.set_amount_tax_credit,
   ]);
   useEffect(() => {
     if (calculations.amount_after_dotation)
@@ -366,7 +436,11 @@ const Fotowoltaika = () => {
         amount_after_dotation: calculations.amount_after_dotation,
         amount_tax_credit: calculations.amount_tax_credit ?? 0,
       });
-  }, [calculations.amount_after_dotation, calculations.amount_tax_credit]);
+  }, [
+    calculations.amount_after_dotation,
+    calculations.amount_tax_credit,
+    mutations.set_finall_installation_cost,
+  ]);
 
   const yesNoData = [
     { value: "true", label: "Tak" },
@@ -612,53 +686,50 @@ const Fotowoltaika = () => {
           </div>
           <div
             id="CALCULATIONS"
-            className="mb-40 h-[500px] w-[70%] rounded-[50px] bg-white laptop:mb-0 laptop:mt-10 laptop:h-3/4 laptop:w-[40%]"
+            className="mb-40 h-[500px] w-[70%] items-center rounded-[50px] bg-white laptop:mb-0 laptop:mt-10 laptop:h-3/4 laptop:w-[40%]"
           >
             <h2 className="-translate-y-3 text-center font-orkneyBold text-xl">
               PODGLĄD
             </h2>
             <div className="text-center font-orkneyBold font-semibold">
-              {calculations.limit_price_trend && (
-                <Group position="center" mt="md" mb="xs">
-                  <Text>CENA ENERGII W LIMICIE</Text>
-                  <Badge color="dark" variant="light" size="lg">
-                    {calculations.limit_price_trend}
-                  </Badge>
-                </Group>
-              )}
-              {calculations.outOfLimit_price_trend && (
-                <Group position="center" mt="md" mb="xs">
-                  <Text>CENA ENERGII POZA LIMITEM</Text>
-                  <Badge color="dark" variant="light" size="lg">
-                    {calculations.outOfLimit_price_trend}
-                  </Badge>
-                </Group>
-              )}
-              {calculations.yearly_costs_with_photovoltaics !== undefined && (
-                <Group position="center" mt="md" mb="xs">
-                  <Text>RACHUNEK ROCZNY Z FOTOWOLTAIKĄ</Text>
-                  <Badge color="green" variant="light" size="lg">
-                    {calculations.yearly_costs_with_photovoltaics}
-                  </Badge>
-                </Group>
-              )}
-              {calculations.total_energy_trend_fee !== undefined && (
-                <Group position="center" mt="md" mb="xs">
-                  <Text>ŁĄCZNA OPŁATA ENERGII ELEKTRYCZNEJ Z PV</Text>
-                  <Badge color="yellow" variant="light" size="lg">
-                    {calculations.total_energy_trend_fee}
-                  </Badge>
-                </Group>
-              )}
-              {calculations.total_payment_energy_transfer !== undefined && (
-                <Group position="center" mt="md" mb="xs">
-                  <Text>
-                    ŁĄCZNA OPŁATA ZA PRZESYŁ ENERGII ELEKTRYCZNEJ Z PV
-                  </Text>
-                  <Badge color="orange" variant="light" size="lg">
-                    {calculations.total_payment_energy_transfer}
-                  </Badge>
-                </Group>
+              <TextComponent
+                title="CENA ENERGII W LIMICIE"
+                calculations={calculations.limit_price_trend}
+              />
+              <TextComponent
+                title="CENA ENERGII POZA LIMITEM"
+                calculations={calculations.outOfLimit_price_trend}
+              />
+              <TextComponent
+                title="RACHUNEK ROCZNY Z FOTOWOLTAIKĄ"
+                calculations={calculations.yearly_costs_with_photovoltaics}
+                color="green"
+              />
+              <TextComponent
+                title="ŁĄCZNA OPŁATA ZA PRZESYŁ ENERGII ELEKTRYCZNEJ Z PV"
+                calculations={calculations.total_energy_trend_fee}
+                color="yellow"
+              />
+              {energyStore_dotation ||
+              photovoltaics_dotation ||
+              heatStore_dotation ? (
+                <div>
+                  <h2 className="mt-10 text-xl">DOTACJE</h2>
+                  <TextComponent
+                    title="MENAGER ENERGII"
+                    calculations={energyStore_dotation}
+                  />
+                  <TextComponent
+                    title="MÓJ PRĄD FOTOWOLTAIKA"
+                    calculations={photovoltaics_dotation}
+                  />
+                  <TextComponent
+                    title="MAGAZYN CIEPŁA"
+                    calculations={heatStore_dotation}
+                  />
+                </div>
+              ) : (
+                ""
               )}
             </div>
           </div>
