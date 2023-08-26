@@ -38,7 +38,7 @@ const SideBarButton = ({
 };
 
 export const SideBar = () => (
-  <div className="flex h-full max-h-screen min-h-screen w-auto flex-col gap-3  bg-[#191918] font-orkney">
+  <div className="flex h-full justify-between max-h-screen min-h-screen w-auto flex-col gap-3  bg-[#191918] font-orkney">
     <div className="mt-3 flex w-full justify-center">
       <Image
         src={"/logo_solo_white.svg"}
@@ -47,7 +47,7 @@ export const SideBar = () => (
         alt="Logo"
       ></Image>
     </div>
-    <div className=" flex h-full w-full flex-col gap-6 text-white ">
+    <div className="-mt-36 flex h-full w-full flex-col gap-6 text-white ">
       <SideBarButton href="/kalkulator/fotowoltaika" title="FOTOWOLTAIKA" />
       <SideBarButton href="/kalkulator/fotowoltaika_firmy" title="DLA FIRM" />
       <SideBarButton href="/kalkulator/pompy_ciepla" title="POMPY CIEPŁA" />
@@ -56,6 +56,10 @@ export const SideBar = () => (
         title="MAGAZYN ENERGII"
         longWord
       />
+    </div>
+    <div className="text-white text-xs m-3 text-center">
+      <p>IDEA REM </p>
+      <p>© 2023 </p>
     </div>
   </div>
 );
