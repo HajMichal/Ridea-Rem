@@ -38,13 +38,15 @@ const SideBarButton = ({
 };
 
 export const SideBar = () => (
-  <div className="flex h-full justify-between max-h-screen min-h-screen w-auto flex-col gap-3  bg-[#191918] font-orkney">
+  <div className="flex h-full max-h-screen min-h-screen w-auto flex-col justify-between gap-3  bg-[#191918] font-orkney">
     <div className="mt-3 flex w-full justify-center">
       <Image
         src={"/logo_solo_white.svg"}
         width={60}
         height={60}
         alt="Logo"
+        priority
+        className="w-auto max-w-[70px]"
       ></Image>
     </div>
     <div className="-mt-36 flex h-full w-full flex-col gap-6 text-white ">
@@ -57,7 +59,7 @@ export const SideBar = () => (
         longWord
       />
     </div>
-    <div className="text-white text-xs m-3 text-center">
+    <div className="m-3 text-center text-xs text-white">
       <p>IDEA REM </p>
       <p>© 2023 </p>
     </div>

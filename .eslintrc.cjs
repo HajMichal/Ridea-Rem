@@ -12,6 +12,7 @@ const config = {
   ],
   rules: {
     "@typescript-eslint/prefer-nullish-coalescing": "off",
+    "no-unsafe-optional-chaining": "off",
     "@typescript-eslint/consistent-type-imports": [
       "warn",
       {

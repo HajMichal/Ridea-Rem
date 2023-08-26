@@ -12,6 +12,7 @@ module.exports = {
         brand: "#FEEB1A",
         dark: "#303030",
         white: "#FFFFFF",
+        red: "#FE4A49",
       },
       fontFamily: {
         orkney: "Orkney",
