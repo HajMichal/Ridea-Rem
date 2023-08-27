@@ -4,7 +4,7 @@ export default function Home() {
   return (
     <>
       <main className="font-orkney">
-        <div className="w-full bg-red-500">
+        <div className="w-full bg-red">
           <Link href={"/kalkulator/fotowoltaika"}>Fotowoltaika</Link>
         </div>
         <div className="w-full bg-blue-500">

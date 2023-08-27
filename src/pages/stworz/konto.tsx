@@ -53,9 +53,7 @@ const Account = () => {
 
   return (
     <div className="flex min-h-screen w-screen items-start justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c]">
-      <div>
-        <Toaster />
-      </div>
+      <Toaster />
       <div className="mt-40 flex flex-col justify-center p-4">
         <h1 className="mb-4 text-xl font-medium text-white">
           Stwórz nowe konto
