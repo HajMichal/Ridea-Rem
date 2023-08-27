@@ -54,7 +54,7 @@ const Fotowoltaika = () => {
   const { data: sessionData } = useSession();
   const router = useRouter();
 
-  // const { mutate } = api.dataFlow.setJSONFile.useMutation();
+  const { mutate } = api.dataFlow.setJSONFile.useMutation();
   const { data } = api.dataFlow.downloadFile.useQuery<JsonFileData>();
   console.log(data);
 
@@ -452,7 +452,6 @@ const Fotowoltaika = () => {
       <SideBar />
       <div className="w-full">
         <Navbar />
-
         <div className="flex h-full max-h-[90vw] flex-wrap justify-center overflow-scroll p-4 laptop:overflow-hidden">
           <div id="FORM" className="h-full w-[55%] min-w-[500px] p-3 ">
             <h1

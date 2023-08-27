@@ -36,7 +36,7 @@ interface FormTypes {
     solarEdge: number;
   };
   magazynCiepla: number;
-  // tarczaSolidarnosciowa: string[];
+  tarczaSolidarnosciowa: string[];
   prowizjaBiura: number;
 }
 
@@ -85,12 +85,14 @@ const DaneFotowoltaiki = () => {
         },
         magazynCiepla: data?.kalkulator.magazynCiepla,
         prowizjaBiura: data?.kalkulator.prowizjaBiura,
-        // tarczaSolidarnosciowa: data?.kalkulator.tarczaSolidarnosciowa,
+        tarczaSolidarnosciowa: data?.kalkulator.tarczaSolidarnosciowa,
       },
     }
   );
 
   const onSubmit: SubmitHandler<FormTypes> = (data) => {
+    data.tarczaSolidarnosciowa = ["2000", "2600", "3000"];
+    console.log(data);
     mutate({ kalkulator: data });
     close();
   };
