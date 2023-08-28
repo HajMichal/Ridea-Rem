@@ -1,8 +1,17 @@
 import React from "react";
 import { TextComponent } from "./TextComponent";
-import { type PhotovoltaicCalculationSlice } from "~/store/photovoltaicCalculationSlice";
 import { usePhotovoltaic } from "~/hooks/usePhotovoltaic";
 import { Loader } from "@mantine/core";
+import MyDocument from "./CreatePDF";
+
+import dynamic from "next/dynamic";
+
+const DynamicPDFDownloadLink = dynamic(
+  () => import("@react-pdf/renderer").then((mod) => mod.PDFDownloadLink),
+  {
+    ssr: false, // This ensures the component is only rendered on the client side
+  }
+);
 
 interface Dotations {
   energyStore_dotation: number | undefined;
@@ -34,50 +43,62 @@ export const Preview = ({
           <Loader color="yellow" size="lg" variant="dots" className="mt-40" />
         ) : (
           <div className="text-center font-orkneyBold font-semibold">
-            <TextComponent
-              title="CENA ENERGII W LIMICIE"
-              calculations={photovoltaicCalc.limit_price_trend}
-            />
-            <TextComponent
-              title="CENA ENERGII POZA LIMITEM"
-              calculations={photovoltaicCalc.outOfLimit_price_trend}
-            />
-            <TextComponent
-              title="RACHUNEK ROCZNY Z FOTOWOLTAIKĄ"
-              calculations={photovoltaicCalc.yearly_costs_with_photovoltaics}
-              color="green"
-            />
-            <TextComponent
-              title="ŁĄCZNA OPŁATA ENERGII ELEKTRYCZNEJ Z PV"
-              calculations={photovoltaicCalc.total_energy_trend_fee}
-              color="yellow"
-            />
-            <TextComponent
-              title="ŁĄCZNA OPŁATA ZA PRZESYŁ ENERGII ELEKTRYCZNEJ"
-              calculations={photovoltaicCalc.total_payment_energy_transfer}
-              color="orange"
-            />
-            {energyStore_dotation ||
-            photovoltaics_dotation ||
-            heatStore_dotation ? (
-              <div>
-                <h2 className="mt-10 text-xl">DOTACJE</h2>
-                <TextComponent
-                  title="MENAGER ENERGII"
-                  calculations={energyStore_dotation}
-                />
-                <TextComponent
-                  title="MÓJ PRĄD FOTOWOLTAIKA"
-                  calculations={photovoltaics_dotation}
-                />
-                <TextComponent
-                  title="MAGAZYN CIEPŁA"
-                  calculations={heatStore_dotation}
-                />
-              </div>
-            ) : (
-              ""
-            )}
+            <div>
+              <TextComponent
+                title="CENA ENERGII W LIMICIE"
+                calculations={photovoltaicCalc.limit_price_trend}
+              />
+              <TextComponent
+                title="CENA ENERGII POZA LIMITEM"
+                calculations={photovoltaicCalc.outOfLimit_price_trend}
+              />
+              <TextComponent
+                title="RACHUNEK ROCZNY Z FOTOWOLTAIKĄ"
+                calculations={photovoltaicCalc.yearly_costs_with_photovoltaics}
+                color="green"
+              />
+              <TextComponent
+                title="ŁĄCZNA OPŁATA ENERGII ELEKTRYCZNEJ Z PV"
+                calculations={photovoltaicCalc.total_energy_trend_fee}
+                color="yellow"
+              />
+              <TextComponent
+                title="ŁĄCZNA OPŁATA ZA PRZESYŁ ENERGII ELEKTRYCZNEJ"
+                calculations={photovoltaicCalc.total_payment_energy_transfer}
+                color="orange"
+              />
+              {energyStore_dotation ||
+              photovoltaics_dotation ||
+              heatStore_dotation ? (
+                <div>
+                  <h2 className="mt-10 text-xl">DOTACJE</h2>
+                  <TextComponent
+                    title="MENAGER ENERGII"
+                    calculations={energyStore_dotation}
+                  />
+                  <TextComponent
+                    title="MÓJ PRĄD FOTOWOLTAIKA"
+                    calculations={photovoltaics_dotation}
+                  />
+                  <TextComponent
+                    title="MAGAZYN CIEPŁA"
+                    calculations={heatStore_dotation}
+                  />
+                </div>
+              ) : (
+                ""
+              )}
+            </div>
+            <div className="">
+              <DynamicPDFDownloadLink
+                document={<MyDocument />}
+                fileName="Fotowoltaika - Umowa.pdf"
+              >
+                {({ blob, url, loading, error }) =>
+                  loading ? "Wczytywanie umowy..." : "Pobierz umowę!"
+                }
+              </DynamicPDFDownloadLink>
+            </div>
           </div>
         )}
       </div>

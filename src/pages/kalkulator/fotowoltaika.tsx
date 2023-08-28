@@ -49,12 +49,11 @@ export interface JsonFileData {
 
 const Fotowoltaika = () => {
   const store = useStore();
-  const { photovoltaic, photovoltaicCalc, mutations, loading } =
-    usePhotovoltaic();
+  const { photovoltaic, photovoltaicCalc, mutations } = usePhotovoltaic();
   const { data: sessionData } = useSession();
   const router = useRouter();
 
-  const { mutate } = api.dataFlow.setJSONFile.useMutation();
+  // const { mutate } = api.dataFlow.setJSONFile.useMutation();
   const { data } = api.dataFlow.downloadFile.useQuery<JsonFileData>();
   console.log(data);
 
