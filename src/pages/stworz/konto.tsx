@@ -14,7 +14,7 @@ interface FormTypes {
 
 const Account = () => {
   const router = useRouter();
-  const { data: session } = useSession();
+  const { data: sessionData } = useSession();
 
   const { mutate } = api.login.createAccount.useMutation({
     onError(error) {
@@ -22,10 +22,11 @@ const Account = () => {
     },
     onSuccess(data) {
       toast.success(`Konto zostało utworzone dla ${data.userName}`);
+      reset();
     },
   });
 
-  const { register, handleSubmit } = useForm<FormTypes>({
+  const { register, handleSubmit, reset } = useForm<FormTypes>({
     defaultValues: {
       login: "",
       name: "",
@@ -35,20 +36,23 @@ const Account = () => {
   });
 
   useEffect(() => {
-    if (session?.user.role === 3) {
+    if (sessionData?.user.role === 3) {
       void router.push("/");
-    } else if (session === null) {
+    } else if (sessionData === null) {
       void router.push("/auth/signin");
     }
-  }, [session, router]);
+  }, [sessionData, router]);
 
   const onSubmit: SubmitHandler<FormTypes> = (data) => {
-    mutate({
-      login: data.login,
-      name: data.name,
-      password: data.password,
-      role: Number(data.role),
-    });
+    if (sessionData?.user.id) {
+      mutate({
+        login: data.login,
+        name: data.name,
+        password: data.password,
+        role: Number(data.role),
+        parentId: sessionData.user.id,
+      });
+    }
   };
 
   return (
@@ -81,7 +85,7 @@ const Account = () => {
             placeholder="Hasło"
             className="p-1"
           />
-          {session?.user.role === 1 && (
+          {sessionData?.user.role === 1 && (
             <>
               <label htmlFor="role" className="w-full text-center text-white">
                 Ranga

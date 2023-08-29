@@ -12,6 +12,7 @@ export const loginRouter = createTRPCRouter({
         name: z.string(),
         login: z.string(),
         password: z.string(),
+        parentId: z.string(),
         role: z.number().optional(),
       })
     )
@@ -33,8 +34,43 @@ export const loginRouter = createTRPCRouter({
           login: input.login,
           password: hash,
           role: input.role,
+          creator: {
+            connect: { id: input.parentId },
+          },
         },
       });
       return { status: 200, userName: userData.name };
+    }),
+  getUsers: publicProcedure
+    .input(
+      z.object({
+        role: z.number().optional(),
+        userId: z.string().optional(),
+      })
+    )
+    .query(async ({ ctx, input }) => {
+      if (input.role === 1) {
+        const getMenagerWithWorkers = await ctx.prisma.user.findMany({
+          where: { role: 2 },
+          include: {
+            workers: true,
+          },
+        });
+        const getWorkers = await ctx.prisma.user.findUnique({
+          where: { id: input.userId },
+          include: {
+            workers: true,
+          },
+        });
+        return { getMenagerWithWorkers, getWorkers };
+      } else {
+        const getWorkers = await ctx.prisma.user.findUnique({
+          where: { id: input.userId },
+          include: {
+            workers: true,
+          },
+        });
+        return { getWorkers };
+      }
     }),
 });

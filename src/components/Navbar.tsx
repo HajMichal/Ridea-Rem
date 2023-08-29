@@ -38,10 +38,9 @@ export const Navbar = () => {
           ) : (
             ""
           )}
-          {sessionData?.user.role === 2 ||
-            (sessionData?.user.role === 1 && (
-              <LinkComponent href="/stworz/konto" title="KONTA" />
-            ))}
+          {!(sessionData?.user.role === 3) && (
+            <LinkComponent href="/stworz/konto" title="KONTA" />
+          )}
         </div>
         <div className="">
           <AuthShowcase />

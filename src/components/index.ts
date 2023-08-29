@@ -4,6 +4,7 @@ import { Navbar } from "./Navbar";
 import { SideBar } from "./SideBar";
 import { TextComponent } from "./TextComponent";
 import { Preview } from "./Preview";
+import { Loading } from "./Loading";
 
 export {
   SideBar,
@@ -12,4 +13,5 @@ export {
   InputComponent,
   TextComponent,
   Preview,
+  Loading,
 };
