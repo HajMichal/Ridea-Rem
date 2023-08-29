@@ -1,7 +1,7 @@
 import { type StateCreator } from "zustand";
 
 export interface PhotovoltaicsSlice {
-  photovoltaic: {
+  photovoltaicStore: {
     southRoof: boolean;
     voucher: boolean;
     isGroundMontage: boolean;
@@ -25,7 +25,7 @@ export interface PhotovoltaicsSlice {
 }
 
 export const photovoltaicsSlice: StateCreator<PhotovoltaicsSlice> = (set) => ({
-  photovoltaic: {
+  photovoltaicStore: {
     southRoof: false,
     voucher: false,
     isGroundMontage: false,
@@ -48,6 +48,6 @@ export const photovoltaicsSlice: StateCreator<PhotovoltaicsSlice> = (set) => ({
   updatePhotovoltaic: (key, value) =>
     set((state) => ({
       ...state,
-      photovoltaic: { ...state.photovoltaic, [key]: value },
+      photovoltaicStore: { ...state.photovoltaicStore, [key]: value },
     })),
 });

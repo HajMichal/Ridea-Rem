@@ -366,7 +366,7 @@ interface TotalInstallationCostType {
   base_installation_costs: number;
   heatStore_energyManager_costs: number;
 }
-export function totalInstallationCost({
+export function totalInstallationCosts({
   input,
 }: {
   input: TotalInstallationCostType;
@@ -379,7 +379,7 @@ export function totalInstallationCost({
   return {
     total_installation_cost: total_cost,
     total_gross_cost: total_cost + fee_value,
-    fee_value: fee_value,
+    fee_value: Number(fee_value.toFixed(2)),
   };
 }
 

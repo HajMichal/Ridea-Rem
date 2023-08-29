@@ -52,6 +52,8 @@ model User {
   emailVerified DateTime?
   password      String
   image         String?
+  createdBy     String?
+  imposedFee    Int       @default(0)
   accounts      Account[]
   sessions      Session[]
 }

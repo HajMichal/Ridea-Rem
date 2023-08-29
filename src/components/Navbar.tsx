@@ -34,7 +34,7 @@ export const Navbar = () => {
             />
           )}
           {sessionData?.user.role === 2 || sessionData?.user.role === 1 ? (
-            <LinkComponent href="/kalkulator" title="PROWIZJE" />
+            <LinkComponent href="/edycja/prowizje" title="PROWIZJE" />
           ) : (
             ""
           )}

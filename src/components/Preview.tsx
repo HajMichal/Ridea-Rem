@@ -24,7 +24,7 @@ export const Preview = ({
   photovoltaics_dotation,
   heatStore_dotation,
 }: Dotations) => {
-  const { photovoltaicCalc, loading } = usePhotovoltaic();
+  const { photovoltaicCalcStore, loading } = usePhotovoltaic();
 
   return (
     <div
@@ -34,7 +34,7 @@ export const Preview = ({
       <h2 className="-translate-y-3 text-center font-orkneyBold text-xl">
         PODGLĄD
       </h2>
-      <div className="flex justify-center">
+      <div className="flex h-full justify-center">
         {loading.limit_price_trend_loading ||
         loading.outOfLimit_price_trend_loading ||
         loading.yearly_bill_without_photovolatics_loading ||
@@ -42,29 +42,33 @@ export const Preview = ({
         loading.yearly_total_fees_loading ? (
           <Loader color="yellow" size="lg" variant="dots" className="mt-40" />
         ) : (
-          <div className="text-center font-orkneyBold font-semibold">
-            <div>
+          <div className="flex flex-wrap justify-between text-center font-orkneyBold font-semibold">
+            <div className="h-[75%] w-full overflow-y-auto">
               <TextComponent
                 title="CENA ENERGII W LIMICIE"
-                calculations={photovoltaicCalc.limit_price_trend}
+                calculations={photovoltaicCalcStore.limit_price_trend}
               />
               <TextComponent
                 title="CENA ENERGII POZA LIMITEM"
-                calculations={photovoltaicCalc.outOfLimit_price_trend}
+                calculations={photovoltaicCalcStore.outOfLimit_price_trend}
               />
               <TextComponent
                 title="RACHUNEK ROCZNY Z FOTOWOLTAIKĄ"
-                calculations={photovoltaicCalc.yearly_costs_with_photovoltaics}
+                calculations={
+                  photovoltaicCalcStore.yearly_costs_with_photovoltaics
+                }
                 color="green"
               />
               <TextComponent
                 title="ŁĄCZNA OPŁATA ENERGII ELEKTRYCZNEJ Z PV"
-                calculations={photovoltaicCalc.total_energy_trend_fee}
+                calculations={photovoltaicCalcStore.total_energy_trend_fee}
                 color="yellow"
               />
               <TextComponent
                 title="ŁĄCZNA OPŁATA ZA PRZESYŁ ENERGII ELEKTRYCZNEJ"
-                calculations={photovoltaicCalc.total_payment_energy_transfer}
+                calculations={
+                  photovoltaicCalcStore.total_payment_energy_transfer
+                }
                 color="orange"
               />
               {energyStore_dotation ||
@@ -89,9 +93,11 @@ export const Preview = ({
                 ""
               )}
             </div>
-            <div className="">
+            <div className="h-fit w-full animate-pulse">
               <DynamicPDFDownloadLink
-                document={<MyDocument />}
+                document={
+                  <MyDocument photovoltaicCalcStore={photovoltaicCalcStore} />
+                }
                 fileName="Fotowoltaika - Umowa.pdf"
               >
                 {({ blob, url, loading, error }) =>

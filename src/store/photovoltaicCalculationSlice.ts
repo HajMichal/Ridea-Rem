@@ -28,7 +28,7 @@ export interface PhotovoltaicCalculations {
   solarEdge_price: number;
   addon_cost: number;
   markup_costs: number;
-  totalInstallationCost: {
+  totalInstallationCosts: {
     total_installation_cost: number;
     total_gross_cost: number;
     fee_value: number;
@@ -78,7 +78,7 @@ export const photovoltaicCalculationSlice: StateCreator<
     solarEdge_price: 0,
     addon_cost: 0,
     markup_costs: 0,
-    totalInstallationCost: {
+    totalInstallationCosts: {
       total_installation_cost: 0,
       total_gross_cost: 0,
       fee_value: 0,

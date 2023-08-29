@@ -7,7 +7,8 @@ import {
   StyleSheet,
   PDFViewer,
 } from "@react-pdf/renderer";
-import { usePhotovoltaic } from "~/hooks/usePhotovoltaic";
+
+import { PhotovoltaicCalculations } from "~/store/photovoltaicCalculationSlice";
 
 // Create styles
 const styles = StyleSheet.create({
@@ -22,12 +23,16 @@ const styles = StyleSheet.create({
   },
 });
 
+interface DataToPDF {
+  photovoltaicCalcStore: PhotovoltaicCalculations;
+}
 // Create Document Component
-const MyDocument = () => (
+const MyDocument = ({ photovoltaicCalcStore }: DataToPDF) => (
   <Document>
     <Page size="A4" style={styles.page}>
       <View style={styles.section}>
-        <Text>Section #1</Text>
+        <Text> Koszt instalacji po odjęciu podatków:</Text>
+        <Text>{photovoltaicCalcStore.finall_installation_cost}</Text>
       </View>
       <View style={styles.section}>
         <Text>Section #2</Text>

@@ -49,22 +49,22 @@ export interface JsonFileData {
 
 const Fotowoltaika = () => {
   const store = useStore();
-  const { photovoltaic, photovoltaicCalc, mutations } = usePhotovoltaic();
+  const { photovoltaicStore, photovoltaicCalcStore, mutations } =
+    usePhotovoltaic();
   const { data: sessionData } = useSession();
   const router = useRouter();
 
   // const { mutate } = api.dataFlow.setJSONFile.useMutation();
   const { data } = api.dataFlow.downloadFile.useQuery<JsonFileData>();
-  console.log(data);
 
   // Dotations
-  const energyStore_dotation = store.photovoltaic.energyManageSystem
+  const energyStore_dotation = store.photovoltaicStore.energyManageSystem
     ? data?.kalkulator.dotacje.menagerEnergii
     : 0;
-  const photovoltaics_dotation = store.photovoltaic.energyManageSystem
+  const photovoltaics_dotation = store.photovoltaicStore.energyManageSystem
     ? data?.kalkulator.dotacje.mp_mc
     : data?.kalkulator.dotacje.mojPrad;
-  const heatStore_dotation = store.photovoltaic.energyManageSystem
+  const heatStore_dotation = store.photovoltaicStore.energyManageSystem
     ? data?.kalkulator.dotacje.magazynCiepla
     : 0;
 
@@ -76,232 +76,243 @@ const Fotowoltaika = () => {
   }, [sessionData, router]);
 
   useEffect(() => {
-    if (photovoltaicCalc.system_power) {
+    if (photovoltaicCalcStore.system_power) {
       mutations.set_estimated_kWh_prod({
-        southRoof: photovoltaic.southRoof,
-        system_power: photovoltaicCalc.system_power,
+        southRoof: photovoltaicStore.southRoof,
+        system_power: photovoltaicCalcStore.system_power,
       });
     }
   }, [
-    photovoltaicCalc.system_power,
-    photovoltaic.southRoof,
+    photovoltaicCalcStore.system_power,
+    photovoltaicStore.southRoof,
     mutations.set_estimated_kWh_prod,
   ]);
   useEffect(() => {
-    if (photovoltaicCalc.estimated_kWh_prod)
+    if (photovoltaicCalcStore.estimated_kWh_prod)
       mutations.set_autoconsumption({
-        autoconsumption_step: photovoltaic.autoconsumptionInPercent,
-        estimated_kWh_prod: photovoltaicCalc.estimated_kWh_prod,
+        autoconsumption_step: photovoltaicStore.autoconsumptionInPercent,
+        estimated_kWh_prod: photovoltaicCalcStore.estimated_kWh_prod,
       });
   }, [
-    photovoltaic.autoconsumptionInPercent,
-    photovoltaicCalc.estimated_kWh_prod,
+    photovoltaicStore.autoconsumptionInPercent,
+    photovoltaicCalcStore.estimated_kWh_prod,
     mutations.set_autoconsumption,
   ]);
   useEffect(() => {
     if (
-      photovoltaicCalc.autoconsumption &&
-      photovoltaic.energyPriceInLimit &&
-      photovoltaic.energyPriceOutOfLimit &&
-      photovoltaic.recentYearTrendUsage
+      photovoltaicCalcStore.autoconsumption &&
+      photovoltaicStore.energyPriceInLimit &&
+      photovoltaicStore.energyPriceOutOfLimit &&
+      photovoltaicStore.recentYearTrendUsage
     )
       mutations.set_total_payment_energy_transfer({
-        autoconsumption: photovoltaicCalc.autoconsumption,
-        priceInLimit: photovoltaic.energyPriceInLimit,
-        priceOutOfLimit: photovoltaic.energyPriceOutOfLimit,
-        recentYearTrendUsage: photovoltaic.recentYearTrendUsage,
-        usageLimit: photovoltaic.usageLimit,
+        autoconsumption: photovoltaicCalcStore.autoconsumption,
+        priceInLimit: photovoltaicStore.energyPriceInLimit,
+        priceOutOfLimit: photovoltaicStore.energyPriceOutOfLimit,
+        recentYearTrendUsage: photovoltaicStore.recentYearTrendUsage,
+        usageLimit: photovoltaicStore.usageLimit,
       });
   }, [
-    photovoltaicCalc.autoconsumption,
-    photovoltaic.energyPriceInLimit,
-    photovoltaic.usageLimit,
-    photovoltaic.energyPriceOutOfLimit,
-    photovoltaic.recentYearTrendUsage,
+    photovoltaicCalcStore.autoconsumption,
+    photovoltaicStore.energyPriceInLimit,
+    photovoltaicStore.usageLimit,
+    photovoltaicStore.energyPriceOutOfLimit,
+    photovoltaicStore.recentYearTrendUsage,
     mutations.set_total_payment_energy_transfer,
   ]);
   useEffect(() => {
-    if (photovoltaicCalc.autoconsumption && photovoltaicCalc.estimated_kWh_prod)
+    if (
+      photovoltaicCalcStore.autoconsumption &&
+      photovoltaicCalcStore.estimated_kWh_prod
+    )
       mutations.set_energy_sold_to_distributor({
-        autoconsumption: photovoltaicCalc.autoconsumption,
-        estimated_kWh_prod: photovoltaicCalc.estimated_kWh_prod,
+        autoconsumption: photovoltaicCalcStore.autoconsumption,
+        estimated_kWh_prod: photovoltaicCalcStore.estimated_kWh_prod,
       });
   }, [
-    photovoltaicCalc.autoconsumption,
-    photovoltaicCalc.estimated_kWh_prod,
+    photovoltaicCalcStore.autoconsumption,
+    photovoltaicCalcStore.estimated_kWh_prod,
     mutations.set_energy_sold_to_distributor,
   ]);
   useEffect(() => {
-    if (photovoltaicCalc.energy_sold_to_distributor)
+    if (photovoltaicCalcStore.energy_sold_to_distributor)
       mutations.set_accumulated_funds_on_account(
-        photovoltaicCalc.energy_sold_to_distributor
+        photovoltaicCalcStore.energy_sold_to_distributor
       );
   }, [
-    photovoltaicCalc.energy_sold_to_distributor,
+    photovoltaicCalcStore.energy_sold_to_distributor,
     mutations.set_accumulated_funds_on_account,
   ]);
   useEffect(() => {
     if (
-      photovoltaicCalc.accumulated_funds_on_account &&
-      photovoltaicCalc.autoconsumption &&
-      photovoltaic.energyPriceInLimit &&
-      photovoltaic.energyPriceOutOfLimit &&
-      photovoltaic.recentYearTrendUsage
+      photovoltaicCalcStore.accumulated_funds_on_account &&
+      photovoltaicCalcStore.autoconsumption &&
+      photovoltaicStore.energyPriceInLimit &&
+      photovoltaicStore.energyPriceOutOfLimit &&
+      photovoltaicStore.recentYearTrendUsage
     ) {
       mutations.set_total_energy_trend_fee({
         accumulated_funds_on_account:
-          photovoltaicCalc.accumulated_funds_on_account,
-        autoconsumption: photovoltaicCalc.autoconsumption,
-        priceInLimit: photovoltaic.energyPriceInLimit,
-        priceOutOfLimit: photovoltaic.energyPriceOutOfLimit,
-        usageLimit: photovoltaic.usageLimit,
-        recentYearTrendUsage: photovoltaic.recentYearTrendUsage,
+          photovoltaicCalcStore.accumulated_funds_on_account,
+        autoconsumption: photovoltaicCalcStore.autoconsumption,
+        priceInLimit: photovoltaicStore.energyPriceInLimit,
+        priceOutOfLimit: photovoltaicStore.energyPriceOutOfLimit,
+        usageLimit: photovoltaicStore.usageLimit,
+        recentYearTrendUsage: photovoltaicStore.recentYearTrendUsage,
       });
     }
   }, [
-    photovoltaicCalc.accumulated_funds_on_account,
-    photovoltaicCalc.autoconsumption,
-    photovoltaic.energyPriceInLimit,
-    photovoltaic.energyPriceOutOfLimit,
-    photovoltaic.usageLimit,
-    photovoltaic.recentYearTrendUsage,
+    photovoltaicCalcStore.accumulated_funds_on_account,
+    photovoltaicCalcStore.autoconsumption,
+    photovoltaicStore.energyPriceInLimit,
+    photovoltaicStore.energyPriceOutOfLimit,
+    photovoltaicStore.usageLimit,
+    photovoltaicStore.recentYearTrendUsage,
     mutations.set_total_energy_trend_fee,
   ]);
   useEffect(() => {
     if (
-      photovoltaicCalc.limit_price_trend &&
-      photovoltaicCalc.outOfLimit_price_trend &&
-      photovoltaic.recentYearTrendUsage
+      photovoltaicCalcStore.limit_price_trend &&
+      photovoltaicCalcStore.outOfLimit_price_trend &&
+      photovoltaicStore.recentYearTrendUsage
     )
       mutations.set_yearly_bill_without_photovolatics({
-        limit_price_trend: photovoltaicCalc.limit_price_trend,
-        outOfLimit_price_trend: photovoltaicCalc.outOfLimit_price_trend,
-        recentYearTrendUsage: photovoltaic.recentYearTrendUsage,
-        usageLimit: photovoltaic.usageLimit,
+        limit_price_trend: photovoltaicCalcStore.limit_price_trend,
+        outOfLimit_price_trend: photovoltaicCalcStore.outOfLimit_price_trend,
+        recentYearTrendUsage: photovoltaicStore.recentYearTrendUsage,
+        usageLimit: photovoltaicStore.usageLimit,
       });
   }, [
-    photovoltaic.usageLimit,
-    photovoltaic.recentYearTrendUsage,
-    photovoltaicCalc.outOfLimit_price_trend,
-    photovoltaicCalc.limit_price_trend,
+    photovoltaicStore.usageLimit,
+    photovoltaicStore.recentYearTrendUsage,
+    photovoltaicCalcStore.outOfLimit_price_trend,
+    photovoltaicCalcStore.limit_price_trend,
     mutations.set_yearly_bill_without_photovolatics,
   ]);
   useEffect(() => {
     if (
-      photovoltaic.energyPriceInLimit &&
-      photovoltaic.energyPriceOutOfLimit &&
-      photovoltaic.recentYearTrendUsage
+      photovoltaicStore.energyPriceInLimit &&
+      photovoltaicStore.energyPriceOutOfLimit &&
+      photovoltaicStore.recentYearTrendUsage
     )
       mutations.set_yearly_total_fees({
-        energyPriceInLimit: photovoltaic.energyPriceInLimit,
-        energyPriceOutOfLimit: photovoltaic.energyPriceOutOfLimit,
-        recentYearTrendUsage: photovoltaic.recentYearTrendUsage,
-        usageLimit: photovoltaic.usageLimit,
+        energyPriceInLimit: photovoltaicStore.energyPriceInLimit,
+        energyPriceOutOfLimit: photovoltaicStore.energyPriceOutOfLimit,
+        recentYearTrendUsage: photovoltaicStore.recentYearTrendUsage,
+        usageLimit: photovoltaicStore.usageLimit,
       });
   }, [
-    photovoltaic.usageLimit,
-    photovoltaic.recentYearTrendUsage,
-    photovoltaic.energyPriceInLimit,
-    photovoltaic.energyPriceOutOfLimit,
+    photovoltaicStore.usageLimit,
+    photovoltaicStore.recentYearTrendUsage,
+    photovoltaicStore.energyPriceInLimit,
+    photovoltaicStore.energyPriceOutOfLimit,
     mutations.set_yearly_total_fees,
   ]);
   useEffect(() => {
     if (
       // eslint-disable-next-line
-      (photovoltaicCalc.total_energy_trend_fee ||
-        photovoltaicCalc.total_energy_trend_fee === 0) &&
+      (photovoltaicCalcStore.total_energy_trend_fee ||
+        photovoltaicCalcStore.total_energy_trend_fee === 0) &&
       // eslint-disable-next-line
-      (photovoltaicCalc.total_payment_energy_transfer ||
-        photovoltaicCalc.total_payment_energy_transfer === 0)
+      (photovoltaicCalcStore.total_payment_energy_transfer ||
+        photovoltaicCalcStore.total_payment_energy_transfer === 0)
     )
       mutations.set_yearly_costs_with_photovoltaics({
-        total_energy_trend_fee: photovoltaicCalc.total_energy_trend_fee,
+        total_energy_trend_fee: photovoltaicCalcStore.total_energy_trend_fee,
         total_payment_energy_transfer:
-          photovoltaicCalc.total_payment_energy_transfer,
+          photovoltaicCalcStore.total_payment_energy_transfer,
       });
   }, [
-    photovoltaicCalc.total_energy_trend_fee,
-    photovoltaicCalc.total_payment_energy_transfer,
+    photovoltaicCalcStore.total_energy_trend_fee,
+    photovoltaicCalcStore.total_payment_energy_transfer,
     mutations.set_yearly_costs_with_photovoltaics,
   ]);
   useEffect(() => {
     if (
-      photovoltaicCalc.yearly_costs_with_photovoltaics &&
-      photovoltaicCalc.yearly_bill_without_photovolatics
+      photovoltaicCalcStore.yearly_costs_with_photovoltaics &&
+      photovoltaicCalcStore.yearly_bill_without_photovolatics
     )
       mutations.set_total_save({
         yearly_bill_without_photovolatics:
-          photovoltaicCalc.yearly_bill_without_photovolatics,
+          photovoltaicCalcStore.yearly_bill_without_photovolatics,
         yearly_costs_with_photovoltaics:
-          photovoltaicCalc.yearly_costs_with_photovoltaics,
+          photovoltaicCalcStore.yearly_costs_with_photovoltaics,
       });
   }, [
-    photovoltaicCalc.yearly_costs_with_photovoltaics,
-    photovoltaicCalc.yearly_bill_without_photovolatics,
+    photovoltaicCalcStore.yearly_costs_with_photovoltaics,
+    photovoltaicCalcStore.yearly_bill_without_photovolatics,
     mutations.set_total_save,
   ]);
   useEffect(() => {
-    if (photovoltaicCalc.system_power && data) {
+    if (photovoltaicCalcStore.system_power && data) {
       mutations.set_installationAndPer1KW_price({
-        system_power: photovoltaicCalc.system_power,
+        system_power: photovoltaicCalcStore.system_power,
         dane: data?.kalkulator.dane,
       });
     }
   }, [
     data,
-    photovoltaicCalc.system_power,
+    photovoltaicCalcStore.system_power,
     mutations.set_installationAndPer1KW_price,
   ]);
 
   useEffect(() => {
-    if (data && photovoltaic.modulesCount)
+    if (
+      data &&
+      photovoltaicStore.modulesCount &&
+      photovoltaicStore.isEccentricsChoosed
+    )
       mutations.set_ekierki_price({
         price: data.kalkulator.koszty_dodatkowe.ekierki,
-        isChoosed: photovoltaic.isEccentricsChoosed,
-        modules_count: photovoltaic.modulesCount,
+        isChoosed: photovoltaicStore.isEccentricsChoosed,
+        modules_count: photovoltaicStore.modulesCount,
       });
   }, [
-    photovoltaic.modulesCount,
+    photovoltaicStore.modulesCount,
     data,
-    photovoltaic.isEccentricsChoosed,
+    photovoltaicStore.isEccentricsChoosed,
     mutations.set_ekierki_price,
   ]);
   useEffect(() => {
-    if (data && photovoltaicCalc.system_power)
+    if (
+      data &&
+      photovoltaicCalcStore.system_power &&
+      photovoltaicStore.isRoofWeightSystem
+    )
       mutations.set_bloczki_price({
         price: data.kalkulator.koszty_dodatkowe.bloczki,
-        isChoosed: photovoltaic.isRoofWeightSystem,
-        system_power: photovoltaicCalc.system_power,
+        isChoosed: photovoltaicStore.isRoofWeightSystem,
+        system_power: photovoltaicCalcStore.system_power,
       });
   }, [
-    photovoltaicCalc.system_power,
+    photovoltaicCalcStore.system_power,
     data,
-    photovoltaic.isRoofWeightSystem,
+    photovoltaicStore.isRoofWeightSystem,
     mutations.set_bloczki_price,
   ]);
   useEffect(() => {
-    if (data && photovoltaicCalc.system_power)
+    if (data && photovoltaicCalcStore.system_power)
       mutations.set_grunt_price({
         price: data.kalkulator.koszty_dodatkowe.grunt,
-        isChoosed: photovoltaic.isGroundMontage,
-        system_power: photovoltaicCalc.system_power,
+        isChoosed: photovoltaicStore.isGroundMontage,
+        system_power: photovoltaicCalcStore.system_power,
       });
   }, [
-    photovoltaicCalc.system_power,
+    photovoltaicCalcStore.system_power,
     data,
-    photovoltaic.isGroundMontage,
+    photovoltaicStore.isGroundMontage,
     mutations.set_grunt_price,
   ]);
   useEffect(() => {
-    if (data && photovoltaic.modulesCount)
+    if (data && photovoltaicStore.modulesCount)
       mutations.set_solarEdge_price({
         price: data.kalkulator.koszty_dodatkowe.solarEdge,
-        isChoosed: photovoltaic.isSolarEdgeChoosed,
-        modules_count: photovoltaic.modulesCount,
+        isChoosed: photovoltaicStore.isSolarEdgeChoosed,
+        modules_count: photovoltaicStore.modulesCount,
       });
   }, [
-    photovoltaic.modulesCount,
-    photovoltaic.isSolarEdgeChoosed,
+    photovoltaicStore.modulesCount,
+    photovoltaicStore.isSolarEdgeChoosed,
     data,
     mutations.set_solarEdge_price,
   ]);
@@ -310,66 +321,67 @@ const Fotowoltaika = () => {
       mutations.set_hybridInwerter_price({
         hybridInwerter_price:
           data.kalkulator.koszty_dodatkowe.inwerterHybrydowy,
-        isHybridInwerterChoosed: photovoltaic.isInwerterChoosed,
+        isHybridInwerterChoosed: photovoltaicStore.isInwerterChoosed,
       });
   }, [
     data,
-    photovoltaic.isInwerterChoosed,
+    photovoltaicStore.isInwerterChoosed,
     mutations.set_hybridInwerter_price,
   ]);
   useEffect(() => {
-    if (photovoltaicCalc.system_power && data)
+    if (photovoltaicCalcStore.system_power && data)
       mutations.set_markup_costs({
-        system_power: photovoltaicCalc.system_power,
+        system_power: photovoltaicCalcStore.system_power,
         officeFee: data?.kalkulator.prowizjaBiura,
         constantFee: 0,
-        consultantFee: photovoltaic.consultantMarkup,
+        consultantFee: photovoltaicStore.consultantMarkup,
       });
   }, [
-    store.photovoltaic.consultantMarkup,
-    photovoltaicCalc.system_power,
+    store.photovoltaicStore.consultantMarkup,
+    photovoltaicCalcStore.system_power,
     data,
-    photovoltaic.consultantMarkup,
+    photovoltaicStore.consultantMarkup,
     mutations.set_markup_costs,
   ]);
   useEffect(() => {
     mutations.set_addon_cost({
-      bloczki: photovoltaicCalc.bloczki_price,
-      ekierki: photovoltaicCalc.ekierki_price,
-      grunt: photovoltaicCalc.grunt_price,
-      hybridInwerter: photovoltaicCalc.hybridInwerter_price,
-      solarEdge: photovoltaicCalc.solarEdge_price,
-      tigo: photovoltaicCalc.tigo_price,
-      voucher: photovoltaic.voucher,
-      markup_costs: photovoltaicCalc.markup_costs ?? 0,
+      bloczki: photovoltaicCalcStore.bloczki_price,
+      ekierki: photovoltaicCalcStore.ekierki_price,
+      grunt: photovoltaicCalcStore.grunt_price,
+      hybridInwerter: photovoltaicCalcStore.hybridInwerter_price,
+      solarEdge: photovoltaicCalcStore.solarEdge_price,
+      tigo: photovoltaicCalcStore.tigo_price,
+      voucher: photovoltaicStore.voucher,
+      markup_costs: photovoltaicCalcStore.markup_costs ?? 0,
     });
   }, [
-    photovoltaicCalc.bloczki_price,
-    photovoltaicCalc.ekierki_price,
-    photovoltaicCalc.grunt_price,
-    photovoltaicCalc.hybridInwerter_price,
-    photovoltaicCalc.solarEdge_price,
-    photovoltaicCalc.tigo_price,
-    photovoltaic.voucher,
-    photovoltaicCalc.markup_costs,
+    photovoltaicCalcStore.bloczki_price,
+    photovoltaicCalcStore.ekierki_price,
+    photovoltaicCalcStore.grunt_price,
+    photovoltaicCalcStore.hybridInwerter_price,
+    photovoltaicCalcStore.solarEdge_price,
+    photovoltaicCalcStore.tigo_price,
+    photovoltaicStore.voucher,
+    photovoltaicCalcStore.markup_costs,
     mutations.set_addon_cost,
   ]);
   useEffect(() => {
     if (
-      photovoltaicCalc.addon_cost &&
-      photovoltaicCalc.installationAndPer1KW_price?.base_installation_price
+      photovoltaicCalcStore.addon_cost &&
+      photovoltaicCalcStore.installationAndPer1KW_price?.base_installation_price
     )
       mutations.set_totalInstallationCost({
-        addon_costs: photovoltaicCalc.addon_cost,
+        addon_costs: photovoltaicCalcStore.addon_cost,
         base_installation_costs:
-          photovoltaicCalc.installationAndPer1KW_price.base_installation_price,
+          photovoltaicCalcStore.installationAndPer1KW_price
+            .base_installation_price,
         heatStore_energyManager_costs:
-          photovoltaicCalc.heatStore_energyManager_costs ?? 0,
+          photovoltaicCalcStore.heatStore_energyManager_costs ?? 0,
       });
   }, [
-    photovoltaicCalc.addon_cost,
-    photovoltaicCalc.installationAndPer1KW_price?.base_installation_price,
-    photovoltaicCalc.heatStore_energyManager_costs,
+    photovoltaicCalcStore.addon_cost,
+    photovoltaicCalcStore.installationAndPer1KW_price?.base_installation_price,
+    photovoltaicCalcStore.heatStore_energyManager_costs,
     mutations.set_totalInstallationCost,
   ]);
 
@@ -388,56 +400,56 @@ const Fotowoltaika = () => {
 
   useEffect(() => {
     if (
-      photovoltaicCalc.dotations_sum &&
-      photovoltaicCalc.totalInstallationCost?.total_gross_cost
+      photovoltaicCalcStore.dotations_sum &&
+      photovoltaicCalcStore.totalInstallationCosts?.total_gross_cost
     )
       mutations.set_amount_after_dotation({
         gross_instalation_cost:
-          photovoltaicCalc.totalInstallationCost?.total_gross_cost,
-        summed_dotations: photovoltaicCalc.dotations_sum,
+          photovoltaicCalcStore.totalInstallationCosts?.total_gross_cost,
+        summed_dotations: photovoltaicCalcStore.dotations_sum,
       });
   }, [
-    photovoltaicCalc.dotations_sum,
-    photovoltaicCalc.totalInstallationCost?.total_gross_cost,
+    photovoltaicCalcStore.dotations_sum,
+    photovoltaicCalcStore.totalInstallationCosts?.total_gross_cost,
     mutations.set_amount_after_dotation,
   ]);
   useEffect(() => {
     mutations.set_heatStore_energyManager_costs({
-      heatStore_cost: photovoltaicCalc.heatStore_cost ?? 0,
-      isEnergyManagerSystem: photovoltaic.energyManageSystem,
+      heatStore_cost: photovoltaicCalcStore.heatStore_cost ?? 0,
+      isEnergyManagerSystem: photovoltaicStore.energyManageSystem,
     });
   }, [
-    photovoltaicCalc.heatStore_cost,
-    photovoltaic.energyManageSystem,
+    photovoltaicCalcStore.heatStore_cost,
+    photovoltaicStore.energyManageSystem,
     mutations.set_heatStore_energyManager_costs,
   ]);
 
   useEffect(() => {
     if (
-      photovoltaicCalc.totalInstallationCost?.total_gross_cost &&
-      photovoltaicCalc.dotations_sum
+      photovoltaicCalcStore.totalInstallationCosts?.total_gross_cost &&
+      photovoltaicCalcStore.dotations_sum
     )
       mutations.set_amount_tax_credit({
         amount_after_dotation:
-          photovoltaicCalc.totalInstallationCost?.total_gross_cost -
-          photovoltaicCalc.dotations_sum,
-        tax_credit: photovoltaic.taxCredit,
+          photovoltaicCalcStore.totalInstallationCosts?.total_gross_cost -
+          photovoltaicCalcStore.dotations_sum,
+        tax_credit: photovoltaicStore.taxCredit,
       });
   }, [
-    photovoltaicCalc.totalInstallationCost?.total_gross_cost,
-    photovoltaic.taxCredit,
-    photovoltaicCalc.dotations_sum,
+    photovoltaicCalcStore.totalInstallationCosts?.total_gross_cost,
+    photovoltaicStore.taxCredit,
+    photovoltaicCalcStore.dotations_sum,
     mutations.set_amount_tax_credit,
   ]);
   useEffect(() => {
-    if (photovoltaicCalc.amount_after_dotation)
+    if (photovoltaicCalcStore.amount_after_dotation)
       mutations.set_finall_installation_cost({
-        amount_after_dotation: photovoltaicCalc.amount_after_dotation,
-        amount_tax_credit: photovoltaicCalc.amount_tax_credit ?? 0,
+        amount_after_dotation: photovoltaicCalcStore.amount_after_dotation,
+        amount_tax_credit: photovoltaicCalcStore.amount_tax_credit ?? 0,
       });
   }, [
-    photovoltaicCalc.amount_after_dotation,
-    photovoltaicCalc.amount_tax_credit,
+    photovoltaicCalcStore.amount_after_dotation,
+    photovoltaicCalcStore.amount_tax_credit,
     mutations.set_finall_installation_cost,
   ]);
 
@@ -466,13 +478,13 @@ const Fotowoltaika = () => {
                   title="W LIMICIE"
                   onChange={mutations.handleInLimitOnChange}
                   step={0.1}
-                  value={photovoltaic.energyPriceInLimit}
+                  value={photovoltaicStore.energyPriceInLimit}
                 />
                 <InputComponent
                   title="POZA LIMICIE"
                   onChange={mutations.handleOutOfLimitOnChange}
                   step={0.1}
-                  value={photovoltaic.energyPriceOutOfLimit}
+                  value={photovoltaicStore.energyPriceOutOfLimit}
                 />
                 <InputComponent
                   title="ILOŚĆ ENERGII ZUŻYWANEJ ŚREDNIO ROCZNIE"
@@ -484,9 +496,9 @@ const Fotowoltaika = () => {
                   }}
                   step={500}
                   value={
-                    store.photovoltaic.recentYearTrendUsage === 0
+                    store.photovoltaicStore.recentYearTrendUsage === 0
                       ? ""
-                      : store.photovoltaic.recentYearTrendUsage
+                      : store.photovoltaicStore.recentYearTrendUsage
                   }
                 />
                 <SelectComponent
@@ -494,7 +506,7 @@ const Fotowoltaika = () => {
                   onChange={(e) => {
                     store.updatePhotovoltaic("usageLimit", Number(e));
                   }}
-                  value={photovoltaic.usageLimit}
+                  value={photovoltaicStore.usageLimit}
                   data={data?.kalkulator.tarczaSolidarnosciowa ?? []}
                 />
 
@@ -506,21 +518,21 @@ const Fotowoltaika = () => {
                   onChange={(e) =>
                     store.updatePhotovoltaic("voucher", e == "true")
                   }
-                  value={photovoltaic.voucher}
+                  value={photovoltaicStore.voucher}
                   data={yesNoData}
                 />
                 <InputComponent
                   title="LICZBA MODUŁÓW"
                   onChange={mutations.handleModulesInput}
                   step={1}
-                  value={photovoltaic.modulesCount}
+                  value={photovoltaicStore.modulesCount}
                 />
                 <SelectComponent
                   title="MONTAŻ NA GRUNCIE"
                   onChange={(e) =>
                     store.updatePhotovoltaic("isGroundMontage", e == "true")
                   }
-                  value={photovoltaic.isGroundMontage}
+                  value={photovoltaicStore.isGroundMontage}
                   data={yesNoData}
                 />
                 <SelectComponent
@@ -531,7 +543,7 @@ const Fotowoltaika = () => {
                       Number(e)
                     );
                   }}
-                  value={photovoltaic.autoconsumptionInPercent}
+                  value={photovoltaicStore.autoconsumptionInPercent}
                   data={[
                     { value: "0.1", label: "10%" },
                     { value: "0.2", label: "20%" },
@@ -543,13 +555,13 @@ const Fotowoltaika = () => {
                     { value: "0.8", label: "80%" },
                   ]}
                 />
-                {!photovoltaic.isGroundMontage && (
+                {!photovoltaicStore.isGroundMontage && (
                   <SelectComponent
                     title="DACH SKIEROWANY NA POŁUDNIE"
                     onChange={(e) =>
                       store.updatePhotovoltaic("southRoof", e == "true")
                     }
-                    value={photovoltaic.southRoof}
+                    value={photovoltaicStore.southRoof}
                     data={yesNoData}
                   />
                 )}
@@ -558,10 +570,10 @@ const Fotowoltaika = () => {
                   onChange={(e) =>
                     store.updatePhotovoltaic("isSolarEdgeChoosed", e == "true")
                   }
-                  value={photovoltaic.isSolarEdgeChoosed}
+                  value={photovoltaicStore.isSolarEdgeChoosed}
                   data={yesNoData}
                 />
-                {!photovoltaic.isGroundMontage && (
+                {!photovoltaicStore.isGroundMontage && (
                   <SelectComponent
                     title="MONTAŻ NA DACHU PŁASKIM"
                     onChange={(e) =>
@@ -570,11 +582,11 @@ const Fotowoltaika = () => {
                         e == "true"
                       )
                     }
-                    value={photovoltaic.isEccentricsChoosed}
+                    value={photovoltaicStore.isEccentricsChoosed}
                     data={yesNoData}
                   />
                 )}
-                {!photovoltaic.isGroundMontage && (
+                {!photovoltaicStore.isGroundMontage && (
                   <SelectComponent
                     title="SYSTEM DACHOWY - OBIĄŻENIOWY LUB BALASTOWY"
                     onChange={(e) =>
@@ -583,7 +595,7 @@ const Fotowoltaika = () => {
                         e == "true"
                       )
                     }
-                    value={photovoltaic.isRoofWeightSystem}
+                    value={photovoltaicStore.isRoofWeightSystem}
                     data={yesNoData}
                   />
                 )}
@@ -598,7 +610,9 @@ const Fotowoltaika = () => {
                   }}
                   step={1}
                   value={
-                    photovoltaic.tigoCount == 0 ? "" : photovoltaic.tigoCount
+                    photovoltaicStore.tigoCount == 0
+                      ? ""
+                      : photovoltaicStore.tigoCount
                   }
                 />
                 <SelectComponent
@@ -606,7 +620,7 @@ const Fotowoltaika = () => {
                   onChange={(e) => {
                     store.updatePhotovoltaic("consultantMarkup", Number(e));
                   }}
-                  value={photovoltaic.consultantMarkup}
+                  value={photovoltaicStore.consultantMarkup}
                   data={[
                     { value: "0", label: "0" },
                     { value: "100", label: "100" },
@@ -631,7 +645,7 @@ const Fotowoltaika = () => {
                   onChange={(e) =>
                     store.updatePhotovoltaic("isInwerterChoosed", e == "true")
                   }
-                  value={photovoltaic.isInwerterChoosed}
+                  value={photovoltaicStore.isInwerterChoosed}
                   data={yesNoData}
                 />
                 <SelectComponent
@@ -639,10 +653,10 @@ const Fotowoltaika = () => {
                   onChange={(e) =>
                     store.updatePhotovoltaic("energyManageSystem", e == "true")
                   }
-                  value={photovoltaic.energyManageSystem}
+                  value={photovoltaicStore.energyManageSystem}
                   data={yesNoData}
                 />
-                {photovoltaic.energyManageSystem && (
+                {photovoltaicStore.energyManageSystem && (
                   <SelectComponent
                     title={"WIELKOŚĆ ZBIORNIKA CWU"}
                     onChange={(e) => {
@@ -651,7 +665,7 @@ const Fotowoltaika = () => {
                         choosed_tank_type: String(e),
                       });
                     }}
-                    value={photovoltaic.tankSize}
+                    value={photovoltaicStore.tankSize}
                     data={[
                       { value: "Zbiornik 100L", label: "Zbiornik 100L" },
                       { value: "Zbiornik 140L", label: "Zbiornik 140L" },
@@ -668,7 +682,7 @@ const Fotowoltaika = () => {
                   onChange={(e) =>
                     store.updatePhotovoltaic("taxCredit", Number(e))
                   }
-                  value={photovoltaic.taxCredit}
+                  value={photovoltaicStore.taxCredit}
                   data={[
                     { value: "0", label: "0%" },
                     { value: "0.12", label: "12%" },

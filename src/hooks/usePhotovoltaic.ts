@@ -153,7 +153,7 @@ export const usePhotovoltaic = () => {
   const { mutate: set_totalInstallationCost } =
     api.photovoltaics.totalInstallation_cost.useMutation({
       onSuccess: (data) => {
-        store.updatePhotovoltaicCalcs("totalInstallationCost", data);
+        store.updatePhotovoltaicCalcs("totalInstallationCosts", data);
       },
     });
   const { mutate: set_dotations_sum } =
@@ -224,8 +224,8 @@ export const usePhotovoltaic = () => {
     store.updatePhotovoltaic("modulesCount", e.target.valueAsNumber);
   };
   return {
-    photovoltaic: store.photovoltaic,
-    photovoltaicCalc: store.photovoltaicCalculations,
+    photovoltaicStore: store.photovoltaicStore,
+    photovoltaicCalcStore: store.photovoltaicCalculations,
     loading: {
       limit_price_trend_loading,
       outOfLimit_price_trend_loading,
