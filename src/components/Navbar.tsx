@@ -22,7 +22,7 @@ const LinkComponent = ({ href, title }: LinkComponentType) => {
 export const Navbar = () => {
   const { data: sessionData } = useSession();
   return (
-    <div className="w-full">
+    <div className="h-fit w-full">
       <div className="flex h-20 w-full items-center justify-between gap-5 bg-white px-2 font-orkneyLight text-sm font-semibold">
         <div className="flex h-full w-full max-w-[800px] items-center justify-evenly gap-3 text-center laptop:gap-0 ">
           <LinkComponent href="/" title="KALKULACJA" />

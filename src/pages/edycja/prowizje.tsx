@@ -15,7 +15,8 @@ const Prowizje = () => {
   // useQuery to get users to display, menager see his workers, Admin see all menagers with their workers
   const router = useRouter();
   const { data: sessionData } = useSession();
-  const { data } = api.login.getUsers.useQuery(
+
+  const { data } = api.userDataHandling.getUsers.useQuery(
     {
       userId: sessionData?.user.id,
       role: sessionData?.user.role,
@@ -40,7 +41,7 @@ const Prowizje = () => {
       <SideBar />
       <div className="flex max-h-screen w-full flex-wrap justify-center">
         <Navbar />
-        <div className="flex-warp flex w-full gap-10 p-10">
+        <div className="flex-warp flex h-full max-h-[80%] w-full justify-center gap-20 ">
           {sessionData.user.role === 1 && (
             <div>
               <h1>Twoi Menagerowie</h1>
@@ -56,8 +57,15 @@ const Prowizje = () => {
                       key={menager.id}
                     >
                       <Accordion.Control className="font-orkney">
-                        {menager.name} - menager <br /> Wysokość prowizji{" "}
-                        {menager.imposedFee}
+                        <div className="flex flex-wrap items-center gap-5">
+                          <div>
+                            <h2>{menager.name} - menager</h2>
+                            <p>Wysokość prowizji {menager.imposedFee}</p>
+                          </div>
+                          <button className="rounded-xl bg-brand p-2 px-4 font-orkneyBold text-dark">
+                            Zmień prowizję
+                          </button>
+                        </div>
                       </Accordion.Control>
                       <Accordion.Panel>
                         {menager.workers.map((worker) => (
@@ -76,7 +84,7 @@ const Prowizje = () => {
           <div>
             <h1>Twoi Handlowcy</h1>
             <div>
-              {data?.getWorkers?.workers.map((worker) => (
+              {data?.getWorkers?.map((worker) => (
                 <div key={worker.id} className="mb-5 ml-10">
                   {worker.name} - handlowiec <br /> Wysokość prowizji{" "}
                   {worker.imposedFee}

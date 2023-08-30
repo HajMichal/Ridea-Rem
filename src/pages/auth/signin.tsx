@@ -41,8 +41,8 @@ export default function Signin() {
 
   return (
     <div className="grid h-screen w-screen bg-[#E8E7E7] font-orkney laptop:grid-cols-2">
-      <div className="flex h-screen items-center justify-center">
-        <div className="h-[90%] w-5/6  rounded-[60px] bg-white p-10 shadow-sm">
+      <div className="flex h-screen items-center justify-between">
+        <div className="h-[90%] w-5/6  rounded-r-[60px] bg-white p-10 shadow-sm">
           <div className="flex w-full items-center justify-center ">
             <Image
               src={"/logo_solo_color.svg"}
@@ -135,7 +135,7 @@ export default function Signin() {
             height={780}
             alt="Instalacja fotowoltiaki"
             priority
-            className="absolute right-0 h-auto  max-h-[780px] w-[60%] max-w-[1170px] rounded-l-[60px] xxl:max-h-[988px] xxl:max-w-[1482px]"
+            className="absolute right-0 h-auto  max-h-[730px] w-[60%] max-w-[1170px] rounded-l-[60px] xxl:max-h-[888px] xxl:max-w-[1582px]"
           ></Image>
         </div>
       </div>

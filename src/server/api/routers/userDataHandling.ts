@@ -49,6 +49,9 @@ export const loginRouter = createTRPCRouter({
       })
     )
     .query(async ({ ctx, input }) => {
+      const getWorkers = await ctx.prisma.user.findMany({
+        where: { creatorId: input.userId, role: 3 },
+      });
       if (input.role === 1) {
         const getMenagerWithWorkers = await ctx.prisma.user.findMany({
           where: { role: 2 },
@@ -56,21 +59,25 @@ export const loginRouter = createTRPCRouter({
             workers: true,
           },
         });
-        const getWorkers = await ctx.prisma.user.findUnique({
-          where: { id: input.userId },
-          include: {
-            workers: true,
-          },
-        });
+
         return { getMenagerWithWorkers, getWorkers };
-      } else {
-        const getWorkers = await ctx.prisma.user.findUnique({
-          where: { id: input.userId },
-          include: {
-            workers: true,
-          },
-        });
-        return { getWorkers };
       }
+      return { getWorkers };
+    }),
+  imposeTheFee: publicProcedure
+    .input(
+      z.object({
+        userId: z.string(),
+        feeAmount: z.number(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      await ctx.prisma.user.update({
+        where: { id: input.userId },
+        data: {
+          imposedFee: input.feeAmount,
+        },
+      });
+      return { status: 200, message: "Prowizja została nałożona na konto" };
     }),
 });
