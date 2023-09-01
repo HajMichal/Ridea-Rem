@@ -206,6 +206,7 @@ interface TotalSaveType {
   yearly_bill_without_photovolatics: number;
 }
 export function totalSave({ input }: { input: TotalSaveType }) {
+  // A4 D15
   return Number(
     (
       input.yearly_bill_without_photovolatics -
@@ -454,6 +455,54 @@ export function finallInstallationCost({
 }) {
   return Number(
     (input.amount_after_dotation - input.amount_tax_credit).toFixed(2)
+  );
+}
+
+interface EstiamtedPriceForTrendIn1KWHType {
+  recentYearTrendUsage: number;
+  yearly_bill_without_photovolatics: number;
+}
+export function estiamtedPriceForTrendIn1KWH({
+  // A4 E28
+  input,
+}: {
+  input: EstiamtedPriceForTrendIn1KWHType;
+}) {
+  return Number(
+    (
+      input.yearly_bill_without_photovolatics / input.recentYearTrendUsage
+    ).toFixed(2)
+  );
+}
+
+interface SaveOnAutoconsumption {
+  autoconsumption: number;
+  estiamtedPriceForTrendIn1KWH: number;
+}
+export function saveOnAutoconsumption({
+  //A4 F20
+  input,
+}: {
+  input: SaveOnAutoconsumption;
+}) {
+  return Number(
+    (input.autoconsumption * input.estiamtedPriceForTrendIn1KWH).toFixed(2)
+  );
+}
+
+interface YearlyProfitForInstallationType {
+  accumulated_funds_on_account: number;
+  saveOnAutoconsumption: number;
+}
+export function yearlyProfitForInstallation({
+  input,
+}: {
+  input: YearlyProfitForInstallationType;
+}) {
+  return Number(
+    (input.accumulated_funds_on_account + input.saveOnAutoconsumption).toFixed(
+      2
+    )
   );
 }
 

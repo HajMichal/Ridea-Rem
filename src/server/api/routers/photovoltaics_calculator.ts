@@ -238,4 +238,28 @@ export const photovoltaics_calculator = createTRPCRouter({
       })
     )
     .mutation(calc.finallInstallationCost),
+  estiamted_price_for_trend_in_1KWH: publicProcedure
+    .input(
+      z.object({
+        recentYearTrendUsage: z.number(),
+        yearly_bill_without_photovolatics: z.number(),
+      })
+    )
+    .mutation(calc.estiamtedPriceForTrendIn1KWH),
+  save_on_autoconsumption: publicProcedure
+    .input(
+      z.object({
+        autoconsumption: z.number(),
+        estiamtedPriceForTrendIn1KWH: z.number(),
+      })
+    )
+    .mutation(calc.saveOnAutoconsumption),
+  yearly_profit_for_installation: publicProcedure
+    .input(
+      z.object({
+        accumulated_funds_on_account: z.number(),
+        saveOnAutoconsumption: z.number(),
+      })
+    )
+    .mutation(calc.yearlyProfitForInstallation),
 });

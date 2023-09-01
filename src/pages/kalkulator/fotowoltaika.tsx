@@ -452,11 +452,53 @@ const Fotowoltaika = () => {
     photovoltaicCalcStore.amount_tax_credit,
     mutations.set_finall_installation_cost,
   ]);
+  useEffect(() => {
+    if (
+      photovoltaicStore.recentYearTrendUsage &&
+      photovoltaicCalcStore.yearly_bill_without_photovolatics
+    )
+      mutations.set_estiamted_price_for_trend_in_1KWH({
+        recentYearTrendUsage: photovoltaicStore.recentYearTrendUsage,
+        yearly_bill_without_photovolatics:
+          photovoltaicCalcStore.yearly_bill_without_photovolatics,
+      });
+  }, [
+    photovoltaicCalcStore.yearly_bill_without_photovolatics,
+    photovoltaicStore.recentYearTrendUsage,
+    mutations.set_estiamted_price_for_trend_in_1KWH,
+  ]);
+  useEffect(() => {
+    if (
+      photovoltaicCalcStore.autoconsumption &&
+      photovoltaicCalcStore.estiamted_price_for_trend_in_1KWH
+    )
+      mutations.set_save_on_autoconsumption({
+        autoconsumption: photovoltaicCalcStore.autoconsumption,
+        estiamtedPriceForTrendIn1KWH:
+          photovoltaicCalcStore.estiamted_price_for_trend_in_1KWH,
+      });
+  }, [
+    photovoltaicCalcStore.autoconsumption,
+    photovoltaicCalcStore.estiamted_price_for_trend_in_1KWH,
+    mutations.set_save_on_autoconsumption,
+  ]);
+  useEffect(() => {
+    mutations.set_yearly_profit_for_installation({
+      accumulated_funds_on_account:
+        photovoltaicCalcStore.accumulated_funds_on_account,
+      saveOnAutoconsumption: photovoltaicCalcStore.save_on_autoconsumption,
+    });
+  }, [
+    photovoltaicCalcStore.accumulated_funds_on_account,
+    photovoltaicCalcStore.save_on_autoconsumption,
+    mutations.set_yearly_profit_for_installation,
+  ]);
 
   const yesNoData = [
     { value: "true", label: "Tak" },
     { value: "false", label: "Nie" },
   ];
+  console.log(photovoltaicCalcStore.yearly_profit_for_installation);
 
   return (
     <main className="flex h-full max-h-screen justify-center overflow-hidden bg-[#E8E7E7] font-orkney">

@@ -1,14 +1,7 @@
-import React, { useEffect, useState } from "react";
-import {
-  Page,
-  Text,
-  View,
-  Document,
-  StyleSheet,
-  PDFViewer,
-} from "@react-pdf/renderer";
+import React from "react";
+import { Page, Text, View, Document, StyleSheet } from "@react-pdf/renderer";
 
-import { PhotovoltaicCalculations } from "~/store/photovoltaicCalculationSlice";
+import { type PhotovoltaicCalculations } from "~/store/photovoltaicCalculationSlice";
 
 // Create styles
 const styles = StyleSheet.create({

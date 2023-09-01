@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { api } from "~/utils/api";
 import { Navbar } from "~/components/Navbar";
 import { SideBar } from "~/components/SideBar";

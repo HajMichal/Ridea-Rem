@@ -39,6 +39,9 @@ export interface PhotovoltaicCalculations {
   heatStore_cost: number | undefined;
   finall_installation_cost: number;
   heatStore_energyManager_costs: number;
+  estiamted_price_for_trend_in_1KWH: number;
+  save_on_autoconsumption: number;
+  yearly_profit_for_installation: number;
 }
 
 export interface PhotovoltaicCalculationSlice {
@@ -89,6 +92,9 @@ export const photovoltaicCalculationSlice: StateCreator<
     heatStore_cost: 0,
     finall_installation_cost: 0,
     heatStore_energyManager_costs: 0,
+    estiamted_price_for_trend_in_1KWH: 0,
+    save_on_autoconsumption: 0,
+    yearly_profit_for_installation: 0,
   },
   updatePhotovoltaicCalcs: (key, value) =>
     set((state) => ({

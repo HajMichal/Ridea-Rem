@@ -5,6 +5,7 @@ import { SideBar } from "./SideBar";
 import { TextComponent } from "./TextComponent";
 import { Preview } from "./Preview";
 import { Loading } from "./Loading";
+import { UserFeeFormField } from "./UserFeeFormField";
 
 export {
   SideBar,
@@ -14,4 +15,5 @@ export {
   TextComponent,
   Preview,
   Loading,
+  UserFeeFormField,
 };

@@ -100,7 +100,7 @@ export const Preview = ({
                 }
                 fileName="Fotowoltaika - Umowa.pdf"
               >
-                {({ blob, url, loading, error }) =>
+                {({ loading }) =>
                   loading ? "Wczytywanie umowy..." : "Pobierz umowę!"
                 }
               </DynamicPDFDownloadLink>

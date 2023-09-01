@@ -192,6 +192,27 @@ export const usePhotovoltaic = () => {
         store.updatePhotovoltaicCalcs("heatStore_energyManager_costs", data);
       },
     });
+  const { mutate: set_estiamted_price_for_trend_in_1KWH } =
+    api.photovoltaics.estiamted_price_for_trend_in_1KWH.useMutation({
+      onSuccess: (data) => {
+        store.updatePhotovoltaicCalcs(
+          "estiamted_price_for_trend_in_1KWH",
+          data
+        );
+      },
+    });
+  const { mutate: set_save_on_autoconsumption } =
+    api.photovoltaics.save_on_autoconsumption.useMutation({
+      onSuccess: (data) => {
+        store.updatePhotovoltaicCalcs("save_on_autoconsumption", data);
+      },
+    });
+  const { mutate: set_yearly_profit_for_installation } =
+    api.photovoltaics.yearly_profit_for_installation.useMutation({
+      onSuccess: (data) => {
+        store.updatePhotovoltaicCalcs("yearly_profit_for_installation", data);
+      },
+    });
 
   const handleInLimitOnChange = (e: { target: { valueAsNumber: number } }) => {
     if (e.target.valueAsNumber) {
@@ -223,6 +244,7 @@ export const usePhotovoltaic = () => {
     }
     store.updatePhotovoltaic("modulesCount", e.target.valueAsNumber);
   };
+
   return {
     photovoltaicStore: store.photovoltaicStore,
     photovoltaicCalcStore: store.photovoltaicCalculations,
@@ -263,6 +285,9 @@ export const usePhotovoltaic = () => {
       set_heatStore_cost,
       set_finall_installation_cost,
       set_heatStore_energyManager_costs,
+      set_estiamted_price_for_trend_in_1KWH,
+      set_save_on_autoconsumption,
+      set_yearly_profit_for_installation,
     },
   };
 };
