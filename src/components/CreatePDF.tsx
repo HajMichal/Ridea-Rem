@@ -1,5 +1,12 @@
 import React from "react";
-import { Page, Text, View, Document, StyleSheet } from "@react-pdf/renderer";
+import {
+  Page,
+  Text,
+  View,
+  Document,
+  StyleSheet,
+  Image,
+} from "@react-pdf/renderer";
 
 import { type PhotovoltaicCalculations } from "~/store/photovoltaicCalculationSlice";
 
@@ -14,14 +21,23 @@ const styles = StyleSheet.create({
     padding: 10,
     flexGrow: 1,
   },
+  image: {
+    width: "auto",
+    height: "auto",
+  },
 });
 
 interface DataToPDF {
   photovoltaicCalcStore: PhotovoltaicCalculations;
 }
-// Create Document Component
 const MyDocument = ({ photovoltaicCalcStore }: DataToPDF) => (
   <Document>
+    <Page size="A4" style={styles.page}>
+      <Image
+        style={styles.image}
+        src={`${process.env.NEXT_PUBLIC_BASE_URL}/static/login.png`}
+      />
+    </Page>
     <Page size="A4" style={styles.page}>
       <View style={styles.section}>
         <Text> Koszt instalacji po odjęciu podatków:</Text>

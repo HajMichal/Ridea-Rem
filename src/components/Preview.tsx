@@ -3,6 +3,7 @@ import { TextComponent } from "./TextComponent";
 import { usePhotovoltaic } from "~/hooks/usePhotovoltaic";
 import { Loader } from "@mantine/core";
 import MyDocument from "./CreatePDF";
+import Image from "next/image";
 
 import dynamic from "next/dynamic";
 

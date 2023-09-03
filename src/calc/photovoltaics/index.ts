@@ -14,7 +14,7 @@ interface EstimatedKWHProdType {
   system_power: number;
 }
 export function estimatedKWHProd({ input }: { input: EstimatedKWHProdType }) {
-  //      D18 -> szacowana produkcja -> if(F9){ 1020 * C11 } esle if(!F9) {920 * C11}
+  // D18 -> szacowana produkcja -> if(F9){ 1020 * C11 } esle if(!F9) {920 * C11}
   if (input.southRoof) {
     return 1020 * input.system_power;
   } else {

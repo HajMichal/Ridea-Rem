@@ -498,7 +498,6 @@ const Fotowoltaika = () => {
     { value: "true", label: "Tak" },
     { value: "false", label: "Nie" },
   ];
-  console.log(photovoltaicCalcStore.yearly_profit_for_installation);
 
   return (
     <main className="flex h-full max-h-screen justify-center overflow-hidden bg-[#E8E7E7] font-orkney">
