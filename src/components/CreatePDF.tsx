@@ -30,6 +30,7 @@ const styles = StyleSheet.create({
 interface DataToPDF {
   photovoltaicCalcStore: PhotovoltaicCalculations;
 }
+
 const MyDocument = ({ photovoltaicCalcStore }: DataToPDF) => (
   <Document>
     <Page size="A4" style={styles.page}>
