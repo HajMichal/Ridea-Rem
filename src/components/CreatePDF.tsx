@@ -36,7 +36,7 @@ const MyDocument = ({ photovoltaicCalcStore }: DataToPDF) => (
     <Page size="A4" style={styles.page}>
       <Image
         style={styles.image}
-        src={`${process.env.NEXT_PUBLIC_BASE_URL}/static/login.png`}
+        src={`${process.env.NEXT_PUBLIC_BASE_URL}/static/firstPDFPhoto.png`}
       />
     </Page>
     <Page size="A4" style={styles.page}>
