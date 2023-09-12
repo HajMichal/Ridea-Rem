@@ -1,7 +1,7 @@
 import React from "react";
 import { TextComponent } from "./TextComponent";
 import { usePhotovoltaic } from "~/hooks/usePhotovoltaic";
-import { Loader } from "@mantine/core";
+import { Badge, Loader } from "@mantine/core";
 import MyDocument from "./CreatePDF";
 import Image from "next/image";
 
@@ -99,10 +99,17 @@ export const Preview = ({
                 document={
                   <MyDocument photovoltaicCalcStore={photovoltaicCalcStore} />
                 }
-                fileName="Fotowoltaika - Umowa.pdf"
+                fileName="Oferta dla Klienta - IdeaRem.pdf"
               >
                 {({ loading }) =>
-                  loading ? "Wczytywanie umowy..." : "Pobierz umowę!"
+                  loading ? (
+                    "Kalkulacja..."
+                  ) : (
+                    <Badge size="xl" className="bg-brand py-5 text-dark">
+                      {" "}
+                      Pobierz kalkulacje!
+                    </Badge>
+                  )
                 }
               </DynamicPDFDownloadLink>
             </div>
