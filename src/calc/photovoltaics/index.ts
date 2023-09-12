@@ -90,7 +90,9 @@ export function totalEnergyTrendFee({
     : (input.recentYearTrendUsage - input.autoconsumption) *
       (input.priceInLimit * staticData.ENERGY_LIMIT_PERCENT);
 
-  const result = innerValue - input.accumulated_funds_on_account;
+  const result = Number(
+    (innerValue - input.accumulated_funds_on_account).toFixed(2)
+  );
 
   if (result < 0) {
     return 0;

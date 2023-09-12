@@ -4,9 +4,13 @@ import { type MenagerType } from "~/pages/edycja/prowizje";
 
 interface UserFormFieldType {
   user: MenagerType | User;
+  isWorker?: boolean;
 }
 
-export const UserFeeFormField = ({ user }: UserFormFieldType) => {
+export const UserFeeFormField = ({
+  user,
+  isWorker = false,
+}: UserFormFieldType) => {
   const [value, setValue] = useState(0);
   const handleInputValue = () => {
     setValue(0);
@@ -27,13 +31,16 @@ export const UserFeeFormField = ({ user }: UserFormFieldType) => {
           onChange={(e) => setValue(e.target.valueAsNumber)}
           step={100}
         />
-        <button
-          onClick={() => handleInputValue()}
-          className="rounded-xl bg-brand p-2 px-4 font-orkneyBold text-dark"
-          type="submit"
-        >
-          Zmień prowizję
-        </button>
+
+        {isWorker && (
+          <button
+            onClick={() => handleInputValue()}
+            className="rounded-xl bg-brand p-2 px-4 font-orkneyBold text-dark"
+            type="submit"
+          >
+            Zmień prowizję
+          </button>
+        )}
       </div>
     </div>
   );

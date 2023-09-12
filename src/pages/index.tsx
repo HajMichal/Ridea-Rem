@@ -8,7 +8,7 @@ export default function Home() {
         <div className="border-b-2 border-r-2 border-white bg-white">
           <div
             onClick={() => void router.push("/kalkulator/fotowoltaika")}
-            className="h-full w-full  bg-[url('/static/login.png')] bg-cover bg-bottom duration-150 hover:cursor-pointer hover:opacity-90"
+            className="h-full w-full  bg-[url('/login.png')] bg-cover bg-bottom duration-150 hover:cursor-pointer hover:opacity-90"
           ></div>
         </div>
         <div className="border-b-2 border-l-2 border-white bg-white">

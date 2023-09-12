@@ -20,6 +20,7 @@ export interface PhotovoltaicsSlice {
     recentYearTrendUsage: number;
     tigoCount: number;
     tankSize: string;
+    panelPower: number;
   };
   updatePhotovoltaic: (key: string, value: boolean | number | string) => void;
 }
@@ -35,7 +36,7 @@ export const photovoltaicsSlice: StateCreator<PhotovoltaicsSlice> = (set) => ({
     isEccentricsChoosed: false,
     isInwerterChoosed: false,
     taxCredit: 0.12,
-    usageLimit: 2000,
+    usageLimit: 0,
     modulesCount: 0,
     consultantMarkup: 0,
     autoconsumptionInPercent: 0.1,
@@ -43,6 +44,7 @@ export const photovoltaicsSlice: StateCreator<PhotovoltaicsSlice> = (set) => ({
     energyPriceOutOfLimit: 0,
     recentYearTrendUsage: 0,
     tigoCount: 0,
+    panelPower: 400,
     tankSize: "Zbiornik 100L",
   },
   updatePhotovoltaic: (key, value) =>

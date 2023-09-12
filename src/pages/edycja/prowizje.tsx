@@ -54,7 +54,11 @@ const Prowizje = () => {
                             Handlowcy pracujący pod {menager.name}
                           </h2>
                           {menager.workers.map((worker) => (
-                            <UserFeeFormField user={worker} key={worker.id} />
+                            <UserFeeFormField
+                              isWorker
+                              user={worker}
+                              key={worker.id}
+                            />
                           ))}
                         </div>
                       )}
@@ -68,7 +72,7 @@ const Prowizje = () => {
             <h1>Handlowcy</h1>
             <div>
               {data?.getWorkers?.map((worker) => (
-                <UserFeeFormField key={worker.id} user={worker} />
+                <UserFeeFormField isWorker key={worker.id} user={worker} />
               ))}
             </div>
           </div>

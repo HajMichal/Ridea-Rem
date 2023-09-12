@@ -46,7 +46,97 @@ export interface JsonFileData {
     prowizjaBiura: number;
   };
 }
-
+export interface PRZYSZLY_INTERFACE {
+  kalkulator: {
+    czterysta: {
+      dane: {
+        dwa: number;
+        cztery: number;
+        szesc: number;
+        osiem: number;
+        dwanascie: number;
+        dwadziescia: number;
+        trzydziesci: number;
+        piecdziesiat: number;
+      };
+      dotacje: {
+        magazynCiepla: number;
+        menagerEnergii: number;
+        mojPrad: number;
+        mp_mc: number;
+      };
+      koszty_dodatkowe: {
+        bloczki: number;
+        tigo: number;
+        ekierki: number;
+        grunt: number;
+        inwerterHybrydowy: number;
+        solarEdge: number;
+      };
+      magazynCiepla: number;
+      tarczaSolidarnosciowa: string[];
+      prowizjaBiura: number;
+    };
+    czterystaPol: {
+      dane: {
+        dwa: number;
+        cztery: number;
+        szesc: number;
+        osiem: number;
+        dwanascie: number;
+        dwadziescia: number;
+        trzydziesci: number;
+        piecdziesiat: number;
+      };
+      dotacje: {
+        magazynCiepla: number;
+        menagerEnergii: number;
+        mojPrad: number;
+        mp_mc: number;
+      };
+      koszty_dodatkowe: {
+        bloczki: number;
+        tigo: number;
+        ekierki: number;
+        grunt: number;
+        inwerterHybrydowy: number;
+        solarEdge: number;
+      };
+      magazynCiepla: number;
+      tarczaSolidarnosciowa: string[];
+      prowizjaBiura: number;
+    };
+    piecset: {
+      dane: {
+        dwa: number;
+        cztery: number;
+        szesc: number;
+        osiem: number;
+        dwanascie: number;
+        dwadziescia: number;
+        trzydziesci: number;
+        piecdziesiat: number;
+      };
+      dotacje: {
+        magazynCiepla: number;
+        menagerEnergii: number;
+        mojPrad: number;
+        mp_mc: number;
+      };
+      koszty_dodatkowe: {
+        bloczki: number;
+        tigo: number;
+        ekierki: number;
+        grunt: number;
+        inwerterHybrydowy: number;
+        solarEdge: number;
+      };
+      magazynCiepla: number;
+      tarczaSolidarnosciowa: string[];
+      prowizjaBiura: number;
+    };
+  };
+}
 const Fotowoltaika = () => {
   const store = useStore();
   const { photovoltaicStore, photovoltaicCalcStore, mutations } =
@@ -512,7 +602,7 @@ const Fotowoltaika = () => {
             >
               FOTOWOLTAIKA
             </h1>
-            <ScrollArea h={"75%"}>
+            <ScrollArea h={"78%"}>
               <div className=" mr-4">
                 <h2 className="font-orkneyBold">CENA ENERGII</h2>
                 <InputComponent
@@ -542,15 +632,21 @@ const Fotowoltaika = () => {
                       : store.photovoltaicStore.recentYearTrendUsage
                   }
                 />
-                <SelectComponent
+                <InputComponent
                   title="LIMIT ZUŻYCIA"
                   onChange={(e) => {
-                    store.updatePhotovoltaic("usageLimit", Number(e));
+                    store.updatePhotovoltaic(
+                      "usageLimit",
+                      e.target.valueAsNumber
+                    );
                   }}
-                  value={photovoltaicStore.usageLimit}
-                  data={data?.kalkulator.tarczaSolidarnosciowa ?? []}
+                  step={500}
+                  value={
+                    photovoltaicStore.usageLimit === 0
+                      ? ""
+                      : photovoltaicStore.usageLimit
+                  }
                 />
-
                 <h2 className="mt-5 font-orkneyBold">
                   INSTALACJA FOTOWOLTAICZNA
                 </h2>
@@ -561,6 +657,18 @@ const Fotowoltaika = () => {
                   }
                   value={photovoltaicStore.voucher}
                   data={yesNoData}
+                />
+                <SelectComponent
+                  title="MOC POJEDYŃCZEGO PANELA W KW"
+                  onChange={(e) => {
+                    store.updatePhotovoltaic("panelPower", Number(e));
+                  }}
+                  value={photovoltaicStore.panelPower}
+                  data={[
+                    { value: "400", label: "400" },
+                    { value: "455", label: "455" },
+                    { value: "500", label: "500" },
+                  ]}
                 />
                 <InputComponent
                   title="LICZBA MODUŁÓW"
@@ -732,9 +840,6 @@ const Fotowoltaika = () => {
                 />
               </div>
             </ScrollArea>
-            <div className="mt-5 flex w-full justify-center">
-              <FiChevronDown className="h-10 w-10 animate-pulse font-extrabold text-gray-400" />
-            </div>
           </div>
           <Preview
             photovoltaics_dotation={photovoltaics_dotation}

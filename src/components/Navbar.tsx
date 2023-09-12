@@ -23,7 +23,7 @@ export const Navbar = () => {
   const { data: sessionData } = useSession();
   return (
     <div className="h-fit w-full">
-      <div className="flex h-20 w-full items-center justify-between gap-5 bg-white px-2 font-orkneyLight text-sm font-semibold">
+      <div className="flex h-[105px] w-full items-center justify-between gap-5 bg-white px-2 font-orkneyLight text-sm font-semibold">
         <div className="flex h-full w-full max-w-[800px] items-center justify-evenly gap-3 text-center laptop:gap-0 ">
           <LinkComponent href="/" title="KALKULACJA" />
           <LinkComponent href="/" title="AKTUALNOŚCI" />
@@ -61,7 +61,7 @@ function AuthShowcase() {
         {sessionData && (
           <div className="flex gap-1">
             <FaUserCircle className="h-[40px] w-[40px]" />
-            <div className="flex max-w-[130px] flex-wrap font-orkneyLight font-semibold text-dark">
+            <div className="flex max-w-[150px] flex-wrap font-orkneyLight font-semibold text-dark">
               <p className="min-w-[130px] text-left text-sm">
                 {sessionData.user.name?.toUpperCase()}
               </p>

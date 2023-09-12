@@ -25,17 +25,18 @@ export const Preview = ({
   photovoltaics_dotation,
   heatStore_dotation,
 }: Dotations) => {
-  const { photovoltaicCalcStore, loading } = usePhotovoltaic();
+  const { photovoltaicCalcStore, photovoltaicStore, loading } =
+    usePhotovoltaic();
 
   return (
     <div
       id="CALCULATIONS"
-      className="mb-40 h-[500px] w-[70%] items-center rounded-[50px] bg-white laptop:mb-0 laptop:mt-10 laptop:h-3/4 laptop:w-[40%]"
+      className="mb-40 h-[500px] w-[70%] items-center rounded-[50px] bg-white laptop:mb-0 laptop:mt-10 laptop:h-[83%] laptop:w-[40%]"
     >
       <h2 className="-translate-y-3 text-center font-orkneyBold text-xl">
         PODGLĄD
       </h2>
-      <div className="flex h-full justify-center">
+      <div className="flex h-full ">
         {loading.limit_price_trend_loading ||
         loading.outOfLimit_price_trend_loading ||
         loading.yearly_bill_without_photovolatics_loading ||
@@ -43,8 +44,14 @@ export const Preview = ({
         loading.yearly_total_fees_loading ? (
           <Loader color="yellow" size="lg" variant="dots" className="mt-40" />
         ) : (
-          <div className="flex flex-wrap justify-between text-center font-orkneyBold font-semibold">
-            <div className="h-[75%] w-full overflow-y-auto">
+          <div className="flex flex-wrap justify-between font-orkneyBold font-semibold">
+            <div className="mt-3 h-[75%] w-full overflow-y-auto px-10">
+              <TextComponent
+                title="CENA PRĄDU BEZ INSTALACJI FOTOWOLTAICZNEJ"
+                calculations={
+                  photovoltaicCalcStore.yearly_bill_without_photovolatics
+                }
+              />
               <TextComponent
                 title="CENA ENERGII W LIMICIE"
                 calculations={photovoltaicCalcStore.limit_price_trend}
@@ -52,6 +59,16 @@ export const Preview = ({
               <TextComponent
                 title="CENA ENERGII POZA LIMITEM"
                 calculations={photovoltaicCalcStore.outOfLimit_price_trend}
+              />
+              <TextComponent
+                title="ILOŚĆ MODUŁÓW"
+                calculations={photovoltaicStore.modulesCount}
+                unit="SZT"
+              />
+              <TextComponent
+                title="MOC INSTALACJI"
+                calculations={photovoltaicCalcStore.system_power}
+                unit="KW"
               />
               <TextComponent
                 title="RACHUNEK ROCZNY Z FOTOWOLTAIKĄ"
@@ -72,11 +89,48 @@ export const Preview = ({
                 }
                 color="orange"
               />
+              <TextComponent
+                title="DACH POŁUDNIOWY"
+                calculations={photovoltaicStore.southRoof}
+              />
+              <TextComponent
+                title="DACH PŁASKI"
+                calculations={photovoltaicStore.isEccentricsChoosed}
+              />
+              <TextComponent
+                title="MONTAŻ NA GRUNCIE"
+                calculations={photovoltaicStore.isGroundMontage}
+              />
+              <TextComponent
+                title="SOLAR EDGE"
+                calculations={photovoltaicStore.isSolarEdgeChoosed}
+              />
+              <TextComponent
+                title="SYSTEM DACHOWY - OBIĄŻENIOWY LUB BALASTOWY"
+                calculations={photovoltaicStore.isRoofWeightSystem}
+              />
+              <TextComponent
+                title="OPTYMALIZATORY TIGO"
+                calculations={photovoltaicStore.tigoCount}
+                unit="SZT"
+              />
+              <TextComponent
+                title="INWERTER HYBRYDOWY"
+                calculations={photovoltaicStore.isInwerterChoosed}
+              />
+              <TextComponent
+                title="MAGAZYN CIEPŁA + EMS"
+                calculations={photovoltaicStore.energyManageSystem}
+              />
+              <TextComponent
+                title="OSTATECZNA KWOTA ZA INSTALACJĘ"
+                calculations={photovoltaicCalcStore.finall_installation_cost}
+              />
               {energyStore_dotation ||
               photovoltaics_dotation ||
               heatStore_dotation ? (
                 <div>
-                  <h2 className="mt-10 text-xl">DOTACJE</h2>
+                  <h2 className="mt-10 text-center text-xl">DOTACJE</h2>
                   <TextComponent
                     title="MENAGER ENERGII"
                     calculations={energyStore_dotation}
@@ -94,7 +148,7 @@ export const Preview = ({
                 ""
               )}
             </div>
-            <div className="h-fit w-full animate-pulse">
+            <div className="flex h-fit w-full animate-pulse justify-center">
               <DynamicPDFDownloadLink
                 document={
                   <MyDocument photovoltaicCalcStore={photovoltaicCalcStore} />
@@ -103,7 +157,13 @@ export const Preview = ({
               >
                 {({ loading }) =>
                   loading ? (
-                    "Kalkulacja..."
+                    <Badge
+                      size="xl"
+                      aria-disabled
+                      className="bg-brand py-5 text-dark"
+                    >
+                      Kalkulacja...
+                    </Badge>
                   ) : (
                     <Badge size="xl" className="bg-brand py-5 text-dark">
                       {" "}

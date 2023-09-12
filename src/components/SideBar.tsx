@@ -41,12 +41,12 @@ export const SideBar = () => (
   <div className="flex h-full max-h-screen min-h-screen w-auto flex-col justify-between gap-3  bg-[#191918] font-orkney">
     <div className="mt-3 flex w-full justify-center">
       <Image
-        src={"/logo_solo_white.svg"}
-        width={60}
-        height={60}
+        src={"/logo_solo_yellowSun.svg"}
+        width={180}
+        height={180}
         alt="Logo"
         priority
-        className="w-auto max-w-[70px]"
+        className="w-full max-w-[70px]"
       ></Image>
     </div>
     <div className="-mt-36 flex h-full w-full flex-col gap-6 text-white ">
