@@ -44,7 +44,7 @@ export const Preview = ({
         loading.yearly_total_fees_loading ? (
           <Loader color="yellow" size="lg" variant="dots" className="mt-40" />
         ) : (
-          <div className="flex flex-wrap justify-between font-orkneyBold font-semibold">
+          <div className="flex w-full flex-wrap justify-between font-orkneyBold font-semibold">
             <div className="mt-3 h-[75%] w-full overflow-y-auto px-10">
               <TextComponent
                 title="CENA PRĄDU BEZ INSTALACJI FOTOWOLTAICZNEJ"
@@ -130,7 +130,7 @@ export const Preview = ({
               photovoltaics_dotation ||
               heatStore_dotation ? (
                 <div>
-                  <h2 className="mt-10 text-center text-xl">DOTACJE</h2>
+                  <h2 className="mt-10 w-full text-center text-xl">DOTACJE</h2>
                   <TextComponent
                     title="MENAGER ENERGII"
                     calculations={energyStore_dotation}
@@ -166,7 +166,6 @@ export const Preview = ({
                     </Badge>
                   ) : (
                     <Badge size="xl" className="bg-brand py-5 text-dark">
-                      {" "}
                       Pobierz kalkulacje!
                     </Badge>
                   )

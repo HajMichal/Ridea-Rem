@@ -650,14 +650,14 @@ const Fotowoltaika = () => {
                 <h2 className="mt-5 font-orkneyBold">
                   INSTALACJA FOTOWOLTAICZNA
                 </h2>
-                <SelectComponent
+                {/* <SelectComponent
                   title="STOPIEŃ RABATU"
                   onChange={(e) =>
                     store.updatePhotovoltaic("voucher", e == "true")
                   }
                   value={photovoltaicStore.voucher}
                   data={yesNoData}
-                />
+                /> */}
                 <SelectComponent
                   title="MOC POJEDYŃCZEGO PANELA W KW"
                   onChange={(e) => {
@@ -764,7 +764,7 @@ const Fotowoltaika = () => {
                       : photovoltaicStore.tigoCount
                   }
                 />
-                <SelectComponent
+                {/* <SelectComponent
                   title="MONTAŻ, DOWÓZ, URUCHOMIENIE - NARZUT DORADCY"
                   onChange={(e) => {
                     store.updatePhotovoltaic("consultantMarkup", Number(e));
@@ -788,7 +788,7 @@ const Fotowoltaika = () => {
                     { value: "950", label: "950" },
                     { value: "1000", label: "1000" },
                   ]}
-                />
+                /> */}
                 <SelectComponent
                   title="INWERTER HYBRYDOWY"
                   onChange={(e) =>
