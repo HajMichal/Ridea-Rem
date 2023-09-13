@@ -590,7 +590,7 @@ const Fotowoltaika = () => {
   ];
 
   return (
-    <main className="flex h-full max-h-screen justify-center overflow-hidden bg-[#E8E7E7] font-orkney">
+    <main className="flex h-full max-h-screen justify-center overflow-hidden bg-backgroundGray font-orkney">
       <SideBar />
       <div className="w-full">
         <Navbar />

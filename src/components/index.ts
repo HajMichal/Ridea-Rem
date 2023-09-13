@@ -6,6 +6,7 @@ import { TextComponent } from "./TextComponent";
 import { Preview } from "./Preview";
 import { Loading } from "./Loading";
 import { UserFeeFormField } from "./UserFeeFormField";
+import { PdfGeneratorButton } from "./PdfGeneratorButton";
 
 export {
   SideBar,
@@ -16,4 +17,5 @@ export {
   Preview,
   Loading,
   UserFeeFormField,
+  PdfGeneratorButton,
 };
