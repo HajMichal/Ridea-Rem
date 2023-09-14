@@ -584,6 +584,17 @@ const Fotowoltaika = () => {
     mutations.set_yearly_profit_for_installation,
   ]);
 
+  useEffect(() => {
+    mutations.set_payment_return_time({
+      finallInstallationCost: photovoltaicCalcStore.finall_installation_cost,
+      yearlyProfit: photovoltaicCalcStore.yearly_profit_for_installation,
+    });
+  }, [
+    photovoltaicCalcStore.finall_installation_cost,
+    photovoltaicCalcStore.yearly_profit_for_installation,
+    mutations.set_payment_return_time,
+  ]);
+
   const yesNoData = [
     { value: "true", label: "Tak" },
     { value: "false", label: "Nie" },

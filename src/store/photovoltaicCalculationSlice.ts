@@ -42,6 +42,7 @@ export interface PhotovoltaicCalculations {
   estiamted_price_for_trend_in_1KWH: number;
   save_on_autoconsumption: number;
   yearly_profit_for_installation: number;
+  payment_return_time: { years: number; months: number };
 }
 
 export interface PhotovoltaicCalculationSlice {
@@ -95,6 +96,7 @@ export const photovoltaicCalculationSlice: StateCreator<
     estiamted_price_for_trend_in_1KWH: 0,
     save_on_autoconsumption: 0,
     yearly_profit_for_installation: 0,
+    payment_return_time: { years: 0, months: 0 },
   },
   updatePhotovoltaicCalcs: (key, value) =>
     set((state) => ({

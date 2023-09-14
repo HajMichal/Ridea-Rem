@@ -84,11 +84,41 @@ const styles = StyleSheet.create({
     backgroundColor: "#FEEB1A",
     borderBottomLeftRadius: "50%",
     borderTopRightRadius: "50%",
+    padding: 12,
+    fontSize: 12,
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    width: "100%",
+    marginVertical: 3,
+    flexDirection: "row",
+  },
+  priceRow: {
+    paddingHorizontal: 20,
+    backgroundColor: "#FEEB1A",
+    borderBottomLeftRadius: "50%",
+    borderTopRightRadius: "50%",
+    padding: 10,
+    fontSize: 12,
+    display: "flex",
+    width: "75%",
+    marginVertical: 3,
+    justifyContent: "space-between",
+    alignItems: "center",
+    flexDirection: "row",
+    marginTop: 100,
+  },
+  paymentReturnTime: {
+    paddingHorizontal: 20,
+    backgroundColor: "#FEEB1A",
+    borderBottomLeftRadius: "50%",
+    borderTopRightRadius: "50%",
     padding: 10,
     fontSize: 12,
     display: "flex",
     justifyContent: "space-between",
-    width: "100%",
+    alignItems: "center",
+    width: "75%",
     marginVertical: 3,
     flexDirection: "row",
   },
@@ -129,7 +159,7 @@ const MyDocument = ({
 
         <View style={styles.eachRow}>
           <Text>TWOJE OBECNE ZUŻYCIE ENERGII </Text>
-          <Text>9000</Text>
+          <Text>{photovoltaicStore.recentYearTrendUsage} kWh</Text>
         </View>
         <View style={styles.eachRow}>
           <Text>TARCZA SOLIDARNOŚCIOWA</Text>
@@ -137,19 +167,23 @@ const MyDocument = ({
         </View>
         <View style={styles.eachRow}>
           <Text>KOSZTY ENERGII ELEKTRYCZNEJ </Text>
-          <Text>9000</Text>
+          <Text>{photovoltaicCalcStore.total_energy_trend_fee} zł</Text>
         </View>
         <View style={styles.eachRow}>
           <Text>KOSZTY OPŁAT DYSTRYBUCJI</Text>
-          <Text>9000</Text>
+          <Text>{photovoltaicCalcStore.total_payment_energy_transfer} zł</Text>
         </View>
         <View style={styles.eachRow}>
           <Text>PRZEWIDYWANA WYSOKOŚC RACHUNKU ZA 2023 </Text>
-          <Text>9000</Text>
+          <Text>
+            {photovoltaicCalcStore.yearly_bill_without_photovolatics} zł
+          </Text>
         </View>
         <View style={styles.eachRow}>
           <Text>ŚREDNI KOSZT KAŻDEJ kWh </Text>
-          <Text>9000</Text>
+          <Text>
+            {photovoltaicCalcStore.estiamted_price_for_trend_in_1KWH} zł
+          </Text>
         </View>
         <View style={styles.eachRow}>
           <Text>PRZEWIDYWANA PRODUKCJA ENERGI Z PV </Text>
@@ -168,12 +202,68 @@ const MyDocument = ({
         </View>
         <View style={styles.eachRow}>
           <Text>WARTOŚĆ SPRZEDANEJ ENERGII (0,72 zł/kWh)</Text>
-          <Text>{photovoltaicCalcStore.accumulated_funds_on_account} PLN</Text>
+          <Text>{photovoltaicCalcStore.accumulated_funds_on_account} zł</Text>
+        </View>
+        <View style={styles.priceRow}>
+          <Text>ZYSK ROCZNY Z PV </Text>
+          <Text
+            style={{
+              fontSize: 30,
+              fontWeight: 600,
+              marginRight: 20,
+              paddingTop: 10,
+            }}
+          >
+            {photovoltaicCalcStore.accumulated_funds_on_account} zł
+          </Text>
+        </View>
+        <View style={styles.paymentReturnTime}>
+          <Text>ZWROT NASTĄPI PO CZASIE:</Text>
+          <Text>
+            {photovoltaicCalcStore.payment_return_time.years}{" "}
+            {photovoltaicCalcStore.payment_return_time.years === 1
+              ? "ROK "
+              : "LAT "}
+            I {photovoltaicCalcStore.payment_return_time.months}{" "}
+            {photovoltaicCalcStore.payment_return_time.months === 1
+              ? "MIESIĄCA"
+              : "MIESIĘCY"}
+          </Text>
         </View>
       </View>
-      <View>
-        {/* <Image src={""}></Image> */}
-        <Text>Idea Rem</Text>
+      <View
+        style={{
+          width: 100,
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
+        }}
+      >
+        <Image
+          style={{ width: 50, height: 50, marginTop: 50, marginLeft: 10 }}
+          src={`${process.env.NEXT_PUBLIC_BASE_URL}/static/pdf/blackLogo.png`}
+        />
+        <Image
+          style={{
+            transform: "rotate(90deg)",
+            width: 250,
+            height: "auto",
+            marginLeft: -90,
+            marginTop: -260,
+          }}
+          src={`${process.env.NEXT_PUBLIC_BASE_URL}/static/pdf/signatureIdeaRem.png`}
+        />
+        <Text
+          style={{
+            fontSize: 30,
+            fontWeight: 600,
+            marginBottom: 30,
+            fontFamily: "Orkney",
+            textAlign: "center",
+          }}
+        >
+          03
+        </Text>
       </View>
     </Page>
   </Document>

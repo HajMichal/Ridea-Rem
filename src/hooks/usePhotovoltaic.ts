@@ -214,6 +214,13 @@ export const usePhotovoltaic = () => {
       },
     });
 
+  const { mutate: set_payment_return_time } =
+    api.photovoltaics.payment_return_time.useMutation({
+      onSuccess: (data) => {
+        store.updatePhotovoltaicCalcs("payment_return_time", data);
+      },
+    });
+
   const handleInLimitOnChange = (e: { target: { valueAsNumber: number } }) => {
     if (e.target.valueAsNumber) {
       set_limit_price_trend(e.target.valueAsNumber);
@@ -288,6 +295,7 @@ export const usePhotovoltaic = () => {
       set_estiamted_price_for_trend_in_1KWH,
       set_save_on_autoconsumption,
       set_yearly_profit_for_installation,
+      set_payment_return_time,
     },
   };
 };

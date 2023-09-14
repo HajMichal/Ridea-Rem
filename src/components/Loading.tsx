@@ -3,7 +3,7 @@ import React from "react";
 
 export const Loading = () => {
   return (
-    <div className="mt-40 flex w-full justify-center">
+    <div className="flex w-full justify-center">
       <Loader color="yellow" size="xl" variant="dots" />
     </div>
   );

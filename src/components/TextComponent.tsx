@@ -21,14 +21,14 @@ export const TextComponent = ({
           position="left"
           mt="md"
           mb="xs"
-          className="grid grid-cols-8 justify-between"
+          className="grid grid-cols-12 justify-between"
         >
-          <Text className="col-start-1 col-end-7">{title}</Text>
+          <Text className="col-start-1 col-end-9">{title}</Text>
           <Badge
             color={color}
             variant="light"
             size="lg"
-            className="col-start-7 col-end-9"
+            className="col-start-9 col-end-13"
           >
             {typeof calculations === "boolean" ? "TAK" : calculations} {unit}
           </Badge>

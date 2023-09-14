@@ -262,4 +262,12 @@ export const photovoltaics_calculator = createTRPCRouter({
       })
     )
     .mutation(calc.yearlyProfitForInstallation),
+  payment_return_time: publicProcedure
+    .input(
+      z.object({
+        yearlyProfit: z.number(),
+        finallInstallationCost: z.number(),
+      })
+    )
+    .mutation(calc.paymentReturnTime),
 });

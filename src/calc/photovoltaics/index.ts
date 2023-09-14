@@ -508,4 +508,17 @@ export function yearlyProfitForInstallation({
   );
 }
 
+interface PaymentReturnTimeType {
+  yearlyProfit: number;
+  finallInstallationCost: number;
+}
+export function paymentReturnTime({ input }: { input: PaymentReturnTimeType }) {
+  const result = input.finallInstallationCost / input.yearlyProfit;
+  const years: number = Math.floor(result);
+  const remainingMonths = (result - years) * 12;
+  const months: number = Math.round(remainingMonths);
+
+  return { years: Number(years), months: Number(months) };
+}
+
 export * as default from "./index";
