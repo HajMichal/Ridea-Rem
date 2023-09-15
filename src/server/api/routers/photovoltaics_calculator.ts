@@ -204,6 +204,7 @@ export const photovoltaics_calculator = createTRPCRouter({
       z.object({
         summed_dotations: z.number(),
         gross_instalation_cost: z.number(),
+        termoModernization: z.number(),
       })
     )
     .mutation(calc.amountAfterDotation),
@@ -270,4 +271,21 @@ export const photovoltaics_calculator = createTRPCRouter({
       })
     )
     .mutation(calc.paymentReturnTime),
+  heatStore_dotation_value: publicProcedure
+    .input(
+      z.object({
+        gross_instalation_cost: z.number(),
+      })
+    )
+    .mutation(calc.heatStoreDotationValue),
+
+  termoModernization: publicProcedure
+    .input(
+      z.object({
+        total_gross_value: z.number(),
+        dotation_sum: z.number(),
+        tax_credit: z.number(),
+      })
+    )
+    .mutation(calc.termoModernization),
 });

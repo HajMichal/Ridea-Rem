@@ -220,6 +220,18 @@ export const usePhotovoltaic = () => {
         store.updatePhotovoltaicCalcs("payment_return_time", data);
       },
     });
+  const { mutate: set_heatStore_dotation_value } =
+    api.photovoltaics.heatStore_dotation_value.useMutation({
+      onSuccess: (data) => {
+        store.updatePhotovoltaicCalcs("heatStore_dotation_value", data);
+      },
+    });
+  const { mutate: set_termo_modernization } =
+    api.photovoltaics.termoModernization.useMutation({
+      onSuccess: (data) => {
+        store.updatePhotovoltaicCalcs("termoModernization", data);
+      },
+    });
 
   const handleInLimitOnChange = (e: { target: { valueAsNumber: number } }) => {
     if (e.target.valueAsNumber) {
@@ -296,6 +308,8 @@ export const usePhotovoltaic = () => {
       set_save_on_autoconsumption,
       set_yearly_profit_for_installation,
       set_payment_return_time,
+      set_heatStore_dotation_value,
+      set_termo_modernization,
     },
   };
 };

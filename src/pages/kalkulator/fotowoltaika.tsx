@@ -148,15 +148,12 @@ const Fotowoltaika = () => {
   const { data } = api.dataFlow.downloadFile.useQuery<JsonFileData>();
 
   // Dotations
-  const energyStore_dotation = store.photovoltaicStore.energyManageSystem
+  const energyStore_dotation = photovoltaicStore.energyManageSystem
     ? data?.kalkulator.dotacje.menagerEnergii
     : 0;
   const photovoltaics_dotation = store.photovoltaicStore.energyManageSystem
     ? data?.kalkulator.dotacje.mp_mc
     : data?.kalkulator.dotacje.mojPrad;
-  const heatStore_dotation = store.photovoltaicStore.energyManageSystem
-    ? data?.kalkulator.dotacje.magazynCiepla
-    : 0;
 
   useEffect(() => {
     if (sessionData === null) {
@@ -479,10 +476,9 @@ const Fotowoltaika = () => {
     mutations.set_dotations_sum({
       energyStore_dotation: energyStore_dotation ?? 0,
       photovoltaics_dotation: photovoltaics_dotation ?? 0,
-      heatStore_dotation: heatStore_dotation ?? 0,
+      heatStore_dotation: photovoltaicCalcStore.heatStore_dotation_value ?? 0,
     });
   }, [
-    heatStore_dotation,
     photovoltaics_dotation,
     energyStore_dotation,
     mutations.set_dotations_sum,
@@ -497,6 +493,7 @@ const Fotowoltaika = () => {
         gross_instalation_cost:
           photovoltaicCalcStore.totalInstallationCosts?.total_gross_cost,
         summed_dotations: photovoltaicCalcStore.dotations_sum,
+        termoModernization: photovoltaicCalcStore.termo_modernization,
       });
   }, [
     photovoltaicCalcStore.dotations_sum,
@@ -593,6 +590,29 @@ const Fotowoltaika = () => {
     photovoltaicCalcStore.finall_installation_cost,
     photovoltaicCalcStore.yearly_profit_for_installation,
     mutations.set_payment_return_time,
+  ]);
+
+  useEffect(() => {
+    if (photovoltaicCalcStore.totalInstallationCosts.total_gross_cost)
+      mutations.set_heatStore_dotation_value({
+        gross_instalation_cost:
+          photovoltaicCalcStore.totalInstallationCosts.total_gross_cost,
+      });
+  }, [
+    photovoltaicCalcStore.totalInstallationCosts.total_gross_cost,
+    mutations.set_heatStore_dotation_value,
+  ]);
+  useEffect(() => {
+    mutations.set_termo_modernization({
+      dotation_sum: photovoltaicCalcStore.dotations_sum,
+      tax_credit: photovoltaicStore.taxCredit,
+      total_gross_value:
+        photovoltaicCalcStore.totalInstallationCosts.total_gross_cost,
+    });
+  }, [
+    photovoltaicCalcStore.totalInstallationCosts.total_gross_cost,
+    photovoltaicStore.taxCredit,
+    photovoltaicCalcStore.dotations_sum,
   ]);
 
   const yesNoData = [
@@ -854,7 +874,7 @@ const Fotowoltaika = () => {
           </div>
           <Preview
             photovoltaics_dotation={photovoltaics_dotation}
-            heatStore_dotation={heatStore_dotation}
+            heatStore_dotation={photovoltaicCalcStore.heatStore_dotation_value}
             energyStore_dotation={energyStore_dotation}
           />
         </div>

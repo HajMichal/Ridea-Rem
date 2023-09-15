@@ -231,7 +231,7 @@ const MyDocument = ({
           <Text>STOPIEŃ AUTOKONSUMPCJI </Text>
           <Text style={styles.boldFont}>
             {photovoltaicCalcStore.autoconsumption} kWh -{" "}
-            {photovoltaicStore.autoconsumptionInPercent * 100}%
+            {(photovoltaicStore.autoconsumptionInPercent * 100).toFixed(2)}%
           </Text>
         </View>
         <View style={styles.eachRow}>
@@ -256,7 +256,7 @@ const MyDocument = ({
               paddingTop: 10,
             }}
           >
-            {photovoltaicCalcStore.accumulated_funds_on_account} zł
+            {photovoltaicCalcStore.yearly_profit_for_installation} zł
           </Text>
         </View>
         <View style={styles.paymentReturnTime}>
@@ -391,19 +391,20 @@ const MyDocument = ({
             {
               photovoltaicCalcStore.totalInstallationCosts
                 .total_installation_cost
-            }
+            }{" "}
+            zł
           </Text>
         </View>
         <View style={styles.eachRow}>
           <Text>PODATEK VAT 8%</Text>
           <Text style={styles.boldFont}>
-            {photovoltaicCalcStore.totalInstallationCosts.fee_value}
+            {photovoltaicCalcStore.totalInstallationCosts.fee_value} zł
           </Text>
         </View>
         <View style={styles.eachRow}>
           <Text>WARTOŚĆ BRUTTO</Text>
           <Text style={styles.boldFont}>
-            {photovoltaicCalcStore.totalInstallationCosts.total_gross_cost}
+            {photovoltaicCalcStore.totalInstallationCosts.total_gross_cost} zł
           </Text>
         </View>
         <View
@@ -426,7 +427,9 @@ const MyDocument = ({
             </Text>
             <Text>
               SYSTEM ZARZĄDZANIA ENERGIĄ (EMS/HEMS) -{" "}
-              {photovoltaicStore.energyManageSystem ? "3000 zł" : "0 zł"}
+              {photovoltaicStore.energyManageSystem
+                ? photovoltaicCalcStore.heatStore_dotation_value
+                : "0 zł"}
             </Text>
           </View>
         </View>

@@ -27,7 +27,9 @@ interface AutoconsumptionType {
   estimated_kWh_prod: number;
 }
 export function autoconsumption({ input }: { input: AutoconsumptionType }) {
-  return input.autoconsumption_step * input.estimated_kWh_prod;
+  return Number(
+    (input.autoconsumption_step * input.estimated_kWh_prod).toFixed(2)
+  );
 }
 
 interface TotalPaymentEnergyTransferType {
@@ -111,7 +113,7 @@ export function energySoldToDistributor({
   input: EnergySoldToDistributorType;
 }) {
   // D18 - D20  -> Ilośc energii odsprzedanej do Operatora Sieci Dystrybucyjnej (OSD)
-  return input.estimated_kWh_prod - input.autoconsumption;
+  return Number(Math.round(input.estimated_kWh_prod - input.autoconsumption));
 }
 export function accumulated_funds_on_account({ input }: { input: number }) {
   // D21 * D22 -> Zgromadzone środki na koncie rozliczeniowym u OSD
@@ -402,13 +404,18 @@ export function dotationsSum({ input }: { input: DotationsSumType }) {
 interface AmountAfterDotationType {
   gross_instalation_cost: number;
   summed_dotations: number;
+  termoModernization: number;
 }
 export function amountAfterDotation({
   input,
 }: {
   input: AmountAfterDotationType;
 }) {
-  return input.gross_instalation_cost - input.summed_dotations;
+  return (
+    input.gross_instalation_cost -
+    input.summed_dotations -
+    input.termoModernization
+  );
 }
 
 interface AmountTaxCreditType {
@@ -455,6 +462,8 @@ export function finallInstallationCost({
 }: {
   input: FinallInstallationCostType;
 }) {
+  console.log(input);
+
   return Number(
     (input.amount_after_dotation - input.amount_tax_credit).toFixed(2)
   );
@@ -519,6 +528,48 @@ export function paymentReturnTime({ input }: { input: PaymentReturnTimeType }) {
   const months: number = Math.round(remainingMonths);
 
   return { years: Number(years), months: Number(months) };
+}
+
+interface HeatStoreDotationValueType {
+  gross_instalation_cost: number;
+}
+export function heatStoreDotationValue({
+  input,
+}: {
+  input: HeatStoreDotationValueType;
+}) {
+  const value =
+    input.gross_instalation_cost - staticData.VALUE_TO_HEATSTORE_DOTATION;
+
+  if (value >= 16000) {
+    return 8000;
+  }
+
+  if (value < 16000) {
+    return Number(
+      (value * staticData.PERCENT_TO_HEATSTORE_DOTATION).toFixed(2)
+    );
+  }
+}
+
+interface TermoModernizationType {
+  total_gross_value: number;
+  dotation_sum: number;
+  tax_credit: number;
+}
+export function termoModernization({
+  input,
+}: {
+  input: TermoModernizationType;
+}) {
+  console.log(input);
+
+  return Number(
+    (
+      (input.total_gross_value - input.dotation_sum) *
+      input.tax_credit
+    ).toFixed()
+  );
 }
 
 export * as default from "./index";

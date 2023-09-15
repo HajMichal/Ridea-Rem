@@ -131,7 +131,9 @@ export const Preview = ({
                   />
                   <TextComponent
                     title="MAGAZYN CIEPŁA"
-                    calculations={heatStore_dotation}
+                    calculations={
+                      photovoltaicStore.energyManageSystem && heatStore_dotation
+                    }
                   />
                 </div>
               ) : (
