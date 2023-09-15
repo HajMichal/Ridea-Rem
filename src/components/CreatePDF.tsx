@@ -415,7 +415,7 @@ const MyDocument = ({
           }}
         >
           <View style={styles.eachRow}>
-            <Text>DOTACJA "MÓJ PRĄD 5.0"</Text>
+            <Text>DOTACJA `&#34;`MÓJ PRĄD 5.0`&#34;`</Text>
             <Text style={styles.boldFont}>DO 15 000 zł</Text>
           </View>
           <View style={{ fontSize: 12, paddingLeft: 12, paddingBottom: 12 }}>
