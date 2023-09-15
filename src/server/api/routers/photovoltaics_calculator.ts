@@ -49,7 +49,12 @@ export const photovoltaics_calculator = createTRPCRouter({
     )
     .mutation(calc.energySoldToDistributor),
   accumulated_funds_on_account: publicProcedure
-    .input(z.number())
+    .input(
+      z.object({
+        autoconsumption: z.number(),
+        estiamtedSellPriceToOsd: z.number(),
+      })
+    )
     .mutation(calc.accumulated_funds_on_account),
   yearly_bill_without_photovolatics: publicProcedure
     .input(

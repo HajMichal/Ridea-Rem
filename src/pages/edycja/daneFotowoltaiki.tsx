@@ -11,6 +11,7 @@ import { useDisclosure } from "@mantine/hooks";
 import { Toaster, toast } from "react-hot-toast";
 
 interface FormTypes {
+  cena_skupu_pradu: number;
   dane: {
     dwa: number;
     cztery: number;
@@ -36,7 +37,6 @@ interface FormTypes {
     solarEdge: number;
   };
   magazynCiepla: number;
-  tarczaSolidarnosciowa: string[];
   prowizjaBiura: number;
 }
 
@@ -58,6 +58,7 @@ const DaneFotowoltaiki = () => {
   const { register, handleSubmit } = useForm<FormTypes>(
     data?.kalkulator.dotacje && {
       defaultValues: {
+        cena_skupu_pradu: data.kalkulator.cena_skupu_pradu,
         dane: {
           dwa: data?.kalkulator.dane.dwa,
           cztery: data?.kalkulator.dane.cztery,
@@ -85,14 +86,11 @@ const DaneFotowoltaiki = () => {
         },
         magazynCiepla: data?.kalkulator.magazynCiepla,
         prowizjaBiura: data?.kalkulator.prowizjaBiura,
-        tarczaSolidarnosciowa: data?.kalkulator.tarczaSolidarnosciowa,
       },
     }
   );
 
   const onSubmit: SubmitHandler<FormTypes> = (data) => {
-    data.tarczaSolidarnosciowa = ["2000", "2600", "3000"];
-    console.log(data);
     mutate({ kalkulator: data });
     close();
   };
@@ -255,6 +253,13 @@ const DaneFotowoltaiki = () => {
                 })}
                 title="MAGAZYN CIEPŁA - CENA"
                 defaultValue={data?.kalkulator.magazynCiepla}
+              />
+              <ChangeDataInputComponent
+                {...register("cena_skupu_pradu", {
+                  valueAsNumber: true,
+                })}
+                title="Cena Skupu Prądu"
+                defaultValue={data?.kalkulator.cena_skupu_pradu}
               />
               <ChangeDataInputComponent
                 {...register("prowizjaBiura", {

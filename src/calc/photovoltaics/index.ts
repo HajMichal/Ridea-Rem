@@ -115,9 +115,20 @@ export function energySoldToDistributor({
   // D18 - D20  -> Ilośc energii odsprzedanej do Operatora Sieci Dystrybucyjnej (OSD)
   return Number(Math.round(input.estimated_kWh_prod - input.autoconsumption));
 }
-export function accumulated_funds_on_account({ input }: { input: number }) {
+
+interface AccumulatedFundsOnAccountType {
+  estiamtedSellPriceToOsd: number;
+  autoconsumption: number;
+}
+export function accumulated_funds_on_account({
+  input,
+}: {
+  input: AccumulatedFundsOnAccountType;
+}) {
   // D21 * D22 -> Zgromadzone środki na koncie rozliczeniowym u OSD
-  return Number((input * staticData.ESTIMATED_SELL_PRICE_TO_OSD).toFixed(2)); // spytac czy wartosc 0.72 to stala wartosc czy modyfikowalna
+  return Number(
+    (input.autoconsumption * input.estiamtedSellPriceToOsd).toFixed(2)
+  ); // spytac czy wartosc 0.72 to stala wartosc czy modyfikowalna
 }
 
 interface YearlyBillWithoutPhotovolaticsType {
@@ -462,8 +473,6 @@ export function finallInstallationCost({
 }: {
   input: FinallInstallationCostType;
 }) {
-  console.log(input);
-
   return Number(
     (input.amount_after_dotation - input.amount_tax_credit).toFixed(2)
   );
@@ -562,8 +571,6 @@ export function termoModernization({
 }: {
   input: TermoModernizationType;
 }) {
-  console.log(input);
-
   return Number(
     (
       (input.total_gross_value - input.dotation_sum) *

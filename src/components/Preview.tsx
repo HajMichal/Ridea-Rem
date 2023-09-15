@@ -3,6 +3,7 @@ import { TextComponent } from "./TextComponent";
 import { usePhotovoltaic } from "~/hooks/usePhotovoltaic";
 import { Loader } from "@mantine/core";
 import { PdfGeneratorButton } from "./PdfGeneratorButton";
+import { useAutoAnimate } from "@formkit/auto-animate/react";
 
 interface Dotations {
   energyStore_dotation: number | undefined;
@@ -17,7 +18,7 @@ export const Preview = ({
 }: Dotations) => {
   const { photovoltaicCalcStore, photovoltaicStore, loading } =
     usePhotovoltaic();
-
+  const [parent] = useAutoAnimate();
   return (
     <div
       id="CALCULATIONS"
@@ -35,7 +36,10 @@ export const Preview = ({
           <Loader color="yellow" size="lg" variant="dots" className="mt-40" />
         ) : (
           <div className="flex w-full flex-wrap justify-between font-orkneyBold font-semibold">
-            <div className="mt-3 h-[75%] w-full overflow-y-auto px-10">
+            <div
+              ref={parent}
+              className="mt-3 h-[75%] w-full overflow-y-auto px-10"
+            >
               <TextComponent
                 title="CENA PRĄDU BEZ INSTALACJI FOTOWOLTAICZNEJ"
                 calculations={

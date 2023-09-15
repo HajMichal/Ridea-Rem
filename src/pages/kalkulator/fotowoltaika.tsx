@@ -17,6 +17,7 @@ import { ScrollArea } from "@mantine/core";
 
 export interface JsonFileData {
   kalkulator: {
+    cena_skupu_pradu: number;
     dane: {
       dwa: number;
       cztery: number;
@@ -42,7 +43,6 @@ export interface JsonFileData {
       solarEdge: number;
     };
     magazynCiepla: number;
-    tarczaSolidarnosciowa: string[];
     prowizjaBiura: number;
   };
 }
@@ -222,10 +222,14 @@ const Fotowoltaika = () => {
     mutations.set_energy_sold_to_distributor,
   ]);
   useEffect(() => {
-    if (photovoltaicCalcStore.energy_sold_to_distributor)
-      mutations.set_accumulated_funds_on_account(
-        photovoltaicCalcStore.energy_sold_to_distributor
-      );
+    if (
+      photovoltaicCalcStore.energy_sold_to_distributor &&
+      data?.kalkulator.cena_skupu_pradu
+    )
+      mutations.set_accumulated_funds_on_account({
+        autoconsumption: photovoltaicCalcStore.energy_sold_to_distributor,
+        estiamtedSellPriceToOsd: data?.kalkulator.cena_skupu_pradu,
+      });
   }, [
     photovoltaicCalcStore.energy_sold_to_distributor,
     mutations.set_accumulated_funds_on_account,

@@ -70,7 +70,7 @@ export const dataFlowRouter = createTRPCRouter({
             solarEdge: z.number(),
           }),
           magazynCiepla: z.number(),
-          tarczaSolidarnosciowa: z.array(z.string()),
+          cena_skupu_pradu: z.number(),
           prowizjaBiura: z.number(),
         }),
       })
