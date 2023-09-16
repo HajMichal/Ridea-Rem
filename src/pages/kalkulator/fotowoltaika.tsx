@@ -443,7 +443,7 @@ const Fotowoltaika = () => {
       solarEdge: photovoltaicCalcStore.solarEdge_price,
       tigo: photovoltaicCalcStore.tigo_price,
       voucher: photovoltaicStore.voucher,
-      markup_costs: photovoltaicCalcStore.markup_costs ?? 0,
+      markup_costs: photovoltaicCalcStore.markup_costs.markupSumValue ?? 0,
     });
   }, [
     photovoltaicCalcStore.bloczki_price,

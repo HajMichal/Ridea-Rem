@@ -368,13 +368,22 @@ interface OfficeMarkupType {
   constantFee: number;
 }
 export function officeMarkup({ input }: { input: OfficeMarkupType }) {
-  return Number(
+  const officeFeeValue = Math.round(input.officeFee * input.system_power);
+  const consultantFeeValue = Math.round(
+    input.consultantFee * input.system_power
+  );
+  const markupSumValue = Number(
     (
       input.officeFee * input.system_power +
       input.consultantFee * input.system_power +
       input.constantFee
     ).toFixed(2)
   );
+  return {
+    officeFeeValue: officeFeeValue,
+    consultantFeeValue: consultantFeeValue,
+    markupSumValue: markupSumValue,
+  };
 }
 
 interface TotalInstallationCostType {

@@ -27,7 +27,11 @@ export interface PhotovoltaicCalculations {
   hybridInwerter_price: number;
   solarEdge_price: number;
   addon_cost: number;
-  markup_costs: number;
+  markup_costs: {
+    officeFeeValue: number;
+    consultantFeeValue: number;
+    markupSumValue: number;
+  };
   totalInstallationCosts: {
     total_installation_cost: number;
     total_gross_cost: number;
@@ -83,7 +87,11 @@ export const photovoltaicCalculationSlice: StateCreator<
     hybridInwerter_price: 0,
     solarEdge_price: 0,
     addon_cost: 0,
-    markup_costs: 0,
+    markup_costs: {
+      officeFeeValue: 0,
+      consultantFeeValue: 0,
+      markupSumValue: 0,
+    },
     totalInstallationCosts: {
       total_installation_cost: 0,
       total_gross_cost: 0,

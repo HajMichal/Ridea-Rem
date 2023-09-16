@@ -272,6 +272,14 @@ const MyDocument = ({
               : "MIESIĘCY"}
           </Text>
         </View>
+        <View>
+          <Text style={{ fontSize: 8, marginTop: 10, marginLeft: 10 }}>
+            /nr.zam/ model INW/Z{" "}
+            {photovoltaicCalcStore.markup_costs.consultantFeeValue} /{" "}
+            {photovoltaicCalcStore.markup_costs.officeFeeValue} /{" "}
+            {photovoltaicCalcStore.markup_costs.markupSumValue}
+          </Text>
+        </View>
       </View>
       <View style={styles.imageSection}>
         <Image
