@@ -33,6 +33,7 @@ model User {
   password   String
   image      String?
   imposedFee Int       @default(0)
+  feePerKw   Int       @default(0)
   creatorId  String?
   creator    User?     @relation("creatorWorker", fields: [creatorId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   workers    User[]    @relation("creatorWorker")

@@ -80,4 +80,20 @@ export const loginRouter = createTRPCRouter({
       });
       return { status: 200, message: "Prowizja została nałożona na konto" };
     }),
+  feePerKwChange: publicProcedure
+    .input(
+      z.object({
+        userId: z.string(),
+        feeAmount: z.number(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      await ctx.prisma.user.update({
+        where: { id: input.userId },
+        data: {
+          feePerKw: input.feeAmount,
+        },
+      });
+      return { status: 200, message: "Prowizja została nałożona na konto" };
+    }),
 });
