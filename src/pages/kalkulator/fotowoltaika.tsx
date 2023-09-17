@@ -2,7 +2,6 @@ import { useSession } from "next-auth/react";
 import { api } from "~/utils/api";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
-import { FiChevronDown } from "react-icons/fi";
 
 import useStore from "~/store";
 import { usePhotovoltaic } from "~/hooks/usePhotovoltaic";
@@ -46,6 +45,7 @@ export interface JsonFileData {
     prowizjaBiura: number;
   };
 }
+
 export interface PRZYSZLY_INTERFACE {
   kalkulator: {
     czterysta: {
@@ -420,11 +420,11 @@ const Fotowoltaika = () => {
     mutations.set_hybridInwerter_price,
   ]);
   useEffect(() => {
-    if (photovoltaicCalcStore.system_power && data)
+    if (photovoltaicCalcStore.system_power && data && sessionData)
       mutations.set_markup_costs({
         system_power: photovoltaicCalcStore.system_power,
-        officeFee: data?.kalkulator.prowizjaBiura,
-        constantFee: 0,
+        officeFee: sessionData.user.feePerkw,
+        constantFee: sessionData.user.imposedFee,
         consultantFee: photovoltaicStore.consultantMarkup,
       });
   }, [

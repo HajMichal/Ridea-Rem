@@ -68,7 +68,7 @@ export const UserFeeFormField = ({
         {user.role === 3 && (
           <>
             <p>Stała prowizja {user.imposedFee}</p>
-            <p>Prowizja od kW {user.feePerKw}</p>
+            <p>Prowizja od kW {user.feePerkw}</p>
           </>
         )}
       </div>

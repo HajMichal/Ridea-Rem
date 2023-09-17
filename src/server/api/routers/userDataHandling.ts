@@ -91,7 +91,7 @@ export const loginRouter = createTRPCRouter({
       await ctx.prisma.user.update({
         where: { id: input.userId },
         data: {
-          feePerKw: input.feeAmount,
+          feePerkw: input.feeAmount,
         },
       });
       return { status: 200, message: "Prowizja została nałożona na konto" };
