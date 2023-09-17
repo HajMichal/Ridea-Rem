@@ -420,7 +420,7 @@ const Fotowoltaika = () => {
     mutations.set_hybridInwerter_price,
   ]);
   useEffect(() => {
-    if (photovoltaicCalcStore.system_power && data && sessionData)
+    if (photovoltaicCalcStore.system_power && sessionData)
       mutations.set_markup_costs({
         system_power: photovoltaicCalcStore.system_power,
         officeFee: sessionData.user.feePerkw,
@@ -428,9 +428,8 @@ const Fotowoltaika = () => {
         consultantFee: photovoltaicStore.consultantMarkup,
       });
   }, [
-    store.photovoltaicStore.consultantMarkup,
     photovoltaicCalcStore.system_power,
-    data,
+    sessionData,
     photovoltaicStore.consultantMarkup,
     mutations.set_markup_costs,
   ]);

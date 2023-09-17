@@ -210,7 +210,7 @@ const MyDocument = ({
           </Text>
         </View>
         <View style={styles.eachRow}>
-          <Text>PRZEWIDYWANA WYSOKOŚC RACHUNKU ZA 2023 </Text>
+          <Text>PRZEWIDYWANA WYSOKOŚC RACHUNKI ZA 2023 </Text>
           <Text style={styles.boldFont}>
             {photovoltaicCalcStore.yearly_bill_without_photovolatics} zł
           </Text>
