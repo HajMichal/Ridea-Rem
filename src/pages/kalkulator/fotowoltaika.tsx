@@ -457,7 +457,6 @@ const Fotowoltaika = () => {
   ]);
   useEffect(() => {
     if (
-      photovoltaicCalcStore.addon_cost &&
       photovoltaicCalcStore.installationAndPer1KW_price?.base_installation_price
     )
       mutations.set_totalInstallationCost({

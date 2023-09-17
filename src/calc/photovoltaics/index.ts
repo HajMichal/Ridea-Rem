@@ -379,6 +379,12 @@ export function officeMarkup({ input }: { input: OfficeMarkupType }) {
       input.constantFee
     ).toFixed(2)
   );
+  console.log({
+    officeFeeValue: officeFeeValue,
+    consultantFeeValue: consultantFeeValue,
+    markupSumValue: markupSumValue,
+  });
+
   return {
     officeFeeValue: officeFeeValue,
     consultantFeeValue: consultantFeeValue,

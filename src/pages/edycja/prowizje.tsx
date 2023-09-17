@@ -36,11 +36,11 @@ const Prowizje = () => {
   }
 
   return (
-    <div className="flex h-full max-h-screen min-h-screen justify-center bg-[#E8E7E7] font-orkney">
+    <div className="flex h-full max-h-screen min-h-screen justify-center bg-backgroundGray font-orkney">
       <SideBar />
-      <div className="flex max-h-screen w-full flex-wrap">
+      <div className="flex h-screen w-full flex-wrap">
         <Navbar />
-        <div className="flex h-full max-h-[80%] flex-wrap  gap-20 px-20 ">
+        <div className="flex h-full  flex-wrap gap-20 overflow-scroll px-20 ">
           {sessionData.user.role === 1 && (
             <div className="w-full ">
               <h1>Menagerowie</h1>
