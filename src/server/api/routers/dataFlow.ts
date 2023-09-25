@@ -33,8 +33,10 @@ export interface JsonCalcData {
     solarEdge: number;
   };
 }
-
-export type CalculatorData = Record<string, JsonCalcData>;
+/* eslint @typescript-eslint/consistent-indexed-object-style: ["error", "index-signature"] */
+export interface CalculatorData {
+  [key: string]: JsonCalcData;
+}
 interface CalculatorType {
   kalkulator: CalculatorData[];
 }
@@ -128,11 +130,14 @@ export const dataFlowRouter = createTRPCRouter({
       });
 
       if (userData?.role === 1) {
-        return getObjectById(userData.id);
+        return getObjectById(userData.name!);
       } else if (userData?.role === 2) {
-        return getObjectById(userData.id);
+        return getObjectById(userData.name!);
       } else if (userData?.creatorId && userData.role === 3) {
-        return getObjectById(userData.creatorId);
+        const creator = await ctx.prisma.user.findFirst({
+          where: { id: userData.creatorId },
+        });
+        return getObjectById(creator?.name ?? "");
       }
     }),
   getEntireJsonFile: publicProcedure.query(async () => {
