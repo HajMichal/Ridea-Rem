@@ -348,8 +348,8 @@ interface TotalAddonCostType {
 }
 export function totalAddonCost({ input }: { input: TotalAddonCostType }) {
   return Number(
+    // (input.voucher ? 900 : 0) +
     (
-      (input.voucher ? 900 : 0) +
       (input.ekierki ? input.ekierki : 0) +
       (input.hybridInwerter ? input.hybridInwerter : 0) +
       (input.tigo ? input.tigo : 0) +
@@ -404,7 +404,7 @@ export function totalInstallationCosts({
   const fee_value = total_cost * 0.08;
   return {
     total_installation_cost: total_cost,
-    total_gross_cost: total_cost + fee_value,
+    total_gross_cost: total_cost + fee_value + 3200,
     fee_value: Number(fee_value.toFixed(2)),
   };
 }

@@ -92,8 +92,6 @@ const EditionForm = ({ data }: EditionForm) => {
   };
   const onSubmit: SubmitHandler<FormTypes> = (data) => {
     mutate({ [dynamicKey!]: data });
-    console.log(data);
-
     close();
   };
   return (

@@ -61,7 +61,11 @@ export const Preview = ({
               />
               <TextComponent
                 title="MOC INSTALACJI"
-                calculations={photovoltaicCalcStore.system_power}
+                calculations={
+                  photovoltaicStore.voucher
+                    ? photovoltaicCalcStore.system_power
+                    : photovoltaicCalcStore.system_power + 0.8
+                }
                 unit="KW"
               />
               <TextComponent
