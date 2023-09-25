@@ -252,7 +252,7 @@ export const usePhotovoltaic = () => {
   const handleTigoinput = (e: { target: { valueAsNumber: number } }) => {
     if (data)
       set_tigo_price({
-        tigo_price: data.kalkulator.koszty_dodatkowe.tigo,
+        tigo_price: data.koszty_dodatkowe.tigo,
         tigo_count: e.target.valueAsNumber,
       });
   };

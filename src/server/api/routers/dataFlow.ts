@@ -4,6 +4,43 @@ import AWS from "aws-sdk";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 import { z } from "zod";
 
+/* eslint @typescript-eslint/consistent-indexed-object-style: ["error", "index-signature"] */
+export interface CalculatorData {
+  [key: string]: {
+    dane: {
+      dwa: number;
+      cztery: number;
+      szesc: number;
+      osiem: number;
+      dwanascie: number;
+      dwadziescia: number;
+      trzydziesci: number;
+      piecdziesiat: number;
+    };
+    dotacje: {
+      magazynCiepla: number;
+      menagerEnergii: number;
+      mojPrad: number;
+      mp_mc: number;
+    };
+    koszty_dodatkowe: {
+      bloczki: number;
+      tigo: number;
+      ekierki: number;
+      grunt: number;
+      inwerterHybrydowy: number;
+      solarEdge: number;
+    };
+    magazynCiepla: number;
+    cena_skupu_pradu: number;
+    prowizjaBiura: number;
+  };
+}
+
+interface CalculatorType {
+  kalkulator: CalculatorData[];
+}
+
 const s3 = new AWS.S3();
 AWS.config.update({
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
@@ -31,16 +68,39 @@ export const dataFlowRouter = createTRPCRouter({
     const fileContent = fs.readFileSync("data.json");
     setFileToBucket(fileContent, "data.json");
   }),
-  downloadFile: publicProcedure.query(async () => {
-    const dataFile = await s3
-      .getObject({
-        Bucket: "ridearem",
-        Key: "data.json",
-      })
-      .promise();
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-    return JSON.parse(dataFile?.Body?.toString() ?? "null");
-  }),
+
+  downloadFile: publicProcedure
+    .input(z.string().optional())
+    .query(async ({ input, ctx }) => {
+      const dataFile = await s3
+        .getObject({
+          Bucket: "ridearem",
+          Key: "data.json",
+        })
+        .promise();
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      const convertedFile: CalculatorType = JSON.parse(
+        dataFile?.Body?.toString() ?? "null"
+      );
+
+      function getObjectById(id: string) {
+        const object: CalculatorData | undefined =
+          convertedFile.kalkulator.find((item) => Object.keys(item)[0] === id);
+        return object ? object[id] : null;
+      }
+
+      const userData = await ctx.prisma.user.findFirst({
+        where: { id: input },
+      });
+
+      if (userData?.role === 1) {
+        return getObjectById(userData.id);
+      } else if (userData?.role === 2) {
+        return getObjectById(userData.id);
+      } else if (userData?.creatorId && userData.role === 3) {
+        return getObjectById(userData.creatorId);
+      }
+    }),
   editJSONFile: publicProcedure
     .input(
       z.object({

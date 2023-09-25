@@ -45,7 +45,9 @@ const DaneFotowoltaiki = () => {
   const { data: sessionData } = useSession();
   const router = useRouter();
 
-  const { data } = api.dataFlow.downloadFile.useQuery<JsonFileData>();
+  const { data } = api.dataFlow.downloadFile.useQuery<JsonFileData>(
+    sessionData?.user.id
+  );
   const { mutate } = api.dataFlow.editJSONFile.useMutation({
     onSuccess: () => {
       toast.success("Dane zostały pomyślnie zmienione.");
@@ -56,36 +58,35 @@ const DaneFotowoltaiki = () => {
   });
 
   const { register, handleSubmit } = useForm<FormTypes>(
-    data?.kalkulator.dotacje && {
+    data?.dotacje && {
       defaultValues: {
-        cena_skupu_pradu: data.kalkulator.cena_skupu_pradu,
+        cena_skupu_pradu: data.cena_skupu_pradu,
         dane: {
-          dwa: data?.kalkulator.dane.dwa,
-          cztery: data?.kalkulator.dane.cztery,
-          szesc: data?.kalkulator.dane.szesc,
-          osiem: data?.kalkulator.dane.osiem,
-          dwanascie: data?.kalkulator.dane.dwanascie,
-          dwadziescia: data?.kalkulator.dane.dwadziescia,
-          trzydziesci: data?.kalkulator.dane.trzydziesci,
-          piecdziesiat: data?.kalkulator.dane.piecdziesiat,
+          dwa: data?.dane.dwa,
+          cztery: data?.dane.cztery,
+          szesc: data?.dane.szesc,
+          osiem: data?.dane.osiem,
+          dwanascie: data?.dane.dwanascie,
+          dwadziescia: data?.dane.dwadziescia,
+          trzydziesci: data?.dane.trzydziesci,
+          piecdziesiat: data?.dane.piecdziesiat,
         },
         dotacje: {
-          magazynCiepla: data?.kalkulator.dotacje.magazynCiepla,
-          menagerEnergii: data?.kalkulator.dotacje.menagerEnergii,
-          mojPrad: data?.kalkulator.dotacje.mojPrad,
-          mp_mc: data?.kalkulator.dotacje.mp_mc,
+          magazynCiepla: data?.dotacje.magazynCiepla,
+          menagerEnergii: data?.dotacje.menagerEnergii,
+          mojPrad: data?.dotacje.mojPrad,
+          mp_mc: data?.dotacje.mp_mc,
         },
         koszty_dodatkowe: {
-          bloczki: data?.kalkulator.koszty_dodatkowe.bloczki,
-          ekierki: data?.kalkulator.koszty_dodatkowe.ekierki,
-          grunt: data?.kalkulator.koszty_dodatkowe.grunt,
-          inwerterHybrydowy:
-            data?.kalkulator.koszty_dodatkowe.inwerterHybrydowy,
-          solarEdge: data?.kalkulator.koszty_dodatkowe.solarEdge,
-          tigo: data?.kalkulator.koszty_dodatkowe.tigo,
+          bloczki: data?.koszty_dodatkowe.bloczki,
+          ekierki: data?.koszty_dodatkowe.ekierki,
+          grunt: data?.koszty_dodatkowe.grunt,
+          inwerterHybrydowy: data?.koszty_dodatkowe.inwerterHybrydowy,
+          solarEdge: data?.koszty_dodatkowe.solarEdge,
+          tigo: data?.koszty_dodatkowe.tigo,
         },
-        magazynCiepla: data?.kalkulator.magazynCiepla,
-        prowizjaBiura: data?.kalkulator.prowizjaBiura,
+        magazynCiepla: data?.magazynCiepla,
+        prowizjaBiura: data?.prowizjaBiura,
       },
     }
   );
@@ -109,7 +110,7 @@ const DaneFotowoltaiki = () => {
       <div className="flex max-h-screen w-full flex-wrap justify-center">
         <Navbar />
         <div className="flex max-h-[80%] w-full max-w-3xl justify-center overflow-y-scroll">
-          {data?.kalkulator ? (
+          {data ? (
             <form>
               <h2 className="mt-5 w-full text-center text-2xl">DANE</h2>
 
@@ -118,7 +119,7 @@ const DaneFotowoltaiki = () => {
                   valueAsNumber: true,
                 })}
                 title="OD 0 DO 2"
-                defaultValue={data?.kalkulator.dane.dwa}
+                defaultValue={data?.dane.dwa}
               />
 
               <ChangeDataInputComponent
@@ -126,49 +127,49 @@ const DaneFotowoltaiki = () => {
                   valueAsNumber: true,
                 })}
                 title="OD 2.1 DO 4"
-                defaultValue={data?.kalkulator.dane.cztery}
+                defaultValue={data?.dane.cztery}
               />
               <ChangeDataInputComponent
                 {...register("dane.szesc", {
                   valueAsNumber: true,
                 })}
                 title="OD 4.1 DO 6"
-                defaultValue={data?.kalkulator.dane.szesc}
+                defaultValue={data?.dane.szesc}
               />
               <ChangeDataInputComponent
                 {...register("dane.osiem", {
                   valueAsNumber: true,
                 })}
                 title="OD 6.1 DO 8"
-                defaultValue={data?.kalkulator.dane.osiem}
+                defaultValue={data?.dane.osiem}
               />
               <ChangeDataInputComponent
                 {...register("dane.dwanascie", {
                   valueAsNumber: true,
                 })}
                 title="OD 8.1 DO 12"
-                defaultValue={data?.kalkulator.dane.dwanascie}
+                defaultValue={data?.dane.dwanascie}
               />
               <ChangeDataInputComponent
                 {...register("dane.dwadziescia", {
                   valueAsNumber: true,
                 })}
                 title="OD 12.1 DO 20"
-                defaultValue={data?.kalkulator.dane.dwadziescia}
+                defaultValue={data?.dane.dwadziescia}
               />
               <ChangeDataInputComponent
                 {...register("dane.trzydziesci", {
                   valueAsNumber: true,
                 })}
                 title="OD 20.1 DO 30"
-                defaultValue={data?.kalkulator.dane.trzydziesci}
+                defaultValue={data?.dane.trzydziesci}
               />
               <ChangeDataInputComponent
                 {...register("dane.piecdziesiat", {
                   valueAsNumber: true,
                 })}
                 title="OD 30.1 DO 50"
-                defaultValue={data?.kalkulator.dane.piecdziesiat}
+                defaultValue={data?.dane.piecdziesiat}
               />
               <h2 className="mt-10 w-full text-center text-2xl">DOTACJE</h2>
               <ChangeDataInputComponent
@@ -176,28 +177,28 @@ const DaneFotowoltaiki = () => {
                   valueAsNumber: true,
                 })}
                 title="MAGAZYN CIEPŁA"
-                defaultValue={data?.kalkulator.dotacje.magazynCiepla}
+                defaultValue={data?.dotacje.magazynCiepla}
               />
               <ChangeDataInputComponent
                 {...register("dotacje.menagerEnergii", {
                   valueAsNumber: true,
                 })}
                 title="MENAGER ENERGII"
-                defaultValue={data?.kalkulator.dotacje.menagerEnergii}
+                defaultValue={data?.dotacje.menagerEnergii}
               />
               <ChangeDataInputComponent
                 {...register("dotacje.mojPrad", {
                   valueAsNumber: true,
                 })}
                 title="MÓJ PRĄD"
-                defaultValue={data?.kalkulator.dotacje.mojPrad}
+                defaultValue={data?.dotacje.mojPrad}
               />
               <ChangeDataInputComponent
                 {...register("dotacje.mp_mc", {
                   valueAsNumber: true,
                 })}
                 title="MÓJ PRĄD + MAGAZYN CIEPŁA"
-                defaultValue={data?.kalkulator.dotacje.mp_mc}
+                defaultValue={data?.dotacje.mp_mc}
               />
               <h2 className="mt-10 w-full text-center text-2xl">
                 KOSZTY DODATKOWE
@@ -207,44 +208,42 @@ const DaneFotowoltaiki = () => {
                   valueAsNumber: true,
                 })}
                 title="BLOCZKI"
-                defaultValue={data?.kalkulator.koszty_dodatkowe.bloczki}
+                defaultValue={data?.koszty_dodatkowe.bloczki}
               />
               <ChangeDataInputComponent
                 {...register("koszty_dodatkowe.tigo", {
                   valueAsNumber: true,
                 })}
                 title="TIGO"
-                defaultValue={data?.kalkulator.koszty_dodatkowe.tigo}
+                defaultValue={data?.koszty_dodatkowe.tigo}
               />
               <ChangeDataInputComponent
                 {...register("koszty_dodatkowe.ekierki", {
                   valueAsNumber: true,
                 })}
                 title="EKIERKI"
-                defaultValue={data?.kalkulator.koszty_dodatkowe.ekierki}
+                defaultValue={data?.koszty_dodatkowe.ekierki}
               />
               <ChangeDataInputComponent
                 {...register("koszty_dodatkowe.grunt", {
                   valueAsNumber: true,
                 })}
                 title="GRUNT"
-                defaultValue={data?.kalkulator.koszty_dodatkowe.grunt}
+                defaultValue={data?.koszty_dodatkowe.grunt}
               />
               <ChangeDataInputComponent
                 {...register("koszty_dodatkowe.inwerterHybrydowy", {
                   valueAsNumber: true,
                 })}
                 title="INWERTER HYBRYDOWY"
-                defaultValue={
-                  data?.kalkulator.koszty_dodatkowe.inwerterHybrydowy
-                }
+                defaultValue={data?.koszty_dodatkowe.inwerterHybrydowy}
               />
               <ChangeDataInputComponent
                 {...register("koszty_dodatkowe.solarEdge", {
                   valueAsNumber: true,
                 })}
                 title="SOLAR EDGE"
-                defaultValue={data?.kalkulator.koszty_dodatkowe.solarEdge}
+                defaultValue={data?.koszty_dodatkowe.solarEdge}
               />
               <h2 className="mt-10 w-full text-center text-2xl">POZOSTAŁE</h2>
               <ChangeDataInputComponent
@@ -252,21 +251,21 @@ const DaneFotowoltaiki = () => {
                   valueAsNumber: true,
                 })}
                 title="MAGAZYN CIEPŁA - CENA"
-                defaultValue={data?.kalkulator.magazynCiepla}
+                defaultValue={data?.magazynCiepla}
               />
               <ChangeDataInputComponent
                 {...register("cena_skupu_pradu", {
                   valueAsNumber: true,
                 })}
                 title="Cena Skupu Prądu"
-                defaultValue={data?.kalkulator.cena_skupu_pradu}
+                defaultValue={data?.cena_skupu_pradu}
               />
               <ChangeDataInputComponent
                 {...register("prowizjaBiura", {
                   valueAsNumber: true,
                 })}
                 title="PROWIZJA BIURA"
-                defaultValue={data?.kalkulator.prowizjaBiura}
+                defaultValue={data?.prowizjaBiura}
               />
             </form>
           ) : (

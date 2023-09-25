@@ -15,35 +15,33 @@ import {
 import { ScrollArea } from "@mantine/core";
 
 export interface JsonFileData {
-  kalkulator: {
-    cena_skupu_pradu: number;
-    dane: {
-      dwa: number;
-      cztery: number;
-      szesc: number;
-      osiem: number;
-      dwanascie: number;
-      dwadziescia: number;
-      trzydziesci: number;
-      piecdziesiat: number;
-    };
-    dotacje: {
-      magazynCiepla: number;
-      menagerEnergii: number;
-      mojPrad: number;
-      mp_mc: number;
-    };
-    koszty_dodatkowe: {
-      bloczki: number;
-      tigo: number;
-      ekierki: number;
-      grunt: number;
-      inwerterHybrydowy: number;
-      solarEdge: number;
-    };
-    magazynCiepla: number;
-    prowizjaBiura: number;
+  cena_skupu_pradu: number;
+  dane: {
+    dwa: number;
+    cztery: number;
+    szesc: number;
+    osiem: number;
+    dwanascie: number;
+    dwadziescia: number;
+    trzydziesci: number;
+    piecdziesiat: number;
   };
+  dotacje: {
+    magazynCiepla: number;
+    menagerEnergii: number;
+    mojPrad: number;
+    mp_mc: number;
+  };
+  koszty_dodatkowe: {
+    bloczki: number;
+    tigo: number;
+    ekierki: number;
+    grunt: number;
+    inwerterHybrydowy: number;
+    solarEdge: number;
+  };
+  magazynCiepla: number;
+  prowizjaBiura: number;
 }
 
 export interface PRZYSZLY_INTERFACE {
@@ -145,15 +143,18 @@ const Fotowoltaika = () => {
   const router = useRouter();
 
   // const { mutate } = api.dataFlow.setJSONFile.useMutation();
-  const { data } = api.dataFlow.downloadFile.useQuery<JsonFileData>();
+  const { data } = api.dataFlow.downloadFile.useQuery<JsonFileData>(
+    sessionData?.user.id
+  );
+  console.log(data);
 
   // Dotations
   const energyStore_dotation = photovoltaicStore.energyManageSystem
-    ? data?.kalkulator.dotacje.menagerEnergii
+    ? data?.dotacje.menagerEnergii
     : 0;
   const photovoltaics_dotation = store.photovoltaicStore.energyManageSystem
-    ? data?.kalkulator.dotacje.mp_mc
-    : data?.kalkulator.dotacje.mojPrad;
+    ? data?.dotacje.mp_mc
+    : data?.dotacje.mojPrad;
 
   useEffect(() => {
     if (sessionData === null) {
@@ -224,11 +225,11 @@ const Fotowoltaika = () => {
   useEffect(() => {
     if (
       photovoltaicCalcStore.energy_sold_to_distributor &&
-      data?.kalkulator.cena_skupu_pradu
+      data?.cena_skupu_pradu
     )
       mutations.set_accumulated_funds_on_account({
         autoconsumption: photovoltaicCalcStore.energy_sold_to_distributor,
-        estiamtedSellPriceToOsd: data?.kalkulator.cena_skupu_pradu,
+        estiamtedSellPriceToOsd: data?.cena_skupu_pradu,
       });
   }, [
     photovoltaicCalcStore.energy_sold_to_distributor,
@@ -338,7 +339,7 @@ const Fotowoltaika = () => {
     if (photovoltaicCalcStore.system_power && data) {
       mutations.set_installationAndPer1KW_price({
         system_power: photovoltaicCalcStore.system_power,
-        dane: data?.kalkulator.dane,
+        dane: data?.dane,
       });
     }
   }, [
@@ -354,7 +355,7 @@ const Fotowoltaika = () => {
       photovoltaicStore.isEccentricsChoosed
     )
       mutations.set_ekierki_price({
-        price: data.kalkulator.koszty_dodatkowe.ekierki,
+        price: data.koszty_dodatkowe.ekierki,
         isChoosed: photovoltaicStore.isEccentricsChoosed,
         modules_count: photovoltaicStore.modulesCount,
       });
@@ -371,7 +372,7 @@ const Fotowoltaika = () => {
       photovoltaicStore.isRoofWeightSystem
     )
       mutations.set_bloczki_price({
-        price: data.kalkulator.koszty_dodatkowe.bloczki,
+        price: data.koszty_dodatkowe.bloczki,
         isChoosed: photovoltaicStore.isRoofWeightSystem,
         system_power: photovoltaicCalcStore.system_power,
       });
@@ -384,7 +385,7 @@ const Fotowoltaika = () => {
   useEffect(() => {
     if (data && photovoltaicCalcStore.system_power)
       mutations.set_grunt_price({
-        price: data.kalkulator.koszty_dodatkowe.grunt,
+        price: data.koszty_dodatkowe.grunt,
         isChoosed: photovoltaicStore.isGroundMontage,
         system_power: photovoltaicCalcStore.system_power,
       });
@@ -397,7 +398,7 @@ const Fotowoltaika = () => {
   useEffect(() => {
     if (data && photovoltaicStore.modulesCount)
       mutations.set_solarEdge_price({
-        price: data.kalkulator.koszty_dodatkowe.solarEdge,
+        price: data.koszty_dodatkowe.solarEdge,
         isChoosed: photovoltaicStore.isSolarEdgeChoosed,
         modules_count: photovoltaicStore.modulesCount,
       });
@@ -410,8 +411,7 @@ const Fotowoltaika = () => {
   useEffect(() => {
     if (data)
       mutations.set_hybridInwerter_price({
-        hybridInwerter_price:
-          data.kalkulator.koszty_dodatkowe.inwerterHybrydowy,
+        hybridInwerter_price: data.koszty_dodatkowe.inwerterHybrydowy,
         isHybridInwerterChoosed: photovoltaicStore.isInwerterChoosed,
       });
   }, [
