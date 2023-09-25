@@ -4,39 +4,37 @@ import AWS from "aws-sdk";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 import { z } from "zod";
 
-/* eslint @typescript-eslint/consistent-indexed-object-style: ["error", "index-signature"] */
-export interface CalculatorData {
-  [key: string]: {
-    dane: {
-      dwa: number;
-      cztery: number;
-      szesc: number;
-      osiem: number;
-      dwanascie: number;
-      dwadziescia: number;
-      trzydziesci: number;
-      piecdziesiat: number;
-    };
-    dotacje: {
-      magazynCiepla: number;
-      menagerEnergii: number;
-      mojPrad: number;
-      mp_mc: number;
-    };
-    koszty_dodatkowe: {
-      bloczki: number;
-      tigo: number;
-      ekierki: number;
-      grunt: number;
-      inwerterHybrydowy: number;
-      solarEdge: number;
-    };
+export interface JsonCalcData {
+  magazynCiepla: number;
+  cena_skupu_pradu: number;
+  prowizjaBiura: number;
+  dane: {
+    dwa: number;
+    cztery: number;
+    szesc: number;
+    osiem: number;
+    dwanascie: number;
+    dwadziescia: number;
+    trzydziesci: number;
+    piecdziesiat: number;
+  };
+  dotacje: {
     magazynCiepla: number;
-    cena_skupu_pradu: number;
-    prowizjaBiura: number;
+    menagerEnergii: number;
+    mojPrad: number;
+    mp_mc: number;
+  };
+  koszty_dodatkowe: {
+    bloczki: number;
+    tigo: number;
+    ekierki: number;
+    grunt: number;
+    inwerterHybrydowy: number;
+    solarEdge: number;
   };
 }
 
+export type CalculatorData = Record<string, JsonCalcData>;
 interface CalculatorType {
   kalkulator: CalculatorData[];
 }
@@ -47,7 +45,37 @@ AWS.config.update({
   secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
   region: "eu-central-1",
 });
-
+const schema = z.record(
+  z.object({
+    dane: z.object({
+      dwa: z.number(),
+      cztery: z.number(),
+      szesc: z.number(),
+      osiem: z.number(),
+      dwanascie: z.number(),
+      dwadziescia: z.number(),
+      trzydziesci: z.number(),
+      piecdziesiat: z.number(),
+    }),
+    dotacje: z.object({
+      magazynCiepla: z.number(),
+      menagerEnergii: z.number(),
+      mojPrad: z.number(),
+      mp_mc: z.number(),
+    }),
+    koszty_dodatkowe: z.object({
+      bloczki: z.number(),
+      tigo: z.number(),
+      ekierki: z.number(),
+      grunt: z.number(),
+      inwerterHybrydowy: z.number(),
+      solarEdge: z.number(),
+    }),
+    magazynCiepla: z.number(),
+    cena_skupu_pradu: z.number(),
+    prowizjaBiura: z.number(),
+  })
+);
 export const setFileToBucket = (fileContent: Buffer | string, key: string) => {
   const params = {
     Bucket: "ridearem",
@@ -63,6 +91,20 @@ export const setFileToBucket = (fileContent: Buffer | string, key: string) => {
   });
 };
 
+const getParsedJsonObject = async () => {
+  const dataFile = await s3
+    .getObject({
+      Bucket: "ridearem",
+      Key: "data.json",
+    })
+    .promise();
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+  const convertedFile: CalculatorType = JSON.parse(
+    dataFile?.Body?.toString() ?? "null"
+  );
+  return convertedFile;
+};
+
 export const dataFlowRouter = createTRPCRouter({
   setJSONFile: publicProcedure.mutation(() => {
     const fileContent = fs.readFileSync("data.json");
@@ -72,16 +114,8 @@ export const dataFlowRouter = createTRPCRouter({
   downloadFile: publicProcedure
     .input(z.string().optional())
     .query(async ({ input, ctx }) => {
-      const dataFile = await s3
-        .getObject({
-          Bucket: "ridearem",
-          Key: "data.json",
-        })
-        .promise();
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      const convertedFile: CalculatorType = JSON.parse(
-        dataFile?.Body?.toString() ?? "null"
-      );
+      const convertedFile = await getParsedJsonObject();
 
       function getObjectById(id: string) {
         const object: CalculatorData | undefined =
@@ -101,58 +135,28 @@ export const dataFlowRouter = createTRPCRouter({
         return getObjectById(userData.creatorId);
       }
     }),
-  editJSONFile: publicProcedure
-    .input(
-      z.object({
-        kalkulator: z.object({
-          dane: z.object({
-            dwa: z.number(),
-            cztery: z.number(),
-            szesc: z.number(),
-            osiem: z.number(),
-            dwanascie: z.number(),
-            dwadziescia: z.number(),
-            trzydziesci: z.number(),
-            piecdziesiat: z.number(),
-          }),
-          dotacje: z.object({
-            magazynCiepla: z.number(),
-            menagerEnergii: z.number(),
-            mojPrad: z.number(),
-            mp_mc: z.number(),
-          }),
-          koszty_dodatkowe: z.object({
-            bloczki: z.number(),
-            tigo: z.number(),
-            ekierki: z.number(),
-            grunt: z.number(),
-            inwerterHybrydowy: z.number(),
-            solarEdge: z.number(),
-          }),
-          magazynCiepla: z.number(),
-          cena_skupu_pradu: z.number(),
-          prowizjaBiura: z.number(),
-        }),
-      })
-    )
-    .mutation(({ input }) => {
-      const updatedJSONFile = JSON.stringify(input);
-      setFileToBucket(updatedJSONFile, "data.json");
-      return input;
-    }),
+  getEntireJsonFile: publicProcedure.query(async () => {
+    return await getParsedJsonObject();
+  }),
+  editJSONFile: publicProcedure.input(schema).mutation(async ({ input }) => {
+    const convertedFile = await getParsedJsonObject();
+    const dynamicKey = Object.keys(input)[0];
+
+    const index = convertedFile.kalkulator.findIndex(
+      (obj) => Object.keys(obj)[0] === dynamicKey
+    );
+
+    if (index !== -1) {
+      convertedFile.kalkulator[index] = input;
+    }
+    const updatedJSONFile = JSON.stringify(convertedFile);
+    setFileToBucket(updatedJSONFile, "data.json");
+    return input;
+  }),
   addNewMenager: publicProcedure
     .input(z.string())
     .mutation(async ({ input }) => {
-      const dataFile = await s3
-        .getObject({
-          Bucket: "ridearem",
-          Key: "data.json",
-        })
-        .promise();
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      const convertedFile: CalculatorType = JSON.parse(
-        dataFile?.Body?.toString() ?? "null"
-      );
+      const convertedFile = await getParsedJsonObject();
 
       const newMenagerData = {
         [input]: {
@@ -190,7 +194,7 @@ export const dataFlowRouter = createTRPCRouter({
       return {
         status: 200,
         message:
-          "Menager z bazowymi danymi został stworzony ✅  Aby zmienić jego dane, przejdź do zakładki prowizje",
+          "Menager z bazowymi danymi został stworzony. Aby zmienić jego dane, przejdź do zakładki prowizje 📝",
       };
     }),
 });

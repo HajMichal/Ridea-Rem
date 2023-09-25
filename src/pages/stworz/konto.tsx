@@ -27,7 +27,7 @@ const Account = () => {
       toast.error(error.message);
     },
     onSuccess(data) {
-      data.userRole === 2 && addMenagerData(data.userId);
+      data.userRole === 2 && addMenagerData(data.userName);
       toast.success(`Konto zostało utworzone dla ${data.userName}`);
       reset();
     },

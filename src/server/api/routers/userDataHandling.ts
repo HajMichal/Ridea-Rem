@@ -41,7 +41,7 @@ export const loginRouter = createTRPCRouter({
       });
       return {
         status: 200,
-        userName: userData.name,
+        userName: userData.name!,
         userId: userData.id,
         userRole: userData.role,
       };
