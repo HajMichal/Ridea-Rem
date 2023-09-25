@@ -17,11 +17,17 @@ const Account = () => {
   const router = useRouter();
   const { data: sessionData } = useSession();
 
+  const { mutate: addMenagerData } = api.dataFlow.addNewMenager.useMutation({
+    onSuccess(data) {
+      toast.success(data.message, { duration: 7000 });
+    },
+  });
   const { mutate } = api.userDataHandling.createAccount.useMutation({
     onError(error) {
       toast.error(error.message);
     },
     onSuccess(data) {
+      data.userRole === 2 && addMenagerData(data.userId);
       toast.success(`Konto zostało utworzone dla ${data.userName}`);
       reset();
     },
@@ -92,9 +98,7 @@ const Account = () => {
               />
               {sessionData?.user.role === 1 && (
                 <>
-                  <label htmlFor="role" className="w-full text-center">
-                    Ranga
-                  </label>
+                  <label className="w-full text-center">Ranga</label>
                   <div className="flex gap-1">
                     <label htmlFor="role">Menager</label>
                     <input

@@ -140,4 +140,57 @@ export const dataFlowRouter = createTRPCRouter({
       setFileToBucket(updatedJSONFile, "data.json");
       return input;
     }),
+  addNewMenager: publicProcedure
+    .input(z.string())
+    .mutation(async ({ input }) => {
+      const dataFile = await s3
+        .getObject({
+          Bucket: "ridearem",
+          Key: "data.json",
+        })
+        .promise();
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      const convertedFile: CalculatorType = JSON.parse(
+        dataFile?.Body?.toString() ?? "null"
+      );
+
+      const newMenagerData = {
+        [input]: {
+          dane: {
+            dwa: 4920,
+            cztery: 4700,
+            szesc: 4250,
+            osiem: 3900,
+            dwanascie: 3800,
+            dwadziescia: 3600,
+            trzydziesci: 3400,
+            piecdziesiat: 3300,
+          },
+          dotacje: {
+            magazynCiepla: 5000,
+            menagerEnergii: 3000,
+            mojPrad: 6000,
+            mp_mc: 7000,
+          },
+          koszty_dodatkowe: {
+            bloczki: 850,
+            tigo: 230,
+            ekierki: 330,
+            grunt: 850,
+            inwerterHybrydowy: 5450,
+            solarEdge: 335,
+          },
+          magazynCiepla: 3900,
+          cena_skupu_pradu: 0.72,
+          prowizjaBiura: 550,
+        },
+      };
+      convertedFile.kalkulator.push(newMenagerData);
+      setFileToBucket(JSON.stringify(convertedFile), "data.json");
+      return {
+        status: 200,
+        message:
+          "Menager z bazowymi danymi został stworzony ✅  Aby zmienić jego dane, przejdź do zakładki prowizje",
+      };
+    }),
 });

@@ -146,7 +146,6 @@ const Fotowoltaika = () => {
   const { data } = api.dataFlow.downloadFile.useQuery<JsonFileData>(
     sessionData?.user.id
   );
-  console.log(data);
 
   // Dotations
   const energyStore_dotation = photovoltaicStore.energyManageSystem
