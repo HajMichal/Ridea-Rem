@@ -368,7 +368,8 @@ interface OfficeMarkupType {
   constantFee: number;
 }
 export function officeMarkup({ input }: { input: OfficeMarkupType }) {
-  const officeFeeValue = Math.round(input.officeFee * input.system_power);
+  const officeFeeValue =
+    Math.round(input.officeFee * input.system_power) + input.constantFee;
   const consultantFeeValue = Math.round(
     input.consultantFee * input.system_power
   );

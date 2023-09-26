@@ -6,6 +6,7 @@ interface TextComponent {
   calculations: number | boolean | undefined;
   color?: string;
   unit?: string;
+  size?: string;
 }
 
 export const TextComponent = ({
@@ -13,6 +14,7 @@ export const TextComponent = ({
   calculations,
   color = "dark",
   unit = "",
+  size = "lg",
 }: TextComponent) => {
   return (
     <>
@@ -27,7 +29,7 @@ export const TextComponent = ({
           <Badge
             color={color}
             variant="light"
-            size="lg"
+            size={size}
             className="col-start-9 col-end-13"
           >
             {typeof calculations === "boolean" ? "TAK" : calculations} {unit}

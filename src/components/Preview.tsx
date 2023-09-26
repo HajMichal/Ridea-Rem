@@ -45,6 +45,8 @@ export const Preview = ({
                 calculations={
                   photovoltaicCalcStore.yearly_bill_without_photovolatics
                 }
+                color="red"
+                size="xl"
               />
               <TextComponent
                 title="CENA ENERGII W LIMICIE"
