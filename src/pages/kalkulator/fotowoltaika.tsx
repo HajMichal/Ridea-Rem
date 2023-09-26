@@ -796,7 +796,7 @@ const Fotowoltaika = () => {
                       : photovoltaicStore.tigoCount
                   }
                 />
-                {/* <SelectComponent
+                <SelectComponent
                   title="MONTAŻ, DOWÓZ, URUCHOMIENIE - NARZUT DORADCY"
                   onChange={(e) => {
                     store.updatePhotovoltaic("consultantMarkup", Number(e));
@@ -820,7 +820,7 @@ const Fotowoltaika = () => {
                     { value: "950", label: "950" },
                     { value: "1000", label: "1000" },
                   ]}
-                /> */}
+                />
                 <SelectComponent
                   title="INWERTER HYBRYDOWY"
                   onChange={(e) =>
