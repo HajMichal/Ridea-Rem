@@ -40,6 +40,12 @@ export interface JsonFileData {
     inwerterHybrydowy: number;
     solarEdge: number;
   };
+  zbiorniki: {
+    zbiornik_100L: number;
+    zbiornik_140L: number;
+    zbiornik_200L: number;
+    zbiornik_200L_z_wezem: number;
+  };
   magazynCiepla: number;
   prowizjaBiura: number;
 }
@@ -156,6 +162,7 @@ const Fotowoltaika = () => {
     : data?.dotacje.mojPrad;
 
   useEffect(() => {
+    // mutate();
     if (sessionData === null) {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call
       void router.push("/auth/signin");
@@ -812,13 +819,14 @@ const Fotowoltaika = () => {
                   value={photovoltaicStore.energyManageSystem}
                   data={yesNoData}
                 />
-                {photovoltaicStore.energyManageSystem && (
+                {photovoltaicStore.energyManageSystem && data && (
                   <SelectComponent
                     title={"WIELKOŚĆ ZBIORNIKA CWU"}
                     onChange={(e) => {
                       store.updatePhotovoltaic("tankSize", String(e));
                       mutations.set_heatStore_cost({
                         choosed_tank_type: String(e),
+                        tanks_costs: data?.zbiorniki,
                       });
                     }}
                     value={photovoltaicStore.tankSize}

@@ -225,6 +225,12 @@ export const photovoltaics_calculator = createTRPCRouter({
     .input(
       z.object({
         choosed_tank_type: z.string(),
+        tanks_costs: z.object({
+          zbiornik_100L: z.number(),
+          zbiornik_140L: z.number(),
+          zbiornik_200L: z.number(),
+          zbiornik_200L_z_wezem: z.number(),
+        }),
       })
     )
     .mutation(calc.heatStoreCost),

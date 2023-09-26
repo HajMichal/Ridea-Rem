@@ -32,6 +32,12 @@ export interface JsonCalcData {
     inwerterHybrydowy: number;
     solarEdge: number;
   };
+  zbiorniki: {
+    zbiornik_100L: number;
+    zbiornik_140L: number;
+    zbiornik_200L: number;
+    zbiornik_200L_z_wezem: number;
+  };
 }
 /* eslint @typescript-eslint/consistent-indexed-object-style: ["error", "index-signature"] */
 export interface CalculatorData {
@@ -72,6 +78,12 @@ const schema = z.record(
       grunt: z.number(),
       inwerterHybrydowy: z.number(),
       solarEdge: z.number(),
+    }),
+    zbiorniki: z.object({
+      zbiornik_100L: z.number(),
+      zbiornik_140L: z.number(),
+      zbiornik_200L: z.number(),
+      zbiornik_200L_z_wezem: z.number(),
     }),
     magazynCiepla: z.number(),
     cena_skupu_pradu: z.number(),
@@ -188,6 +200,12 @@ export const dataFlowRouter = createTRPCRouter({
             grunt: 850,
             inwerterHybrydowy: 5450,
             solarEdge: 335,
+          },
+          zbiorniki: {
+            zbiornik_100L: 4900,
+            zbiornik_140L: 5300,
+            zbiornik_200L: 5600,
+            zbiornik_200L_z_wezem: 6200,
           },
           magazynCiepla: 3900,
           cena_skupu_pradu: 0.72,

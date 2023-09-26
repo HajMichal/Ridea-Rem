@@ -449,16 +449,22 @@ export function amountTaxCredit({ input }: { input: AmountTaxCreditType }) {
 
 interface HeatStoreCostType {
   choosed_tank_type: string;
+  tanks_costs: {
+    zbiornik_100L: number;
+    zbiornik_140L: number;
+    zbiornik_200L: number;
+    zbiornik_200L_z_wezem: number;
+  };
 }
 export function heatStoreCost({ input }: { input: HeatStoreCostType }) {
   if (input.choosed_tank_type === "Zbiornik 100L") {
-    return 4900;
+    return input.tanks_costs.zbiornik_100L;
   } else if (input.choosed_tank_type === "Zbiornik 140L") {
-    return 5300;
+    return input.tanks_costs.zbiornik_140L;
   } else if (input.choosed_tank_type === "Zbiornik 200L") {
-    return 5599;
+    return input.tanks_costs.zbiornik_200L;
   } else if (input.choosed_tank_type === "Zbiornik 200L z wężownicą") {
-    return 6200;
+    return input.tanks_costs.zbiornik_200L_z_wezem;
   }
 }
 

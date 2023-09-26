@@ -37,6 +37,12 @@ interface FormTypes {
     inwerterHybrydowy: number;
     solarEdge: number;
   };
+  zbiorniki: {
+    zbiornik_100L: number;
+    zbiornik_140L: number;
+    zbiornik_200L: number;
+    zbiornik_200L_z_wezem: number;
+  };
 }
 /* eslint @typescript-eslint/consistent-indexed-object-style: ["error", "index-signature"] */
 interface EditionForm {
@@ -85,6 +91,13 @@ const EditionForm = ({ data }: EditionForm) => {
         inwerterHybrydowy: dynamicPropValues.koszty_dodatkowe.inwerterHybrydowy,
         solarEdge: dynamicPropValues.koszty_dodatkowe.solarEdge,
         tigo: dynamicPropValues.koszty_dodatkowe.tigo,
+      },
+      zbiorniki: {
+        zbiornik_100L: dynamicPropValues.zbiorniki.zbiornik_100L,
+        zbiornik_140L: dynamicPropValues.zbiorniki.zbiornik_140L,
+        zbiornik_200L: dynamicPropValues.zbiorniki.zbiornik_200L,
+        zbiornik_200L_z_wezem:
+          dynamicPropValues.zbiorniki.zbiornik_200L_z_wezem,
       },
       magazynCiepla: dynamicPropValues.magazynCiepla,
       prowizjaBiura: dynamicPropValues.prowizjaBiura,
@@ -228,6 +241,36 @@ const EditionForm = ({ data }: EditionForm) => {
           title="SOLAR EDGE"
           defaultValue={dynamicPropValues!.koszty_dodatkowe.solarEdge}
         />
+        <h2 className="mt-10 w-full text-center text-2xl">ZBIORNIKI CWU</h2>
+        <ChangeDataInputComponent
+          {...register("zbiorniki.zbiornik_100L", {
+            valueAsNumber: true,
+          })}
+          title="Zbiornik 100L"
+          defaultValue={dynamicPropValues!.zbiorniki.zbiornik_100L}
+        />
+        <ChangeDataInputComponent
+          {...register("zbiorniki.zbiornik_140L", {
+            valueAsNumber: true,
+          })}
+          title="Zbiornik 140L"
+          defaultValue={dynamicPropValues!.zbiorniki.zbiornik_140L}
+        />
+        <ChangeDataInputComponent
+          {...register("zbiorniki.zbiornik_200L", {
+            valueAsNumber: true,
+          })}
+          title="Zbiornik 200L"
+          defaultValue={dynamicPropValues!.zbiorniki.zbiornik_200L}
+        />
+        <ChangeDataInputComponent
+          {...register("zbiorniki.zbiornik_200L_z_wezem", {
+            valueAsNumber: true,
+          })}
+          title="Zbiornik 200L z wężownicą"
+          defaultValue={dynamicPropValues!.zbiorniki.zbiornik_200L_z_wezem}
+        />
+
         <h2 className="mt-10 w-full text-center text-2xl">POZOSTAŁE</h2>
         <ChangeDataInputComponent
           {...register("magazynCiepla", {
