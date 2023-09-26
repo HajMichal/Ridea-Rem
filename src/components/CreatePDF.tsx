@@ -302,8 +302,8 @@ const MyDocument = ({
           <Text>MOC SYSTEMU PV</Text>
           <Text style={styles.boldFont}>
             {photovoltaicStore.voucher
-              ? photovoltaicCalcStore.system_power
-              : photovoltaicCalcStore.system_power + 0.8}{" "}
+              ? photovoltaicCalcStore.system_power + 0.8
+              : photovoltaicCalcStore.system_power}{" "}
             kW
           </Text>
         </View>

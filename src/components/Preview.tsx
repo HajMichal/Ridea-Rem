@@ -63,8 +63,8 @@ export const Preview = ({
                 title="MOC INSTALACJI"
                 calculations={
                   photovoltaicStore.voucher
-                    ? photovoltaicCalcStore.system_power
-                    : photovoltaicCalcStore.system_power + 0.8
+                    ? photovoltaicCalcStore.system_power + 0.8
+                    : photovoltaicCalcStore.system_power
                 }
                 unit="KW"
               />
