@@ -1,8 +1,7 @@
 import React from "react";
-import { Navbar } from "~/components/Navbar";
-import { SideBar } from "~/components/SideBar";
+import { Navbar, SideBar } from "~/components";
 
-const Pompy_ciepla = () => {
+const Aktualnosci = () => {
   return (
     <main className="flex h-full max-h-screen justify-center overflow-hidden bg-backgroundGray font-orkney">
       <SideBar />
@@ -18,4 +17,4 @@ const Pompy_ciepla = () => {
   );
 };
 
-export default Pompy_ciepla;
+export default Aktualnosci;

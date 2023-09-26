@@ -33,7 +33,7 @@ export const Navbar = () => {
       <div className="flex h-[105px] w-full items-center justify-between gap-5 bg-white px-2 font-orkneyLight text-sm font-semibold">
         <div className="flex h-full w-full max-w-[800px] items-center justify-evenly gap-3 text-center laptop:gap-0 ">
           <LinkComponent href="/" title="KALKULACJA" />
-          <LinkComponent href="/" title="AKTUALNOŚCI" />
+          <LinkComponent href="/aktualnosci" title="AKTUALNOŚCI" />
           {sessionData?.user.role === 1 && (
             <LinkComponent
               href="/edycja/daneFotowoltaiki"

@@ -4,10 +4,15 @@ import { SideBar } from "~/components/SideBar";
 
 const Fotowoltaika_firmy = () => {
   return (
-    <main className="flex h-full min-h-screen justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c]">
+    <main className="flex h-full max-h-screen justify-center overflow-hidden bg-backgroundGray font-orkney">
       <SideBar />
       <div className="w-full">
         <Navbar />
+        <div className="p-20 text-5xl text-dark">
+          W Budowie...
+          <br />
+          Wkrótce dostępne!
+        </div>
       </div>
     </main>
   );
