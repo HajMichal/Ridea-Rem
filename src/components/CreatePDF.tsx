@@ -428,7 +428,7 @@ const MyDocument = ({
         >
           <View style={styles.eachRow}>
             <Text>DOTACJA `&#34;`MÓJ PRĄD 5.0`&#34;`</Text>
-            <Text style={styles.boldFont}>DO 15 000 zł</Text>
+            <Text style={styles.boldFont}>15 000 zł</Text>
           </View>
           <View style={{ fontSize: 12, paddingLeft: 12, paddingBottom: 12 }}>
             <Text>INSTALACJA FOTOWOLTAICZNA - 7000 zł</Text>
