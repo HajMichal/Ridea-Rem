@@ -353,7 +353,7 @@ const DaneFotowoltaiki = () => {
           <Tabs
             color="gray"
             // orientation="vertical"
-            defaultValue="Admin Konto"
+            defaultValue="Adrian Szymborski"
           >
             <Tabs.List className="fixed z-50 w-full bg-backgroundGray">
               {entireJsonData?.kalkulator.map((eachUserRate, index) => {

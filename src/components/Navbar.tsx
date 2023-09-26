@@ -5,6 +5,7 @@ import { FaUserCircle } from "react-icons/fa";
 import { SelectComponent } from "./SelectComponent";
 import useStore from "~/store";
 import { usePhotovoltaic } from "~/hooks/usePhotovoltaic";
+import { useRouter } from "next/router";
 
 interface LinkComponentType {
   href: string;
@@ -24,9 +25,9 @@ const LinkComponent = ({ href, title }: LinkComponentType) => {
 
 export const Navbar = () => {
   const { data: sessionData } = useSession();
+  const router = useRouter();
   const store = useStore();
-  const { photovoltaicStore, photovoltaicCalcStore, mutations } =
-    usePhotovoltaic();
+  const { photovoltaicStore } = usePhotovoltaic();
   return (
     <div className="h-fit w-full">
       <div className="flex h-[105px] w-full items-center justify-between gap-5 bg-white px-2 font-orkneyLight text-sm font-semibold">
@@ -47,33 +48,37 @@ export const Navbar = () => {
           {!(sessionData?.user.role === 3) && (
             <LinkComponent href="/stworz/konto" title="KONTA" />
           )}
-          <SelectComponent
-            title="POZIOM"
-            onChange={(e) => {
-              store.updatePhotovoltaic("consultantMarkup", Number(e));
-            }}
-            value={photovoltaicStore.consultantMarkup}
-            data={[
-              { value: "0", label: "0" },
-              { value: "100", label: "100" },
-              { value: "200", label: "200" },
-              { value: "300", label: "300" },
-              { value: "400", label: "400" },
-              { value: "500", label: "500" },
-              { value: "550", label: "550" },
-              { value: "600", label: "600" },
-              { value: "650", label: "650" },
-              { value: "700", label: "700" },
-              { value: "750", label: "750" },
-              { value: "800", label: "800" },
-              { value: "850", label: "850" },
-              { value: "900", label: "900" },
-              { value: "950", label: "950" },
-              { value: "1000", label: "1000" },
-            ]}
-          />
         </div>
-        <div className="">
+        <div className="flex items-center gap-10">
+          {router.pathname === "/kalkulator/fotowoltaika" && (
+            <div>
+              <SelectComponent
+                title="POZIOM"
+                onChange={(e) => {
+                  store.updatePhotovoltaic("consultantMarkup", Number(e));
+                }}
+                value={photovoltaicStore.consultantMarkup}
+                data={[
+                  { value: "0", label: "0" },
+                  { value: "100", label: "100" },
+                  { value: "200", label: "200" },
+                  { value: "300", label: "300" },
+                  { value: "400", label: "400" },
+                  { value: "500", label: "500" },
+                  { value: "550", label: "550" },
+                  { value: "600", label: "600" },
+                  { value: "650", label: "650" },
+                  { value: "700", label: "700" },
+                  { value: "750", label: "750" },
+                  { value: "800", label: "800" },
+                  { value: "850", label: "850" },
+                  { value: "900", label: "900" },
+                  { value: "950", label: "950" },
+                  { value: "1000", label: "1000" },
+                ]}
+              />
+            </div>
+          )}
           <AuthShowcase />
         </div>
       </div>
