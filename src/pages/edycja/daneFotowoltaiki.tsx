@@ -14,14 +14,36 @@ interface FormTypes {
   magazynCiepla: number;
   prowizjaBiura: number;
   dane: {
-    dwa: number;
-    cztery: number;
-    szesc: number;
-    osiem: number;
-    dwanascie: number;
-    dwadziescia: number;
-    trzydziesci: number;
-    piecdziesiat: number;
+    czterysta: {
+      dwa: number;
+      cztery: number;
+      szesc: number;
+      osiem: number;
+      dwanascie: number;
+      dwadziescia: number;
+      trzydziesci: number;
+      piecdziesiat: number;
+    };
+    czterysta_piecdziesiat: {
+      dwa: number;
+      cztery: number;
+      szesc: number;
+      osiem: number;
+      dwanascie: number;
+      dwadziescia: number;
+      trzydziesci: number;
+      piecdziesiat: number;
+    };
+    piecset: {
+      dwa: number;
+      cztery: number;
+      szesc: number;
+      osiem: number;
+      dwanascie: number;
+      dwadziescia: number;
+      trzydziesci: number;
+      piecdziesiat: number;
+    };
   };
   dotacje: {
     magazynCiepla: number;
@@ -69,14 +91,39 @@ const EditionForm = ({ data }: EditionForm) => {
     defaultValues: {
       cena_skupu_pradu: dynamicPropValues.cena_skupu_pradu,
       dane: {
-        dwa: dynamicPropValues.dane.dwa,
-        cztery: dynamicPropValues.dane.cztery,
-        szesc: dynamicPropValues.dane.szesc,
-        osiem: dynamicPropValues.dane.osiem,
-        dwanascie: dynamicPropValues.dane.dwanascie,
-        dwadziescia: dynamicPropValues.dane.dwadziescia,
-        trzydziesci: dynamicPropValues.dane.trzydziesci,
-        piecdziesiat: dynamicPropValues.dane.piecdziesiat,
+        czterysta: {
+          dwa: dynamicPropValues.dane.czterysta.dwa,
+          cztery: dynamicPropValues.dane.czterysta.cztery,
+          szesc: dynamicPropValues.dane.czterysta.szesc,
+          osiem: dynamicPropValues.dane.czterysta.osiem,
+          dwanascie: dynamicPropValues.dane.czterysta.dwanascie,
+          dwadziescia: dynamicPropValues.dane.czterysta.dwadziescia,
+          trzydziesci: dynamicPropValues.dane.czterysta.trzydziesci,
+          piecdziesiat: dynamicPropValues.dane.czterysta.piecdziesiat,
+        },
+        czterysta_piecdziesiat: {
+          dwa: dynamicPropValues.dane.czterysta_piecdziesiat.dwa,
+          cztery: dynamicPropValues.dane.czterysta_piecdziesiat.cztery,
+          szesc: dynamicPropValues.dane.czterysta_piecdziesiat.szesc,
+          osiem: dynamicPropValues.dane.czterysta_piecdziesiat.osiem,
+          dwanascie: dynamicPropValues.dane.czterysta_piecdziesiat.dwanascie,
+          dwadziescia:
+            dynamicPropValues.dane.czterysta_piecdziesiat.dwadziescia,
+          trzydziesci:
+            dynamicPropValues.dane.czterysta_piecdziesiat.trzydziesci,
+          piecdziesiat:
+            dynamicPropValues.dane.czterysta_piecdziesiat.piecdziesiat,
+        },
+        piecset: {
+          dwa: dynamicPropValues.dane.piecset.dwa,
+          cztery: dynamicPropValues.dane.piecset.cztery,
+          szesc: dynamicPropValues.dane.piecset.szesc,
+          osiem: dynamicPropValues.dane.piecset.osiem,
+          dwanascie: dynamicPropValues.dane.piecset.dwanascie,
+          dwadziescia: dynamicPropValues.dane.piecset.dwadziescia,
+          trzydziesci: dynamicPropValues.dane.piecset.trzydziesci,
+          piecdziesiat: dynamicPropValues.dane.piecset.piecdziesiat,
+        },
       },
       dotacje: {
         magazynCiepla: dynamicPropValues.dotacje.magazynCiepla,
@@ -109,66 +156,211 @@ const EditionForm = ({ data }: EditionForm) => {
   };
   return (
     <>
-      <form className="w-full pb-20 pt-10">
-        <h2 className="mt-5 w-full text-center text-2xl">DANE {dynamicKey}</h2>
+      <h1 className="w-full pt-14 text-center">{dynamicKey}</h1>
+      <form className="w-full pb-20 pt-3">
+        <h2 className="mt-5 w-full text-center text-3xl">DANE </h2>
+        <div className="flex">
+          <div>
+            <h2 className="mb-2 ml-3 mt-5 w-full text-center font-orkneyLight text-2xl">
+              PANEL 400
+            </h2>
+            <ChangeDataInputComponent
+              {...register("dane.czterysta.dwa", {
+                valueAsNumber: true,
+              })}
+              title="OD 0 DO 2"
+              defaultValue={dynamicPropValues!.dane.czterysta.dwa}
+            />
 
-        <ChangeDataInputComponent
-          {...register("dane.dwa", {
-            valueAsNumber: true,
-          })}
-          title="OD 0 DO 2"
-          defaultValue={dynamicPropValues!.dane.dwa}
-        />
+            <ChangeDataInputComponent
+              {...register("dane.czterysta.cztery", {
+                valueAsNumber: true,
+              })}
+              title="OD 2.1 DO 4"
+              defaultValue={dynamicPropValues!.dane.czterysta.cztery}
+            />
+            <ChangeDataInputComponent
+              {...register("dane.czterysta.szesc", {
+                valueAsNumber: true,
+              })}
+              title="OD 4.1 DO 6"
+              defaultValue={dynamicPropValues!.dane.czterysta.szesc}
+            />
+            <ChangeDataInputComponent
+              {...register("dane.czterysta.osiem", {
+                valueAsNumber: true,
+              })}
+              title="OD 6.1 DO 8"
+              defaultValue={dynamicPropValues!.dane.czterysta.osiem}
+            />
+            <ChangeDataInputComponent
+              {...register("dane.czterysta.dwanascie", {
+                valueAsNumber: true,
+              })}
+              title="OD 8.1 DO 12"
+              defaultValue={dynamicPropValues!.dane.czterysta.dwanascie}
+            />
+            <ChangeDataInputComponent
+              {...register("dane.czterysta.dwadziescia", {
+                valueAsNumber: true,
+              })}
+              title="OD 12.1 DO 20"
+              defaultValue={dynamicPropValues!.dane.czterysta.dwadziescia}
+            />
+            <ChangeDataInputComponent
+              {...register("dane.czterysta.trzydziesci", {
+                valueAsNumber: true,
+              })}
+              title="OD 20.1 DO 30"
+              defaultValue={dynamicPropValues!.dane.czterysta.trzydziesci}
+            />
+            <ChangeDataInputComponent
+              {...register("dane.czterysta.piecdziesiat", {
+                valueAsNumber: true,
+              })}
+              title="OD 30.1 DO 50"
+              defaultValue={dynamicPropValues!.dane.czterysta.piecdziesiat}
+            />
+          </div>
+          <div>
+            <h2 className="mb-2 ml-3 mt-5 w-full text-center font-orkneyLight text-2xl">
+              PANEL 455
+            </h2>
+            <ChangeDataInputComponent
+              {...register("dane.czterysta_piecdziesiat.dwa", {
+                valueAsNumber: true,
+              })}
+              title="OD 0 DO 2"
+              defaultValue={dynamicPropValues!.dane.czterysta_piecdziesiat.dwa}
+            />
 
-        <ChangeDataInputComponent
-          {...register("dane.cztery", {
-            valueAsNumber: true,
-          })}
-          title="OD 2.1 DO 4"
-          defaultValue={dynamicPropValues!.dane.cztery}
-        />
-        <ChangeDataInputComponent
-          {...register("dane.szesc", {
-            valueAsNumber: true,
-          })}
-          title="OD 4.1 DO 6"
-          defaultValue={dynamicPropValues!.dane.szesc}
-        />
-        <ChangeDataInputComponent
-          {...register("dane.osiem", {
-            valueAsNumber: true,
-          })}
-          title="OD 6.1 DO 8"
-          defaultValue={dynamicPropValues!.dane.osiem}
-        />
-        <ChangeDataInputComponent
-          {...register("dane.dwanascie", {
-            valueAsNumber: true,
-          })}
-          title="OD 8.1 DO 12"
-          defaultValue={dynamicPropValues!.dane.dwanascie}
-        />
-        <ChangeDataInputComponent
-          {...register("dane.dwadziescia", {
-            valueAsNumber: true,
-          })}
-          title="OD 12.1 DO 20"
-          defaultValue={dynamicPropValues!.dane.dwadziescia}
-        />
-        <ChangeDataInputComponent
-          {...register("dane.trzydziesci", {
-            valueAsNumber: true,
-          })}
-          title="OD 20.1 DO 30"
-          defaultValue={dynamicPropValues!.dane.trzydziesci}
-        />
-        <ChangeDataInputComponent
-          {...register("dane.piecdziesiat", {
-            valueAsNumber: true,
-          })}
-          title="OD 30.1 DO 50"
-          defaultValue={dynamicPropValues!.dane.piecdziesiat}
-        />
+            <ChangeDataInputComponent
+              {...register("dane.czterysta_piecdziesiat.cztery", {
+                valueAsNumber: true,
+              })}
+              title="OD 2.1 DO 4"
+              defaultValue={
+                dynamicPropValues!.dane.czterysta_piecdziesiat.cztery
+              }
+            />
+            <ChangeDataInputComponent
+              {...register("dane.czterysta_piecdziesiat.szesc", {
+                valueAsNumber: true,
+              })}
+              title="OD 4.1 DO 6"
+              defaultValue={
+                dynamicPropValues!.dane.czterysta_piecdziesiat.szesc
+              }
+            />
+            <ChangeDataInputComponent
+              {...register("dane.czterysta_piecdziesiat.osiem", {
+                valueAsNumber: true,
+              })}
+              title="OD 6.1 DO 8"
+              defaultValue={
+                dynamicPropValues!.dane.czterysta_piecdziesiat.osiem
+              }
+            />
+            <ChangeDataInputComponent
+              {...register("dane.czterysta_piecdziesiat.dwanascie", {
+                valueAsNumber: true,
+              })}
+              title="OD 8.1 DO 12"
+              defaultValue={
+                dynamicPropValues!.dane.czterysta_piecdziesiat.dwanascie
+              }
+            />
+            <ChangeDataInputComponent
+              {...register("dane.czterysta_piecdziesiat.dwadziescia", {
+                valueAsNumber: true,
+              })}
+              title="OD 12.1 DO 20"
+              defaultValue={
+                dynamicPropValues!.dane.czterysta_piecdziesiat.dwadziescia
+              }
+            />
+            <ChangeDataInputComponent
+              {...register("dane.czterysta_piecdziesiat.trzydziesci", {
+                valueAsNumber: true,
+              })}
+              title="OD 20.1 DO 30"
+              defaultValue={
+                dynamicPropValues!.dane.czterysta_piecdziesiat.trzydziesci
+              }
+            />
+            <ChangeDataInputComponent
+              {...register("dane.czterysta_piecdziesiat.piecdziesiat", {
+                valueAsNumber: true,
+              })}
+              title="OD 30.1 DO 50"
+              defaultValue={
+                dynamicPropValues!.dane.czterysta_piecdziesiat.piecdziesiat
+              }
+            />
+          </div>
+          <div>
+            <h2 className="mb-2 ml-3 mt-5 w-full text-center font-orkneyLight text-2xl">
+              PANEL 500
+            </h2>
+            <ChangeDataInputComponent
+              {...register("dane.piecset.dwa", {
+                valueAsNumber: true,
+              })}
+              title="OD 0 DO 2"
+              defaultValue={dynamicPropValues!.dane.piecset.dwa}
+            />
+
+            <ChangeDataInputComponent
+              {...register("dane.piecset.cztery", {
+                valueAsNumber: true,
+              })}
+              title="OD 2.1 DO 4"
+              defaultValue={dynamicPropValues!.dane.piecset.cztery}
+            />
+            <ChangeDataInputComponent
+              {...register("dane.piecset.szesc", {
+                valueAsNumber: true,
+              })}
+              title="OD 4.1 DO 6"
+              defaultValue={dynamicPropValues!.dane.piecset.szesc}
+            />
+            <ChangeDataInputComponent
+              {...register("dane.piecset.osiem", {
+                valueAsNumber: true,
+              })}
+              title="OD 6.1 DO 8"
+              defaultValue={dynamicPropValues!.dane.piecset.osiem}
+            />
+            <ChangeDataInputComponent
+              {...register("dane.piecset.dwanascie", {
+                valueAsNumber: true,
+              })}
+              title="OD 8.1 DO 12"
+              defaultValue={dynamicPropValues!.dane.piecset.dwanascie}
+            />
+            <ChangeDataInputComponent
+              {...register("dane.piecset.dwadziescia", {
+                valueAsNumber: true,
+              })}
+              title="OD 12.1 DO 20"
+              defaultValue={dynamicPropValues!.dane.piecset.dwadziescia}
+            />
+            <ChangeDataInputComponent
+              {...register("dane.piecset.trzydziesci", {
+                valueAsNumber: true,
+              })}
+              title="OD 20.1 DO 30"
+              defaultValue={dynamicPropValues!.dane.piecset.trzydziesci}
+            />
+            <ChangeDataInputComponent
+              {...register("dane.piecset.piecdziesiat", {
+                valueAsNumber: true,
+              })}
+              title="OD 30.1 DO 50"
+              defaultValue={dynamicPropValues!.dane.piecset.piecdziesiat}
+            />
+          </div>
+        </div>
         <h2 className="mt-10 w-full text-center text-2xl">DOTACJE</h2>
         <ChangeDataInputComponent
           {...register("dotacje.magazynCiepla", {

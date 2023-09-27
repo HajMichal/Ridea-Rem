@@ -263,6 +263,13 @@ export const usePhotovoltaic = () => {
     }
     store.updatePhotovoltaic("modulesCount", e.target.valueAsNumber);
   };
+  const getDataDependsOnPanelPower = () => {
+    if (store.photovoltaicStore.panelPower === 400) return data?.dane.czterysta;
+    else if (store.photovoltaicStore.panelPower === 455)
+      return data?.dane.czterysta_piecdziesiat;
+    else if (store.photovoltaicStore.panelPower === 500)
+      return data?.dane.piecset;
+  };
 
   return {
     photovoltaicStore: store.photovoltaicStore,
@@ -310,6 +317,7 @@ export const usePhotovoltaic = () => {
       set_payment_return_time,
       set_heatStore_dotation_value,
       set_termo_modernization,
+      getDataDependsOnPanelPower,
     },
   };
 };

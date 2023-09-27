@@ -9,14 +9,36 @@ export interface JsonCalcData {
   cena_skupu_pradu: number;
   prowizjaBiura: number;
   dane: {
-    dwa: number;
-    cztery: number;
-    szesc: number;
-    osiem: number;
-    dwanascie: number;
-    dwadziescia: number;
-    trzydziesci: number;
-    piecdziesiat: number;
+    czterysta: {
+      dwa: number;
+      cztery: number;
+      szesc: number;
+      osiem: number;
+      dwanascie: number;
+      dwadziescia: number;
+      trzydziesci: number;
+      piecdziesiat: number;
+    };
+    czterysta_piecdziesiat: {
+      dwa: number;
+      cztery: number;
+      szesc: number;
+      osiem: number;
+      dwanascie: number;
+      dwadziescia: number;
+      trzydziesci: number;
+      piecdziesiat: number;
+    };
+    piecset: {
+      dwa: number;
+      cztery: number;
+      szesc: number;
+      osiem: number;
+      dwanascie: number;
+      dwadziescia: number;
+      trzydziesci: number;
+      piecdziesiat: number;
+    };
   };
   dotacje: {
     magazynCiepla: number;
@@ -56,14 +78,36 @@ AWS.config.update({
 const schema = z.record(
   z.object({
     dane: z.object({
-      dwa: z.number(),
-      cztery: z.number(),
-      szesc: z.number(),
-      osiem: z.number(),
-      dwanascie: z.number(),
-      dwadziescia: z.number(),
-      trzydziesci: z.number(),
-      piecdziesiat: z.number(),
+      czterysta: z.object({
+        dwa: z.number(),
+        cztery: z.number(),
+        szesc: z.number(),
+        osiem: z.number(),
+        dwanascie: z.number(),
+        dwadziescia: z.number(),
+        trzydziesci: z.number(),
+        piecdziesiat: z.number(),
+      }),
+      czterysta_piecdziesiat: z.object({
+        dwa: z.number(),
+        cztery: z.number(),
+        szesc: z.number(),
+        osiem: z.number(),
+        dwanascie: z.number(),
+        dwadziescia: z.number(),
+        trzydziesci: z.number(),
+        piecdziesiat: z.number(),
+      }),
+      piecset: z.object({
+        dwa: z.number(),
+        cztery: z.number(),
+        szesc: z.number(),
+        osiem: z.number(),
+        dwanascie: z.number(),
+        dwadziescia: z.number(),
+        trzydziesci: z.number(),
+        piecdziesiat: z.number(),
+      }),
     }),
     dotacje: z.object({
       magazynCiepla: z.number(),
@@ -194,14 +238,36 @@ export const dataFlowRouter = createTRPCRouter({
       const newMenagerData = {
         [input]: {
           dane: {
-            dwa: 4920,
-            cztery: 4700,
-            szesc: 4250,
-            osiem: 3900,
-            dwanascie: 3800,
-            dwadziescia: 3600,
-            trzydziesci: 3400,
-            piecdziesiat: 3300,
+            czterysta: {
+              dwa: 4920,
+              cztery: 4700,
+              szesc: 4250,
+              osiem: 3900,
+              dwanascie: 3800,
+              dwadziescia: 3600,
+              trzydziesci: 3400,
+              piecdziesiat: 3300,
+            },
+            czterysta_piecdziesiat: {
+              dwa: 4921,
+              cztery: 4700,
+              szesc: 4250,
+              osiem: 3900,
+              dwanascie: 3800,
+              dwadziescia: 3600,
+              trzydziesci: 3400,
+              piecdziesiat: 3300,
+            },
+            piecset: {
+              dwa: 4922,
+              cztery: 4700,
+              szesc: 4250,
+              osiem: 3900,
+              dwanascie: 3800,
+              dwadziescia: 3600,
+              trzydziesci: 3400,
+              piecdziesiat: 3300,
+            },
           },
           dotacje: {
             magazynCiepla: 5000,

@@ -17,14 +17,36 @@ import { ScrollArea } from "@mantine/core";
 export interface JsonFileData {
   cena_skupu_pradu: number;
   dane: {
-    dwa: number;
-    cztery: number;
-    szesc: number;
-    osiem: number;
-    dwanascie: number;
-    dwadziescia: number;
-    trzydziesci: number;
-    piecdziesiat: number;
+    czterysta: {
+      dwa: number;
+      cztery: number;
+      szesc: number;
+      osiem: number;
+      dwanascie: number;
+      dwadziescia: number;
+      trzydziesci: number;
+      piecdziesiat: number;
+    };
+    czterysta_piecdziesiat: {
+      dwa: number;
+      cztery: number;
+      szesc: number;
+      osiem: number;
+      dwanascie: number;
+      dwadziescia: number;
+      trzydziesci: number;
+      piecdziesiat: number;
+    };
+    piecset: {
+      dwa: number;
+      cztery: number;
+      szesc: number;
+      osiem: number;
+      dwanascie: number;
+      dwadziescia: number;
+      trzydziesci: number;
+      piecdziesiat: number;
+    };
   };
   dotacje: {
     magazynCiepla: number;
@@ -50,97 +72,6 @@ export interface JsonFileData {
   prowizjaBiura: number;
 }
 
-export interface PRZYSZLY_INTERFACE {
-  kalkulator: {
-    czterysta: {
-      dane: {
-        dwa: number;
-        cztery: number;
-        szesc: number;
-        osiem: number;
-        dwanascie: number;
-        dwadziescia: number;
-        trzydziesci: number;
-        piecdziesiat: number;
-      };
-      dotacje: {
-        magazynCiepla: number;
-        menagerEnergii: number;
-        mojPrad: number;
-        mp_mc: number;
-      };
-      koszty_dodatkowe: {
-        bloczki: number;
-        tigo: number;
-        ekierki: number;
-        grunt: number;
-        inwerterHybrydowy: number;
-        solarEdge: number;
-      };
-      magazynCiepla: number;
-      tarczaSolidarnosciowa: string[];
-      prowizjaBiura: number;
-    };
-    czterystaPol: {
-      dane: {
-        dwa: number;
-        cztery: number;
-        szesc: number;
-        osiem: number;
-        dwanascie: number;
-        dwadziescia: number;
-        trzydziesci: number;
-        piecdziesiat: number;
-      };
-      dotacje: {
-        magazynCiepla: number;
-        menagerEnergii: number;
-        mojPrad: number;
-        mp_mc: number;
-      };
-      koszty_dodatkowe: {
-        bloczki: number;
-        tigo: number;
-        ekierki: number;
-        grunt: number;
-        inwerterHybrydowy: number;
-        solarEdge: number;
-      };
-      magazynCiepla: number;
-      tarczaSolidarnosciowa: string[];
-      prowizjaBiura: number;
-    };
-    piecset: {
-      dane: {
-        dwa: number;
-        cztery: number;
-        szesc: number;
-        osiem: number;
-        dwanascie: number;
-        dwadziescia: number;
-        trzydziesci: number;
-        piecdziesiat: number;
-      };
-      dotacje: {
-        magazynCiepla: number;
-        menagerEnergii: number;
-        mojPrad: number;
-        mp_mc: number;
-      };
-      koszty_dodatkowe: {
-        bloczki: number;
-        tigo: number;
-        ekierki: number;
-        grunt: number;
-        inwerterHybrydowy: number;
-        solarEdge: number;
-      };
-      magazynCiepla: number;
-      tarczaSolidarnosciowa: string[];
-      prowizjaBiura: number;
-    };
-  };
-}
 const Fotowoltaika = () => {
   const store = useStore();
   const { photovoltaicStore, photovoltaicCalcStore, mutations } =
@@ -341,17 +272,19 @@ const Fotowoltaika = () => {
     photovoltaicCalcStore.yearly_bill_without_photovolatics,
     mutations.set_total_save,
   ]);
+
   useEffect(() => {
     if (photovoltaicCalcStore.system_power && data) {
       mutations.set_installationAndPer1KW_price({
         system_power: photovoltaicCalcStore.system_power,
-        dane: data?.dane,
+        dane: mutations.getDataDependsOnPanelPower()!,
       });
     }
   }, [
     data,
     photovoltaicCalcStore.system_power,
     mutations.set_installationAndPer1KW_price,
+    photovoltaicStore.panelPower,
   ]);
 
   useEffect(() => {
