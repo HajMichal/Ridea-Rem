@@ -101,4 +101,10 @@ export const loginRouter = createTRPCRouter({
       });
       return { status: 200, message: "Prowizja została nałożona na konto" };
     }),
+  removeUser: publicProcedure
+    .input(z.string())
+    .mutation(async ({ ctx, input }) => {
+      await ctx.prisma.user.delete({ where: { id: input } });
+      return { status: 200, message: "Użytkownik został poprawnie usunięty." };
+    }),
 });

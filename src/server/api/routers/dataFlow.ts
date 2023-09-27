@@ -170,6 +170,22 @@ export const dataFlowRouter = createTRPCRouter({
     setFileToBucket(updatedJSONFile, "data.json");
     return input;
   }),
+  removeMenagerData: publicProcedure
+    .input(z.string())
+    .mutation(async ({ input }) => {
+      const convertedFile = await getParsedJsonObject();
+      const index = convertedFile.kalkulator.findIndex(
+        (obj) => Object.keys(obj)[0] === input
+      );
+
+      if (index !== -1) {
+        convertedFile.kalkulator.splice(index, 1);
+      }
+
+      const updatedJSONFile = JSON.stringify(convertedFile);
+      setFileToBucket(updatedJSONFile, "data.json");
+      return input;
+    }),
   addNewMenager: publicProcedure
     .input(z.string())
     .mutation(async ({ input }) => {
