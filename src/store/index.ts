@@ -3,11 +3,11 @@ import { create } from "zustand";
 import {
   photovoltaicsSlice,
   type PhotovoltaicsSlice,
-} from "./photovoltaicSlice";
+} from "./photovoltaic/photovoltaicSlice";
 import {
   photovoltaicCalculationSlice,
   type PhotovoltaicCalculationSlice,
-} from "./photovoltaicCalculationSlice";
+} from "./photovoltaic/photovoltaicCalculationSlice";
 
 type Store = PhotovoltaicsSlice & PhotovoltaicCalculationSlice;
 

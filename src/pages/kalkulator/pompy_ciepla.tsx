@@ -26,7 +26,7 @@ const Pompy_ciepla = () => {
               style={{ textShadow: " 24px 24px #bebebe" }}
               className="z-50 mb-10 font-orkneyBold text-5xl"
             >
-              FOTOWOLTAIKA
+              POMPA CIEPŁA
             </h1>
             <ScrollArea h={"78%"}>
               {/* <SelectComponent
