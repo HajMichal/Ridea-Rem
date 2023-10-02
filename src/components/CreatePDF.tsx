@@ -200,31 +200,33 @@ const MyDocument = ({
         <View style={styles.eachRow}>
           <Text>KOSZTY ENERGII ELEKTRYCZNEJ </Text>
           <Text style={styles.boldFont}>
-            {photovoltaicCalcStore.total_energy_trend_fee} zł
+            {photovoltaicCalcStore.total_energy_trend_fee.toFixed(2)} zł
           </Text>
         </View>
         <View style={styles.eachRow}>
           <Text>KOSZTY OPŁAT DYSTRYBUCJI</Text>
           <Text style={styles.boldFont}>
-            {photovoltaicCalcStore.total_payment_energy_transfer} zł
+            {photovoltaicCalcStore.total_payment_energy_transfer.toFixed(2)} zł
           </Text>
         </View>
         <View style={styles.eachRow}>
           <Text>PRZEWIDYWANA WYSOKOŚC RACHUNKI ZA 2023 </Text>
           <Text style={styles.boldFont}>
-            {photovoltaicCalcStore.yearly_bill_without_photovolatics} zł
+            {photovoltaicCalcStore.yearly_bill_without_photovolatics.toFixed(2)}{" "}
+            zł
           </Text>
         </View>
         <View style={styles.eachRow}>
           <Text>ŚREDNI KOSZT KAŻDEJ kWh </Text>
           <Text style={styles.boldFont}>
-            {photovoltaicCalcStore.estiamted_price_for_trend_in_1KWH} zł
+            {photovoltaicCalcStore.estiamted_price_for_trend_in_1KWH.toFixed(2)}{" "}
+            zł
           </Text>
         </View>
         <View style={styles.eachRow}>
           <Text>PRZEWIDYWANA PRODUKCJA ENERGI Z PV </Text>
           <Text style={styles.boldFont}>
-            {photovoltaicCalcStore.estimated_kWh_prod} kWh
+            {photovoltaicCalcStore.estimated_kWh_prod.toFixed(2)} kWh
           </Text>
         </View>
         <View style={styles.eachRow}>
@@ -243,7 +245,7 @@ const MyDocument = ({
         <View style={styles.eachRow}>
           <Text>WARTOŚĆ SPRZEDANEJ ENERGII (0,72 zł/kWh)</Text>
           <Text style={styles.boldFont}>
-            {photovoltaicCalcStore.accumulated_funds_on_account} zł
+            {photovoltaicCalcStore.accumulated_funds_on_account.toFixed(2)} zł
           </Text>
         </View>
         <View style={styles.priceRow}>
@@ -256,7 +258,7 @@ const MyDocument = ({
               paddingTop: 10,
             }}
           >
-            {photovoltaicCalcStore.yearly_profit_for_installation} zł
+            {photovoltaicCalcStore.yearly_profit_for_installation.toFixed(2)} zł
           </Text>
         </View>
         <View style={styles.paymentReturnTime}>
@@ -409,13 +411,17 @@ const MyDocument = ({
         <View style={styles.eachRow}>
           <Text>PODATEK VAT 8%</Text>
           <Text style={styles.boldFont}>
-            {photovoltaicCalcStore.totalInstallationCosts.fee_value} zł
+            {photovoltaicCalcStore.totalInstallationCosts.fee_value.toFixed(2)}{" "}
+            zł
           </Text>
         </View>
         <View style={styles.eachRow}>
           <Text>WARTOŚĆ BRUTTO</Text>
           <Text style={styles.boldFont}>
-            {photovoltaicCalcStore.totalInstallationCosts.total_gross_cost} zł
+            {photovoltaicCalcStore.totalInstallationCosts.total_gross_cost.toFixed(
+              2
+            )}{" "}
+            zł
           </Text>
         </View>
         <View
@@ -457,7 +463,7 @@ const MyDocument = ({
             OSTATECZNY KOSZT INSTALACJI PO DOFINANSOWANIU:
           </Text>
           <Text style={{ fontSize: 50, marginTop: 4 }}>
-            {photovoltaicCalcStore.finall_installation_cost} zł
+            {photovoltaicCalcStore.finall_installation_cost.toFixed(2)} zł
           </Text>
         </View>
       </View>
