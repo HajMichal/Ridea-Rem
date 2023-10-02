@@ -405,7 +405,7 @@ export function totalInstallationCosts({
   const fee_value = total_cost * 0.08;
   return {
     total_installation_cost: total_cost,
-    total_gross_cost: total_cost + fee_value + 3200,
+    total_gross_cost: Number((total_cost + fee_value + 3200).toFixed(2)),
     fee_value: Number(fee_value.toFixed(2)),
   };
 }
