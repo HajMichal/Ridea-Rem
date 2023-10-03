@@ -459,7 +459,7 @@ const MyDocument = ({
             <Text>
               MAGAZYN CIEPŁA (BUFOR) -{" "}
               {photovoltaicStore.heatStoreDotation
-                ? photovoltaicCalcStore.energyMenagerSystemDotation
+                ? photovoltaicCalcStore.heatStoreCalcDotation
                 : "0"}{" "}
               ZŁ
             </Text>

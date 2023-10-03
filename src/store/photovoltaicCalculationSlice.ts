@@ -47,7 +47,7 @@ export interface PhotovoltaicCalculations {
   save_on_autoconsumption: number;
   yearly_profit_for_installation: number;
   payment_return_time: { years: number; months: number };
-  energyMenagerSystemDotation: number;
+  heatStoreCalcDotation: number;
   termoModernization: number;
 }
 
@@ -107,7 +107,7 @@ export const photovoltaicCalculationSlice: StateCreator<
     save_on_autoconsumption: 0,
     yearly_profit_for_installation: 0,
     payment_return_time: { years: 0, months: 0 },
-    energyMenagerSystemDotation: 0,
+    heatStoreCalcDotation: 0,
     termoModernization: 0,
   },
   updatePhotovoltaicCalcs: (key, value) =>

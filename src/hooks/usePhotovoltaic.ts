@@ -220,10 +220,10 @@ export const usePhotovoltaic = () => {
         store.updatePhotovoltaicCalcs("payment_return_time", data);
       },
     });
-  const { mutate: set_energyMenagerSystemDotation } =
-    api.photovoltaics.energyMenagerSystemDotation.useMutation({
+  const { mutate: set_heatStoreCalcDotation } =
+    api.photovoltaics.heatStoreCalcDotation.useMutation({
       onSuccess: (data) => {
-        store.updatePhotovoltaicCalcs("energyMenagerSystemDotation", data);
+        store.updatePhotovoltaicCalcs("heatStoreCalcDotation", data);
       },
     });
   const { mutate: set_termo_modernization } =
@@ -315,7 +315,7 @@ export const usePhotovoltaic = () => {
       set_save_on_autoconsumption,
       set_yearly_profit_for_installation,
       set_payment_return_time,
-      set_energyMenagerSystemDotation,
+      set_heatStoreCalcDotation,
       set_termo_modernization,
       getDataDependsOnPanelPower,
     },

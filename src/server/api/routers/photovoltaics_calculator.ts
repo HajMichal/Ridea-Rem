@@ -282,7 +282,7 @@ export const photovoltaics_calculator = createTRPCRouter({
       })
     )
     .mutation(calc.paymentReturnTime),
-  energyMenagerSystemDotation: publicProcedure
+  heatStoreCalcDotation: publicProcedure
     .input(
       z.object({
         gross_instalation_cost: z.number(),

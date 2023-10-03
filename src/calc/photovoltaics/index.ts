@@ -432,11 +432,13 @@ export function amountAfterDotation({
 }: {
   input: AmountAfterDotationType;
 }) {
-  return (
+  console.log(
     input.gross_instalation_cost -
-    input.summed_dotations -
-    input.termoModernization
+      input.summed_dotations -
+      input.termoModernization
   );
+
+  return input.gross_instalation_cost - input.summed_dotations;
 }
 
 interface AmountTaxCreditType {

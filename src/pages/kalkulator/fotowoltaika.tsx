@@ -410,13 +410,12 @@ const Fotowoltaika = () => {
     mutations.set_dotations_sum({
       energyStore_dotation: energyStore_dotation ?? 0,
       photovoltaics_dotation: photovoltaics_dotation ?? 0,
-      heatStore_dotation:
-        photovoltaicCalcStore.energyMenagerSystemDotation ?? 0,
+      heatStore_dotation: photovoltaicCalcStore.heatStoreCalcDotation ?? 0,
     });
   }, [
     photovoltaics_dotation,
     energyStore_dotation,
-    photovoltaicCalcStore.energyMenagerSystemDotation,
+    photovoltaicCalcStore.heatStoreCalcDotation,
     mutations.set_dotations_sum,
   ]);
 
@@ -530,13 +529,13 @@ const Fotowoltaika = () => {
 
   useEffect(() => {
     if (photovoltaicCalcStore.totalInstallationCosts.total_gross_cost)
-      mutations.set_energyMenagerSystemDotation({
+      mutations.set_heatStoreCalcDotation({
         gross_instalation_cost:
           photovoltaicCalcStore.totalInstallationCosts.total_gross_cost,
       });
   }, [
     photovoltaicCalcStore.totalInstallationCosts.total_gross_cost,
-    mutations.set_energyMenagerSystemDotation,
+    mutations.set_heatStoreCalcDotation,
   ]);
   useEffect(() => {
     mutations.set_termo_modernization({
@@ -787,9 +786,7 @@ const Fotowoltaika = () => {
           </div>
           <Preview
             photovoltaics_dotation={photovoltaics_dotation}
-            heatStore_dotation={
-              photovoltaicCalcStore.energyMenagerSystemDotation
-            }
+            heatStore_dotation={photovoltaicCalcStore.heatStoreCalcDotation}
             energyStore_dotation={energyStore_dotation}
           />
         </div>

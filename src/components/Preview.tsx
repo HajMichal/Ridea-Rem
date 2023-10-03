@@ -123,13 +123,16 @@ export const Preview = ({
                 title="MAGAZYN CIEPŁA + EMS"
                 calculations={photovoltaicStore.heatStoreDotation}
               />
-
-              <TextComponent
-                title="OSTATECZNA KWOTA BRUTTO ZA INSTALACJĘ"
-                calculations={
-                  photovoltaicCalcStore.totalInstallationCosts.total_gross_cost
-                }
-              />
+              <div className="my-10">
+                <h2 className="w-full text-center text-xl">FINANSE</h2>
+                <TextComponent
+                  title="KWOTA BRUTTO ZA INSTALACJĘ"
+                  calculations={
+                    photovoltaicCalcStore.totalInstallationCosts
+                      .total_gross_cost
+                  }
+                />
+              </div>
               {energyStore_dotation ||
               photovoltaics_dotation ||
               heatStore_dotation ? (
@@ -139,7 +142,7 @@ export const Preview = ({
                     title="MAGAZYN CIEPŁA"
                     calculations={
                       photovoltaicStore.heatStoreDotation &&
-                      photovoltaicCalcStore.energyMenagerSystemDotation
+                      photovoltaicCalcStore.heatStoreCalcDotation
                     }
                   />
                   <TextComponent
@@ -156,7 +159,9 @@ export const Preview = ({
               )}
               <div className="mt-20 text-center">
                 <TextComponent
-                  title="OSTATECZNA KWOTA ZA INSTALACJĘ"
+                  title="KWOTA PO DOTACJACH"
+                  color="green"
+                  size="xl"
                   calculations={photovoltaicCalcStore.finall_installation_cost}
                 />
               </div>
