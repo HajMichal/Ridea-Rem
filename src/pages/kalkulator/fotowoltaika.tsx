@@ -85,10 +85,11 @@ const Fotowoltaika = () => {
   );
 
   // Dotations
-  const energyStore_dotation = photovoltaicStore.energyManageSystem
+  const energyStore_dotation = photovoltaicStore.heatStoreDotation
     ? data?.dotacje.menagerEnergii
     : 0;
-  const photovoltaics_dotation = store.photovoltaicStore.energyManageSystem
+
+  const photovoltaics_dotation = store.photovoltaicStore.heatStoreDotation
     ? data?.dotacje.mp_mc
     : data?.dotacje.mojPrad;
 
@@ -288,11 +289,7 @@ const Fotowoltaika = () => {
   ]);
 
   useEffect(() => {
-    if (
-      data &&
-      photovoltaicStore.modulesCount &&
-      photovoltaicStore.isEccentricsChoosed
-    )
+    if (data && photovoltaicStore.modulesCount)
       mutations.set_ekierki_price({
         price: data.koszty_dodatkowe.ekierki,
         isChoosed: photovoltaicStore.isEccentricsChoosed,
@@ -305,11 +302,7 @@ const Fotowoltaika = () => {
     mutations.set_ekierki_price,
   ]);
   useEffect(() => {
-    if (
-      data &&
-      photovoltaicCalcStore.system_power &&
-      photovoltaicStore.isRoofWeightSystem
-    )
+    if (data && photovoltaicCalcStore.system_power)
       mutations.set_bloczki_price({
         price: data.koszty_dodatkowe.bloczki,
         isChoosed: photovoltaicStore.isRoofWeightSystem,
@@ -417,11 +410,13 @@ const Fotowoltaika = () => {
     mutations.set_dotations_sum({
       energyStore_dotation: energyStore_dotation ?? 0,
       photovoltaics_dotation: photovoltaics_dotation ?? 0,
-      heatStore_dotation: photovoltaicCalcStore.heatStore_dotation_value ?? 0,
+      heatStore_dotation:
+        photovoltaicCalcStore.energyMenagerSystemDotation ?? 0,
     });
   }, [
     photovoltaics_dotation,
     energyStore_dotation,
+    photovoltaicCalcStore.energyMenagerSystemDotation,
     mutations.set_dotations_sum,
   ]);
 
@@ -434,7 +429,7 @@ const Fotowoltaika = () => {
         gross_instalation_cost:
           photovoltaicCalcStore.totalInstallationCosts?.total_gross_cost,
         summed_dotations: photovoltaicCalcStore.dotations_sum,
-        termoModernization: photovoltaicCalcStore.termo_modernization,
+        termoModernization: photovoltaicCalcStore.termoModernization,
       });
   }, [
     photovoltaicCalcStore.dotations_sum,
@@ -444,11 +439,11 @@ const Fotowoltaika = () => {
   useEffect(() => {
     mutations.set_heatStore_energyManager_costs({
       heatStore_cost: photovoltaicCalcStore.heatStore_cost ?? 0,
-      isEnergyManagerSystem: photovoltaicStore.energyManageSystem,
+      isEnergyManagerSystem: photovoltaicStore.heatStoreDotation,
     });
   }, [
     photovoltaicCalcStore.heatStore_cost,
-    photovoltaicStore.energyManageSystem,
+    photovoltaicStore.heatStoreDotation,
     mutations.set_heatStore_energyManager_costs,
   ]);
 
@@ -535,13 +530,13 @@ const Fotowoltaika = () => {
 
   useEffect(() => {
     if (photovoltaicCalcStore.totalInstallationCosts.total_gross_cost)
-      mutations.set_heatStore_dotation_value({
+      mutations.set_energyMenagerSystemDotation({
         gross_instalation_cost:
           photovoltaicCalcStore.totalInstallationCosts.total_gross_cost,
       });
   }, [
     photovoltaicCalcStore.totalInstallationCosts.total_gross_cost,
-    mutations.set_heatStore_dotation_value,
+    mutations.set_energyMenagerSystemDotation,
   ]);
   useEffect(() => {
     mutations.set_termo_modernization({
@@ -687,7 +682,7 @@ const Fotowoltaika = () => {
                   />
                 )}
                 <SelectComponent
-                  title="MONTAŻ NA WIELU POWIEŻNIACH - SOLAR EDGE"
+                  title="MONTAŻ NA WIELU POWIERZCHNIACH - SOLAR EDGE"
                   onChange={(e) =>
                     store.updatePhotovoltaic("isSolarEdgeChoosed", e == "true")
                   }
@@ -696,7 +691,7 @@ const Fotowoltaika = () => {
                 />
                 {!photovoltaicStore.isGroundMontage && (
                   <SelectComponent
-                    title="MONTAŻ NA DACHU PŁASKIM"
+                    title="MONTAŻ NA DACHU PŁASKIM - EKIERKI"
                     onChange={(e) =>
                       store.updatePhotovoltaic(
                         "isEccentricsChoosed",
@@ -747,12 +742,12 @@ const Fotowoltaika = () => {
                 <SelectComponent
                   title="MAGAZYN CIEPŁA + EMS"
                   onChange={(e) =>
-                    store.updatePhotovoltaic("energyManageSystem", e == "true")
+                    store.updatePhotovoltaic("heatStoreDotation", e == "true")
                   }
-                  value={photovoltaicStore.energyManageSystem}
+                  value={photovoltaicStore.heatStoreDotation}
                   data={yesNoData}
                 />
-                {photovoltaicStore.energyManageSystem && data && (
+                {photovoltaicStore.heatStoreDotation && data && (
                   <SelectComponent
                     title={"WIELKOŚĆ ZBIORNIKA CWU"}
                     onChange={(e) => {
@@ -764,6 +759,7 @@ const Fotowoltaika = () => {
                     }}
                     value={photovoltaicStore.tankSize}
                     data={[
+                      { value: "Brak", label: "Brak" },
                       { value: "Zbiornik 100L", label: "Zbiornik 100L" },
                       { value: "Zbiornik 140L", label: "Zbiornik 140L" },
                       { value: "Zbiornik 200L", label: "Zbiornik 200L" },
@@ -791,7 +787,9 @@ const Fotowoltaika = () => {
           </div>
           <Preview
             photovoltaics_dotation={photovoltaics_dotation}
-            heatStore_dotation={photovoltaicCalcStore.heatStore_dotation_value}
+            heatStore_dotation={
+              photovoltaicCalcStore.energyMenagerSystemDotation
+            }
             energyStore_dotation={energyStore_dotation}
           />
         </div>

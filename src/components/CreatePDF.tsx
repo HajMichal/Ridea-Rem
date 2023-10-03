@@ -17,7 +17,7 @@ interface photovoltaicStore {
   isGroundMontage: boolean;
   isRoofWeightSystem: boolean;
   isSolarEdgeChoosed: boolean;
-  energyManageSystem: boolean;
+  heatStoreDotation: boolean;
   isEccentricsChoosed: boolean;
   isInwerterChoosed: boolean;
   taxCredit: number;
@@ -68,14 +68,14 @@ const styles = StyleSheet.create({
     height: "auto",
   },
   title: {
-    fontSize: 45,
+    fontSize: 40,
     fontWeight: 600,
     fontFamily: "Orkney",
-    marginTop: -10,
+    marginTop: -30,
   },
   subTitle: {
-    fontSize: 20,
-    marginBottom: 20,
+    fontSize: 18,
+    marginBottom: 10,
   },
   eachRow: {
     paddingHorizontal: 20,
@@ -155,11 +155,15 @@ const styles = StyleSheet.create({
 interface DataToPDF {
   photovoltaicCalcStore: PhotovoltaicCalculations;
   photovoltaicStore: photovoltaicStore;
+  energyStore_dotation: number | undefined;
+  photovoltaics_dotation: number | undefined;
 }
 
 const MyDocument = ({
   photovoltaicCalcStore,
   photovoltaicStore,
+  energyStore_dotation,
+  photovoltaics_dotation,
 }: DataToPDF) => (
   <Document>
     <Page size="A4" style={styles.page}>
@@ -320,7 +324,7 @@ const MyDocument = ({
           <Text style={styles.boldFont}>{photovoltaicStore.panelPower}</Text>
         </View>
         <View style={styles.eachRow}>
-          <Text>INWERTER (SOLAX)</Text>
+          <Text>INWERTER HYBRYDOWY</Text>
           <Text style={styles.boldFont}>
             {photovoltaicStore.isInwerterChoosed ? "1 szt." : "NIE"}
           </Text>
@@ -338,7 +342,7 @@ const MyDocument = ({
         <View style={styles.eachRow}>
           <Text>MENADŻER ENERGII - EMS</Text>
           <Text style={styles.boldFont}>
-            {photovoltaicStore.energyManageSystem ? "1 szt." : "NIE"}
+            {photovoltaicStore.heatStoreDotation ? "1 szt." : "NIE"}
           </Text>
         </View>
         <View style={styles.eachRow}>
@@ -348,6 +352,12 @@ const MyDocument = ({
         <View style={styles.eachRow}>
           <Text>STELARZE</Text>
           <Text style={styles.boldFont}>ALUMINIOWE</Text>
+        </View>
+        <View style={styles.eachRow}>
+          <Text>MONTAŻ NA DACHU PŁASKIM - EKIERKI</Text>
+          <Text style={styles.boldFont}>
+            {photovoltaicStore.isEccentricsChoosed ? "TAK" : "NIE"}
+          </Text>
         </View>
         <View style={styles.eachRow}>
           <Text>MONTAŻ NA GRUNCIE</Text>
@@ -374,7 +384,7 @@ const MyDocument = ({
         <View style={styles.eachRow}>
           <Text>MAGAZYN CIEPŁA</Text>
           <Text style={styles.boldFont}>
-            {photovoltaicStore.energyManageSystem ? "TAK" : "NIE"}
+            {photovoltaicStore.heatStoreDotation ? "TAK" : "NIE"}
           </Text>
         </View>
         <View style={styles.eachRow}>
@@ -424,6 +434,12 @@ const MyDocument = ({
             zł
           </Text>
         </View>
+        <View style={styles.eachRow}>
+          <Text>ULGA TERMOMODERNIZACYJNA</Text>
+          <Text style={styles.boldFont}>
+            {photovoltaicCalcStore.termoModernization} ZŁ
+          </Text>
+        </View>
         <View
           style={{
             backgroundColor: "#FEEB1A",
@@ -434,19 +450,23 @@ const MyDocument = ({
         >
           <View style={styles.eachRow}>
             <Text>DOTACJA `&#34;`MÓJ PRĄD 5.0`&#34;`</Text>
-            <Text style={styles.boldFont}>15 000 zł</Text>
+            <Text style={styles.boldFont}>
+              {photovoltaicCalcStore.dotations_sum} ZŁ
+            </Text>
           </View>
           <View style={{ fontSize: 12, paddingLeft: 12, paddingBottom: 12 }}>
-            <Text>INSTALACJA FOTOWOLTAICZNA - 7000 zł</Text>
+            <Text>INSTALACJA FOTOWOLTAICZNA - {photovoltaics_dotation} ZŁ</Text>
             <Text>
               MAGAZYN CIEPŁA (BUFOR) -{" "}
-              {photovoltaicStore.energyManageSystem ? "5000 zł" : "0 zł"}
+              {photovoltaicStore.heatStoreDotation
+                ? photovoltaicCalcStore.energyMenagerSystemDotation
+                : "0"}{" "}
+              ZŁ
             </Text>
             <Text>
               SYSTEM ZARZĄDZANIA ENERGIĄ (EMS/HEMS) -{" "}
-              {photovoltaicStore.energyManageSystem
-                ? photovoltaicCalcStore.heatStore_dotation_value
-                : "0 zł"}
+              {photovoltaicStore.heatStoreDotation ? energyStore_dotation : "0"}{" "}
+              ZŁ
             </Text>
           </View>
         </View>

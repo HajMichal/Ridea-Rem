@@ -7,7 +7,7 @@ export interface PhotovoltaicsSlice {
     isGroundMontage: boolean;
     isRoofWeightSystem: boolean;
     isSolarEdgeChoosed: boolean;
-    energyManageSystem: boolean;
+    heatStoreDotation: boolean;
     isEccentricsChoosed: boolean;
     isInwerterChoosed: boolean;
     taxCredit: number;
@@ -32,7 +32,7 @@ export const photovoltaicsSlice: StateCreator<PhotovoltaicsSlice> = (set) => ({
     isGroundMontage: false,
     isRoofWeightSystem: false,
     isSolarEdgeChoosed: false,
-    energyManageSystem: false,
+    heatStoreDotation: false,
     isEccentricsChoosed: false,
     isInwerterChoosed: false,
     taxCredit: 0.12,
@@ -45,7 +45,7 @@ export const photovoltaicsSlice: StateCreator<PhotovoltaicsSlice> = (set) => ({
     recentYearTrendUsage: 0,
     tigoCount: 0,
     panelPower: 400,
-    tankSize: "Zbiornik 100L",
+    tankSize: "Brak",
   },
   updatePhotovoltaic: (key, value) =>
     set((state) => ({

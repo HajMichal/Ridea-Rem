@@ -19,6 +19,7 @@ export const Preview = ({
   const { photovoltaicCalcStore, photovoltaicStore, loading } =
     usePhotovoltaic();
   const [parent] = useAutoAnimate();
+
   return (
     <div
       id="CALCULATIONS"
@@ -94,7 +95,7 @@ export const Preview = ({
                 calculations={photovoltaicStore.southRoof}
               />
               <TextComponent
-                title="DACH PŁASKI"
+                title="DACH PŁASKI - EKIERKI"
                 calculations={photovoltaicStore.isEccentricsChoosed}
               />
               <TextComponent
@@ -120,17 +121,27 @@ export const Preview = ({
               />
               <TextComponent
                 title="MAGAZYN CIEPŁA + EMS"
-                calculations={photovoltaicStore.energyManageSystem}
+                calculations={photovoltaicStore.heatStoreDotation}
               />
+
               <TextComponent
-                title="OSTATECZNA KWOTA ZA INSTALACJĘ"
-                calculations={photovoltaicCalcStore.finall_installation_cost}
+                title="OSTATECZNA KWOTA BRUTTO ZA INSTALACJĘ"
+                calculations={
+                  photovoltaicCalcStore.totalInstallationCosts.total_gross_cost
+                }
               />
               {energyStore_dotation ||
               photovoltaics_dotation ||
               heatStore_dotation ? (
                 <div>
                   <h2 className="mt-10 w-full text-center text-xl">DOTACJE</h2>
+                  <TextComponent
+                    title="MAGAZYN CIEPŁA"
+                    calculations={
+                      photovoltaicStore.heatStoreDotation &&
+                      photovoltaicCalcStore.energyMenagerSystemDotation
+                    }
+                  />
                   <TextComponent
                     title="MENAGER ENERGII"
                     calculations={energyStore_dotation}
@@ -139,18 +150,21 @@ export const Preview = ({
                     title="MÓJ PRĄD FOTOWOLTAIKA"
                     calculations={photovoltaics_dotation}
                   />
-                  <TextComponent
-                    title="MAGAZYN CIEPŁA"
-                    calculations={
-                      photovoltaicStore.energyManageSystem && heatStore_dotation
-                    }
-                  />
                 </div>
               ) : (
                 ""
               )}
+              <div className="mt-20 text-center">
+                <TextComponent
+                  title="OSTATECZNA KWOTA ZA INSTALACJĘ"
+                  calculations={photovoltaicCalcStore.finall_installation_cost}
+                />
+              </div>
             </div>
-            <PdfGeneratorButton />
+            <PdfGeneratorButton
+              energyStore_dotation={energyStore_dotation}
+              photovoltaics_dotation={photovoltaics_dotation}
+            />
           </div>
         )}
       </div>

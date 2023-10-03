@@ -82,15 +82,12 @@ export function totalEnergyTrendFee({
   input: TotalEnergyTrendFeeType;
 }) {
   // D12 -> Łączna opłata energii elektrycznej
-  const innerCondition =
-    input.recentYearTrendUsage - input.autoconsumption > input.usageLimit;
+  const innerCondition = input.recentYearTrendUsage > input.usageLimit;
+
   const innerValue = innerCondition
-    ? input.priceInLimit * staticData.ENERGY_LIMIT_PERCENT * input.usageLimit +
-      input.priceOutOfLimit *
-        staticData.ENERGY_LIMIT_PERCENT *
-        (input.recentYearTrendUsage - input.autoconsumption - input.usageLimit)
-    : (input.recentYearTrendUsage - input.autoconsumption) *
-      (input.priceInLimit * staticData.ENERGY_LIMIT_PERCENT);
+    ? input.priceInLimit * input.usageLimit +
+      input.priceOutOfLimit * (input.recentYearTrendUsage - input.usageLimit)
+    : input.priceInLimit * input.recentYearTrendUsage;
 
   const result = Number(
     (innerValue - input.accumulated_funds_on_account).toFixed(2)
@@ -402,7 +399,9 @@ export function totalInstallationCosts({
     input.addon_costs +
     input.base_installation_costs +
     input.heatStore_energyManager_costs;
+
   const fee_value = total_cost * 0.08;
+
   return {
     total_installation_cost: total_cost,
     total_gross_cost: Number((total_cost + fee_value + 3200).toFixed(2)),
@@ -478,7 +477,7 @@ export function heatStoreWithEnergyManagerCost({
 }: {
   input: HeatStoreWithEnergyManagerCostType;
 }) {
-  return input.isEnergyManagerSystem ? input.heatStore_cost + 1500 : 0;
+  return input.isEnergyManagerSystem ? input.heatStore_cost + 1600 : 0;
 }
 
 interface FinallInstallationCostType {
@@ -567,11 +566,14 @@ export function heatStoreDotationValue({
   const value =
     input.gross_instalation_cost - staticData.VALUE_TO_HEATSTORE_DOTATION;
 
-  if (value >= 16000) {
-    return 8000;
+  if (value < 0) {
+    return 0;
+  }
+  if (value >= 5000) {
+    return 5000;
   }
 
-  if (value < 16000) {
+  if (value < 5000) {
     return Number(
       (value * staticData.PERCENT_TO_HEATSTORE_DOTATION).toFixed(2)
     );
@@ -589,10 +591,9 @@ export function termoModernization({
   input: TermoModernizationType;
 }) {
   return Number(
-    (
-      (input.total_gross_value - input.dotation_sum) *
-      input.tax_credit
-    ).toFixed()
+    ((input.total_gross_value - input.dotation_sum) * input.tax_credit).toFixed(
+      2
+    )
   );
 }
 

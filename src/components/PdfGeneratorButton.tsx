@@ -14,7 +14,15 @@ const DynamicPDFDownloadLink = dynamic(
   }
 );
 
-export const PdfGeneratorButton = () => {
+interface Dotations {
+  energyStore_dotation: number | undefined;
+  photovoltaics_dotation: number | undefined;
+}
+
+export const PdfGeneratorButton = ({
+  energyStore_dotation,
+  photovoltaics_dotation,
+}: Dotations) => {
   const [pdfLoading, setPdfLoading] = useState(false);
   const { photovoltaicCalcStore, photovoltaicStore } = usePhotovoltaic();
 
@@ -24,6 +32,8 @@ export const PdfGeneratorButton = () => {
       <MyDocument
         photovoltaicCalcStore={photovoltaicCalcStore}
         photovoltaicStore={photovoltaicStore}
+        energyStore_dotation={energyStore_dotation}
+        photovoltaics_dotation={photovoltaics_dotation}
       />
     ).toBlob();
     setPdfLoading(false);
