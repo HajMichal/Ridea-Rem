@@ -432,12 +432,6 @@ export function amountAfterDotation({
 }: {
   input: AmountAfterDotationType;
 }) {
-  console.log(
-    input.gross_instalation_cost -
-      input.summed_dotations -
-      input.termoModernization
-  );
-
   return input.gross_instalation_cost - input.summed_dotations;
 }
 
@@ -571,11 +565,11 @@ export function heatStoreDotationValue({
   if (value < 0) {
     return 0;
   }
-  if (value >= 5000) {
+  if (value >= 10000) {
     return 5000;
   }
 
-  if (value < 5000) {
+  if (value < 10000) {
     return Number(
       (value * staticData.PERCENT_TO_HEATSTORE_DOTATION).toFixed(2)
     );
