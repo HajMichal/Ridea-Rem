@@ -123,16 +123,19 @@ export const Preview = ({
                 title="MAGAZYN CIEPŁA + EMS"
                 calculations={photovoltaicStore.heatStoreDotation}
               />
-              <div className="my-10">
-                <h2 className="w-full text-center text-xl">FINANSE</h2>
-                <TextComponent
-                  title="KWOTA BRUTTO ZA INSTALACJĘ"
-                  calculations={
-                    photovoltaicCalcStore.totalInstallationCosts
-                      .total_gross_cost
-                  }
-                />
-              </div>
+              {!!photovoltaicCalcStore.totalInstallationCosts
+                .total_gross_cost && (
+                <div className="my-10">
+                  <h2 className="w-full text-center text-xl">FINANSE</h2>
+                  <TextComponent
+                    title="KWOTA BRUTTO ZA INSTALACJĘ"
+                    calculations={
+                      photovoltaicCalcStore.totalInstallationCosts
+                        .total_gross_cost
+                    }
+                  />
+                </div>
+              )}
               {energyStore_dotation ||
               photovoltaics_dotation ||
               heatStore_dotation ? (
