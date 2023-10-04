@@ -70,6 +70,7 @@ export interface JsonFileData {
   };
   magazynCiepla: number;
   prowizjaBiura: number;
+  oprocentowanie_kredytu: number;
 }
 
 const Fotowoltaika = () => {
@@ -549,6 +550,19 @@ const Fotowoltaika = () => {
     photovoltaicStore.taxCredit,
     photovoltaicCalcStore.dotations_sum,
   ]);
+  useEffect(() => {
+    if (data)
+      mutations.set_loan_for_purcharse({
+        creditPercentage: data.oprocentowanie_kredytu,
+        instalmentNumber: photovoltaicStore.installmentNumber,
+        finall_installation_cost:
+          photovoltaicCalcStore.finall_installation_cost,
+      });
+  }, [
+    photovoltaicCalcStore.finall_installation_cost,
+    photovoltaicStore.installmentNumber,
+    data?.oprocentowanie_kredytu,
+  ]);
 
   const yesNoData = [
     { value: "true", label: "Tak" },
@@ -780,6 +794,17 @@ const Fotowoltaika = () => {
                     { value: "0.12", label: "12%" },
                     { value: "0.32", label: "32%" },
                   ]}
+                />
+                <InputComponent
+                  title="LICZBA RAT"
+                  onChange={(e) => {
+                    store.updatePhotovoltaic(
+                      "installmentNumber",
+                      e.target.valueAsNumber
+                    );
+                  }}
+                  step={10}
+                  value={photovoltaicStore.installmentNumber}
                 />
               </div>
             </ScrollArea>

@@ -232,6 +232,12 @@ export const usePhotovoltaic = () => {
         store.updatePhotovoltaicCalcs("termoModernization", data);
       },
     });
+  const { mutate: set_loan_for_purcharse } =
+    api.photovoltaics.loanForPurcharse.useMutation({
+      onSuccess: (data) => {
+        store.updatePhotovoltaicCalcs("loanForPurcharse", data);
+      },
+    });
 
   const handleInLimitOnChange = (e: { target: { valueAsNumber: number } }) => {
     if (e.target.valueAsNumber) {
@@ -318,6 +324,7 @@ export const usePhotovoltaic = () => {
       set_heatStoreCalcDotation,
       set_termo_modernization,
       getDataDependsOnPanelPower,
+      set_loan_for_purcharse,
     },
   };
 };

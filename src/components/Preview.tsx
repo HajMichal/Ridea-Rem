@@ -134,6 +134,10 @@ export const Preview = ({
                         .total_gross_cost
                     }
                   />
+                  <TextComponent
+                    title={`CENA 1 RATY PRZY ${photovoltaicStore.installmentNumber} RATACH`}
+                    calculations={photovoltaicCalcStore.loanForPurcharse}
+                  />
                 </div>
               )}
               {energyStore_dotation ||

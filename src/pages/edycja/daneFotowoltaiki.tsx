@@ -13,6 +13,7 @@ interface FormTypes {
   cena_skupu_pradu: number;
   magazynCiepla: number;
   prowizjaBiura: number;
+  oprocentowanie_kredytu: number;
   dane: {
     czterysta: {
       dwa: number;
@@ -148,6 +149,7 @@ const EditionForm = ({ data }: EditionForm) => {
       },
       magazynCiepla: dynamicPropValues.magazynCiepla,
       prowizjaBiura: dynamicPropValues.prowizjaBiura,
+      oprocentowanie_kredytu: dynamicPropValues.oprocentowanie_kredytu,
     },
   };
   const onSubmit: SubmitHandler<FormTypes> = (data) => {
@@ -484,6 +486,13 @@ const EditionForm = ({ data }: EditionForm) => {
           })}
           title="PROWIZJA BIURA"
           defaultValue={dynamicPropValues!.prowizjaBiura}
+        />
+        <ChangeDataInputComponent
+          {...register("oprocentowanie_kredytu", {
+            valueAsNumber: true,
+          })}
+          title="OPROCENTOWANIE KREDYTU"
+          defaultValue={dynamicPropValues!.oprocentowanie_kredytu}
         />
       </form>
       <button

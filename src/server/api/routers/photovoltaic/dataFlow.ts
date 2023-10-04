@@ -8,6 +8,7 @@ export interface JsonCalcData {
   magazynCiepla: number;
   cena_skupu_pradu: number;
   prowizjaBiura: number;
+  oprocentowanie_kredytu: number;
   dane: {
     czterysta: {
       dwa: number;
@@ -132,6 +133,7 @@ const schema = z.record(
     magazynCiepla: z.number(),
     cena_skupu_pradu: z.number(),
     prowizjaBiura: z.number(),
+    oprocentowanie_kredytu: z.number(),
   })
 );
 export const setFileToBucket = (fileContent: Buffer | string, key: string) => {
@@ -292,6 +294,7 @@ export const dataFlowRouter = createTRPCRouter({
           magazynCiepla: 3900,
           cena_skupu_pradu: 0.72,
           prowizjaBiura: 550,
+          oprocentowanie_kredytu: 8.3,
         },
       };
       convertedFile.kalkulator.push(newMenagerData);

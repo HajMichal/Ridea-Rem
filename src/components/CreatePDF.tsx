@@ -10,28 +10,7 @@ import {
 } from "@react-pdf/renderer";
 
 import { type PhotovoltaicCalculations } from "~/store/photovoltaic/photovoltaicCalculationSlice";
-
-interface photovoltaicStore {
-  southRoof: boolean;
-  voucher: boolean;
-  isGroundMontage: boolean;
-  isRoofWeightSystem: boolean;
-  isSolarEdgeChoosed: boolean;
-  heatStoreDotation: boolean;
-  isEccentricsChoosed: boolean;
-  isInwerterChoosed: boolean;
-  taxCredit: number;
-  usageLimit: number;
-  modulesCount: number;
-  consultantMarkup: number;
-  autoconsumptionInPercent: number;
-  energyPriceInLimit: number;
-  energyPriceOutOfLimit: number;
-  recentYearTrendUsage: number;
-  tigoCount: number;
-  tankSize: string;
-  panelPower: number;
-}
+import { type PhotovoltaicsSlice } from "~/store/photovoltaic/photovoltaicSlice";
 
 Font.register({
   family: "Orkney",
@@ -154,7 +133,7 @@ const styles = StyleSheet.create({
 
 interface DataToPDF {
   photovoltaicCalcStore: PhotovoltaicCalculations;
-  photovoltaicStore: photovoltaicStore;
+  photovoltaicStore: PhotovoltaicsSlice["photovoltaicStore"];
   energyStore_dotation: number | undefined;
   photovoltaics_dotation: number | undefined;
 }
@@ -411,10 +390,9 @@ const MyDocument = ({
         <View style={styles.eachRow}>
           <Text>WARTOŚĆ NETTO</Text>
           <Text style={styles.boldFont}>
-            {
-              photovoltaicCalcStore.totalInstallationCosts
-                .total_installation_cost
-            }{" "}
+            {photovoltaicCalcStore.totalInstallationCosts.total_installation_cost.toFixed(
+              2
+            )}{" "}
             zł
           </Text>
         </View>
@@ -437,7 +415,7 @@ const MyDocument = ({
         <View style={styles.eachRow}>
           <Text>ULGA TERMOMODERNIZACYJNA</Text>
           <Text style={styles.boldFont}>
-            {photovoltaicCalcStore.termoModernization} ZŁ
+            {photovoltaicCalcStore.termoModernization.toFixed(2)} ZŁ
           </Text>
         </View>
         <View
@@ -470,6 +448,7 @@ const MyDocument = ({
             </Text>
           </View>
         </View>
+
         <View
           style={{
             marginTop: 150,
@@ -479,11 +458,21 @@ const MyDocument = ({
             padding: 22,
           }}
         >
+          {/* <View style={styles.eachRow}>
+
+          </View> */}
           <Text style={{ fontSize: 12 }}>
             OSTATECZNY KOSZT INSTALACJI PO DOFINANSOWANIU:
           </Text>
           <Text style={{ fontSize: 50, marginTop: 4 }}>
             {photovoltaicCalcStore.finall_installation_cost.toFixed(2)} zł
+          </Text>
+          <Text style={{ fontSize: 12, marginLeft: 10 }}>DOSTĘPNE:</Text>
+          <Text style={{ fontSize: 12, marginLeft: 10 }}>
+            {photovoltaicStore.installmentNumber} RAT W WYSOKOŚCI{" "}
+            <Text style={styles.boldFont}>
+              {photovoltaicCalcStore.loanForPurcharse.toFixed(2)} ZŁ
+            </Text>
           </Text>
         </View>
       </View>
