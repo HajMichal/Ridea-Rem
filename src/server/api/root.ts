@@ -1,7 +1,7 @@
 import { createTRPCRouter } from "~/server/api/trpc";
-import { dataFlowRouter } from "./routers/dataFlow";
+import { dataFlowRouter } from "./routers/photovoltaic/dataFlow";
 import { loginRouter } from "./routers/userDataHandling";
-import { photovoltaics_calculator } from "./routers/photovoltaics_calculator";
+import { photovoltaics_calculator } from "./routers/photovoltaic/photovoltaics_calculator";
 
 /**
  * This is the primary router for your server.

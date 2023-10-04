@@ -9,7 +9,7 @@ import {
   Font,
 } from "@react-pdf/renderer";
 
-import { type PhotovoltaicCalculations } from "~/store/photovoltaicCalculationSlice";
+import { type PhotovoltaicCalculations } from "~/store/photovoltaic/photovoltaicCalculationSlice";
 
 interface photovoltaicStore {
   southRoof: boolean;

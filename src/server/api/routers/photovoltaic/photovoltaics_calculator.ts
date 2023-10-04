@@ -1,6 +1,6 @@
 import { z } from "zod";
-import { createTRPCRouter, publicProcedure } from "../trpc";
-import calc from "../../../calc/photovoltaics";
+import { createTRPCRouter, publicProcedure } from "../../trpc";
+import calc from "../../../../calc/photovoltaics";
 
 /** hello */
 export const photovoltaics_calculator = createTRPCRouter({
