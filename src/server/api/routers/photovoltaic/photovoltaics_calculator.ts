@@ -299,4 +299,13 @@ export const photovoltaics_calculator = createTRPCRouter({
       })
     )
     .mutation(calc.termoModernization),
+  loanForPurcharse: publicProcedure
+    .input(
+      z.object({
+        finall_installation_cost: z.number(),
+        creditPercentage: z.number(),
+        instalmentNumber: z.number(),
+      })
+    )
+    .mutation(calc.loanForPurcharse),
 });

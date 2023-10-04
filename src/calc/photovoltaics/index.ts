@@ -593,4 +593,18 @@ export function termoModernization({
   );
 }
 
+interface LoanForPurcharseType {
+  finall_installation_cost: number;
+  creditPercentage: number;
+  instalmentNumber: number;
+}
+export function loanForPurcharse({ input }: { input: LoanForPurcharseType }) {
+  const monthlyInterestRate = input.creditPercentage / 12 / 100;
+
+  const monthlyPayment =
+    (input.finall_installation_cost * monthlyInterestRate) /
+    (1 - Math.pow(1 + monthlyInterestRate, -input.instalmentNumber));
+  return Number(monthlyPayment.toFixed(2));
+}
+
 export * as default from "./index";
