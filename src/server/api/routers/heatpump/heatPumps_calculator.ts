@@ -50,4 +50,41 @@ export const heatPump_calculator = createTRPCRouter({
       })
     )
     .mutation(calc.kubatura),
+  D34: publicProcedure
+    .input(
+      z.object({
+        kubatura: z.number(),
+        heatLost: z.number(),
+        I30: z.number(),
+        H30: z.number(),
+      })
+    )
+    .mutation(calc.D34),
+  assumedHeatNeed: publicProcedure
+    .input(
+      z.object({
+        D34: z.number(),
+        kubatura: z.number(),
+      })
+    )
+    .mutation(calc.assumedHeatNeed),
+  yearlyHeatingHomeCost: publicProcedure
+    .input(
+      z.object({
+        currentFuelToHeat: z.string(),
+        yearlyEnergeticCost: z.number(),
+        buyPrize1Tonne: z.number(),
+        buyPrize1kWh: z.number(),
+      })
+    )
+    .mutation(calc.yearlyHeatingHomeCost),
+  G335: publicProcedure.mutation(calc.G335),
+  yearlyEnergeticCost: publicProcedure
+    .input(
+      z.object({
+        D34: z.number(),
+        G335: z.number(),
+      })
+    )
+    .mutation(calc.yearlyEnergeticCost),
 });

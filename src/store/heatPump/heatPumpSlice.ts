@@ -1,16 +1,16 @@
 import { StateCreator } from "zustand";
 
 type currentFuelToHeat =
-  | "Wegiel kamienny"
   | "Energia elektryczna"
-  | "Mial weglowy 23 KWK Chwalowice"
-  | "Flot 20 KWK Chwalowice"
+  | "Węgiel kamienny"
+  | "Miał węglowy 23 KWK Chwałowice"
+  | "Flot 20 KWK Chwałowice"
   | "Groszek"
   | "Biomasa / Pelet"
-  | "Olej opalowy"
-  | "Gaz plynny LPG"
+  | "Olej opałowy"
+  | "Gaz płynny LPG"
   | "Gaz ziemny"
-  | "Pompa ciepla COP= wg. J13"
+  | "Pompa ciepła COP= wg. J13"
   | "Kolektory słoneczne"
   | "PEC";
 
@@ -101,7 +101,7 @@ export const photovoltaicsSlice: StateCreator<HeatPumpSlice> = (set) => ({
     minimalWorkingTemp: -7,
 
     buildingIsolation: "Ocieplenie styropian / wełna 5 cm",
-    currentFuelToHeat: "Wegiel kamienny",
+    currentFuelToHeat: "Węgiel kamienny",
     suggestedPump: "Z-PRO.5.3/4.Mitsubishi.Inv.11-16",
   },
   updatePhotovoltaic: (key, value) =>

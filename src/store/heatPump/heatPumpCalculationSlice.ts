@@ -3,7 +3,8 @@ import { type StateCreator } from "zustand";
 export interface HeatPumpCalculations {
   heatLost: number;
   kubatura: number;
-  D35: number;
+  assumedHeatNeed: number;
+  assumedHeatNeedPer1m: number;
   D34: number;
   yearlyHeatingHomeCost: number;
   suggestedPumpPower: number;
@@ -21,13 +22,13 @@ export interface HeatPumpCalculations {
   grossSystemValue: number;
   termoModernizationRelif: number;
   finallGrossInstalationCost: number;
-
   buildingIsolationCalc: number;
   windowLayersCalc: number;
   glazingTypeCalc: number;
   isolatedCeilingCalc: number;
   isolatedFloorCalc: number;
   isolatedDoorCalc: number;
+  G335: number;
 }
 
 export interface HeatPumpCalculationSlice {
@@ -44,16 +45,17 @@ export const heatPumpCalculationStore: StateCreator<
   heatPumpCalculationStore: {
     heatLost: 0,
     kubatura: 0,
-    D35: 0, // D34 / kubatura
+    assumedHeatNeed: 0, // D34 / kubatura
+    assumedHeatNeedPer1m: 0, // (assumedHeatNeed * roomHeight) / 100
     D34: 0, // kubatura * I13 * I28
-    yearlyHeatingHomeCost: 0,
+    yearlyHeatingHomeCost: 0, // C18
     suggestedPumpPower: 0,
     heatingCostsWithPump: 0,
     yearlySave: 0,
     oncelyEnergeticCost: 0, //C29
     yearlyEnergeticCost: 0, //D29 |   D34 * checkDate
     checkDate: 1, //C138
-    I13: 0, // H13 - G13    H13 to stała wartość
+    I13: 0, // heatLost  H13 - G13    H13 to stała wartość
     I28: 0, // I30 - H30    Obie wartości to stałe
     B307: 0, //base of net value
     nettoPumpValue: 0, //B307 * checkDate
@@ -68,6 +70,7 @@ export const heatPumpCalculationStore: StateCreator<
     isolatedCeilingCalc: 0, // G9
     isolatedFloorCalc: 0, // G10
     isolatedDoorCalc: 0, // G12
+    G335: 0,
   },
   updateHeatPumpCalcs: (key, value) =>
     set((state) => ({
