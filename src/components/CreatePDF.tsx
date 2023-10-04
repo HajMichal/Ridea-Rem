@@ -458,9 +458,6 @@ const MyDocument = ({
             padding: 22,
           }}
         >
-          {/* <View style={styles.eachRow}>
-
-          </View> */}
           <Text style={{ fontSize: 12 }}>
             OSTATECZNY KOSZT INSTALACJI PO DOFINANSOWANIU:
           </Text>
