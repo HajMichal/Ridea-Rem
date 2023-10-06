@@ -6,8 +6,7 @@ export interface HeatPumpCalculations {
   assumedHeatNeed: number;
   assumedHeatNeedPer1m: number;
   D34: number;
-  yearlyHeatingHomeCost: number;
-  suggestedPumpPower: number;
+
   heatingCostsWithPump: number;
   yearlySave: number;
   oncelyEnergeticCost: number;
@@ -39,7 +38,7 @@ export interface HeatPumpCalculationSlice {
   ) => void;
 }
 
-export const heatPumpCalculationStore: StateCreator<
+export const heatPumpCalculationSlice: StateCreator<
   HeatPumpCalculationSlice
 > = (set) => ({
   heatPumpCalculationStore: {
@@ -48,8 +47,6 @@ export const heatPumpCalculationStore: StateCreator<
     assumedHeatNeed: 0, // D34 / kubatura
     assumedHeatNeedPer1m: 0, // (assumedHeatNeed * roomHeight) / 100
     D34: 0, // kubatura * I13 * I28
-    yearlyHeatingHomeCost: 0, // C18
-    suggestedPumpPower: 0,
     heatingCostsWithPump: 0,
     yearlySave: 0,
     oncelyEnergeticCost: 0, //C29

@@ -5,13 +5,8 @@ import { useRouter } from "next/router";
 
 import useStore from "~/store";
 import { usePhotovoltaic } from "~/hooks/usePhotovoltaic";
-import {
-  SelectComponent,
-  InputComponent,
-  Navbar,
-  SideBar,
-  Preview,
-} from "~/components";
+import { SelectComponent, InputComponent, Navbar, SideBar } from "~/components";
+import { Preview } from "~/components/photovoltaics";
 import { ScrollArea } from "@mantine/core";
 
 export interface JsonFileData {

@@ -2,17 +2,9 @@ import React, { useState } from "react";
 import { usePhotovoltaic } from "~/hooks/usePhotovoltaic";
 import MyDocument from "./CreatePDF";
 import { Badge } from "@mantine/core";
-import dynamic from "next/dynamic";
 import { saveAs } from "file-saver";
 import { pdf } from "@react-pdf/renderer";
-import { Loading } from "./Loading";
-
-const DynamicPDFDownloadLink = dynamic(
-  () => import("@react-pdf/renderer").then((mod) => mod.PDFDownloadLink),
-  {
-    ssr: false, // This ensures the component is only rendered on the client side
-  }
-);
+import { Loading } from "../Loading";
 
 interface Dotations {
   energyStore_dotation: number | undefined;

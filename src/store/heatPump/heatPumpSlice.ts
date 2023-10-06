@@ -1,45 +1,61 @@
 import { StateCreator } from "zustand";
 
 type currentFuelToHeat =
-  | "Energia elektryczna"
-  | "Węgiel kamienny"
-  | "Miał węglowy 23 KWK Chwałowice"
-  | "Flot 20 KWK Chwałowice"
-  | "Groszek"
-  | "Biomasa / Pelet"
-  | "Olej opałowy"
-  | "Gaz płynny LPG"
-  | "Gaz ziemny"
-  | "Pompa ciepła COP= wg. J13"
-  | "Kolektory słoneczne"
+  | "ENERGIA ELEKTRYCZNA"
+  | "WĘGIEL KAMIENNY"
+  | "MIAŁ WĘGLOWY 23 KWK CHWAŁOWICE"
+  | "FLOT 20 KWK CHWAŁOWICE"
+  | "GROSZEK"
+  | "BIOMASA / PELET"
+  | "OLEJ OPAŁOWY"
+  | "GAZ PŁYNNY LPG"
+  | "GAZ ZIEMNY"
+  | "POMPA CIEPŁA COP= WG. J13"
+  | "KOLEKTORY SŁONECZNE"
   | "PEC";
 
 export type BuildingIsolationTypes =
-  | "Ocieplenie styropian / wełna 5 cm"
-  | "Ocieplenie styropian / wełna 10 cm"
-  | "Ocieplenie styropian / wełna 15 cm"
-  | "Ocieplenie styropian / wełna 20 cm"
-  | "Ocieplenie styropian / wełna 25 cm";
+  | "OCIEPLENIE STYROPIAN / WEŁNA 5 CM"
+  | "OCIEPLENIE STYROPIAN / WEŁNA 10 CM"
+  | "OCIEPLENIE STYROPIAN / WEŁNA 15 CM"
+  | "OCIEPLENIE STYROPIAN / WEŁNA 20 CM"
+  | "OCIEPLENIE STYROPIAN / WEŁNA 25 CM";
 type WindowLayersTypes =
-  | "Okna ciepłe 1 szybowe"
-  | "Okna ciepłe 2 szybowe"
-  | "Okna ciepłe 3 szybowe";
-export interface HeatPumpSlice {
+  | "OKNA CIEPŁE 1 SZYBOWE"
+  | "OKNA CIEPŁE 2 SZYBOWE"
+  | "OKNA CIEPŁE 3 SZYBOWE";
+
+type PumpsOffer =
+  | "Z-PRO.5.3/4.Mitsubishi.Inv.11-16"
+  | "Z-PRO.5.3/4.Mitsubishi.IHO.11-16"
+  | "SAT.6.3.Danfoss.Inv.14-23"
+  | "SAT.6.3.Danfoss.IHO.14-24"
+  | "SAT.ELI.8.2.P19i.17-29"
+  | "SAT.ELI.8.3.P23i.20-32"
+  | "SAT.ELI.8.3.P26i.23-34"
+  | "SAT.ELI.8.3.P30i.25-37"
+  | "SAT.ELI.8.2.P19iHO.25-35"
+  | "SAT.ELI.8.3.P23iHO.30-41"
+  | "SAT.ELI.8.3.P26iHO.35-45"
+  | "SAT.ELI.8.3.P30iHO.37-48";
+export interface HeatPumpSliceType {
   heatPumpStore: {
-    glazingType: boolean;
-    isIsolatedCeiling: boolean;
-    isIsolatedFloor: boolean;
-    isIsolatedDoor: boolean;
-    isHighTemperatureHeater: boolean;
+    glazingType: "STANDARDOWE PRZESZKLENIA" | "DUŻE PRZESZKLENIA";
+    isolatedCeiling: "NIEIZOLOWANY STROP" | "IZOLOWANY STROP";
+    isolatedFloor: "NIEIZOLOWANA PODŁOGA" | "IZOLOWANA PODŁOGA";
+    isolatedDoor: "NIEIZOLOWANE DRZWI" | "IZOLOWANE DRZWI";
+    heatersType:
+      | "GRZEJNIKI WYSOKOTEMPERATUROWE"
+      | "GRZEJNIKI NISKOTEMPERATUROWE";
     auditHeatSupply: boolean;
-    isBufor100L: boolean;
+    isBufor300L: boolean;
     isVoucher: boolean;
     isFee: boolean;
     forCompany: boolean;
     steeringModuleLCD: boolean;
     isLongerGuarantee: boolean;
     isAnotherHeatPumpInCascade: boolean;
-    isGoodPumpPlacement: boolean;
+    isPumpPlacementOnCobblestone: boolean;
     isPlacemnetWithBurst: boolean;
     newDrillings: boolean;
     isPreIsolatedPipe: boolean;
@@ -51,37 +67,40 @@ export interface HeatPumpSlice {
     mergeNewBufforWithOld: boolean;
     closingOpenSytem: boolean;
 
+    suggestedPumpPower: number;
     longerPreIsolatedPipe: number;
-    C156: number;
+    longerIsolationFromMineralWool: number;
+    oneTonneOfResourceCost: number;
     heatedArea: number;
     roomHeight: number;
     minimalWorkingTemp: number;
+    yearlyHeatingHomeCost: number;
 
-    suggestedPump: string;
+    suggestedPump: PumpsOffer;
 
     windowLayers: WindowLayersTypes;
     buildingIsolation: BuildingIsolationTypes;
     currentFuelToHeat: currentFuelToHeat;
   };
-  updatePhotovoltaic: (key: string, value: boolean | number | string) => void;
+  updateHeatPump: (key: string, value: boolean | number | string) => void;
 }
 
-export const photovoltaicsSlice: StateCreator<HeatPumpSlice> = (set) => ({
+export const heatPumpSlice: StateCreator<HeatPumpSliceType> = (set) => ({
   heatPumpStore: {
-    glazingType: false,
-    isIsolatedCeiling: false,
-    isIsolatedFloor: false,
-    isIsolatedDoor: false,
-    isHighTemperatureHeater: false,
+    glazingType: "STANDARDOWE PRZESZKLENIA",
+    isolatedCeiling: "IZOLOWANY STROP",
+    isolatedFloor: "IZOLOWANA PODŁOGA",
+    isolatedDoor: "IZOLOWANE DRZWI",
+    heatersType: "GRZEJNIKI NISKOTEMPERATUROWE",
     auditHeatSupply: false, //C140
-    isBufor100L: false, //C141
+    isBufor300L: false, //C141
     isVoucher: false, //C142
     isFee: false, // C143
     forCompany: false, // C144
     steeringModuleLCD: false, // C145
     isLongerGuarantee: false, // C146
     isAnotherHeatPumpInCascade: false, // C150
-    isGoodPumpPlacement: false, // C151
+    isPumpPlacementOnCobblestone: false, // C151
     isPlacemnetWithBurst: false, // C152
     newDrillings: false, // C155
     isPreIsolatedPipe: false, // C157
@@ -93,18 +112,21 @@ export const photovoltaicsSlice: StateCreator<HeatPumpSlice> = (set) => ({
     mergeNewBufforWithOld: false, // C165
     closingOpenSytem: false, // C166
 
+    yearlyHeatingHomeCost: 5000,
+    suggestedPumpPower: 0,
     longerPreIsolatedPipe: 0, // C158
-    C156: 0, // C156
+    oneTonneOfResourceCost: 0,
+    longerIsolationFromMineralWool: 0, // C156
     heatedArea: 0,
     roomHeight: 0,
-    windowLayers: "Okna ciepłe 2 szybowe",
+    windowLayers: "OKNA CIEPŁE 2 SZYBOWE",
     minimalWorkingTemp: -7,
 
-    buildingIsolation: "Ocieplenie styropian / wełna 5 cm",
-    currentFuelToHeat: "Węgiel kamienny",
+    buildingIsolation: "OCIEPLENIE STYROPIAN / WEŁNA 5 CM",
+    currentFuelToHeat: "WĘGIEL KAMIENNY",
     suggestedPump: "Z-PRO.5.3/4.Mitsubishi.Inv.11-16",
   },
-  updatePhotovoltaic: (key, value) =>
+  updateHeatPump: (key, value) =>
     set((state) => ({
       ...state,
       heatPumpStore: { ...state.heatPumpStore, [key]: value },

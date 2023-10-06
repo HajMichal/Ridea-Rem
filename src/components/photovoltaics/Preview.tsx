@@ -1,5 +1,5 @@
 import React from "react";
-import { TextComponent } from "./TextComponent";
+import { TextComponent } from "../TextComponent";
 import { usePhotovoltaic } from "~/hooks/usePhotovoltaic";
 import { Loader } from "@mantine/core";
 import { PdfGeneratorButton } from "./PdfGeneratorButton";

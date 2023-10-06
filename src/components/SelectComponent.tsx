@@ -24,6 +24,7 @@ export const SelectComponent = ({
         value={String(value)}
         data={data}
         radius="lg"
+        className="w-[215px]"
       />
       <div className="mt-[6px]">{title}</div>
     </div>
