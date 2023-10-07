@@ -3,7 +3,7 @@ import { Badge, Group, Text } from "@mantine/core";
 
 interface TextComponent {
   title: string;
-  calculations: number | boolean | undefined;
+  calculations: number | boolean | string | undefined;
   color?: string;
   unit?: string;
   size?: string;

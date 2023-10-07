@@ -197,4 +197,46 @@ interface YearlyHeatingHomeCostType {
 //   }
 // }
 
+interface BufforCostType {
+  bufforType: string;
+  buffors: {
+    bufory100l: {
+      przylaczeSchemat17: number;
+      przylaczeSchemat24: number;
+      przylaczeSchemat34: number;
+    };
+    bufory300l: {
+      przylaczeSchemat17: number;
+      przylaczeSchemat24: number;
+      przylaczeSchemat34: number;
+    };
+    bufory500l: {
+      przylaczeSchemat17: number;
+      przylaczeSchemat24: number;
+      przylaczeSchemat34: number;
+    };
+  };
+}
+export function bufforCost({ input }: { input: BufforCostType }) {
+  if (input.bufforType === "Bufor 100l Szeregowo przyłącze schemat 17") {
+    return input.buffors.bufory100l.przylaczeSchemat17;
+  } else if (input.bufforType === "Bufor 100l Szeregowo przyłącze schemat 24") {
+    return input.buffors.bufory100l.przylaczeSchemat24;
+  } else if (input.bufforType === "Bufor 100l Szeregowo przyłącze schemat 34") {
+    return input.buffors.bufory100l.przylaczeSchemat34;
+  } else if (input.bufforType === "Bufor 300l Szeregowo przyłącze schemat 17") {
+    return input.buffors.bufory300l.przylaczeSchemat17;
+  } else if (input.bufforType === "Bufor 300l Szeregowo przyłącze schemat 24") {
+    return input.buffors.bufory300l.przylaczeSchemat24;
+  } else if (input.bufforType === "Bufor 300l Szeregowo przyłącze schemat 34") {
+    return input.buffors.bufory300l.przylaczeSchemat34;
+  } else if (input.bufforType === "Bufor 500l Szeregowo przyłącze schemat 17") {
+    return input.buffors.bufory500l.przylaczeSchemat17;
+  } else if (input.bufforType === "Bufor 500l Szeregowo przyłącze schemat 24") {
+    return input.buffors.bufory500l.przylaczeSchemat24;
+  } else if (input.bufforType === "Bufor 500l Szeregowo przyłącze schemat 34") {
+    return input.buffors.bufory500l.przylaczeSchemat34;
+  }
+}
+
 export * as default from "./index";

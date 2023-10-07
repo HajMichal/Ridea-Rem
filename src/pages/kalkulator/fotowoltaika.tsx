@@ -8,65 +8,7 @@ import { usePhotovoltaic } from "~/hooks/usePhotovoltaic";
 import { SelectComponent, InputComponent, Navbar, SideBar } from "~/components";
 import { Preview } from "~/components/photovoltaics";
 import { ScrollArea } from "@mantine/core";
-
-export interface JsonFileData {
-  cena_skupu_pradu: number;
-  dane: {
-    czterysta: {
-      dwa: number;
-      cztery: number;
-      szesc: number;
-      osiem: number;
-      dwanascie: number;
-      dwadziescia: number;
-      trzydziesci: number;
-      piecdziesiat: number;
-    };
-    czterysta_piecdziesiat: {
-      dwa: number;
-      cztery: number;
-      szesc: number;
-      osiem: number;
-      dwanascie: number;
-      dwadziescia: number;
-      trzydziesci: number;
-      piecdziesiat: number;
-    };
-    piecset: {
-      dwa: number;
-      cztery: number;
-      szesc: number;
-      osiem: number;
-      dwanascie: number;
-      dwadziescia: number;
-      trzydziesci: number;
-      piecdziesiat: number;
-    };
-  };
-  dotacje: {
-    magazynCiepla: number;
-    menagerEnergii: number;
-    mojPrad: number;
-    mp_mc: number;
-  };
-  koszty_dodatkowe: {
-    bloczki: number;
-    tigo: number;
-    ekierki: number;
-    grunt: number;
-    inwerterHybrydowy: number;
-    solarEdge: number;
-  };
-  zbiorniki: {
-    zbiornik_100L: number;
-    zbiornik_140L: number;
-    zbiornik_200L: number;
-    zbiornik_200L_z_wezem: number;
-  };
-  magazynCiepla: number;
-  prowizjaBiura: number;
-  oprocentowanie_kredytu: number;
-}
+import { PhotovoltaicDataToCalculation } from "~/server/api/routers/photovoltaic/interfaces";
 
 const Fotowoltaika = () => {
   const store = useStore();
@@ -76,9 +18,10 @@ const Fotowoltaika = () => {
   const router = useRouter();
 
   // const { mutate } = api.dataFlow.setJSONFile.useMutation();
-  const { data } = api.dataFlow.downloadFile.useQuery<JsonFileData>(
-    sessionData?.user.id
-  );
+  const { data } =
+    api.dataFlow.downloadFile.useQuery<PhotovoltaicDataToCalculation>(
+      sessionData?.user.id
+    );
 
   // Dotations
   const energyStore_dotation = photovoltaicStore.heatStoreDotation

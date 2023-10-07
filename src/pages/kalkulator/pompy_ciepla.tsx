@@ -1,14 +1,31 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import { ScrollArea } from "@mantine/core";
 import { SideBar, Navbar, InputComponent, SelectComponent } from "~/components";
 import { Preview } from "~/components/heatPumps";
 import { useHeatPump } from "~/hooks/useHeatPump";
 import useStore from "~/store";
+import { api } from "~/utils/api";
+import { useSession } from "next-auth/react";
+import { HeatPumpDataToCalculationType } from "~/server/api/routers/heatpump/interfaces";
 
 const Pompy_ciepla = () => {
   const store = useStore();
-  const { heatPumpStore, mutations } = useHeatPump();
+  const { data: sessionData } = useSession();
+  const { heatPumpStore, heatPumpCalcStore, mutations } = useHeatPump();
+
+  const { data } =
+    api.heatPumpDataFlowRouter.downloadFile.useQuery<HeatPumpDataToCalculationType>(
+      sessionData?.user.id
+    );
+
+  useEffect(() => {
+    if (data && heatPumpStore.buforType !== "")
+      mutations.setBufforCost({
+        bufforType: heatPumpStore.buforType,
+        buffors: data?.bufory,
+      });
+  }, [data, heatPumpStore.buforType]);
 
   const yesNoData = [
     { value: "true", label: "Tak" },
@@ -197,20 +214,6 @@ const Pompy_ciepla = () => {
                   INSTALACJA POMPY CIEPŁA
                 </h2>
                 <SelectComponent
-                  title="MINIMALNA TEMPERATURA PRACY POMPY BEZ WSPOMAGANIA"
-                  onChange={(e) =>
-                    store.updateHeatPump("minimalWorkingTemp", Number(e))
-                  }
-                  value={heatPumpStore.minimalWorkingTemp}
-                  data={[
-                    { value: "-7", label: "-7" },
-                    { value: "-12", label: "-12" },
-                    { value: "-15", label: "-15" },
-                    { value: "-20", label: "-20" },
-                  ]}
-                />
-
-                <SelectComponent
                   title="PROPONOWANA POMPA CIEPŁA"
                   onChange={(e) =>
                     store.updateHeatPump("suggestedPump", String(e))
@@ -232,13 +235,46 @@ const Pompy_ciepla = () => {
                   ]}
                 />
                 <SelectComponent
-                  title="BUFOR 300L PRZYŁĄCZE SCHEMAT 34"
+                  title="MINIMALNA TEMPERATURA PRACY POMPY BEZ WSPOMAGANIA"
                   onChange={(e) =>
-                    store.updateHeatPump("isBufor300L", e == "true")
+                    store.updateHeatPump("minimalWorkingTemp", Number(e))
                   }
-                  value={heatPumpStore.isBufor300L}
-                  data={yesNoData}
+                  value={heatPumpStore.minimalWorkingTemp}
+                  data={[
+                    { value: "-7", label: "-7" },
+                    { value: "-12", label: "-12" },
+                    { value: "-15", label: "-15" },
+                    { value: "-20", label: "-20" },
+                  ]}
+                  smallField
                 />
+                <SelectComponent
+                  title="BUFOR"
+                  onChange={(e) => store.updateHeatPump("isBufor", e == "true")}
+                  value={heatPumpStore.isBufor}
+                  data={yesNoData}
+                  smallField
+                />
+                {heatPumpStore.isBufor && (
+                  <SelectComponent
+                    title="RODZAJ BUFORA"
+                    onChange={(e) => {
+                      store.updateHeatPump("buforType", String(e));
+                    }}
+                    value={heatPumpStore.buforType}
+                    data={[
+                      "Bufor 100l Szeregowo przyłącze schemat 17",
+                      "Bufor 100l Szeregowo przyłącze schemat 24",
+                      "Bufor 100l Szeregowo przyłącze schemat 34",
+                      "Bufor 300l Szeregowo przyłącze schemat 17",
+                      "Bufor 300l Szeregowo przyłącze schemat 24",
+                      "Bufor 300l Szeregowo przyłącze schemat 34",
+                      "Bufor 500l Szeregowo przyłącze schemat 17",
+                      "Bufor 500l Szeregowo przyłącze schemat 24",
+                      "Bufor 500l Szeregowo przyłącze schemat 34",
+                    ]}
+                  />
+                )}
                 <SelectComponent
                   title="MONTAŻ NA FIRMĘ Z WATEM 23%"
                   onChange={(e) =>
@@ -246,6 +282,7 @@ const Pompy_ciepla = () => {
                   }
                   value={heatPumpStore.forCompany}
                   data={yesNoData}
+                  smallField
                 />
                 <SelectComponent
                   title="PRZEDŁUŻONA GWARANCJA NA POMPĘ CIEPŁA DO 10 LAT"
@@ -254,6 +291,7 @@ const Pompy_ciepla = () => {
                   }
                   value={heatPumpStore.isLongerGuarantee}
                   data={yesNoData}
+                  smallField
                 />
                 <SelectComponent
                   title="MONTAŻ KOLEJNEJ POMPY CIEPŁA W KASKADZIE"
@@ -265,6 +303,7 @@ const Pompy_ciepla = () => {
                   }
                   value={heatPumpStore.isAnotherHeatPumpInCascade}
                   data={yesNoData}
+                  smallField
                 />
                 <SelectComponent
                   title="POSADOWIENIE NA PRZYGOTOWANYM PODŁOŻU WG WYTYCZNYCH LUB KOSTKA, BLOCZKI"
@@ -276,6 +315,7 @@ const Pompy_ciepla = () => {
                   }
                   value={heatPumpStore.isPumpPlacementOnCobblestone}
                   data={yesNoData}
+                  smallField
                 />
                 <SelectComponent
                   title="POSADOWIENIE Z ROZSĄCZANIEM"
@@ -284,6 +324,7 @@ const Pompy_ciepla = () => {
                   }
                   value={heatPumpStore.isPlacemnetWithBurst}
                   data={yesNoData}
+                  smallField
                 />
                 <SelectComponent
                   title="DODATKOWE PRZEWIERTY DO KOLEJNEGO POMIESZCZENIA Z MASZYNOWNI"
@@ -292,12 +333,14 @@ const Pompy_ciepla = () => {
                   }
                   value={heatPumpStore.newDrillings}
                   data={yesNoData}
+                  smallField
                 />
                 <InputComponent
-                  title="POPROWADZENIE INSTALACJI OD PC DO BUDYNKU PO WIERZCHU W IZOLACJI Z WEŁNY MINERALNEJ (DO 2,5M OD BUDYNKU W CENIE) WPISAĆ ILOŚC PONAD STANDART W MB"
+                  title="POPROWADZENIE INSTALACJI OD PC DO BUDYNKU PO WIERZCHU W IZOLACJI Z WEŁNY MINERALNEJ (DO 2,5M OD BUDYNKU W CENIE) WPISAĆ ILOŚC PONAD STANDARD W MB"
                   onChange={mutations.setLongerIsolationFromMineralWool}
                   value={heatPumpStore.longerIsolationFromMineralWool}
                   step={1}
+                  smallField
                 />
                 <SelectComponent
                   title="RURA PREIZOLOWANA (W GRUNCIE) - PIERWSZE 2MB"
@@ -306,12 +349,14 @@ const Pompy_ciepla = () => {
                   }
                   value={heatPumpStore.isPreIsolatedPipe}
                   data={yesNoData}
+                  smallField
                 />
                 <InputComponent
                   title="KAŻDY NASTĘPNY MB (WPISZ ILOŚĆ METRÓW)"
                   onChange={mutations.setLongerPreIsolatedPipe}
                   value={heatPumpStore.longerPreIsolatedPipe}
                   step={1}
+                  smallField
                 />
                 <SelectComponent
                   title="MONTAŻ CYRKULACJI DO CWU"
@@ -320,6 +365,7 @@ const Pompy_ciepla = () => {
                   }
                   value={heatPumpStore.isMontageCirculationCWU}
                   data={yesNoData}
+                  smallField
                 />
                 <SelectComponent
                   title="DEMONTAŻ STAREGO KOTŁA BEZ WYNOSZENIA (WĘGLOWEGO, GROSZEK)"
@@ -328,6 +374,7 @@ const Pompy_ciepla = () => {
                   }
                   value={heatPumpStore.demontageOldBoiler}
                   data={yesNoData}
+                  smallField
                 />
                 <SelectComponent
                   title="PRZYGOTOWANIE POPRZEZ POSPRZĄTANIE MIEJSCA POSADOWIENIA ELEMTNÓW MASZYNOWNI"
@@ -336,12 +383,14 @@ const Pompy_ciepla = () => {
                   }
                   value={heatPumpStore.cleanMontagePlacement}
                   data={yesNoData}
+                  smallField
                 />
                 <SelectComponent
                   title="PRZENIESIENIE LUB DEMONTAŻ ZASOBNIKA CWU KLIENTA"
                   onChange={(e) => store.updateHeatPump("moveCwu", e == "true")}
                   value={heatPumpStore.moveCwu}
                   data={yesNoData}
+                  smallField
                 />
                 <SelectComponent
                   title="WYKONANIE PRZYŁĄCZA ENERGETYCZNEGO DO ZASILANIA PC (SKRZYNKA Z ZABEZPIECZANIAMI)"
@@ -350,6 +399,7 @@ const Pompy_ciepla = () => {
                   }
                   value={heatPumpStore.makeEnergeticConnection}
                   data={yesNoData}
+                  smallField
                 />
                 <SelectComponent
                   title="SPIĘCIE BUFORA CO, Z DODATKOWYM ŹRÓDŁEM GRZEWCZYM (KOCIOŁ GAZOWY, OLEJOWY, BEZ WĘGLA ITP.)"
@@ -358,6 +408,7 @@ const Pompy_ciepla = () => {
                   }
                   value={heatPumpStore.mergeNewBufforWithOld}
                   data={yesNoData}
+                  smallField
                 />
                 <SelectComponent
                   title="ZAMKNIĘCIE UKŁADU OTWARTEGO (NIE ZAMYKAMY UKŁADÓW Z POZOSTAWIONYM KOTŁEM NA PALIWA STAŁE)"
@@ -366,6 +417,7 @@ const Pompy_ciepla = () => {
                   }
                   value={heatPumpStore.closingOpenSytem}
                   data={yesNoData}
+                  smallField
                 />
               </div>
             </ScrollArea>

@@ -1,10 +1,11 @@
+import { PhotovoltaicDataToCalculation } from "~/server/api/routers/photovoltaic/interfaces";
 import useStore from "~/store";
 import { api } from "~/utils/api";
-import { type JsonFileData } from "~/pages/kalkulator/fotowoltaika";
 
 export const usePhotovoltaic = () => {
   const store = useStore();
-  const { data } = api.dataFlow.downloadFile.useQuery<JsonFileData>();
+  const { data } =
+    api.dataFlow.downloadFile.useQuery<PhotovoltaicDataToCalculation>();
 
   const {
     mutate: set_limit_price_trend,

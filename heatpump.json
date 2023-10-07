@@ -1,1 +1,62 @@
-{}
+{
+  "kalkulator": [
+    {
+      "Adrian Szymborski": {
+        "bufory": {
+          "bufory100l": {
+            "przylaczeSchemat17": 13114,
+            "przylaczeSchemat24": 14500,
+            "przylaczeSchemat34": 18010
+          },
+          "bufory300l": {
+            "przylaczeSchemat17": 14414,
+            "przylaczeSchemat24": 15900,
+            "przylaczeSchemat34": 19410
+          },
+          "bufory500l": {
+            "przylaczeSchemat17": 16320,
+            "przylaczeSchemat24": 17800,
+            "przylaczeSchemat34": 22548
+          }
+        },
+        "pompy_ciepla": {
+          "Z-PRO.5.3/4.Mitsubishi.Inv.11-16": {
+            "cena": 32980,
+            "mnozik_prowizji": 12
+          },
+          "Z-PRO.5.3/4.Mitsubishi.IHO.11-16": {
+            "cena": 39730,
+            "mnozik_prowizji": 15
+          },
+          "SAT.6.3.Danfoss.Inv.14-23": { "cena": 32389, "mnozik_prowizji": 12 },
+          "SAT.6.3.Danfoss.IHO.14-24": { "cena": 36889, "mnozik_prowizji": 15 },
+
+          "SAT.ELI.8.2.P19i.17-29": { "cena": 41587, "mnozik_prowizji": 18 },
+          "SAT.ELI.8.3.P23i.20-32": { "cena": 48545, "mnozik_prowizji": 22 },
+          "SAT.ELI.8.3.P26i.23-34": { "cena": 50801, "mnozik_prowizji": 25 },
+          "SAT.ELI.8.3.P30i.25-37": { "cena": 51865, "mnozik_prowizji": 28 },
+
+          "SAT.ELI.8.2.P19iHO.25-35": { "cena": 46087, "mnozik_prowizji": 22 },
+          "SAT.ELI.8.3.P23iHO.30-41": { "cena": 53045, "mnozik_prowizji": 27 },
+          "SAT.ELI.8.3.P26iHO.35-45": { "cena": 55301, "mnozik_prowizji": 31 },
+          "SAT.ELI.8.3.P30iHO.37-48": { "cena": 56365, "mnozik_prowizji": 34 }
+        },
+        "dodatki": {
+          "kolejna_kaskada": 3500,
+          "posadowienie_rozsaczanie": 2500,
+          "przewierty": 300,
+          "poprowadzenie_instalacji_wierzchu": 30,
+          "rura_preizolowana": 2000,
+          "dodatkowe_rury_preizolowane": 350,
+          "cyrkulacja_cwu": 2000,
+          "demontaz_kotla": 1600,
+          "posprzatanie": 1000,
+          "przeniesienie_zasobnika": 1200,
+          "wykonanie_przylacza": 600,
+          "spiecie_bufora": 5200,
+          "zamkniecie_ukladu_otwartego": 1200
+        }
+      }
+    }
+  ]
+}

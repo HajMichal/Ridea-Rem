@@ -10,12 +10,14 @@ interface SelectType {
         label: string;
       }[]
     | string[];
+  smallField?: boolean;
 }
 export const SelectComponent = ({
   title,
   onChange,
   value,
   data,
+  smallField = false,
 }: SelectType) => {
   return (
     <div className="my-3 flex w-full items-center gap-2 font-orkneyLight">
@@ -24,7 +26,7 @@ export const SelectComponent = ({
         value={String(value)}
         data={data}
         radius="lg"
-        className="w-[215px]"
+        className={`${smallField ? "max-w-[120px]" : "max-w-[215px]"} w-full`}
       />
       <div className="mt-[6px]">{title}</div>
     </div>

@@ -28,6 +28,7 @@ export interface HeatPumpCalculations {
   isolatedFloorCalc: number;
   isolatedDoorCalc: number;
   G335: number;
+  bufforCost: number;
 }
 
 export interface HeatPumpCalculationSlice {
@@ -68,6 +69,7 @@ export const heatPumpCalculationSlice: StateCreator<
     isolatedFloorCalc: 0, // G10
     isolatedDoorCalc: 0, // G12
     G335: 0,
+    bufforCost: 0,
   },
   updateHeatPumpCalcs: (key, value) =>
     set((state) => ({

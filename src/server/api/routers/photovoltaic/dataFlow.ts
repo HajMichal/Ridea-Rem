@@ -3,74 +3,9 @@ import fs from "fs";
 import AWS from "aws-sdk";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 import { z } from "zod";
+import { CalculatorType, EachMenagerPhotovoltaic } from "./interfaces";
 
-export interface JsonCalcData {
-  magazynCiepla: number;
-  cena_skupu_pradu: number;
-  prowizjaBiura: number;
-  oprocentowanie_kredytu: number;
-  dane: {
-    czterysta: {
-      dwa: number;
-      cztery: number;
-      szesc: number;
-      osiem: number;
-      dwanascie: number;
-      dwadziescia: number;
-      trzydziesci: number;
-      piecdziesiat: number;
-    };
-    czterysta_piecdziesiat: {
-      dwa: number;
-      cztery: number;
-      szesc: number;
-      osiem: number;
-      dwanascie: number;
-      dwadziescia: number;
-      trzydziesci: number;
-      piecdziesiat: number;
-    };
-    piecset: {
-      dwa: number;
-      cztery: number;
-      szesc: number;
-      osiem: number;
-      dwanascie: number;
-      dwadziescia: number;
-      trzydziesci: number;
-      piecdziesiat: number;
-    };
-  };
-  dotacje: {
-    magazynCiepla: number;
-    menagerEnergii: number;
-    mojPrad: number;
-    mp_mc: number;
-  };
-  koszty_dodatkowe: {
-    bloczki: number;
-    tigo: number;
-    ekierki: number;
-    grunt: number;
-    inwerterHybrydowy: number;
-    solarEdge: number;
-  };
-  zbiorniki: {
-    zbiornik_100L: number;
-    zbiornik_140L: number;
-    zbiornik_200L: number;
-    zbiornik_200L_z_wezem: number;
-  };
-}
-/* eslint @typescript-eslint/consistent-indexed-object-style: ["error", "index-signature"] */
-export interface CalculatorData {
-  [key: string]: JsonCalcData;
-}
-interface CalculatorType {
-  kalkulator: CalculatorData[];
-}
-
-const s3 = new AWS.S3();
+export const s3 = new AWS.S3();
 AWS.config.update({
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
   secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
@@ -178,7 +113,7 @@ export const dataFlowRouter = createTRPCRouter({
       const convertedFile = await getParsedJsonObject();
 
       function getObjectById(id: string) {
-        const object: CalculatorData | undefined =
+        const object: EachMenagerPhotovoltaic | undefined =
           convertedFile.kalkulator.find((item) => Object.keys(item)[0] === id);
         return object ? object[id] : null;
       }

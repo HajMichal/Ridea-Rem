@@ -38,6 +38,16 @@ type PumpsOffer =
   | "SAT.ELI.8.3.P23iHO.30-41"
   | "SAT.ELI.8.3.P26iHO.35-45"
   | "SAT.ELI.8.3.P30iHO.37-48";
+type BuforTypes =
+  | "Bufor 100l Szeregowo przyłącze schemat 17"
+  | "Bufor 100l Szeregowo przyłącze schemat 24"
+  | "Bufor 100l Szeregowo przyłącze schemat 34"
+  | "Bufor 300l Szeregowo przyłącze schemat 17"
+  | "Bufor 300l Szeregowo przyłącze schemat 24"
+  | "Bufor 300l Szeregowo przyłącze schemat 34"
+  | "Bufor 500l Szeregowo przyłącze schemat 17"
+  | "Bufor 500l Szeregowo przyłącze schemat 24"
+  | "Bufor 500l Szeregowo przyłącze schemat 34";
 export interface HeatPumpSliceType {
   heatPumpStore: {
     glazingType: "STANDARDOWE PRZESZKLENIA" | "DUŻE PRZESZKLENIA";
@@ -48,7 +58,7 @@ export interface HeatPumpSliceType {
       | "GRZEJNIKI WYSOKOTEMPERATUROWE"
       | "GRZEJNIKI NISKOTEMPERATUROWE";
     auditHeatSupply: boolean;
-    isBufor300L: boolean;
+    isBufor: boolean;
     isVoucher: boolean;
     isFee: boolean;
     forCompany: boolean;
@@ -76,8 +86,8 @@ export interface HeatPumpSliceType {
     minimalWorkingTemp: number;
     yearlyHeatingHomeCost: number;
 
-    suggestedPump: PumpsOffer;
-
+    suggestedPump: PumpsOffer | "";
+    buforType: BuforTypes | "";
     windowLayers: WindowLayersTypes;
     buildingIsolation: BuildingIsolationTypes;
     currentFuelToHeat: currentFuelToHeat;
@@ -87,13 +97,8 @@ export interface HeatPumpSliceType {
 
 export const heatPumpSlice: StateCreator<HeatPumpSliceType> = (set) => ({
   heatPumpStore: {
-    glazingType: "STANDARDOWE PRZESZKLENIA",
-    isolatedCeiling: "IZOLOWANY STROP",
-    isolatedFloor: "IZOLOWANA PODŁOGA",
-    isolatedDoor: "IZOLOWANE DRZWI",
-    heatersType: "GRZEJNIKI NISKOTEMPERATUROWE",
     auditHeatSupply: false, //C140
-    isBufor300L: false, //C141
+    isBufor: false, //C141
     isVoucher: false, //C142
     isFee: false, // C143
     forCompany: false, // C144
@@ -119,12 +124,18 @@ export const heatPumpSlice: StateCreator<HeatPumpSliceType> = (set) => ({
     longerIsolationFromMineralWool: 0, // C156
     heatedArea: 0,
     roomHeight: 0,
-    windowLayers: "OKNA CIEPŁE 2 SZYBOWE",
     minimalWorkingTemp: -7,
 
+    glazingType: "STANDARDOWE PRZESZKLENIA",
+    isolatedCeiling: "IZOLOWANY STROP",
+    isolatedFloor: "IZOLOWANA PODŁOGA",
+    isolatedDoor: "IZOLOWANE DRZWI",
+    heatersType: "GRZEJNIKI NISKOTEMPERATUROWE",
+    windowLayers: "OKNA CIEPŁE 2 SZYBOWE",
+    buforType: "",
     buildingIsolation: "OCIEPLENIE STYROPIAN / WEŁNA 5 CM",
     currentFuelToHeat: "WĘGIEL KAMIENNY",
-    suggestedPump: "Z-PRO.5.3/4.Mitsubishi.Inv.11-16",
+    suggestedPump: "",
   },
   updateHeatPump: (key, value) =>
     set((state) => ({

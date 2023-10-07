@@ -3,45 +3,6 @@ import { createTRPCRouter, publicProcedure } from "../../trpc";
 import calc from "../../../../calc/heatPomp";
 
 export const heatPump_calculator = createTRPCRouter({
-  buildingIsolationCalc: publicProcedure
-    .input(
-      z.object({
-        buildingIsolation: z.string(),
-        heatingType: z.object({
-          wool5cm: z.number(),
-          wool10cm: z.number(),
-          wool15cm: z.number(),
-          wool20cm: z.number(),
-          wool25cm: z.number(),
-        }),
-      })
-    )
-    .mutation(calc.buildingIsolationCalc),
-  windowLayersCalc: publicProcedure
-    .input(
-      z.object({
-        windowLayers: z.string(),
-        windowLayerType: z.object({
-          window1glass: z.number(),
-          window2glass: z.number(),
-          window3glass: z.number(),
-        }),
-      })
-    )
-    .mutation(calc.windowLayersCalc),
-  heatLost: publicProcedure
-    .input(
-      z.object({
-        H13: z.number(),
-        buildingIsolationCalc: z.number(),
-        windowLayersCalc: z.number(),
-        glazingTypeCalc: z.number(),
-        isolatedCeilingCalc: z.number(),
-        isolatedFloorCalc: z.number(),
-        isolatedDoorCalc: z.number(),
-      })
-    )
-    .mutation(calc.heatLost),
   kubatura: publicProcedure
     .input(
       z.object({
@@ -87,4 +48,28 @@ export const heatPump_calculator = createTRPCRouter({
       })
     )
     .mutation(calc.yearlyEnergeticCost),
+  bufforCost: publicProcedure
+    .input(
+      z.object({
+        bufforType: z.string(),
+        buffors: z.object({
+          bufory100l: z.object({
+            przylaczeSchemat17: z.number(),
+            przylaczeSchemat24: z.number(),
+            przylaczeSchemat34: z.number(),
+          }),
+          bufory300l: z.object({
+            przylaczeSchemat17: z.number(),
+            przylaczeSchemat24: z.number(),
+            przylaczeSchemat34: z.number(),
+          }),
+          bufory500l: z.object({
+            przylaczeSchemat17: z.number(),
+            przylaczeSchemat24: z.number(),
+            przylaczeSchemat34: z.number(),
+          }),
+        }),
+      })
+    )
+    .mutation(calc.bufforCost),
 });
