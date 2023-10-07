@@ -72,4 +72,100 @@ export const heatPump_calculator = createTRPCRouter({
       })
     )
     .mutation(calc.bufforCost),
+  montageAnotherPumpInCascade: publicProcedure
+    .input(
+      z.object({
+        isChoosed: z.boolean(),
+        montageCost: z.number(),
+      })
+    )
+    .mutation(calc.montageAnotherPumpInCascade),
+  placementWithBurst: publicProcedure
+    .input(
+      z.object({
+        isChoosed: z.boolean(),
+        placementCost: z.number(),
+      })
+    )
+    .mutation(calc.placementWithBurst),
+  newDrillings: publicProcedure
+    .input(
+      z.object({
+        isChoosed: z.boolean(),
+        newDrillingsCost: z.number(),
+      })
+    )
+    .mutation(calc.newDrillings),
+  longerIsolationFromMineralWool: publicProcedure
+    .input(
+      z.object({
+        isolationLength: z.number(),
+        longerIsolationFromMineralWoolCost: z.number(),
+      })
+    )
+    .mutation(calc.longerIsolationFromMineralWool),
+  preisolatedPipe: publicProcedure
+    .input(
+      z.object({
+        isChoosed: z.boolean(),
+        preisolatedPipeCost: z.number(),
+      })
+    )
+    .mutation(calc.preisolatedPipe),
+  longerPreIsolatedPipe: publicProcedure
+    .input(
+      z.object({
+        preIsolationLength: z.number(),
+        preIsolationCost: z.number(),
+      })
+    )
+    .mutation(calc.longerPreIsolatedPipe),
+  circulationMontage: publicProcedure
+    .input(
+      z.object({
+        isChoosed: z.boolean(),
+        circulationCost: z.number(),
+      })
+    )
+    .mutation(calc.circulationMontage),
+  demontageOldBoiler: publicProcedure
+    .input(
+      z.object({
+        isChoosed: z.boolean(),
+        demontageCost: z.number(),
+      })
+    )
+    .mutation(calc.demontageOldBoiler),
+  moveCwu: publicProcedure
+    .input(
+      z.object({
+        isChoosed: z.boolean(),
+        moveCwuCost: z.number(),
+      })
+    )
+    .mutation(calc.moveCwu),
+  makeEnergeticConnection: publicProcedure
+    .input(
+      z.object({
+        isChoosed: z.boolean(),
+        energeticConnectionCost: z.number(),
+      })
+    )
+    .mutation(calc.makeEnergeticConnection),
+  buforWithSupport: publicProcedure
+    .input(
+      z.object({
+        isChoosed: z.boolean(),
+        buforWithSupportCost: z.number(),
+      })
+    )
+    .mutation(calc.buforWithSupport),
+  closeOpenedSystem: publicProcedure
+    .input(
+      z.object({
+        isChoosed: z.boolean(),
+        closeSystemCost: z.number(),
+      })
+    )
+    .mutation(calc.closeOpenedSystem),
 });

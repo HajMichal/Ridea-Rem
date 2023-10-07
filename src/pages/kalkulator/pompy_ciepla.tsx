@@ -27,6 +27,96 @@ const Pompy_ciepla = () => {
       });
   }, [data, heatPumpStore.buforType]);
 
+  useEffect(() => {
+    if (data) {
+      mutations.setMontageInCascadeCost({
+        isChoosed: heatPumpStore.isAnotherHeatPumpInCascade,
+        montageCost: data.dodatki.kolejna_kaskada,
+      });
+    }
+  }, [heatPumpStore.isAnotherHeatPumpInCascade, data]);
+  useEffect(() => {
+    if (data) {
+      mutations.setPlacementWithBurstCost({
+        isChoosed: heatPumpStore.isAnotherHeatPumpInCascade,
+        placementCost: data.dodatki.posadowienie_rozsaczanie,
+      });
+    }
+  }, [heatPumpStore.isAnotherHeatPumpInCascade, data]);
+  useEffect(() => {
+    if (data) {
+      mutations.setLongerIsolationFromMineralWoolCost({
+        isolationLength: heatPumpStore.longerIsolationFromMineralWool,
+        longerIsolationFromMineralWoolCost:
+          data.dodatki.poprowadzenie_instalacji_wierzchu,
+      });
+    }
+  }, [heatPumpStore.longerIsolationFromMineralWool, data]);
+  useEffect(() => {
+    if (data) {
+      mutations.setpreisolatedPipeCost({
+        isChoosed: heatPumpStore.isPreIsolatedPipe,
+        preisolatedPipeCost: data.dodatki.rura_preizolowana,
+      });
+    }
+  }, [heatPumpStore.isPreIsolatedPipe, data]);
+  useEffect(() => {
+    if (data) {
+      mutations.setLongerPreIsolatedPipeCost({
+        preIsolationCost: data.dodatki.dodatkowe_rury_preizolowane,
+        preIsolationLength: heatPumpStore.longerPreIsolatedPipe,
+      });
+    }
+  }, [heatPumpStore.longerPreIsolatedPipe, data]);
+  useEffect(() => {
+    if (data) {
+      mutations.setCirculationMontageCost({
+        isChoosed: heatPumpStore.isMontageCirculationCWU,
+        circulationCost: data.dodatki.cyrkulacja_cwu,
+      });
+    }
+  }, [heatPumpStore.isMontageCirculationCWU, data]);
+  useEffect(() => {
+    if (data) {
+      mutations.setDemontageOldBoilerCost({
+        isChoosed: heatPumpStore.demontageOldBoiler,
+        demontageCost: data.dodatki.demontaz_kotla,
+      });
+    }
+  }, [heatPumpStore.demontageOldBoiler, data]);
+  useEffect(() => {
+    if (data) {
+      mutations.setMoveCwuCost({
+        isChoosed: heatPumpStore.moveCwu,
+        moveCwuCost: data.dodatki.cyrkulacja_cwu,
+      });
+    }
+  }, [heatPumpStore.moveCwu, data]);
+  useEffect(() => {
+    if (data) {
+      mutations.setEnergeticConnectionCost({
+        isChoosed: heatPumpStore.makeEnergeticConnection,
+        energeticConnectionCost: data.dodatki.cyrkulacja_cwu,
+      });
+    }
+  }, [heatPumpStore.makeEnergeticConnection, data]);
+  useEffect(() => {
+    if (data) {
+      mutations.setBuforWithSupportCost({
+        isChoosed: heatPumpStore.mergeNewBufforWithOld,
+        buforWithSupportCost: data.dodatki.spiecie_bufora,
+      });
+    }
+  }, [heatPumpStore.mergeNewBufforWithOld, data]);
+  useEffect(() => {
+    if (data) {
+      mutations.setCloseOpenedSystemCost({
+        isChoosed: heatPumpStore.closingOpenSytem,
+        closeSystemCost: data.dodatki.zamkniecie_ukladu_otwartego,
+      });
+    }
+  }, [heatPumpStore.closingOpenSytem, data]);
+
   const yesNoData = [
     { value: "true", label: "Tak" },
     { value: "false", label: "Nie" },

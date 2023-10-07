@@ -1,7 +1,6 @@
 import { type StateCreator } from "zustand";
 
 export interface HeatPumpCalculations {
-  heatLost: number;
   kubatura: number;
   assumedHeatNeed: number;
   assumedHeatNeedPer1m: number;
@@ -21,14 +20,20 @@ export interface HeatPumpCalculations {
   grossSystemValue: number;
   termoModernizationRelif: number;
   finallGrossInstalationCost: number;
-  buildingIsolationCalc: number;
-  windowLayersCalc: number;
-  glazingTypeCalc: number;
-  isolatedCeilingCalc: number;
-  isolatedFloorCalc: number;
-  isolatedDoorCalc: number;
   G335: number;
   bufforCost: number;
+  montagePumpInCascadeCost: number;
+  placementWithBurstCost: number;
+  newDrillingsCost: number;
+  longerIsolationFromMineralWoolCost: number;
+  preisolatedPipeCost: number;
+  longerPreIsolatedPipeCost: number;
+  circulationMontageCost: number;
+  demontageOldBoilerCost: number;
+  moveCwuCost: number;
+  energeticConnectionCost: number;
+  buforWithSupportCost: number;
+  closeOpenedSystemCost: number;
 }
 
 export interface HeatPumpCalculationSlice {
@@ -43,7 +48,6 @@ export const heatPumpCalculationSlice: StateCreator<
   HeatPumpCalculationSlice
 > = (set) => ({
   heatPumpCalculationStore: {
-    heatLost: 0,
     kubatura: 0,
     assumedHeatNeed: 0, // D34 / kubatura
     assumedHeatNeedPer1m: 0, // (assumedHeatNeed * roomHeight) / 100
@@ -62,14 +66,20 @@ export const heatPumpCalculationSlice: StateCreator<
     grossSystemValue: 0,
     termoModernizationRelif: 0,
     finallGrossInstalationCost: 0,
-    buildingIsolationCalc: 0, // G6
-    windowLayersCalc: 0, // G7
-    glazingTypeCalc: 0, // G8
-    isolatedCeilingCalc: 0, // G9
-    isolatedFloorCalc: 0, // G10
-    isolatedDoorCalc: 0, // G12
+    montagePumpInCascadeCost: 0,
     G335: 0,
     bufforCost: 0,
+    placementWithBurstCost: 0,
+    newDrillingsCost: 0,
+    longerIsolationFromMineralWoolCost: 0,
+    preisolatedPipeCost: 0,
+    longerPreIsolatedPipeCost: 0,
+    circulationMontageCost: 0,
+    demontageOldBoilerCost: 0,
+    moveCwuCost: 0,
+    energeticConnectionCost: 0,
+    buforWithSupportCost: 0,
+    closeOpenedSystemCost: 0,
   },
   updateHeatPumpCalcs: (key, value) =>
     set((state) => ({

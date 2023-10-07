@@ -238,5 +238,131 @@ export function bufforCost({ input }: { input: BufforCostType }) {
     return input.buffors.bufory500l.przylaczeSchemat34;
   }
 }
+interface MontageAnotherPumpInCascadeType {
+  isChoosed: boolean;
+  montageCost: number;
+}
+export function montageAnotherPumpInCascade({
+  input,
+}: {
+  input: MontageAnotherPumpInCascadeType;
+}) {
+  if (!input.isChoosed) return 0;
+  return input.montageCost;
+}
+
+interface PlacementWithBurstType {
+  isChoosed: boolean;
+  placementCost: number;
+}
+
+export function placementWithBurst({
+  input,
+}: {
+  input: PlacementWithBurstType;
+}) {
+  if (!input.isChoosed) return 0;
+  return input.placementCost;
+}
+interface NewDrillingsType {
+  isChoosed: boolean;
+  newDrillingsCost: number;
+}
+
+export function newDrillings({ input }: { input: NewDrillingsType }) {
+  if (!input.isChoosed) return 0;
+  return input.newDrillingsCost;
+}
+interface LongerIsolationFromMineralWoolType {
+  isolationLength: number;
+  longerIsolationFromMineralWoolCost: number;
+}
+export function longerIsolationFromMineralWool({
+  input,
+}: {
+  input: LongerIsolationFromMineralWoolType;
+}) {
+  return input.isolationLength * input.longerIsolationFromMineralWoolCost;
+}
+interface PreisolatedPipeType {
+  isChoosed: boolean;
+  preisolatedPipeCost: number;
+}
+export function preisolatedPipe({ input }: { input: PreisolatedPipeType }) {
+  if (!input.isChoosed) return 0;
+  return input.preisolatedPipeCost;
+}
+interface LongerPreIsolatedPipeType {
+  preIsolationLength: number;
+  preIsolationCost: number;
+}
+export function longerPreIsolatedPipe({
+  input,
+}: {
+  input: LongerPreIsolatedPipeType;
+}) {
+  return input.preIsolationLength * input.preIsolationCost;
+}
+
+interface CirculationMontageType {
+  isChoosed: boolean;
+  circulationCost: number;
+}
+export function circulationMontage({
+  input,
+}: {
+  input: CirculationMontageType;
+}) {
+  if (!input.isChoosed) return 0;
+  return input.circulationCost;
+}
+interface DemontageOldBoilerType {
+  isChoosed: boolean;
+  demontageCost: number;
+}
+export function demontageOldBoiler({
+  input,
+}: {
+  input: DemontageOldBoilerType;
+}) {
+  if (!input.isChoosed) return 0;
+  return input.demontageCost;
+}
+interface MoveCwuType {
+  isChoosed: boolean;
+  moveCwuCost: number;
+}
+export function moveCwu({ input }: { input: MoveCwuType }) {
+  if (!input.isChoosed) return 0;
+  return input.moveCwuCost;
+}
+interface MakeEnergeticConnectionType {
+  isChoosed: boolean;
+  energeticConnectionCost: number;
+}
+export function makeEnergeticConnection({
+  input,
+}: {
+  input: MakeEnergeticConnectionType;
+}) {
+  if (!input.isChoosed) return 0;
+  return input.energeticConnectionCost;
+}
+interface BuforWithSupportType {
+  isChoosed: boolean;
+  buforWithSupportCost: number;
+}
+export function buforWithSupport({ input }: { input: BuforWithSupportType }) {
+  if (!input.isChoosed) return 0;
+  return input.buforWithSupportCost;
+}
+interface CloseOpenedSystemType {
+  isChoosed: boolean;
+  closeSystemCost: number;
+}
+export function closeOpenedSystem({ input }: { input: CloseOpenedSystemType }) {
+  if (!input.isChoosed) return 0;
+  return input.closeSystemCost;
+}
 
 export * as default from "./index";
