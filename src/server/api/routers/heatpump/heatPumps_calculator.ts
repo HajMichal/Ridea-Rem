@@ -136,6 +136,14 @@ export const heatPump_calculator = createTRPCRouter({
       })
     )
     .mutation(calc.demontageOldBoiler),
+  cleanPlacement: publicProcedure
+    .input(
+      z.object({
+        isChoosed: z.boolean(),
+        cleaningCost: z.number(),
+      })
+    )
+    .mutation(calc.cleanPlacement),
   moveCwu: publicProcedure
     .input(
       z.object({
@@ -171,7 +179,8 @@ export const heatPump_calculator = createTRPCRouter({
   heatPumpCostAndKwFee: publicProcedure
     .input(
       z.object({
-        feeAmount: z.number(),
+        kWFeeAmount: z.number(),
+        imposedFee: z.number(),
         consultantMarkup: z.number(),
         heatPumpCost: z.object({
           cena: z.number(),
@@ -180,4 +189,33 @@ export const heatPump_calculator = createTRPCRouter({
       })
     )
     .mutation(calc.heatPumpCostAndKwFee),
+  addonsSumCost: publicProcedure
+    .input(
+      z.object({
+        montagePumpInCascadeCost: z.number(),
+        placementWithBurstCost: z.number(),
+        newDrillingsCost: z.number(),
+        longerIsolationFromMineralWoolCost: z.number(),
+        preisolatedPipeCost: z.number(),
+        longerPreIsolatedPipeCost: z.number(),
+        circulationMontageCost: z.number(),
+        demontageOldBoilerCost: z.number(),
+        cleanPlacementCost: z.number(),
+        moveCwuCost: z.number(),
+        energeticConnectionCost: z.number(),
+        buforWithSupportCost: z.number(),
+        closeOpenedSystemCost: z.number(),
+      })
+    )
+    .mutation(calc.addonsSumCost),
+  heatPumpPricingBeforeDotations: publicProcedure
+    .input(
+      z.object({
+        addonsSumCost: z.number(),
+        netPriceForHeatPump: z.number(),
+        buforCost: z.number(),
+        vat: z.number(),
+      })
+    )
+    .mutation(calc.heatPumpPricingBeforeDotations),
 });

@@ -5,7 +5,7 @@ import { TextComponent } from "../TextComponent";
 import { Badge, Group, Text } from "@mantine/core";
 
 export const Preview = () => {
-  const { heatPumpStore, mutations } = useHeatPump();
+  const { heatPumpStore, heatPumpCalcStore, mutations } = useHeatPump();
   const [parent] = useAutoAnimate();
   return (
     <div
@@ -119,6 +119,18 @@ export const Preview = () => {
             <TextComponent
               title="ZAMKNIĘCIE UKŁADU OTWARTEGO"
               calculations={heatPumpStore.closingOpenSytem}
+            />
+            <TextComponent
+              title="VAT"
+              calculations={heatPumpCalcStore.heatPumpPricingBeforeDotations.vatValue.toFixed(
+                2
+              )}
+            />
+            <TextComponent
+              title="CENA ZESTAWU BRUTTO"
+              calculations={heatPumpCalcStore.heatPumpPricingBeforeDotations.grossSystemValue.toFixed(
+                2
+              )}
             />
           </div>
         </div>

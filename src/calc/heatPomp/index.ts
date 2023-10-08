@@ -328,6 +328,14 @@ export function demontageOldBoiler({
   if (!input.isChoosed) return 0;
   return input.demontageCost;
 }
+interface CleanPlacementType {
+  isChoosed: boolean;
+  cleaningCost: number;
+}
+export function cleanPlacement({ input }: { input: CleanPlacementType }) {
+  if (!input.isChoosed) return 0;
+  return input.cleaningCost;
+}
 interface MoveCwuType {
   isChoosed: boolean;
   moveCwuCost: number;
@@ -366,16 +374,78 @@ export function closeOpenedSystem({ input }: { input: CloseOpenedSystemType }) {
 }
 
 interface HeatPumpCostType {
-  feeAmount: number;
+  kWFeeAmount: number;
+  imposedFee: number;
   consultantMarkup: number;
   heatPumpCost: { cena: number; mnozik_prowizji: number };
 }
 export function heatPumpCostAndKwFee({ input }: { input: HeatPumpCostType }) {
   return {
     heatPumpCost: input.heatPumpCost.cena,
-    kwFeeCost: input.heatPumpCost.mnozik_prowizji * input.feeAmount,
+    kwFeeCost: input.heatPumpCost.mnozik_prowizji * input.kWFeeAmount,
     consultantMarkupCost:
       input.heatPumpCost.mnozik_prowizji * input.consultantMarkup,
+    netPriceForHeatPump:
+      input.heatPumpCost.cena +
+      input.heatPumpCost.mnozik_prowizji * input.kWFeeAmount +
+      input.heatPumpCost.mnozik_prowizji * input.consultantMarkup +
+      input.imposedFee,
   };
 }
+
+interface AddonsSumCost {
+  montagePumpInCascadeCost: number;
+  placementWithBurstCost: number;
+  newDrillingsCost: number;
+  longerIsolationFromMineralWoolCost: number;
+  preisolatedPipeCost: number;
+  longerPreIsolatedPipeCost: number;
+  circulationMontageCost: number;
+  demontageOldBoilerCost: number;
+  cleanPlacementCost: number;
+  moveCwuCost: number;
+  energeticConnectionCost: number;
+  buforWithSupportCost: number;
+  closeOpenedSystemCost: number;
+}
+export function addonsSumCost({ input }: { input: AddonsSumCost }) {
+  return (
+    input.montagePumpInCascadeCost +
+    input.placementWithBurstCost +
+    input.newDrillingsCost +
+    input.longerIsolationFromMineralWoolCost +
+    input.preisolatedPipeCost +
+    input.longerPreIsolatedPipeCost +
+    input.circulationMontageCost +
+    input.demontageOldBoilerCost +
+    input.cleanPlacementCost +
+    input.moveCwuCost +
+    input.energeticConnectionCost +
+    input.buforWithSupportCost +
+    input.closeOpenedSystemCost
+  );
+}
+
+interface HeatPumpPricingBeforeDotationsType {
+  addonsSumCost: number;
+  netPriceForHeatPump: number;
+  buforCost: number;
+  vat: number;
+}
+export function heatPumpPricingBeforeDotations({
+  input,
+}: {
+  input: HeatPumpPricingBeforeDotationsType;
+}) {
+  const netSystemValue =
+    input.addonsSumCost + input.buforCost + input.netPriceForHeatPump;
+  const vatValue = netSystemValue * input.vat;
+  const grossSystemValue = netSystemValue + vatValue;
+  return {
+    netSystemValue: Number(netSystemValue.toFixed(2)),
+    vatValue: Number(vatValue.toFixed(2)),
+    grossSystemValue: Number(grossSystemValue.toFixed(2)),
+  };
+}
+
 export * as default from "./index";

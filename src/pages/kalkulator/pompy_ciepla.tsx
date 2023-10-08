@@ -38,11 +38,19 @@ const Pompy_ciepla = () => {
   useEffect(() => {
     if (data) {
       mutations.setPlacementWithBurstCost({
-        isChoosed: heatPumpStore.isAnotherHeatPumpInCascade,
+        isChoosed: heatPumpStore.isPlacemnetWithBurst,
         placementCost: data.dodatki.posadowienie_rozsaczanie,
       });
     }
-  }, [heatPumpStore.isAnotherHeatPumpInCascade, data]);
+  }, [heatPumpStore.isPlacemnetWithBurst, data]);
+  useEffect(() => {
+    if (data) {
+      mutations.setNewDrillings({
+        isChoosed: heatPumpStore.newDrillings,
+        newDrillingsCost: data.dodatki.przewierty,
+      });
+    }
+  }, [heatPumpStore.newDrillings, data]);
   useEffect(() => {
     if (data) {
       mutations.setLongerIsolationFromMineralWoolCost({
@@ -86,6 +94,14 @@ const Pompy_ciepla = () => {
   }, [heatPumpStore.demontageOldBoiler, data]);
   useEffect(() => {
     if (data) {
+      mutations.setCleaningPlacementCost({
+        isChoosed: heatPumpStore.cleanMontagePlacement,
+        cleaningCost: data.dodatki.posprzatanie,
+      });
+    }
+  }, [heatPumpStore.cleanMontagePlacement, data]);
+  useEffect(() => {
+    if (data) {
       mutations.setMoveCwuCost({
         isChoosed: heatPumpStore.moveCwu,
         moveCwuCost: data.dodatki.cyrkulacja_cwu,
@@ -120,7 +136,8 @@ const Pompy_ciepla = () => {
     if (data && sessionData?.user && heatPumpStore.suggestedPump) {
       mutations.setHeatPumpCostAndKwFee({
         consultantMarkup: heatPumpStore.consultantMarkup,
-        feeAmount: sessionData.user.feePerkw,
+        kWFeeAmount: sessionData.user.feePerkw,
+        imposedFee: sessionData.user.imposedFee,
         heatPumpCost: data.pompy_ciepla[heatPumpStore.suggestedPump],
       });
     }
@@ -130,7 +147,53 @@ const Pompy_ciepla = () => {
     sessionData?.user,
     data,
   ]);
-
+  useEffect(() => {
+    mutations.setAddonsSumCost({
+      buforWithSupportCost: heatPumpCalcStore.buforWithSupportCost,
+      circulationMontageCost: heatPumpCalcStore.circulationMontageCost,
+      closeOpenedSystemCost: heatPumpCalcStore.closeOpenedSystemCost,
+      demontageOldBoilerCost: heatPumpCalcStore.demontageOldBoilerCost,
+      cleanPlacementCost: heatPumpCalcStore.cleanPlacementCost,
+      energeticConnectionCost: heatPumpCalcStore.energeticConnectionCost,
+      longerIsolationFromMineralWoolCost:
+        heatPumpCalcStore.longerIsolationFromMineralWoolCost,
+      longerPreIsolatedPipeCost: heatPumpCalcStore.longerPreIsolatedPipeCost,
+      montagePumpInCascadeCost: heatPumpCalcStore.montagePumpInCascadeCost,
+      moveCwuCost: heatPumpCalcStore.moveCwuCost,
+      newDrillingsCost: heatPumpCalcStore.newDrillingsCost,
+      placementWithBurstCost: heatPumpCalcStore.placementWithBurstCost,
+      preisolatedPipeCost: heatPumpCalcStore.preisolatedPipeCost,
+    });
+  }, [
+    heatPumpCalcStore.buforWithSupportCost,
+    heatPumpCalcStore.circulationMontageCost,
+    heatPumpCalcStore.closeOpenedSystemCost,
+    heatPumpCalcStore.demontageOldBoilerCost,
+    heatPumpCalcStore.cleanPlacementCost,
+    heatPumpCalcStore.energeticConnectionCost,
+    heatPumpCalcStore.longerIsolationFromMineralWoolCost,
+    heatPumpCalcStore.longerPreIsolatedPipeCost,
+    heatPumpCalcStore.montagePumpInCascadeCost,
+    heatPumpCalcStore.newDrillingsCost,
+    heatPumpCalcStore.moveCwuCost,
+    heatPumpCalcStore.placementWithBurstCost,
+    heatPumpCalcStore.preisolatedPipeCost,
+  ]);
+  useEffect(() => {
+    mutations.setHeatPumpPricingBeforeDotations({
+      addonsSumCost: heatPumpCalcStore.addonSumCost,
+      buforCost: heatPumpCalcStore.bufforCost,
+      netPriceForHeatPump:
+        heatPumpCalcStore.heatPumpAndFeesCost.netPriceForHeatPump,
+      vat: heatPumpStore.forCompany ? 0.23 : 0.08,
+    });
+  }, [
+    heatPumpCalcStore.addonSumCost,
+    heatPumpCalcStore.bufforCost,
+    heatPumpCalcStore.heatPumpAndFeesCost,
+    heatPumpStore.forCompany,
+  ]);
+  console.log(heatPumpCalcStore.heatPumpPricingBeforeDotations);
   const yesNoData = [
     { value: "true", label: "Tak" },
     { value: "false", label: "Nie" },

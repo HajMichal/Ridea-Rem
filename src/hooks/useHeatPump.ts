@@ -56,6 +56,12 @@ export const useHeatPump = () => {
         store.updateHeatPumpCalcs("demontageOldBoilerCost", data);
       },
     });
+  const { mutate: setCleaningPlacementCost } =
+    api.heatPump.cleanPlacement.useMutation({
+      onSuccess: (data) => {
+        store.updateHeatPumpCalcs("cleanPlacementCost", data);
+      },
+    });
   const { mutate: setMoveCwuCost } = api.heatPump.moveCwu.useMutation({
     onSuccess: (data) => {
       store.updateHeatPumpCalcs("moveCwuCost", data);
@@ -83,6 +89,17 @@ export const useHeatPump = () => {
     api.heatPump.heatPumpCostAndKwFee.useMutation({
       onSuccess: (data) => {
         store.updateHeatPumpCalcs("heatPumpAndFeesCost", data);
+      },
+    });
+  const { mutate: setAddonsSumCost } = api.heatPump.addonsSumCost.useMutation({
+    onSuccess: (data) => {
+      store.updateHeatPumpCalcs("addonSumCost", data);
+    },
+  });
+  const { mutate: setHeatPumpPricingBeforeDotations } =
+    api.heatPump.heatPumpPricingBeforeDotations.useMutation({
+      onSuccess: (data) => {
+        store.updateHeatPumpCalcs("heatPumpPricingBeforeDotations", data);
       },
     });
 
@@ -171,6 +188,9 @@ export const useHeatPump = () => {
       setBuforWithSupportCost,
       setCloseOpenedSystemCost,
       setHeatPumpCostAndKwFee,
+      setAddonsSumCost,
+      setCleaningPlacementCost,
+      setHeatPumpPricingBeforeDotations,
     },
   };
 };

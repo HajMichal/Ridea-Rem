@@ -30,6 +30,7 @@ export interface HeatPumpCalculations {
   longerPreIsolatedPipeCost: number;
   circulationMontageCost: number;
   demontageOldBoilerCost: number;
+  cleanPlacementCost: number;
   moveCwuCost: number;
   energeticConnectionCost: number;
   buforWithSupportCost: number;
@@ -38,6 +39,13 @@ export interface HeatPumpCalculations {
     heatPumpCost: number;
     kwFeeCost: number;
     consultantMarkupCost: number;
+    netPriceForHeatPump: number;
+  };
+  addonSumCost: number;
+  heatPumpPricingBeforeDotations: {
+    netSystemValue: number;
+    vatValue: number;
+    grossSystemValue: number;
   };
 }
 
@@ -81,6 +89,7 @@ export const heatPumpCalculationSlice: StateCreator<
     longerPreIsolatedPipeCost: 0,
     circulationMontageCost: 0,
     demontageOldBoilerCost: 0,
+    cleanPlacementCost: 0,
     moveCwuCost: 0,
     energeticConnectionCost: 0,
     buforWithSupportCost: 0,
@@ -89,6 +98,13 @@ export const heatPumpCalculationSlice: StateCreator<
       heatPumpCost: 0,
       kwFeeCost: 0,
       consultantMarkupCost: 0,
+      netPriceForHeatPump: 0,
+    },
+    addonSumCost: 0,
+    heatPumpPricingBeforeDotations: {
+      netSystemValue: 0,
+      vatValue: 0,
+      grossSystemValue: 0,
     },
   },
   updateHeatPumpCalcs: (key, value) =>
