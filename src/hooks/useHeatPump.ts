@@ -79,6 +79,12 @@ export const useHeatPump = () => {
         store.updateHeatPumpCalcs("closeOpenedSystemCost", data);
       },
     });
+  const { mutate: setHeatPumpCostAndKwFee } =
+    api.heatPump.heatPumpCostAndKwFee.useMutation({
+      onSuccess: (data) => {
+        store.updateHeatPumpCalcs("heatPumpAndFeesCost", data);
+      },
+    });
 
   const setHeatedArea = (e: { target: { valueAsNumber: number } }) => {
     if (e.target.valueAsNumber) {
@@ -164,6 +170,7 @@ export const useHeatPump = () => {
       setEnergeticConnectionCost,
       setBuforWithSupportCost,
       setCloseOpenedSystemCost,
+      setHeatPumpCostAndKwFee,
     },
   };
 };

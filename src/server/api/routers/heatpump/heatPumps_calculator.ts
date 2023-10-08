@@ -168,4 +168,16 @@ export const heatPump_calculator = createTRPCRouter({
       })
     )
     .mutation(calc.closeOpenedSystem),
+  heatPumpCostAndKwFee: publicProcedure
+    .input(
+      z.object({
+        feeAmount: z.number(),
+        consultantMarkup: z.number(),
+        heatPumpCost: z.object({
+          cena: z.number(),
+          mnozik_prowizji: z.number(),
+        }),
+      })
+    )
+    .mutation(calc.heatPumpCostAndKwFee),
 });

@@ -365,4 +365,17 @@ export function closeOpenedSystem({ input }: { input: CloseOpenedSystemType }) {
   return input.closeSystemCost;
 }
 
+interface HeatPumpCostType {
+  feeAmount: number;
+  consultantMarkup: number;
+  heatPumpCost: { cena: number; mnozik_prowizji: number };
+}
+export function heatPumpCostAndKwFee({ input }: { input: HeatPumpCostType }) {
+  return {
+    heatPumpCost: input.heatPumpCost.cena,
+    kwFeeCost: input.heatPumpCost.mnozik_prowizji * input.feeAmount,
+    consultantMarkupCost:
+      input.heatPumpCost.mnozik_prowizji * input.consultantMarkup,
+  };
+}
 export * as default from "./index";

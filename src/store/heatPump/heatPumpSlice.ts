@@ -85,6 +85,7 @@ export interface HeatPumpSliceType {
     roomHeight: number;
     minimalWorkingTemp: number;
     yearlyHeatingHomeCost: number;
+    consultantMarkup: number;
 
     suggestedPump: PumpsOffer | "";
     buforType: BuforTypes | "";
@@ -125,6 +126,7 @@ export const heatPumpSlice: StateCreator<HeatPumpSliceType> = (set) => ({
     heatedArea: 0,
     roomHeight: 0,
     minimalWorkingTemp: -7,
+    consultantMarkup: 0,
 
     glazingType: "STANDARDOWE PRZESZKLENIA",
     isolatedCeiling: "IZOLOWANY STROP",

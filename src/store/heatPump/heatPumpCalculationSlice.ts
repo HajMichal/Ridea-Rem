@@ -34,6 +34,11 @@ export interface HeatPumpCalculations {
   energeticConnectionCost: number;
   buforWithSupportCost: number;
   closeOpenedSystemCost: number;
+  heatPumpAndFeesCost: {
+    heatPumpCost: number;
+    kwFeeCost: number;
+    consultantMarkupCost: number;
+  };
 }
 
 export interface HeatPumpCalculationSlice {
@@ -80,6 +85,11 @@ export const heatPumpCalculationSlice: StateCreator<
     energeticConnectionCost: 0,
     buforWithSupportCost: 0,
     closeOpenedSystemCost: 0,
+    heatPumpAndFeesCost: {
+      heatPumpCost: 0,
+      kwFeeCost: 0,
+      consultantMarkupCost: 0,
+    },
   },
   updateHeatPumpCalcs: (key, value) =>
     set((state) => ({

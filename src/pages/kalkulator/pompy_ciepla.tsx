@@ -116,6 +116,20 @@ const Pompy_ciepla = () => {
       });
     }
   }, [heatPumpStore.closingOpenSytem, data]);
+  useEffect(() => {
+    if (data && sessionData?.user && heatPumpStore.suggestedPump) {
+      mutations.setHeatPumpCostAndKwFee({
+        consultantMarkup: heatPumpStore.consultantMarkup,
+        feeAmount: sessionData.user.feePerkw,
+        heatPumpCost: data.pompy_ciepla[heatPumpStore.suggestedPump],
+      });
+    }
+  }, [
+    heatPumpStore.consultantMarkup,
+    heatPumpStore.suggestedPump,
+    sessionData?.user,
+    data,
+  ]);
 
   const yesNoData = [
     { value: "true", label: "Tak" },
@@ -305,9 +319,9 @@ const Pompy_ciepla = () => {
                 </h2>
                 <SelectComponent
                   title="PROPONOWANA POMPA CIEPŁA"
-                  onChange={(e) =>
-                    store.updateHeatPump("suggestedPump", String(e))
-                  }
+                  onChange={(e) => {
+                    store.updateHeatPump("suggestedPump", String(e));
+                  }}
                   value={heatPumpStore.suggestedPump}
                   data={[
                     "Z-PRO.5.3/4.Mitsubishi.Inv.11-16",
