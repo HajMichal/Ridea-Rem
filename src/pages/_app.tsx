@@ -13,7 +13,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
   return (
     <>
       <Head>
-        <title>RideaRem - Kalkulator 🔢</title>
+        <title>IdeaRem - Kalkulator 🔢</title>
         <link rel="icon" href="/logo_solo_white.svg" sizes="any" />
       </Head>
       <SessionProvider session={session}>
