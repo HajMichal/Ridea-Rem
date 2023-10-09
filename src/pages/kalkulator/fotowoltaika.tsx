@@ -28,7 +28,6 @@ const Fotowoltaika = () => {
     api.dataFlow.downloadFile.useQuery<PhotovoltaicDataToCalculation>(
       sessionData?.user.id
     );
-  console.log(data);
   // Dotations
   const energyStore_dotation = photovoltaicStore.heatStoreDotation
     ? data?.dotacje.menagerEnergii
