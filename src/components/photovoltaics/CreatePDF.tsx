@@ -413,6 +413,15 @@ const MyDocument = ({
           </Text>
         </View>
         <View style={styles.eachRow}>
+          <Text>CENA 1 RATY PRZED ODLICZENIEM DOTACJI</Text>
+          <Text style={styles.boldFont}>
+            {photovoltaicCalcStore.loanForPurcharse.instalmentBeforeDotations.toFixed(
+              2
+            )}{" "}
+            zł
+          </Text>
+        </View>
+        <View style={styles.eachRow}>
           <Text>ULGA TERMOMODERNIZACYJNA</Text>
           <Text style={styles.boldFont}>
             {photovoltaicCalcStore.termoModernization.toFixed(2)} ZŁ
@@ -468,7 +477,10 @@ const MyDocument = ({
           <Text style={{ fontSize: 12, marginLeft: 10 }}>
             {photovoltaicStore.installmentNumber} RAT W WYSOKOŚCI{" "}
             <Text style={styles.boldFont}>
-              {photovoltaicCalcStore.loanForPurcharse.toFixed(2)} ZŁ
+              {photovoltaicCalcStore.loanForPurcharse.finallInstalmentPice.toFixed(
+                2
+              )}{" "}
+              ZŁ
             </Text>
           </Text>
         </View>

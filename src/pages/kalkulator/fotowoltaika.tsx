@@ -5,9 +5,15 @@ import { useRouter } from "next/router";
 
 import useStore from "~/store";
 import { usePhotovoltaic } from "~/hooks/usePhotovoltaic";
-import { SelectComponent, InputComponent, Navbar, SideBar } from "~/components";
+import {
+  SelectComponent,
+  InputComponent,
+  Navbar,
+  SideBar,
+  Loading,
+} from "~/components";
 import { Preview } from "~/components/photovoltaics";
-import { ScrollArea } from "@mantine/core";
+import { Overlay, ScrollArea } from "@mantine/core";
 import { PhotovoltaicDataToCalculation } from "~/server/api/routers/photovoltaic/interfaces";
 
 const Fotowoltaika = () => {
@@ -40,6 +46,16 @@ const Fotowoltaika = () => {
     }
   }, [sessionData, router]);
 
+  useEffect(() => {
+    mutations.set_system_power({
+      modulesCount: photovoltaicStore.modulesCount,
+      panelPower: photovoltaicStore.panelPower,
+    });
+  }, [
+    photovoltaicStore.modulesCount,
+    photovoltaicStore.panelPower,
+    mutations.set_system_power,
+  ]);
   useEffect(() => {
     if (photovoltaicCalcStore.system_power) {
       mutations.set_estimated_kWh_prod({
@@ -349,7 +365,9 @@ const Fotowoltaika = () => {
     mutations.set_dotations_sum({
       energyStore_dotation: energyStore_dotation ?? 0,
       photovoltaics_dotation: photovoltaics_dotation ?? 0,
-      heatStore_dotation: photovoltaicCalcStore.heatStoreCalcDotation ?? 0,
+      heatStore_dotation: photovoltaicStore.heatStoreDotation
+        ? photovoltaicCalcStore.heatStoreCalcDotation ?? 0
+        : 0,
     });
   }, [
     photovoltaics_dotation,
@@ -495,10 +513,13 @@ const Fotowoltaika = () => {
         instalmentNumber: photovoltaicStore.installmentNumber,
         finall_installation_cost:
           photovoltaicCalcStore.finall_installation_cost,
+        grossInstalltaionBeforeDotationsCost:
+          photovoltaicCalcStore.totalInstallationCosts.total_gross_cost,
       });
   }, [
     photovoltaicCalcStore.finall_installation_cost,
     photovoltaicStore.installmentNumber,
+    photovoltaicCalcStore.totalInstallationCosts.total_gross_cost,
     data?.oprocentowanie_kredytu,
   ]);
 
@@ -509,6 +530,12 @@ const Fotowoltaika = () => {
 
   return (
     <main className="flex h-full max-h-screen justify-center overflow-hidden bg-backgroundGray font-orkney">
+      {!data && (
+        <>
+          <Overlay color="#000" opacity={0.85} />
+          <Loading />
+        </>
+      )}
       <SideBar />
       <div className="w-full">
         <Navbar />
@@ -590,7 +617,12 @@ const Fotowoltaika = () => {
                 />
                 <InputComponent
                   title="LICZBA MODUŁÓW"
-                  onChange={mutations.handleModulesInput}
+                  onChange={(e) =>
+                    store.updatePhotovoltaic(
+                      "modulesCount",
+                      e.target.valueAsNumber
+                    )
+                  }
                   step={1}
                   value={photovoltaicStore.modulesCount}
                 />

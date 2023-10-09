@@ -264,12 +264,6 @@ export const usePhotovoltaic = () => {
       });
   };
 
-  const handleModulesInput = (e: { target: { valueAsNumber: number } }) => {
-    if (e.target.valueAsNumber) {
-      set_system_power(e.target.valueAsNumber);
-    }
-    store.updatePhotovoltaic("modulesCount", e.target.valueAsNumber);
-  };
   const getDataDependsOnPanelPower = () => {
     if (store.photovoltaicStore.panelPower === 400) return data?.dane.czterysta;
     else if (store.photovoltaicStore.panelPower === 455)
@@ -289,10 +283,10 @@ export const usePhotovoltaic = () => {
       yearly_costs_with_photovoltaics_loading,
     },
     mutations: {
-      handleModulesInput,
       handleTigoinput,
       handleOutOfLimitOnChange,
       handleInLimitOnChange,
+      set_system_power,
       set_estimated_kWh_prod,
       set_total_payment_energy_transfer,
       set_energy_sold_to_distributor,

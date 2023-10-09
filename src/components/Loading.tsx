@@ -3,7 +3,7 @@ import React from "react";
 
 export const Loading = () => {
   return (
-    <div className="flex w-full justify-center">
+    <div className="absolute z-[9999] flex h-full w-full items-center justify-center">
       <Loader color="yellow" size="xl" variant="dots" />
     </div>
   );

@@ -1,9 +1,7 @@
-import fs from "fs";
-import AWS from "aws-sdk";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 import { z } from "zod";
 import { s3 } from "../photovoltaic/dataFlow";
-import { EachMenagerHeatPump, HeatPumpCalculatorType } from "./interfaces";
+import { EachMenagerHeatPump, type HeatPumpCalculatorType } from "./interfaces";
 
 const getParsedJsonObject = async () => {
   const dataFile = await s3

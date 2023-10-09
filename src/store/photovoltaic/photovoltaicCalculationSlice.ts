@@ -49,7 +49,10 @@ export interface PhotovoltaicCalculations {
   payment_return_time: { years: number; months: number };
   heatStoreCalcDotation: number;
   termoModernization: number;
-  loanForPurcharse: number;
+  loanForPurcharse: {
+    finallInstalmentPice: number;
+    instalmentBeforeDotations: number;
+  };
 }
 
 export interface PhotovoltaicCalculationSlice {
@@ -110,7 +113,10 @@ export const photovoltaicCalculationSlice: StateCreator<
     payment_return_time: { years: 0, months: 0 },
     heatStoreCalcDotation: 0,
     termoModernization: 0,
-    loanForPurcharse: 0,
+    loanForPurcharse: {
+      finallInstalmentPice: 0,
+      instalmentBeforeDotations: 0,
+    },
   },
   updatePhotovoltaicCalcs: (key, value) =>
     set((state) => ({

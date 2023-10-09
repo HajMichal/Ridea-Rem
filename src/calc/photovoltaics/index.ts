@@ -1,8 +1,12 @@
 import staticData from "../../static";
 
-export function systemPower({ input }: { input: number }) {
+interface SystemPowerType {
+  modulesCount: number;
+  panelPower: number;
+}
+export function systemPower({ input }: { input: SystemPowerType }) {
   // C11 -> moc systemu = E11 * (moc panela = 400) / 1000
-  return (input * 400) / 1000;
+  return Number(((input.modulesCount * input.panelPower) / 1000).toFixed(2));
 }
 
 export function priceTrend({ input }: { input: number }) {
@@ -597,14 +601,22 @@ interface LoanForPurcharseType {
   finall_installation_cost: number;
   creditPercentage: number;
   instalmentNumber: number;
+  grossInstalltaionBeforeDotationsCost: number;
 }
 export function loanForPurcharse({ input }: { input: LoanForPurcharseType }) {
   const monthlyInterestRate = input.creditPercentage / 12 / 100;
 
+  const monthlyPaymentBeforeDotations =
+    (input.grossInstalltaionBeforeDotationsCost * monthlyInterestRate) /
+    (1 - Math.pow(1 + monthlyInterestRate, -input.instalmentNumber));
+
   const monthlyPayment =
     (input.finall_installation_cost * monthlyInterestRate) /
     (1 - Math.pow(1 + monthlyInterestRate, -input.instalmentNumber));
-  return Number(monthlyPayment.toFixed(2));
+  return {
+    finallInstalmentPice: Number(monthlyPayment.toFixed(2)),
+    instalmentBeforeDotations: Number(monthlyPaymentBeforeDotations.toFixed(2)),
+  };
 }
 
 export * as default from "./index";

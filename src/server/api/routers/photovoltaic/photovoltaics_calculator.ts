@@ -5,7 +5,14 @@ import calc from "../../../../calc/photovoltaics";
 /** hello */
 export const photovoltaics_calculator = createTRPCRouter({
   price_trend: publicProcedure.input(z.number()).mutation(calc.priceTrend),
-  system_power: publicProcedure.input(z.number()).mutation(calc.systemPower),
+  system_power: publicProcedure
+    .input(
+      z.object({
+        modulesCount: z.number(),
+        panelPower: z.number(),
+      })
+    )
+    .mutation(calc.systemPower),
   estimated_kWh_production: publicProcedure
     .input(z.object({ southRoof: z.boolean(), system_power: z.number() }))
     .mutation(calc.estimatedKWHProd),
@@ -305,6 +312,7 @@ export const photovoltaics_calculator = createTRPCRouter({
         finall_installation_cost: z.number(),
         creditPercentage: z.number(),
         instalmentNumber: z.number(),
+        grossInstalltaionBeforeDotationsCost: z.number(),
       })
     )
     .mutation(calc.loanForPurcharse),

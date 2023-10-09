@@ -135,8 +135,11 @@ export const Preview = ({
                     }
                   />
                   <TextComponent
-                    title={`CENA 1 RATY PRZY ${photovoltaicStore.installmentNumber} RATACH`}
-                    calculations={photovoltaicCalcStore.loanForPurcharse}
+                    title={`CENA 1 RATY PRZY ${photovoltaicStore.installmentNumber} RATACH PRZED ODLICZENIEM DOTACJI`}
+                    calculations={
+                      photovoltaicCalcStore.loanForPurcharse
+                        .instalmentBeforeDotations
+                    }
                   />
                 </div>
               )}
@@ -170,6 +173,14 @@ export const Preview = ({
                   color="green"
                   size="xl"
                   calculations={photovoltaicCalcStore.finall_installation_cost}
+                />
+                <TextComponent
+                  title={`CENA 1 RATY PRZY ${photovoltaicStore.installmentNumber} RATACH`}
+                  calculations={
+                    photovoltaicCalcStore.loanForPurcharse.finallInstalmentPice
+                  }
+                  color="green"
+                  size="xl"
                 />
               </div>
             </div>

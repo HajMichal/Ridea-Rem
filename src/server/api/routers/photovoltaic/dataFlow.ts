@@ -3,7 +3,7 @@ import fs from "fs";
 import AWS from "aws-sdk";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 import { z } from "zod";
-import { CalculatorType, EachMenagerPhotovoltaic } from "./interfaces";
+import { type CalculatorType, EachMenagerPhotovoltaic } from "./interfaces";
 
 export const s3 = new AWS.S3();
 AWS.config.update({

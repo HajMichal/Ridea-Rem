@@ -8,11 +8,22 @@ import useStore from "~/store";
 import { api } from "~/utils/api";
 import { useSession } from "next-auth/react";
 import { HeatPumpDataToCalculationType } from "~/server/api/routers/heatpump/interfaces";
+import { useRouter } from "next/router";
 
 const Pompy_ciepla = () => {
   const store = useStore();
+  const router = useRouter();
   const { data: sessionData } = useSession();
   const { heatPumpStore, heatPumpCalcStore, mutations } = useHeatPump();
+
+  useEffect(() => {
+    // mutate();
+    if (sessionData === null) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+      void router.push("/auth/signin");
+    }
+    if (sessionData?.user.role !== 1) void router.push("/");
+  }, [sessionData, router]);
 
   const { data } =
     api.heatPumpDataFlowRouter.downloadFile.useQuery<HeatPumpDataToCalculationType>(
@@ -193,7 +204,7 @@ const Pompy_ciepla = () => {
     heatPumpCalcStore.heatPumpAndFeesCost,
     heatPumpStore.forCompany,
   ]);
-  console.log(heatPumpCalcStore.heatPumpPricingBeforeDotations);
+
   const yesNoData = [
     { value: "true", label: "Tak" },
     { value: "false", label: "Nie" },
