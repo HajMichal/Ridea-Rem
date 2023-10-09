@@ -28,7 +28,7 @@ const Fotowoltaika = () => {
     api.dataFlow.downloadFile.useQuery<PhotovoltaicDataToCalculation>(
       sessionData?.user.id
     );
-
+  console.log(data);
   // Dotations
   const energyStore_dotation = photovoltaicStore.heatStoreDotation
     ? data?.dotacje.menagerEnergii
@@ -530,12 +530,12 @@ const Fotowoltaika = () => {
 
   return (
     <main className="flex h-full max-h-screen justify-center overflow-hidden bg-backgroundGray font-orkney">
-      {/* {!data && (
+      {!data && (
         <>
           <Overlay color="#000" opacity={0.85} />
           <Loading />
         </>
-      )} */}
+      )}
       <SideBar />
       <div className="w-full">
         <Navbar />
