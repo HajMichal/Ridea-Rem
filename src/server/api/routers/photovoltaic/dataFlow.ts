@@ -143,7 +143,6 @@ export const dataFlowRouter = createTRPCRouter({
     const index = convertedFile.kalkulator.findIndex(
       (obj) => Object.keys(obj)[0] === dynamicKey
     );
-
     if (index !== -1) {
       convertedFile.kalkulator[index] = input;
     }

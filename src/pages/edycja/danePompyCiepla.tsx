@@ -8,10 +8,9 @@ import toast, { Toaster } from "react-hot-toast";
 
 import { ChangeDataInputComponent, Navbar, SideBar } from "~/components";
 import {
-  EachMenagerHeatPump,
-  HeatPumpDataToCalculationType,
+  type EachMenagerHeatPump,
+  type HeatPumpDataToCalculationType,
 } from "~/server/api/routers/heatpump/interfaces";
-import { PumpsOffer } from "~/store/heatPump/heatPumpSlice";
 import { api } from "~/utils/api";
 
 /* eslint @typescript-eslint/consistent-indexed-object-style: ["error", "index-signature"] */
@@ -59,7 +58,6 @@ const DanePompyCiepla = () => {
               {entireJsonData ? (
                 entireJsonData.kalkulator.map((eachUserData, index) => {
                   const dynamicKey = Object.keys(eachUserData)[0];
-                  console.log(eachUserData);
                   return (
                     <Tabs.Panel value={dynamicKey!} key={index}>
                       <EditionForm data={eachUserData} />
@@ -230,7 +228,6 @@ const EditionForm = ({ data }: EditionFormType) => {
     oprocentowanie_kredytu: dynamicPropValues.oprocentowanie_kredytu,
   };
   const onSubmit: SubmitHandler<HeatPumpDataToCalculationType> = (data) => {
-    console.log(data);
     mutate({ [dynamicKey!]: data });
     close();
   };
@@ -245,18 +242,34 @@ const EditionForm = ({ data }: EditionFormType) => {
         dynamicPropValues.pompy_ciepla[
           serieName as keyof typeof dynamicPropValues.pompy_ciepla
         ]!.cena;
+
       const provisionMultiplier =
         dynamicPropValues.pompy_ciepla[
           serieName as keyof typeof dynamicPropValues.pompy_ciepla
         ]!.mnozik_prowizji;
 
+      const nameMappings: { [key: string]: string } = {
+        ["Z-PRO53/4MitsubishiInv11-16"]: "Z-PRO.5.3/4.Mitsubishi.Inv.11-16",
+        "Z-PRO53/4MitsubishiIHO11-16": "Z-PRO.5.3/4.Mitsubishi.IHO.11-16",
+        "SAT63DanfossInv14-23": "SAT.6.3.Danfoss.Inv.14-23",
+        "SAT63DanfossIHO14-24": "SAT.6.3.Danfoss.IHO.14-24",
+        "SATELI82P19i17-29": "SAT.ELI.8.2.P19i.17-29",
+        "SATELI83P23i20-32": "SAT.ELI.8.3.P23i.20-32",
+        "SATELI83P26i23-34": "SAT.ELI.8.3.P26i.23-34",
+        "SATELI83P30i25-37": "SAT.ELI.8.3.P30i.25-37",
+        "SATELI82P19iHO25-35": "SAT.ELI.8.2.P19iHO.25-35",
+        "SATELI83P23iHO30-41": "SAT.ELI.8.3.P23iHO.30-41",
+        "SATELI83P26iHO35-45": "SAT.ELI.8.3.P26iHO.35-45",
+        "SATELI83P30iHO37-48": "SAT.ELI.8.3.P30iHO.37-48",
+      };
+      const title = nameMappings[serieName]!;
       jsxHeatPumpsElements.push(
         <div className="my-7">
           <ChangeDataInputComponent
             {...register(registerKeyPrice, {
               valueAsNumber: true,
             })}
-            title={serieName}
+            title={title}
             defaultValue={pumpPrice}
           />
           <ChangeDataInputComponent

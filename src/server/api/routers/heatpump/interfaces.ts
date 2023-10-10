@@ -61,7 +61,7 @@ export interface HeatPumpDataToCalculationType {
       prog3: number;
     };
   };
-  oprocentowanie_kredytu: 8.3;
+  oprocentowanie_kredytu: number;
 }
 // eslint-disable-next-line @typescript-eslint/consistent-indexed-object-style
 export interface EachMenagerHeatPump {

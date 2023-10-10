@@ -155,16 +155,12 @@ export const heatPumpDataFlowRouter = createTRPCRouter({
       (obj) => Object.keys(obj)[0] === dynamicKey
     );
 
-    // console.log(input === convertedFile.kalkulator[index]);
-    // console.log(input);
-    // console.log(convertedFile.kalkulator[index]);
+    if (index !== -1 && dynamicKey) {
+      convertedFile.kalkulator[index] = input;
+    }
 
-    // if (index !== -1 && dynamicKey) {
-    //   convertedFile.kalkulator[index] = input;
-    // }
-
-    // const updatedJSONFile = JSON.stringify(convertedFile);
-    // setFileToBucket(updatedJSONFile, "heatpump.json");
+    const updatedJSONFile = JSON.stringify(convertedFile);
+    setFileToBucket(updatedJSONFile, "heatpump.json");
     return input;
   }),
 });
