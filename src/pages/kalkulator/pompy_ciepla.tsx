@@ -149,7 +149,7 @@ const Pompy_ciepla = () => {
         consultantMarkup: heatPumpStore.consultantMarkup,
         kWFeeAmount: sessionData.user.feePerkw,
         imposedFee: sessionData.user.imposedFee,
-        heatPumpCost: data.pompy_ciepla[heatPumpStore.suggestedPump],
+        heatPumpCost: data.pompy_ciepla[heatPumpStore.suggestedPump]!,
       });
     }
   }, [
@@ -352,6 +352,12 @@ const Pompy_ciepla = () => {
                   title="SUGEROWANA MOC URZĄDZENIA GRZEWCZEGO"
                   onChange={mutations.setSuggestedPower}
                   value={heatPumpStore.suggestedPumpPower}
+                  step={1}
+                />
+                <InputComponent
+                  title="ROCZNE ZUŻYCIE ENERGII CIEPLNEJ NA OGRZEWANIE"
+                  onChange={mutations.setYearlyHeatingUsage}
+                  value={heatPumpStore.yearlyHeatingUsage}
                   step={1}
                 />
                 <h2 className="mt-5 font-orkneyBold">AKTUALNE OGRZEWANIE</h2>

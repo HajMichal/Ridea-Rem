@@ -20,26 +20,26 @@
           }
         },
         "pompy_ciepla": {
-          "Z-PRO.5.3/4.Mitsubishi.Inv.11-16": {
+          "Z-PRO53/4MitsubishiInv11-16": {
             "cena": 32980,
             "mnozik_prowizji": 12
           },
-          "Z-PRO.5.3/4.Mitsubishi.IHO.11-16": {
+          "Z-PRO53/4MitsubishiIHO11-16": {
             "cena": 39730,
             "mnozik_prowizji": 15
           },
-          "SAT.6.3.Danfoss.Inv.14-23": { "cena": 32389, "mnozik_prowizji": 12 },
-          "SAT.6.3.Danfoss.IHO.14-24": { "cena": 36889, "mnozik_prowizji": 15 },
+          "SAT63DanfossInv14-23": { "cena": 32389, "mnozik_prowizji": 12 },
+          "SAT63DanfossIHO14-24": { "cena": 36889, "mnozik_prowizji": 15 },
 
-          "SAT.ELI.8.2.P19i.17-29": { "cena": 41587, "mnozik_prowizji": 18 },
-          "SAT.ELI.8.3.P23i.20-32": { "cena": 48545, "mnozik_prowizji": 22 },
-          "SAT.ELI.8.3.P26i.23-34": { "cena": 50801, "mnozik_prowizji": 25 },
-          "SAT.ELI.8.3.P30i.25-37": { "cena": 51865, "mnozik_prowizji": 28 },
+          "SATELI82P19i17-29": { "cena": 41587, "mnozik_prowizji": 18 },
+          "SATELI83P23i20-32": { "cena": 48545, "mnozik_prowizji": 22 },
+          "SATELI83P26i23-34": { "cena": 50801, "mnozik_prowizji": 25 },
+          "SATELI83P30i25-37": { "cena": 51865, "mnozik_prowizji": 28 },
 
-          "SAT.ELI.8.2.P19iHO.25-35": { "cena": 46087, "mnozik_prowizji": 22 },
-          "SAT.ELI.8.3.P23iHO.30-41": { "cena": 53045, "mnozik_prowizji": 27 },
-          "SAT.ELI.8.3.P26iHO.35-45": { "cena": 55301, "mnozik_prowizji": 31 },
-          "SAT.ELI.8.3.P30iHO.37-48": { "cena": 56365, "mnozik_prowizji": 34 }
+          "SATELI82P19iHO25-35": { "cena": 46087, "mnozik_prowizji": 22 },
+          "SATELI83P23iHO30-41": { "cena": 53045, "mnozik_prowizji": 27 },
+          "SATELI83P26iHO35-45": { "cena": 55301, "mnozik_prowizji": 31 },
+          "SATELI83P30iHO37-48": { "cena": 56365, "mnozik_prowizji": 34 }
         },
         "dodatki": {
           "kolejna_kaskada": 3500,
@@ -55,7 +55,16 @@
           "wykonanie_przylacza": 600,
           "spiecie_bufora": 5200,
           "zamkniecie_ukladu_otwartego": 1200
-        }
+        },
+        "dotacje": {
+          "modernizacja_CO_CWU": 8100,
+          "pc": {
+            "prog1": 19400,
+            "prog2": 28100,
+            "prog3": 35200
+          }
+        },
+        "oprocentowanie_kredytu": 8.3
       }
     }
   ]

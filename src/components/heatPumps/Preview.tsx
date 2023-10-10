@@ -55,7 +55,10 @@ export const Preview = () => {
             />
 
             <TextComponent title="BUFOR" calculations={heatPumpStore.isBufor} />
-            {/* {heatPumpStore.isBufor &&} */}
+            <TextComponent
+              title="CENA BUFORA"
+              calculations={heatPumpCalcStore.bufforCost}
+            />
             <TextComponent
               title="MONTAŻ NA FIRMĘ Z WATEM 23%"
               calculations={heatPumpStore.forCompany}

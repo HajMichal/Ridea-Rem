@@ -218,4 +218,23 @@ export const heatPump_calculator = createTRPCRouter({
       })
     )
     .mutation(calc.heatPumpPricingBeforeDotations),
+  termoModernizationRelif: publicProcedure
+    .input(
+      z.object({
+        netSystemValue: z.number(),
+        heatPumpDotation: z.number(),
+        dotationModernizationCoCwu: z.number(),
+      })
+    )
+    .mutation(calc.termoModernizationRelif),
+  finallGrossInstalationCost: publicProcedure
+    .input(
+      z.object({
+        grossSystemValue: z.number(),
+        heatPumpDotation: z.number(),
+        dotationModernizationCoCwu: z.number(),
+        termoModernizationRelif: z.number(),
+      })
+    )
+    .mutation(calc.finallGrossInstalationCost),
 });

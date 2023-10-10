@@ -448,4 +448,65 @@ export function heatPumpPricingBeforeDotations({
   };
 }
 
+interface TermoModernizationRelifType {
+  netSystemValue: number;
+  heatPumpDotation: number;
+  dotationModernizationCoCwu: number;
+}
+export function termoModernizationRelif({
+  input,
+}: {
+  input: TermoModernizationRelifType;
+}) {
+  return Number(
+    (
+      (input.netSystemValue -
+        input.heatPumpDotation -
+        input.dotationModernizationCoCwu) *
+      0.12
+    ).toFixed(2)
+  );
+}
+interface FinallGrossInstalationCostType {
+  grossSystemValue: number;
+  heatPumpDotation: number;
+  dotationModernizationCoCwu: number;
+  termoModernizationRelif: number;
+}
+export function finallGrossInstalationCost({
+  input,
+}: {
+  input: FinallGrossInstalationCostType;
+}) {
+  return Number(
+    (
+      input.grossSystemValue -
+      input.dotationModernizationCoCwu -
+      input.heatPumpDotation -
+      input.termoModernizationRelif
+    ).toFixed(2)
+  );
+}
+interface LoanForPurcharseType {
+  finall_installation_cost: number;
+  creditPercentage: number;
+  instalmentNumber: number;
+  grossInstalltaionBeforeDotationsCost: number;
+}
+export function loanForPurcharse({ input }: { input: LoanForPurcharseType }) {
+  const monthlyInterestRate = input.creditPercentage / 12 / 100;
+
+  const monthlyPaymentBeforeDotations =
+    (input.grossInstalltaionBeforeDotationsCost * monthlyInterestRate) /
+    (1 - Math.pow(1 + monthlyInterestRate, -input.instalmentNumber));
+
+  const monthlyPayment =
+    (input.finall_installation_cost * monthlyInterestRate) /
+    (1 - Math.pow(1 + monthlyInterestRate, -input.instalmentNumber));
+  return {
+    finallInstalmentPice: Number(monthlyPayment.toFixed(2)),
+    instalmentBeforeDotations: Number(monthlyPaymentBeforeDotations.toFixed(2)),
+  };
+}
+
 export * as default from "./index";

@@ -102,6 +102,18 @@ export const useHeatPump = () => {
         store.updateHeatPumpCalcs("heatPumpPricingBeforeDotations", data);
       },
     });
+  const { mutate: setTermoModernizationRelif } =
+    api.heatPump.termoModernizationRelif.useMutation({
+      onSuccess: (data) => {
+        store.updateHeatPumpCalcs("termoModernizationRelif", data);
+      },
+    });
+  const { mutate: setFinallGrossInstalationCost } =
+    api.heatPump.finallGrossInstalationCost.useMutation({
+      onSuccess: (data) => {
+        store.updateHeatPumpCalcs("finallGrossInstalationCost", data);
+      },
+    });
 
   const setHeatedArea = (e: { target: { valueAsNumber: number } }) => {
     if (e.target.valueAsNumber) {
@@ -122,6 +134,13 @@ export const useHeatPump = () => {
       store.updateHeatPump("suggestedPumpPower", e.target.valueAsNumber);
     } else {
       store.updateHeatPump("suggestedPumpPower", 0);
+    }
+  };
+  const setYearlyHeatingUsage = (e: { target: { valueAsNumber: number } }) => {
+    if (e.target.valueAsNumber) {
+      store.updateHeatPump("yearlyHeatingUsage", e.target.valueAsNumber);
+    } else {
+      store.updateHeatPump("yearlyHeatingUsage", 0);
     }
   };
   const setYearlyHeatingCosts = (e: { target: { valueAsNumber: number } }) => {
@@ -191,6 +210,9 @@ export const useHeatPump = () => {
       setAddonsSumCost,
       setCleaningPlacementCost,
       setHeatPumpPricingBeforeDotations,
+      setTermoModernizationRelif,
+      setFinallGrossInstalationCost,
+      setYearlyHeatingUsage,
     },
   };
 };

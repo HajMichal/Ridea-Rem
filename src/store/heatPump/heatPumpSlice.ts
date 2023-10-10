@@ -25,19 +25,19 @@ type WindowLayersTypes =
   | "OKNA CIEPŁE 2 SZYBOWE"
   | "OKNA CIEPŁE 3 SZYBOWE";
 
-type PumpsOffer =
-  | "Z-PRO.5.3/4.Mitsubishi.Inv.11-16"
-  | "Z-PRO.5.3/4.Mitsubishi.IHO.11-16"
-  | "SAT.6.3.Danfoss.Inv.14-23"
-  | "SAT.6.3.Danfoss.IHO.14-24"
-  | "SAT.ELI.8.2.P19i.17-29"
-  | "SAT.ELI.8.3.P23i.20-32"
-  | "SAT.ELI.8.3.P26i.23-34"
-  | "SAT.ELI.8.3.P30i.25-37"
-  | "SAT.ELI.8.2.P19iHO.25-35"
-  | "SAT.ELI.8.3.P23iHO.30-41"
-  | "SAT.ELI.8.3.P26iHO.35-45"
-  | "SAT.ELI.8.3.P30iHO.37-48";
+export type PumpsOffer =
+  | "Z-PRO53/4MitsubishiInv11-16"
+  | "Z-PRO53/4MitsubishiIHO11-16"
+  | "SAT63DanfossInv14-23"
+  | "SAT63DanfossIHO14-24"
+  | "SATELI82P19i17-29"
+  | "SATELI83P23i20-32"
+  | "SATELI83P26i23-34"
+  | "SATELI83P30i25-37"
+  | "SATELI82P19iHO25-35"
+  | "SATELI83P23iHO30-41"
+  | "SATELI83P26iHO35-45"
+  | "SATELI83P30iHO37-48";
 type BuforTypes =
   | "Bufor 100l Szeregowo przyłącze schemat 17"
   | "Bufor 100l Szeregowo przyłącze schemat 24"
@@ -92,6 +92,7 @@ export interface HeatPumpSliceType {
     windowLayers: WindowLayersTypes;
     buildingIsolation: BuildingIsolationTypes;
     currentFuelToHeat: currentFuelToHeat;
+    yearlyHeatingUsage: number;
   };
   updateHeatPump: (key: string, value: boolean | number | string) => void;
 }
@@ -127,6 +128,7 @@ export const heatPumpSlice: StateCreator<HeatPumpSliceType> = (set) => ({
     roomHeight: 0,
     minimalWorkingTemp: -7,
     consultantMarkup: 0,
+    yearlyHeatingUsage: 0,
 
     glazingType: "STANDARDOWE PRZESZKLENIA",
     isolatedCeiling: "IZOLOWANY STROP",

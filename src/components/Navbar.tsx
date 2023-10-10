@@ -36,12 +36,19 @@ export const Navbar = () => {
         <div className="flex h-full w-full max-w-[800px] items-center justify-evenly gap-3 text-center laptop:gap-0 ">
           <LinkComponent href="/" title="KALKULACJA" />
           <LinkComponent href="/aktualnosci" title="AKTUALNOŚCI" />
-          {sessionData?.user.role === 1 && (
-            <LinkComponent
-              href="/edycja/daneFotowoltaiki"
-              title="EDYCJA DANYCH"
-            />
-          )}
+          {(sessionData?.user.role === 1 &&
+            router.pathname === "/kalkulator/fotowoltaika" && (
+              <LinkComponent
+                href="/edycja/daneFotowoltaiki"
+                title="EDYCJA DANYCH"
+              />
+            )) ||
+            (router.pathname === "/kalkulator/pompy_ciepla" && (
+              <LinkComponent
+                href="/edycja/danePompyCiepla"
+                title="EDYCJA DANYCH"
+              />
+            ))}
           {sessionData?.user.role === 2 || sessionData?.user.role === 1 ? (
             <LinkComponent href="/edycja/prowizje" title="PROWIZJE" />
           ) : (

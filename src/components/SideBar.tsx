@@ -6,16 +6,17 @@ import { useRouter } from "next/router";
 interface LinkComponentType {
   href: string;
   title: string;
+  href2?: string;
   longWord?: boolean;
 }
 
 const SideBarButton = ({
   href,
+  href2,
   title,
   longWord = false,
 }: LinkComponentType) => {
   const { asPath } = useRouter();
-
   return (
     <Link
       href={href}
@@ -24,13 +25,17 @@ const SideBarButton = ({
       }`}
     >
       <p
-        className={`${asPath === href ? "text-brand" : ""} whitespace-nowrap `}
+        className={`${
+          asPath === href || asPath === href2 ? "text-brand" : ""
+        } whitespace-nowrap `}
       >
         {title}
       </p>
       <div
         className={
-          asPath === href ? "h-1 w-3/4 translate-y-[59px] bg-brand" : ""
+          asPath === href || asPath === href2
+            ? "h-1 w-3/4 translate-y-[59px] bg-brand"
+            : ""
         }
       ></div>
     </Link>
@@ -50,11 +55,24 @@ export const SideBar = () => (
       ></Image>
     </div>
     <div className="-mt-36 flex h-full w-full flex-col gap-6 text-white ">
-      <SideBarButton href="/kalkulator/fotowoltaika" title="FOTOWOLTAIKA" />
-      <SideBarButton href="/kalkulator/fotowoltaika_firmy" title="DLA FIRM" />
-      <SideBarButton href="/kalkulator/pompy_ciepla" title="POMPY CIEPŁA" />
+      <SideBarButton
+        href="/kalkulator/fotowoltaika"
+        href2="/edycja/daneFotowoltaiki"
+        title="FOTOWOLTAIKA"
+      />
+      <SideBarButton
+        href="/kalkulator/fotowoltaika_firmy"
+        href2="/edycja/daneFotowoltaikaFirm"
+        title="DLA FIRM"
+      />
+      <SideBarButton
+        href="/kalkulator/pompy_ciepla"
+        href2="/edycja/danePompyCiepla"
+        title="POMPY CIEPŁA"
+      />
       <SideBarButton
         href="/kalkulator/magazyn_energii"
+        href2="/edycja/daneMagazynEnergii"
         title="MAGAZYN ENERGII"
         longWord
       />

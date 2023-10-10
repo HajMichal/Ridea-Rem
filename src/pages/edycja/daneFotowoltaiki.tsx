@@ -8,68 +8,12 @@ import { useSession } from "next-auth/react";
 import { type SubmitHandler, useForm } from "react-hook-form";
 import { useDisclosure } from "@mantine/hooks";
 import { Toaster, toast } from "react-hot-toast";
+import { ChangeDataInputComponent } from "~/components";
+import { PhotovoltaicDataToCalculation } from "~/server/api/routers/photovoltaic/interfaces";
 
-interface FormTypes {
-  cena_skupu_pradu: number;
-  magazynCiepla: number;
-  prowizjaBiura: number;
-  oprocentowanie_kredytu: number;
-  dane: {
-    czterysta: {
-      dwa: number;
-      cztery: number;
-      szesc: number;
-      osiem: number;
-      dwanascie: number;
-      dwadziescia: number;
-      trzydziesci: number;
-      piecdziesiat: number;
-    };
-    czterysta_piecdziesiat: {
-      dwa: number;
-      cztery: number;
-      szesc: number;
-      osiem: number;
-      dwanascie: number;
-      dwadziescia: number;
-      trzydziesci: number;
-      piecdziesiat: number;
-    };
-    piecset: {
-      dwa: number;
-      cztery: number;
-      szesc: number;
-      osiem: number;
-      dwanascie: number;
-      dwadziescia: number;
-      trzydziesci: number;
-      piecdziesiat: number;
-    };
-  };
-  dotacje: {
-    magazynCiepla: number;
-    menagerEnergii: number;
-    mojPrad: number;
-    mp_mc: number;
-  };
-  koszty_dodatkowe: {
-    bloczki: number;
-    tigo: number;
-    ekierki: number;
-    grunt: number;
-    inwerterHybrydowy: number;
-    solarEdge: number;
-  };
-  zbiorniki: {
-    zbiornik_100L: number;
-    zbiornik_140L: number;
-    zbiornik_200L: number;
-    zbiornik_200L_z_wezem: number;
-  };
-}
 /* eslint @typescript-eslint/consistent-indexed-object-style: ["error", "index-signature"] */
 interface EditionForm {
-  [key: string]: { [key: string]: FormTypes };
+  [key: string]: { [key: string]: PhotovoltaicDataToCalculation };
 }
 
 const EditionForm = ({ data }: EditionForm) => {
@@ -87,7 +31,7 @@ const EditionForm = ({ data }: EditionForm) => {
   const dynamicKey = Object.keys(data!)[0];
   const dynamicPropValues = data![dynamicKey!];
 
-  const { register, handleSubmit } = useForm<FormTypes>();
+  const { register, handleSubmit } = useForm<PhotovoltaicDataToCalculation>();
   dynamicPropValues && {
     defaultValues: {
       cena_skupu_pradu: dynamicPropValues.cena_skupu_pradu,
@@ -148,11 +92,11 @@ const EditionForm = ({ data }: EditionForm) => {
           dynamicPropValues.zbiorniki.zbiornik_200L_z_wezem,
       },
       magazynCiepla: dynamicPropValues.magazynCiepla,
-      prowizjaBiura: dynamicPropValues.prowizjaBiura,
       oprocentowanie_kredytu: dynamicPropValues.oprocentowanie_kredytu,
+      prowizjaBiura: dynamicPropValues.prowizjaBiura,
     },
   };
-  const onSubmit: SubmitHandler<FormTypes> = (data) => {
+  const onSubmit: SubmitHandler<PhotovoltaicDataToCalculation> = (data) => {
     mutate({ [dynamicKey!]: data });
     close();
   };
@@ -477,7 +421,7 @@ const EditionForm = ({ data }: EditionForm) => {
           {...register("cena_skupu_pradu", {
             valueAsNumber: true,
           })}
-          title="Cena Skupu Prądu"
+          title="CENA SKUPU PRĄDU"
           defaultValue={dynamicPropValues!.cena_skupu_pradu}
         />
         <ChangeDataInputComponent
@@ -592,28 +536,5 @@ const DaneFotowoltaiki = () => {
     </div>
   );
 };
-interface ChangeDataInputComponentType {
-  title: string;
-  defaultValue: number;
-}
-const ChangeDataInputComponent = React.forwardRef<
-  HTMLInputElement,
-  ChangeDataInputComponentType
->(({ title, defaultValue, ...props }: ChangeDataInputComponentType, ref) => {
-  return (
-    <div className="grid grid-cols-2 items-end justify-center gap-5">
-      <h2 className="text-end">{title}</h2>
-      {defaultValue && (
-        <TextInput
-          {...props}
-          label={"Wpisz nową wartość"}
-          defaultValue={defaultValue}
-          className="max-w-[150px]"
-          ref={ref}
-        />
-      )}
-    </div>
-  );
-});
-ChangeDataInputComponent.displayName = "ChangeDataInputComponent";
+
 export default DaneFotowoltaiki;

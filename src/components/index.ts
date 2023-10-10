@@ -5,6 +5,7 @@ import { SideBar } from "./SideBar";
 import { TextComponent } from "./TextComponent";
 import { Loading } from "./Loading";
 import { UserFeeFormField } from "./UserFeeFormField";
+import { ChangeDataInputComponent } from "./changeDataInputComponent";
 
 export {
   SideBar,
@@ -14,4 +15,5 @@ export {
   TextComponent,
   Loading,
   UserFeeFormField,
+  ChangeDataInputComponent,
 };
