@@ -393,6 +393,7 @@ interface TotalInstallationCostType {
   addon_costs: number;
   base_installation_costs: number;
   heatStore_energyManager_costs: number;
+  energyStoreCost: number;
 }
 export function totalInstallationCosts({
   input,
@@ -402,7 +403,8 @@ export function totalInstallationCosts({
   const total_cost =
     input.addon_costs +
     input.base_installation_costs +
-    input.heatStore_energyManager_costs;
+    input.heatStore_energyManager_costs +
+    input.energyStoreCost;
 
   const fee_value = total_cost * 0.08;
 
@@ -416,20 +418,21 @@ export function totalInstallationCosts({
 interface DotationsSumType {
   photovoltaics_dotation: number;
   heatStore_dotation: number;
-  energyStore_dotation: number;
+  energyMenagerDotation: number;
+  energyStoreDotation: number;
 }
 export function dotationsSum({ input }: { input: DotationsSumType }) {
   return (
     input.photovoltaics_dotation +
     input.heatStore_dotation +
-    input.energyStore_dotation
+    input.energyMenagerDotation +
+    input.energyStoreDotation
   );
 }
 
 interface AmountAfterDotationType {
   gross_instalation_cost: number;
   summed_dotations: number;
-  termoModernization: number;
 }
 export function amountAfterDotation({
   input,
@@ -439,19 +442,12 @@ export function amountAfterDotation({
   return input.gross_instalation_cost - input.summed_dotations;
 }
 
-interface AmountTaxCreditType {
-  amount_after_dotation: number;
-  tax_credit: number;
-}
-export function amountTaxCredit({ input }: { input: AmountTaxCreditType }) {
-  return Number((input.amount_after_dotation * input.tax_credit).toFixed(2));
-}
-
 interface HeatStoreCostType {
   choosed_tank_type: string;
   tanks_costs: {
     zbiornik_100L: number;
     zbiornik_140L: number;
+    zbiornik_140L_z_wezem: number;
     zbiornik_200L: number;
     zbiornik_200L_z_wezem: number;
   };
@@ -461,6 +457,8 @@ export function heatStoreCost({ input }: { input: HeatStoreCostType }) {
     return input.tanks_costs.zbiornik_100L;
   } else if (input.choosed_tank_type === "Zbiornik 140L") {
     return input.tanks_costs.zbiornik_140L;
+  } else if (input.choosed_tank_type === "Zbiornik 140L z wężownicą") {
+    return input.tanks_costs.zbiornik_140L_z_wezem;
   } else if (input.choosed_tank_type === "Zbiornik 200L") {
     return input.tanks_costs.zbiornik_200L;
   } else if (input.choosed_tank_type === "Zbiornik 200L z wężownicą") {
@@ -481,7 +479,6 @@ export function heatStoreWithEnergyManagerCost({
 }
 
 interface FinallInstallationCostType {
-  amount_tax_credit: number;
   amount_after_dotation: number;
 }
 export function finallInstallationCost({
@@ -489,9 +486,7 @@ export function finallInstallationCost({
 }: {
   input: FinallInstallationCostType;
 }) {
-  return Number(
-    (input.amount_after_dotation - input.amount_tax_credit).toFixed(2)
-  );
+  return Number(input.amount_after_dotation.toFixed(2));
 }
 
 interface EstiamtedPriceForTrendIn1KWHType {
@@ -579,10 +574,29 @@ export function heatStoreDotationValue({
     );
   }
 }
+interface EnergyStoreDotationValueType {
+  net_instalation_cost: number;
+}
+export function energyStoreDotationValue({
+  input,
+}: {
+  input: EnergyStoreDotationValueType;
+}) {
+  if (input.net_instalation_cost >= 32000) {
+    return 16000;
+  }
+
+  if (input.net_instalation_cost < 32000) {
+    return Number(
+      (
+        input.net_instalation_cost * staticData.PERCENT_TO_HEATSTORE_DOTATION
+      ).toFixed(2)
+    );
+  }
+}
 
 interface TermoModernizationType {
-  total_gross_value: number;
-  dotation_sum: number;
+  amount_after_dotation: number;
   tax_credit: number;
 }
 export function termoModernization({
@@ -590,11 +604,7 @@ export function termoModernization({
 }: {
   input: TermoModernizationType;
 }) {
-  return Number(
-    ((input.total_gross_value - input.dotation_sum) * input.tax_credit).toFixed(
-      2
-    )
-  );
+  return Number((input.amount_after_dotation * input.tax_credit).toFixed(2));
 }
 
 interface LoanForPurcharseType {
@@ -617,6 +627,36 @@ export function loanForPurcharse({ input }: { input: LoanForPurcharseType }) {
     finallInstalmentPice: Number(monthlyPayment.toFixed(2)),
     instalmentBeforeDotations: Number(monthlyPaymentBeforeDotations.toFixed(2)),
   };
+}
+interface EnergyStoreCostType {
+  energyStorePower: number;
+  energyStorePowersCost: {
+    prog1: number;
+    prog2: number;
+    prog3: number;
+    prog4: number;
+    prog5: number;
+    prog6: number;
+    prog7: number;
+    prog8: number;
+  };
+}
+export function energyStoreCost({ input }: { input: EnergyStoreCostType }) {
+  if (input.energyStorePower === 6.3) return input.energyStorePowersCost.prog1;
+  else if (input.energyStorePower === 11.6)
+    return input.energyStorePowersCost.prog2;
+  else if (input.energyStorePower === 17.4)
+    return input.energyStorePowersCost.prog3;
+  else if (input.energyStorePower === 23.2)
+    return input.energyStorePowersCost.prog4;
+  else if (input.energyStorePower === 29)
+    return input.energyStorePowersCost.prog5;
+  else if (input.energyStorePower === 34.8)
+    return input.energyStorePowersCost.prog6;
+  else if (input.energyStorePower === 40.6)
+    return input.energyStorePowersCost.prog7;
+  else if (input.energyStorePower === 46.4)
+    return input.energyStorePowersCost.prog8;
 }
 
 export * as default from "./index";

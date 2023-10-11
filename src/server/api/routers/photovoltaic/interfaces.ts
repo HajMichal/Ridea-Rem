@@ -48,8 +48,19 @@ export interface PhotovoltaicDataToCalculation {
   zbiorniki: {
     zbiornik_100L: number;
     zbiornik_140L: number;
+    zbiornik_140L_z_wezem: number;
     zbiornik_200L: number;
     zbiornik_200L_z_wezem: number;
+  };
+  magazyn_energii: {
+    prog1: number;
+    prog2: number;
+    prog3: number;
+    prog4: number;
+    prog5: number;
+    prog6: number;
+    prog7: number;
+    prog8: number;
   };
   magazynCiepla: number;
   prowizjaBiura: number;

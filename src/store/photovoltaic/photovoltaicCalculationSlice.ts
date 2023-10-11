@@ -39,7 +39,7 @@ export interface PhotovoltaicCalculations {
   };
   dotations_sum: number;
   amount_after_dotation: number;
-  amount_tax_credit: number;
+
   heatStore_cost: number | undefined;
   finall_installation_cost: number;
   heatStore_energyManager_costs: number;
@@ -53,6 +53,8 @@ export interface PhotovoltaicCalculations {
     finallInstalmentPice: number;
     instalmentBeforeDotations: number;
   };
+  energyStoreCost: number;
+  energyStoreDotationValue: number;
 }
 
 export interface PhotovoltaicCalculationSlice {
@@ -103,7 +105,7 @@ export const photovoltaicCalculationSlice: StateCreator<
     },
     dotations_sum: 0,
     amount_after_dotation: 0,
-    amount_tax_credit: 0,
+    energyStoreCost: 0,
     heatStore_cost: 0,
     finall_installation_cost: 0,
     heatStore_energyManager_costs: 0,
@@ -117,6 +119,7 @@ export const photovoltaicCalculationSlice: StateCreator<
       finallInstalmentPice: 0,
       instalmentBeforeDotations: 0,
     },
+    energyStoreDotationValue: 0,
   },
   updatePhotovoltaicCalcs: (key, value) =>
     set((state) => ({

@@ -1,7 +1,10 @@
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 import { z } from "zod";
 import { s3, setFileToBucket } from "../photovoltaic/dataFlow";
-import { EachMenagerHeatPump, type HeatPumpCalculatorType } from "./interfaces";
+import {
+  type EachMenagerHeatPump,
+  type HeatPumpCalculatorType,
+} from "./interfaces";
 
 const schema = z.record(
   z.object({

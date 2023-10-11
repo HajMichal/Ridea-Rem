@@ -3,7 +3,10 @@ import fs from "fs";
 import AWS from "aws-sdk";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 import { z } from "zod";
-import { type CalculatorType, EachMenagerPhotovoltaic } from "./interfaces";
+import {
+  type CalculatorType,
+  type EachMenagerPhotovoltaic,
+} from "./interfaces";
 
 export const s3 = new AWS.S3();
 AWS.config.update({
@@ -62,8 +65,19 @@ const schema = z.record(
     zbiorniki: z.object({
       zbiornik_100L: z.number(),
       zbiornik_140L: z.number(),
+      zbiornik_140L_z_wezem: z.number(),
       zbiornik_200L: z.number(),
       zbiornik_200L_z_wezem: z.number(),
+    }),
+    magazyn_energii: z.object({
+      prog1: z.number(),
+      prog2: z.number(),
+      prog3: z.number(),
+      prog4: z.number(),
+      prog5: z.number(),
+      prog6: z.number(),
+      prog7: z.number(),
+      prog8: z.number(),
     }),
     magazynCiepla: z.number(),
     cena_skupu_pradu: z.number(),
@@ -222,8 +236,19 @@ export const dataFlowRouter = createTRPCRouter({
           zbiorniki: {
             zbiornik_100L: 4900,
             zbiornik_140L: 5300,
+            zbiornik_140L_z_wezem: 5300,
             zbiornik_200L: 5600,
             zbiornik_200L_z_wezem: 6200,
+          },
+          magazyn_energii: {
+            prog1: 18463,
+            prog2: 0,
+            prog3: 0,
+            prog4: 0,
+            prog5: 0,
+            prog6: 0,
+            prog7: 0,
+            prog8: 0,
           },
           magazynCiepla: 3900,
           cena_skupu_pradu: 0.72,

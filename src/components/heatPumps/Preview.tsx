@@ -2,7 +2,7 @@ import { useAutoAnimate } from "@formkit/auto-animate/react";
 import React from "react";
 import { useHeatPump } from "~/hooks/useHeatPump";
 import { TextComponent } from "../TextComponent";
-import { Badge, Group, Text } from "@mantine/core";
+import { Group, Text } from "@mantine/core";
 
 export const Preview = () => {
   const { heatPumpStore, heatPumpCalcStore, mutations } = useHeatPump();

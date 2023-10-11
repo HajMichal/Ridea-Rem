@@ -120,9 +120,28 @@ export const Preview = ({
                 calculations={photovoltaicStore.isInwerterChoosed}
               />
               <TextComponent
-                title="MAGAZYN CIEPŁA + EMS"
+                title="MAGAZYN CIEPŁA"
                 calculations={photovoltaicStore.heatStoreDotation}
               />
+              <TextComponent
+                title="EMS"
+                calculations={photovoltaicStore.emsDotation}
+              />
+              <TextComponent
+                title="MAGAZYN ENERGII"
+                calculations={photovoltaicStore.energyStoreDotation}
+              />
+              <TextComponent
+                title="MOC MAGAZYNU ENERGII"
+                calculations={photovoltaicStore.energyStorePower}
+                unit="kWh"
+              />
+              {photovoltaicStore.energyStoreDotation && (
+                <TextComponent
+                  title="CENA MAGAZYNU ENERGII"
+                  calculations={photovoltaicCalcStore.energyStoreCost}
+                />
+              )}
               {!!photovoltaicCalcStore.totalInstallationCosts
                 .total_gross_cost && (
                 <div className="my-10">
@@ -162,6 +181,13 @@ export const Preview = ({
                   <TextComponent
                     title="MÓJ PRĄD FOTOWOLTAIKA"
                     calculations={photovoltaics_dotation}
+                  />
+                  <TextComponent
+                    title="MAGAZYN ENERGII"
+                    calculations={
+                      photovoltaicStore.energyStoreDotation &&
+                      photovoltaicCalcStore.energyStoreDotationValue
+                    }
                   />
                 </div>
               ) : (

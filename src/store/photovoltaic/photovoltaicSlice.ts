@@ -8,6 +8,8 @@ export interface PhotovoltaicsSlice {
     isRoofWeightSystem: boolean;
     isSolarEdgeChoosed: boolean;
     heatStoreDotation: boolean;
+    emsDotation: boolean;
+    energyStoreDotation: boolean;
     isEccentricsChoosed: boolean;
     isInwerterChoosed: boolean;
     taxCredit: number;
@@ -18,10 +20,11 @@ export interface PhotovoltaicsSlice {
     energyPriceInLimit: number;
     energyPriceOutOfLimit: number;
     recentYearTrendUsage: number;
+    energyStorePower: number;
     tigoCount: number;
-    tankSize: string;
     panelPower: number;
     installmentNumber: number;
+    tankSize: string;
   };
   updatePhotovoltaic: (key: string, value: boolean | number | string) => void;
 }
@@ -36,6 +39,8 @@ export const photovoltaicsSlice: StateCreator<PhotovoltaicsSlice> = (set) => ({
     heatStoreDotation: false,
     isEccentricsChoosed: false,
     isInwerterChoosed: false,
+    emsDotation: false,
+    energyStoreDotation: false,
     taxCredit: 0.12,
     usageLimit: 0,
     modulesCount: 0,
@@ -46,12 +51,19 @@ export const photovoltaicsSlice: StateCreator<PhotovoltaicsSlice> = (set) => ({
     recentYearTrendUsage: 0,
     tigoCount: 0,
     panelPower: 400,
-    tankSize: "Brak",
     installmentNumber: 120,
+    energyStorePower: 6.3,
+    tankSize: "Brak",
   },
   updatePhotovoltaic: (key, value) =>
-    set((state) => ({
-      ...state,
-      photovoltaicStore: { ...state.photovoltaicStore, [key]: value },
-    })),
+    set((state) => {
+      if (key === "modulesCount" && Number(value) < 6) {
+        value = 5;
+      }
+
+      return {
+        ...state,
+        photovoltaicStore: { ...state.photovoltaicStore, [key]: value },
+      };
+    }),
 });

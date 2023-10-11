@@ -2,14 +2,14 @@ import React, { useEffect } from "react";
 import { api } from "~/utils/api";
 import { Navbar } from "~/components/Navbar";
 import { SideBar } from "~/components/SideBar";
-import { Loader, Modal, Tabs, TextInput } from "@mantine/core";
+import { Loader, Modal, Tabs } from "@mantine/core";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
 import { type SubmitHandler, useForm } from "react-hook-form";
 import { useDisclosure } from "@mantine/hooks";
 import { Toaster, toast } from "react-hot-toast";
 import { ChangeDataInputComponent } from "~/components";
-import { PhotovoltaicDataToCalculation } from "~/server/api/routers/photovoltaic/interfaces";
+import { type PhotovoltaicDataToCalculation } from "~/server/api/routers/photovoltaic/interfaces";
 
 /* eslint @typescript-eslint/consistent-indexed-object-style: ["error", "index-signature"] */
 interface EditionForm {
@@ -27,7 +27,6 @@ const EditionForm = ({ data }: EditionForm) => {
       toast.error("UWAGA BŁĄD! Dane nie zostały zmienione. Spróbuj ponownie.");
     },
   });
-
   const dynamicKey = Object.keys(data!)[0];
   const dynamicPropValues = data![dynamicKey!];
 
@@ -87,9 +86,21 @@ const EditionForm = ({ data }: EditionForm) => {
       zbiorniki: {
         zbiornik_100L: dynamicPropValues.zbiorniki.zbiornik_100L,
         zbiornik_140L: dynamicPropValues.zbiorniki.zbiornik_140L,
+        zbiornik_140L_z_wezem:
+          dynamicPropValues.zbiorniki.zbiornik_140L_z_wezem,
         zbiornik_200L: dynamicPropValues.zbiorniki.zbiornik_200L,
         zbiornik_200L_z_wezem:
           dynamicPropValues.zbiorniki.zbiornik_200L_z_wezem,
+      },
+      magazyn_energii: {
+        prog1: dynamicPropValues.magazyn_energii.prog1,
+        prog2: dynamicPropValues.magazyn_energii.prog2,
+        prog3: dynamicPropValues.magazyn_energii.prog3,
+        prog4: dynamicPropValues.magazyn_energii.prog4,
+        prog5: dynamicPropValues.magazyn_energii.prog5,
+        prog6: dynamicPropValues.magazyn_energii.prog6,
+        prog7: dynamicPropValues.magazyn_energii.prog7,
+        prog8: dynamicPropValues.magazyn_energii.prog8,
       },
       magazynCiepla: dynamicPropValues.magazynCiepla,
       oprocentowanie_kredytu: dynamicPropValues.oprocentowanie_kredytu,
@@ -100,6 +111,38 @@ const EditionForm = ({ data }: EditionForm) => {
     mutate({ [dynamicKey!]: data });
     close();
   };
+
+  const jsxEnergyStorePowerElements = [];
+  for (const storePower in dynamicPropValues?.magazyn_energii) {
+    if (dynamicPropValues.magazyn_energii.hasOwnProperty(storePower)) {
+      const registerStorePowerKey =
+        `magazyn_energii.${storePower}` as keyof typeof dynamicPropValues;
+      const storePowerPice =
+        dynamicPropValues.magazyn_energii[
+          storePower as keyof typeof dynamicPropValues.magazyn_energii
+        ];
+      const nameMappings: { [key: string]: string } = {
+        prog1: "6.3 kWh",
+        prog2: "11,6 kWh",
+        prog3: "17,4 kWh",
+        prog4: "23,2 kWh",
+        prog5: "29 kWh",
+        prog6: "34.8 kWh",
+        prog7: "40.6 kWh",
+        prog8: "46.4 kWh",
+      };
+
+      jsxEnergyStorePowerElements.push(
+        <ChangeDataInputComponent
+          {...register(registerStorePowerKey, {
+            valueAsNumber: true,
+          })}
+          title={nameMappings[storePower]!}
+          defaultValue={storePowerPice}
+        />
+      );
+    }
+  }
   return (
     <>
       <h1 className="w-full pt-14 text-center">{dynamicKey}</h1>
@@ -307,6 +350,11 @@ const EditionForm = ({ data }: EditionForm) => {
             />
           </div>
         </div>
+        <h2 className="mt-10 w-full text-center text-2xl">MAGAZYN ENERGII</h2>
+        {jsxEnergyStorePowerElements.map((element, index) => (
+          <div key={index}>{element}</div>
+        ))}
+
         <h2 className="mt-10 w-full text-center text-2xl">DOTACJE</h2>
         <ChangeDataInputComponent
           {...register("dotacje.magazynCiepla", {
@@ -393,6 +441,13 @@ const EditionForm = ({ data }: EditionForm) => {
           })}
           title="Zbiornik 140L"
           defaultValue={dynamicPropValues!.zbiorniki.zbiornik_140L}
+        />
+        <ChangeDataInputComponent
+          {...register("zbiorniki.zbiornik_140L_z_wezem", {
+            valueAsNumber: true,
+          })}
+          title="Zbiornik 140L Z wężownicą"
+          defaultValue={dynamicPropValues!.zbiorniki.zbiornik_140L_z_wezem}
         />
         <ChangeDataInputComponent
           {...register("zbiorniki.zbiornik_200L", {

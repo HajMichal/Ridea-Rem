@@ -29,11 +29,11 @@ const Fotowoltaika = () => {
       sessionData?.user.id
     );
   // Dotations
-  const energyStore_dotation = photovoltaicStore.heatStoreDotation
+  const energyStore_dotation = photovoltaicStore.emsDotation
     ? data?.dotacje.menagerEnergii
     : 0;
 
-  const photovoltaics_dotation = store.photovoltaicStore.heatStoreDotation
+  const photovoltaics_dotation = photovoltaicStore.heatStoreDotation
     ? data?.dotacje.mp_mc
     : data?.dotacje.mojPrad;
 
@@ -352,8 +352,13 @@ const Fotowoltaika = () => {
             .base_installation_price,
         heatStore_energyManager_costs:
           photovoltaicCalcStore.heatStore_energyManager_costs ?? 0,
+        energyStoreCost: photovoltaicStore.energyStoreDotation
+          ? photovoltaicCalcStore.energyStoreCost
+          : 0,
       });
   }, [
+    photovoltaicCalcStore.energyStoreCost,
+    photovoltaicStore.energyStoreDotation,
     photovoltaicCalcStore.addon_cost,
     photovoltaicCalcStore.installationAndPer1KW_price?.base_installation_price,
     photovoltaicCalcStore.heatStore_energyManager_costs,
@@ -362,15 +367,22 @@ const Fotowoltaika = () => {
 
   useEffect(() => {
     mutations.set_dotations_sum({
-      energyStore_dotation: energyStore_dotation ?? 0,
+      energyMenagerDotation: photovoltaicStore.emsDotation
+        ? energyStore_dotation ?? 0
+        : 0,
       photovoltaics_dotation: photovoltaics_dotation ?? 0,
       heatStore_dotation: photovoltaicStore.heatStoreDotation
         ? photovoltaicCalcStore.heatStoreCalcDotation ?? 0
+        : 0,
+      energyStoreDotation: photovoltaicStore.energyStoreDotation
+        ? photovoltaicCalcStore.energyStoreDotationValue
         : 0,
     });
   }, [
     photovoltaics_dotation,
     energyStore_dotation,
+    photovoltaicStore.emsDotation,
+    photovoltaicStore.energyStoreDotation,
     photovoltaicCalcStore.heatStoreCalcDotation,
     mutations.set_dotations_sum,
   ]);
@@ -384,7 +396,6 @@ const Fotowoltaika = () => {
         gross_instalation_cost:
           photovoltaicCalcStore.totalInstallationCosts?.total_gross_cost,
         summed_dotations: photovoltaicCalcStore.dotations_sum,
-        termoModernization: photovoltaicCalcStore.termoModernization,
       });
   }, [
     photovoltaicCalcStore.dotations_sum,
@@ -403,31 +414,12 @@ const Fotowoltaika = () => {
   ]);
 
   useEffect(() => {
-    if (
-      photovoltaicCalcStore.totalInstallationCosts?.total_gross_cost &&
-      photovoltaicCalcStore.dotations_sum
-    )
-      mutations.set_amount_tax_credit({
-        amount_after_dotation:
-          photovoltaicCalcStore.totalInstallationCosts?.total_gross_cost -
-          photovoltaicCalcStore.dotations_sum,
-        tax_credit: photovoltaicStore.taxCredit,
-      });
-  }, [
-    photovoltaicCalcStore.totalInstallationCosts?.total_gross_cost,
-    photovoltaicStore.taxCredit,
-    photovoltaicCalcStore.dotations_sum,
-    mutations.set_amount_tax_credit,
-  ]);
-  useEffect(() => {
     if (photovoltaicCalcStore.amount_after_dotation)
       mutations.set_finall_installation_cost({
         amount_after_dotation: photovoltaicCalcStore.amount_after_dotation,
-        amount_tax_credit: photovoltaicCalcStore.amount_tax_credit ?? 0,
       });
   }, [
     photovoltaicCalcStore.amount_after_dotation,
-    photovoltaicCalcStore.amount_tax_credit,
     mutations.set_finall_installation_cost,
   ]);
   useEffect(() => {
@@ -484,26 +476,37 @@ const Fotowoltaika = () => {
   ]);
 
   useEffect(() => {
-    if (photovoltaicCalcStore.totalInstallationCosts.total_gross_cost)
+    if (
+      photovoltaicCalcStore.totalInstallationCosts.total_gross_cost &&
+      photovoltaicStore.heatStoreDotation
+    )
       mutations.set_heatStoreCalcDotation({
         gross_instalation_cost:
           photovoltaicCalcStore.totalInstallationCosts.total_gross_cost,
       });
+    if (
+      photovoltaicCalcStore.totalInstallationCosts.total_gross_cost &&
+      photovoltaicStore.energyStoreDotation
+    ) {
+      mutations.set_energyStoreDotationValue({
+        net_instalation_cost:
+          photovoltaicCalcStore.totalInstallationCosts.total_installation_cost,
+      });
+    }
   }, [
     photovoltaicCalcStore.totalInstallationCosts.total_gross_cost,
+    photovoltaicStore.energyStoreDotation,
     mutations.set_heatStoreCalcDotation,
+    mutations.set_energyStoreDotationValue,
   ]);
   useEffect(() => {
     mutations.set_termo_modernization({
-      dotation_sum: photovoltaicCalcStore.dotations_sum,
+      amount_after_dotation: photovoltaicCalcStore.amount_after_dotation,
       tax_credit: photovoltaicStore.taxCredit,
-      total_gross_value:
-        photovoltaicCalcStore.totalInstallationCosts.total_gross_cost,
     });
   }, [
-    photovoltaicCalcStore.totalInstallationCosts.total_gross_cost,
     photovoltaicStore.taxCredit,
-    photovoltaicCalcStore.dotations_sum,
+    photovoltaicCalcStore.amount_after_dotation,
   ]);
   useEffect(() => {
     if (data)
@@ -521,12 +524,18 @@ const Fotowoltaika = () => {
     photovoltaicCalcStore.totalInstallationCosts.total_gross_cost,
     data?.oprocentowanie_kredytu,
   ]);
+  useEffect(() => {
+    if (data)
+      mutations.set_energyStoreCost({
+        energyStorePower: photovoltaicStore.energyStorePower,
+        energyStorePowersCost: data.magazyn_energii,
+      });
+  }, [photovoltaicStore.energyStorePower, data?.magazyn_energii]);
 
   const yesNoData = [
     { value: "true", label: "Tak" },
     { value: "false", label: "Nie" },
   ];
-
   return (
     <main className="flex h-full max-h-screen justify-center overflow-hidden bg-backgroundGray font-orkney">
       {!data && (
@@ -722,7 +731,7 @@ const Fotowoltaika = () => {
                   data={yesNoData}
                 />
                 <SelectComponent
-                  title="MAGAZYN CIEPŁA + EMS"
+                  title="MAGAZYN CIEPŁA"
                   onChange={(e) =>
                     store.updatePhotovoltaic("heatStoreDotation", e == "true")
                   }
@@ -744,11 +753,50 @@ const Fotowoltaika = () => {
                       { value: "Brak", label: "Brak" },
                       { value: "Zbiornik 100L", label: "Zbiornik 100L" },
                       { value: "Zbiornik 140L", label: "Zbiornik 140L" },
+                      {
+                        value: "Zbiornik 140L z wężownicą",
+                        label: "Zbiornik 140L z wężownicą",
+                      },
                       { value: "Zbiornik 200L", label: "Zbiornik 200L" },
                       {
                         value: "Zbiornik 200L z wężownicą",
                         label: "Zbiornik 200L z wężownicą",
                       },
+                    ]}
+                  />
+                )}
+                <SelectComponent
+                  title="EMS"
+                  onChange={(e) =>
+                    store.updatePhotovoltaic("emsDotation", e == "true")
+                  }
+                  value={photovoltaicStore.emsDotation}
+                  data={yesNoData}
+                />
+                <SelectComponent
+                  title="MAGAZYN ENERGII"
+                  onChange={(e) =>
+                    store.updatePhotovoltaic("energyStoreDotation", e == "true")
+                  }
+                  value={photovoltaicStore.energyStoreDotation}
+                  data={yesNoData}
+                />
+                {photovoltaicStore.energyStoreDotation && (
+                  <SelectComponent
+                    title="MOC MAGAZYNU ENERGII"
+                    onChange={(e) => {
+                      store.updatePhotovoltaic("energyStorePower", Number(e));
+                    }}
+                    value={photovoltaicStore.energyStorePower}
+                    data={[
+                      "6.3",
+                      "11.6",
+                      "17.4",
+                      "23.2",
+                      "29",
+                      "34.8",
+                      "40.6",
+                      "46.4",
                     ]}
                   />
                 )}

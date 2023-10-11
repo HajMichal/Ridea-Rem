@@ -1,4 +1,4 @@
-import { PhotovoltaicDataToCalculation } from "~/server/api/routers/photovoltaic/interfaces";
+import { type PhotovoltaicDataToCalculation } from "~/server/api/routers/photovoltaic/interfaces";
 import useStore from "~/store";
 import { api } from "~/utils/api";
 
@@ -169,12 +169,7 @@ export const usePhotovoltaic = () => {
         store.updatePhotovoltaicCalcs("amount_after_dotation", data);
       },
     });
-  const { mutate: set_amount_tax_credit } =
-    api.photovoltaics.amount_tax_credit.useMutation({
-      onSuccess: (data) => {
-        store.updatePhotovoltaicCalcs("amount_tax_credit", data);
-      },
-    });
+
   const { mutate: set_heatStore_cost } =
     api.photovoltaics.heatStore_cost.useMutation({
       onSuccess: (data) => {
@@ -237,6 +232,18 @@ export const usePhotovoltaic = () => {
     api.photovoltaics.loanForPurcharse.useMutation({
       onSuccess: (data) => {
         store.updatePhotovoltaicCalcs("loanForPurcharse", data);
+      },
+    });
+  const { mutate: set_energyStoreCost } =
+    api.photovoltaics.energyStoreCost.useMutation({
+      onSuccess: (data) => {
+        store.updatePhotovoltaicCalcs("energyStoreCost", data);
+      },
+    });
+  const { mutate: set_energyStoreDotationValue } =
+    api.photovoltaics.energyStoreDotationValue.useMutation({
+      onSuccess: (data) => {
+        store.updatePhotovoltaicCalcs("energyStoreDotationValue", data);
       },
     });
 
@@ -307,8 +314,9 @@ export const usePhotovoltaic = () => {
       set_addon_cost,
       set_markup_costs,
       set_totalInstallationCost,
+      set_energyStoreCost,
       set_dotations_sum,
-      set_amount_tax_credit,
+      set_energyStoreDotationValue,
       set_heatStore_cost,
       set_finall_installation_cost,
       set_heatStore_energyManager_costs,

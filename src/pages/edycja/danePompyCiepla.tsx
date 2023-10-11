@@ -3,7 +3,7 @@ import { useDisclosure } from "@mantine/hooks";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import React, { useEffect } from "react";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm, type SubmitHandler } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
 
 import { ChangeDataInputComponent, Navbar, SideBar } from "~/components";
@@ -249,7 +249,7 @@ const EditionForm = ({ data }: EditionFormType) => {
         ]!.mnozik_prowizji;
 
       const nameMappings: { [key: string]: string } = {
-        ["Z-PRO53/4MitsubishiInv11-16"]: "Z-PRO.5.3/4.Mitsubishi.Inv.11-16",
+        "Z-PRO53/4MitsubishiInv11-16": "Z-PRO.5.3/4.Mitsubishi.Inv.11-16",
         "Z-PRO53/4MitsubishiIHO11-16": "Z-PRO.5.3/4.Mitsubishi.IHO.11-16",
         "SAT63DanfossInv14-23": "SAT.6.3.Danfoss.Inv.14-23",
         "SAT63DanfossIHO14-24": "SAT.6.3.Danfoss.IHO.14-24",
