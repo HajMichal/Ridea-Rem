@@ -46,6 +46,10 @@ export const Preview = ({ CoCwuDotation }: PreviewDotationType) => {
               calculations={heatPumpStore.suggestedPumpPower}
             />
             <TextComponent
+              title="ROCZNE ZUŻYCIE ENERGII CIEPLNEJ NA OGRZEWANIE"
+              calculations={heatPumpStore.yearlyHeatingUsage}
+            />
+            <TextComponent
               title="CENA ZAKUPU 1 TONY"
               calculations={heatPumpStore.oneTonneOfResourceCost}
             />
@@ -127,18 +131,23 @@ export const Preview = ({ CoCwuDotation }: PreviewDotationType) => {
               title="ZAMKNIĘCIE UKŁADU OTWARTEGO"
               calculations={heatPumpStore.closingOpenSytem}
             />
-            <TextComponent
-              title="VAT"
-              calculations={heatPumpCalcStore.heatPumpPricingBeforeDotations.vatValue.toFixed(
-                2
-              )}
-            />
-            <TextComponent
-              title="CENA ZESTAWU BRUTTO"
-              calculations={heatPumpCalcStore.heatPumpPricingBeforeDotations.grossSystemValue.toFixed(
-                2
-              )}
-            />
+            {!!heatPumpCalcStore.heatPumpPricingBeforeDotations.vatValue && (
+              <TextComponent
+                title="VAT"
+                calculations={heatPumpCalcStore.heatPumpPricingBeforeDotations.vatValue.toFixed(
+                  2
+                )}
+              />
+            )}
+            {!!heatPumpCalcStore.heatPumpPricingBeforeDotations
+              .grossSystemValue && (
+              <TextComponent
+                title="CENA ZESTAWU BRUTTO"
+                calculations={heatPumpCalcStore.heatPumpPricingBeforeDotations.grossSystemValue.toFixed(
+                  2
+                )}
+              />
+            )}
             <h2 className="mt-7 w-full text-center text-xl">DOTACJE</h2>
             <TextComponent
               title="DOTACJA NA MODERNIZACJE CO + CWU"
@@ -156,7 +165,7 @@ export const Preview = ({ CoCwuDotation }: PreviewDotationType) => {
                 calculations={heatPumpCalcStore.finallGrossInstalationCost}
               />
               {/* <TextComponent
-                  title={`CENA 1 RATY PRZY ${photovoltaicStore.installmentNumber} RATACH`}
+                  title={`CENA 1 RATY PRZY ${heatPumpStore.installmentNumber} RATACH`}
                   calculations={
                     heatPumpCalcStore.
                   }

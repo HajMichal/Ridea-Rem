@@ -86,6 +86,7 @@ export interface HeatPumpSliceType {
     minimalWorkingTemp: number;
     yearlyHeatingHomeCost: number;
     consultantMarkup: number;
+    installmentNumber: number;
 
     suggestedPump: PumpsOffer | "";
     buforType: BuforTypes | "";
@@ -120,7 +121,7 @@ export const heatPumpSlice: StateCreator<HeatPumpSliceType> = (set) => ({
     mergeNewBufforWithOld: false, // C165
     closingOpenSytem: false, // C166
 
-    yearlyHeatingHomeCost: 5000,
+    yearlyHeatingHomeCost: 0,
     suggestedPumpPower: 0,
     longerPreIsolatedPipe: 0, // C158
     oneTonneOfResourceCost: 0,
@@ -130,6 +131,7 @@ export const heatPumpSlice: StateCreator<HeatPumpSliceType> = (set) => ({
     minimalWorkingTemp: -7,
     consultantMarkup: 0,
     yearlyHeatingUsage: 0,
+    installmentNumber: 120,
 
     glazingType: "STANDARDOWE PRZESZKLENIA",
     isolatedCeiling: "IZOLOWANY STROP",

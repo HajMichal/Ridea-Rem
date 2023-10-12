@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     flexDirection: "row",
-    marginTop: 100,
+    marginTop: 50,
   },
   paymentReturnTime: {
     paddingHorizontal: 20,
@@ -231,6 +231,16 @@ const MyDocument = ({
             {photovoltaicCalcStore.accumulated_funds_on_account.toFixed(2)} zł
           </Text>
         </View>
+        <View style={styles.eachRow}>
+          <Text>INDYWIDUALNY PROJEKT INSTALACJI</Text>
+          <Text style={styles.boldFont}>TAK</Text>
+        </View>
+        <View style={styles.eachRow}>
+          <Text>CENA MAGAZYNU ENERGII</Text>
+          <Text style={styles.boldFont}>
+            {photovoltaicCalcStore.energyStoreCost}
+          </Text>
+        </View>
         <View style={styles.priceRow}>
           <Text>ZYSK ROCZNY Z PV </Text>
           <Text
@@ -351,8 +361,10 @@ const MyDocument = ({
           </Text>
         </View>
         <View style={styles.eachRow}>
-          <Text>INDYWIDUALNY PROJEKT INSTALACJI</Text>
-          <Text style={styles.boldFont}>TAK</Text>
+          <Text>MAGAZYN ENERGII</Text>
+          <Text style={styles.boldFont}>
+            {photovoltaicStore.energyStoreDotation}
+          </Text>
         </View>
         <View style={styles.eachRow}>
           <Text>INWERTER HYBRYDOWY</Text>
@@ -453,6 +465,13 @@ const MyDocument = ({
             <Text>
               SYSTEM ZARZĄDZANIA ENERGIĄ (EMS/HEMS) -{" "}
               {photovoltaicStore.heatStoreDotation ? energyStore_dotation : "0"}{" "}
+              ZŁ
+            </Text>
+            <Text>
+              DOTACJA NA MAGAZYN ENERGII -{" "}
+              {photovoltaicStore.energyStoreDotation
+                ? photovoltaicCalcStore.energyStoreDotationValue
+                : "0"}{" "}
               ZŁ
             </Text>
           </View>

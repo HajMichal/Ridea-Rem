@@ -487,27 +487,6 @@ export function finallGrossInstalationCost({
   if (finallInstaltionCost < 0) return 0;
   else if (finallInstaltionCost > 0) return finallInstaltionCost;
 }
-interface LoanForPurcharseType {
-  finall_installation_cost: number;
-  creditPercentage: number;
-  instalmentNumber: number;
-  grossInstalltaionBeforeDotationsCost: number;
-}
-export function loanForPurcharse({ input }: { input: LoanForPurcharseType }) {
-  const monthlyInterestRate = input.creditPercentage / 12 / 100;
-
-  const monthlyPaymentBeforeDotations =
-    (input.grossInstalltaionBeforeDotationsCost * monthlyInterestRate) /
-    (1 - Math.pow(1 + monthlyInterestRate, -input.instalmentNumber));
-
-  const monthlyPayment =
-    (input.finall_installation_cost * monthlyInterestRate) /
-    (1 - Math.pow(1 + monthlyInterestRate, -input.instalmentNumber));
-  return {
-    finallInstalmentPice: Number(monthlyPayment.toFixed(2)),
-    instalmentBeforeDotations: Number(monthlyPaymentBeforeDotations.toFixed(2)),
-  };
-}
 
 interface HeatStoreDotationValueType {
   choosedHeatPumpDotation: string;
@@ -528,6 +507,27 @@ export function heatStoreDotationValue({
     return input.heatStoreDotationTreshold.prog2;
   else if (input.choosedHeatPumpDotation === "PRÓG 3")
     return input.heatStoreDotationTreshold.prog3;
+}
+interface LoanForPurcharseType {
+  finall_installation_cost: number;
+  creditPercentage: number;
+  instalmentNumber: number;
+  grossInstalltaionBeforeDotationsCost: number;
+}
+export function loanForPurcharse({ input }: { input: LoanForPurcharseType }) {
+  const monthlyInterestRate = input.creditPercentage / 12 / 100;
+
+  const monthlyPaymentBeforeDotations =
+    (input.grossInstalltaionBeforeDotationsCost * monthlyInterestRate) /
+    (1 - Math.pow(1 + monthlyInterestRate, -input.instalmentNumber));
+
+  const monthlyPayment =
+    (input.finall_installation_cost * monthlyInterestRate) /
+    (1 - Math.pow(1 + monthlyInterestRate, -input.instalmentNumber));
+  return {
+    finallInstalmentPice: Number(monthlyPayment.toFixed(2)),
+    instalmentBeforeDotations: Number(monthlyPaymentBeforeDotations.toFixed(2)),
+  };
 }
 
 export * as default from "./index";

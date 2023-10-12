@@ -30,6 +30,10 @@ export interface HeatPumpCalculations {
   termoModernizationRelif: number;
   finallGrossInstalationCost: number;
   heatStoreDotationValue: number;
+  loanForPurcharse: {
+    finallInstalmentPice: number;
+    instalmentBeforeDotations: number;
+  };
 }
 
 export interface HeatPumpCalculationSlice {
@@ -73,6 +77,10 @@ export const heatPumpCalculationSlice: StateCreator<
     },
     finallGrossInstalationCost: 0,
     heatStoreDotationValue: 0,
+    loanForPurcharse: {
+      finallInstalmentPice: 0,
+      instalmentBeforeDotations: 0,
+    },
   },
   updateHeatPumpCalcs: (key, value) =>
     set((state) => ({

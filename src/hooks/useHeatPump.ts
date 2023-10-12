@@ -120,85 +120,17 @@ export const useHeatPump = () => {
         store.updateHeatPumpCalcs("heatStoreDotationValue", data);
       },
     });
-
-  const setHeatedArea = (e: { target: { valueAsNumber: number } }) => {
-    if (e.target.valueAsNumber) {
-      store.updateHeatPump("heatedArea", e.target.valueAsNumber);
-    } else {
-      store.updateHeatPump("heatedArea", 0);
-    }
-  };
-  const setRoomHeight = (e: { target: { valueAsNumber: number } }) => {
-    if (e.target.valueAsNumber) {
-      store.updateHeatPump("roomHeight", e.target.valueAsNumber);
-    } else {
-      store.updateHeatPump("roomHeight", 0);
-    }
-  };
-  const setSuggestedPower = (e: { target: { valueAsNumber: number } }) => {
-    if (e.target.valueAsNumber) {
-      store.updateHeatPump("suggestedPumpPower", e.target.valueAsNumber);
-    } else {
-      store.updateHeatPump("suggestedPumpPower", 0);
-    }
-  };
-  const setYearlyHeatingUsage = (e: { target: { valueAsNumber: number } }) => {
-    if (e.target.valueAsNumber) {
-      store.updateHeatPump("yearlyHeatingUsage", e.target.valueAsNumber);
-    } else {
-      store.updateHeatPump("yearlyHeatingUsage", 0);
-    }
-  };
-  const setYearlyHeatingCosts = (e: { target: { valueAsNumber: number } }) => {
-    if (e.target.valueAsNumber) {
-      store.updateHeatPump("yearlyHeatingHomeCost", e.target.valueAsNumber);
-    } else {
-      store.updateHeatPump("yearlyHeatingHomeCost", 0);
-    }
-  };
-  const setOneTonneOfResourceCost = (e: {
-    target: { valueAsNumber: number };
-  }) => {
-    if (e.target.valueAsNumber) {
-      store.updateHeatPump("oneTonneOfResourceCost", e.target.valueAsNumber);
-    } else {
-      store.updateHeatPump("oneTonneOfResourceCost", 0);
-    }
-  };
-  const setLongerIsolationFromMineralWool = (e: {
-    target: { valueAsNumber: number };
-  }) => {
-    if (e.target.valueAsNumber) {
-      store.updateHeatPump(
-        "longerIsolationFromMineralWool",
-        e.target.valueAsNumber
-      );
-    } else {
-      store.updateHeatPump("longerIsolationFromMineralWool", 0);
-    }
-  };
-  const setLongerPreIsolatedPipe = (e: {
-    target: { valueAsNumber: number };
-  }) => {
-    if (e.target.valueAsNumber) {
-      store.updateHeatPump("longerPreIsolatedPipe", e.target.valueAsNumber);
-    } else {
-      store.updateHeatPump("longerPreIsolatedPipe", 0);
-    }
-  };
+  const { mutate: setLoanForPurcharse } =
+    api.heatPump.loanForPurcharse.useMutation({
+      onSuccess: (data) => {
+        store.updateHeatPumpCalcs("loanForPurcharse", data);
+      },
+    });
 
   return {
     heatPumpStore: store.heatPumpStore,
     heatPumpCalcStore: store.heatPumpCalculationStore,
     mutations: {
-      setHeatedArea,
-      setRoomHeight,
-      setSuggestedPower,
-      setYearlyHeatingCosts,
-      setOneTonneOfResourceCost,
-      setLongerIsolationFromMineralWool,
-      setLongerPreIsolatedPipe,
-
       setBufforCost,
       setMontageInCascadeCost,
       setPlacementWithBurstCost,
@@ -218,8 +150,8 @@ export const useHeatPump = () => {
       setHeatPumpPricingBeforeDotations,
       setTermoModernizationRelif,
       setFinallGrossInstalationCost,
-      setYearlyHeatingUsage,
       setHeatStoreDotationValue,
+      setLoanForPurcharse,
     },
   };
 };

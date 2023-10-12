@@ -224,6 +224,22 @@ const Pompy_ciepla = () => {
     heatPumpCalcStore.heatStoreDotationValue,
     heatPumpCalcStore.heatPumpPricingBeforeDotations.grossSystemValue,
   ]);
+  useEffect(() => {
+    if (data) {
+      mutations.setLoanForPurcharse({
+        creditPercentage: data.oprocentowanie_kredytu,
+        finall_installation_cost: heatPumpCalcStore.finallGrossInstalationCost,
+        grossInstalltaionBeforeDotationsCost:
+          heatPumpCalcStore.heatPumpPricingBeforeDotations.grossSystemValue,
+        instalmentNumber: heatPumpStore.installmentNumber,
+      });
+    }
+  }, [
+    heatPumpStore.installmentNumber,
+    heatPumpCalcStore.heatPumpPricingBeforeDotations,
+    heatPumpCalcStore.finallGrossInstalationCost,
+    data?.oprocentowanie_kredytu,
+  ]);
 
   const yesNoData = [
     { value: "true", label: "Tak" },
@@ -249,13 +265,17 @@ const Pompy_ciepla = () => {
                 </h2>
                 <InputComponent
                   title="POWIERZCHNIA OGRZEWANA W M²"
-                  onChange={mutations.setHeatedArea}
+                  onChange={(e) =>
+                    store.updateHeatPump("heatedArea", e.target.valueAsNumber)
+                  }
                   value={heatPumpStore.heatedArea}
                   step={10}
                 />
                 <InputComponent
                   title="WYSOKOŚĆ POMIESZCZEŃ W CM"
-                  onChange={mutations.setRoomHeight}
+                  onChange={(e) =>
+                    store.updateHeatPump("roomHeight", e.target.valueAsNumber)
+                  }
                   value={heatPumpStore.roomHeight}
                   step={10}
                 />
@@ -370,13 +390,23 @@ const Pompy_ciepla = () => {
                 />
                 <InputComponent
                   title="SUGEROWANA MOC URZĄDZENIA GRZEWCZEGO"
-                  onChange={mutations.setSuggestedPower}
+                  onChange={(e) =>
+                    store.updateHeatPump(
+                      "suggestedPumpPower",
+                      e.target.valueAsNumber
+                    )
+                  }
                   value={heatPumpStore.suggestedPumpPower}
                   step={1}
                 />
                 <InputComponent
                   title="ROCZNE ZUŻYCIE ENERGII CIEPLNEJ NA OGRZEWANIE"
-                  onChange={mutations.setYearlyHeatingUsage}
+                  onChange={(e) =>
+                    store.updateHeatPump(
+                      "yearlyHeatingUsage",
+                      e.target.valueAsNumber
+                    )
+                  }
                   value={heatPumpStore.yearlyHeatingUsage}
                   step={1}
                 />
@@ -404,13 +434,23 @@ const Pompy_ciepla = () => {
                 />
                 <InputComponent
                   title="CENA ZAKUPU 1 TONY"
-                  onChange={mutations.setOneTonneOfResourceCost}
+                  onChange={(e) => {
+                    store.updateHeatPump(
+                      "oneTonneOfResourceCost",
+                      e.target.valueAsNumber
+                    );
+                  }}
                   value={heatPumpStore.oneTonneOfResourceCost}
                   step={1}
                 />
                 <InputComponent
                   title="DOTYCHCZASOWY ROCZNY KOSZT OGRZEWANIA DOMU"
-                  onChange={mutations.setYearlyHeatingCosts}
+                  onChange={(e) => {
+                    store.updateHeatPump(
+                      "yearlyHeatingHomeCost",
+                      e.target.valueAsNumber
+                    );
+                  }}
                   value={heatPumpStore.yearlyHeatingHomeCost}
                   step={1}
                 />
@@ -424,18 +464,18 @@ const Pompy_ciepla = () => {
                   }}
                   value={heatPumpStore.suggestedPump}
                   data={[
-                    "Z-PRO.5.3/4.Mitsubishi.Inv.11-16",
-                    "Z-PRO.5.3/4.Mitsubishi.IHO.11-16",
-                    "SAT.6.3.Danfoss.Inv.14-23",
-                    "SAT.6.3.Danfoss.IHO.14-24",
-                    "SAT.ELI.8.2.P19i.17-29",
-                    "SAT.ELI.8.3.P23i.20-32",
-                    "SAT.ELI.8.3.P26i.23-34",
-                    "SAT.ELI.8.3.P30i.25-37",
-                    "SAT.ELI.8.2.P19iHO.25-35",
-                    "SAT.ELI.8.3.P23iHO.30-41",
-                    "SAT.ELI.8.3.P26iHO.35-45",
-                    "SAT.ELI.8.3.P30iHO.37-48",
+                    "Z-PRO53/4MitsubishiInv11-16",
+                    "Z-PRO53/4MitsubishiIHO11-16",
+                    "SAT63DanfossInv14-23",
+                    "SAT63DanfossIHO14-24",
+                    "SATELI82P19i17-29",
+                    "SATELI83P23i20-32",
+                    "SATELI83P26i23-34",
+                    "SATELI83P30i25-37",
+                    "SATELI82P19iHO25-35",
+                    "SATELI83P23iHO30-41",
+                    "SATELI83P26iHO35-45",
+                    "SATELI83P30iHO37-48",
                   ]}
                 />
                 <SelectComponent
@@ -541,7 +581,12 @@ const Pompy_ciepla = () => {
                 />
                 <InputComponent
                   title="POPROWADZENIE INSTALACJI OD PC DO BUDYNKU PO WIERZCHU W IZOLACJI Z WEŁNY MINERALNEJ (DO 2,5M OD BUDYNKU W CENIE) WPISAĆ ILOŚC PONAD STANDARD W MB"
-                  onChange={mutations.setLongerIsolationFromMineralWool}
+                  onChange={(e) => {
+                    store.updateHeatPump(
+                      "longerIsolationFromMineralWool",
+                      e.target.valueAsNumber
+                    );
+                  }}
                   value={heatPumpStore.longerIsolationFromMineralWool}
                   step={1}
                   smallField
@@ -557,7 +602,12 @@ const Pompy_ciepla = () => {
                 />
                 <InputComponent
                   title="KAŻDY NASTĘPNY MB (WPISZ ILOŚĆ METRÓW)"
-                  onChange={mutations.setLongerPreIsolatedPipe}
+                  onChange={(e) => {
+                    store.updateHeatPump(
+                      "longerPreIsolatedPipe",
+                      e.target.valueAsNumber
+                    );
+                  }}
                   value={heatPumpStore.longerPreIsolatedPipe}
                   step={1}
                   smallField
@@ -631,6 +681,17 @@ const Pompy_ciepla = () => {
                   value={heatPumpStore.choosedHeatPumpDotation}
                   data={["PRÓG 1", "PRÓG 2", "PRÓG 3"]}
                   smallField
+                />
+                <InputComponent
+                  title="ILOŚĆ RAT"
+                  onChange={(e) =>
+                    store.updateHeatPump(
+                      "installmentNumber",
+                      e.target.valueAsNumber
+                    )
+                  }
+                  value={heatPumpStore.installmentNumber}
+                  step={1}
                 />
               </div>
             </ScrollArea>

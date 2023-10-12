@@ -238,4 +238,14 @@ export const heatPump_calculator = createTRPCRouter({
       })
     )
     .mutation(calc.heatStoreDotationValue),
+  loanForPurcharse: publicProcedure
+    .input(
+      z.object({
+        finall_installation_cost: z.number(),
+        creditPercentage: z.number(),
+        instalmentNumber: z.number(),
+        grossInstalltaionBeforeDotationsCost: z.number(),
+      })
+    )
+    .mutation(calc.loanForPurcharse),
 });
