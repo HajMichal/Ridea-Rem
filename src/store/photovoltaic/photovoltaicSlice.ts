@@ -57,9 +57,9 @@ export const photovoltaicsSlice: StateCreator<PhotovoltaicsSlice> = (set) => ({
   },
   updatePhotovoltaic: (key, value) =>
     set((state) => {
-      if (key === "modulesCount" && Number(value) < 6) {
-        value = 5;
-      }
+      // if (key === "modulesCount" && Number(value) < 6) {
+      //   value = 5;
+      // }
 
       return {
         ...state,

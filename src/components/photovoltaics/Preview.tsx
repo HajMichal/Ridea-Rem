@@ -131,11 +131,13 @@ export const Preview = ({
                 title="MAGAZYN ENERGII"
                 calculations={photovoltaicStore.energyStoreDotation}
               />
-              <TextComponent
-                title="MOC MAGAZYNU ENERGII"
-                calculations={photovoltaicStore.energyStorePower}
-                unit="kWh"
-              />
+              {photovoltaicStore.energyStoreDotation && (
+                <TextComponent
+                  title="MOC MAGAZYNU ENERGII"
+                  calculations={photovoltaicStore.energyStorePower}
+                  unit="kWh"
+                />
+              )}
               {photovoltaicStore.energyStoreDotation && (
                 <TextComponent
                   title="CENA MAGAZYNU ENERGII"

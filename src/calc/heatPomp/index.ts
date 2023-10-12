@@ -471,21 +471,21 @@ interface FinallGrossInstalationCostType {
   grossSystemValue: number;
   heatPumpDotation: number;
   dotationModernizationCoCwu: number;
-  termoModernizationRelif: number;
 }
 export function finallGrossInstalationCost({
   input,
 }: {
   input: FinallGrossInstalationCostType;
 }) {
-  return Number(
+  const finallInstaltionCost = Number(
     (
       input.grossSystemValue -
       input.dotationModernizationCoCwu -
-      input.heatPumpDotation -
-      input.termoModernizationRelif
+      input.heatPumpDotation
     ).toFixed(2)
   );
+  if (finallInstaltionCost < 0) return 0;
+  else if (finallInstaltionCost > 0) return finallInstaltionCost;
 }
 interface LoanForPurcharseType {
   finall_installation_cost: number;
@@ -507,6 +507,27 @@ export function loanForPurcharse({ input }: { input: LoanForPurcharseType }) {
     finallInstalmentPice: Number(monthlyPayment.toFixed(2)),
     instalmentBeforeDotations: Number(monthlyPaymentBeforeDotations.toFixed(2)),
   };
+}
+
+interface HeatStoreDotationValueType {
+  choosedHeatPumpDotation: string;
+  heatStoreDotationTreshold: {
+    prog1: number;
+    prog2: number;
+    prog3: number;
+  };
+}
+export function heatStoreDotationValue({
+  input,
+}: {
+  input: HeatStoreDotationValueType;
+}) {
+  if (input.choosedHeatPumpDotation === "PRÓG 1")
+    return input.heatStoreDotationTreshold.prog1;
+  else if (input.choosedHeatPumpDotation === "PRÓG 2")
+    return input.heatStoreDotationTreshold.prog2;
+  else if (input.choosedHeatPumpDotation === "PRÓG 3")
+    return input.heatStoreDotationTreshold.prog3;
 }
 
 export * as default from "./index";

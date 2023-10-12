@@ -29,6 +29,7 @@ export interface HeatPumpCalculations {
   };
   termoModernizationRelif: number;
   finallGrossInstalationCost: number;
+  heatStoreDotationValue: number;
 }
 
 export interface HeatPumpCalculationSlice {
@@ -71,6 +72,7 @@ export const heatPumpCalculationSlice: StateCreator<
       grossSystemValue: 0,
     },
     finallGrossInstalationCost: 0,
+    heatStoreDotationValue: 0,
   },
   updateHeatPumpCalcs: (key, value) =>
     set((state) => ({

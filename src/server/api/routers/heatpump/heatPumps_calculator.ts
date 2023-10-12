@@ -29,16 +29,6 @@ export const heatPump_calculator = createTRPCRouter({
       })
     )
     .mutation(calc.assumedHeatNeed),
-  // yearlyHeatingHomeCost: publicProcedure
-  //   .input(
-  //     z.object({
-  //       currentFuelToHeat: z.string(),
-  //       yearlyEnergeticCost: z.number(),
-  //       buyPrize1Tonne: z.number(),
-  //       buyPrize1kWh: z.number(),
-  //     })
-  //   )
-  //   .mutation(calc.yearlyHeatingHomeCost),
   G335: publicProcedure.mutation(calc.G335),
   yearlyEnergeticCost: publicProcedure
     .input(
@@ -233,8 +223,19 @@ export const heatPump_calculator = createTRPCRouter({
         grossSystemValue: z.number(),
         heatPumpDotation: z.number(),
         dotationModernizationCoCwu: z.number(),
-        termoModernizationRelif: z.number(),
       })
     )
     .mutation(calc.finallGrossInstalationCost),
+  heatStoreDotationValue: publicProcedure
+    .input(
+      z.object({
+        choosedHeatPumpDotation: z.string(),
+        heatStoreDotationTreshold: z.object({
+          prog1: z.number(),
+          prog2: z.number(),
+          prog3: z.number(),
+        }),
+      })
+    )
+    .mutation(calc.heatStoreDotationValue),
 });

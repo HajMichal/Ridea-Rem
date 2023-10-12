@@ -114,6 +114,12 @@ export const useHeatPump = () => {
         store.updateHeatPumpCalcs("finallGrossInstalationCost", data);
       },
     });
+  const { mutate: setHeatStoreDotationValue } =
+    api.heatPump.heatStoreDotationValue.useMutation({
+      onSuccess: (data) => {
+        store.updateHeatPumpCalcs("heatStoreDotationValue", data);
+      },
+    });
 
   const setHeatedArea = (e: { target: { valueAsNumber: number } }) => {
     if (e.target.valueAsNumber) {
@@ -213,6 +219,7 @@ export const useHeatPump = () => {
       setTermoModernizationRelif,
       setFinallGrossInstalationCost,
       setYearlyHeatingUsage,
+      setHeatStoreDotationValue,
     },
   };
 };

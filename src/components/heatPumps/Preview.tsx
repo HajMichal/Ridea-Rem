@@ -4,7 +4,11 @@ import { useHeatPump } from "~/hooks/useHeatPump";
 import { TextComponent } from "../TextComponent";
 import { Group, Text } from "@mantine/core";
 
-export const Preview = () => {
+interface PreviewDotationType {
+  CoCwuDotation: number | undefined;
+}
+
+export const Preview = ({ CoCwuDotation }: PreviewDotationType) => {
   const { heatPumpStore, heatPumpCalcStore, mutations } = useHeatPump();
   const [parent] = useAutoAnimate();
   return (
@@ -135,6 +139,31 @@ export const Preview = () => {
                 2
               )}
             />
+            <h2 className="mt-7 w-full text-center text-xl">DOTACJE</h2>
+            <TextComponent
+              title="DOTACJA NA MODERNIZACJE CO + CWU"
+              calculations={CoCwuDotation}
+            />
+            <TextComponent
+              title="DOTACJA POMPĘ CIEPŁA"
+              calculations={heatPumpCalcStore.heatStoreDotationValue}
+            />
+            <div className="mt-20 text-center">
+              <TextComponent
+                title="KWOTA PO DOTACJACH"
+                color="green"
+                size="xl"
+                calculations={heatPumpCalcStore.finallGrossInstalationCost}
+              />
+              {/* <TextComponent
+                  title={`CENA 1 RATY PRZY ${photovoltaicStore.installmentNumber} RATACH`}
+                  calculations={
+                    heatPumpCalcStore.
+                  }
+                  color="green"
+                  size="xl"
+                /> */}
+            </div>
           </div>
         </div>
       </div>

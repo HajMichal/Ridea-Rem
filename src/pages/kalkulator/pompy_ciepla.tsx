@@ -17,12 +17,10 @@ const Pompy_ciepla = () => {
   const { heatPumpStore, heatPumpCalcStore, mutations } = useHeatPump();
 
   useEffect(() => {
-    // mutate();
     if (sessionData === null) {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call
       void router.push("/auth/signin");
-    }
-    if (sessionData?.user.role !== 1) void router.push("/");
+    } else if (sessionData?.user.role !== 1) void router.push("/");
   }, [sessionData, router]);
 
   const { data } =
@@ -203,6 +201,28 @@ const Pompy_ciepla = () => {
     heatPumpCalcStore.bufforCost,
     heatPumpCalcStore.heatPumpAndFeesCost,
     heatPumpStore.forCompany,
+  ]);
+  useEffect(() => {
+    if (data) {
+      mutations.setHeatStoreDotationValue({
+        choosedHeatPumpDotation: heatPumpStore.choosedHeatPumpDotation,
+        heatStoreDotationTreshold: data.dotacje.pc,
+      });
+    }
+  }, [data?.dotacje.pc, heatPumpStore.choosedHeatPumpDotation]);
+  useEffect(() => {
+    if (data) {
+      mutations.setFinallGrossInstalationCost({
+        dotationModernizationCoCwu: data.dotacje.modernizacja_CO_CWU,
+        grossSystemValue:
+          heatPumpCalcStore.heatPumpPricingBeforeDotations.grossSystemValue,
+        heatPumpDotation: heatPumpCalcStore.heatStoreDotationValue,
+      });
+    }
+  }, [
+    data?.dotacje.modernizacja_CO_CWU,
+    heatPumpCalcStore.heatStoreDotationValue,
+    heatPumpCalcStore.heatPumpPricingBeforeDotations.grossSystemValue,
   ]);
 
   const yesNoData = [
@@ -603,10 +623,19 @@ const Pompy_ciepla = () => {
                   data={yesNoData}
                   smallField
                 />
+                <SelectComponent
+                  title="DOTACJA"
+                  onChange={(e) =>
+                    store.updateHeatPump("choosedHeatPumpDotation", String(e))
+                  }
+                  value={heatPumpStore.choosedHeatPumpDotation}
+                  data={["PRÓG 1", "PRÓG 2", "PRÓG 3"]}
+                  smallField
+                />
               </div>
             </ScrollArea>
           </div>
-          <Preview />
+          <Preview CoCwuDotation={data?.dotacje.modernizacja_CO_CWU} />
         </div>
       </div>
     </main>
