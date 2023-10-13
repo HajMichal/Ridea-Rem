@@ -4,13 +4,10 @@ import { useHeatPump } from "~/hooks/useHeatPump";
 import { TextComponent } from "../TextComponent";
 import { Group, Text } from "@mantine/core";
 
-interface PreviewDotationType {
-  CoCwuDotation: number | undefined;
-}
-
-export const Preview = ({ CoCwuDotation }: PreviewDotationType) => {
+export const Preview = () => {
   const { heatPumpStore, heatPumpCalcStore, mutations } = useHeatPump();
   const [parent] = useAutoAnimate();
+
   return (
     <div
       id="CALCULATIONS"
@@ -151,11 +148,15 @@ export const Preview = ({ CoCwuDotation }: PreviewDotationType) => {
             <h2 className="mt-7 w-full text-center text-xl">DOTACJE</h2>
             <TextComponent
               title="DOTACJA NA MODERNIZACJE CO + CWU"
-              calculations={CoCwuDotation}
+              calculations={
+                heatPumpCalcStore.heatStoreDotations.modernizationDotation
+              }
             />
             <TextComponent
               title="DOTACJA POMPĘ CIEPŁA"
-              calculations={heatPumpCalcStore.heatStoreDotationValue}
+              calculations={
+                heatPumpCalcStore.heatStoreDotations.heatStoreDotationValue
+              }
             />
             <div className="mt-20 text-center">
               <TextComponent
@@ -164,14 +165,14 @@ export const Preview = ({ CoCwuDotation }: PreviewDotationType) => {
                 size="xl"
                 calculations={heatPumpCalcStore.finallGrossInstalationCost}
               />
-              {/* <TextComponent
-                  title={`CENA 1 RATY PRZY ${heatPumpStore.installmentNumber} RATACH`}
-                  calculations={
-                    heatPumpCalcStore.
-                  }
-                  color="green"
-                  size="xl"
-                /> */}
+              <TextComponent
+                title={`CENA 1 RATY PRZY ${heatPumpStore.installmentNumber} RATACH`}
+                calculations={
+                  heatPumpCalcStore.loanForPurcharse.finallInstalmentPice
+                }
+                color="green"
+                size="xl"
+              />
             </div>
           </div>
         </div>

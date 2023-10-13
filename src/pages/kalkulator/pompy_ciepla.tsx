@@ -205,23 +205,30 @@ const Pompy_ciepla = () => {
   useEffect(() => {
     if (data) {
       mutations.setHeatStoreDotationValue({
-        choosedHeatPumpDotation: heatPumpStore.choosedHeatPumpDotation,
-        heatStoreDotationTreshold: data.dotacje.pc,
+        modernizationDotation:
+          data.dotacje.modernizacja_CO_CWU[
+            heatPumpStore.choosedHeatPumpDotation
+          ],
+        heatStoreDotation:
+          data.dotacje.pc[heatPumpStore.choosedHeatPumpDotation],
       });
     }
-  }, [data?.dotacje.pc, heatPumpStore.choosedHeatPumpDotation]);
+  }, [data?.dotacje, heatPumpStore.choosedHeatPumpDotation]);
   useEffect(() => {
     if (data) {
       mutations.setFinallGrossInstalationCost({
-        dotationModernizationCoCwu: data.dotacje.modernizacja_CO_CWU,
+        dotationModernizationCoCwu:
+          data.dotacje.modernizacja_CO_CWU[
+            heatPumpStore.choosedHeatPumpDotation
+          ],
         grossSystemValue:
           heatPumpCalcStore.heatPumpPricingBeforeDotations.grossSystemValue,
-        heatPumpDotation: heatPumpCalcStore.heatStoreDotationValue,
+        heatPumpDotation: heatPumpCalcStore.heatStoreDotations.dotationSum,
       });
     }
   }, [
     data?.dotacje.modernizacja_CO_CWU,
-    heatPumpCalcStore.heatStoreDotationValue,
+    heatPumpCalcStore.heatStoreDotations,
     heatPumpCalcStore.heatPumpPricingBeforeDotations.grossSystemValue,
   ]);
   useEffect(() => {
@@ -679,7 +686,11 @@ const Pompy_ciepla = () => {
                     store.updateHeatPump("choosedHeatPumpDotation", String(e))
                   }
                   value={heatPumpStore.choosedHeatPumpDotation}
-                  data={["PRÓG 1", "PRÓG 2", "PRÓG 3"]}
+                  data={[
+                    { label: "PRÓG 1", value: "prog1" },
+                    { label: "PRÓG 2", value: "prog2" },
+                    { label: "PRÓG 3", value: "prog3" },
+                  ]}
                   smallField
                 />
                 <InputComponent
@@ -696,7 +707,7 @@ const Pompy_ciepla = () => {
               </div>
             </ScrollArea>
           </div>
-          <Preview CoCwuDotation={data?.dotacje.modernizacja_CO_CWU} />
+          <Preview />
         </div>
       </div>
     </main>

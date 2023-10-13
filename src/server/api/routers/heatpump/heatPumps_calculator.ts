@@ -229,12 +229,8 @@ export const heatPump_calculator = createTRPCRouter({
   heatStoreDotationValue: publicProcedure
     .input(
       z.object({
-        choosedHeatPumpDotation: z.string(),
-        heatStoreDotationTreshold: z.object({
-          prog1: z.number(),
-          prog2: z.number(),
-          prog3: z.number(),
-        }),
+        modernizationDotation: z.number(),
+        heatStoreDotation: z.number(),
       })
     )
     .mutation(calc.heatStoreDotationValue),

@@ -57,7 +57,11 @@
           "zamkniecie_ukladu_otwartego": 1200
         },
         "dotacje": {
-          "modernizacja_CO_CWU": 8100,
+          "modernizacja_CO_CWU": {
+            "prog1": 8100,
+            "prog2": 14300,
+            "prog3": 20400
+          },
           "pc": {
             "prog1": 19400,
             "prog2": 28100,

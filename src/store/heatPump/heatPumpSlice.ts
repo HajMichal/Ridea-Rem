@@ -94,7 +94,7 @@ export interface HeatPumpSliceType {
     buildingIsolation: BuildingIsolationTypes;
     currentFuelToHeat: currentFuelToHeat;
     yearlyHeatingUsage: number;
-    choosedHeatPumpDotation: "PRÓG 1" | "PRÓG 2" | "PRÓG 3";
+    choosedHeatPumpDotation: "prog1" | "prog2" | "prog3";
   };
   updateHeatPump: (key: string, value: boolean | number | string) => void;
 }
@@ -143,7 +143,7 @@ export const heatPumpSlice: StateCreator<HeatPumpSliceType> = (set) => ({
     buildingIsolation: "OCIEPLENIE STYROPIAN / WEŁNA 5 CM",
     currentFuelToHeat: "WĘGIEL KAMIENNY",
     suggestedPump: "",
-    choosedHeatPumpDotation: "PRÓG 1",
+    choosedHeatPumpDotation: "prog1",
   },
   updateHeatPump: (key, value) =>
     set((state) => ({

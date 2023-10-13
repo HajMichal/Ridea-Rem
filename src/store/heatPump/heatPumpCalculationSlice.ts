@@ -29,7 +29,11 @@ export interface HeatPumpCalculations {
   };
   termoModernizationRelif: number;
   finallGrossInstalationCost: number;
-  heatStoreDotationValue: number;
+  heatStoreDotations: {
+    heatStoreDotationValue: number;
+    modernizationDotation: number;
+    dotationSum: number;
+  };
   loanForPurcharse: {
     finallInstalmentPice: number;
     instalmentBeforeDotations: number;
@@ -76,7 +80,11 @@ export const heatPumpCalculationSlice: StateCreator<
       grossSystemValue: 0,
     },
     finallGrossInstalationCost: 0,
-    heatStoreDotationValue: 0,
+    heatStoreDotations: {
+      heatStoreDotationValue: 0,
+      modernizationDotation: 0,
+      dotationSum: 0,
+    },
     loanForPurcharse: {
       finallInstalmentPice: 0,
       instalmentBeforeDotations: 0,

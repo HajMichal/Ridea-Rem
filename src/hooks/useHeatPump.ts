@@ -117,7 +117,7 @@ export const useHeatPump = () => {
   const { mutate: setHeatStoreDotationValue } =
     api.heatPump.heatStoreDotationValue.useMutation({
       onSuccess: (data) => {
-        store.updateHeatPumpCalcs("heatStoreDotationValue", data);
+        store.updateHeatPumpCalcs("heatStoreDotations", data);
       },
     });
   const { mutate: setLoanForPurcharse } =

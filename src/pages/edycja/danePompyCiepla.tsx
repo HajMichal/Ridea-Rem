@@ -218,7 +218,11 @@ const EditionForm = ({ data }: EditionFormType) => {
         dynamicPropValues.dodatki.zamkniecie_ukladu_otwartego,
     },
     dotacje: {
-      modernizacja_CO_CWU: dynamicPropValues.dotacje.modernizacja_CO_CWU,
+      modernizacja_CO_CWU: {
+        prog1: dynamicPropValues.dotacje.modernizacja_CO_CWU.prog1,
+        prog2: dynamicPropValues.dotacje.modernizacja_CO_CWU.prog2,
+        prog3: dynamicPropValues.dotacje.modernizacja_CO_CWU.prog3,
+      },
       pc: {
         prog1: dynamicPropValues.dotacje.pc.prog1,
         prog2: dynamicPropValues.dotacje.pc.prog2,
@@ -406,11 +410,25 @@ const EditionForm = ({ data }: EditionFormType) => {
           DOTACJE I OPROCENTOWANIA
         </h2>
         <ChangeDataInputComponent
-          {...register("dotacje.modernizacja_CO_CWU", {
+          {...register("dotacje.modernizacja_CO_CWU.prog1", {
             valueAsNumber: true,
           })}
-          title="MODERNIZACJA CO ORAZ CWU"
-          defaultValue={dynamicPropValues!.dotacje.modernizacja_CO_CWU}
+          title="MODERNIZACJA CO ORAZ CWU PRÓG 1"
+          defaultValue={dynamicPropValues!.dotacje.modernizacja_CO_CWU.prog1}
+        />
+        <ChangeDataInputComponent
+          {...register("dotacje.modernizacja_CO_CWU.prog2", {
+            valueAsNumber: true,
+          })}
+          title="MODERNIZACJA CO ORAZ CWU PRÓG 2"
+          defaultValue={dynamicPropValues!.dotacje.modernizacja_CO_CWU.prog2}
+        />
+        <ChangeDataInputComponent
+          {...register("dotacje.modernizacja_CO_CWU.prog3", {
+            valueAsNumber: true,
+          })}
+          title="MODERNIZACJA CO ORAZ CWU PRÓG 3"
+          defaultValue={dynamicPropValues!.dotacje.modernizacja_CO_CWU.prog3}
         />
         <ChangeDataInputComponent
           {...register("dotacje.pc.prog1", {

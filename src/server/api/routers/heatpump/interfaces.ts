@@ -54,7 +54,11 @@ export interface HeatPumpDataToCalculationType {
     zamkniecie_ukladu_otwartego: number;
   };
   dotacje: {
-    modernizacja_CO_CWU: number;
+    modernizacja_CO_CWU: {
+      prog1: number;
+      prog2: number;
+      prog3: number;
+    };
     pc: {
       prog1: number;
       prog2: number;

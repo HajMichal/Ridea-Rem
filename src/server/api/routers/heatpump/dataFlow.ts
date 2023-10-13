@@ -95,7 +95,11 @@ const schema = z.record(
       zamkniecie_ukladu_otwartego: z.number(),
     }),
     dotacje: z.object({
-      modernizacja_CO_CWU: z.number(),
+      modernizacja_CO_CWU: z.object({
+        prog1: z.number(),
+        prog2: z.number(),
+        prog3: z.number(),
+      }),
       pc: z.object({
         prog1: z.number(),
         prog2: z.number(),
