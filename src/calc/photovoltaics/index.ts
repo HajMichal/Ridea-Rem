@@ -404,13 +404,14 @@ export function totalInstallationCosts({
     input.addon_costs +
     input.base_installation_costs +
     input.heatStore_energyManager_costs +
-    input.energyStoreCost;
+    input.energyStoreCost +
+    3200;
 
   const fee_value = total_cost * 0.08;
 
   return {
     total_installation_cost: total_cost,
-    total_gross_cost: Number((total_cost + fee_value + 3200).toFixed(2)),
+    total_gross_cost: Number((total_cost + fee_value).toFixed(2)),
     fee_value: Number(fee_value.toFixed(2)),
   };
 }
