@@ -112,37 +112,6 @@ const EditionForm = ({ data }: EditionForm) => {
     close();
   };
 
-  const jsxEnergyStorePowerElements = [];
-  for (const storePower in dynamicPropValues?.magazyn_energii) {
-    if (dynamicPropValues.magazyn_energii.hasOwnProperty(storePower)) {
-      const registerStorePowerKey =
-        `magazyn_energii.${storePower}` as keyof typeof dynamicPropValues;
-      const storePowerPice =
-        dynamicPropValues.magazyn_energii[
-          storePower as keyof typeof dynamicPropValues.magazyn_energii
-        ];
-      const nameMappings: { [key: string]: string } = {
-        prog1: "6.3 kWh",
-        prog2: "11,6 kWh",
-        prog3: "17,4 kWh",
-        prog4: "23,2 kWh",
-        prog5: "29 kWh",
-        prog6: "34.8 kWh",
-        prog7: "40.6 kWh",
-        prog8: "46.4 kWh",
-      };
-
-      jsxEnergyStorePowerElements.push(
-        <ChangeDataInputComponent
-          {...register(registerStorePowerKey, {
-            valueAsNumber: true,
-          })}
-          title={nameMappings[storePower]!}
-          defaultValue={storePowerPice}
-        />
-      );
-    }
-  }
   return (
     <>
       <h1 className="w-full pt-14 text-center">{dynamicKey}</h1>
@@ -351,9 +320,34 @@ const EditionForm = ({ data }: EditionForm) => {
           </div>
         </div>
         <h2 className="mt-10 w-full text-center text-2xl">MAGAZYN ENERGII</h2>
-        {jsxEnergyStorePowerElements.map((element, index) => (
-          <div key={index}>{element}</div>
-        ))}
+        {dynamicPropValues &&
+          Object.entries(dynamicPropValues.magazyn_energii).map(
+            (key, index) => {
+              const nameMappings: { [key: string]: string } = {
+                prog1: "6.3 kWh",
+                prog2: "11,6 kWh",
+                prog3: "17,4 kWh",
+                prog4: "23,2 kWh",
+                prog5: "29 kWh",
+                prog6: "34.8 kWh",
+                prog7: "40.6 kWh",
+                prog8: "46.4 kWh",
+              };
+              return (
+                <ChangeDataInputComponent
+                  key={index}
+                  {...register(
+                    `magazyn_energii.${key[0]}` as keyof typeof dynamicPropValues,
+                    {
+                      valueAsNumber: true,
+                    }
+                  )}
+                  title={nameMappings[key[0]] || key[0]}
+                  defaultValue={key[1]}
+                />
+              );
+            }
+          )}
 
         <h2 className="mt-10 w-full text-center text-2xl">DOTACJE</h2>
         <ChangeDataInputComponent

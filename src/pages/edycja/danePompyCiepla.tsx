@@ -235,58 +235,7 @@ const EditionForm = ({ data }: EditionFormType) => {
     mutate({ [dynamicKey!]: data });
     close();
   };
-  const jsxHeatPumpsElements = [];
-  for (const serieName in dynamicPropValues?.pompy_ciepla) {
-    if (dynamicPropValues.pompy_ciepla.hasOwnProperty(serieName)) {
-      const registerKeyPrice =
-        `pompy_ciepla.${serieName}.cena` as keyof typeof dynamicPropValues;
-      const registerKeyMultiplier =
-        `pompy_ciepla.${serieName}.mnozik_prowizji` as keyof typeof dynamicPropValues;
-      const pumpPrice =
-        dynamicPropValues.pompy_ciepla[
-          serieName as keyof typeof dynamicPropValues.pompy_ciepla
-        ]!.cena;
 
-      const provisionMultiplier =
-        dynamicPropValues.pompy_ciepla[
-          serieName as keyof typeof dynamicPropValues.pompy_ciepla
-        ]!.mnozik_prowizji;
-
-      const nameMappings: { [key: string]: string } = {
-        "Z-PRO53/4MitsubishiInv11-16": "Z-PRO.5.3/4.Mitsubishi.Inv.11-16",
-        "Z-PRO53/4MitsubishiIHO11-16": "Z-PRO.5.3/4.Mitsubishi.IHO.11-16",
-        "SAT63DanfossInv14-23": "SAT.6.3.Danfoss.Inv.14-23",
-        "SAT63DanfossIHO14-24": "SAT.6.3.Danfoss.IHO.14-24",
-        "SATELI82P19i17-29": "SAT.ELI.8.2.P19i.17-29",
-        "SATELI83P23i20-32": "SAT.ELI.8.3.P23i.20-32",
-        "SATELI83P26i23-34": "SAT.ELI.8.3.P26i.23-34",
-        "SATELI83P30i25-37": "SAT.ELI.8.3.P30i.25-37",
-        "SATELI82P19iHO25-35": "SAT.ELI.8.2.P19iHO.25-35",
-        "SATELI83P23iHO30-41": "SAT.ELI.8.3.P23iHO.30-41",
-        "SATELI83P26iHO35-45": "SAT.ELI.8.3.P26iHO.35-45",
-        "SATELI83P30iHO37-48": "SAT.ELI.8.3.P30iHO.37-48",
-      };
-      const title = nameMappings[serieName]!;
-      jsxHeatPumpsElements.push(
-        <div className="my-7">
-          <ChangeDataInputComponent
-            {...register(registerKeyPrice, {
-              valueAsNumber: true,
-            })}
-            title={title}
-            defaultValue={pumpPrice}
-          />
-          <ChangeDataInputComponent
-            {...register(registerKeyMultiplier, {
-              valueAsNumber: true,
-            })}
-            title="MNOŻNIK PROWIZJI"
-            defaultValue={provisionMultiplier}
-          />
-        </div>
-      );
-    }
-  }
   const jsxAddonsElements = [];
   for (const addonName in dynamicPropValues?.dodatki) {
     if (dynamicPropValues.dodatki.hasOwnProperty(addonName)) {
@@ -332,9 +281,47 @@ const EditionForm = ({ data }: EditionFormType) => {
       <h1 className="w-full pt-14 text-center">{dynamicKey}</h1>
       <form className="w-full pb-20 pt-3">
         <h2 className="mt-5 w-full text-center text-3xl">POMPY CIEPŁA</h2>
-        {jsxHeatPumpsElements.map((element, index) => (
-          <div key={index}>{element}</div>
-        ))}
+        {dynamicPropValues &&
+          Object.entries(dynamicPropValues.pompy_ciepla).map((key, index) => {
+            const nameMappings: { [key: string]: string } = {
+              "Z-PRO53/4MitsubishiInv11-16": "Z-PRO.5.3/4.Mitsubishi.Inv.11-16",
+              "Z-PRO53/4MitsubishiIHO11-16": "Z-PRO.5.3/4.Mitsubishi.IHO.11-16",
+              "SAT63DanfossInv14-23": "SAT.6.3.Danfoss.Inv.14-23",
+              "SAT63DanfossIHO14-24": "SAT.6.3.Danfoss.IHO.14-24",
+              "SATELI82P19i17-29": "SAT.ELI.8.2.P19i.17-29",
+              "SATELI83P23i20-32": "SAT.ELI.8.3.P23i.20-32",
+              "SATELI83P26i23-34": "SAT.ELI.8.3.P26i.23-34",
+              "SATELI83P30i25-37": "SAT.ELI.8.3.P30i.25-37",
+              "SATELI82P19iHO25-35": "SAT.ELI.8.2.P19iHO.25-35",
+              "SATELI83P23iHO30-41": "SAT.ELI.8.3.P23iHO.30-41",
+              "SATELI83P26iHO35-45": "SAT.ELI.8.3.P26iHO.35-45",
+              "SATELI83P30iHO37-48": "SAT.ELI.8.3.P30iHO.37-48",
+            };
+            return (
+              <div className="my-7" key={index}>
+                <ChangeDataInputComponent
+                  {...register(
+                    `pompy_ciepla.${key[0]}.cena` as keyof typeof dynamicPropValues,
+                    {
+                      valueAsNumber: true,
+                    }
+                  )}
+                  title={nameMappings[key[0]] || key[0]}
+                  defaultValue={key[1].cena}
+                />
+                <ChangeDataInputComponent
+                  {...register(
+                    `pompy_ciepla.${key[0]}.mnozik_prowizji` as keyof typeof dynamicPropValues,
+                    {
+                      valueAsNumber: true,
+                    }
+                  )}
+                  title="MNOŻNIK PROWIZJI"
+                  defaultValue={key[1].mnozik_prowizji}
+                />
+              </div>
+            );
+          })}
         <h2 className="mt-5 w-full text-center text-3xl">BUFORY</h2>
         <h2 className="mt-5 w-full text-center text-xl">BUFORY 100L</h2>
         <ChangeDataInputComponent
