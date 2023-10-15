@@ -3,6 +3,7 @@ import React from "react";
 import { useHeatPump } from "~/hooks/useHeatPump";
 import { TextComponent } from "../TextComponent";
 import { Group, Text } from "@mantine/core";
+import { PdfGeneratorButton } from "../PdfGeneratorButton";
 
 export const Preview = () => {
   const { heatPumpStore, heatPumpCalcStore, mutations } = useHeatPump();
@@ -175,6 +176,7 @@ export const Preview = () => {
               />
             </div>
           </div>
+          <PdfGeneratorButton />
         </div>
       </div>
     </div>

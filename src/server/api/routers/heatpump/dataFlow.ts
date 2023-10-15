@@ -170,4 +170,104 @@ export const heatPumpDataFlowRouter = createTRPCRouter({
     setFileToBucket(updatedJSONFile, "heatpump.json");
     return input;
   }),
+  removeMenagerData: publicProcedure
+    .input(z.string())
+    .mutation(async ({ input }) => {
+      const convertedFile = await getParsedJsonObject();
+      const index = convertedFile.kalkulator.findIndex(
+        (obj) => Object.keys(obj)[0] === input
+      );
+
+      if (index !== -1) {
+        convertedFile.kalkulator.splice(index, 1);
+      }
+
+      const updatedJSONFile = JSON.stringify(convertedFile);
+      setFileToBucket(updatedJSONFile, "heatpump.json");
+      return input;
+    }),
+  addNewMenager: publicProcedure
+    .input(z.string())
+    .mutation(async ({ input }) => {
+      const convertedFile = await getParsedJsonObject();
+
+      const newMenagerData = {
+        [input]: {
+          bufory: {
+            bufory100l: {
+              przylaczeSchemat17: 13114,
+              przylaczeSchemat24: 14500,
+              przylaczeSchemat34: 18010,
+            },
+            bufory300l: {
+              przylaczeSchemat17: 14414,
+              przylaczeSchemat24: 15900,
+              przylaczeSchemat34: 19410,
+            },
+            bufory500l: {
+              przylaczeSchemat17: 16320,
+              przylaczeSchemat24: 17800,
+              przylaczeSchemat34: 22548,
+            },
+          },
+          pompy_ciepla: {
+            "Z-PRO53/4MitsubishiInv11-16": {
+              cena: 32980,
+              mnozik_prowizji: 12,
+            },
+            "Z-PRO53/4MitsubishiIHO11-16": {
+              cena: 39730,
+              mnozik_prowizji: 15,
+            },
+            "SAT63DanfossInv14-23": { cena: 32389, mnozik_prowizji: 12 },
+            "SAT63DanfossIHO14-24": { cena: 36889, mnozik_prowizji: 15 },
+
+            "SATELI82P19i17-29": { cena: 41587, mnozik_prowizji: 18 },
+            "SATELI83P23i20-32": { cena: 48545, mnozik_prowizji: 22 },
+            "SATELI83P26i23-34": { cena: 50801, mnozik_prowizji: 25 },
+            "SATELI83P30i25-37": { cena: 51865, mnozik_prowizji: 28 },
+
+            "SATELI82P19iHO25-35": { cena: 46087, mnozik_prowizji: 22 },
+            "SATELI83P23iHO30-41": { cena: 53045, mnozik_prowizji: 27 },
+            "SATELI83P26iHO35-45": { cena: 55301, mnozik_prowizji: 31 },
+            "SATELI83P30iHO37-48": { cena: 56365, mnozik_prowizji: 34 },
+          },
+          dodatki: {
+            kolejna_kaskada: 3500,
+            posadowienie_rozsaczanie: 2500,
+            przewierty: 300,
+            poprowadzenie_instalacji_wierzchu: 30,
+            rura_preizolowana: 2000,
+            dodatkowe_rury_preizolowane: 350,
+            cyrkulacja_cwu: 2000,
+            demontaz_kotla: 1600,
+            posprzatanie: 1000,
+            przeniesienie_zasobnika: 1200,
+            wykonanie_przylacza: 600,
+            spiecie_bufora: 5200,
+            zamkniecie_ukladu_otwartego: 1200,
+          },
+          dotacje: {
+            modernizacja_CO_CWU: {
+              prog1: 8100,
+              prog2: 14300,
+              prog3: 20400,
+            },
+            pc: {
+              prog1: 19400,
+              prog2: 28100,
+              prog3: 35200,
+            },
+          },
+          oprocentowanie_kredytu: 8.3,
+        },
+      };
+      convertedFile.kalkulator.push(newMenagerData);
+      setFileToBucket(JSON.stringify(convertedFile), "heatpump.json");
+      return {
+        status: 200,
+        message:
+          "Menager z bazowymi danymi został stworzony. Aby zmienić jego dane, przejdź do zakładki prowizje 📝",
+      };
+    }),
 });

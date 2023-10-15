@@ -464,8 +464,7 @@ const MyDocument = ({
             </Text>
             <Text>
               SYSTEM ZARZĄDZANIA ENERGIĄ (EMS/HEMS) -{" "}
-              {photovoltaicStore.heatStoreDotation ? energyStore_dotation : "0"}{" "}
-              ZŁ
+              {photovoltaicStore.emsDotation ? energyStore_dotation : "0"} ZŁ
             </Text>
             <Text>
               DOTACJA NA MAGAZYN ENERGII -{" "}

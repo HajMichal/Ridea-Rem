@@ -17,17 +17,21 @@ const Account = () => {
   const router = useRouter();
   const { data: sessionData } = useSession();
 
-  const { mutate: addMenagerData } = api.dataFlow.addNewMenager.useMutation({
-    onSuccess(data) {
-      toast.success(data.message, { duration: 7000 });
-    },
-  });
+  const { mutate: addMenagerPhotovoltaicData } =
+    api.dataFlow.addNewMenager.useMutation({
+      onSuccess(data) {
+        toast.success(data.message, { duration: 7000 });
+      },
+    });
+  const { mutate: addMenagerHeatPumpData } =
+    api.heatPumpDataFlowRouter.addNewMenager.useMutation({});
   const { mutate } = api.userDataHandling.createAccount.useMutation({
     onError(error) {
       toast.error(error.message);
     },
     onSuccess(data) {
-      data.userRole === 2 && addMenagerData(data.userName);
+      data.userRole === 2 && addMenagerPhotovoltaicData(data.userName),
+        addMenagerHeatPumpData(data.userName);
       toast.success(`Konto zostało utworzone dla ${data.userName}`);
       reset();
     },
