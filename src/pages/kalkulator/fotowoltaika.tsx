@@ -387,6 +387,7 @@ const Fotowoltaika = () => {
     photovoltaicStore.emsDotation,
     photovoltaicStore.energyStoreDotation,
     photovoltaicCalcStore.heatStoreCalcDotation,
+    photovoltaicStore.heatStoreDotation,
     mutations.set_dotations_sum,
   ]);
 
@@ -479,18 +480,12 @@ const Fotowoltaika = () => {
   ]);
 
   useEffect(() => {
-    if (
-      photovoltaicCalcStore.totalInstallationCosts.total_gross_cost &&
-      photovoltaicStore.heatStoreDotation
-    )
+    if (photovoltaicCalcStore.totalInstallationCosts.total_gross_cost)
       mutations.set_heatStoreCalcDotation({
         gross_instalation_cost:
           photovoltaicCalcStore.totalInstallationCosts.total_gross_cost,
       });
-    if (
-      photovoltaicCalcStore.totalInstallationCosts.total_gross_cost &&
-      photovoltaicStore.energyStoreDotation
-    ) {
+    if (photovoltaicCalcStore.totalInstallationCosts.total_gross_cost) {
       mutations.set_energyStoreDotationValue({
         net_instalation_cost:
           photovoltaicCalcStore.totalInstallationCosts.total_installation_cost,
