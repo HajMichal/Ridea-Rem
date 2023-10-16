@@ -236,9 +236,11 @@ const MyDocument = ({
           <Text style={styles.boldFont}>TAK</Text>
         </View>
         <View style={styles.eachRow}>
-          <Text>CENA MAGAZYNU ENERGII</Text>
+          <Text>WIELKOŚĆ MAGAZYNU ENERGII</Text>
           <Text style={styles.boldFont}>
-            {photovoltaicCalcStore.energyStoreCost}
+            {photovoltaicStore.energyStoreDotation
+              ? photovoltaicStore.energyStorePower
+              : "BRAK"}
           </Text>
         </View>
         <View style={styles.priceRow}>
@@ -363,7 +365,7 @@ const MyDocument = ({
         <View style={styles.eachRow}>
           <Text>MAGAZYN ENERGII</Text>
           <Text style={styles.boldFont}>
-            {photovoltaicStore.energyStoreDotation}
+            {photovoltaicStore.energyStoreDotation ? "TAK" : "NIE"}
           </Text>
         </View>
         <View style={styles.eachRow}>

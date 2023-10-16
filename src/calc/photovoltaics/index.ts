@@ -86,21 +86,17 @@ export function totalEnergyTrendFee({
   input: TotalEnergyTrendFeeType;
 }) {
   // D12 -> Łączna opłata energii elektrycznej
-  const innerCondition = input.recentYearTrendUsage > input.usageLimit;
-
-  const innerValue = innerCondition
-    ? input.priceInLimit * input.usageLimit +
-      input.priceOutOfLimit * (input.recentYearTrendUsage - input.usageLimit)
-    : input.priceInLimit * input.recentYearTrendUsage;
-
-  const result = Number(
-    (innerValue - input.accumulated_funds_on_account).toFixed(2)
-  );
-
-  if (result < 0) {
-    return 0;
+  const difference = input.recentYearTrendUsage - input.autoconsumption;
+  if (difference > input.usageLimit) {
+    const firstPart =
+      input.priceInLimit * input.usageLimit +
+      input.priceOutOfLimit * (difference - input.usageLimit);
+    const result = firstPart - input.accumulated_funds_on_account;
+    return result < 0 ? 0 : Number(result.toFixed(2));
   } else {
-    return result;
+    const secondPart = difference * input.priceInLimit;
+    const result = secondPart - input.accumulated_funds_on_account;
+    return result < 0 ? 0 : Number(result.toFixed(2));
   }
 }
 
