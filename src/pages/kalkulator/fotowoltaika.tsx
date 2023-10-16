@@ -601,14 +601,14 @@ const Fotowoltaika = () => {
                 <h2 className="mt-5 font-orkneyBold">
                   INSTALACJA FOTOWOLTAICZNA
                 </h2>
-                <SelectComponent
+                {/* <SelectComponent
                   title="PROMOCJA 800+"
                   onChange={(e) =>
                     store.updatePhotovoltaic("voucher", e == "true")
                   }
                   value={photovoltaicStore.voucher}
                   data={yesNoData}
-                />
+                /> */}
                 <SelectComponent
                   title="MOC POJEDYŃCZEGO PANELA W KW"
                   onChange={(e) => {

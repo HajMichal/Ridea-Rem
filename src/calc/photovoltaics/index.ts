@@ -400,8 +400,8 @@ export function totalInstallationCosts({
     input.addon_costs +
     input.base_installation_costs +
     input.heatStore_energyManager_costs +
-    input.energyStoreCost +
-    3200;
+    input.energyStoreCost;
+  // + 3200; // promocja 800+
 
   const fee_value = total_cost * 0.08;
 
