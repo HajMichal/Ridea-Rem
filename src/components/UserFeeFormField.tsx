@@ -121,15 +121,14 @@ export const UserFeeFormField = ({
             </Modal>
           </div>
         </div>
-        {user.role === 3 && (
-          <>
-            <p>Stała prowizja {user.imposedFee}</p>
-            <p>Prowizja od kW {user.feePerkw}</p>
-          </>
-        )}
+
+        <>
+          <p>Stała prowizja {user.imposedFee}</p>
+          <p>Prowizja od kW {user.feePerkw}</p>
+        </>
       </div>
-      <div className="flex flex-wrap items-end gap-3">
-        {isWorker && (
+      <div className="mb-40 flex flex-wrap items-end gap-3">
+        {!isWorker && (
           <>
             <InputWithSubmitButton
               label="Stała prowizja"

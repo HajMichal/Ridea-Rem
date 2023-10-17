@@ -55,6 +55,7 @@ export interface PhotovoltaicCalculations {
   };
   energyStoreCost: number;
   energyStoreDotationValue: number;
+  energyManagerCost: number;
 }
 
 export interface PhotovoltaicCalculationSlice {
@@ -120,6 +121,7 @@ export const photovoltaicCalculationSlice: StateCreator<
       instalmentBeforeDotations: 0,
     },
     energyStoreDotationValue: 0,
+    energyManagerCost: 0,
   },
   updatePhotovoltaicCalcs: (key, value) =>
     set((state) => ({

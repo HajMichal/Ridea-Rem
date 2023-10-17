@@ -363,6 +363,7 @@ interface OfficeMarkupType {
   system_power: number;
   consultantFee: number;
   constantFee: number;
+  officeFeeFromJsonFile: number;
 }
 export function officeMarkup({ input }: { input: OfficeMarkupType }) {
   const officeFeeValue =
@@ -374,7 +375,8 @@ export function officeMarkup({ input }: { input: OfficeMarkupType }) {
     (
       input.officeFee * input.system_power +
       input.consultantFee * input.system_power +
-      input.constantFee
+      input.constantFee +
+      input.officeFeeFromJsonFile
     ).toFixed(2)
   );
 
@@ -464,15 +466,25 @@ export function heatStoreCost({ input }: { input: HeatStoreCostType }) {
 }
 
 interface HeatStoreWithEnergyManagerCostType {
-  isEnergyManagerSystem: boolean;
+  isHeatStoreSystem: boolean;
   heatStore_cost: number;
+  heatStorePrice: number;
 }
 export function heatStoreWithEnergyManagerCost({
   input,
 }: {
   input: HeatStoreWithEnergyManagerCostType;
 }) {
-  return input.isEnergyManagerSystem ? input.heatStore_cost + 1600 : 0;
+  return input.isHeatStoreSystem
+    ? input.heatStore_cost + 1600 + input.heatStorePrice
+    : 0;
+}
+interface EnergyManagerCostType {
+  isEnergyMenagerSystem: boolean;
+  energyMenagerCost: number;
+}
+export function energyManagerCost({ input }: { input: EnergyManagerCostType }) {
+  return input.isEnergyMenagerSystem ? input.energyMenagerCost : 0;
 }
 
 interface FinallInstallationCostType {

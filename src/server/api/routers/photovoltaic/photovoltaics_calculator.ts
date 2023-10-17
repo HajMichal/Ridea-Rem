@@ -190,6 +190,7 @@ export const photovoltaics_calculator = createTRPCRouter({
         system_power: z.number(),
         consultantFee: z.number(),
         constantFee: z.number(),
+        officeFeeFromJsonFile: z.number(),
       })
     )
     .mutation(calc.officeMarkup),
@@ -239,10 +240,19 @@ export const photovoltaics_calculator = createTRPCRouter({
     .input(
       z.object({
         heatStore_cost: z.number(),
-        isEnergyManagerSystem: z.boolean(),
+        isHeatStoreSystem: z.boolean(),
+        heatStorePrice: z.number(),
       })
     )
     .mutation(calc.heatStoreWithEnergyManagerCost),
+  energyManagerCost: publicProcedure
+    .input(
+      z.object({
+        isEnergyMenagerSystem: z.boolean(),
+        energyMenagerCost: z.number(),
+      })
+    )
+    .mutation(calc.energyManagerCost),
   finall_installation_cost: publicProcedure
     .input(
       z.object({

@@ -124,7 +124,7 @@ const Fotowoltaika = () => {
     )
       mutations.set_accumulated_funds_on_account({
         autoconsumption: photovoltaicCalcStore.energy_sold_to_distributor,
-        estiamtedSellPriceToOsd: data?.cena_skupu_pradu,
+        estiamtedSellPriceToOsd: data.cena_skupu_pradu,
       });
   }, [
     photovoltaicCalcStore.energy_sold_to_distributor,
@@ -309,18 +309,20 @@ const Fotowoltaika = () => {
     mutations.set_hybridInwerter_price,
   ]);
   useEffect(() => {
-    if (photovoltaicCalcStore.system_power && sessionData)
+    if (data && photovoltaicCalcStore.system_power && sessionData)
       mutations.set_markup_costs({
         system_power: photovoltaicCalcStore.system_power,
         officeFee: sessionData.user.feePerkw,
         constantFee: sessionData.user.imposedFee,
         consultantFee: photovoltaicStore.consultantMarkup,
+        officeFeeFromJsonFile: data.prowizjaBiura,
       });
   }, [
     photovoltaicCalcStore.system_power,
     sessionData,
     photovoltaicStore.consultantMarkup,
     mutations.set_markup_costs,
+    data,
   ]);
   useEffect(() => {
     mutations.set_addon_cost({
@@ -354,7 +356,8 @@ const Fotowoltaika = () => {
           photovoltaicCalcStore.installationAndPer1KW_price
             .base_installation_price,
         heatStore_energyManager_costs:
-          photovoltaicCalcStore.heatStore_energyManager_costs ?? 0,
+          photovoltaicCalcStore.heatStore_energyManager_costs +
+            photovoltaicCalcStore.energyManagerCost ?? 0,
         energyStoreCost: photovoltaicStore.energyStoreDotation
           ? photovoltaicCalcStore.energyStoreCost
           : 0,
@@ -407,14 +410,28 @@ const Fotowoltaika = () => {
     mutations.set_amount_after_dotation,
   ]);
   useEffect(() => {
-    mutations.set_heatStore_energyManager_costs({
-      heatStore_cost: photovoltaicCalcStore.heatStore_cost ?? 0,
-      isEnergyManagerSystem: photovoltaicStore.heatStoreDotation,
-    });
+    if (data)
+      mutations.set_heatStore_energyManager_costs({
+        heatStore_cost: photovoltaicCalcStore.heatStore_cost ?? 0,
+        heatStorePrice: data.magazynCiepla,
+        isHeatStoreSystem: photovoltaicStore.heatStoreDotation,
+      });
   }, [
     photovoltaicCalcStore.heatStore_cost,
     photovoltaicStore.heatStoreDotation,
     mutations.set_heatStore_energyManager_costs,
+    data?.magazynCiepla,
+  ]);
+  useEffect(() => {
+    if (data)
+      mutations.set_energyManagerCost({
+        isEnergyMenagerSystem: photovoltaicStore.emsDotation,
+        energyMenagerCost: data.ems,
+      });
+  }, [
+    data?.ems,
+    photovoltaicStore.emsDotation,
+    mutations.set_energyManagerCost,
   ]);
 
   useEffect(() => {

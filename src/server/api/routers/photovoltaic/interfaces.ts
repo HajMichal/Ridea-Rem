@@ -66,6 +66,7 @@ export interface PhotovoltaicDataToCalculation {
   prowizjaBiura: number;
   oprocentowanie_kredytu: number;
   cena_skupu_pradu: number;
+  ems: number;
 }
 /* eslint @typescript-eslint/consistent-indexed-object-style: ["error", "index-signature"] */
 export interface EachMenagerPhotovoltaic {

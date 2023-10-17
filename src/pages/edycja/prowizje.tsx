@@ -70,11 +70,11 @@ const Prowizje = () => {
               </div>
             </div>
           )}
-          <div className="w-full">
+          <div className=" w-full pb-32">
             <h1>Handlowcy</h1>
             <div>
               {data?.getWorkers?.map((worker) => (
-                <UserFeeFormField isWorker key={worker.id} user={worker} />
+                <UserFeeFormField key={worker.id} user={worker} />
               ))}
             </div>
           </div>

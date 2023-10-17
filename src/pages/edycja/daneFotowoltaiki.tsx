@@ -105,6 +105,7 @@ const EditionForm = ({ data }: EditionForm) => {
       magazynCiepla: dynamicPropValues.magazynCiepla,
       oprocentowanie_kredytu: dynamicPropValues.oprocentowanie_kredytu,
       prowizjaBiura: dynamicPropValues.prowizjaBiura,
+      ems: dynamicPropValues.ems,
     },
   };
   const onSubmit: SubmitHandler<PhotovoltaicDataToCalculation> = (data) => {
@@ -472,6 +473,13 @@ const EditionForm = ({ data }: EditionForm) => {
           })}
           title="CENA SKUPU PRĄDU"
           defaultValue={dynamicPropValues!.cena_skupu_pradu}
+        />
+        <ChangeDataInputComponent
+          {...register("ems", {
+            valueAsNumber: true,
+          })}
+          title="EMS"
+          defaultValue={dynamicPropValues!.ems}
         />
         <ChangeDataInputComponent
           {...register("prowizjaBiura", {

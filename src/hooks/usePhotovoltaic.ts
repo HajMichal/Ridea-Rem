@@ -188,6 +188,12 @@ export const usePhotovoltaic = () => {
         store.updatePhotovoltaicCalcs("heatStore_energyManager_costs", data);
       },
     });
+  const { mutate: set_energyManagerCost } =
+    api.photovoltaics.energyManagerCost.useMutation({
+      onSuccess: (data) => {
+        store.updatePhotovoltaicCalcs("energyManagerCost", data);
+      },
+    });
   const { mutate: set_estiamted_price_for_trend_in_1KWH } =
     api.photovoltaics.estiamted_price_for_trend_in_1KWH.useMutation({
       onSuccess: (data) => {
@@ -328,6 +334,7 @@ export const usePhotovoltaic = () => {
       set_termo_modernization,
       getDataDependsOnPanelPower,
       set_loan_for_purcharse,
+      set_energyManagerCost,
     },
   };
 };
