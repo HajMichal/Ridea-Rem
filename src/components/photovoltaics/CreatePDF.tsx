@@ -274,7 +274,7 @@ const MyDocument = ({
             /nr.zam/ model INW/Z{" "}
             {photovoltaicCalcStore.markup_costs.consultantFeeValue} /{" "}
             {photovoltaicCalcStore.markup_costs.officeFeeValue} /{" "}
-            {photovoltaicCalcStore.markup_costs.markupSumValue}
+            {photovoltaicCalcStore.markup_costs.officeFeeForBoss}
           </Text>
         </View>
       </View>

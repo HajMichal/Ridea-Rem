@@ -31,6 +31,7 @@ export interface PhotovoltaicCalculations {
     officeFeeValue: number;
     consultantFeeValue: number;
     markupSumValue: number;
+    officeFeeForBoss: number;
   };
   totalInstallationCosts: {
     total_installation_cost: number;
@@ -98,6 +99,7 @@ export const photovoltaicCalculationSlice: StateCreator<
       officeFeeValue: 0,
       consultantFeeValue: 0,
       markupSumValue: 0,
+      officeFeeForBoss: 0,
     },
     totalInstallationCosts: {
       total_installation_cost: 0,

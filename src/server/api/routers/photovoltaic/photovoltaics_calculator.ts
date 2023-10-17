@@ -191,6 +191,8 @@ export const photovoltaics_calculator = createTRPCRouter({
         consultantFee: z.number(),
         constantFee: z.number(),
         officeFeeFromJsonFile: z.number(),
+        officeFeeFromBoss: z.number(),
+        constantFeeFromBoss: z.number(),
       })
     )
     .mutation(calc.officeMarkup),

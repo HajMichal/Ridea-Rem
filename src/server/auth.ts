@@ -18,6 +18,7 @@ declare module "next-auth" {
       id: string;
       feePerkw: number;
       imposedFee: number;
+      creator?: User;
       // ...other properties
       role: number;
     };
@@ -36,7 +37,7 @@ declare module "next-auth" {
  */
 
 import CredentialsProvider from "next-auth/providers/credentials";
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, User } from "@prisma/client";
 import bcrypt from "bcrypt";
 
 const prisma = new PrismaClient();

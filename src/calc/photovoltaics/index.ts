@@ -360,6 +360,8 @@ export function totalAddonCost({ input }: { input: TotalAddonCostType }) {
 
 interface OfficeMarkupType {
   officeFee: number;
+  officeFeeFromBoss: number;
+  constantFeeFromBoss: number;
   system_power: number;
   consultantFee: number;
   constantFee: number;
@@ -371,17 +373,23 @@ export function officeMarkup({ input }: { input: OfficeMarkupType }) {
   const consultantFeeValue = Math.round(
     input.consultantFee * input.system_power
   );
+  const officeFeeForBoss =
+    Math.round(input.officeFeeFromBoss * input.system_power) +
+    input.constantFeeFromBoss;
+
   const markupSumValue = Number(
     (
       input.officeFee * input.system_power +
       input.consultantFee * input.system_power +
       input.constantFee +
-      input.officeFeeFromJsonFile
+      input.officeFeeFromJsonFile +
+      officeFeeForBoss
     ).toFixed(2)
   );
 
   return {
     officeFeeValue: officeFeeValue,
+    officeFeeForBoss: officeFeeForBoss,
     consultantFeeValue: consultantFeeValue,
     markupSumValue: markupSumValue,
   };
