@@ -368,6 +368,7 @@ const Fotowoltaika = () => {
   }, [
     photovoltaicCalcStore.energyStoreCost,
     photovoltaicStore.energyStoreDotation,
+    photovoltaicCalcStore.energyManagerCost,
     photovoltaicCalcStore.addon_cost,
     photovoltaicCalcStore.installationAndPer1KW_price?.base_installation_price,
     photovoltaicCalcStore.heatStore_energyManager_costs,
