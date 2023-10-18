@@ -191,11 +191,40 @@ export const photovoltaics_calculator = createTRPCRouter({
         consultantFee: z.number(),
         constantFee: z.number(),
         officeFeeFromJsonFile: z.number(),
-        officeFeeFromBoss: z.number(),
-        constantFeeFromBoss: z.number(),
+        creatorId: z.string().optional(),
       })
     )
-    .mutation(calc.officeMarkup),
+    .mutation(async ({ input, ctx }) => {
+      const officeFeeValue =
+        Math.round(input.officeFee * input.system_power) + input.constantFee;
+      const consultantFeeValue = Math.round(
+        input.consultantFee * input.system_power
+      );
+
+      const creator = await ctx.prisma.user.findFirst({
+        where: { creatorId: input.creatorId },
+      });
+      const officeFeeForBoss = creator
+        ? Math.round(creator.feePerkw * input.system_power) + creator.imposedFee
+        : 0;
+
+      const markupSumValue = Number(
+        (
+          input.officeFee * input.system_power +
+          input.consultantFee * input.system_power +
+          input.constantFee +
+          input.officeFeeFromJsonFile +
+          officeFeeForBoss
+        ).toFixed(2)
+      );
+
+      return {
+        officeFeeValue: officeFeeValue,
+        officeFeeForBoss: officeFeeForBoss,
+        consultantFeeValue: consultantFeeValue,
+        markupSumValue: markupSumValue,
+      };
+    }),
   totalInstallation_cost: publicProcedure
     .input(
       z.object({

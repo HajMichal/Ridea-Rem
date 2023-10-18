@@ -308,7 +308,7 @@ const Fotowoltaika = () => {
     photovoltaicStore.isInwerterChoosed,
     mutations.set_hybridInwerter_price,
   ]);
-  // sessionData?.user.creator?.imposedFee
+
   useEffect(() => {
     if (data && photovoltaicCalcStore.system_power && sessionData)
       mutations.set_markup_costs({
@@ -317,8 +317,8 @@ const Fotowoltaika = () => {
         constantFee: sessionData.user.imposedFee,
         consultantFee: photovoltaicStore.consultantMarkup,
         officeFeeFromJsonFile: data.prowizjaBiura,
-        constantFeeFromBoss: sessionData.user.creator?.imposedFee ?? 0,
-        officeFeeFromBoss: sessionData.user.creator?.feePerkw ?? 0,
+        creatorId:
+          sessionData.user.role === 3 ? sessionData.user.creatorId : "",
       });
   }, [
     photovoltaicCalcStore.system_power,

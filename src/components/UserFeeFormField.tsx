@@ -41,7 +41,7 @@ const InputWithSubmitButton: React.FC<InputWithSubmitButtonType> = ({
         </Input.Wrapper>
         <button
           onClick={() => handleImposedFeeInput()}
-          className="h-1/2 rounded-xl bg-brand p-2 px-4 font-orkneyBold text-dark"
+          className="h-10 rounded-xl bg-brand p-2 px-4 font-orkneyBold text-dark"
           type="submit"
         >
           Zmień prowizję
@@ -127,7 +127,7 @@ export const UserFeeFormField = ({
           <p>Prowizja od kW {user.feePerkw}</p>
         </>
       </div>
-      <div className="mb-40 flex flex-wrap items-end gap-3">
+      <div className="mb-24 flex flex-wrap items-end gap-3">
         {!isWorker && (
           <>
             <InputWithSubmitButton

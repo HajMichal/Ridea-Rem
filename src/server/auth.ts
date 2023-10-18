@@ -18,7 +18,7 @@ declare module "next-auth" {
       id: string;
       feePerkw: number;
       imposedFee: number;
-      creator?: User;
+      creatorId: string;
       // ...other properties
       role: number;
     };

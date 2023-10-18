@@ -1,4 +1,6 @@
+import { Prisma, PrismaClient, Session } from "@prisma/client";
 import staticData from "../../static";
+import { DefaultArgs } from "@prisma/client/runtime/library";
 
 interface SystemPowerType {
   modulesCount: number;
@@ -358,42 +360,54 @@ export function totalAddonCost({ input }: { input: TotalAddonCostType }) {
   );
 }
 
-interface OfficeMarkupType {
-  officeFee: number;
-  officeFeeFromBoss: number;
-  constantFeeFromBoss: number;
-  system_power: number;
-  consultantFee: number;
-  constantFee: number;
-  officeFeeFromJsonFile: number;
-}
-export function officeMarkup({ input }: { input: OfficeMarkupType }) {
-  const officeFeeValue =
-    Math.round(input.officeFee * input.system_power) + input.constantFee;
-  const consultantFeeValue = Math.round(
-    input.consultantFee * input.system_power
-  );
-  const officeFeeForBoss =
-    Math.round(input.officeFeeFromBoss * input.system_power) +
-    input.constantFeeFromBoss;
+// interface OfficeMarkupType {
+//   officeFee: number;
+//   creatorId: string;
+//   system_power: number;
+//   consultantFee: number;
+//   constantFee: number;
+//   officeFeeFromJsonFile: number;
+// }
+// export function officeMarkup({
+//   input,
+//   ctx,
+// }: {
+//   input: OfficeMarkupType;
+//   ctx: {
+//     session: Session | null;
+//     prisma: PrismaClient<Prisma.PrismaClientOptions, never, DefaultArgs>;
+//   };
+// }) {
+//   const officeFeeValue =
+//     Math.round(input.officeFee * input.system_power) + input.constantFee;
+//   const consultantFeeValue = Math.round(
+//     input.consultantFee * input.system_power
+//   );
+//   const officeFeeForBoss = 200;
+//   //   Math.round(input.officeFeeFromBoss * input.system_power) +
+//   //   input.constantFeeFromBoss;
 
-  const markupSumValue = Number(
-    (
-      input.officeFee * input.system_power +
-      input.consultantFee * input.system_power +
-      input.constantFee +
-      input.officeFeeFromJsonFile +
-      officeFeeForBoss
-    ).toFixed(2)
-  );
+//   const creator = ctx.prisma.user.findFirst({
+//     where: { id: input.creatorId },
+//   });
 
-  return {
-    officeFeeValue: officeFeeValue,
-    officeFeeForBoss: officeFeeForBoss,
-    consultantFeeValue: consultantFeeValue,
-    markupSumValue: markupSumValue,
-  };
-}
+//   const markupSumValue = Number(
+//     (
+//       input.officeFee * input.system_power +
+//       input.consultantFee * input.system_power +
+//       input.constantFee +
+//       input.officeFeeFromJsonFile +
+//       officeFeeForBoss
+//     ).toFixed(2)
+//   );
+
+//   return {
+//     officeFeeValue: officeFeeValue,
+//     officeFeeForBoss: officeFeeForBoss,
+//     consultantFeeValue: consultantFeeValue,
+//     markupSumValue: markupSumValue,
+//   };
+// }
 
 interface TotalInstallationCostType {
   addon_costs: number;

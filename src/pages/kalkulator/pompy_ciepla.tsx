@@ -527,7 +527,7 @@ const Pompy_ciepla = () => {
                   />
                 )}
                 <SelectComponent
-                  title="MONTAŻ NA FIRMĘ Z WATEM 23%"
+                  title="MONTAŻ NA FIRMĘ Z VATEM 23%"
                   onChange={(e) =>
                     store.updateHeatPump("forCompany", e == "true")
                   }
