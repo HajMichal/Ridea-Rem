@@ -1,7 +1,17 @@
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
+import { useEffect } from "react";
 
 export default function Home() {
+  const { data: sessionData } = useSession();
   const router = useRouter();
+
+  useEffect(() => {
+    if (!sessionData) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+      void router.push("/auth/signin");
+    }
+  }, [sessionData]);
   return (
     <>
       <main className="grid h-screen w-screen grid-cols-2 grid-rows-2 gap-4 bg-dark font-orkney">
