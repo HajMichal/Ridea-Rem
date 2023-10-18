@@ -202,7 +202,7 @@ export const photovoltaics_calculator = createTRPCRouter({
       );
 
       const creator = await ctx.prisma.user.findFirst({
-        where: { creatorId: input.creatorId },
+        where: { id: input.creatorId },
       });
       const officeFeeForBoss = creator
         ? Math.round(creator.feePerkw * input.system_power) + creator.imposedFee
