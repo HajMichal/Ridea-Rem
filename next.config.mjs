@@ -7,7 +7,15 @@ await import("./src/env.mjs");
 /** @type {import("next").NextConfig} */
 const config = {
   reactStrictMode: true,
-
+  async redirects() {
+    return [
+      {
+        source: "/",
+        destination: "/auth/signin",
+        statusCode: 301,
+      },
+    ];
+  },
   /**
    * If you have `experimental: { appDir: true }` set, then you must comment the below `i18n` config
    * out.

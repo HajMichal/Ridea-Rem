@@ -29,13 +29,13 @@ export default function Signin() {
       redirect: false,
     });
     if (res?.error) setError(res.error);
-    else if (res?.ok) await router.push("/");
+    else if (res?.ok) await router.push("/home");
   };
 
   useEffect(() => {
     if (sessionData !== null) {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-      void router.push("/");
+      void router.push("/home");
     }
   }, [sessionData, router]);
 
