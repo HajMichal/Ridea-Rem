@@ -490,16 +490,13 @@ export function heatStoreCost({ input }: { input: HeatStoreCostType }) {
 interface HeatStoreWithEnergyManagerCostType {
   isHeatStoreSystem: boolean;
   heatStore_cost: number;
-  heatStorePrice: number;
 }
 export function heatStoreWithEnergyManagerCost({
   input,
 }: {
   input: HeatStoreWithEnergyManagerCostType;
 }) {
-  return input.isHeatStoreSystem
-    ? input.heatStore_cost + 1600 + input.heatStorePrice
-    : 0;
+  return input.isHeatStoreSystem ? input.heatStore_cost : 0;
 }
 interface EnergyManagerCostType {
   isEnergyMenagerSystem: boolean;

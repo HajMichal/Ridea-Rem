@@ -417,7 +417,6 @@ const Fotowoltaika = () => {
     if (data)
       mutations.set_heatStore_energyManager_costs({
         heatStore_cost: photovoltaicCalcStore.heatStore_cost ?? 0,
-        heatStorePrice: data.magazynCiepla,
         isHeatStoreSystem: photovoltaicStore.heatStoreDotation,
       });
   }, [
