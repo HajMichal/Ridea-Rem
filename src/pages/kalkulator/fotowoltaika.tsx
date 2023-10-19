@@ -34,9 +34,7 @@ const Fotowoltaika = () => {
     : 0;
 
   const photovoltaics_dotation =
-    photovoltaicStore.heatStoreDotation ||
-    photovoltaicStore.emsDotation ||
-    photovoltaicStore.energyStoreDotation
+    photovoltaicStore.heatStoreDotation || photovoltaicStore.energyStoreDotation
       ? data?.dotacje.mp_mc
       : data?.dotacje.mojPrad;
 
