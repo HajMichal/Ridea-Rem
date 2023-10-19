@@ -222,14 +222,18 @@ const EditionForm = ({ data }: EditionFormType) => {
         prog1: dynamicPropValues.dotacje.modernizacja_CO_CWU.prog1,
         prog2: dynamicPropValues.dotacje.modernizacja_CO_CWU.prog2,
         prog3: dynamicPropValues.dotacje.modernizacja_CO_CWU.prog3,
+        mojPrad: dynamicPropValues.dotacje.modernizacja_CO_CWU.mojPrad,
       },
       pc: {
         prog1: dynamicPropValues.dotacje.pc.prog1,
         prog2: dynamicPropValues.dotacje.pc.prog2,
         prog3: dynamicPropValues.dotacje.pc.prog3,
+        mojPrad: dynamicPropValues.dotacje.pc.mojPrad,
       },
     },
     oprocentowanie_kredytu: dynamicPropValues.oprocentowanie_kredytu,
+    cena1kWh: dynamicPropValues.cena1kWh,
+    cop: dynamicPropValues.cop,
   };
   const onSubmit: SubmitHandler<HeatPumpDataToCalculationType> = (data) => {
     mutate({ [dynamicKey!]: data });
@@ -418,6 +422,13 @@ const EditionForm = ({ data }: EditionFormType) => {
           defaultValue={dynamicPropValues!.dotacje.modernizacja_CO_CWU.prog3}
         />
         <ChangeDataInputComponent
+          {...register("dotacje.modernizacja_CO_CWU.mojPrad", {
+            valueAsNumber: true,
+          })}
+          title="MODERNIZACJA CO ORAZ CWU MÓJ PRĄD"
+          defaultValue={dynamicPropValues!.dotacje.modernizacja_CO_CWU.mojPrad}
+        />
+        <ChangeDataInputComponent
           {...register("dotacje.pc.prog1", {
             valueAsNumber: true,
           })}
@@ -439,11 +450,32 @@ const EditionForm = ({ data }: EditionFormType) => {
           defaultValue={dynamicPropValues!.dotacje.pc.prog3}
         />
         <ChangeDataInputComponent
+          {...register("dotacje.pc.mojPrad", {
+            valueAsNumber: true,
+          })}
+          title="DOTACJA PC MÓJ PRĄD"
+          defaultValue={dynamicPropValues!.dotacje.pc.mojPrad}
+        />
+        <ChangeDataInputComponent
           {...register("oprocentowanie_kredytu", {
             valueAsNumber: true,
           })}
           title="OPROCENTOWANIE KREDYTU"
           defaultValue={dynamicPropValues!.oprocentowanie_kredytu}
+        />
+        <ChangeDataInputComponent
+          {...register("cena1kWh", {
+            valueAsNumber: true,
+          })}
+          title="CENA ZA 1 kWh"
+          defaultValue={dynamicPropValues!.cena1kWh}
+        />
+        <ChangeDataInputComponent
+          {...register("cop", {
+            valueAsNumber: true,
+          })}
+          title="WSPÓŁCZYNNIK COP"
+          defaultValue={dynamicPropValues!.cop}
         />
       </form>
       <button

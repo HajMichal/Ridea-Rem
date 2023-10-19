@@ -58,14 +58,18 @@ export interface HeatPumpDataToCalculationType {
       prog1: number;
       prog2: number;
       prog3: number;
+      mojPrad: number;
     };
     pc: {
       prog1: number;
       prog2: number;
       prog3: number;
+      mojPrad: number;
     };
   };
   oprocentowanie_kredytu: number;
+  cena1kWh: number;
+  cop: number;
 }
 // eslint-disable-next-line @typescript-eslint/consistent-indexed-object-style
 export interface EachMenagerHeatPump {

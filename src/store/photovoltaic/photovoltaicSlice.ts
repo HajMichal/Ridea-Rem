@@ -52,7 +52,7 @@ export const photovoltaicsSlice: StateCreator<PhotovoltaicsSlice> = (set) => ({
     tigoCount: 0,
     panelPower: 400,
     installmentNumber: 120,
-    energyStorePower: 6.3,
+    energyStorePower: 6.2,
     tankSize: "Brak",
   },
   updatePhotovoltaic: (key, value) =>

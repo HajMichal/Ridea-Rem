@@ -20,7 +20,7 @@ const Pompy_ciepla = () => {
     if (sessionData === null) {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call
       void router.push("/auth/signin");
-    } else if (sessionData?.user.role !== 1) void router.push("/");
+    } else if (sessionData?.user.role !== 1) void router.push("/home");
   }, [sessionData, router]);
 
   const { data } =
@@ -252,6 +252,7 @@ const Pompy_ciepla = () => {
     { value: "true", label: "Tak" },
     { value: "false", label: "Nie" },
   ];
+
   return (
     <main className="flex h-full max-h-screen justify-center overflow-hidden bg-backgroundGray font-orkney">
       <SideBar />
@@ -486,7 +487,7 @@ const Pompy_ciepla = () => {
                   ]}
                 />
                 <SelectComponent
-                  title="MINIMALNA TEMPERATURA PRACY POMPY BEZ WSPOMAGANIA"
+                  title="PUNKT BIWALENTYN POMPY CIEPŁA"
                   onChange={(e) =>
                     store.updateHeatPump("minimalWorkingTemp", Number(e))
                   }
@@ -536,7 +537,7 @@ const Pompy_ciepla = () => {
                   smallField
                 />
                 <SelectComponent
-                  title="PRZEDŁUŻONA GWARANCJA NA POMPĘ CIEPŁA DO 10 LAT"
+                  title="PRZEDŁUŻONA GWARANCJA NA POMPĘ CIEPŁA DO 8 LAT"
                   onChange={(e) =>
                     store.updateHeatPump("isLongerGuarantee", e == "true")
                   }
@@ -690,6 +691,7 @@ const Pompy_ciepla = () => {
                     { label: "PRÓG 1", value: "prog1" },
                     { label: "PRÓG 2", value: "prog2" },
                     { label: "PRÓG 3", value: "prog3" },
+                    { label: "Mój Prąd", value: "mojPrad" },
                   ]}
                   smallField
                 />

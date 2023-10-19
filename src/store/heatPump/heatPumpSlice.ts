@@ -94,7 +94,7 @@ export interface HeatPumpSliceType {
     buildingIsolation: BuildingIsolationTypes;
     currentFuelToHeat: currentFuelToHeat;
     yearlyHeatingUsage: number;
-    choosedHeatPumpDotation: "prog1" | "prog2" | "prog3";
+    choosedHeatPumpDotation: "prog1" | "prog2" | "prog3" | "mojPrad";
   };
   updateHeatPump: (key: string, value: boolean | number | string) => void;
 }

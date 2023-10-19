@@ -99,14 +99,18 @@ const schema = z.record(
         prog1: z.number(),
         prog2: z.number(),
         prog3: z.number(),
+        mojPrad: z.number(),
       }),
       pc: z.object({
         prog1: z.number(),
         prog2: z.number(),
         prog3: z.number(),
+        mojPrad: z.number(),
       }),
     }),
     oprocentowanie_kredytu: z.number(),
+    cena1kWh: z.number(),
+    cop: z.number(),
   })
 );
 
@@ -252,14 +256,18 @@ export const heatPumpDataFlowRouter = createTRPCRouter({
               prog1: 8100,
               prog2: 14300,
               prog3: 20400,
+              mojPrad: 0,
             },
             pc: {
               prog1: 19400,
               prog2: 28100,
               prog3: 35200,
+              mojPrad: 0,
             },
           },
           oprocentowanie_kredytu: 8.3,
+          cena1kWh: 1.5,
+          cop: 3.4,
         },
       };
       convertedFile.kalkulator.push(newMenagerData);

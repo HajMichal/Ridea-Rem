@@ -56,13 +56,13 @@ export const Preview = () => {
               calculations={heatPumpStore.yearlyHeatingHomeCost}
             />
             <TextComponent
-              title="MINIMALNA TEMPERATURA PRACY POMPY BEZ WSPOMAGANIA"
+              title="PUNKT BIWALENTNY POMPY CIEPŁA"
               calculations={heatPumpStore.minimalWorkingTemp}
             />
 
             <TextComponent title="BUFOR" calculations={heatPumpStore.isBufor} />
             <TextComponent
-              title="CENA BUFORA"
+              title="CENA MONTAŻU WRAZ Z MATERIAŁAMI"
               calculations={heatPumpCalcStore.bufforCost}
             />
             <TextComponent

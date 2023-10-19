@@ -30,8 +30,10 @@ const Account = () => {
       toast.error(error.message);
     },
     onSuccess(data) {
-      data.userRole === 2 && addMenagerPhotovoltaicData(data.userName),
+      if (data.userRole === 2) {
+        addMenagerPhotovoltaicData(data.userName);
         addMenagerHeatPumpData(data.userName);
+      }
       toast.success(`Konto zostało utworzone dla ${data.userName}`);
       reset();
     },
