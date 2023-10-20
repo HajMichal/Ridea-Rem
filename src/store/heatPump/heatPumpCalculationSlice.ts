@@ -38,6 +38,7 @@ export interface HeatPumpCalculations {
     finallInstalmentPice: number;
     instalmentBeforeDotations: number;
   };
+  heatingWithHeatPumpCost: number;
 }
 
 export interface HeatPumpCalculationSlice {
@@ -89,6 +90,7 @@ export const heatPumpCalculationSlice: StateCreator<
       finallInstalmentPice: 0,
       instalmentBeforeDotations: 0,
     },
+    heatingWithHeatPumpCost: 0,
   },
   updateHeatPumpCalcs: (key, value) =>
     set((state) => ({

@@ -244,4 +244,13 @@ export const heatPump_calculator = createTRPCRouter({
       })
     )
     .mutation(calc.loanForPurcharse),
+  heatingWithHeatPumpCost: publicProcedure
+    .input(
+      z.object({
+        yearlyHeatingUsage: z.number(),
+        cop: z.number(),
+        priceOf1kWh: z.number(),
+      })
+    )
+    .mutation(calc.heatingWithHeatPumpCost),
 });

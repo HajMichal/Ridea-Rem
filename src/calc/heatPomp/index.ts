@@ -525,4 +525,18 @@ export function loanForPurcharse({ input }: { input: LoanForPurcharseType }) {
   };
 }
 
+interface HeatingWithHeatPumpCostType {
+  yearlyHeatingUsage: number;
+  cop: number;
+  priceOf1kWh: number;
+}
+export function heatingWithHeatPumpCost({
+  input,
+}: {
+  input: HeatingWithHeatPumpCostType;
+}) {
+  return Number(
+    ((input.yearlyHeatingUsage / input.cop) * input.priceOf1kWh).toFixed(2)
+  );
+}
 export * as default from "./index";

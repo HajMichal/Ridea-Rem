@@ -247,7 +247,15 @@ const Pompy_ciepla = () => {
     heatPumpCalcStore.finallGrossInstalationCost,
     data?.oprocentowanie_kredytu,
   ]);
-
+  useEffect(() => {
+    if (data) {
+      mutations.setHeatingWithHeatPumpCost({
+        yearlyHeatingUsage: heatPumpStore.yearlyHeatingUsage,
+        cop: data.cop,
+        priceOf1kWh: data.cena1kWh,
+      });
+    }
+  }, [data, heatPumpStore.yearlyHeatingUsage]);
   const yesNoData = [
     { value: "true", label: "Tak" },
     { value: "false", label: "Nie" },
