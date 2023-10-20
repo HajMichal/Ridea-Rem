@@ -129,11 +129,12 @@ export const Preview = () => {
               title="ZAMKNIĘCIE UKŁADU OTWARTEGO"
               calculations={heatPumpStore.closingOpenSytem}
             />
-            {/* <TextComponent
-                title="ROCZNY KOSZT OGRZEWANIA POMPĄ CIEPŁA"
-                calculations={heatPumpCalcStore.heatPumpPricingBeforeDotations.grossSystemValue.toFixed(
-                  2
-                )} /> */}
+            <TextComponent
+              title="ROCZNY KOSZT OGRZEWANIA POMPĄ CIEPŁA"
+              calculations={heatPumpCalcStore.heatingWithHeatPumpCost.toFixed(
+                2
+              )}
+            />
             {!!heatPumpCalcStore.heatPumpPricingBeforeDotations.vatValue && (
               <TextComponent
                 title="VAT"

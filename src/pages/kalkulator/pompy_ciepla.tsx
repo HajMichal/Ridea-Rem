@@ -256,6 +256,7 @@ const Pompy_ciepla = () => {
       });
     }
   }, [data, heatPumpStore.yearlyHeatingUsage]);
+
   const yesNoData = [
     { value: "true", label: "Tak" },
     { value: "false", label: "Nie" },
