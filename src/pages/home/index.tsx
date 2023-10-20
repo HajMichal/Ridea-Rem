@@ -14,32 +14,6 @@ export default function Home() {
     }
   }, [sessionData]);
   return (
-    // <main className="grid h-screen w-screen grid-cols-2 grid-rows-2 gap-4 bg-dark font-orkney">
-    //   <div className="border-b-2 border-r-2 border-white bg-white">
-    //     <div
-    //
-    //       className="h-full w-full  bg-[url('/Fotowoltaika.png')] bg-cover bg-bottom duration-150 hover:cursor-pointer hover:opacity-90"
-    //     ></div>
-    //   </div>
-    //   <div className="border-b-2 border-l-2 border-white bg-white">
-    //     <div
-    //
-    //       className="h-full w-full bg-[url('/Foto_firm.png')] bg-cover bg-bottom duration-150 hover:cursor-pointer hover:opacity-90"
-    //     ></div>
-    //   </div>
-    //   <div className="border-r-2 border-t-2 border-white bg-white">
-    //     <div
-    //
-    //       className="h-full w-full -scale-x-100 bg-[url('/Magazyn_energii.png')] bg-cover bg-bottom duration-150 hover:cursor-pointer hover:opacity-90"
-    //     ></div>
-    //   </div>
-    //   <div className="border-l-2 border-t-2 border-white bg-white">
-    //     <div
-    //
-    //       className="h-full w-full bg-[url('/Pompy_ciepla.png')] bg-cover bg-bottom duration-150 hover:cursor-pointer hover:opacity-90"
-    //     ></div>
-    //   </div>
-    // </main>
     <main className="grid h-screen w-screen grid-cols-4 overflow-hidden hover:cursor-pointer">
       <div
         id="energyStore"

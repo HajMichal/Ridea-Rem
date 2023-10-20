@@ -29,9 +29,11 @@ const Fotowoltaika = () => {
       sessionData?.user.id
     );
   // Dotations
-  const energyStore_dotation = photovoltaicStore.emsDotation
-    ? data?.dotacje.menagerEnergii
-    : 0;
+  const energyStore_dotation =
+    (photovoltaicStore.emsDotation && photovoltaicStore.heatStoreDotation) ||
+    (photovoltaicStore.emsDotation && photovoltaicStore.energyStoreDotation)
+      ? data?.dotacje.menagerEnergii
+      : 0;
 
   const photovoltaics_dotation =
     photovoltaicStore.heatStoreDotation || photovoltaicStore.energyStoreDotation
@@ -347,6 +349,7 @@ const Fotowoltaika = () => {
     photovoltaicCalcStore.markup_costs,
     mutations.set_addon_cost,
   ]);
+
   useEffect(() => {
     if (
       photovoltaicCalcStore.installationAndPer1KW_price?.base_installation_price
@@ -359,9 +362,11 @@ const Fotowoltaika = () => {
         heatStore_energyManager_costs:
           photovoltaicCalcStore.heatStore_energyManager_costs +
             photovoltaicCalcStore.energyManagerCost ?? 0,
-        energyStoreCost: photovoltaicStore.energyStoreDotation
-          ? photovoltaicCalcStore.energyStoreCost
-          : 0,
+        energyStoreCost:
+          photovoltaicStore.energyStoreDotation &&
+          photovoltaicCalcStore.energyStoreCost
+            ? photovoltaicCalcStore.energyStoreCost
+            : 0,
       });
   }, [
     photovoltaicCalcStore.energyStoreCost,
@@ -805,7 +810,7 @@ const Fotowoltaika = () => {
                     }}
                     value={photovoltaicStore.energyStorePower}
                     data={[
-                      "6.3",
+                      "6.2",
                       "11.6",
                       "17.4",
                       "23.2",
