@@ -17,11 +17,21 @@ import {
   heatPumpCalculationSlice,
   type HeatPumpCalculationSlice,
 } from "./heatPump/heatPumpCalculationSlice";
+import {
+  forCompanySlice,
+  type ForCompanySlice,
+} from "./forCompany/forCompanySlice";
+import {
+  forCompanyCalculationSlice,
+  type ForCompanyCalculationSlice,
+} from "./forCompany/forCompanyCalculationSlice";
 
 type Store = PhotovoltaicsSlice &
   PhotovoltaicCalculationSlice &
   HeatPumpSliceType &
-  HeatPumpCalculationSlice;
+  HeatPumpCalculationSlice &
+  ForCompanySlice &
+  ForCompanyCalculationSlice;
 
 // ...a is set and get cb from zustand
 const useStore = create<Store>()((...a) => ({
@@ -29,6 +39,8 @@ const useStore = create<Store>()((...a) => ({
   ...photovoltaicCalculationSlice(...a),
   ...heatPumpSlice(...a),
   ...heatPumpCalculationSlice(...a),
+  ...forCompanySlice(...a),
+  ...forCompanyCalculationSlice(...a),
 }));
 
 export default useStore;

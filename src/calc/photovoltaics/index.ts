@@ -1,6 +1,4 @@
-import { Prisma, PrismaClient, Session } from "@prisma/client";
 import staticData from "../../static";
-import { DefaultArgs } from "@prisma/client/runtime/library";
 
 interface SystemPowerType {
   modulesCount: number;
