@@ -525,18 +525,21 @@ export function loanForPurcharse({ input }: { input: LoanForPurcharseType }) {
   };
 }
 
-interface HeatingWithHeatPumpCostType {
+interface HeatingWithHeatPumpType {
   yearlyHeatingUsage: number;
   cop: number;
   priceOf1kWh: number;
 }
-export function heatingWithHeatPumpCost({
+export function heatingWithHeatPump({
   input,
 }: {
-  input: HeatingWithHeatPumpCostType;
+  input: HeatingWithHeatPumpType;
 }) {
-  return Number(
-    ((input.yearlyHeatingUsage / input.cop) * input.priceOf1kWh).toFixed(2)
-  );
+  return {
+    heatingWithHeatPumpCost: Number(
+      ((input.yearlyHeatingUsage / input.cop) * input.priceOf1kWh).toFixed(2)
+    ),
+    heatPumpUsage: Number((input.yearlyHeatingUsage / input.cop).toFixed(2)),
+  };
 }
 export * as default from "./index";

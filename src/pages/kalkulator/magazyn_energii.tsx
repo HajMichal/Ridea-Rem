@@ -4,7 +4,7 @@ import { SideBar } from "~/components/SideBar";
 
 const Magazyn_energii = () => {
   return (
-    <main className="flex h-full max-h-screen justify-center overflow-hidden bg-backgroundGray font-orkney">
+    <main className="flex h-full max-h-screen overflow-hidden bg-backgroundGray font-orkney laptop:justify-center">
       <SideBar />
       <div className="w-full">
         <Navbar />

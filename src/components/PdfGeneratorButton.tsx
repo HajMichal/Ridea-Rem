@@ -9,15 +9,17 @@ import { Loading } from "./Loading";
 import { useRouter } from "next/router";
 import { useHeatPump } from "~/hooks/useHeatPump";
 
-interface Dotations {
+interface DataFromJson {
   energyStore_dotation?: number;
   photovoltaics_dotation?: number;
+  cop?: number;
 }
 
 export const PdfGeneratorButton = ({
   energyStore_dotation,
   photovoltaics_dotation,
-}: Dotations) => {
+  cop,
+}: DataFromJson) => {
   const router = useRouter();
   const [pdfLoading, setPdfLoading] = useState(false);
   const { photovoltaicCalcStore, photovoltaicStore } = usePhotovoltaic();
@@ -37,6 +39,7 @@ export const PdfGeneratorButton = ({
       <HeatPumpDocument
         heatPumpCalcStore={heatPumpCalcStore}
         heatPumpStore={heatPumpStore}
+        cop={cop}
       />
     ).toBlob();
     setPdfLoading(false);

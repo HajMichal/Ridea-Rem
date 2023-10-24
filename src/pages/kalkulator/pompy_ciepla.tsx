@@ -249,7 +249,7 @@ const Pompy_ciepla = () => {
   ]);
   useEffect(() => {
     if (data) {
-      mutations.setHeatingWithHeatPumpCost({
+      mutations.setHeatingWithHeatPump({
         yearlyHeatingUsage: heatPumpStore.yearlyHeatingUsage,
         cop: data.cop,
         priceOf1kWh: data.cena1kWh,
@@ -263,7 +263,7 @@ const Pompy_ciepla = () => {
   ];
 
   return (
-    <main className="flex h-full max-h-screen justify-center overflow-hidden bg-backgroundGray font-orkney">
+    <main className="flex h-full max-h-screen overflow-hidden bg-backgroundGray font-orkney laptop:justify-center">
       <SideBar />
       <div className="w-full">
         <Navbar />
@@ -648,7 +648,7 @@ const Pompy_ciepla = () => {
                   smallField
                 />
                 <SelectComponent
-                  title="PRZYGOTOWANIE POPRZEZ POSPRZĄTANIE MIEJSCA POSADOWIENIA ELEMTNÓW MASZYNOWNI"
+                  title="PRZYGOTOWANIE POPRZEZ POSPRZĄTANIE MIEJSCA POSADOWIENIA ELEMENTÓW MASZYNOWNI"
                   onChange={(e) =>
                     store.updateHeatPump("cleanMontagePlacement", e == "true")
                   }
@@ -718,7 +718,7 @@ const Pompy_ciepla = () => {
               </div>
             </ScrollArea>
           </div>
-          <Preview />
+          <Preview cop={data?.cop} />
         </div>
       </div>
     </main>

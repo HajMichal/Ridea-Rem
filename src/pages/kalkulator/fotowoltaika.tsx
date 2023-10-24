@@ -558,7 +558,7 @@ const Fotowoltaika = () => {
     { value: "false", label: "Nie" },
   ];
   return (
-    <main className="flex h-full max-h-screen justify-center overflow-hidden bg-backgroundGray font-orkney">
+    <main className="flex h-full max-h-screen overflow-hidden bg-backgroundGray font-orkney laptop:justify-center">
       {!data && (
         <>
           <Overlay color="#000" opacity={0.85} />
@@ -568,8 +568,11 @@ const Fotowoltaika = () => {
       <SideBar />
       <div className="w-full">
         <Navbar />
-        <div className="flex h-full max-h-[90vw] flex-wrap justify-center overflow-scroll p-4 laptop:overflow-hidden">
-          <div id="FORM" className="h-full w-[55%] min-w-[500px] p-3 ">
+        <div className="flex h-full max-h-[90vw] flex-wrap overflow-scroll p-4 laptop:overflow-hidden">
+          <div
+            id="FORM"
+            className="h-full p-3 laptop:w-[55%] laptop:min-w-[500px] "
+          >
             <h1
               style={{ textShadow: " 24px 24px #bebebe" }}
               className="z-50 mb-10 font-orkneyBold text-5xl"
@@ -577,7 +580,7 @@ const Fotowoltaika = () => {
               FOTOWOLTAIKA
             </h1>
             <ScrollArea h={"78%"}>
-              <div className=" mr-4">
+              <div className="laptop:mr-4">
                 <h2 className="font-orkneyBold">CENA ENERGII</h2>
                 <InputComponent
                   title="W LIMICIE"

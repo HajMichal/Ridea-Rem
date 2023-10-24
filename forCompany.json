@@ -39,7 +39,14 @@
           "tigo": 230,
           "ekierki": 330,
           "grunt": 850,
-          "inwerterHybrydowy": 5450,
+          "inwerterHybrydowy": {
+            "moc1": 5450,
+            "moc2": 6450,
+            "moc3": 7450,
+            "moc4": 8450,
+            "moc5": 9450,
+            "moc6": 10450
+          },
           "solarEdge": 335
         },
         "zbiorniki": {

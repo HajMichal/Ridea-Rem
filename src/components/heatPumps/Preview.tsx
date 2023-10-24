@@ -5,7 +5,10 @@ import { TextComponent } from "../TextComponent";
 import { Group, Text } from "@mantine/core";
 import { PdfGeneratorButton } from "../PdfGeneratorButton";
 
-export const Preview = () => {
+interface dataFromJson {
+  cop?: number;
+}
+export const Preview = ({ cop }: dataFromJson) => {
   const { heatPumpStore, heatPumpCalcStore, mutations } = useHeatPump();
   const [parent] = useAutoAnimate();
 
@@ -131,7 +134,7 @@ export const Preview = () => {
             />
             <TextComponent
               title="ROCZNY KOSZT OGRZEWANIA POMPĄ CIEPŁA"
-              calculations={heatPumpCalcStore.heatingWithHeatPumpCost.toFixed(
+              calculations={heatPumpCalcStore.heatingWithHeatPump.heatingWithHeatPumpCost.toFixed(
                 2
               )}
             />
@@ -182,7 +185,7 @@ export const Preview = () => {
               />
             </div>
           </div>
-          <PdfGeneratorButton />
+          <PdfGeneratorButton cop={cop} />
         </div>
       </div>
     </div>
