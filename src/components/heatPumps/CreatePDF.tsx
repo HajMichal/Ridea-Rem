@@ -360,6 +360,108 @@ const HeatPumpDocument = ({
         <Text style={styles.pageNum}>05</Text>
       </View>
     </Page>
+    <Page size="A4" style={styles.page}>
+      <View style={styles.pricingSection}>
+        <Text style={styles.title}>OFERTA</Text>
+        <Text style={styles.subTitle}>WYCENA INSTALACJI I DOTACJE</Text>
+        <View style={styles.eachRow}>
+          <Text>WARTOŚĆ NETTO</Text>
+          <Text style={styles.boldFont}>
+            {heatPumpCalcStore.heatPumpPricingBeforeDotations.netSystemValue}
+            zł
+          </Text>
+        </View>
+        <View style={styles.eachRow}>
+          <Text>PODATEK VAT {heatPumpStore.forCompany ? "23" : "8"}%</Text>
+          <Text style={styles.boldFont}>
+            {heatPumpCalcStore.heatPumpPricingBeforeDotations.vatValue}
+            zł
+          </Text>
+        </View>
+        <View style={styles.eachRow}>
+          <Text>WARTOŚĆ BRUTTO</Text>
+          <Text style={styles.boldFont}>
+            {heatPumpCalcStore.heatPumpPricingBeforeDotations.grossSystemValue}
+            zł
+          </Text>
+        </View>
+        <View style={styles.eachRow}>
+          <Text>CENA 1 RATY PRZED ODLICZENIEM DOTACJI</Text>
+          <Text style={styles.boldFont}>
+            {heatPumpCalcStore.loanForPurcharse.instalmentBeforeDotations}
+            zł
+          </Text>
+        </View>
+        <View style={styles.eachRow}>
+          <Text>ULGA TERMOMODERNIZACYJNA</Text>
+          <Text style={styles.boldFont}>
+            {heatPumpCalcStore.termoModernizationRelif}ZŁ
+          </Text>
+        </View>
+        <View
+          style={{
+            backgroundColor: "#FEEB1A",
+            borderBottomLeftRadius: "25%",
+            borderTopRightRadius: "25%",
+            marginTop: 3,
+          }}
+        >
+          <View style={styles.eachRow}>
+            <Text>DOTACJA `&#34;`MÓJ PRĄD 5.0`&#34;`</Text>
+            <Text style={styles.boldFont}>
+              {heatPumpCalcStore.heatStoreDotations.dotationSum} ZŁ
+            </Text>
+          </View>
+          <View style={{ fontSize: 12, paddingLeft: 12, paddingBottom: 12 }}>
+            <Text></Text>
+            <Text>
+              DOTACJA POMPĘ CIEPŁA -{" "}
+              {heatPumpCalcStore.heatStoreDotations.heatStoreDotationValue}
+              ZŁ
+            </Text>
+            <Text>
+              DOTACJA NA MODERNIZACJE CO + CWU -{" "}
+              {heatPumpCalcStore.heatStoreDotations.modernizationDotation}
+            </Text>
+          </View>
+        </View>
+
+        <View
+          style={{
+            marginTop: 150,
+            marginRight: -300,
+            backgroundColor: "#FEEB1A",
+            borderBottomLeftRadius: "50%",
+            padding: 22,
+          }}
+        >
+          <Text style={{ fontSize: 12 }}>
+            OSTATECZNY KOSZT INSTALACJI PO DOFINANSOWANIU:
+          </Text>
+          <Text style={{ fontSize: 50, marginTop: 4 }}>
+            {heatPumpCalcStore.finallGrossInstalationCost}
+          </Text>
+          <Text style={{ fontSize: 12, marginLeft: 10 }}>DOSTĘPNE:</Text>
+          <Text style={{ fontSize: 12, marginLeft: 10 }}>
+            {heatPumpStore.installmentNumber} RAT W WYSOKOŚCI{" "}
+            <Text style={styles.boldFont}>
+              {heatPumpCalcStore.loanForPurcharse.finallInstalmentPice}
+            </Text>
+          </Text>
+        </View>
+      </View>
+      <View style={styles.imageSection}>
+        <Image
+          style={styles.logoImage}
+          src={`${process.env.NEXT_PUBLIC_BASE_URL}/static/pdf/blackLogo.png`}
+        />
+        <Image
+          style={styles.signatureImage}
+          src={`${process.env.NEXT_PUBLIC_BASE_URL}/static/pdf/signatureIdeaRem.png`}
+        />
+        <Text style={styles.pageNum}>05</Text>
+      </View>
+    </Page>
   </Document>
 );
 
