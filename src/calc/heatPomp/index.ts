@@ -458,19 +458,28 @@ export function termoModernizationRelif({
 }: {
   input: TermoModernizationRelifType;
 }) {
-  return Number(
-    (
-      (input.netSystemValue -
-        input.heatPumpDotation -
-        input.dotationModernizationCoCwu) *
-      0.12
-    ).toFixed(2)
-  );
+  const calcualtion =
+    (input.netSystemValue -
+      input.heatPumpDotation -
+      input.dotationModernizationCoCwu) *
+    0.12;
+  if (calcualtion < 0) return 0;
+  else {
+    return Number(
+      (
+        (input.netSystemValue -
+          input.heatPumpDotation -
+          input.dotationModernizationCoCwu) *
+        0.12
+      ).toFixed(2)
+    );
+  }
 }
 interface FinallGrossInstalationCostType {
   grossSystemValue: number;
   heatPumpDotation: number;
   dotationModernizationCoCwu: number;
+  termoModernizationRelifAmount: number;
 }
 export function finallGrossInstalationCost({
   input,
@@ -481,9 +490,11 @@ export function finallGrossInstalationCost({
     (
       input.grossSystemValue -
       input.dotationModernizationCoCwu -
-      input.heatPumpDotation
+      input.heatPumpDotation -
+      input.termoModernizationRelifAmount
     ).toFixed(2)
   );
+
   if (finallInstaltionCost < 0) return 0;
   else if (finallInstaltionCost > 0) return finallInstaltionCost;
 }

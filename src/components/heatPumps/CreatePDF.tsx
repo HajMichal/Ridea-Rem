@@ -146,18 +146,20 @@ const HeatPumpDocument = ({
     <Page size="A4" style={styles.page}>
       <View style={styles.pricingSection}>
         <Text style={styles.title}>OFERTA</Text>
-        <Text style={styles.subTitle}>DOBÓR MOCY</Text>
+        <Text style={styles.subTitle}>DOBÓR MOCY I ZAKRES USŁUG</Text>
         <View style={styles.eachRow}>
           <Text>WIELKOŚĆ POWIERZCHNI OGRZEWANEJ</Text>
-          <Text style={styles.boldFont}>{heatPumpStore.heatedArea}</Text>
+          <Text style={styles.boldFont}>{heatPumpStore.heatedArea} m2</Text>
         </View>
         <View style={styles.eachRow}>
-          <Text>KUBATURA</Text>
-          <Text style={styles.boldFont}></Text>
+          <Text>WYSOKOŚĆ POMIESZCZEŃ</Text>
+          <Text style={styles.boldFont}>{heatPumpStore.roomHeight} cm</Text>
         </View>
         <View style={styles.eachRow}>
           <Text>OSZACOWANE ZAPOTRZEBOWANIE NA CIEPŁO</Text>
-          <Text style={styles.boldFont}></Text>
+          <Text style={styles.boldFont}>
+            {heatPumpStore.suggestedPumpPower}
+          </Text>
         </View>
         <View style={styles.eachRow}>
           <Text>PRZEWIDYWANE ROCZNE ZAPOTRZEBOWANI</Text>
@@ -178,26 +180,9 @@ const HeatPumpDocument = ({
         <View style={styles.eachRow}>
           <Text>TEMPERATURA BIWALENTNA</Text>
           <Text style={styles.boldFont}>
-            {heatPumpStore.minimalWorkingTemp}
+            {heatPumpStore.minimalWorkingTemp} °C
           </Text>
         </View>
-      </View>
-      <View style={styles.imageSection}>
-        <Image
-          style={styles.logoImage}
-          src={`${process.env.NEXT_PUBLIC_BASE_URL}/static/pdf/blackLogo.png`}
-        />
-        <Image
-          style={styles.signatureImage}
-          src={`${process.env.NEXT_PUBLIC_BASE_URL}/static/pdf/signatureIdeaRem.png`}
-        />
-        <Text style={styles.pageNum}>03</Text>
-      </View>
-    </Page>
-    <Page size="A4" style={styles.page}>
-      <View style={styles.pricingSection}>
-        <Text style={styles.title}>OFERTA</Text>
-        <Text style={styles.subTitle}>ZAKRES USŁUG</Text>
         <View style={styles.eachRow}>
           <Text>
             {heatPumpStore.buforType
@@ -206,7 +191,11 @@ const HeatPumpDocument = ({
               .join(" ")
               .toUpperCase()}
           </Text>
-          <Text style={styles.boldFont}></Text>
+          <Text style={styles.boldFont}>
+            {heatPumpCalcStore.bufforCost !== 0
+              ? heatPumpCalcStore.bufforCost
+              : "NIE"}
+          </Text>
         </View>
         <View style={styles.eachRow}>
           <Text>POSADOWIENIE NA PODŁOŻU</Text>
@@ -225,22 +214,10 @@ const HeatPumpDocument = ({
           </Text>
         </View>
         <View style={styles.eachRow}>
-          <Text>SCHEMAT 17</Text>
-          <Text style={styles.boldFont}>
-            {heatPumpStore.buforType.includes("17") ? "TAK" : "NIE"}
+          <Text>
+            SCHEMAT {heatPumpStore.buforType.split(" ").slice(5, 6).join(" ")}
           </Text>
-        </View>
-        <View style={styles.eachRow}>
-          <Text>SCHEMAT 24 - ROZSZERZONY</Text>
-          <Text style={styles.boldFont}>
-            {heatPumpStore.buforType.includes("24") ? "TAK" : "NIE"}
-          </Text>
-        </View>
-        <View style={styles.eachRow}>
-          <Text>SCHEMAT 34 - PEŁNY</Text>
-          <Text style={styles.boldFont}>
-            {heatPumpStore.buforType.includes("34") ? "TAK" : "NIE"}
-          </Text>
+          <Text style={styles.boldFont}>TAK</Text>
         </View>
         <View style={styles.eachRow}>
           <Text>MODUŁ STERUJĄCY LCD 8 CALI</Text>
@@ -262,7 +239,7 @@ const HeatPumpDocument = ({
           style={styles.signatureImage}
           src={`${process.env.NEXT_PUBLIC_BASE_URL}/static/pdf/signatureIdeaRem.png`}
         />
-        <Text style={styles.pageNum}>04</Text>
+        <Text style={styles.pageNum}>03</Text>
       </View>
     </Page>
     <Page size="A4" style={styles.page}>
@@ -272,37 +249,51 @@ const HeatPumpDocument = ({
         <View style={styles.eachRow}>
           <Text>MONTAŻ KOLEJNEJ POMPY CIEPŁA W KASAKDZIE</Text>
           <Text style={styles.boldFont}>
-            {heatPumpStore.isAnotherHeatPumpInCascade ? "TAK" : "NIE"}
+            {heatPumpStore.isAnotherHeatPumpInCascade
+              ? heatPumpCalcStore.montagePumpInCascadeCost
+              : "NIE"}
           </Text>
         </View>
         <View style={styles.eachRow}>
           <Text>POSADADOWIENIE Z ROZSĄCZENIEM KONDENSATU</Text>
           <Text style={styles.boldFont}>
-            {heatPumpStore.isPlacemnetWithBurst ? "TAK" : "NIE"}
+            {heatPumpStore.isPlacemnetWithBurst
+              ? heatPumpCalcStore.placementWithBurstCost
+              : "NIE"}
           </Text>
         </View>
         <View style={styles.eachRow}>
           <Text>PRZEWIERTY DO KOLEJNEGO POMIESZCZENIA</Text>
           <Text style={styles.boldFont}>
-            {heatPumpStore.newDrillings ? "TAK" : "NIE"}
+            {heatPumpStore.newDrillings
+              ? heatPumpCalcStore.newDrillingsCost
+              : "NIE"}
           </Text>
         </View>
         <View style={styles.eachRow}>
           <Text>INSTALACJA PO WIERZCHU W IZOLACJI Z WEŁNY MINERALNEJ</Text>
           <Text style={styles.boldFont}>
-            {heatPumpStore.longerIsolationFromMineralWool ? "TAK" : "NIE"}
+            {heatPumpStore.longerIsolationFromMineralWool
+              ? heatPumpCalcStore.longerIsolationFromMineralWoolCost
+              : "NIE"}
           </Text>
         </View>
         <View style={styles.eachRow}>
           <Text>RURA PREIZOLOWANA (W GRUNCIE)</Text>
           <Text style={styles.boldFont}>
-            {heatPumpStore.isPreIsolatedPipe ? "TAK" : "NIE"}
+            {heatPumpStore.isPreIsolatedPipe
+              ? heatPumpStore.longerPreIsolatedPipe +
+                "-" +
+                heatPumpCalcStore.longerPreIsolatedPipeCost
+              : "NIE"}
           </Text>
         </View>
         <View style={styles.eachRow}>
           <Text>MONTAŻ CYRKULACJI DO CWU</Text>
           <Text style={styles.boldFont}>
-            {heatPumpStore.isMontageCirculationCWU ? "TAK" : "NIE"}
+            {heatPumpStore.isMontageCirculationCWU
+              ? heatPumpCalcStore.circulationMontageCost
+              : "NIE"}
           </Text>
         </View>
         <View style={styles.eachRow}>
@@ -311,7 +302,9 @@ const HeatPumpDocument = ({
             <Text>(WĘGLOWEGO, GROSZEK)</Text>
           </View>
           <Text style={styles.boldFont}>
-            {heatPumpStore.demontageOldBoiler ? "TAK" : "NIE"}
+            {heatPumpStore.demontageOldBoiler
+              ? heatPumpCalcStore.demontageOldBoilerCost
+              : "NIE"}
           </Text>
         </View>
         <View style={styles.eachRow}>
@@ -320,31 +313,36 @@ const HeatPumpDocument = ({
             <Text>POSADOWIENIA ELEMENTÓW MASZYNOWNI</Text>
           </View>
           <Text style={styles.boldFont}>
-            {heatPumpStore.cleanMontagePlacement ? "TAK" : "NIE"}
+            {heatPumpStore.cleanMontagePlacement
+              ? heatPumpCalcStore.cleanPlacementCost
+              : "NIE"}
           </Text>
         </View>
         <View style={styles.eachRow}>
           <Text>PRZENIESIENIE LUB DEMONTAŻ ZASOBNIKA CWU KLIENTA</Text>
           <Text style={styles.boldFont}>
-            {heatPumpStore.moveCwu ? "TAK" : "NIE"}
+            {heatPumpStore.moveCwu ? heatPumpCalcStore.moveCwuCost : "NIE"}
           </Text>
         </View>
         <View style={styles.eachRow}>
           <View>
-            <Text>SPIĘCIE BUFORA CO, Z DODATKOWYM ŹRÓDŁEM</Text>
-            <Text>GRZEWCZYM (KOCIOŁ GAZOWY, BEZ WĘGLA ITP.) </Text>
+            <Text>SPIĘCIE BUFORA CO Z DODATKOWYM ŹRÓDŁEM</Text>
+            <Text>GRZEWCZYM </Text>
           </View>
           <Text style={styles.boldFont}>
-            {heatPumpStore.mergeNewBufforWithOld ? "TAK" : "NIE"}
+            {heatPumpStore.mergeNewBufforWithOld
+              ? heatPumpCalcStore.buforWithSupportCost
+              : "NIE"}
           </Text>
         </View>
         <View style={styles.eachRow}>
           <View>
-            <Text>ZAMKNIĘCIE UKŁADU OTWARTEGO (NIE ZAMYKAMY</Text>
-            <Text>UKŁADÓW Z POZOSTAWIONYM KOTŁEM NA PALIWA STAŁE) </Text>
+            <Text>ZAMKNIĘCIE UKŁADU OTWARTEGO</Text>
           </View>
           <Text style={styles.boldFont}>
-            {heatPumpStore.closingOpenSytem ? "TAK" : "NIE"}
+            {heatPumpStore.closingOpenSytem
+              ? heatPumpCalcStore.closeOpenedSystemCost
+              : "NIE"}
           </Text>
         </View>
       </View>
@@ -357,7 +355,7 @@ const HeatPumpDocument = ({
           style={styles.signatureImage}
           src={`${process.env.NEXT_PUBLIC_BASE_URL}/static/pdf/signatureIdeaRem.png`}
         />
-        <Text style={styles.pageNum}>05</Text>
+        <Text style={styles.pageNum}>04</Text>
       </View>
     </Page>
     <Page size="A4" style={styles.page}>
@@ -407,9 +405,9 @@ const HeatPumpDocument = ({
           }}
         >
           <View style={styles.eachRow}>
-            <Text>DOTACJA `&#34;`MÓJ PRĄD 5.0`&#34;`</Text>
+            <Text>SUMA DOTACJI</Text>
             <Text style={styles.boldFont}>
-              {heatPumpCalcStore.heatStoreDotations.dotationSum} ZŁ
+              {heatPumpCalcStore.heatStoreDotations.dotationSum} zł
             </Text>
           </View>
           <View style={{ fontSize: 12, paddingLeft: 12, paddingBottom: 12 }}>
@@ -417,11 +415,11 @@ const HeatPumpDocument = ({
             <Text>
               DOTACJA POMPĘ CIEPŁA -{" "}
               {heatPumpCalcStore.heatStoreDotations.heatStoreDotationValue}
-              ZŁ
+              zł
             </Text>
             <Text>
               DOTACJA NA MODERNIZACJE CO + CWU -{" "}
-              {heatPumpCalcStore.heatStoreDotations.modernizationDotation}
+              {heatPumpCalcStore.heatStoreDotations.modernizationDotation} zł
             </Text>
           </View>
         </View>
@@ -439,13 +437,13 @@ const HeatPumpDocument = ({
             OSTATECZNY KOSZT INSTALACJI PO DOFINANSOWANIU:
           </Text>
           <Text style={{ fontSize: 50, marginTop: 4 }}>
-            {heatPumpCalcStore.finallGrossInstalationCost}
+            {heatPumpCalcStore.finallGrossInstalationCost} zł
           </Text>
           <Text style={{ fontSize: 12, marginLeft: 10 }}>DOSTĘPNE:</Text>
           <Text style={{ fontSize: 12, marginLeft: 10 }}>
             {heatPumpStore.installmentNumber} RAT W WYSOKOŚCI{" "}
             <Text style={styles.boldFont}>
-              {heatPumpCalcStore.loanForPurcharse.finallInstalmentPice}
+              {heatPumpCalcStore.loanForPurcharse.finallInstalmentPice} zł
             </Text>
           </Text>
         </View>

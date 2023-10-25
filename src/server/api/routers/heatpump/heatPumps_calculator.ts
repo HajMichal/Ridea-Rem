@@ -223,6 +223,7 @@ export const heatPump_calculator = createTRPCRouter({
         grossSystemValue: z.number(),
         heatPumpDotation: z.number(),
         dotationModernizationCoCwu: z.number(),
+        termoModernizationRelifAmount: z.number(),
       })
     )
     .mutation(calc.finallGrossInstalationCost),

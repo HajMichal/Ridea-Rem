@@ -214,6 +214,7 @@ const Pompy_ciepla = () => {
       });
     }
   }, [data?.dotacje, heatPumpStore.choosedHeatPumpDotation]);
+
   useEffect(() => {
     if (data) {
       mutations.setFinallGrossInstalationCost({
@@ -223,13 +224,17 @@ const Pompy_ciepla = () => {
           ],
         grossSystemValue:
           heatPumpCalcStore.heatPumpPricingBeforeDotations.grossSystemValue,
-        heatPumpDotation: heatPumpCalcStore.heatStoreDotations.dotationSum,
+        heatPumpDotation:
+          heatPumpCalcStore.heatStoreDotations.heatStoreDotationValue,
+        termoModernizationRelifAmount:
+          heatPumpCalcStore.termoModernizationRelif,
       });
     }
   }, [
     data?.dotacje.modernizacja_CO_CWU,
     heatPumpCalcStore.heatStoreDotations,
     heatPumpCalcStore.heatPumpPricingBeforeDotations.grossSystemValue,
+    heatPumpCalcStore.termoModernizationRelif,
   ]);
   useEffect(() => {
     if (data) {
@@ -256,6 +261,19 @@ const Pompy_ciepla = () => {
       });
     }
   }, [data, heatPumpStore.yearlyHeatingUsage]);
+  useEffect(() => {
+    mutations.setTermoModernizationRelif({
+      dotationModernizationCoCwu:
+        heatPumpCalcStore.heatStoreDotations.modernizationDotation,
+      heatPumpDotation:
+        heatPumpCalcStore.heatStoreDotations.heatStoreDotationValue,
+      netSystemValue:
+        heatPumpCalcStore.heatPumpPricingBeforeDotations.netSystemValue,
+    });
+  }, [
+    heatPumpCalcStore.heatPumpPricingBeforeDotations.netSystemValue,
+    heatPumpCalcStore.heatStoreDotations,
+  ]);
 
   const yesNoData = [
     { value: "true", label: "Tak" },
