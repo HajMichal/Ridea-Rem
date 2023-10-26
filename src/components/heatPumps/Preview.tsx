@@ -163,7 +163,7 @@ export const Preview = ({ cop }: dataFromJson) => {
               }
             />
             <TextComponent
-              title="DOTACJA POMPĘ CIEPŁA"
+              title="DOTACJA NA POMPĘ CIEPŁA"
               calculations={
                 heatPumpCalcStore.heatStoreDotations.heatStoreDotationValue
               }

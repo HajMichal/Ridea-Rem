@@ -1,12 +1,11 @@
-import React from "react";
 import {
+  Document,
+  Font,
+  Image,
   Page,
+  StyleSheet,
   Text,
   View,
-  Document,
-  StyleSheet,
-  Image,
-  Font,
 } from "@react-pdf/renderer";
 
 import { type HeatPumpCalculations } from "~/store/heatPump/heatPumpCalculationSlice";
@@ -144,6 +143,24 @@ const HeatPumpDocument = ({
 }: DataToPDF) => (
   <Document>
     <Page size="A4" style={styles.page}>
+      <Image
+        style={styles.image}
+        src={`${process.env.NEXT_PUBLIC_BASE_URL}/static/heatPumpPdf/strona1.png`}
+      />
+    </Page>
+    <Page size="A4" style={styles.page}>
+      <Image
+        style={styles.image}
+        src={`${process.env.NEXT_PUBLIC_BASE_URL}/static/heatPumpPdf/strona2.png`}
+      />
+    </Page>
+    <Page size="A4" style={styles.page}>
+      <Image
+        style={styles.image}
+        src={`${process.env.NEXT_PUBLIC_BASE_URL}/static/heatPumpPdf/strona3.png`}
+      />
+    </Page>
+    <Page size="A4" style={styles.page}>
       <View style={styles.pricingSection}>
         <Text style={styles.title}>OFERTA</Text>
         <Text style={styles.subTitle}>DOBÓR MOCY I ZAKRES USŁUG</Text>
@@ -178,6 +195,12 @@ const HeatPumpDocument = ({
           </Text>
         </View>
         <View style={styles.eachRow}>
+          <Text>PRZEWIDYWANE KOSZTY OGRZEWANIA POMPĄ CIEPŁA</Text>
+          <Text style={styles.boldFont}>
+            {heatPumpCalcStore.heatingWithHeatPump.heatingWithHeatPumpCost} zł
+          </Text>
+        </View>
+        <View style={styles.eachRow}>
           <Text>TEMPERATURA BIWALENTNA</Text>
           <Text style={styles.boldFont}>
             {heatPumpStore.minimalWorkingTemp} °C
@@ -205,7 +228,7 @@ const HeatPumpDocument = ({
         </View>
         <View style={styles.eachRow}>
           <Text>DOSTAWA, MONTAŻ I URUCHOMIENIE POMPY</Text>
-          <Text style={styles.boldFont}></Text>
+          <Text style={styles.boldFont}>TAK</Text>
         </View>
         <View style={styles.eachRow}>
           <Text>PRZEWIERT PRZEZ ŚCIANE I PRZYŁĄCZENIE BUFORA</Text>
@@ -393,7 +416,7 @@ const HeatPumpDocument = ({
         <View style={styles.eachRow}>
           <Text>ULGA TERMOMODERNIZACYJNA</Text>
           <Text style={styles.boldFont}>
-            {heatPumpCalcStore.termoModernizationRelif}ZŁ
+            {heatPumpCalcStore.termoModernizationRelif} zł
           </Text>
         </View>
         <View
@@ -413,8 +436,10 @@ const HeatPumpDocument = ({
           <View style={{ fontSize: 12, paddingLeft: 12, paddingBottom: 12 }}>
             <Text></Text>
             <Text>
-              DOTACJA POMPĘ CIEPŁA -{" "}
-              {heatPumpCalcStore.heatStoreDotations.heatStoreDotationValue}
+              DOTACJA NA POMPĘ CIEPŁA{" "}
+              {heatPumpCalcStore.heatStoreDotations.modernizationDotation ===
+                0 && "(MÓJ PRĄD)"}{" "}
+              - {heatPumpCalcStore.heatStoreDotations.heatStoreDotationValue}
               zł
             </Text>
             <Text>
