@@ -754,14 +754,14 @@ const Fotowoltaika = () => {
                   value={photovoltaicStore.isInwerterChoosed}
                   data={yesNoData}
                 />
-                <SelectComponent
+                {/* <SelectComponent
                   title="MAGAZYN CIEPŁA"
                   onChange={(e) =>
                     store.updatePhotovoltaic("heatStoreDotation", e == "true")
                   }
                   value={photovoltaicStore.heatStoreDotation}
                   data={yesNoData}
-                />
+                /> */}
                 {photovoltaicStore.heatStoreDotation && data && (
                   <SelectComponent
                     title={"WIELKOŚĆ ZBIORNIKA CWU"}
