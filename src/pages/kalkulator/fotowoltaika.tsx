@@ -754,14 +754,14 @@ const Fotowoltaika = () => {
                   value={photovoltaicStore.isInwerterChoosed}
                   data={yesNoData}
                 />
-                {/* <SelectComponent
+                <SelectComponent
                   title="MAGAZYN CIEPŁA"
                   onChange={(e) =>
                     store.updatePhotovoltaic("heatStoreDotation", e == "true")
                   }
                   value={photovoltaicStore.heatStoreDotation}
                   data={yesNoData}
-                /> */}
+                />
                 {photovoltaicStore.heatStoreDotation && data && (
                   <SelectComponent
                     title={"WIELKOŚĆ ZBIORNIKA CWU"}
@@ -775,13 +775,13 @@ const Fotowoltaika = () => {
                     value={photovoltaicStore.tankSize}
                     data={[
                       { value: "Brak", label: "Brak" },
-                      { value: "Zbiornik 100L", label: "Zbiornik 100L" },
-                      { value: "Zbiornik 140L", label: "Zbiornik 140L" },
+                      // { value: "Zbiornik 100L", label: "Zbiornik 100L" },
+                      // { value: "Zbiornik 140L", label: "Zbiornik 140L" },
                       {
                         value: "Zbiornik 140L z wężownicą",
                         label: "Zbiornik 140L z wężownicą",
                       },
-                      { value: "Zbiornik 200L", label: "Zbiornik 200L" },
+                      // { value: "Zbiornik 200L", label: "Zbiornik 200L" },
                       {
                         value: "Zbiornik 200L z wężownicą",
                         label: "Zbiornik 200L z wężownicą",
