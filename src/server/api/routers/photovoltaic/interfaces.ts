@@ -52,7 +52,8 @@ export interface PhotovoltaicDataToCalculation {
     zbiornik_200L: number;
     zbiornik_200L_z_wezem: number;
   };
-  magazyn_energii: {
+  magazyn_energii_solax: {
+    prog0: number;
     prog1: number;
     prog2: number;
     prog3: number;
@@ -61,6 +62,11 @@ export interface PhotovoltaicDataToCalculation {
     prog6: number;
     prog7: number;
     prog8: number;
+  };
+  magazyn_energii_hipontech: {
+    prog0: number;
+    prog1: number;
+    prog2: number;
   };
   magazynCiepla: number;
   prowizjaBiura: number;

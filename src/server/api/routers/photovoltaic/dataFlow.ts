@@ -69,7 +69,8 @@ const schema = z.record(
       zbiornik_200L: z.number(),
       zbiornik_200L_z_wezem: z.number(),
     }),
-    magazyn_energii: z.object({
+    magazyn_energii_solax: z.object({
+      prog0: z.number(),
       prog1: z.number(),
       prog2: z.number(),
       prog3: z.number(),
@@ -78,6 +79,11 @@ const schema = z.record(
       prog6: z.number(),
       prog7: z.number(),
       prog8: z.number(),
+    }),
+    magazyn_energii_hipontech: z.object({
+      prog0: z.number(),
+      prog1: z.number(),
+      prog2: z.number(),
     }),
     magazynCiepla: z.number(),
     cena_skupu_pradu: z.number(),
@@ -241,7 +247,8 @@ export const dataFlowRouter = createTRPCRouter({
             zbiornik_200L: 5600,
             zbiornik_200L_z_wezem: 6200,
           },
-          magazyn_energii: {
+          magazyn_energii_solax: {
+            prog0: 15000,
             prog1: 18463,
             prog2: 29446,
             prog3: 38496,
@@ -250,6 +257,11 @@ export const dataFlowRouter = createTRPCRouter({
             prog6: 65630,
             prog7: 74551,
             prog8: 84572,
+          },
+          magazyn_energii_hipontech: {
+            prog0: 17000,
+            prog1: 20000,
+            prog2: 23000,
           },
           magazynCiepla: 3900,
           cena_skupu_pradu: 0.72,

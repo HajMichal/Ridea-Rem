@@ -353,6 +353,7 @@ export const photovoltaics_calculator = createTRPCRouter({
       z.object({
         energyStorePower: z.number(),
         energyStorePowersCost: z.object({
+          prog0: z.number(),
           prog1: z.number(),
           prog2: z.number(),
           prog3: z.number(),
@@ -361,6 +362,11 @@ export const photovoltaics_calculator = createTRPCRouter({
           prog6: z.number(),
           prog7: z.number(),
           prog8: z.number(),
+        }),
+        hipontechCost: z.object({
+          prog0: z.number(),
+          prog1: z.number(),
+          prog2: z.number(),
         }),
       })
     )

@@ -15,12 +15,7 @@ export interface HeatPumpCalculations {
   energeticConnectionCost: number;
   buforWithSupportCost: number;
   closeOpenedSystemCost: number;
-  heatPumpAndFeesCost: {
-    heatPumpCost: number;
-    kwFeeCost: number;
-    consultantMarkupCost: number;
-    netPriceForHeatPump: number;
-  };
+  heatPumpCost: number;
   addonSumCost: number;
   heatPumpPricingBeforeDotations: {
     netSystemValue: number;
@@ -41,6 +36,12 @@ export interface HeatPumpCalculations {
   heatingWithHeatPump: {
     heatingWithHeatPumpCost: number;
     heatPumpUsage: number;
+  };
+  markupCosts: {
+    officeFeeValue: number;
+    consultantFeeValue: number;
+    markupSumValue: number;
+    officeFeeForBoss: number;
   };
 }
 
@@ -71,12 +72,7 @@ export const heatPumpCalculationSlice: StateCreator<
     energeticConnectionCost: 0,
     buforWithSupportCost: 0,
     closeOpenedSystemCost: 0,
-    heatPumpAndFeesCost: {
-      heatPumpCost: 0,
-      kwFeeCost: 0,
-      consultantMarkupCost: 0,
-      netPriceForHeatPump: 0,
-    },
+    heatPumpCost: 0,
     addonSumCost: 0,
     heatPumpPricingBeforeDotations: {
       netSystemValue: 0,
@@ -96,6 +92,12 @@ export const heatPumpCalculationSlice: StateCreator<
     heatingWithHeatPump: {
       heatingWithHeatPumpCost: 0,
       heatPumpUsage: 0,
+    },
+    markupCosts: {
+      officeFeeValue: 0,
+      consultantFeeValue: 0,
+      markupSumValue: 0,
+      officeFeeForBoss: 0,
     },
   },
   updateHeatPumpCalcs: (key, value) =>

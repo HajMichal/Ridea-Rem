@@ -252,6 +252,12 @@ const HeatPumpDocument = ({
             {heatPumpStore.isLongerGuarantee ? "TAK" : "NIE"}
           </Text>
         </View>
+        <Text style={{ fontSize: 8, marginTop: 10, marginLeft: 10 }}>
+          /nr.zam/ model INW/Z{" "}
+          {heatPumpCalcStore.markupCosts.consultantFeeValue} /{" "}
+          {heatPumpCalcStore.markupCosts.officeFeeValue} /{" "}
+          {heatPumpCalcStore.markupCosts.officeFeeForBoss}
+        </Text>
       </View>
       <View style={styles.imageSection}>
         <Image
@@ -484,6 +490,27 @@ const HeatPumpDocument = ({
         />
         <Text style={styles.pageNum}>05</Text>
       </View>
+    </Page>
+    <Page size="A4" style={styles.page}>
+      {heatPumpStore.buforType.includes("17") && (
+        <Image
+          style={styles.image}
+          src={`${process.env.NEXT_PUBLIC_BASE_URL}/static/heatPumpPdf/schemat17.jpg`}
+        />
+      )}
+      {heatPumpStore.buforType.includes("24") && (
+        <Image
+          style={styles.image}
+          src={`${process.env.NEXT_PUBLIC_BASE_URL}/static/heatPumpPdf/schemat24.png`}
+        />
+      )}
+
+      {heatPumpStore.buforType.includes("34") && (
+        <Image
+          style={styles.image}
+          src={`${process.env.NEXT_PUBLIC_BASE_URL}/static/heatPumpPdf/schemat34.png`}
+        />
+      )}
     </Page>
   </Document>
 );

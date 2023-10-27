@@ -20,7 +20,7 @@ const Pompy_ciepla = () => {
     if (sessionData === null) {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call
       void router.push("/auth/signin");
-    } else if (sessionData?.user.role !== 1) void router.push("/home");
+    }
   }, [sessionData, router]);
 
   const { data } =
@@ -142,19 +142,29 @@ const Pompy_ciepla = () => {
     }
   }, [heatPumpStore.closingOpenSytem, data]);
   useEffect(() => {
+    if (data && heatPumpStore.suggestedPump) {
+      mutations.setHeatPumpCost({
+        heatPumpCost: data.pompy_ciepla[heatPumpStore.suggestedPump]!.cena,
+      });
+    }
+  }, [heatPumpStore.suggestedPump, data]);
+  useEffect(() => {
     if (data && sessionData?.user && heatPumpStore.suggestedPump) {
-      mutations.setHeatPumpCostAndKwFee({
-        consultantMarkup: heatPumpStore.consultantMarkup,
-        kWFeeAmount: sessionData.user.feePerkw,
-        imposedFee: sessionData.user.imposedFee,
-        heatPumpCost: data.pompy_ciepla[heatPumpStore.suggestedPump]!,
+      mutations.setMarkupCosts({
+        system_power:
+          data.pompy_ciepla[heatPumpStore.suggestedPump]!.mnozik_prowizji,
+        officeFee: sessionData.user.feePerkw,
+        constantFee: sessionData.user.imposedFee,
+        consultantFee: heatPumpStore.consultantMarkup,
+        creatorId:
+          sessionData.user.role === 3 ? sessionData.user.creatorId : "",
       });
     }
   }, [
     heatPumpStore.consultantMarkup,
-    heatPumpStore.suggestedPump,
     sessionData?.user,
-    data,
+    heatPumpStore.suggestedPump,
+    data?.pompy_ciepla,
   ]);
   useEffect(() => {
     mutations.setAddonsSumCost({
@@ -193,13 +203,14 @@ const Pompy_ciepla = () => {
       addonsSumCost: heatPumpCalcStore.addonSumCost,
       buforCost: heatPumpCalcStore.bufforCost,
       netPriceForHeatPump:
-        heatPumpCalcStore.heatPumpAndFeesCost.netPriceForHeatPump,
+        heatPumpCalcStore.heatPumpCost +
+        heatPumpCalcStore.markupCosts.markupSumValue,
       vat: heatPumpStore.forCompany ? 0.23 : 0.08,
     });
   }, [
     heatPumpCalcStore.addonSumCost,
     heatPumpCalcStore.bufforCost,
-    heatPumpCalcStore.heatPumpAndFeesCost,
+    heatPumpCalcStore.heatPumpCost,
     heatPumpStore.forCompany,
   ]);
   useEffect(() => {

@@ -549,14 +549,20 @@ const Fotowoltaika = () => {
     if (data)
       mutations.set_energyStoreCost({
         energyStorePower: photovoltaicStore.energyStorePower,
-        energyStorePowersCost: data.magazyn_energii,
+        energyStorePowersCost: data.magazyn_energii_solax,
+        hipontechCost: data.magazyn_energii_hipontech,
       });
-  }, [photovoltaicStore.energyStorePower, data?.magazyn_energii]);
+  }, [
+    photovoltaicStore.energyStorePower,
+    data?.magazyn_energii_solax,
+    data?.magazyn_energii_hipontech,
+  ]);
 
   const yesNoData = [
     { value: "true", label: "Tak" },
     { value: "false", label: "Nie" },
   ];
+
   return (
     <main className="flex h-full max-h-screen overflow-hidden bg-backgroundGray font-orkney laptop:justify-center">
       {!data && (
@@ -805,24 +811,60 @@ const Fotowoltaika = () => {
                   value={photovoltaicStore.energyStoreDotation}
                   data={yesNoData}
                 />
+
                 {photovoltaicStore.energyStoreDotation && (
-                  <SelectComponent
-                    title="MOC MAGAZYNU ENERGII"
-                    onChange={(e) => {
-                      store.updatePhotovoltaic("energyStorePower", Number(e));
-                    }}
-                    value={photovoltaicStore.energyStorePower}
-                    data={[
-                      "6.2",
-                      "11.6",
-                      "17.4",
-                      "23.2",
-                      "29",
-                      "34.8",
-                      "40.6",
-                      "46.4",
-                    ]}
-                  />
+                  <>
+                    <SelectComponent
+                      title="PRODUCENT MAGAZYNU ENREGII"
+                      onChange={(e) =>
+                        store.updatePhotovoltaic(
+                          "energyStoreProducent",
+                          String(e)
+                        )
+                      }
+                      value={photovoltaicStore.energyStoreProducent}
+                      data={["SOLAX", "HIPONTECH"]}
+                    />
+                    {photovoltaicStore.energyStoreProducent === "SOLAX" ? (
+                      <SelectComponent
+                        title="MOC MAGAZYNU ENERGII"
+                        onChange={(e) => {
+                          store.updatePhotovoltaic(
+                            "energyStorePower",
+                            Number(e)
+                          );
+                        }}
+                        value={photovoltaicStore.energyStorePower}
+                        data={[
+                          { value: "3.1", label: "3.1 - 1 faza" },
+                          { value: "6.2", label: "6.2 - 1/3 fazy" },
+                          { value: "11.6", label: "11.6 - 3 fazy" },
+                          { value: "17.4", label: "17.4 - 3 fazy" },
+                          { value: "23.2", label: "23.2 - 3 fazy" },
+                          { value: "29", label: "29 - 3 fazy" },
+                          { value: "34.8", label: "34.8 - 3 fazy" },
+                          { value: "40.6", label: "40.6 - 3 fazy" },
+                          { value: "46.4", label: "46.4 - 3 fazy" },
+                        ]}
+                      />
+                    ) : (
+                      <SelectComponent
+                        title="MOC MAGAZYNU ENERGII"
+                        onChange={(e) => {
+                          store.updatePhotovoltaic(
+                            "energyStorePower",
+                            Number(e)
+                          );
+                        }}
+                        value={photovoltaicStore.energyStorePower}
+                        data={[
+                          { value: "7.2", label: "7.2 - 3 fazy" },
+                          { value: "10.8", label: "10.8 - 3 fazy" },
+                          { value: "14.4", label: "14.4 - 3 fazy" },
+                        ]}
+                      />
+                    )}
+                  </>
                 )}
                 <SelectComponent
                   title="ULGA PODATKOWA"

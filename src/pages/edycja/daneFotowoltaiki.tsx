@@ -29,7 +29,6 @@ const EditionForm = ({ data }: EditionForm) => {
   });
   const dynamicKey = Object.keys(data!)[0];
   const dynamicPropValues = data![dynamicKey!];
-
   const { register, handleSubmit } = useForm<PhotovoltaicDataToCalculation>();
   dynamicPropValues && {
     defaultValues: {
@@ -92,15 +91,21 @@ const EditionForm = ({ data }: EditionForm) => {
         zbiornik_200L_z_wezem:
           dynamicPropValues.zbiorniki.zbiornik_200L_z_wezem,
       },
-      magazyn_energii: {
-        prog1: dynamicPropValues.magazyn_energii.prog1,
-        prog2: dynamicPropValues.magazyn_energii.prog2,
-        prog3: dynamicPropValues.magazyn_energii.prog3,
-        prog4: dynamicPropValues.magazyn_energii.prog4,
-        prog5: dynamicPropValues.magazyn_energii.prog5,
-        prog6: dynamicPropValues.magazyn_energii.prog6,
-        prog7: dynamicPropValues.magazyn_energii.prog7,
-        prog8: dynamicPropValues.magazyn_energii.prog8,
+      magazyn_energii_solax: {
+        prog0: dynamicPropValues.magazyn_energii_solax.prog0,
+        prog1: dynamicPropValues.magazyn_energii_solax.prog1,
+        prog2: dynamicPropValues.magazyn_energii_solax.prog2,
+        prog3: dynamicPropValues.magazyn_energii_solax.prog3,
+        prog4: dynamicPropValues.magazyn_energii_solax.prog4,
+        prog5: dynamicPropValues.magazyn_energii_solax.prog5,
+        prog6: dynamicPropValues.magazyn_energii_solax.prog6,
+        prog7: dynamicPropValues.magazyn_energii_solax.prog7,
+        prog8: dynamicPropValues.magazyn_energii_solax.prog8,
+      },
+      magazyn_energii_hipontech: {
+        prog0: dynamicPropValues.magazyn_energii_hipontech.prog0,
+        prog1: dynamicPropValues.magazyn_energii_hipontech.prog1,
+        prog2: dynamicPropValues.magazyn_energii_hipontech.prog2,
       },
       magazynCiepla: dynamicPropValues.magazynCiepla,
       oprocentowanie_kredytu: dynamicPropValues.oprocentowanie_kredytu,
@@ -320,15 +325,18 @@ const EditionForm = ({ data }: EditionForm) => {
             />
           </div>
         </div>
-        <h2 className="mt-10 w-full text-center text-2xl">MAGAZYN ENERGII</h2>
+        <h2 className="mt-10 w-full text-center text-2xl">
+          MAGAZYN ENERGII SOLAX
+        </h2>
         {dynamicPropValues &&
-          Object.entries(dynamicPropValues.magazyn_energii).map(
+          Object.entries(dynamicPropValues.magazyn_energii_solax).map(
             (key, index) => {
               const nameMappings: { [key: string]: string } = {
-                prog1: "6.3 kWh",
-                prog2: "11,6 kWh",
-                prog3: "17,4 kWh",
-                prog4: "23,2 kWh",
+                prog0: "3.1 kWh",
+                prog1: "6.2 kWh",
+                prog2: "11.6 kWh",
+                prog3: "17.4 kWh",
+                prog4: "23.2 kWh",
                 prog5: "29 kWh",
                 prog6: "34.8 kWh",
                 prog7: "40.6 kWh",
@@ -338,7 +346,33 @@ const EditionForm = ({ data }: EditionForm) => {
                 <ChangeDataInputComponent
                   key={index}
                   {...register(
-                    `magazyn_energii.${key[0]}` as keyof typeof dynamicPropValues,
+                    `magazyn_energii_solax.${key[0]}` as keyof typeof dynamicPropValues,
+                    {
+                      valueAsNumber: true,
+                    }
+                  )}
+                  title={nameMappings[key[0]] || key[0]}
+                  defaultValue={key[1]}
+                />
+              );
+            }
+          )}
+        <h2 className="mt-10 w-full text-center text-2xl">
+          MAGAZYN ENERGII HIPONTECH
+        </h2>
+        {dynamicPropValues &&
+          Object.entries(dynamicPropValues.magazyn_energii_hipontech).map(
+            (key, index) => {
+              const nameMappings: { [key: string]: string } = {
+                prog0: "7.2 kWh",
+                prog1: "10.8 kWh",
+                prog2: "14.4kWh",
+              };
+              return (
+                <ChangeDataInputComponent
+                  key={index}
+                  {...register(
+                    `magazyn_energii_hipontech.${key[0]}` as keyof typeof dynamicPropValues,
                     {
                       valueAsNumber: true,
                     }

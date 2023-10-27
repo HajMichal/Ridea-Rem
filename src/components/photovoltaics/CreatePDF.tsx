@@ -382,7 +382,11 @@ const MyDocument = ({
         </View>
         <View style={styles.eachRow}>
           <Text>WIELKOŚĆ ZBIORNIKA CWU</Text>
-          <Text style={styles.boldFont}>{photovoltaicStore.tankSize}</Text>
+          <Text style={styles.boldFont}>
+            {photovoltaicStore.heatStoreDotation
+              ? photovoltaicStore.tankSize
+              : "BRAK"}
+          </Text>
         </View>
       </View>
       <View style={styles.imageSection}>

@@ -25,6 +25,7 @@ export interface PhotovoltaicsSlice {
     panelPower: number;
     installmentNumber: number;
     tankSize: string;
+    energyStoreProducent: "SOLAX" | "HIPONTECH";
   };
   updatePhotovoltaic: (key: string, value: boolean | number | string) => void;
 }
@@ -54,6 +55,7 @@ export const photovoltaicsSlice: StateCreator<PhotovoltaicsSlice> = (set) => ({
     installmentNumber: 120,
     energyStorePower: 0,
     tankSize: "Brak",
+    energyStoreProducent: "SOLAX",
   },
   updatePhotovoltaic: (key, value) =>
     set((state) => {

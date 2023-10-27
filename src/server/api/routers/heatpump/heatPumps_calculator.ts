@@ -166,19 +166,6 @@ export const heatPump_calculator = createTRPCRouter({
       })
     )
     .mutation(calc.closeOpenedSystem),
-  heatPumpCostAndKwFee: publicProcedure
-    .input(
-      z.object({
-        kWFeeAmount: z.number(),
-        imposedFee: z.number(),
-        consultantMarkup: z.number(),
-        heatPumpCost: z.object({
-          cena: z.number(),
-          mnozik_prowizji: z.number(),
-        }),
-      })
-    )
-    .mutation(calc.heatPumpCostAndKwFee),
   addonsSumCost: publicProcedure
     .input(
       z.object({
@@ -254,4 +241,51 @@ export const heatPump_calculator = createTRPCRouter({
       })
     )
     .mutation(calc.heatingWithHeatPump),
+  heatPumpCost: publicProcedure
+    .input(
+      z.object({
+        heatPumpCost: z.number(),
+      })
+    )
+    .mutation(calc.heatPumpCost),
+  markupCosts: publicProcedure
+    .input(
+      z.object({
+        officeFee: z.number(),
+        system_power: z.number(),
+        consultantFee: z.number(),
+        constantFee: z.number(),
+        creatorId: z.string().optional(),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      const officeFeeValue =
+        Math.round(input.officeFee * input.system_power) + input.constantFee;
+      const consultantFeeValue = Math.round(
+        input.consultantFee * input.system_power
+      );
+
+      const creator = await ctx.prisma.user.findFirst({
+        where: { id: input.creatorId },
+      });
+      const officeFeeForBoss = creator
+        ? Math.round(creator.feePerkw * input.system_power) + creator.imposedFee
+        : 0;
+
+      const markupSumValue = Number(
+        (
+          input.officeFee * input.system_power +
+          input.consultantFee * input.system_power +
+          input.constantFee +
+          officeFeeForBoss
+        ).toFixed(2)
+      );
+
+      return {
+        officeFeeValue: officeFeeValue,
+        officeFeeForBoss: officeFeeForBoss,
+        consultantFeeValue: consultantFeeValue,
+        markupSumValue: markupSumValue,
+      };
+    }),
 });

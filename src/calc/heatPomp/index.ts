@@ -374,23 +374,10 @@ export function closeOpenedSystem({ input }: { input: CloseOpenedSystemType }) {
 }
 
 interface HeatPumpCostType {
-  kWFeeAmount: number;
-  imposedFee: number;
-  consultantMarkup: number;
-  heatPumpCost: { cena: number; mnozik_prowizji: number };
+  heatPumpCost: number;
 }
-export function heatPumpCostAndKwFee({ input }: { input: HeatPumpCostType }) {
-  return {
-    heatPumpCost: input.heatPumpCost.cena,
-    kwFeeCost: input.heatPumpCost.mnozik_prowizji * input.kWFeeAmount,
-    consultantMarkupCost:
-      input.heatPumpCost.mnozik_prowizji * input.consultantMarkup,
-    netPriceForHeatPump:
-      input.heatPumpCost.cena +
-      input.heatPumpCost.mnozik_prowizji * input.kWFeeAmount +
-      input.heatPumpCost.mnozik_prowizji * input.consultantMarkup +
-      input.imposedFee,
-  };
+export function heatPumpCost({ input }: { input: HeatPumpCostType }) {
+  return input.heatPumpCost;
 }
 
 interface AddonsSumCost {

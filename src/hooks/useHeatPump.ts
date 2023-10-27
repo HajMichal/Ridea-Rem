@@ -85,12 +85,11 @@ export const useHeatPump = () => {
         store.updateHeatPumpCalcs("closeOpenedSystemCost", data);
       },
     });
-  const { mutate: setHeatPumpCostAndKwFee } =
-    api.heatPump.heatPumpCostAndKwFee.useMutation({
-      onSuccess: (data) => {
-        store.updateHeatPumpCalcs("heatPumpAndFeesCost", data);
-      },
-    });
+  const { mutate: setHeatPumpCost } = api.heatPump.heatPumpCost.useMutation({
+    onSuccess: (data) => {
+      store.updateHeatPumpCalcs("heatPumpCost", data);
+    },
+  });
   const { mutate: setAddonsSumCost } = api.heatPump.addonsSumCost.useMutation({
     onSuccess: (data) => {
       store.updateHeatPumpCalcs("addonSumCost", data);
@@ -132,11 +131,17 @@ export const useHeatPump = () => {
         store.updateHeatPumpCalcs("heatingWithHeatPump", data);
       },
     });
+  const { mutate: setMarkupCosts } = api.heatPump.markupCosts.useMutation({
+    onSuccess: (data) => {
+      store.updateHeatPumpCalcs("markupCosts", data);
+    },
+  });
 
   return {
     heatPumpStore: store.heatPumpStore,
     heatPumpCalcStore: store.heatPumpCalculationStore,
     mutations: {
+      setMarkupCosts,
       setHeatingWithHeatPump,
       setBufforCost,
       setMontageInCascadeCost,
@@ -151,7 +156,7 @@ export const useHeatPump = () => {
       setEnergeticConnectionCost,
       setBuforWithSupportCost,
       setCloseOpenedSystemCost,
-      setHeatPumpCostAndKwFee,
+      setHeatPumpCost,
       setAddonsSumCost,
       setCleaningPlacementCost,
       setHeatPumpPricingBeforeDotations,
