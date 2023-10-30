@@ -9,6 +9,7 @@ import { useRouter } from "next/router";
 import { useHeatPump } from "~/hooks/useHeatPump";
 import { Menu, rem } from "@mantine/core";
 import { BiLogOut } from "react-icons/bi";
+import { useForCompany } from "~/hooks/useForCompany";
 
 interface LinkComponentType {
   href: string;
@@ -32,6 +33,7 @@ export const Navbar = () => {
   const store = useStore();
   const { photovoltaicStore } = usePhotovoltaic();
   const { heatPumpStore } = useHeatPump();
+  const { forCompanyStore } = useForCompany();
   return (
     <div className="h-fit w-full">
       <div className="flex h-[105px] w-full items-center justify-between gap-5 bg-white px-2 font-orkneyLight text-sm font-semibold">
@@ -96,6 +98,33 @@ export const Navbar = () => {
                   store.updateHeatPump("consultantMarkup", Number(e));
                 }}
                 value={heatPumpStore.consultantMarkup}
+                data={[
+                  { value: "0", label: "0" },
+                  { value: "100", label: "100" },
+                  { value: "200", label: "200" },
+                  { value: "300", label: "300" },
+                  { value: "400", label: "400" },
+                  { value: "500", label: "500" },
+                  { value: "550", label: "550" },
+                  { value: "600", label: "600" },
+                  { value: "650", label: "650" },
+                  { value: "700", label: "700" },
+                  { value: "750", label: "750" },
+                  { value: "800", label: "800" },
+                  { value: "850", label: "850" },
+                  { value: "900", label: "900" },
+                  { value: "950", label: "950" },
+                  { value: "1000", label: "1000" },
+                ]}
+              />
+            )}
+            {router.pathname === "/kalkulator/fotowoltaika_firmy" && (
+              <SelectComponent
+                title="POZIOM"
+                onChange={(e) => {
+                  store.updateForCompany("consultantMarkup", Number(e));
+                }}
+                value={forCompanyStore.consultantMarkup}
                 data={[
                   { value: "0", label: "0" },
                   { value: "100", label: "100" },

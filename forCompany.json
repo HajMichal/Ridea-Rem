@@ -38,16 +38,7 @@
           "bloczki": 850,
           "tigo": 230,
           "ekierki": 330,
-          "grunt": 850,
-          "inwerterHybrydowy": {
-            "moc1": 5450,
-            "moc2": 6450,
-            "moc3": 7450,
-            "moc4": 8450,
-            "moc5": 9450,
-            "moc6": 10450
-          },
-          "solarEdge": 335
+          "grunt": 850
         },
         "zbiorniki": {
           "zbiornik_100L": 4900,
@@ -56,19 +47,8 @@
           "zbiornik_200L": 5600,
           "zbiornik_200L_z_wezem": 6200
         },
-        "magazyn_energii": {
-          "prog1": 18463,
-          "prog2": 20000,
-          "prog3": 20000,
-          "prog4": 20000,
-          "prog5": 30000,
-          "prog6": 30000,
-          "prog7": 40000,
-          "prog8": 40000
-        },
         "cena_skupu_pradu": 0.72,
         "prowizjaBiura": 550,
-        "ems": 1500,
         "oprocentowanie_kredytu": 8.3
       }
     }

@@ -2,24 +2,16 @@ import { type StateCreator } from "zustand";
 
 export interface ForCompanySlice {
   forCompanyStore: {
-    southRoof: boolean;
-    voucher: boolean;
     isGroundMontage: boolean;
     isRoofWeightSystem: boolean;
-    isSolarEdgeChoosed: boolean;
-    heatStoreDotation: boolean;
-    emsDotation: boolean;
-    energyStoreDotation: boolean;
     isEccentricsChoosed: boolean;
-    isInwerterChoosed: boolean;
 
-    usageLimit: number;
-    modulesCount: number;
+    wantedInstalationPower: number;
+    eccentricsCount: number;
+    groundPanelCount: number;
+    roofWeightSystemCount: number;
     consultantMarkup: number;
     autoconsumptionInPercent: number;
-    energyPriceInLimit: number;
-    energyPriceOutOfLimit: number;
-    recentYearTrendUsage: number;
     energyStorePower: number;
     tigoCount: number;
     panelPower: number;
@@ -31,25 +23,19 @@ export interface ForCompanySlice {
 
 export const forCompanySlice: StateCreator<ForCompanySlice> = (set) => ({
   forCompanyStore: {
-    southRoof: false,
-    voucher: false,
     isGroundMontage: false,
     isRoofWeightSystem: false,
-    isSolarEdgeChoosed: false,
-    heatStoreDotation: false,
-    emsDotation: false,
-    energyStoreDotation: false,
     isEccentricsChoosed: false,
-    isInwerterChoosed: false,
 
-    usageLimit: 0,
-    modulesCount: 0,
+    wantedInstalationPower: 0,
+
     consultantMarkup: 0,
     autoconsumptionInPercent: 0.1,
-    energyPriceInLimit: 0,
-    energyPriceOutOfLimit: 0,
     recentYearTrendUsage: 0,
     energyStorePower: 0,
+    eccentricsCount: 0,
+    groundPanelCount: 0,
+    roofWeightSystemCount: 0,
     tigoCount: 0,
     panelPower: 400,
     installmentNumber: 120,

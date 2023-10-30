@@ -2,16 +2,26 @@ import { ScrollArea } from "@mantine/core";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import React, { useEffect } from "react";
-import { SelectComponent } from "~/components";
+import { InputComponent, SelectComponent } from "~/components";
 import { Navbar } from "~/components/Navbar";
 import { SideBar } from "~/components/SideBar";
 import { Preview } from "~/components/forCompany";
+import { useForCompany } from "~/hooks/useForCompany";
+import { ForCompanyDataToCalcualtionType } from "~/server/api/routers/forCompany/interfaces";
 import useStore from "~/store";
+import { api } from "~/utils/api";
 
 const Fotowoltaika_firmy = () => {
   const store = useStore();
   const router = useRouter();
   const { data: sessionData } = useSession();
+
+  const { data } =
+    api.forCompanyDataFlowRouter.downloadFile.useQuery<ForCompanyDataToCalcualtionType>(
+      sessionData?.user.id
+    );
+
+  const { mutations, forCompanyStore, forCompanyCalcStore } = useForCompany();
 
   useEffect(() => {
     if (sessionData === null) {
@@ -19,6 +29,56 @@ const Fotowoltaika_firmy = () => {
       void router.push("/auth/signin");
     } else if (sessionData?.user.role !== 1) void router.push("/home");
   }, [sessionData, router]);
+
+  useEffect(() => {
+    mutations.setCalculateModuleCount({
+      wantedInstaltionPower: forCompanyStore.wantedInstalationPower,
+    });
+  }, [forCompanyStore.wantedInstalationPower]);
+
+  useEffect(() => {
+    mutations.setSystemPower({
+      calculateModuleCount: forCompanyCalcStore.calculateModuleCount,
+    });
+  }, [forCompanyCalcStore.calculateModuleCount]);
+
+  useEffect(() => {
+    if (forCompanyStore.panelPower === 400) {
+      mutations.setEstimatedKWHProd({
+        systemPower: forCompanyCalcStore.systemPower.systemPower400,
+      });
+    } else if (forCompanyStore.panelPower === 455) {
+      mutations.setEstimatedKWHProd({
+        systemPower: forCompanyCalcStore.systemPower.systemPower455,
+      });
+    } else if (forCompanyStore.panelPower === 500) {
+      mutations.setEstimatedKWHProd({
+        systemPower: forCompanyCalcStore.systemPower.systemPower500,
+      });
+    }
+  }, [forCompanyStore.panelPower, forCompanyCalcStore.systemPower]);
+
+  useEffect(() => {
+    mutations.setAutoconsumption({
+      autoconsumptionStep: forCompanyStore.autoconsumptionInPercent,
+      estimatedKWHProd: forCompanyCalcStore.estimatedKWHProd,
+    });
+  }, [
+    forCompanyCalcStore.estimatedKWHProd,
+    forCompanyStore.autoconsumptionInPercent,
+  ]);
+  useEffect(() => {
+    mutations.setPriceFor1KW({
+     dane: data?.dane[]
+    });
+  }, [
+
+  ]);
+
+  const yesNoData = [
+    { value: "true", label: "Tak" },
+    { value: "false", label: "Nie" },
+  ];
 
   return (
     <main className="flex h-full max-h-screen overflow-hidden bg-backgroundGray font-orkney laptop:justify-center">
@@ -36,18 +96,138 @@ const Fotowoltaika_firmy = () => {
             <ScrollArea h={"78%"}>
               <div className=" mr-4">
                 <h2 className="font-orkneyBold">INSTALACJA FOTOWOLTAICZNA</h2>
-                {/* <SelectComponent
+                <InputComponent
+                  title="PRZYJĘTA MOC INSTALACJI"
+                  onChange={(e) =>
+                    store.updateForCompany(
+                      "wantedInstalationPower",
+                      e.target.valueAsNumber
+                    )
+                  }
+                  step={1}
+                  value={forCompanyStore.wantedInstalationPower}
+                />
+                <SelectComponent
+                  title="MONTAŻ NA GRUNCIE"
+                  onChange={(e) =>
+                    store.updateForCompany("isGroundMontage", e == "true")
+                  }
+                  value={forCompanyStore.isGroundMontage}
+                  data={yesNoData}
+                />
+                {forCompanyStore.isGroundMontage && (
+                  <InputComponent
+                    title="LICZBA PANELI NA GRUNCIE"
+                    onChange={(e) =>
+                      store.updateForCompany(
+                        "groundPanelCount",
+                        e.target.valueAsNumber
+                      )
+                    }
+                    step={1}
+                    value={forCompanyStore.groundPanelCount}
+                  />
+                )}
+                <SelectComponent
+                  title="MONTAŻ NA DACHU PŁASKIM - EKIERKI"
+                  onChange={(e) =>
+                    store.updateForCompany("isEccentricsChoosed", e == "true")
+                  }
+                  value={forCompanyStore.isEccentricsChoosed}
+                  data={yesNoData}
+                />
+                {forCompanyStore.isEccentricsChoosed && (
+                  <InputComponent
+                    title="LICZBA EKIEREK"
+                    onChange={(e) =>
+                      store.updateForCompany(
+                        "eccentricsCount",
+                        e.target.valueAsNumber
+                      )
+                    }
+                    step={1}
+                    value={forCompanyStore.eccentricsCount}
+                  />
+                )}
+                <SelectComponent
+                  title="SYSTEM DACHOWY - OBIĄŻENIOWY LUB BALASTOWY"
+                  onChange={(e) =>
+                    store.updateForCompany("isRoofWeightSystem", e == "true")
+                  }
+                  value={forCompanyStore.isRoofWeightSystem}
+                  data={yesNoData}
+                />
+                {forCompanyStore.isRoofWeightSystem && (
+                  <InputComponent
+                    title="LICZBA SYSTEMÓW OBCIĄŻENIOWYCH LUB BALASTOWYCH"
+                    onChange={(e) =>
+                      store.updateForCompany(
+                        "roofWeightSystemCount",
+                        e.target.valueAsNumber
+                      )
+                    }
+                    step={1}
+                    value={forCompanyStore.roofWeightSystemCount}
+                  />
+                )}
+                <InputComponent
+                  title="OPTYMALIZATORY TIGO DO ZACIEMNIONYCH MODUŁÓW"
+                  onChange={(e) => {
+                    store.updateForCompany("tigoCount", e.target.valueAsNumber);
+                    mutations.handleTigoinput(e);
+                  }}
+                  step={1}
+                  value={
+                    forCompanyStore.tigoCount == 0
+                      ? ""
+                      : forCompanyStore.tigoCount
+                  }
+                />
+
+                <SelectComponent
+                  title="STOPIEŃ AUTOKONSUMPCJI ENERGII Z PV"
+                  onChange={(e) => {
+                    store.updateForCompany(
+                      "autoconsumptionInPercent",
+                      Number(e)
+                    );
+                  }}
+                  value={forCompanyStore.autoconsumptionInPercent}
+                  data={[
+                    { value: "0.1", label: "10%" },
+                    { value: "0.2", label: "20%" },
+                    { value: "0.3", label: "30%" },
+                    { value: "0.4", label: "40%" },
+                    { value: "0.5", label: "50%" },
+                    { value: "0.6", label: "60%" },
+                    { value: "0.7", label: "70%" },
+                    { value: "0.8", label: "80%" },
+                  ]}
+                />
+
+                <SelectComponent
                   title="MOC POJEDYŃCZEGO PANELA W KW"
                   onChange={(e) => {
-                    store.updatePhotovoltaic("panelPower", Number(e));
+                    store.updateForCompany("panelPower", Number(e));
                   }}
-                  value={photovoltaicStore.panelPower}
+                  value={forCompanyStore.panelPower}
                   data={[
                     { value: "400", label: "400" },
                     { value: "455", label: "455" },
                     { value: "500", label: "500" },
                   ]}
-                /> */}
+                />
+                <InputComponent
+                  title="LICZBA RAT"
+                  onChange={(e) => {
+                    store.updateForCompany(
+                      "installmentNumber",
+                      e.target.valueAsNumber
+                    );
+                  }}
+                  step={10}
+                  value={forCompanyStore.installmentNumber}
+                />
               </div>
             </ScrollArea>
           </div>
