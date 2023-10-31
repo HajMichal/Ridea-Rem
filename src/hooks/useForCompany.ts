@@ -1,8 +1,11 @@
+import { type ForCompanyDataToCalcualtionType } from "~/server/api/routers/forCompany/interfaces";
 import useStore from "~/store";
 import { api } from "~/utils/api";
 
 export const useForCompany = () => {
   const store = useStore();
+  const { data } =
+    api.forCompanyDataFlowRouter.downloadFile.useQuery<ForCompanyDataToCalcualtionType>();
 
   const { mutate: setCalculateModuleCount } =
     api.forCompany.calculateModuleCount.useMutation({
@@ -10,11 +13,13 @@ export const useForCompany = () => {
         store.updateForCompanyCalculation("calculateModuleCount", data);
       },
     });
-  const { mutate: setSystemPower } = api.forCompany.systemPower.useMutation({
-    onSuccess: (data) => {
-      store.updateForCompanyCalculation("systemPower", data);
-    },
-  });
+  const { mutate: setAllSystemPowers } = api.forCompany.systemPower.useMutation(
+    {
+      onSuccess: (data) => {
+        store.updateForCompanyCalculation("allSystemPowers", data);
+      },
+    }
+  );
   const { mutate: setEstimatedKWHProd } =
     api.forCompany.estimatedKWHProd.useMutation({
       onSuccess: (data) => {
@@ -33,24 +38,49 @@ export const useForCompany = () => {
     },
   });
 
-  const handleTigoinput = (e: { target: { valueAsNumber: number } }) => {
-    // if (data)
-    //   set_tigo_price({
-    //     tigo_price: data.koszty_dodatkowe.tigo,
-    //     tigo_count: e.target.valueAsNumber,
-    //   });
-  };
+  const { mutate: setTigoPrice } = api.forCompany.addonPricing.useMutation({
+    onSuccess: (data) => {
+      store.updateForCompanyCalculation("addonTigoPrice", data);
+    },
+  });
+  const { mutate: setBloczkiPrice } = api.forCompany.addonPricing.useMutation({
+    onSuccess: (data) => {
+      store.updateForCompanyCalculation("addonBloczkiPrice", data);
+    },
+  });
+  const { mutate: setEkierkiPrice } = api.forCompany.addonPricing.useMutation({
+    onSuccess: (data) => {
+      store.updateForCompanyCalculation("addonEkierkiPrice", data);
+    },
+  });
+  const { mutate: setGruntPrice } = api.forCompany.addonPricing.useMutation({
+    onSuccess: (data) => {
+      store.updateForCompanyCalculation("addonGruntPrice", data);
+    },
+  });
 
+  const getDataDependsOnPanelPower = () => {
+    if (store.photovoltaicStore.panelPower === 400) return data?.dane.czterysta;
+    else if (store.photovoltaicStore.panelPower === 455)
+      return data?.dane.czterysta_piecdziesiat;
+    else if (store.photovoltaicStore.panelPower === 500)
+      return data?.dane.piecset;
+  };
   return {
     forCompanyStore: store.forCompanyStore,
     forCompanyCalcStore: store.forCompanyCalculationStore,
     mutations: {
+      setGruntPrice,
+      setEkierkiPrice,
+      setBloczkiPrice,
+      setTigoPrice,
       setPriceFor1KW,
       setAutoconsumption,
       setEstimatedKWHProd,
-      handleTigoinput,
+
       setCalculateModuleCount,
-      setSystemPower,
+      setAllSystemPowers,
+      getDataDependsOnPanelPower,
     },
   };
 };

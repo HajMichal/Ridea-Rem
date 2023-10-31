@@ -105,4 +105,15 @@ export function priceFor1KW({ input }: { input: PriceFor1KWType }) {
   }
 }
 
+interface AddonPricingType {
+  isChoosed: boolean;
+  price: number;
+  modules_count: number;
+}
+export function addonPricing({ input }: { input: AddonPricingType }) {
+  console.log(input);
+  if (!input.isChoosed) return 0;
+  return input.price * input.modules_count;
+}
+
 export * as default from "./index";

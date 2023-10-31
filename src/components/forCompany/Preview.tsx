@@ -34,7 +34,7 @@ export const Preview = () => {
           />
           <TextComponent
             title="MOC INSTALACJI"
-            calculations={forCompanyCalcStore.systemPower.systemPower400}
+            calculations={forCompanyCalcStore.allSystemPowers.systemPower400}
             unit="kW"
           />
           {!!forCompanyCalcStore.calculateModuleCount.modulesCount455 && (
@@ -49,7 +49,7 @@ export const Preview = () => {
           />
           <TextComponent
             title="MOC INSTALACJI"
-            calculations={forCompanyCalcStore.systemPower.systemPower455}
+            calculations={forCompanyCalcStore.allSystemPowers.systemPower455}
             unit="kW"
           />
           {!!forCompanyCalcStore.calculateModuleCount.modulesCount500 && (
@@ -64,7 +64,7 @@ export const Preview = () => {
           />
           <TextComponent
             title="MOC INSTALACJI"
-            calculations={forCompanyCalcStore.systemPower.systemPower500}
+            calculations={forCompanyCalcStore.allSystemPowers.systemPower500}
             unit="kW"
           />
         </div>

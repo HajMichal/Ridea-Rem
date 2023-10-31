@@ -6,14 +6,20 @@ export interface ForCompanyCalculation {
     modulesCount455: number;
     modulesCount500: number;
   };
-  systemPower: {
+  allSystemPowers: {
     systemPower400: number;
     systemPower455: number;
     systemPower500: number;
   };
+  sysPower: number;
+  modulesCount: number;
   estimatedKWHProd: number;
   autoconsumption: number;
   priceFor1KW: number;
+  addonEkierkiPrice: number;
+  addonTigoPrice: number;
+  addonGruntPrice: number;
+  addonBloczkiPrice: number;
 }
 
 export interface ForCompanyCalculationSlice {
@@ -33,14 +39,20 @@ export const forCompanyCalculationSlice: StateCreator<
       modulesCount455: 0,
       modulesCount500: 0,
     },
-    systemPower: {
+    allSystemPowers: {
       systemPower400: 0,
       systemPower455: 0,
       systemPower500: 0,
     },
+    sysPower: 0,
+    modulesCount: 0,
     estimatedKWHProd: 0,
     autoconsumption: 0,
     priceFor1KW: 0,
+    addonEkierkiPrice: 0,
+    addonTigoPrice: 0,
+    addonGruntPrice: 0,
+    addonBloczkiPrice: 0,
   },
   updateForCompanyCalculation: (key, value) =>
     set((state) => {

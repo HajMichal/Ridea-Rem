@@ -37,26 +37,16 @@ const Fotowoltaika_firmy = () => {
   }, [forCompanyStore.wantedInstalationPower]);
 
   useEffect(() => {
-    mutations.setSystemPower({
+    mutations.setAllSystemPowers({
       calculateModuleCount: forCompanyCalcStore.calculateModuleCount,
     });
   }, [forCompanyCalcStore.calculateModuleCount]);
 
   useEffect(() => {
-    if (forCompanyStore.panelPower === 400) {
-      mutations.setEstimatedKWHProd({
-        systemPower: forCompanyCalcStore.systemPower.systemPower400,
-      });
-    } else if (forCompanyStore.panelPower === 455) {
-      mutations.setEstimatedKWHProd({
-        systemPower: forCompanyCalcStore.systemPower.systemPower455,
-      });
-    } else if (forCompanyStore.panelPower === 500) {
-      mutations.setEstimatedKWHProd({
-        systemPower: forCompanyCalcStore.systemPower.systemPower500,
-      });
-    }
-  }, [forCompanyStore.panelPower, forCompanyCalcStore.systemPower]);
+    mutations.setEstimatedKWHProd({
+      systemPower: forCompanyCalcStore.sysPower ?? 0,
+    });
+  }, [forCompanyCalcStore.sysPower]);
 
   useEffect(() => {
     mutations.setAutoconsumption({
@@ -67,12 +57,114 @@ const Fotowoltaika_firmy = () => {
     forCompanyCalcStore.estimatedKWHProd,
     forCompanyStore.autoconsumptionInPercent,
   ]);
-  useEffect(() => {
-    mutations.setPriceFor1KW({
-     dane: data?.dane[]
-    });
-  }, [
 
+  useEffect(() => {
+    if (forCompanyStore.panelPower === 400) {
+      store.updateForCompanyCalculation(
+        "systemPower",
+        forCompanyCalcStore.allSystemPowers.systemPower400
+      );
+    } else if (forCompanyStore.panelPower === 455) {
+      store.updateForCompanyCalculation(
+        "systemPower",
+        forCompanyCalcStore.allSystemPowers.systemPower455
+      );
+    } else if (forCompanyStore.panelPower === 500) {
+      store.updateForCompanyCalculation(
+        "systemPower",
+        forCompanyCalcStore.allSystemPowers.systemPower500
+      );
+    }
+  }, [forCompanyCalcStore.allSystemPowers, forCompanyStore.panelPower]);
+  useEffect(() => {
+    if (forCompanyStore.panelPower === 400) {
+      store.updateForCompanyCalculation(
+        "modulesCount",
+        forCompanyCalcStore.calculateModuleCount.modulesCount400
+      );
+    } else if (forCompanyStore.panelPower === 455) {
+      store.updateForCompanyCalculation(
+        "modulesCount",
+        forCompanyCalcStore.calculateModuleCount.modulesCount455
+      );
+    } else if (forCompanyStore.panelPower === 500) {
+      store.updateForCompanyCalculation(
+        "modulesCount",
+        forCompanyCalcStore.calculateModuleCount.modulesCount500
+      );
+    }
+  }, [forCompanyCalcStore.calculateModuleCount, forCompanyStore.panelPower]);
+
+  useEffect(() => {
+    if (data)
+      mutations.setPriceFor1KW({
+        dane: mutations.getDataDependsOnPanelPower()!,
+        system_power: forCompanyCalcStore.sysPower ?? 0,
+      });
+  }, [forCompanyStore.panelPower, forCompanyCalcStore.sysPower, data]);
+
+  useEffect(() => {
+    if (
+      data &&
+      forCompanyStore.groundPanelCount <= forCompanyCalcStore.modulesCount
+    )
+      mutations.setBloczkiPrice({
+        isChoosed: forCompanyStore.isRoofWeightSystem,
+        price: data?.koszty_dodatkowe.bloczki,
+        modules_count: forCompanyCalcStore.sysPower,
+      });
+  }, [
+    forCompanyCalcStore.modulesCount,
+    data,
+    forCompanyStore.isRoofWeightSystem,
+  ]);
+  useEffect(() => {
+    if (
+      data &&
+      forCompanyStore.groundPanelCount <= forCompanyCalcStore.modulesCount
+    )
+      mutations.setEkierkiPrice({
+        isChoosed: forCompanyStore.isEccentricsChoosed,
+        price: data?.koszty_dodatkowe.ekierki,
+        modules_count: forCompanyStore.eccentricsCount,
+      });
+  }, [
+    forCompanyCalcStore.modulesCount,
+    forCompanyStore.eccentricsCount,
+    data,
+    forCompanyStore.isEccentricsChoosed,
+  ]);
+  useEffect(() => {
+    if (
+      data &&
+      forCompanyStore.groundPanelCount <= forCompanyCalcStore.modulesCount
+    )
+      mutations.setTigoPrice({
+        isChoosed: forCompanyStore.isTigoChoosed,
+        price: data?.koszty_dodatkowe.tigo,
+        modules_count: forCompanyStore.tigoCount,
+      });
+  }, [
+    forCompanyCalcStore.modulesCount,
+    forCompanyStore.tigoCount,
+    data,
+    forCompanyStore.isTigoChoosed,
+  ]);
+  useEffect(() => {
+    if (
+      data &&
+      forCompanyStore.groundPanelCount <= forCompanyCalcStore.modulesCount
+    )
+      mutations.setGruntPrice({
+        isChoosed: forCompanyStore.isGroundMontage,
+        price: data?.koszty_dodatkowe.grunt,
+        modules_count: forCompanyStore.groundPanelCount,
+      });
+  }, [
+    forCompanyStore.groundPanelCount,
+    forCompanyCalcStore.modulesCount,
+    data,
+    forCompanyStore.isGroundMontage,
   ]);
 
   const yesNoData = [
@@ -170,20 +262,27 @@ const Fotowoltaika_firmy = () => {
                     value={forCompanyStore.roofWeightSystemCount}
                   />
                 )}
-                <InputComponent
+                <SelectComponent
                   title="OPTYMALIZATORY TIGO DO ZACIEMNIONYCH MODUŁÓW"
-                  onChange={(e) => {
-                    store.updateForCompany("tigoCount", e.target.valueAsNumber);
-                    mutations.handleTigoinput(e);
-                  }}
-                  step={1}
-                  value={
-                    forCompanyStore.tigoCount == 0
-                      ? ""
-                      : forCompanyStore.tigoCount
+                  onChange={(e) =>
+                    store.updateForCompany("isTigoChoosed", e == "true")
                   }
+                  value={forCompanyStore.isTigoChoosed}
+                  data={yesNoData}
                 />
-
+                {forCompanyStore.isTigoChoosed && (
+                  <InputComponent
+                    title="LICZBA OPTYMALIZATORÓW TIGO"
+                    onChange={(e) => {
+                      store.updateForCompany(
+                        "tigoCount",
+                        e.target.valueAsNumber
+                      );
+                    }}
+                    step={1}
+                    value={forCompanyStore.tigoCount}
+                  />
+                )}
                 <SelectComponent
                   title="STOPIEŃ AUTOKONSUMPCJI ENERGII Z PV"
                   onChange={(e) => {

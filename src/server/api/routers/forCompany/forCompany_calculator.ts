@@ -51,4 +51,13 @@ export const forCompanyCalculator = createTRPCRouter({
       })
     )
     .mutation(calc.priceFor1KW),
+  addonPricing: publicProcedure
+    .input(
+      z.object({
+        isChoosed: z.boolean(),
+        price: z.number(),
+        modules_count: z.number(),
+      })
+    )
+    .mutation(calc.addonPricing),
 });

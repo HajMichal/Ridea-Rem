@@ -5,6 +5,7 @@ export interface ForCompanySlice {
     isGroundMontage: boolean;
     isRoofWeightSystem: boolean;
     isEccentricsChoosed: boolean;
+    isTigoChoosed: boolean;
 
     wantedInstalationPower: number;
     eccentricsCount: number;
@@ -26,6 +27,7 @@ export const forCompanySlice: StateCreator<ForCompanySlice> = (set) => ({
     isGroundMontage: false,
     isRoofWeightSystem: false,
     isEccentricsChoosed: false,
+    isTigoChoosed: false,
 
     wantedInstalationPower: 0,
 

@@ -49,6 +49,7 @@ export interface ForCompanyDataToCalcualtionType {
   oprocentowanie_kredytu: number;
 }
 
+// eslint-disable-next-line @typescript-eslint/consistent-indexed-object-style
 export interface EachMenagerForCompany {
   [key: string]: ForCompanyDataToCalcualtionType;
 }
