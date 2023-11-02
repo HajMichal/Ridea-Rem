@@ -55,7 +55,7 @@ export function autoconsumption({ input }: { input: AutoconsumptionType }) {
   );
 }
 
-interface PriceFor1KWType {
+interface For1KwAndBaseInstallationPriceType {
   system_power: number;
   dane: {
     szesc: number;
@@ -66,7 +66,12 @@ interface PriceFor1KWType {
     piecdziesiat: number;
   };
 }
-export function priceFor1KW({ input }: { input: PriceFor1KWType }) {
+export function for1KwAndBaseInstallationPrice({
+  input,
+}: {
+  input: For1KwAndBaseInstallationPriceType;
+}) {
+  console.log(input);
   if (input.system_power <= 6) {
     return {
       pricePer1kW: input.dane.szesc,
@@ -111,9 +116,64 @@ interface AddonPricingType {
   modules_count: number;
 }
 export function addonPricing({ input }: { input: AddonPricingType }) {
-  console.log(input);
   if (!input.isChoosed) return 0;
   return input.price * input.modules_count;
+}
+
+interface AddonSumType {
+  ekierkiPrice: number;
+  bloczkiPrice: number;
+  tigoPrice: number;
+  groundMontagePrice: number;
+  markupSumValue: number;
+}
+export function addonSum({ input }: { input: AddonSumType }) {
+  return (
+    input.bloczkiPrice +
+    input.ekierkiPrice +
+    input.groundMontagePrice +
+    input.tigoPrice +
+    input.markupSumValue
+  );
+}
+interface TotalInstallationCostsType {
+  baseInstallationCost: number;
+  addonsSum: number;
+}
+export function totalInstallationCosts({
+  input,
+}: {
+  input: TotalInstallationCostsType;
+}) {
+  const total_cost = input.addonsSum + input.baseInstallationCost;
+
+  const feeValue = Number((total_cost * 0.23).toFixed(2));
+  return {
+    feeValue: feeValue,
+    netPrice: total_cost,
+    grossPrice: total_cost + feeValue,
+  };
+}
+interface LoanForPurcharseType {
+  finallInstallationCost: number;
+  creditPercentage: number;
+  instalmentNumber: number;
+  grossInstalltaionBeforeDotationsCost: number;
+}
+export function loanForPurcharse({ input }: { input: LoanForPurcharseType }) {
+  const monthlyInterestRate = input.creditPercentage / 12 / 100;
+
+  const monthlyPaymentBeforeDotations =
+    (input.grossInstalltaionBeforeDotationsCost * monthlyInterestRate) /
+    (1 - Math.pow(1 + monthlyInterestRate, -input.instalmentNumber));
+
+  const monthlyPayment =
+    (input.finallInstallationCost * monthlyInterestRate) /
+    (1 - Math.pow(1 + monthlyInterestRate, -input.instalmentNumber));
+  return {
+    finallInstalmentPice: Number(monthlyPayment.toFixed(2)),
+    instalmentBeforeDotations: Number(monthlyPaymentBeforeDotations.toFixed(2)),
+  };
 }
 
 export * as default from "./index";

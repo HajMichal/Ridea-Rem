@@ -15,11 +15,30 @@ export interface ForCompanyCalculation {
   modulesCount: number;
   estimatedKWHProd: number;
   autoconsumption: number;
-  priceFor1KW: number;
+  for1KwAndBaseInstallationPrice: {
+    pricePer1kW: number;
+    baseInstallationPrice: number;
+  };
   addonEkierkiPrice: number;
   addonTigoPrice: number;
   addonGruntPrice: number;
   addonBloczkiPrice: number;
+  addonSum: number;
+  officeMarkup: {
+    officeFeeValue: number;
+    officeFeeForBoss: number;
+    consultantFeeValue: number;
+    markupSumValue: number;
+  };
+  totalInstallationCosts: {
+    feeValue: number;
+    netPrice: number;
+    grossPrice: number;
+  };
+  loanForPurcharse: {
+    finallInstalmentPice: number;
+    instalmentBeforeDotations: number;
+  };
 }
 
 export interface ForCompanyCalculationSlice {
@@ -48,11 +67,30 @@ export const forCompanyCalculationSlice: StateCreator<
     modulesCount: 0,
     estimatedKWHProd: 0,
     autoconsumption: 0,
-    priceFor1KW: 0,
+    for1KwAndBaseInstallationPrice: {
+      pricePer1kW: 0,
+      baseInstallationPrice: 0,
+    },
     addonEkierkiPrice: 0,
     addonTigoPrice: 0,
     addonGruntPrice: 0,
     addonBloczkiPrice: 0,
+    addonSum: 0,
+    officeMarkup: {
+      officeFeeValue: 0,
+      officeFeeForBoss: 0,
+      consultantFeeValue: 0,
+      markupSumValue: 0,
+    },
+    totalInstallationCosts: {
+      feeValue: 0,
+      netPrice: 0,
+      grossPrice: 0,
+    },
+    loanForPurcharse: {
+      finallInstalmentPice: 0,
+      instalmentBeforeDotations: 0,
+    },
   },
   updateForCompanyCalculation: (key, value) =>
     set((state) => {

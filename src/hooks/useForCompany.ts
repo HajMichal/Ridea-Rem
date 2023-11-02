@@ -32,12 +32,15 @@ export const useForCompany = () => {
         store.updateForCompanyCalculation("autoconsumption", data);
       },
     });
-  const { mutate: setPriceFor1KW } = api.forCompany.priceFor1KW.useMutation({
-    onSuccess: (data) => {
-      store.updateForCompanyCalculation("priceFor1KW", data);
-    },
-  });
-
+  const { mutate: setFor1KwAndBaseInstallationPrice } =
+    api.forCompany.for1KwAndBaseInstallationPrice.useMutation({
+      onSuccess: (data) => {
+        store.updateForCompanyCalculation(
+          "for1KwAndBaseInstallationPrice",
+          data
+        );
+      },
+    });
   const { mutate: setTigoPrice } = api.forCompany.addonPricing.useMutation({
     onSuccess: (data) => {
       store.updateForCompanyCalculation("addonTigoPrice", data);
@@ -58,6 +61,28 @@ export const useForCompany = () => {
       store.updateForCompanyCalculation("addonGruntPrice", data);
     },
   });
+  const { mutate: setAddonSum } = api.forCompany.addonSum.useMutation({
+    onSuccess: (data) => {
+      store.updateForCompanyCalculation("addonSum", data);
+    },
+  });
+  const { mutate: setOfficeMarkup } = api.forCompany.officeMarkup.useMutation({
+    onSuccess: (data) => {
+      store.updateForCompanyCalculation("officeMarkup", data);
+    },
+  });
+  const { mutate: setTotalInstallationCosts } =
+    api.forCompany.totalInstallationCosts.useMutation({
+      onSuccess: (data) => {
+        store.updateForCompanyCalculation("totalInstallationCosts", data);
+      },
+    });
+  const { mutate: setLoanForPurcharse } =
+    api.forCompany.loanForPurcharse.useMutation({
+      onSuccess: (data) => {
+        store.updateForCompanyCalculation("loanForPurcharse", data);
+      },
+    });
 
   const getDataDependsOnPanelPower = () => {
     if (store.photovoltaicStore.panelPower === 400) return data?.dane.czterysta;
@@ -70,11 +95,15 @@ export const useForCompany = () => {
     forCompanyStore: store.forCompanyStore,
     forCompanyCalcStore: store.forCompanyCalculationStore,
     mutations: {
+      setLoanForPurcharse,
+      setTotalInstallationCosts,
+      setOfficeMarkup,
+      setAddonSum,
       setGruntPrice,
       setEkierkiPrice,
       setBloczkiPrice,
       setTigoPrice,
-      setPriceFor1KW,
+      setFor1KwAndBaseInstallationPrice,
       setAutoconsumption,
       setEstimatedKWHProd,
 

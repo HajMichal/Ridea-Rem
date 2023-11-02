@@ -36,7 +36,7 @@ export const forCompanyCalculator = createTRPCRouter({
       })
     )
     .mutation(calc.autoconsumption),
-  priceFor1KW: publicProcedure
+  for1KwAndBaseInstallationPrice: publicProcedure
     .input(
       z.object({
         system_power: z.number(),
@@ -50,7 +50,7 @@ export const forCompanyCalculator = createTRPCRouter({
         }),
       })
     )
-    .mutation(calc.priceFor1KW),
+    .mutation(calc.for1KwAndBaseInstallationPrice),
   addonPricing: publicProcedure
     .input(
       z.object({
@@ -60,4 +60,75 @@ export const forCompanyCalculator = createTRPCRouter({
       })
     )
     .mutation(calc.addonPricing),
+  addonSum: publicProcedure
+    .input(
+      z.object({
+        ekierkiPrice: z.number(),
+        bloczkiPrice: z.number(),
+        tigoPrice: z.number(),
+        groundMontagePrice: z.number(),
+        markupSumValue: z.number(),
+      })
+    )
+    .mutation(calc.addonSum),
+  officeMarkup: publicProcedure
+    .input(
+      z.object({
+        officeFee: z.number(),
+        system_power: z.number(),
+        consultantFee: z.number(),
+        constantFee: z.number(),
+        officeFeeFromJsonFile: z.number(),
+        creatorId: z.string().optional(),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      const officeFeeValue =
+        Math.round(input.officeFee * input.system_power) + input.constantFee;
+      const consultantFeeValue = Math.round(
+        input.consultantFee * input.system_power
+      );
+
+      const creator = await ctx.prisma.user.findFirst({
+        where: { id: input.creatorId },
+      });
+      const officeFeeForBoss = creator
+        ? Math.round(creator.feePerkw * input.system_power) + creator.imposedFee
+        : 0;
+
+      const markupSumValue = Number(
+        (
+          input.officeFee * input.system_power +
+          input.consultantFee * input.system_power +
+          input.constantFee +
+          input.officeFeeFromJsonFile +
+          officeFeeForBoss
+        ).toFixed(2)
+      );
+
+      return {
+        officeFeeValue: officeFeeValue,
+        officeFeeForBoss: officeFeeForBoss,
+        consultantFeeValue: consultantFeeValue,
+        markupSumValue: markupSumValue,
+      };
+    }),
+  totalInstallationCosts: publicProcedure
+    .input(
+      z.object({
+        baseInstallationCost: z.number(),
+        addonsSum: z.number(),
+      })
+    )
+    .mutation(calc.totalInstallationCosts),
+  loanForPurcharse: publicProcedure
+    .input(
+      z.object({
+        finallInstallationCost: z.number(),
+        creditPercentage: z.number(),
+        instalmentNumber: z.number(),
+        grossInstalltaionBeforeDotationsCost: z.number(),
+      })
+    )
+    .mutation(calc.loanForPurcharse),
 });

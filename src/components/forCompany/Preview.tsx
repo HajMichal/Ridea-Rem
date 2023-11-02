@@ -67,6 +67,39 @@ export const Preview = () => {
             calculations={forCompanyCalcStore.allSystemPowers.systemPower500}
             unit="kW"
           />
+
+          {!!forCompanyStore.wantedInstalationPower && (
+            <h2 className="mt-14 w-full text-center text-xl">
+              DANE WYBRANEJ INSTALACJI
+            </h2>
+          )}
+          <TextComponent
+            title="MONTAŻ NA GRUNCIE"
+            calculations={forCompanyStore.groundPanelCount}
+            unit={"szt"}
+          />
+          <TextComponent
+            title="MONTAŻ NA DACHU PŁASKIM - EKIERKI"
+            calculations={forCompanyStore.eccentricsCount}
+            unit={"szt"}
+          />
+          <TextComponent
+            title="SYSTEM DACHOWY - OBIĄŻENIOWY LUB BALASTOWY"
+            calculations={forCompanyStore.roofWeightSystemCount}
+            unit={"szt"}
+          />
+          <TextComponent
+            title="OPTYMALIZATORY TIGO DO ZACIEMNIONYCH MODUŁÓW"
+            calculations={forCompanyStore.tigoCount}
+            unit={"szt"}
+          />
+          {!!forCompanyCalcStore.totalInstallationCosts.grossPrice && (
+            <h2 className="mt-14 w-full text-center text-lg">FINANSE</h2>
+          )}
+          <TextComponent
+            title="KWOTA BRUTTO ZA INSTALACJĘ"
+            calculations={forCompanyCalcStore.totalInstallationCosts.grossPrice}
+          />
         </div>
       </div>
     </div>

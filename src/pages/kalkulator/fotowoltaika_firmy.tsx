@@ -61,17 +61,17 @@ const Fotowoltaika_firmy = () => {
   useEffect(() => {
     if (forCompanyStore.panelPower === 400) {
       store.updateForCompanyCalculation(
-        "systemPower",
+        "sysPower",
         forCompanyCalcStore.allSystemPowers.systemPower400
       );
     } else if (forCompanyStore.panelPower === 455) {
       store.updateForCompanyCalculation(
-        "systemPower",
+        "sysPower",
         forCompanyCalcStore.allSystemPowers.systemPower455
       );
     } else if (forCompanyStore.panelPower === 500) {
       store.updateForCompanyCalculation(
-        "systemPower",
+        "sysPower",
         forCompanyCalcStore.allSystemPowers.systemPower500
       );
     }
@@ -97,7 +97,7 @@ const Fotowoltaika_firmy = () => {
 
   useEffect(() => {
     if (data)
-      mutations.setPriceFor1KW({
+      mutations.setFor1KwAndBaseInstallationPrice({
         dane: mutations.getDataDependsOnPanelPower()!,
         system_power: forCompanyCalcStore.sysPower ?? 0,
       });
@@ -165,6 +165,64 @@ const Fotowoltaika_firmy = () => {
     forCompanyCalcStore.modulesCount,
     data,
     forCompanyStore.isGroundMontage,
+  ]);
+  useEffect(() => {
+    mutations.setAddonSum({
+      bloczkiPrice: forCompanyCalcStore.addonBloczkiPrice,
+      ekierkiPrice: forCompanyCalcStore.addonEkierkiPrice,
+      groundMontagePrice: forCompanyCalcStore.addonGruntPrice,
+      tigoPrice: forCompanyCalcStore.addonTigoPrice,
+      markupSumValue: forCompanyCalcStore.officeMarkup.markupSumValue,
+    });
+  }, [
+    forCompanyCalcStore.addonBloczkiPrice,
+    forCompanyCalcStore.addonEkierkiPrice,
+    forCompanyCalcStore.addonGruntPrice,
+    forCompanyCalcStore.addonTigoPrice,
+    forCompanyCalcStore.officeMarkup,
+  ]);
+  useEffect(() => {
+    if (data && forCompanyCalcStore.sysPower && sessionData)
+      mutations.setOfficeMarkup({
+        system_power: forCompanyCalcStore.sysPower,
+        officeFee: sessionData.user.feePerkw,
+        constantFee: sessionData.user.imposedFee,
+        consultantFee: forCompanyStore.consultantMarkup,
+        officeFeeFromJsonFile: data.prowizjaBiura,
+        creatorId:
+          sessionData.user.role === 3 ? sessionData.user.creatorId : "",
+      });
+  }, [
+    sessionData?.user,
+    data,
+    forCompanyStore.consultantMarkup,
+    forCompanyCalcStore.sysPower,
+  ]);
+  useEffect(() => {
+    mutations.setTotalInstallationCosts({
+      addonsSum: forCompanyCalcStore.addonSum,
+      baseInstallationCost:
+        forCompanyCalcStore.for1KwAndBaseInstallationPrice
+          .baseInstallationPrice,
+    });
+  }, [
+    forCompanyCalcStore.for1KwAndBaseInstallationPrice,
+    forCompanyCalcStore.addonSum,
+  ]);
+  useEffect(() => {
+    if (data)
+      mutations.setLoanForPurcharse({
+        creditPercentage: data.oprocentowanie_kredytu,
+        finallInstallationCost:
+          forCompanyCalcStore.totalInstallationCosts.grossPrice,
+        grossInstalltaionBeforeDotationsCost:
+          forCompanyCalcStore.totalInstallationCosts.grossPrice,
+        instalmentNumber: forCompanyStore.installmentNumber,
+      });
+  }, [
+    forCompanyStore.installmentNumber,
+    data,
+    forCompanyCalcStore.totalInstallationCosts,
   ]);
 
   const yesNoData = [
