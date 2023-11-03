@@ -37,13 +37,6 @@ export interface ForCompanyDataToCalcualtionType {
     ekierki: number;
     grunt: number;
   };
-  zbiorniki: {
-    zbiornik_100L: number;
-    zbiornik_140L: number;
-    zbiornik_140L_z_wezem: number;
-    zbiornik_200L: number;
-    zbiornik_200L_z_wezem: number;
-  };
   cena_skupu_pradu: number;
   prowizjaBiura: number;
   oprocentowanie_kredytu: number;

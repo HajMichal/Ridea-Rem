@@ -8,6 +8,8 @@ import { pdf } from "@react-pdf/renderer";
 import { Loading } from "./Loading";
 import { useRouter } from "next/router";
 import { useHeatPump } from "~/hooks/useHeatPump";
+import { ForCompanyDocument } from "./forCompany";
+import { useForCompany } from "~/hooks/useForCompany";
 
 interface DataFromJson {
   energyStore_dotation?: number;
@@ -24,6 +26,7 @@ export const PdfGeneratorButton = ({
   const [pdfLoading, setPdfLoading] = useState(false);
   const { photovoltaicCalcStore, photovoltaicStore } = usePhotovoltaic();
   const { heatPumpCalcStore, heatPumpStore } = useHeatPump();
+  const { forCompanyCalcStore, forCompanyStore } = useForCompany();
 
   const generateContract = async () => {
     setPdfLoading(true);
@@ -42,11 +45,19 @@ export const PdfGeneratorButton = ({
         cop={cop}
       />
     ).toBlob();
+    const blobForCompany = await pdf(
+      <ForCompanyDocument
+        forCompanyCalcStore={forCompanyCalcStore}
+        forCompanyStore={forCompanyStore}
+      />
+    ).toBlob();
     setPdfLoading(false);
     router.pathname === "/kalkulator/fotowoltaika" &&
       saveAs(blobPhotovoltaics, "Oferta dla Klienta - IdeaRem.pdf");
     router.pathname === "/kalkulator/pompy_ciepla" &&
       saveAs(blobHeatPump, "Oferta dla Klienta - IdeaRem.pdf");
+    router.pathname === "/kalkulator/fotowoltaika_firmy" &&
+      saveAs(blobForCompany, "Oferta dla Klienta - IdeaRem.pdf");
   };
 
   return (

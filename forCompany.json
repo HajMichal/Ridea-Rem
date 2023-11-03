@@ -40,12 +40,50 @@
           "ekierki": 330,
           "grunt": 850
         },
-        "zbiorniki": {
-          "zbiornik_100L": 4900,
-          "zbiornik_140L": 5300,
-          "zbiornik_140L_z_wezem": 5990,
-          "zbiornik_200L": 5600,
-          "zbiornik_200L_z_wezem": 6200
+        "cena_skupu_pradu": 0.72,
+        "prowizjaBiura": 550,
+        "oprocentowanie_kredytu": 8.3
+      }
+    },
+    {
+      "biuro": {
+        "dane": {
+          "czterysta": {
+            "dwa": 4920,
+            "cztery": 4700,
+            "szesc": 4250,
+            "osiem": 3900,
+            "dwanascie": 3800,
+            "dwadziescia": 3600,
+            "trzydziesci": 3400,
+            "piecdziesiat": 3300
+          },
+          "czterysta_piecdziesiat": {
+            "dwa": 4921,
+            "cztery": 4701,
+            "szesc": 4250,
+            "osiem": 3900,
+            "dwanascie": 3800,
+            "dwadziescia": 3600,
+            "trzydziesci": 3400,
+            "piecdziesiat": 3300
+          },
+          "piecset": {
+            "dwa": 4922,
+            "cztery": 4702,
+            "szesc": 4250,
+            "osiem": 3900,
+            "dwanascie": 3800,
+            "dwadziescia": 3600,
+            "trzydziesci": 3400,
+            "piecdziesiat": 3300
+          }
+        },
+        "koszty_dodatkowe": {
+          "bloczki": 850,
+          "tigo": 230,
+          "ekierki": 330,
+          "grunt": 850
         },
         "cena_skupu_pradu": 0.72,
         "prowizjaBiura": 550,

@@ -66,13 +66,16 @@ export const UserFeeFormField = ({
     api.dataFlow.removeMenagerData.useMutation();
   const { mutate: removeMenagerHeatPumpJson } =
     api.heatPumpDataFlowRouter.removeMenagerData.useMutation();
+  const { mutate: removeMenagerForCompanyJson } =
+    api.forCompanyDataFlowRouter.removeMenagerData.useMutation();
   const { mutate: removeUserFromDb } =
     api.userDataHandling.removeUser.useMutation();
 
   const removeUser = () => {
     removeUserFromDb(user.id);
     user.role === 2 && removeMenagerPhotovoltaicJson(user.name!),
-      removeMenagerHeatPumpJson(user.name!);
+      user.role === 2 && removeMenagerHeatPumpJson(user.name!);
+    user.role === 2 && removeMenagerForCompanyJson(user.name!);
     close();
   };
 

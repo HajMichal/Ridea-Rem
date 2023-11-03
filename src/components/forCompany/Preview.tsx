@@ -2,6 +2,7 @@ import React from "react";
 import { TextComponent } from "../TextComponent";
 import { useForCompany } from "~/hooks/useForCompany";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
+import { PdfGeneratorButton } from "../PdfGeneratorButton";
 
 export const Preview = () => {
   const [parent] = useAutoAnimate();
@@ -15,7 +16,7 @@ export const Preview = () => {
       <h2 className="-translate-y-3 text-center font-orkneyBold text-xl">
         PODGLĄD
       </h2>
-      <div className="flex w-full flex-wrap justify-between font-orkneyBold font-semibold">
+      <div className="flex h-full w-full flex-wrap justify-between font-orkneyBold font-semibold">
         <div ref={parent} className="mt-3 h-[75%] w-full overflow-y-auto px-10">
           <TextComponent
             title="PRZYJĘTA MOC INSTALACJI"
@@ -101,6 +102,7 @@ export const Preview = () => {
             calculations={forCompanyCalcStore.totalInstallationCosts.grossPrice}
           />
         </div>
+        <PdfGeneratorButton />
       </div>
     </div>
   );

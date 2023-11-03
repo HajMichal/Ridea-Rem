@@ -44,7 +44,7 @@ const SideBarButton = ({
 
 export const SideBar = () => (
   <div className="flex h-full max-h-screen min-h-screen w-auto flex-col justify-between gap-3  bg-[#191918] font-orkney">
-    <div className="mt-3 flex w-full justify-center">
+    <Link className="mt-3 flex w-full justify-center" href={"/home"}>
       <Image
         src={"/logo_solo_yellowSun.svg"}
         width={180}
@@ -53,8 +53,8 @@ export const SideBar = () => (
         priority
         className="w-full max-w-[70px]"
       ></Image>
-    </div>
-    <div className="-mt-36 flex h-full w-full flex-col gap-6 text-white ">
+    </Link>
+    <div className="-mt-36 flex h-full w-full min-w-[145px] flex-col gap-6 text-white ">
       <SideBarButton
         href="/kalkulator/fotowoltaika"
         href2="/edycja/daneFotowoltaiki"
@@ -62,7 +62,7 @@ export const SideBar = () => (
       />
       <SideBarButton
         href="/kalkulator/fotowoltaika_firmy"
-        href2="/edycja/daneFotowoltaikaFirm"
+        href2="/edycja/daneFotowoltaiki_firmy"
         title="DLA FIRM"
       />
       <SideBarButton
@@ -70,12 +70,12 @@ export const SideBar = () => (
         href2="/edycja/danePompyCiepla"
         title="POMPY CIEPŁA"
       />
-      <SideBarButton
+      {/* <SideBarButton
         href="/kalkulator/magazyn_energii"
         href2="/edycja/daneMagazynEnergii"
         title="MAGAZYN ENERGII"
         longWord
-      />
+      /> */}
     </div>
     <div className="m-3 text-center text-xs text-white">
       <p>IDEA REM </p>

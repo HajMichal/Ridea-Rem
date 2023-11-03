@@ -25,6 +25,8 @@ const Account = () => {
     });
   const { mutate: addMenagerHeatPumpData } =
     api.heatPumpDataFlowRouter.addNewMenager.useMutation({});
+  const { mutate: addMenagerForCompany } =
+    api.forCompanyDataFlowRouter.addNewMenager.useMutation({});
   const { mutate } = api.userDataHandling.createAccount.useMutation({
     onError(error) {
       toast.error(error.message);
@@ -33,6 +35,7 @@ const Account = () => {
       if (data.userRole === 2) {
         addMenagerPhotovoltaicData(data.userName);
         addMenagerHeatPumpData(data.userName);
+        addMenagerForCompany(data.userName);
       }
       toast.success(`Konto zostało utworzone dla ${data.userName}`);
       reset();

@@ -8,8 +8,8 @@ import {
   Image,
   Font,
 } from "@react-pdf/renderer";
-import { ForCompanySlice } from "~/store/forCompany/forCompanySlice";
-import { ForCompanyCalculationSlice } from "~/store/forCompany/forCompanyCalculationSlice";
+import { type ForCompanySlice } from "~/store/forCompany/forCompanySlice";
+import { type ForCompanyCalculation } from "~/store/forCompany/forCompanyCalculationSlice";
 
 Font.register({
   family: "Orkney",
@@ -131,7 +131,7 @@ const styles = StyleSheet.create({
 });
 
 interface DataToPDF {
-  forCompanyCalcStore: ForCompanyCalculationSlice;
+  forCompanyCalcStore: ForCompanyCalculation;
   forCompanyStore: ForCompanySlice["forCompanyStore"];
 }
 

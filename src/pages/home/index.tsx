@@ -14,8 +14,8 @@ export default function Home() {
     }
   }, [sessionData]);
   return (
-    <main className="grid h-screen w-screen grid-cols-4 overflow-hidden hover:cursor-pointer">
-      <div
+    <main className="grid h-screen w-screen grid-cols-3 overflow-hidden hover:cursor-pointer">
+      {/* <div
         id="energyStore"
         className="bg-[#00B4D8] duration-100 hover:opacity-90"
         onClick={() => void router.push("/kalkulator/magazyn_energii")}
@@ -49,7 +49,7 @@ export default function Home() {
           />
           <p>STWÓRZ OFERTĘ</p>
         </div>
-      </div>
+      </div> */}
       <div
         id="photovoltaic"
         className="bg-[#74B734] duration-100 hover:opacity-90"
@@ -60,7 +60,7 @@ export default function Home() {
           alt="Zdjęcie instalacjii"
           width={640}
           height={1080}
-          className="h-3/4 object-cover"
+          className="h-3/4 w-full object-cover"
         />
         <div className="flex flex-col items-center font-orkneyLight text-sm text-white">
           <div className="absolute top-[350px] flex flex-col items-center font-orkneyBold text-2xl text-white">
@@ -94,7 +94,7 @@ export default function Home() {
           alt="Zdjęcie instalacjii"
           width={480}
           height={920}
-          className="h-3/4 object-cover"
+          className="h-3/4 w-full object-cover"
         />
         <div className="flex flex-col items-center font-orkneyLight text-sm text-white">
           <div className="absolute top-[350px] flex flex-col items-center font-orkneyBold text-2xl text-white">
@@ -128,7 +128,7 @@ export default function Home() {
           alt="Zdjęcie instalacjii"
           width={640}
           height={1080}
-          className="h-3/4 object-cover"
+          className="h-3/4 w-full object-cover"
         />
         <div className="flex flex-col items-center font-orkneyLight text-sm text-white">
           <div className="absolute top-[350px] flex flex-col items-center font-orkneyBold text-2xl text-white">

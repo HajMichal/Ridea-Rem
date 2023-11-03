@@ -71,7 +71,6 @@ export function for1KwAndBaseInstallationPrice({
 }: {
   input: For1KwAndBaseInstallationPriceType;
 }) {
-  console.log(input);
   if (input.system_power <= 6) {
     return {
       pricePer1kW: input.dane.szesc,

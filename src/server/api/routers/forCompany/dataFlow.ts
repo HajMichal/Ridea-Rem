@@ -5,6 +5,53 @@ import {
   type ForCompanyCalculatorType,
   type EachMenagerForCompany,
 } from "./interfaces";
+
+const schema = z.record(
+  z.object({
+    dane: z.object({
+      czterysta: z.object({
+        dwa: z.number(),
+        cztery: z.number(),
+        szesc: z.number(),
+        osiem: z.number(),
+        dwanascie: z.number(),
+        dwadziescia: z.number(),
+        trzydziesci: z.number(),
+        piecdziesiat: z.number(),
+      }),
+      czterysta_piecdziesiat: z.object({
+        dwa: z.number(),
+        cztery: z.number(),
+        szesc: z.number(),
+        osiem: z.number(),
+        dwanascie: z.number(),
+        dwadziescia: z.number(),
+        trzydziesci: z.number(),
+        piecdziesiat: z.number(),
+      }),
+      piecset: z.object({
+        dwa: z.number(),
+        cztery: z.number(),
+        szesc: z.number(),
+        osiem: z.number(),
+        dwanascie: z.number(),
+        dwadziescia: z.number(),
+        trzydziesci: z.number(),
+        piecdziesiat: z.number(),
+      }),
+    }),
+    koszty_dodatkowe: z.object({
+      bloczki: z.number(),
+      tigo: z.number(),
+      ekierki: z.number(),
+      grunt: z.number(),
+    }),
+    cena_skupu_pradu: z.number(),
+    prowizjaBiura: z.number(),
+    oprocentowanie_kredytu: z.number(),
+  })
+);
+
 const getParsedJsonObject = async () => {
   const dataFile = await s3
     .getObject({
@@ -46,7 +93,96 @@ export const forCompanyDataFlowRouter = createTRPCRouter({
         return getObjectById(creator?.name ?? "");
       }
     }),
-  downloadEntireJsonFile: publicProcedure.query(async () => {
+  getEntireJsonFile: publicProcedure.query(async () => {
     return await getParsedJsonObject();
   }),
+  editJSONFile: publicProcedure.input(schema).mutation(async ({ input }) => {
+    console.log(input);
+    const convertedFile = await getParsedJsonObject();
+    const dynamicKey = Object.keys(input)[0];
+
+    const index = convertedFile.kalkulator.findIndex(
+      (obj) => Object.keys(obj)[0] === dynamicKey
+    );
+    if (index !== -1) {
+      convertedFile.kalkulator[index] = input;
+    }
+    const updatedJSONFile = JSON.stringify(convertedFile);
+    setFileToBucket(updatedJSONFile, "forCompany.json");
+    return input;
+  }),
+  removeMenagerData: publicProcedure
+    .input(z.string())
+    .mutation(async ({ input }) => {
+      const convertedFile = await getParsedJsonObject();
+      const index = convertedFile.kalkulator.findIndex(
+        (obj) => Object.keys(obj)[0] === input
+      );
+
+      if (index !== -1) {
+        convertedFile.kalkulator.splice(index, 1);
+      }
+
+      const updatedJSONFile = JSON.stringify(convertedFile);
+      setFileToBucket(updatedJSONFile, "forCompany.json");
+      return input;
+    }),
+  addNewMenager: publicProcedure
+    .input(z.string())
+    .mutation(async ({ input }) => {
+      const convertedFile = await getParsedJsonObject();
+
+      const newMenagerData = {
+        [input]: {
+          dane: {
+            czterysta: {
+              dwa: 4920,
+              cztery: 4700,
+              szesc: 4250,
+              osiem: 3900,
+              dwanascie: 3800,
+              dwadziescia: 3600,
+              trzydziesci: 3400,
+              piecdziesiat: 3300,
+            },
+            czterysta_piecdziesiat: {
+              dwa: 4921,
+              cztery: 4701,
+              szesc: 4250,
+              osiem: 3900,
+              dwanascie: 3800,
+              dwadziescia: 3600,
+              trzydziesci: 3400,
+              piecdziesiat: 3300,
+            },
+            piecset: {
+              dwa: 4922,
+              cztery: 4702,
+              szesc: 4250,
+              osiem: 3900,
+              dwanascie: 3800,
+              dwadziescia: 3600,
+              trzydziesci: 3400,
+              piecdziesiat: 3300,
+            },
+          },
+          koszty_dodatkowe: {
+            bloczki: 850,
+            tigo: 230,
+            ekierki: 330,
+            grunt: 850,
+          },
+          cena_skupu_pradu: 0.72,
+          prowizjaBiura: 550,
+          oprocentowanie_kredytu: 8.3,
+        },
+      };
+      convertedFile.kalkulator.push(newMenagerData);
+      setFileToBucket(JSON.stringify(convertedFile), "forCompany.json");
+      return {
+        status: 200,
+        message:
+          "Menager z bazowymi danymi został stworzony. Aby zmienić jego dane, przejdź do zakładki prowizje 📝",
+      };
+    }),
 });
