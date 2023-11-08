@@ -83,6 +83,12 @@ export const useForCompany = () => {
         store.updateForCompanyCalculation("loanForPurcharse", data);
       },
     });
+  const { mutate: setBaseInstallationsPricing } =
+    api.forCompany.baseInstallationsPricing.useMutation({
+      onSuccess: (data) => {
+        store.updateForCompanyCalculation("baseInstallationsPricing", data);
+      },
+    });
 
   const getDataDependsOnPanelPower = () => {
     if (store.photovoltaicStore.panelPower === 400) return data?.dane.czterysta;
@@ -106,6 +112,7 @@ export const useForCompany = () => {
       setFor1KwAndBaseInstallationPrice,
       setAutoconsumption,
       setEstimatedKWHProd,
+      setBaseInstallationsPricing,
 
       setCalculateModuleCount,
       setAllSystemPowers,

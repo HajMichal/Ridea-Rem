@@ -21,6 +21,7 @@ const config = {
       },
     ],
     "@typescript-eslint/no-unused-vars": ["warn", { argsIgnorePattern: "^_" }],
+    "@typescript-eslint/dot-notation": "off",
     "@typescript-eslint/no-misused-promises": [
       2,
       {

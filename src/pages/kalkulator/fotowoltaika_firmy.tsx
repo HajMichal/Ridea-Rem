@@ -27,14 +27,14 @@ const Fotowoltaika_firmy = () => {
     if (sessionData === null) {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call
       void router.push("/auth/signin");
-    }
-    // else if (sessionData?.user.role !== 1) void router.push("/home");
+    } else if (sessionData?.user.role !== 1) void router.push("/home");
   }, [sessionData, router]);
 
   useEffect(() => {
-    mutations.setCalculateModuleCount({
-      wantedInstaltionPower: forCompanyStore.wantedInstalationPower,
-    });
+    if (forCompanyStore.wantedInstalationPower > 0)
+      mutations.setCalculateModuleCount({
+        wantedInstaltionPower: forCompanyStore.wantedInstalationPower,
+      });
   }, [forCompanyStore.wantedInstalationPower]);
 
   useEffect(() => {
@@ -42,6 +42,14 @@ const Fotowoltaika_firmy = () => {
       calculateModuleCount: forCompanyCalcStore.calculateModuleCount,
     });
   }, [forCompanyCalcStore.calculateModuleCount]);
+
+  useEffect(() => {
+    if (forCompanyCalcStore.allSystemPowers.systemPower400 && data)
+      mutations.setBaseInstallationsPricing({
+        system_power: forCompanyCalcStore.allSystemPowers,
+        dane: data.dane,
+      });
+  }, [forCompanyCalcStore.allSystemPowers, data]);
 
   useEffect(() => {
     mutations.setEstimatedKWHProd({
@@ -205,10 +213,12 @@ const Fotowoltaika_firmy = () => {
       baseInstallationCost:
         forCompanyCalcStore.for1KwAndBaseInstallationPrice
           .baseInstallationPrice,
+      vatValue: forCompanyStore.vatValue,
     });
   }, [
     forCompanyCalcStore.for1KwAndBaseInstallationPrice,
     forCompanyCalcStore.addonSum,
+    forCompanyStore.vatValue,
   ]);
   useEffect(() => {
     if (data)
@@ -373,6 +383,17 @@ const Fotowoltaika_firmy = () => {
                     { value: "400", label: "400" },
                     { value: "455", label: "455" },
                     { value: "500", label: "500" },
+                  ]}
+                />
+                <SelectComponent
+                  title="STAWKA VAT"
+                  onChange={(e) => {
+                    store.updateForCompany("vatValue", Number(e));
+                  }}
+                  value={forCompanyStore.vatValue}
+                  data={[
+                    { value: "0.23", label: "23%" },
+                    { value: "0.08", label: "8%" },
                   ]}
                 />
                 <InputComponent

@@ -18,6 +18,7 @@ export interface ForCompanySlice {
     panelPower: number;
     installmentNumber: number;
     tankSize: string;
+    vatValue: 0.23 | 0.08;
   };
   updateForCompany: (key: string, value: boolean | number | string) => void;
 }
@@ -34,6 +35,7 @@ export const forCompanySlice: StateCreator<ForCompanySlice> = (set) => ({
     consultantMarkup: 0,
     autoconsumptionInPercent: 0.1,
     recentYearTrendUsage: 0,
+    vatValue: 0.23,
     energyStorePower: 0,
     eccentricsCount: 0,
     groundPanelCount: 0,

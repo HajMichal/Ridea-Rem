@@ -37,7 +37,7 @@ declare module "next-auth" {
  */
 
 import CredentialsProvider from "next-auth/providers/credentials";
-import { PrismaClient, User } from "@prisma/client";
+import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
 
 const prisma = new PrismaClient();

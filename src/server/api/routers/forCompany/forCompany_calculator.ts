@@ -2,6 +2,17 @@ import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "../../trpc";
 import calc from "../../../../calc/forCompany";
 
+const panelsSchema = z.object({
+  dwa: z.number(),
+  cztery: z.number(),
+  szesc: z.number(),
+  osiem: z.number(),
+  dwanascie: z.number(),
+  dwadziescia: z.number(),
+  trzydziesci: z.number(),
+  piecdziesiat: z.number(),
+});
+
 export const forCompanyCalculator = createTRPCRouter({
   calculateModuleCount: publicProcedure
     .input(
@@ -118,6 +129,7 @@ export const forCompanyCalculator = createTRPCRouter({
       z.object({
         baseInstallationCost: z.number(),
         addonsSum: z.number(),
+        vatValue: z.number(),
       })
     )
     .mutation(calc.totalInstallationCosts),
@@ -131,4 +143,20 @@ export const forCompanyCalculator = createTRPCRouter({
       })
     )
     .mutation(calc.loanForPurcharse),
+  baseInstallationsPricing: publicProcedure
+    .input(
+      z.object({
+        system_power: z.object({
+          systemPower400: z.number(),
+          systemPower455: z.number(),
+          systemPower500: z.number(),
+        }),
+        dane: z.object({
+          czterysta: panelsSchema,
+          czterysta_piecdziesiat: panelsSchema,
+          piecset: panelsSchema,
+        }),
+      })
+    )
+    .mutation(calc.baseInstallationsPricing),
 });

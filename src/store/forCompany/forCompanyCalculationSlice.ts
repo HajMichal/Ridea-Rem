@@ -39,6 +39,11 @@ export interface ForCompanyCalculation {
     finallInstalmentPice: number;
     instalmentBeforeDotations: number;
   };
+  baseInstallationsPricing: {
+    systemPower400: number;
+    systemPower455: number;
+    systemPower500: number;
+  };
 }
 
 export interface ForCompanyCalculationSlice {
@@ -90,6 +95,11 @@ export const forCompanyCalculationSlice: StateCreator<
     loanForPurcharse: {
       finallInstalmentPice: 0,
       instalmentBeforeDotations: 0,
+    },
+    baseInstallationsPricing: {
+      systemPower400: 0,
+      systemPower455: 0,
+      systemPower500: 0,
     },
   },
   updateForCompanyCalculation: (key, value) =>

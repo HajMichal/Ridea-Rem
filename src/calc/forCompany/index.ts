@@ -55,6 +55,88 @@ export function autoconsumption({ input }: { input: AutoconsumptionType }) {
   );
 }
 
+interface BaseInstallationsPricing {
+  system_power: {
+    systemPower400: number;
+    systemPower455: number;
+    systemPower500: number;
+  };
+  dane: {
+    czterysta: {
+      szesc: number;
+      osiem: number;
+      dwanascie: number;
+      dwadziescia: number;
+      trzydziesci: number;
+      piecdziesiat: number;
+    };
+    czterysta_piecdziesiat: {
+      szesc: number;
+      osiem: number;
+      dwanascie: number;
+      dwadziescia: number;
+      trzydziesci: number;
+      piecdziesiat: number;
+    };
+    piecset: {
+      szesc: number;
+      osiem: number;
+      dwanascie: number;
+      dwadziescia: number;
+      trzydziesci: number;
+      piecdziesiat: number;
+    };
+  };
+}
+export function baseInstallationsPricing({
+  input,
+}: {
+  input: BaseInstallationsPricing;
+}) {
+  const panelTypes = ["systemPower400", "systemPower455", "systemPower500"];
+
+  const panelPrices: Record<string, number> = {};
+
+  panelTypes.forEach((panelType) => {
+    const power =
+      input.system_power[panelType as keyof typeof input.system_power];
+    const panelData =
+      input.dane[
+        panelType === "systemPower400"
+          ? "czterysta"
+          : panelType === "systemPower455"
+          ? "czterysta_piecdziesiat"
+          : "piecset"
+      ];
+
+    if (power <= 6) {
+      panelPrices[panelType] = Number((panelData["szesc"] * power).toFixed(2));
+    } else if (power <= 8) {
+      panelPrices[panelType] = Number((panelData["osiem"] * power).toFixed(2));
+    } else if (power <= 12) {
+      panelPrices[panelType] = Number(
+        (panelData["dwanascie"] * power).toFixed(2)
+      );
+    } else if (power <= 20) {
+      panelPrices[panelType] = Number(
+        (panelData["dwadziescia"] * power).toFixed(2)
+      );
+    } else if (power <= 30) {
+      panelPrices[panelType] = Number(
+        (panelData["trzydziesci"] * power).toFixed(2)
+      );
+    } else if (power > 30) {
+      panelPrices[panelType] = Number(
+        (panelData["piecdziesiat"] * power).toFixed(2)
+      );
+    } else {
+      panelPrices[panelType] = panelData["szesc"] * 0;
+    }
+  });
+
+  return panelPrices;
+}
+
 interface For1KwAndBaseInstallationPriceType {
   system_power: number;
   dane: {
@@ -138,6 +220,7 @@ export function addonSum({ input }: { input: AddonSumType }) {
 interface TotalInstallationCostsType {
   baseInstallationCost: number;
   addonsSum: number;
+  vatValue: number;
 }
 export function totalInstallationCosts({
   input,
@@ -146,7 +229,7 @@ export function totalInstallationCosts({
 }) {
   const total_cost = input.addonsSum + input.baseInstallationCost;
 
-  const feeValue = Number((total_cost * 0.23).toFixed(2));
+  const feeValue = Number((total_cost * input.vatValue).toFixed(2));
   return {
     feeValue: feeValue,
     netPrice: total_cost,

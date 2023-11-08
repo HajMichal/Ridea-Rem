@@ -147,6 +147,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  panelImage: {
+    width: 130,
+    height: 130,
+    marginTop: 50,
+    marginBottom: -14,
+  },
 });
 
 interface DataToPDF {
@@ -159,6 +165,24 @@ const ForCompanyDocument = ({
   forCompanyStore,
 }: DataToPDF) => (
   <Document>
+    <Page size="A4" style={styles.page}>
+      <Image
+        style={styles.image}
+        src={`${process.env.NEXT_PUBLIC_BASE_URL}/static/forCompany/forCompanyFirst.png`}
+      />
+    </Page>
+    <Page size="A4" style={styles.page}>
+      <Image
+        style={styles.image}
+        src={`${process.env.NEXT_PUBLIC_BASE_URL}/static/forCompany/forCompanySecond.png`}
+      />
+    </Page>
+    <Page size="A4" style={styles.page}>
+      <Image
+        style={styles.image}
+        src={`${process.env.NEXT_PUBLIC_BASE_URL}/static/forCompany/forCompanyThird.png`}
+      />
+    </Page>
     <Page size="A4" style={styles.page}>
       <View
         style={{
@@ -181,8 +205,8 @@ const ForCompanyDocument = ({
           >
             <View style={{ display: "flex", alignItems: "center" }}>
               <Image
-                src={`${process.env.NEXT_PUBLIC_BASE_URL}/static/pdf/blackLogo.png`}
-                style={styles.logoImage}
+                src={`${process.env.NEXT_PUBLIC_BASE_URL}/static/forCompany/panel.png`}
+                style={styles.panelImage}
               />
               <Text
                 style={{
@@ -224,12 +248,15 @@ const ForCompanyDocument = ({
               <Text style={styles.eachPanelData}>
                 MOC {forCompanyCalcStore.allSystemPowers.systemPower400} W
               </Text>
-              {/* <Text>MOC {forCompanyCalcStore.} W</Text> */}
+              <Text>
+                MOC{" "}
+                {forCompanyCalcStore.baseInstallationsPricing.systemPower400} zł
+              </Text>
             </View>
             <View style={{ display: "flex", alignItems: "center" }}>
               <Image
-                src={`${process.env.NEXT_PUBLIC_BASE_URL}/static/pdf/blackLogo.png`}
-                style={styles.logoImage}
+                src={`${process.env.NEXT_PUBLIC_BASE_URL}/static/forCompany/panel.png`}
+                style={styles.panelImage}
               />
               <Text
                 style={{
@@ -271,12 +298,15 @@ const ForCompanyDocument = ({
               <Text style={styles.eachPanelData}>
                 MOC {forCompanyCalcStore.allSystemPowers.systemPower455} W
               </Text>
-              {/* <Text>MOC {forCompanyCalcStore.} W</Text> */}
+              <Text>
+                MOC{" "}
+                {forCompanyCalcStore.baseInstallationsPricing.systemPower455} zł
+              </Text>
             </View>
             <View style={{ display: "flex", alignItems: "center" }}>
               <Image
-                src={`${process.env.NEXT_PUBLIC_BASE_URL}/static/pdf/blackLogo.png`}
-                style={styles.logoImage}
+                src={`${process.env.NEXT_PUBLIC_BASE_URL}/static/forCompany/panel.png`}
+                style={styles.panelImage}
               />
               <Text
                 style={{
@@ -310,7 +340,7 @@ const ForCompanyDocument = ({
                   width: 130,
                 }}
               >
-                LONG
+                LONGI
               </Text>
               <Text style={styles.eachPanelData}>
                 {forCompanyCalcStore.calculateModuleCount.modulesCount500} SZTUK
@@ -318,7 +348,10 @@ const ForCompanyDocument = ({
               <Text style={styles.eachPanelData}>
                 MOC {forCompanyCalcStore.allSystemPowers.systemPower500} W
               </Text>
-              {/* <Text>MOC {forCompanyCalcStore.} W</Text> */}
+              <Text>
+                MOC{" "}
+                {forCompanyCalcStore.baseInstallationsPricing.systemPower500} zł
+              </Text>
             </View>
           </View>
         </View>
@@ -412,6 +445,74 @@ const ForCompanyDocument = ({
         >
           03
         </Text>
+      </View>
+    </Page>
+    <Page size="A4" style={styles.page}>
+      <View style={styles.pricingSection}>
+        <Text style={styles.title}>OFERTA</Text>
+        <Text style={styles.subTitle}>CENA INSTALACJI FOTOWOLTAICZNEJ</Text>
+        <View style={styles.eachRow}>
+          <Text>WYBRANA MOC MODUŁU</Text>
+          <Text style={styles.boldFont}>
+            SOLAR - {forCompanyStore.panelPower} W
+          </Text>
+        </View>
+        <View style={styles.eachRow}>
+          <Text>ILOŚĆ PANELI</Text>
+          <Text style={styles.boldFont}>
+            {forCompanyCalcStore.modulesCount}
+            SZTUK
+          </Text>
+        </View>
+        <View style={styles.eachRow}>
+          <Text>WARTOŚĆ SYSTEMU NETTO</Text>
+          <Text style={styles.boldFont}>
+            {forCompanyCalcStore.totalInstallationCosts.netPrice}
+            zł
+          </Text>
+        </View>
+        <View style={styles.eachRow}>
+          <Text>VAT {forCompanyStore.vatValue * 100}%</Text>
+          <Text style={styles.boldFont}>
+            {forCompanyCalcStore.totalInstallationCosts.feeValue}
+            zł
+          </Text>
+        </View>
+
+        <View
+          style={{
+            marginTop: 150,
+            marginRight: -300,
+            backgroundColor: "#FEEB1A",
+            borderBottomLeftRadius: "50%",
+            padding: 22,
+          }}
+        >
+          <Text style={{ fontSize: 12 }}>
+            OSTATECZNY KOSZT INSTALACJI BRUTTO:
+          </Text>
+          <Text style={{ fontSize: 50, marginTop: 4 }}>
+            {forCompanyCalcStore.totalInstallationCosts.grossPrice} zł
+          </Text>
+          <Text style={{ fontSize: 12, marginLeft: 10 }}>DOSTĘPNE:</Text>
+          <Text style={{ fontSize: 12, marginLeft: 10 }}>
+            {forCompanyStore.installmentNumber} RAT W WYSOKOŚCI{" "}
+            <Text style={styles.boldFont}>
+              {forCompanyCalcStore.loanForPurcharse.finallInstalmentPice} zł
+            </Text>
+          </Text>
+        </View>
+      </View>
+      <View style={styles.imageSection}>
+        <Image
+          style={styles.logoImage}
+          src={`${process.env.NEXT_PUBLIC_BASE_URL}/static/pdf/blackLogo.png`}
+        />
+        <Image
+          style={styles.signatureImage}
+          src={`${process.env.NEXT_PUBLIC_BASE_URL}/static/pdf/signatureIdeaRem.png`}
+        />
+        <Text style={styles.pageNum}>04</Text>
       </View>
     </Page>
   </Document>

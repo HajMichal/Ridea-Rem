@@ -38,6 +38,13 @@ export const Preview = () => {
             calculations={forCompanyCalcStore.allSystemPowers.systemPower400}
             unit="kW"
           />
+          <TextComponent
+            title="BAZOWA CENA INSTALACJI"
+            calculations={
+              forCompanyCalcStore.baseInstallationsPricing.systemPower400
+            }
+            unit="zł"
+          />
           {!!forCompanyCalcStore.calculateModuleCount.modulesCount455 && (
             <h2 className="mt-7 w-full text-center text-xl">PANEL 455W</h2>
           )}
@@ -52,6 +59,13 @@ export const Preview = () => {
             title="MOC INSTALACJI"
             calculations={forCompanyCalcStore.allSystemPowers.systemPower455}
             unit="kW"
+          />
+          <TextComponent
+            title="BAZOWA CENA INSTALACJI"
+            calculations={
+              forCompanyCalcStore.baseInstallationsPricing.systemPower455
+            }
+            unit="zł"
           />
           {!!forCompanyCalcStore.calculateModuleCount.modulesCount500 && (
             <h2 className="mt-7 w-full text-center text-xl">PANEL 500W</h2>
@@ -68,7 +82,13 @@ export const Preview = () => {
             calculations={forCompanyCalcStore.allSystemPowers.systemPower500}
             unit="kW"
           />
-
+          <TextComponent
+            title="BAZOWA CENA INSTALACJI"
+            calculations={
+              forCompanyCalcStore.baseInstallationsPricing.systemPower500
+            }
+            unit="zł"
+          />
           {!!forCompanyStore.wantedInstalationPower && (
             <h2 className="mt-14 w-full text-center text-xl">
               DANE WYBRANEJ INSTALACJI
