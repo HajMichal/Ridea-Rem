@@ -97,7 +97,6 @@ export const forCompanyDataFlowRouter = createTRPCRouter({
     return await getParsedJsonObject();
   }),
   editJSONFile: publicProcedure.input(schema).mutation(async ({ input }) => {
-    console.log(input);
     const convertedFile = await getParsedJsonObject();
     const dynamicKey = Object.keys(input)[0];
 

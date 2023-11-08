@@ -79,7 +79,6 @@ const EditionForm = ({ data }: EditionForm) => {
     },
   };
   const onSubmit: SubmitHandler<ForCompanyDataToCalcualtionType> = (data) => {
-    console.log(data);
     mutate({ [dynamicKey!]: data });
     close();
   };

@@ -27,7 +27,8 @@ const Fotowoltaika_firmy = () => {
     if (sessionData === null) {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call
       void router.push("/auth/signin");
-    } else if (sessionData?.user.role !== 1) void router.push("/home");
+    }
+    // else if (sessionData?.user.role !== 1) void router.push("/home");
   }, [sessionData, router]);
 
   useEffect(() => {

@@ -24,7 +24,7 @@ export const Preview = () => {
             unit="kW"
           />
           {!!forCompanyCalcStore.calculateModuleCount.modulesCount400 && (
-            <h2 className="mt-7 w-full text-center text-xl">PANEL 400kW</h2>
+            <h2 className="mt-7 w-full text-center text-xl">PANEL 400W</h2>
           )}
           <TextComponent
             title="POTRZEBNA LICZBA PANELI"
@@ -39,7 +39,7 @@ export const Preview = () => {
             unit="kW"
           />
           {!!forCompanyCalcStore.calculateModuleCount.modulesCount455 && (
-            <h2 className="mt-7 w-full text-center text-xl">PANEL 455kW</h2>
+            <h2 className="mt-7 w-full text-center text-xl">PANEL 455W</h2>
           )}
           <TextComponent
             title="POTRZEBNA LICZBA PANELI"
@@ -54,7 +54,7 @@ export const Preview = () => {
             unit="kW"
           />
           {!!forCompanyCalcStore.calculateModuleCount.modulesCount500 && (
-            <h2 className="mt-7 w-full text-center text-xl">PANEL 500kW</h2>
+            <h2 className="mt-7 w-full text-center text-xl">PANEL 500W</h2>
           )}
           <TextComponent
             title="POTRZEBNA LICZBA PANELI"

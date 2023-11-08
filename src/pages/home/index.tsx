@@ -79,7 +79,7 @@ export default function Home() {
             alt="Logo"
             width={80}
             height={80}
-            className="h-7 w-7"
+            className="-mt-14 h-7 w-7"
           />
           <p>STWÓRZ OFERTĘ</p>
         </div>
@@ -113,7 +113,7 @@ export default function Home() {
             alt="Logo"
             width={80}
             height={80}
-            className="h-7 w-7"
+            className="-mt-14 h-7 w-7"
           />
           <p>STWÓRZ OFERTĘ</p>
         </div>
@@ -147,7 +147,7 @@ export default function Home() {
             alt="Logo"
             width={80}
             height={80}
-            className="h-7 w-7"
+            className="-mt-14 h-7 w-7"
           />
           <p>STWÓRZ OFERTĘ</p>
         </div>
