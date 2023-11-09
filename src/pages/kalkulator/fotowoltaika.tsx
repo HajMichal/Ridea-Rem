@@ -379,12 +379,6 @@ const Fotowoltaika = () => {
   ]);
 
   useEffect(() => {
-    console.log(
-      energyStore_dotation,
-      photovoltaics_dotation,
-      photovoltaicCalcStore.heatStoreCalcDotation,
-      photovoltaicCalcStore.energyStoreDotationValue
-    );
     mutations.set_dotations_sum({
       energyMenagerDotation: photovoltaicStore.emsDotation
         ? energyStore_dotation ?? 0
