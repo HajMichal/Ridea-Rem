@@ -365,7 +365,9 @@ const MyDocument = ({
         <View style={styles.eachRow}>
           <Text>MAGAZYN ENERGII</Text>
           <Text style={styles.boldFont}>
-            {photovoltaicStore.energyStoreDotation ? "TAK" : "NIE"}
+            {photovoltaicStore.energyStoreDotation
+              ? photovoltaicStore.energyStorePower + "W"
+              : "NIE"}
           </Text>
         </View>
         <View style={styles.eachRow}>
