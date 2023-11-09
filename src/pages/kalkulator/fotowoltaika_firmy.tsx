@@ -1,8 +1,8 @@
-import { ScrollArea } from "@mantine/core";
+import { Overlay, ScrollArea } from "@mantine/core";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import React, { useEffect } from "react";
-import { InputComponent, SelectComponent } from "~/components";
+import React, { useEffect, useRef } from "react";
+import { InputComponent, Loading, SelectComponent } from "~/components";
 import { Navbar } from "~/components/Navbar";
 import { SideBar } from "~/components/SideBar";
 import { Preview } from "~/components/forCompany";
@@ -15,6 +15,7 @@ const Fotowoltaika_firmy = () => {
   const store = useStore();
   const router = useRouter();
   const { data: sessionData } = useSession();
+  const isInitialRenderRef = useRef(true);
 
   const { data } =
     api.forCompanyDataFlowRouter.downloadFile.useQuery<ForCompanyDataToCalcualtionType>(
@@ -38,9 +39,10 @@ const Fotowoltaika_firmy = () => {
   }, [forCompanyStore.wantedInstalationPower]);
 
   useEffect(() => {
-    mutations.setAllSystemPowers({
-      calculateModuleCount: forCompanyCalcStore.calculateModuleCount,
-    });
+    if (forCompanyCalcStore.calculateModuleCount.modulesCount400 > 0)
+      mutations.setAllSystemPowers({
+        calculateModuleCount: forCompanyCalcStore.calculateModuleCount,
+      });
   }, [forCompanyCalcStore.calculateModuleCount]);
 
   useEffect(() => {
@@ -52,9 +54,13 @@ const Fotowoltaika_firmy = () => {
   }, [forCompanyCalcStore.allSystemPowers, data]);
 
   useEffect(() => {
-    mutations.setEstimatedKWHProd({
-      systemPower: forCompanyCalcStore.sysPower ?? 0,
-    });
+    if (!isInitialRenderRef.current) {
+      mutations.setEstimatedKWHProd({
+        systemPower: forCompanyCalcStore.sysPower ?? 0,
+      });
+    } else {
+      isInitialRenderRef.current = false;
+    }
   }, [forCompanyCalcStore.sysPower]);
 
   useEffect(() => {
@@ -243,6 +249,12 @@ const Fotowoltaika_firmy = () => {
 
   return (
     <main className="flex h-full max-h-screen overflow-hidden bg-backgroundGray font-orkney laptop:justify-center">
+      {!data && (
+        <>
+          <Overlay color="#000" opacity={0.85} />
+          <Loading />
+        </>
+      )}
       <SideBar />
       <div className="w-full">
         <Navbar />

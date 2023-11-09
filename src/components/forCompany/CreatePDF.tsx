@@ -248,8 +248,7 @@ const ForCompanyDocument = ({
               <Text style={styles.eachPanelData}>
                 MOC {forCompanyCalcStore.allSystemPowers.systemPower400} W
               </Text>
-              <Text>
-                MOC{" "}
+              <Text style={styles.eachPanelData}>
                 {forCompanyCalcStore.baseInstallationsPricing.systemPower400} zł
               </Text>
             </View>
@@ -298,8 +297,7 @@ const ForCompanyDocument = ({
               <Text style={styles.eachPanelData}>
                 MOC {forCompanyCalcStore.allSystemPowers.systemPower455} W
               </Text>
-              <Text>
-                MOC{" "}
+              <Text style={styles.eachPanelData}>
                 {forCompanyCalcStore.baseInstallationsPricing.systemPower455} zł
               </Text>
             </View>
@@ -348,8 +346,7 @@ const ForCompanyDocument = ({
               <Text style={styles.eachPanelData}>
                 MOC {forCompanyCalcStore.allSystemPowers.systemPower500} W
               </Text>
-              <Text>
-                MOC{" "}
+              <Text style={styles.eachPanelData}>
                 {forCompanyCalcStore.baseInstallationsPricing.systemPower500} zł
               </Text>
             </View>
@@ -413,6 +410,12 @@ const ForCompanyDocument = ({
               {forCompanyStore.autoconsumptionInPercent * 100 + "%"}
             </Text>
           </View>
+          <Text style={{ zIndex: 50, fontSize: 8, marginTop: 50 }}>
+            /nr.zam/ model INW/Z{" "}
+            {forCompanyCalcStore.officeMarkup.consultantFeeValue} /{" "}
+            {forCompanyCalcStore.officeMarkup.officeFeeValue} /{" "}
+            {forCompanyCalcStore.officeMarkup.officeFeeForBoss}
+          </Text>
         </View>
       </View>
       <View

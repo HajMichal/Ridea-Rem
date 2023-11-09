@@ -1,7 +1,13 @@
 import React, { useEffect } from "react";
 
-import { ScrollArea } from "@mantine/core";
-import { SideBar, Navbar, InputComponent, SelectComponent } from "~/components";
+import { Overlay, ScrollArea } from "@mantine/core";
+import {
+  SideBar,
+  Navbar,
+  InputComponent,
+  SelectComponent,
+  Loading,
+} from "~/components";
 import { Preview } from "~/components/heatPumps";
 import { useHeatPump } from "~/hooks/useHeatPump";
 import useStore from "~/store";
@@ -293,6 +299,12 @@ const Pompy_ciepla = () => {
 
   return (
     <main className="flex h-full max-h-screen overflow-hidden bg-backgroundGray font-orkney laptop:justify-center">
+      {!data && (
+        <>
+          <Overlay color="#000" opacity={0.85} />
+          <Loading />
+        </>
+      )}
       <SideBar />
       <div className="w-full">
         <Navbar />
