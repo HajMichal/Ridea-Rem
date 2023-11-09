@@ -178,7 +178,7 @@ export function for1KwAndBaseInstallationPrice({
       pricePer1kW: input.dane.trzydziesci,
       baseInstallationPrice: input.system_power * input.dane.trzydziesci,
     };
-  } else if (input.system_power <= 50) {
+  } else if (input.system_power > 30) {
     return {
       pricePer1kW: input.dane.piecdziesiat,
       baseInstallationPrice: input.system_power * input.dane.piecdziesiat,
