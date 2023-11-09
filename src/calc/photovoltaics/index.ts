@@ -566,7 +566,8 @@ export function energyStoreDotationValue({
   if (input.net_instalation_cost < 62000) {
     return Number(
       (
-        input.net_instalation_cost * staticData.PERCENT_TO_HEATSTORE_DOTATION
+        (input.net_instalation_cost - 30000) *
+        staticData.PERCENT_TO_HEATSTORE_DOTATION
       ).toFixed(2)
     );
   }
