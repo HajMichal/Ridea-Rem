@@ -557,6 +557,18 @@ const Fotowoltaika = () => {
     data?.magazyn_energii_solax,
     data?.magazyn_energii_hipontech,
   ]);
+  // PROMOCJA
+  useEffect(() => {
+    if (data)
+      mutations.setPromotionTotalInstallationCosts({
+        oneInstallmentAmount:
+          photovoltaicCalcStore.loanForPurcharse.finallInstalmentPice,
+        totalInstallationCosts: photovoltaicCalcStore.totalInstallationCosts,
+      });
+  }, [
+    photovoltaicCalcStore.totalInstallationCosts,
+    photovoltaicCalcStore.loanForPurcharse.finallInstalmentPice,
+  ]);
 
   const yesNoData = [
     { value: "true", label: "Tak" },
