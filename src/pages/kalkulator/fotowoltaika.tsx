@@ -379,6 +379,12 @@ const Fotowoltaika = () => {
   ]);
 
   useEffect(() => {
+    console.log(
+      energyStore_dotation,
+      photovoltaics_dotation,
+      photovoltaicCalcStore.heatStoreCalcDotation,
+      photovoltaicCalcStore.energyStoreDotationValue
+    );
     mutations.set_dotations_sum({
       energyMenagerDotation: photovoltaicStore.emsDotation
         ? energyStore_dotation ?? 0
@@ -396,6 +402,7 @@ const Fotowoltaika = () => {
     energyStore_dotation,
     photovoltaicStore.emsDotation,
     photovoltaicStore.energyStoreDotation,
+    photovoltaicCalcStore.energyStoreDotationValue,
     photovoltaicCalcStore.heatStoreCalcDotation,
     photovoltaicStore.heatStoreDotation,
     mutations.set_dotations_sum,
@@ -508,14 +515,14 @@ const Fotowoltaika = () => {
         gross_instalation_cost:
           photovoltaicCalcStore.totalInstallationCosts.total_gross_cost,
       });
-    if (photovoltaicCalcStore.totalInstallationCosts.total_gross_cost) {
+    if (photovoltaicCalcStore.totalInstallationCosts.total_installation_cost) {
       mutations.set_energyStoreDotationValue({
         net_instalation_cost:
           photovoltaicCalcStore.totalInstallationCosts.total_installation_cost,
       });
     }
   }, [
-    photovoltaicCalcStore.totalInstallationCosts.total_gross_cost,
+    photovoltaicCalcStore.totalInstallationCosts.total_installation_cost,
     photovoltaicStore.energyStoreDotation,
     mutations.set_heatStoreCalcDotation,
     mutations.set_energyStoreDotationValue,
@@ -827,7 +834,7 @@ const Fotowoltaika = () => {
                 {photovoltaicStore.energyStoreDotation && (
                   <>
                     <SelectComponent
-                      title="PRODUCENT MAGAZYNU ENREGII"
+                      title="PRODUCENT MAGAZYNU ENERGII"
                       onChange={(e) =>
                         store.updatePhotovoltaic(
                           "energyStoreProducent",
