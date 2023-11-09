@@ -61,7 +61,7 @@ export const PdfGeneratorButton = ({
   };
 
   return (
-    <div className="flex h-fit w-full animate-pulse justify-center">
+    <div className="flex h-fit w-full animate-pulse justify-center laptop:mb-8 xxl:mb-0">
       {pdfLoading ? (
         <Loading />
       ) : (

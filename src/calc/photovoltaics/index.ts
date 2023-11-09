@@ -392,6 +392,7 @@ interface DotationsSumType {
   energyStoreDotation: number;
 }
 export function dotationsSum({ input }: { input: DotationsSumType }) {
+  console.log(input);
   return (
     input.photovoltaics_dotation +
     input.heatStore_dotation +
@@ -564,12 +565,16 @@ export function energyStoreDotationValue({
   }
 
   if (input.net_instalation_cost < 62000) {
-    return Number(
-      (
-        (input.net_instalation_cost - 32000) *
-        staticData.PERCENT_TO_HEATSTORE_DOTATION
-      ).toFixed(2)
-    );
+    if (input.net_instalation_cost - 32000 <= 0) {
+      return 0;
+    } else {
+      return Number(
+        (
+          (input.net_instalation_cost - 32000) *
+          staticData.PERCENT_TO_HEATSTORE_DOTATION
+        ).toFixed(2)
+      );
+    }
   }
 }
 
