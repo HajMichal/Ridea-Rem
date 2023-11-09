@@ -252,6 +252,13 @@ export const usePhotovoltaic = () => {
         store.updatePhotovoltaicCalcs("energyStoreDotationValue", data);
       },
     });
+  // PROMOCJA
+  const { mutate: setPromotionTotalInstallationCosts } =
+    api.photovoltaics.promotionTotalInstallationCosts.useMutation({
+      onSuccess: (data) => {
+        store.updatePhotovoltaicCalcs("promotionTotalInstallationCosts", data);
+      },
+    });
 
   const handleInLimitOnChange = (e: { target: { valueAsNumber: number } }) => {
     if (e.target.valueAsNumber) {
@@ -335,6 +342,7 @@ export const usePhotovoltaic = () => {
       getDataDependsOnPanelPower,
       set_loan_for_purcharse,
       set_energyManagerCost,
+      setPromotionTotalInstallationCosts,
     },
   };
 };

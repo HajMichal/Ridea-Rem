@@ -559,11 +559,11 @@ export function energyStoreDotationValue({
 }: {
   input: EnergyStoreDotationValueType;
 }) {
-  if (input.net_instalation_cost >= 32000) {
+  if (input.net_instalation_cost >= 62000) {
     return 16000;
   }
 
-  if (input.net_instalation_cost < 32000) {
+  if (input.net_instalation_cost < 62000) {
     return Number(
       (
         input.net_instalation_cost * staticData.PERCENT_TO_HEATSTORE_DOTATION
@@ -646,6 +646,33 @@ export function energyStoreCost({ input }: { input: EnergyStoreCostType }) {
   else if (input.energyStorePower === 7.2) return input.hipontechCost.prog0;
   else if (input.energyStorePower === 10.8) return input.hipontechCost.prog1;
   else if (input.energyStorePower === 14.4) return input.hipontechCost.prog2;
+}
+
+// PROMOCJA
+interface PromotionTotalInstallationCostsType {
+  totalInstallationCosts: {
+    total_installation_cost: number;
+    total_gross_cost: number;
+    fee_value: number;
+  };
+  oneInstallmentAmount: number;
+}
+export function promotionTotalInstallationCosts({
+  input,
+}: {
+  input: PromotionTotalInstallationCostsType;
+}) {
+  const total_cost =
+    input.totalInstallationCosts.total_installation_cost +
+    2 * input.oneInstallmentAmount;
+
+  const fee_value = total_cost * 0.08;
+
+  return {
+    total_installation_cost: total_cost,
+    total_gross_cost: Number((total_cost + fee_value).toFixed(2)),
+    fee_value: Number(fee_value.toFixed(2)),
+  };
 }
 
 export * as default from "./index";
