@@ -74,14 +74,16 @@ export default function Home() {
             <p className="text-3xl">PANELE </p>
             <p>FOTOWOLTAICZNE</p>
           </div>
-          <Image
-            src={"/KlikDoKalkulacji.svg"}
-            alt="Logo"
-            width={80}
-            height={80}
-            className="-mt-14 h-7 w-7"
-          />
-          <p>STWÓRZ OFERTĘ</p>
+          <div className="absolute bottom-10">
+            <Image
+              src={"/KlikDoKalkulacji.svg"}
+              alt="Logo"
+              width={80}
+              height={80}
+              className=" ml-10 h-7 w-7"
+            />
+            <p>STWÓRZ OFERTĘ</p>
+          </div>
         </div>
       </div>
       <div
@@ -108,14 +110,16 @@ export default function Home() {
             <p className="text-3xl">POMPY</p>
             <p>CIEPŁA</p>
           </div>
-          <Image
-            src={"/KlikDoKalkulacji.svg"}
-            alt="Logo"
-            width={80}
-            height={80}
-            className="-mt-14 h-7 w-7"
-          />
-          <p>STWÓRZ OFERTĘ</p>
+          <div className="absolute bottom-10">
+            <Image
+              src={"/KlikDoKalkulacji.svg"}
+              alt="Logo"
+              width={80}
+              height={80}
+              className="ml-10  h-7  w-7"
+            />
+            <p>STWÓRZ OFERTĘ</p>
+          </div>
         </div>
       </div>
       <div
@@ -142,14 +146,16 @@ export default function Home() {
             <p className="text-3xl">FOTOWOLTAIKA</p>
             <p>DLA FIRM</p>
           </div>
-          <Image
-            src={"/KlikDoKalkulacji.svg"}
-            alt="Logo"
-            width={80}
-            height={80}
-            className="-mt-14 h-7 w-7"
-          />
-          <p>STWÓRZ OFERTĘ</p>
+          <div className="absolute bottom-10">
+            <Image
+              src={"/KlikDoKalkulacji.svg"}
+              alt="Logo"
+              width={80}
+              height={80}
+              className=" ml-10 h-7 w-7"
+            />
+            <p>STWÓRZ OFERTĘ</p>
+          </div>
         </div>
       </div>
     </main>

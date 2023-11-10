@@ -144,14 +144,21 @@ export const Preview = ({
                   calculations={photovoltaicCalcStore.energyStoreCost}
                 />
               )}
-              {!!photovoltaicCalcStore.totalInstallationCosts
+              {/* {!!photovoltaicCalcStore.totalInstallationCosts */}
+              {/* PROMOCJA */}
+              {!!photovoltaicCalcStore.promotionTotalInstallationCosts
                 .total_gross_cost && (
                 <div className="my-10">
                   <h2 className="w-full text-center text-xl">FINANSE</h2>
                   <TextComponent
                     title="KWOTA BRUTTO ZA INSTALACJĘ"
+                    // calculations={
+                    //   photovoltaicCalcStore.totalInstallationCosts
+                    //     .total_gross_cost
+                    // }
+                    // PROMOCJA
                     calculations={
-                      photovoltaicCalcStore.totalInstallationCosts
+                      photovoltaicCalcStore.promotionTotalInstallationCosts
                         .total_gross_cost
                     }
                   />
