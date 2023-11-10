@@ -144,23 +144,23 @@ export const Preview = ({
                   calculations={photovoltaicCalcStore.energyStoreCost}
                 />
               )}
-              {/* {!!photovoltaicCalcStore.totalInstallationCosts */}
               {/* PROMOCJA */}
-              {!!photovoltaicCalcStore.promotionTotalInstallationCosts
+              {/* {!!photovoltaicCalcStore.promotionTotalInstallationCosts */}
+              {!!photovoltaicCalcStore.totalInstallationCosts
                 .total_gross_cost && (
                 <div className="my-10">
                   <h2 className="w-full text-center text-xl">FINANSE</h2>
                   <TextComponent
                     title="KWOTA BRUTTO ZA INSTALACJĘ"
-                    // calculations={
-                    //   photovoltaicCalcStore.totalInstallationCosts
-                    //     .total_gross_cost
-                    // }
-                    // PROMOCJA
                     calculations={
-                      photovoltaicCalcStore.promotionTotalInstallationCosts
+                      photovoltaicCalcStore.totalInstallationCosts
                         .total_gross_cost
                     }
+                    // PROMOCJA
+                    // calculations={
+                    //   photovoltaicCalcStore.promotionTotalInstallationCosts
+                    //     .total_gross_cost
+                    // }
                   />
                   <TextComponent
                     title={`CENA 1 RATY PRZY ${photovoltaicStore.installmentNumber} RATACH PRZED ODLICZENIEM DOTACJI`}
@@ -191,13 +191,13 @@ export const Preview = ({
                     title="MÓJ PRĄD FOTOWOLTAIKA"
                     calculations={photovoltaics_dotation}
                   />
-                  <TextComponent
+                  {/* <TextComponent
                     title="MAGAZYN ENERGII"
                     calculations={
                       photovoltaicStore.energyStoreDotation &&
                       photovoltaicCalcStore.energyStoreDotationValue
                     }
-                  />
+                  /> */}
                 </div>
               ) : (
                 ""

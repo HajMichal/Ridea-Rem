@@ -509,17 +509,35 @@ const Fotowoltaika = () => {
         gross_instalation_cost:
           photovoltaicCalcStore.totalInstallationCosts.total_gross_cost,
       });
-    if (photovoltaicCalcStore.totalInstallationCosts.total_installation_cost) {
+  }, [
+    photovoltaicCalcStore.totalInstallationCosts.total_installation_cost,
+    mutations.set_heatStoreCalcDotation,
+    photovoltaicStore.energyStoreDotation,
+  ]);
+  useEffect(() => {
+    if (
+      photovoltaicCalcStore.totalInstallationCosts.total_installation_cost &&
+      photovoltaics_dotation
+    ) {
       mutations.set_energyStoreDotationValue({
         net_instalation_cost:
           photovoltaicCalcStore.totalInstallationCosts.total_installation_cost,
+        emsDotationValue: photovoltaicStore.emsDotation
+          ? energyStore_dotation ?? 0
+          : 0,
+        heatStoreDotationValue: photovoltaicStore.heatStoreDotation
+          ? photovoltaicCalcStore.heatStoreCalcDotation
+          : 0,
+        photovoltaicDotationValue: photovoltaics_dotation,
       });
     }
   }, [
+    photovoltaics_dotation,
+    photovoltaicCalcStore.heatStoreCalcDotation,
+    photovoltaicStore.heatStoreDotation,
+    photovoltaicStore.emsDotation,
+    energyStore_dotation,
     photovoltaicCalcStore.totalInstallationCosts.total_installation_cost,
-    photovoltaicStore.energyStoreDotation,
-    mutations.set_heatStoreCalcDotation,
-    mutations.set_energyStoreDotationValue,
   ]);
   useEffect(() => {
     mutations.set_termo_modernization({
@@ -559,17 +577,17 @@ const Fotowoltaika = () => {
     data?.magazyn_energii_hipontech,
   ]);
   // PROMOCJA
-  useEffect(() => {
-    if (data)
-      mutations.setPromotionTotalInstallationCosts({
-        oneInstallmentAmount:
-          photovoltaicCalcStore.loanForPurcharse.finallInstalmentPice,
-        totalInstallationCosts: photovoltaicCalcStore.totalInstallationCosts,
-      });
-  }, [
-    photovoltaicCalcStore.totalInstallationCosts,
-    photovoltaicCalcStore.loanForPurcharse.finallInstalmentPice,
-  ]);
+  // useEffect(() => {
+  //   if (data)
+  //     mutations.setPromotionTotalInstallationCosts({
+  //       oneInstallmentAmount:
+  //         photovoltaicCalcStore.loanForPurcharse.finallInstalmentPice,
+  //       totalInstallationCosts: photovoltaicCalcStore.totalInstallationCosts,
+  //     });
+  // }, [
+  //   photovoltaicCalcStore.totalInstallationCosts,
+  //   photovoltaicCalcStore.loanForPurcharse.finallInstalmentPice,
+  // ]);
 
   const yesNoData = [
     { value: "true", label: "Tak" },
