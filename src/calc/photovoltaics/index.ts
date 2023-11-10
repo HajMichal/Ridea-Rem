@@ -395,8 +395,9 @@ export function dotationsSum({ input }: { input: DotationsSumType }) {
   return (
     input.photovoltaics_dotation +
     input.heatStore_dotation +
-    input.energyMenagerDotation +
-    input.energyStoreDotation
+    input.energyMenagerDotation
+    // +
+    // input.energyStoreDotation
   );
 }
 
@@ -553,12 +554,46 @@ export function heatStoreDotationValue({
 }
 interface EnergyStoreDotationValueType {
   net_instalation_cost: number;
+  emsDotationValue: number;
+  heatStoreDotationValue: number;
+  photovoltaicDotationValue: number;
 }
 export function energyStoreDotationValue({
   input,
 }: {
   input: EnergyStoreDotationValueType;
 }) {
+  // console.log(input);
+  // const dotationSum =
+  //   input.emsDotationValue +
+  //   input.photovoltaicDotationValue +
+  //   input.heatStoreDotationValue;
+
+  // const netCostAfterDotation = Number(
+  //   (
+  //     input.net_instalation_cost * staticData.PERCENT_TO_HEATSTORE_DOTATION -
+  //     dotationSum
+  //   ).toFixed(2)
+  // );
+  // console.log(netCostAfterDotation);
+  // if (input.net_instalation_cost >= netCostAfterDotation) {
+  //   return 16000;
+  // }
+
+  // if (input.net_instalation_cost < netCostAfterDotation) {
+  //   if (netCostAfterDotation <= 0) {
+  //     return 0;
+  //   } else {
+  //     return netCostAfterDotation;
+  //   }
+  // }
+  // const dotationSum =
+  //   input.emsDotationValue +
+  //   input.photovoltaicDotationValue +
+  //   input.heatStoreDotationValue;
+
+  // const netCostAfterDotation = input.net_instalation_cost - dotationSum;
+
   if (input.net_instalation_cost >= 62000) {
     return 16000;
   }

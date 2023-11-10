@@ -410,37 +410,37 @@ const MyDocument = ({
         <View style={styles.eachRow}>
           <Text>WARTOŚĆ NETTO</Text>
           <Text style={styles.boldFont}>
-            {/* {photovoltaicCalcStore.totalInstallationCosts.total_installation_cost.toFixed(
-              2
-            )}{" "} */}
-            {/* PROMOCJA */}
-            {photovoltaicCalcStore.promotionTotalInstallationCosts.total_installation_cost.toFixed(
+            {photovoltaicCalcStore.totalInstallationCosts.total_installation_cost.toFixed(
               2
             )}{" "}
+            {/* PROMOCJA */}
+            {/* {photovoltaicCalcStore.promotionTotalInstallationCosts.total_installation_cost.toFixed(
+              2
+            )}{" "} */}
             zł
           </Text>
         </View>
         <View style={styles.eachRow}>
           <Text>PODATEK VAT 8%</Text>
           <Text style={styles.boldFont}>
-            {/* {photovoltaicCalcStore.totalInstallationCosts.fee_value.toFixed(2)}{" "} */}
+            {photovoltaicCalcStore.totalInstallationCosts.fee_value.toFixed(2)}{" "}
             {/* PROMOCJA */}
-            {photovoltaicCalcStore.promotionTotalInstallationCosts.fee_value.toFixed(
+            {/* {photovoltaicCalcStore.promotionTotalInstallationCosts.fee_value.toFixed(
               2
-            )}{" "}
+            )}{" "} */}
             zł
           </Text>
         </View>
         <View style={styles.eachRow}>
           <Text>WARTOŚĆ BRUTTO</Text>
           <Text style={styles.boldFont}>
-            {/* {photovoltaicCalcStore.totalInstallationCosts.total_gross_cost.toFixed(
-              2
-            )}{" "} */}
-            {/* PROMOCJA */}
-            {photovoltaicCalcStore.promotionTotalInstallationCosts.total_gross_cost.toFixed(
+            {photovoltaicCalcStore.totalInstallationCosts.total_gross_cost.toFixed(
               2
             )}{" "}
+            {/* PROMOCJA */}
+            {/* {photovoltaicCalcStore.promotionTotalInstallationCosts.total_gross_cost.toFixed(
+              2
+            )}{" "} */}
             zł
           </Text>
         </View>
@@ -486,13 +486,13 @@ const MyDocument = ({
               SYSTEM ZARZĄDZANIA ENERGIĄ (EMS/HEMS) -{" "}
               {photovoltaicStore.emsDotation ? energyStore_dotation : "0"} ZŁ
             </Text>
-            <Text>
+            {/* <Text>
               DOTACJA NA MAGAZYN ENERGII -{" "}
               {photovoltaicStore.energyStoreDotation
                 ? photovoltaicCalcStore.energyStoreDotationValue
                 : "0"}{" "}
               ZŁ
-            </Text>
+            </Text> */}
           </View>
         </View>
 

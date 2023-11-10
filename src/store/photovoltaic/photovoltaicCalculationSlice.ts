@@ -58,11 +58,11 @@ export interface PhotovoltaicCalculations {
   energyStoreDotationValue: number;
   energyManagerCost: number;
   // PROMOCJA
-  promotionTotalInstallationCosts: {
-    total_installation_cost: number;
-    total_gross_cost: number;
-    fee_value: number;
-  };
+  // promotionTotalInstallationCosts: {
+  //   total_installation_cost: number;
+  //   total_gross_cost: number;
+  //   fee_value: number;
+  // };
 }
 
 export interface PhotovoltaicCalculationSlice {
@@ -131,11 +131,11 @@ export const photovoltaicCalculationSlice: StateCreator<
     energyStoreDotationValue: 0,
     energyManagerCost: 0,
     // PROMOCJA
-    promotionTotalInstallationCosts: {
-      total_installation_cost: 0,
-      total_gross_cost: 0,
-      fee_value: 0,
-    },
+    // promotionTotalInstallationCosts: {
+    //   total_installation_cost: 0,
+    //   total_gross_cost: 0,
+    //   fee_value: 0,
+    // },
   },
   updatePhotovoltaicCalcs: (key, value) =>
     set((state) => ({

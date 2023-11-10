@@ -375,6 +375,9 @@ export const photovoltaics_calculator = createTRPCRouter({
     .input(
       z.object({
         net_instalation_cost: z.number(),
+        emsDotationValue: z.number(),
+        heatStoreDotationValue: z.number(),
+        photovoltaicDotationValue: z.number(),
       })
     )
     .mutation(calc.energyStoreDotationValue),
