@@ -32,7 +32,7 @@ const DanePompyCiepla = () => {
   }, [sessionData, router]);
 
   return (
-    <div className="flex h-full max-h-screen min-h-screen justify-center bg-[#E8E7E7] font-orkney">
+    <div className="flex h-full max-h-screen min-h-screen justify-center overflow-hidden bg-[#E8E7E7] font-orkney">
       <Toaster />
       <SideBar />
       <div className="flex max-h-screen w-full flex-wrap ">
@@ -249,26 +249,7 @@ const EditionForm = ({ data }: EditionFormType) => {
         dynamicPropValues.dodatki[
           addonName as keyof typeof dynamicPropValues.dodatki
         ];
-      const nameMappings: { [key: string]: string } = {
-        kolejna_kaskada: "KOLEJNA POMPA CIEPŁA W KASKADZIE",
-        posadowienie_rozsaczanie: "POSADOWIENIE Z ROZSĄCZANIEM",
-        przewierty: "DODATKOWE PRZEWIERTY",
-        poprowadzenie_instalacji_wierzchu:
-          "POPROWADZENIE INSTALACJI OD PC DO BUDYNKU PO WIERZCHU W IZOLACJI Z WEŁNY MINERALNEJ",
-        rura_preizolowana: "RURA PREIZOLOWANA",
-        dodatkowe_rury_preizolowane: "KAŻDY NASTĘPNY MB RURY PREIZOLOWANEJ",
-        cyrkulacja_cwu: "MONTAŻ CYRKULACJI DO CWU",
-        demontaz_kotla: "DEMONTAŻ STAREGO KOTŁA",
-        posprzatanie:
-          "PRZYGOTOWANIE POPRZEZ POSPRZĄTANIE MIEJSCA POSADOWIENIA ELEMNTÓW MASZYNOWNI",
-        przeniesienie_zasobnika:
-          "PRZENIESIENIE LUB DEMONTAŻ ZASOBNIKA CWU KLIENTA",
-        wykonanie_przylacza:
-          "WYKONANIE PRZYŁĄCZA ENERGETYCZNEGO DO ZASILANIA PC",
-        spiecie_bufora: "SPIĘCIE BUFOR CO Z DODATKOOWYM ŹRÓDŁEM GRZEWCZYM",
-        zamkniecie_ukladu_otwartego: "ZAMKNIĘCIE UKŁADU OTWARTEGO",
-      };
-      const title = nameMappings[addonName]!;
+      const title = addonNamesMappings[addonName]!;
       jsxAddonsElements.push(
         <ChangeDataInputComponent
           {...register(registerAddonKey, {
@@ -287,20 +268,6 @@ const EditionForm = ({ data }: EditionFormType) => {
         <h2 className="mt-5 w-full text-center text-3xl">POMPY CIEPŁA</h2>
         {dynamicPropValues &&
           Object.entries(dynamicPropValues.pompy_ciepla).map((key, index) => {
-            const nameMappings: { [key: string]: string } = {
-              "Z-PRO53/4MitsubishiInv11-16": "Z-PRO.5.3/4.Mitsubishi.Inv.11-16",
-              "Z-PRO53/4MitsubishiIHO11-16": "Z-PRO.5.3/4.Mitsubishi.IHO.11-16",
-              "SAT63DanfossInv14-23": "SAT.6.3.Danfoss.Inv.14-23",
-              "SAT63DanfossIHO14-24": "SAT.6.3.Danfoss.IHO.14-24",
-              "SATELI82P19i17-29": "SAT.ELI.8.2.P19i.17-29",
-              "SATELI83P23i20-32": "SAT.ELI.8.3.P23i.20-32",
-              "SATELI83P26i23-34": "SAT.ELI.8.3.P26i.23-34",
-              "SATELI83P30i25-37": "SAT.ELI.8.3.P30i.25-37",
-              "SATELI82P19iHO25-35": "SAT.ELI.8.2.P19iHO.25-35",
-              "SATELI83P23iHO30-41": "SAT.ELI.8.3.P23iHO.30-41",
-              "SATELI83P26iHO35-45": "SAT.ELI.8.3.P26iHO.35-45",
-              "SATELI83P30iHO37-48": "SAT.ELI.8.3.P30iHO.37-48",
-            };
             return (
               <div className="my-7" key={index}>
                 <ChangeDataInputComponent
@@ -310,7 +277,7 @@ const EditionForm = ({ data }: EditionFormType) => {
                       valueAsNumber: true,
                     }
                   )}
-                  title={nameMappings[key[0]] || key[0]}
+                  title={pumpNamesMappings[key[0]] || key[0]}
                   defaultValue={key[1].cena}
                 />
                 <ChangeDataInputComponent
@@ -512,6 +479,39 @@ const EditionForm = ({ data }: EditionFormType) => {
       </Modal>
     </>
   );
+};
+
+const addonNamesMappings: { [key: string]: string } = {
+  kolejna_kaskada: "KOLEJNA POMPA CIEPŁA W KASKADZIE",
+  posadowienie_rozsaczanie: "POSADOWIENIE Z ROZSĄCZANIEM",
+  przewierty: "DODATKOWE PRZEWIERTY",
+  poprowadzenie_instalacji_wierzchu:
+    "POPROWADZENIE INSTALACJI OD PC DO BUDYNKU PO WIERZCHU W IZOLACJI Z WEŁNY MINERALNEJ",
+  rura_preizolowana: "RURA PREIZOLOWANA",
+  dodatkowe_rury_preizolowane: "KAŻDY NASTĘPNY MB RURY PREIZOLOWANEJ",
+  cyrkulacja_cwu: "MONTAŻ CYRKULACJI DO CWU",
+  demontaz_kotla: "DEMONTAŻ STAREGO KOTŁA",
+  posprzatanie:
+    "PRZYGOTOWANIE POPRZEZ POSPRZĄTANIE MIEJSCA POSADOWIENIA ELEMNTÓW MASZYNOWNI",
+  przeniesienie_zasobnika: "PRZENIESIENIE LUB DEMONTAŻ ZASOBNIKA CWU KLIENTA",
+  wykonanie_przylacza: "WYKONANIE PRZYŁĄCZA ENERGETYCZNEGO DO ZASILANIA PC",
+  spiecie_bufora: "SPIĘCIE BUFOR CO Z DODATKOOWYM ŹRÓDŁEM GRZEWCZYM",
+  zamkniecie_ukladu_otwartego: "ZAMKNIĘCIE UKŁADU OTWARTEGO",
+};
+
+const pumpNamesMappings: { [key: string]: string } = {
+  "Z-PRO53/4MitsubishiInv11-16": "Z-PRO.5.3/4.Mitsubishi.Inv.11-16",
+  "Z-PRO53/4MitsubishiIHO11-16": "Z-PRO.5.3/4.Mitsubishi.IHO.11-16",
+  "SAT63DanfossInv14-23": "SAT.6.3.Danfoss.Inv.14-23",
+  "SAT63DanfossIHO14-24": "SAT.6.3.Danfoss.IHO.14-24",
+  "SATELI82P19i17-29": "SAT.ELI.8.2.P19i.17-29",
+  "SATELI83P23i20-32": "SAT.ELI.8.3.P23i.20-32",
+  "SATELI83P26i23-34": "SAT.ELI.8.3.P26i.23-34",
+  "SATELI83P30i25-37": "SAT.ELI.8.3.P30i.25-37",
+  "SATELI82P19iHO25-35": "SAT.ELI.8.2.P19iHO.25-35",
+  "SATELI83P23iHO30-41": "SAT.ELI.8.3.P23iHO.30-41",
+  "SATELI83P26iHO35-45": "SAT.ELI.8.3.P26iHO.35-45",
+  "SATELI83P30iHO37-48": "SAT.ELI.8.3.P30iHO.37-48",
 };
 
 export default DanePompyCiepla;
