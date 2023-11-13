@@ -486,13 +486,14 @@ const MyDocument = ({
               SYSTEM ZARZĄDZANIA ENERGIĄ (EMS/HEMS) -{" "}
               {photovoltaicStore.emsDotation ? energyStore_dotation : "0"} ZŁ
             </Text>
-            {/* <Text>
+            <Text>
               DOTACJA NA MAGAZYN ENERGII -{" "}
               {photovoltaicStore.energyStoreDotation
-                ? photovoltaicCalcStore.energyStoreDotationValue
-                : "0"}{" "}
+                ? "Do 16000 ZŁ"
+                : // ? photovoltaicCalcStore.energyStoreDotationValue
+                  "0"}{" "}
               ZŁ
-            </Text> */}
+            </Text>
           </View>
         </View>
 

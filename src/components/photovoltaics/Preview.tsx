@@ -191,13 +191,14 @@ export const Preview = ({
                     title="MÓJ PRĄD FOTOWOLTAIKA"
                     calculations={photovoltaics_dotation}
                   />
-                  {/* <TextComponent
+                  <TextComponent
                     title="MAGAZYN ENERGII"
                     calculations={
                       photovoltaicStore.energyStoreDotation &&
-                      photovoltaicCalcStore.energyStoreDotationValue
+                      // photovoltaicCalcStore.energyStoreDotationValue
+                      "Do 16000"
                     }
-                  /> */}
+                  />
                 </div>
               ) : (
                 ""
