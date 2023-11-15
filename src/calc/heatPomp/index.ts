@@ -394,6 +394,7 @@ interface AddonsSumCost {
   energeticConnectionCost: number;
   buforWithSupportCost: number;
   closeOpenedSystemCost: number;
+  markupSumValue: number;
 }
 export function addonsSumCost({ input }: { input: AddonsSumCost }) {
   return (
@@ -409,7 +410,8 @@ export function addonsSumCost({ input }: { input: AddonsSumCost }) {
     input.moveCwuCost +
     input.energeticConnectionCost +
     input.buforWithSupportCost +
-    input.closeOpenedSystemCost
+    input.closeOpenedSystemCost +
+    input.markupSumValue
   );
 }
 

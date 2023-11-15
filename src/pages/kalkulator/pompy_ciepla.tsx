@@ -188,6 +188,7 @@ const Pompy_ciepla = () => {
       newDrillingsCost: heatPumpCalcStore.newDrillingsCost,
       placementWithBurstCost: heatPumpCalcStore.placementWithBurstCost,
       preisolatedPipeCost: heatPumpCalcStore.preisolatedPipeCost,
+      markupSumValue: heatPumpCalcStore.markupCosts.markupSumValue,
     });
   }, [
     heatPumpCalcStore.buforWithSupportCost,
@@ -203,14 +204,13 @@ const Pompy_ciepla = () => {
     heatPumpCalcStore.moveCwuCost,
     heatPumpCalcStore.placementWithBurstCost,
     heatPumpCalcStore.preisolatedPipeCost,
+    heatPumpCalcStore.markupCosts,
   ]);
   useEffect(() => {
     mutations.setHeatPumpPricingBeforeDotations({
       addonsSumCost: heatPumpCalcStore.addonSumCost,
       buforCost: heatPumpCalcStore.bufforCost,
-      netPriceForHeatPump:
-        heatPumpCalcStore.heatPumpCost +
-        heatPumpCalcStore.markupCosts.markupSumValue,
+      netPriceForHeatPump: heatPumpCalcStore.heatPumpCost,
       vat: heatPumpStore.forCompany ? 0.23 : 0.08,
     });
   }, [

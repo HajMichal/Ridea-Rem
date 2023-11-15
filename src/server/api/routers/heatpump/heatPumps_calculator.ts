@@ -182,6 +182,7 @@ export const heatPump_calculator = createTRPCRouter({
         energeticConnectionCost: z.number(),
         buforWithSupportCost: z.number(),
         closeOpenedSystemCost: z.number(),
+        markupSumValue: z.number(),
       })
     )
     .mutation(calc.addonsSumCost),
