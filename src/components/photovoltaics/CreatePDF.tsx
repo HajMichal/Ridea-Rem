@@ -148,19 +148,19 @@ const MyDocument = ({
     <Page size="A4" style={styles.page}>
       <Image
         style={styles.image}
-        src={`${process.env.NEXT_PUBLIC_BASE_URL}/static/pdf/firstPage.png`}
+        src={`${process.env.NEXT_PUBLIC_BASE_URL}/static/photovoltaic/firstPage.png`}
       />
     </Page>
     <Page size="A4" style={styles.page}>
       <Image
         style={styles.image}
-        src={`${process.env.NEXT_PUBLIC_BASE_URL}/static/pdf/secondPage.png`}
+        src={`${process.env.NEXT_PUBLIC_BASE_URL}/static/photovoltaic/secondPage.png`}
       />
     </Page>
     <Page size="A4" style={styles.page}>
       <Image
         style={styles.image}
-        src={`${process.env.NEXT_PUBLIC_BASE_URL}/static/pdf/thirdPage.png`}
+        src={`${process.env.NEXT_PUBLIC_BASE_URL}/static/photovoltaic/thirdPage.png`}
       />
     </Page>
     <Page size="A4" style={styles.page}>

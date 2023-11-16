@@ -45,7 +45,7 @@ export default function Signin() {
         <div className="h-[90%] w-5/6  rounded-r-[60px] bg-white p-10 shadow-sm">
           <div className="flex w-full items-center justify-center ">
             <Image
-              src={"/logo_solo_color.svg"}
+              src={"/icons/logo_solo_color.svg"}
               alt="Logo"
               width={80}
               height={80}

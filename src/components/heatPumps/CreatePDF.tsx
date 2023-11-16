@@ -312,6 +312,7 @@ const HeatPumpDocument = ({
           <Text style={styles.boldFont}>
             {heatPumpStore.isPreIsolatedPipe
               ? heatPumpStore.longerPreIsolatedPipe +
+                "m " +
                 "-" +
                 heatPumpCalcStore.longerPreIsolatedPipeCost
               : "NIE"}
@@ -494,20 +495,17 @@ const HeatPumpDocument = ({
     <Page size="A4" style={styles.page}>
       {heatPumpStore.buforType.includes("17") && (
         <Image
-          style={styles.image}
           src={`${process.env.NEXT_PUBLIC_BASE_URL}/static/heatPumpPdf/schemat17.jpg`}
         />
       )}
       {heatPumpStore.buforType.includes("24") && (
         <Image
-          style={styles.image}
           src={`${process.env.NEXT_PUBLIC_BASE_URL}/static/heatPumpPdf/schemat24.png`}
         />
       )}
 
       {heatPumpStore.buforType.includes("34") && (
         <Image
-          style={styles.image}
           src={`${process.env.NEXT_PUBLIC_BASE_URL}/static/heatPumpPdf/schemat34.png`}
         />
       )}

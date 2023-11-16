@@ -56,7 +56,7 @@ export default function Home() {
         onClick={() => void router.push("/kalkulator/fotowoltaika")}
       >
         <Image
-          src={"/Fotowoltaika.png"}
+          src={"/home/Fotowoltaika.png"}
           alt="Zdjęcie instalacjii"
           width={640}
           height={1080}
@@ -65,7 +65,7 @@ export default function Home() {
         <div className="flex flex-col items-center font-orkneyLight text-sm text-white">
           <div className="absolute top-[350px] flex flex-col items-center font-orkneyBold text-2xl text-white">
             <Image
-              src={"/FotowoltaikaIcon.svg"}
+              src={"/home/icons/FotowoltaikaIcon.svg"}
               alt="Logo"
               width={80}
               height={80}
@@ -76,7 +76,7 @@ export default function Home() {
           </div>
           <div className="absolute bottom-10">
             <Image
-              src={"/KlikDoKalkulacji.svg"}
+              src={"/home/icons/KlikDoKalkulacji.svg"}
               alt="Logo"
               width={80}
               height={80}
@@ -92,7 +92,7 @@ export default function Home() {
         onClick={() => void router.push("/kalkulator/pompy_ciepla")}
       >
         <Image
-          src={"/Pompy_ciepla.png"}
+          src={"/home/Pompy_ciepla.png"}
           alt="Zdjęcie instalacjii"
           width={480}
           height={920}
@@ -101,7 +101,7 @@ export default function Home() {
         <div className="flex flex-col items-center font-orkneyLight text-sm text-white">
           <div className="absolute top-[350px] flex flex-col items-center font-orkneyBold text-2xl text-white">
             <Image
-              src={"/PompaDoKalkulacji.svg"}
+              src={"/home/icons/PompaDoKalkulacji.svg"}
               alt="Logo"
               width={80}
               height={80}
@@ -112,7 +112,7 @@ export default function Home() {
           </div>
           <div className="absolute bottom-10">
             <Image
-              src={"/KlikDoKalkulacji.svg"}
+              src={"/home/icons/KlikDoKalkulacji.svg"}
               alt="Logo"
               width={80}
               height={80}
@@ -128,7 +128,7 @@ export default function Home() {
         onClick={() => void router.push("/kalkulator/fotowoltaika_firmy")}
       >
         <Image
-          src={"/Foto_firm.png"}
+          src={"/home/Foto_firm.png"}
           alt="Zdjęcie instalacjii"
           width={640}
           height={1080}
@@ -137,7 +137,7 @@ export default function Home() {
         <div className="flex flex-col items-center font-orkneyLight text-sm text-white">
           <div className="absolute top-[350px] flex flex-col items-center font-orkneyBold text-2xl text-white">
             <Image
-              src={"/FotowoltaikaIcon.svg"}
+              src={"/home/icons/FotowoltaikaIcon.svg"}
               alt="Logo"
               width={80}
               height={80}
@@ -148,11 +148,11 @@ export default function Home() {
           </div>
           <div className="absolute bottom-10">
             <Image
-              src={"/KlikDoKalkulacji.svg"}
+              src={"/home/icons/KlikDoKalkulacji.svg"}
               alt="Logo"
               width={80}
               height={80}
-              className=" ml-10 h-7 w-7"
+              className="ml-10 h-7 w-7"
             />
             <p>STWÓRZ OFERTĘ</p>
           </div>

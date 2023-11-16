@@ -46,7 +46,7 @@ export const SideBar = () => (
   <div className="flex h-full max-h-screen min-h-screen w-auto flex-col justify-between gap-3  bg-[#191918] font-orkney">
     <Link className="mt-3 flex w-full justify-center" href={"/home"}>
       <Image
-        src={"/logo_solo_yellowSun.svg"}
+        src={"/icons/logo_solo_yellowSun.svg"}
         width={180}
         height={180}
         alt="Logo"

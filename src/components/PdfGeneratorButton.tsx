@@ -28,8 +28,7 @@ export const PdfGeneratorButton = ({
   const { heatPumpCalcStore, heatPumpStore } = useHeatPump();
   const { forCompanyCalcStore, forCompanyStore } = useForCompany();
 
-  const generateContract = async () => {
-    setPdfLoading(true);
+  const photovoltaicDoc = async () => {
     const blobPhotovoltaics = await pdf(
       <MyDocument
         photovoltaicCalcStore={photovoltaicCalcStore}
@@ -38,6 +37,9 @@ export const PdfGeneratorButton = ({
         photovoltaics_dotation={photovoltaics_dotation}
       />
     ).toBlob();
+    saveAs(blobPhotovoltaics, "Oferta dla Klienta - IdeaRem.pdf");
+  };
+  const heatPumpDoc = async () => {
     const blobHeatPump = await pdf(
       <HeatPumpDocument
         heatPumpCalcStore={heatPumpCalcStore}
@@ -45,25 +47,34 @@ export const PdfGeneratorButton = ({
         cop={cop}
       />
     ).toBlob();
+    saveAs(blobHeatPump, "Oferta dla Klienta - IdeaRem.pdf");
+  };
+  const forCompanyDoc = async () => {
     const blobForCompany = await pdf(
       <ForCompanyDocument
         forCompanyCalcStore={forCompanyCalcStore}
         forCompanyStore={forCompanyStore}
       />
     ).toBlob();
+    saveAs(blobForCompany, "Oferta dla Klienta - IdeaRem.pdf");
+  };
+
+  const generateContract = async () => {
+    setPdfLoading(true);
+    if (router.pathname === "/kalkulator/fotowoltaika") {
+      await photovoltaicDoc();
+    } else if (router.pathname === "/kalkulator/pompy_ciepla") {
+      await heatPumpDoc();
+    } else if (router.pathname === "/kalkulator/fotowoltaika_firmy") {
+      await forCompanyDoc();
+    }
     setPdfLoading(false);
-    router.pathname === "/kalkulator/fotowoltaika" &&
-      saveAs(blobPhotovoltaics, "Oferta dla Klienta - IdeaRem.pdf");
-    router.pathname === "/kalkulator/pompy_ciepla" &&
-      saveAs(blobHeatPump, "Oferta dla Klienta - IdeaRem.pdf");
-    router.pathname === "/kalkulator/fotowoltaika_firmy" &&
-      saveAs(blobForCompany, "Oferta dla Klienta - IdeaRem.pdf");
   };
 
   return (
     <div className="flex h-fit w-full animate-pulse justify-center laptop:mb-8 xxl:mb-0">
       {pdfLoading ? (
-        <Loading />
+        <Loading isDownloading />
       ) : (
         <Badge size="xl" className="bg-brand py-5 text-dark">
           <button onClick={generateContract}>Pobierz kalkulacje!</button>
