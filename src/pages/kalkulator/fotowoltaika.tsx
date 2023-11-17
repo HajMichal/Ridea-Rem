@@ -388,15 +388,16 @@ const Fotowoltaika = () => {
         ? photovoltaicCalcStore.heatStoreCalcDotation ?? 0
         : 0,
       energyStoreDotation: photovoltaicStore.energyStoreDotation
-        ? photovoltaicCalcStore.energyStoreDotationValue
-        : 0,
+        ? 16000
+        : // photovoltaicCalcStore.energyStoreDotationValue
+          0,
     });
   }, [
     photovoltaics_dotation,
     energyStore_dotation,
     photovoltaicStore.emsDotation,
     photovoltaicStore.energyStoreDotation,
-    photovoltaicCalcStore.energyStoreDotationValue,
+    // photovoltaicCalcStore.energyStoreDotationValue,
     photovoltaicCalcStore.heatStoreCalcDotation,
     photovoltaicStore.heatStoreDotation,
     mutations.set_dotations_sum,
