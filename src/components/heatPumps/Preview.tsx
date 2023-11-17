@@ -63,7 +63,10 @@ export const Preview = ({ cop }: dataFromJson) => {
               calculations={heatPumpStore.minimalWorkingTemp}
             />
 
-            <TextComponent title="BUFOR" calculations={heatPumpStore.isBufor} />
+            <TextComponent
+              title="SCHEMAT PRZYŁĄCZENIOWY"
+              calculations={heatPumpStore.isBufor}
+            />
             <TextComponent
               title="CENA MONTAŻU WRAZ Z MATERIAŁAMI"
               calculations={heatPumpCalcStore.bufforCost}
@@ -133,7 +136,7 @@ export const Preview = ({ cop }: dataFromJson) => {
               calculations={heatPumpStore.closingOpenSytem}
             />
             <TextComponent
-              title="ROCZNY KOSZT OGRZEWANIA POMPĄ CIEPŁA"
+              title="SZACUNKOWY KOSZT OGRZEWANIA POMPĄ CIEPŁA"
               calculations={heatPumpCalcStore.heatingWithHeatPump.heatingWithHeatPumpCost.toFixed(
                 2
               )}

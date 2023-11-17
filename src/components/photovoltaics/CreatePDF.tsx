@@ -148,19 +148,19 @@ const MyDocument = ({
     <Page size="A4" style={styles.page}>
       <Image
         style={styles.image}
-        src={`${process.env.NEXT_PUBLIC_BASE_URL}/static/pdf/firstPage.png`}
+        src={`${process.env.NEXT_PUBLIC_BASE_URL}/static/photovoltaic/firstPage.png`}
       />
     </Page>
     <Page size="A4" style={styles.page}>
       <Image
         style={styles.image}
-        src={`${process.env.NEXT_PUBLIC_BASE_URL}/static/pdf/secondPage.png`}
+        src={`${process.env.NEXT_PUBLIC_BASE_URL}/static/photovoltaic/secondPage.png`}
       />
     </Page>
     <Page size="A4" style={styles.page}>
       <Image
         style={styles.image}
-        src={`${process.env.NEXT_PUBLIC_BASE_URL}/static/pdf/thirdPage.png`}
+        src={`${process.env.NEXT_PUBLIC_BASE_URL}/static/photovoltaic/thirdPage.png`}
       />
     </Page>
     <Page size="A4" style={styles.page}>
@@ -333,7 +333,7 @@ const MyDocument = ({
         <View style={styles.eachRow}>
           <Text>MENADŻER ENERGII - EMS</Text>
           <Text style={styles.boldFont}>
-            {photovoltaicStore.heatStoreDotation ? "1 szt." : "NIE"}
+            {photovoltaicStore.emsDotation ? "1 szt." : "NIE"}
           </Text>
         </View>
         <View style={styles.eachRow}>

@@ -551,7 +551,7 @@ const Pompy_ciepla = () => {
                   smallField
                 />
                 <SelectComponent
-                  title="BUFOR"
+                  title="SCHEMAT PRZYŁĄCZENIOWY"
                   onChange={(e) => store.updateHeatPump("isBufor", e == "true")}
                   value={heatPumpStore.isBufor}
                   data={yesNoData}
