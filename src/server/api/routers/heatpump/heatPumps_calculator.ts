@@ -270,7 +270,8 @@ export const heatPump_calculator = createTRPCRouter({
         where: { id: input.creatorId },
       });
       const officeFeeForBoss = creator
-        ? Math.round(creator.feePerkw * input.system_power) + creator.imposedFee
+        ? Math.round(creator.feePerkwHeatPump * input.system_power) +
+          creator.imposedFeeHeatPump
         : 0;
 
       const markupSumValue = Number(
