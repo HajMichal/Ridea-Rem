@@ -4,34 +4,37 @@
       "Adrian Szymborski": {
         "dane": {
           "czterysta": {
-            "dwa": 4920,
-            "cztery": 4700,
-            "szesc": 4250,
-            "osiem": 3900,
-            "dwanascie": 3800,
-            "dwadziescia": 3600,
-            "trzydziesci": 3400,
-            "piecdziesiat": 3300
-          },
-          "czterysta_piecdziesiat": {
-            "dwa": 4921,
+            "dwa": 4925,
             "cztery": 4701,
             "szesc": 4250,
             "osiem": 3900,
             "dwanascie": 3800,
             "dwadziescia": 3600,
             "trzydziesci": 3400,
-            "piecdziesiat": 3300
+            "piecdziesiat": 3300,
+            "overpiecdziesiat": 3200
+          },
+          "czterysta_piecdziesiat": {
+            "dwa": 4945,
+            "cztery": 4701,
+            "szesc": 4250,
+            "osiem": 3900,
+            "dwanascie": 3800,
+            "dwadziescia": 3600,
+            "trzydziesci": 3400,
+            "piecdziesiat": 3300,
+            "overpiecdziesiat": 3200
           },
           "piecset": {
-            "dwa": 4922,
+            "dwa": 4950,
             "cztery": 4702,
             "szesc": 4250,
             "osiem": 3900,
             "dwanascie": 3800,
             "dwadziescia": 3600,
             "trzydziesci": 3400,
-            "piecdziesiat": 3300
+            "piecdziesiat": 3300,
+            "overpiecdziesiat": 3200
           }
         },
         "koszty_dodatkowe": {
@@ -40,7 +43,7 @@
           "ekierki": 330,
           "grunt": 850
         },
-        "cena_skupu_pradu": 0.72,
+        "cena_skupu_pradu": 0.58,
         "prowizjaBiura": 550,
         "oprocentowanie_kredytu": 8.3
       }
@@ -56,7 +59,8 @@
             "dwanascie": 3800,
             "dwadziescia": 3600,
             "trzydziesci": 3400,
-            "piecdziesiat": 3300
+            "piecdziesiat": 3300,
+            "overpiecdziesiat": 3200
           },
           "czterysta_piecdziesiat": {
             "dwa": 4921,
@@ -66,7 +70,8 @@
             "dwanascie": 3800,
             "dwadziescia": 3600,
             "trzydziesci": 3400,
-            "piecdziesiat": 3300
+            "piecdziesiat": 3300,
+            "overpiecdziesiat": 3200
           },
           "piecset": {
             "dwa": 4922,
@@ -76,7 +81,8 @@
             "dwanascie": 3800,
             "dwadziescia": 3600,
             "trzydziesci": 3400,
-            "piecdziesiat": 3300
+            "piecdziesiat": 3300,
+            "overpiecdziesiat": 3200
           }
         },
         "koszty_dodatkowe": {

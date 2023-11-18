@@ -18,6 +18,7 @@ const schema = z.record(
         dwadziescia: z.number(),
         trzydziesci: z.number(),
         piecdziesiat: z.number(),
+        overpiecdziesiat: z.number(),
       }),
       czterysta_piecdziesiat: z.object({
         dwa: z.number(),
@@ -28,6 +29,7 @@ const schema = z.record(
         dwadziescia: z.number(),
         trzydziesci: z.number(),
         piecdziesiat: z.number(),
+        overpiecdziesiat: z.number(),
       }),
       piecset: z.object({
         dwa: z.number(),
@@ -38,6 +40,7 @@ const schema = z.record(
         dwadziescia: z.number(),
         trzydziesci: z.number(),
         piecdziesiat: z.number(),
+        overpiecdziesiat: z.number(),
       }),
     }),
     koszty_dodatkowe: z.object({
@@ -143,6 +146,7 @@ export const forCompanyDataFlowRouter = createTRPCRouter({
               dwadziescia: 3600,
               trzydziesci: 3400,
               piecdziesiat: 3300,
+              overpiecdziesiat: 3200,
             },
             czterysta_piecdziesiat: {
               dwa: 4921,
@@ -153,6 +157,7 @@ export const forCompanyDataFlowRouter = createTRPCRouter({
               dwadziescia: 3600,
               trzydziesci: 3400,
               piecdziesiat: 3300,
+              overpiecdziesiat: 3200,
             },
             piecset: {
               dwa: 4922,
@@ -163,6 +168,7 @@ export const forCompanyDataFlowRouter = createTRPCRouter({
               dwadziescia: 3600,
               trzydziesci: 3400,
               piecdziesiat: 3300,
+              overpiecdziesiat: 3200,
             },
           },
           koszty_dodatkowe: {

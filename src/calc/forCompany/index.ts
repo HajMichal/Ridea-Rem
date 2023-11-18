@@ -69,6 +69,7 @@ interface BaseInstallationsPricing {
       dwadziescia: number;
       trzydziesci: number;
       piecdziesiat: number;
+      overpiecdziesiat: number;
     };
     czterysta_piecdziesiat: {
       szesc: number;
@@ -77,6 +78,7 @@ interface BaseInstallationsPricing {
       dwadziescia: number;
       trzydziesci: number;
       piecdziesiat: number;
+      overpiecdziesiat: number;
     };
     piecset: {
       szesc: number;
@@ -85,6 +87,7 @@ interface BaseInstallationsPricing {
       dwadziescia: number;
       trzydziesci: number;
       piecdziesiat: number;
+      overpiecdziesiat: number;
     };
   };
 }
@@ -125,9 +128,13 @@ export function baseInstallationsPricing({
       panelPrices[panelType] = Number(
         (panelData["trzydziesci"] * power).toFixed(2)
       );
-    } else if (power > 30) {
+    } else if (power <= 50) {
       panelPrices[panelType] = Number(
         (panelData["piecdziesiat"] * power).toFixed(2)
+      );
+    } else if (power > 50) {
+      panelPrices[panelType] = Number(
+        (panelData["overpiecdziesiat"] * power).toFixed(2)
       );
     } else {
       panelPrices[panelType] = panelData["szesc"] * 0;
@@ -146,6 +153,7 @@ interface For1KwAndBaseInstallationPriceType {
     dwadziescia: number;
     trzydziesci: number;
     piecdziesiat: number;
+    overpiecdziesiat: number;
   };
 }
 export function for1KwAndBaseInstallationPrice({
@@ -178,10 +186,15 @@ export function for1KwAndBaseInstallationPrice({
       pricePer1kW: input.dane.trzydziesci,
       baseInstallationPrice: input.system_power * input.dane.trzydziesci,
     };
-  } else if (input.system_power > 30) {
+  } else if (input.system_power <= 50) {
     return {
       pricePer1kW: input.dane.piecdziesiat,
       baseInstallationPrice: input.system_power * input.dane.piecdziesiat,
+    };
+  } else if (input.system_power > 50) {
+    return {
+      pricePer1kW: input.dane.overpiecdziesiat,
+      baseInstallationPrice: input.system_power * input.dane.overpiecdziesiat,
     };
   } else {
     return {

@@ -9,6 +9,7 @@ export interface ForCompanyDataToCalcualtionType {
       dwadziescia: number;
       trzydziesci: number;
       piecdziesiat: number;
+      overpiecdziesiat: number;
     };
     czterysta_piecdziesiat: {
       dwa: number;
@@ -19,6 +20,7 @@ export interface ForCompanyDataToCalcualtionType {
       dwadziescia: number;
       trzydziesci: number;
       piecdziesiat: number;
+      overpiecdziesiat: number;
     };
     piecset: {
       dwa: number;
@@ -29,6 +31,7 @@ export interface ForCompanyDataToCalcualtionType {
       dwadziescia: number;
       trzydziesci: number;
       piecdziesiat: number;
+      overpiecdziesiat: number;
     };
   };
   koszty_dodatkowe: {

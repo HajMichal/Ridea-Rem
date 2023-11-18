@@ -43,6 +43,7 @@ const EditionForm = ({ data }: EditionForm) => {
           dwadziescia: dynamicPropValues.dane.czterysta.dwadziescia,
           trzydziesci: dynamicPropValues.dane.czterysta.trzydziesci,
           piecdziesiat: dynamicPropValues.dane.czterysta.piecdziesiat,
+          overpiecdziesiat: dynamicPropValues.dane.czterysta.overpiecdziesiat,
         },
         czterysta_piecdziesiat: {
           dwa: dynamicPropValues.dane.czterysta_piecdziesiat.dwa,
@@ -56,6 +57,8 @@ const EditionForm = ({ data }: EditionForm) => {
             dynamicPropValues.dane.czterysta_piecdziesiat.trzydziesci,
           piecdziesiat:
             dynamicPropValues.dane.czterysta_piecdziesiat.piecdziesiat,
+          overpiecdziesiat:
+            dynamicPropValues.dane.czterysta_piecdziesiat.overpiecdziesiat,
         },
         piecset: {
           dwa: dynamicPropValues.dane.piecset.dwa,
@@ -66,6 +69,7 @@ const EditionForm = ({ data }: EditionForm) => {
           dwadziescia: dynamicPropValues.dane.piecset.dwadziescia,
           trzydziesci: dynamicPropValues.dane.piecset.trzydziesci,
           piecdziesiat: dynamicPropValues.dane.piecset.piecdziesiat,
+          overpiecdziesiat: dynamicPropValues.dane.piecset.overpiecdziesiat,
         },
       },
       koszty_dodatkowe: {
@@ -381,6 +385,7 @@ const dataNamesMappings: { [key: string]: string } = {
   dwadziescia: "OD 12.1 DO 20",
   trzydziesci: "OD 20.1 DO 30",
   piecdziesiat: "OD 30.1 DO 50",
+  overpiecdziesiat: "OD 50",
 };
 
 export default DaneFotowoltaiki_firm;

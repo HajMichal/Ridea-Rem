@@ -11,6 +11,7 @@ const panelsSchema = z.object({
   dwadziescia: z.number(),
   trzydziesci: z.number(),
   piecdziesiat: z.number(),
+  overpiecdziesiat: z.number(),
 });
 
 export const forCompanyCalculator = createTRPCRouter({
@@ -58,6 +59,7 @@ export const forCompanyCalculator = createTRPCRouter({
           dwadziescia: z.number(),
           trzydziesci: z.number(),
           piecdziesiat: z.number(),
+          overpiecdziesiat: z.number(),
         }),
       })
     )
@@ -104,7 +106,8 @@ export const forCompanyCalculator = createTRPCRouter({
         where: { id: input.creatorId },
       });
       const officeFeeForBoss = creator
-        ? Math.round(creator.feePerkw * input.system_power) + creator.imposedFee
+        ? Math.round(creator.feePerkwForCompany * input.system_power) +
+          creator.imposedFeeForCompany
         : 0;
 
       const markupSumValue = Number(
