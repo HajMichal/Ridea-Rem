@@ -11,6 +11,12 @@ const config = {
     "plugin:@typescript-eslint/stylistic-type-checked",
   ],
   rules: {
+    "@typescript-eslint/no-misused-promises": [
+      "error",
+      {
+        checksVoidReturn: false,
+      },
+    ],
     "@typescript-eslint/prefer-nullish-coalescing": "off",
     "no-unsafe-optional-chaining": "off",
     "@typescript-eslint/consistent-type-imports": [
@@ -22,14 +28,6 @@ const config = {
     ],
     "@typescript-eslint/no-unused-vars": ["warn", { argsIgnorePattern: "^_" }],
     "@typescript-eslint/dot-notation": "off",
-    "@typescript-eslint/no-misused-promises": [
-      2,
-      {
-        checksVoidReturn: {
-          attributes: false,
-        },
-      },
-    ],
   },
 };
 

@@ -29,7 +29,11 @@ export default function Signin() {
       redirect: false,
     });
     if (res?.error) setError(res.error);
-    else if (res?.ok) await router.push("/home");
+    else if (res?.ok) {
+      void setTimeout(async function () {
+        await router.push("/home");
+      }, 400);
+    }
   };
 
   useEffect(() => {

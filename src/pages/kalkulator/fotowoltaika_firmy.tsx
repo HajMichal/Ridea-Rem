@@ -16,7 +16,6 @@ const Fotowoltaika_firmy = () => {
   const router = useRouter();
   const { data: sessionData } = useSession();
   const isInitialRenderRef = useRef(true);
-
   const { data } =
     api.forCompanyDataFlowRouter.downloadFile.useQuery<ForCompanyDataToCalcualtionType>(
       sessionData?.user.id
