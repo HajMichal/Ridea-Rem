@@ -30,9 +30,9 @@ export default function Signin() {
     });
     if (res?.error) setError(res.error);
     else if (res?.ok) {
-      void setTimeout(async function () {
-        await router.push("/home");
-      }, 400);
+      // void setTimeout(async function () {
+      await router.push("/home");
+      // }, 400);
     }
   };
 
