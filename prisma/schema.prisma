@@ -32,13 +32,13 @@ model User {
   email                  String?   @unique
   password               String
   image                  String?
-  imposedFeePhotovoltaic Int       @default(0)
+  creatorId              String?
+  feePerkwForCompany     Int       @default(0)
+  feePerkwHeatPump       Int       @default(0)
   feePerkwPhotovoltaic   Int       @default(0)
   imposedFeeForCompany   Int       @default(0)
-  feePerkwForCompany     Int       @default(0)
   imposedFeeHeatPump     Int       @default(0)
-  feePerkwHeatPump       Int       @default(0)
-  creatorId              String?
+  imposedFeePhotovoltaic Int       @default(0)
   creator                User?     @relation("creatorWorker", fields: [creatorId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   workers                User[]    @relation("creatorWorker")
   sessions               Session[]
