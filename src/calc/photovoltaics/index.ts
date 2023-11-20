@@ -536,16 +536,15 @@ export function heatStoreDotationValue({
 }: {
   input: HeatStoreDotationValueType;
 }) {
+  // NIE UZYWANE
   const value =
     input.gross_instalation_cost - staticData.VALUE_TO_HEATSTORE_DOTATION;
-
   if (value < 0) {
     return 0;
   }
   if (value >= 10000) {
     return 5000;
   }
-
   if (value < 10000) {
     return Number(
       (value * staticData.PERCENT_TO_HEATSTORE_DOTATION).toFixed(2)
@@ -553,62 +552,27 @@ export function heatStoreDotationValue({
   }
 }
 interface EnergyStoreDotationValueType {
-  net_instalation_cost: number;
-  emsDotationValue: number;
-  heatStoreDotationValue: number;
-  photovoltaicDotationValue: number;
+  gross_instalation_cost: number;
 }
 export function energyStoreDotationValue({
   input,
 }: {
   input: EnergyStoreDotationValueType;
 }) {
-  // console.log(input);
-  // const dotationSum =
-  //   input.emsDotationValue +
-  //   input.photovoltaicDotationValue +
-  //   input.heatStoreDotationValue;
+  const value =
+    input.gross_instalation_cost - staticData.VALUE_TO_HEATSTORE_DOTATION;
 
-  // const netCostAfterDotation = Number(
-  //   (
-  //     input.net_instalation_cost * staticData.PERCENT_TO_HEATSTORE_DOTATION -
-  //     dotationSum
-  //   ).toFixed(2)
-  // );
-  // console.log(netCostAfterDotation);
-  // if (input.net_instalation_cost >= netCostAfterDotation) {
-  //   return 16000;
-  // }
-
-  // if (input.net_instalation_cost < netCostAfterDotation) {
-  //   if (netCostAfterDotation <= 0) {
-  //     return 0;
-  //   } else {
-  //     return netCostAfterDotation;
-  //   }
-  // }
-  // const dotationSum =
-  //   input.emsDotationValue +
-  //   input.photovoltaicDotationValue +
-  //   input.heatStoreDotationValue;
-
-  // const netCostAfterDotation = input.net_instalation_cost - dotationSum;
-
-  if (input.net_instalation_cost >= 62000) {
+  if (value < 0) {
+    return 0;
+  }
+  if (value >= 32000) {
     return 16000;
   }
 
-  if (input.net_instalation_cost < 62000) {
-    if (input.net_instalation_cost - 30000 <= 0) {
-      return 0;
-    } else {
-      return Number(
-        (
-          (input.net_instalation_cost - 30000) *
-          staticData.PERCENT_TO_HEATSTORE_DOTATION
-        ).toFixed(2)
-      );
-    }
+  if (value < 32000) {
+    return Number(
+      (value * staticData.PERCENT_TO_HEATSTORE_DOTATION).toFixed(2)
+    );
   }
 }
 

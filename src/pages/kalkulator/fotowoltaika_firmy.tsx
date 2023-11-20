@@ -199,8 +199,8 @@ const Fotowoltaika_firmy = () => {
     if (data && forCompanyCalcStore.sysPower && sessionData)
       mutations.setOfficeMarkup({
         system_power: forCompanyCalcStore.sysPower,
-        officeFee: sessionData.user.feePerkw,
-        constantFee: sessionData.user.imposedFee,
+        officeFee: sessionData.user.feePerkwForCompany,
+        constantFee: sessionData.user.imposedFeeForCompany,
         consultantFee: forCompanyStore.consultantMarkup,
         officeFeeFromJsonFile: data.prowizjaBiura,
         creatorId:

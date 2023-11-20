@@ -180,7 +180,8 @@ export const Preview = ({
                     title="MAGAZYN CIEPŁA"
                     calculations={
                       photovoltaicStore.heatStoreDotation &&
-                      photovoltaicCalcStore.heatStoreCalcDotation
+                      // photovoltaicCalcStore.heatStoreCalcDotation
+                      "Do 5000"
                     }
                   />
                   <TextComponent
@@ -195,8 +196,7 @@ export const Preview = ({
                     title="MAGAZYN ENERGII"
                     calculations={
                       photovoltaicStore.energyStoreDotation &&
-                      // photovoltaicCalcStore.energyStoreDotationValue
-                      "Do 16000"
+                      photovoltaicCalcStore.energyStoreDotationValue
                     }
                   />
                 </div>

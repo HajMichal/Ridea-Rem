@@ -478,7 +478,8 @@ const MyDocument = ({
             <Text>
               MAGAZYN CIEPŁA (BUFOR) -{" "}
               {photovoltaicStore.heatStoreDotation
-                ? photovoltaicCalcStore.heatStoreCalcDotation
+                ? // ? photovoltaicCalcStore.heatStoreCalcDotation
+                  "do 5000"
                 : "0"}{" "}
               ZŁ
             </Text>
@@ -489,9 +490,8 @@ const MyDocument = ({
             <Text>
               DOTACJA NA MAGAZYN ENERGII -{" "}
               {photovoltaicStore.energyStoreDotation
-                ? "Do 16000 ZŁ"
-                : // ? photovoltaicCalcStore.energyStoreDotationValue
-                  "0"}{" "}
+                ? photovoltaicCalcStore.energyStoreDotationValue
+                : "0"}{" "}
               ZŁ
             </Text>
           </View>
