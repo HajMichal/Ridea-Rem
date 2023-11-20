@@ -189,6 +189,10 @@ const HeatPumpDocument = ({
           <Text style={styles.boldFont}>{cop}</Text>
         </View>
         <View style={styles.eachRow}>
+          <Text>POMPA CIEPŁA</Text>
+          <Text style={styles.boldFont}>{heatPumpStore.suggestedPump}</Text>
+        </View>
+        <View style={styles.eachRow}>
           <Text>PRZEWIDYWANE ZUŻYCIE ENERGII PRZEZ POMPĘ</Text>
           <Text style={styles.boldFont}>
             {heatPumpCalcStore.heatingWithHeatPump.heatPumpUsage} kWh/rok
@@ -225,10 +229,6 @@ const HeatPumpDocument = ({
           <Text style={styles.boldFont}>
             {heatPumpStore.isPumpPlacementOnCobblestone ? "TAK" : "NIE"}
           </Text>
-        </View>
-        <View style={styles.eachRow}>
-          <Text>DOSTAWA, MONTAŻ I URUCHOMIENIE POMPY</Text>
-          <Text style={styles.boldFont}>TAK</Text>
         </View>
         <View style={styles.eachRow}>
           <Text>PRZEWIERT PRZEZ ŚCIANE I PRZYŁĄCZENIE BUFORA</Text>
@@ -374,6 +374,10 @@ const HeatPumpDocument = ({
               ? heatPumpCalcStore.closeOpenedSystemCost
               : "NIE"}
           </Text>
+        </View>
+        <View style={styles.eachRow}>
+          <Text>DOSTAWA, MONTAŻ I URUCHOMIENIE POMPY</Text>
+          <Text style={styles.boldFont}>TAK</Text>
         </View>
       </View>
       <View style={styles.imageSection}>

@@ -367,6 +367,7 @@ const Fotowoltaika = () => {
           photovoltaicCalcStore.energyStoreCost
             ? photovoltaicCalcStore.energyStoreCost
             : 0,
+        termoModernizationRelif: photovoltaicCalcStore.termoModernization,
       });
   }, [
     photovoltaicCalcStore.energyStoreCost,
@@ -375,6 +376,7 @@ const Fotowoltaika = () => {
     photovoltaicCalcStore.addon_cost,
     photovoltaicCalcStore.installationAndPer1KW_price?.base_installation_price,
     photovoltaicCalcStore.heatStore_energyManager_costs,
+    photovoltaicCalcStore.termoModernization,
     mutations.set_totalInstallationCost,
   ]);
 
