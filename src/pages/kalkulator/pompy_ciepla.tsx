@@ -159,8 +159,8 @@ const Pompy_ciepla = () => {
       mutations.setMarkupCosts({
         system_power:
           data.pompy_ciepla[heatPumpStore.suggestedPump]!.mnozik_prowizji,
-        officeFee: sessionData.user.feePerkw,
-        constantFee: sessionData.user.imposedFee,
+        officeFee: sessionData.user.feePerkwHeatPump,
+        constantFee: sessionData.user.imposedFeeHeatPump,
         consultantFee: heatPumpStore.consultantMarkup,
         creatorId:
           sessionData.user.role === 3 ? sessionData.user.creatorId : "",

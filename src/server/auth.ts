@@ -16,8 +16,12 @@ declare module "next-auth" {
   interface Session extends DefaultSession {
     user: DefaultSession["user"] & {
       id: string;
-      feePerkw: number;
-      imposedFee: number;
+      feePerkwForCompany: number;
+      feePerkwHeatPump: number;
+      feePerkwPhotovoltaic: number;
+      imposedFeeForCompany: number;
+      imposedFeeHeatPump: number;
+      imposedFeePhotovoltaic: number;
       creatorId: string;
       // ...other properties
       role: number;
