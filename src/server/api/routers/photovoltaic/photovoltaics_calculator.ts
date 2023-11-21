@@ -233,7 +233,6 @@ export const photovoltaics_calculator = createTRPCRouter({
         base_installation_costs: z.number(),
         heatStore_energyManager_costs: z.number(),
         energyStoreCost: z.number(),
-        termoModernizationRelif: z.number(),
       })
     )
     .mutation(calc.totalInstallationCosts),

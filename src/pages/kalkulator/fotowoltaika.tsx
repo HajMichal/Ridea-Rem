@@ -367,7 +367,6 @@ const Fotowoltaika = () => {
           photovoltaicCalcStore.energyStoreCost
             ? photovoltaicCalcStore.energyStoreCost
             : 0,
-        termoModernizationRelif: photovoltaicCalcStore.termoModernization,
       });
   }, [
     photovoltaicCalcStore.energyStoreCost,

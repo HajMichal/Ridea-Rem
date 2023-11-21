@@ -363,7 +363,6 @@ interface TotalInstallationCostType {
   base_installation_costs: number;
   heatStore_energyManager_costs: number;
   energyStoreCost: number;
-  termoModernizationRelif: number;
 }
 export function totalInstallationCosts({
   input,
@@ -381,9 +380,7 @@ export function totalInstallationCosts({
 
   return {
     total_installation_cost: total_cost,
-    total_gross_cost: Number(
-      (total_cost + fee_value - input.termoModernizationRelif).toFixed(2)
-    ),
+    total_gross_cost: Number((total_cost + fee_value).toFixed(2)),
     fee_value: Number(fee_value.toFixed(2)),
   };
 }

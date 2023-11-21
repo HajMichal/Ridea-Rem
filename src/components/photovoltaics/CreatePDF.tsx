@@ -510,7 +510,11 @@ const MyDocument = ({
             OSTATECZNY KOSZT INSTALACJI PO DOFINANSOWANIU:
           </Text>
           <Text style={{ fontSize: 50, marginTop: 4 }}>
-            {photovoltaicCalcStore.finall_installation_cost.toFixed(2)} zł
+            {(
+              photovoltaicCalcStore.finall_installation_cost -
+              photovoltaicCalcStore.termoModernization
+            ).toFixed(2)}{" "}
+            zł
           </Text>
           <Text style={{ fontSize: 12, marginLeft: 10 }}>DOSTĘPNE:</Text>
           <Text style={{ fontSize: 12, marginLeft: 10 }}>
