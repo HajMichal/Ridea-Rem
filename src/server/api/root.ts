@@ -6,6 +6,7 @@ import { heatPump_calculator } from "./routers/heatpump/heatPumps_calculator";
 import { heatPumpDataFlowRouter } from "./routers/heatpump/dataFlow";
 import { forCompanyCalculator } from "./routers/forCompany/forCompany_calculator";
 import { forCompanyDataFlowRouter } from "./routers/forCompany/dataFlow";
+import { newsDataRouter } from "./routers/newsData";
 
 /**
  * This is the primary router for your server.
@@ -14,8 +15,10 @@ import { forCompanyDataFlowRouter } from "./routers/forCompany/dataFlow";
  */
 export const appRouter = createTRPCRouter({
   dataFlow: dataFlowRouter,
-  heatPumpDataFlowRouter: heatPumpDataFlowRouter,
+  newsDataRouter: newsDataRouter,
   userDataHandling: loginRouter,
+
+  heatPumpDataFlowRouter: heatPumpDataFlowRouter,
   photovoltaics: photovoltaics_calculator,
   heatPump: heatPump_calculator,
   forCompany: forCompanyCalculator,
