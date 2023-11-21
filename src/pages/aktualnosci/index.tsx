@@ -24,7 +24,7 @@ interface postData {
 const Aktualnosci = () => {
   const [opened, { open, close }] = useDisclosure(false);
   const { data: sessionData } = useSession();
-  const [file, setFile] = useState<any>();
+  const [file, setFile] = useState<null | File>(null);
 
   const { mutate } = api.newsDataRouter.setNewPost.useMutation();
 
@@ -38,7 +38,7 @@ const Aktualnosci = () => {
   const onSubmit: SubmitHandler<postData> = (data) => {
     console.log({ ...data, file });
     const formData = new FormData();
-    formData.append("image", file);
+    // formData.append("image", file);
     console.log(formData);
 
     // if (file) {
