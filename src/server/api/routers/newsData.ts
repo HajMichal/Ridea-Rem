@@ -1,22 +1,16 @@
 import { z } from "zod";
-import bcrypt from "bcrypt";
-import AWS from "aws-sdk";
 import {
   createTRPCRouter,
   protectedProcedure,
   publicProcedure,
 } from "~/server/api/trpc";
-
-AWS.config.update({
-  region: "eu-central-1",
-});
-
-const s3 = new AWS.S3({
-  credentials: {
-    accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!,
-  },
-});
+import { Image } from "@prisma/client";
+import { PutObjectCommand } from "@aws-sdk/client-s3";
+import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
+import { s3 } from "../routers/photovoltaic/dataFlow";
+interface ImageMetadata extends Image {
+  url: string;
+}
 
 export const newsDataRouter = createTRPCRouter({
   setNewPost: publicProcedure
@@ -38,7 +32,7 @@ export const newsDataRouter = createTRPCRouter({
     .mutation(({ input }) => {
       console.log(input);
     }),
-  createPredesignedUrl: protectedProcedure
+  createPredesignedUrl: publicProcedure
     .input(
       z.object({
         title: z.string(),
@@ -56,7 +50,6 @@ export const newsDataRouter = createTRPCRouter({
           description: input.description,
         },
       });
-
       return new Promise((resolve, reject) => {
         s3.createPresignedPost(
           {
@@ -70,11 +63,39 @@ export const newsDataRouter = createTRPCRouter({
             ],
             Expires: 60,
           },
-          (err, signed) => {
+          (err: Error, signed: unknown) => {
             if (err) return reject(err);
             resolve(signed);
           }
         );
       });
     }),
+  // completeMultipartUpload: publicProcedure
+  //   .input(
+  //     z.object({
+  //       key: z.string(),
+  //       uploadId: z.string(),
+  //       parts: z.array(
+  //         z.object({
+  //           ETag: z.string(),
+  //           PartNumber: z.number(),
+  //         })
+  //       ),
+  //     })
+  //   )
+  //   .mutation(async ({ ctx, input }) => {
+  //     const { key, uploadId, parts } = input;
+  //     const { s3 } = ctx;
+
+  //     const completeMultipartUploadOutput = s3.completeMultipartUpload({
+  //       Bucket: "ridearem",
+  //       Key: key,
+  //       UploadId: uploadId,
+  //       MultipartUpload: {
+  //         Parts: parts,
+  //       },
+  //     });
+
+  //     return completeMultipartUploadOutput;
+  //   }),
 });

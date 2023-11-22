@@ -369,6 +369,7 @@ export function totalInstallationCosts({
 }: {
   input: TotalInstallationCostType;
 }) {
+  console.log("fotowoltaika", input);
   const total_cost =
     input.addon_costs +
     input.base_installation_costs +
