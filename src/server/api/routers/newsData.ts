@@ -1,7 +1,11 @@
 import { z } from "zod";
 import bcrypt from "bcrypt";
 import AWS from "aws-sdk";
-import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
+import {
+  createTRPCRouter,
+  protectedProcedure,
+  publicProcedure,
+} from "~/server/api/trpc";
 
 AWS.config.update({
   region: "eu-central-1",
@@ -33,5 +37,44 @@ export const newsDataRouter = createTRPCRouter({
     )
     .mutation(({ input }) => {
       console.log(input);
+    }),
+  createPredesignedUrl: protectedProcedure
+    .input(
+      z.object({
+        title: z.string(),
+        description: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      if (!ctx.session) {
+        throw new Error("Musisz być zalogowany");
+      }
+
+      const image = await ctx.prisma.image.create({
+        data: {
+          title: input.title,
+          description: input.description,
+        },
+      });
+
+      return new Promise((resolve, reject) => {
+        s3.createPresignedPost(
+          {
+            Bucket: "ridearem",
+            Fields: {
+              key: `images/${image.id}`,
+            },
+            Conditions: [
+              ["starts-with", "$Content-Type", "image/"],
+              ["content-length-range", 0, 2000000],
+            ],
+            Expires: 60,
+          },
+          (err, signed) => {
+            if (err) return reject(err);
+            resolve(signed);
+          }
+        );
+      });
     }),
 });

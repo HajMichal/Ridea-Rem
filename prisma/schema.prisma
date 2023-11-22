@@ -46,6 +46,12 @@ model User {
   @@index([creatorId])
 }
 
+model Image {
+  id          String @id @default(cuid())
+  title       String
+  description String
+}
+
 model VerificationToken {
   identifier String
   token      String   @unique
