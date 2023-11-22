@@ -151,6 +151,13 @@ export const Preview = ({
                 <div className="my-10">
                   <h2 className="w-full text-center text-xl">FINANSE</h2>
                   <TextComponent
+                    title="KWOTA NETTO ZA INSTALACJĘ"
+                    calculations={
+                      photovoltaicCalcStore.totalInstallationCosts
+                        .total_installation_cost
+                    }
+                  />
+                  <TextComponent
                     title="KWOTA BRUTTO ZA INSTALACJĘ"
                     calculations={
                       photovoltaicCalcStore.totalInstallationCosts

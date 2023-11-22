@@ -15,37 +15,62 @@ import { MdOutlineAttachFile } from "react-icons/md";
 import { useSession } from "next-auth/react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { api } from "~/utils/api";
-
-interface postData {
+import axios from "axios";
+interface PostData {
   title: string;
   description: string;
 }
-
+interface FileData {
+  fields: Record<string, string>;
+  url: string;
+}
 const Aktualnosci = () => {
   const [opened, { open, close }] = useDisclosure(false);
   const { data: sessionData } = useSession();
   const [file, setFile] = useState<null | File>(null);
-
-  const { mutate } = api.newsDataRouter.createPredesignedUrl.useMutation();
-
-  const { register, handleSubmit } = useForm({
+  /* eslint-disable @typescript-eslint/no-explicit-any */
+  /* eslint-disable @typescript-eslint/no-unsafe-assignment */
+  /* eslint-disable @typescript-eslint/no-unsafe-member-access */
+  /* eslint-disable @typescript-eslint/no-unnecessary-type-assertion */
+  /* eslint-disable @typescript-eslint/no-unsafe-argument */
+  const { mutate } =
+    api.newsDataRouter.createPredesignedUrl.useMutation<FileData>({
+      onSuccess: async (data: any) => {
+        if (!file) return;
+        const params = {
+          ...data!.fields,
+          "Content-Type": file.type,
+          file,
+        };
+        const formData = new FormData();
+        for (const name in params) {
+          formData.append(name, params[name]);
+        }
+        await fetch(data.url, {
+          method: "POST",
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+          body: formData,
+        });
+      },
+    });
+  /* eslint-enable @typescript-eslint/no-unsafe-assignment */
+  const { register, handleSubmit } = useForm<PostData>({
     defaultValues: {
       title: "",
       description: "",
     },
   });
 
-  const onSubmit: SubmitHandler<postData> = (data) => {
-    console.log({ ...data, file });
-    const formData = new FormData();
-    // formData.append("image", file);
-    console.log(formData);
-
+  const onSubmit: SubmitHandler<PostData> = (data) => {
     if (file) {
       mutate({ title: data.title, description: data.description });
     }
   };
-
+  /* eslint-enable @typescript-eslint/no-explicit-any */
+  /* eslint-enable @typescript-eslint/no-unsafe-assignment */
+  /* eslint-enable @typescript-eslint/no-unsafe-member-access */
+  /* eslint-enable @typescript-eslint/no-unnecessary-type-assertion */
+  /* eslint-enable @typescript-eslint/no-unsafe-argument */
   return (
     <main className="flex h-full max-h-screen justify-center overflow-hidden bg-backgroundGray font-orkney">
       <SideBar />
