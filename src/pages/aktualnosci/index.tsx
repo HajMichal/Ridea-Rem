@@ -26,7 +26,7 @@ const Aktualnosci = () => {
   const { data: sessionData } = useSession();
   const [file, setFile] = useState<null | File>(null);
 
-  const { mutate } = api.newsDataRouter.setNewPost.useMutation();
+  const { mutate } = api.newsDataRouter.createPredesignedUrl.useMutation();
 
   const { register, handleSubmit } = useForm({
     defaultValues: {
@@ -41,9 +41,9 @@ const Aktualnosci = () => {
     // formData.append("image", file);
     console.log(formData);
 
-    // if (file) {
-    //   mutate({ title: data.title, description: data.description, file: file });
-    // }
+    if (file) {
+      mutate({ title: data.title, description: data.description });
+    }
   };
 
   return (

@@ -394,10 +394,9 @@ interface DotationsSumType {
 export function dotationsSum({ input }: { input: DotationsSumType }) {
   return (
     input.photovoltaics_dotation +
-    input.heatStore_dotation +
-    input.energyMenagerDotation
-    // +
-    // input.energyStoreDotation
+    // input.heatStore_dotation +
+    input.energyMenagerDotation +
+    input.energyStoreDotation
   );
 }
 
