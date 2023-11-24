@@ -50,6 +50,7 @@ model Image {
   id          String @id @default(cuid())
   title       String
   description String
+  url         String
 }
 
 model VerificationToken {
