@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Navbar, SideBar } from "~/components";
+import React, { useEffect, useState } from "react";
+import { Loading, Navbar, SideBar } from "~/components";
 import {
   TextInput,
   Textarea,
@@ -7,7 +7,6 @@ import {
   Button,
   Tooltip,
   FileInput,
-  Input,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { PiPlusBold } from "react-icons/pi";
@@ -15,64 +14,69 @@ import { MdOutlineAttachFile } from "react-icons/md";
 import { useSession } from "next-auth/react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { api } from "~/utils/api";
-import axios from "axios";
+import toast, { Toaster } from "react-hot-toast";
+import { sendImageToS3 } from "~/utils/sendImageToS3";
+
 interface PostData {
   title: string;
   description: string;
 }
-interface FileData {
-  fields: Record<string, string>;
+export interface FileData {
+  fields: FieldsType;
   url: string;
 }
+interface FieldsType {
+  Policy: string;
+  "X-Amz-Algorithm": string;
+  "X-Amz-Credential": string;
+  "X-Amz-Date": string;
+  "X-Amz-Signature": string;
+  bucket: string;
+}
+
 const Aktualnosci = () => {
   const [opened, { open, close }] = useDisclosure(false);
   const { data: sessionData } = useSession();
   const [file, setFile] = useState<null | File>(null);
-  /* eslint-disable @typescript-eslint/no-explicit-any */
-  /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-  /* eslint-disable @typescript-eslint/no-unsafe-member-access */
-  /* eslint-disable @typescript-eslint/no-unnecessary-type-assertion */
-  /* eslint-disable @typescript-eslint/no-unsafe-argument */
-  const { mutate } =
-    api.newsDataRouter.createPredesignedUrl.useMutation<FileData>({
-      onSuccess: async (data: any) => {
-        if (!file) return;
-        const params = {
-          ...data!.fields,
-          "Content-Type": file.type,
-          file,
-        };
-        const formData = new FormData();
-        for (const name in params) {
-          formData.append(name, params[name]);
-        }
-        await fetch(data.url, {
-          method: "POST",
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-          body: formData,
-        });
-      },
-    });
-  /* eslint-enable @typescript-eslint/no-unsafe-assignment */
-  const { register, handleSubmit } = useForm<PostData>({
+  const [isEnabled, setIsEnabled] = useState(false);
+
+  const { register, handleSubmit, watch } = useForm<PostData>({
     defaultValues: {
       title: "",
       description: "",
     },
   });
 
-  const onSubmit: SubmitHandler<PostData> = (data) => {
+  const {
+    data: predesignedData,
+    isSuccess,
+    isError,
+  } = api.newsDataRouter.createPredesignedUrl.useQuery<FileData>(
+    { description: watch("description"), title: watch("title") },
+    { enabled: isEnabled }
+  );
+
+  const onSubmit: SubmitHandler<PostData> = () => {
     if (file) {
-      mutate({ title: data.title, description: data.description });
+      setIsEnabled(true);
+      close();
     }
   };
-  /* eslint-enable @typescript-eslint/no-explicit-any */
-  /* eslint-enable @typescript-eslint/no-unsafe-assignment */
-  /* eslint-enable @typescript-eslint/no-unsafe-member-access */
-  /* eslint-enable @typescript-eslint/no-unnecessary-type-assertion */
-  /* eslint-enable @typescript-eslint/no-unsafe-argument */
+
+  useEffect(() => {
+    sendImageToS3(predesignedData, file)
+      .then()
+      .catch(() =>
+        toast.error(
+          "Wystąpił bład. Post nie został dodany. Spróbuj ponownie później."
+        )
+      );
+    setIsEnabled(false);
+  }, [file, isSuccess, isError]);
+
   return (
     <main className="flex h-full max-h-screen justify-center overflow-hidden bg-backgroundGray font-orkney">
+      <Toaster />
       <SideBar />
       <div className="w-full">
         <Navbar />
@@ -118,6 +122,7 @@ const Aktualnosci = () => {
               />
               <div className="flex w-full items-end justify-center gap-10">
                 <FileInput
+                  required
                   rightSection={<MdOutlineAttachFile />}
                   label="Dołącz plik"
                   onChange={(e) => e && setFile(e)}
@@ -132,6 +137,7 @@ const Aktualnosci = () => {
             </form>
           </Modal>
         </div>
+        {/* <div>{isLoading && <Loading />}</div> */}
       </div>
     </main>
   );
