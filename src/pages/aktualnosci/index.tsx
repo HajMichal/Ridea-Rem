@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { Loading, Navbar, SideBar } from "~/components";
+import { Navbar, SideBar } from "~/components";
 import {
   TextInput,
   Textarea,
@@ -11,15 +11,18 @@ import {
   Image,
   Text,
   Group,
+  Loader,
 } from "@mantine/core";
+import toast, { Toaster } from "react-hot-toast";
 import { useDisclosure } from "@mantine/hooks";
 import { PiPlusBold } from "react-icons/pi";
 import { MdOutlineAttachFile } from "react-icons/md";
 import { useSession } from "next-auth/react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { api } from "~/utils/api";
-import toast, { Toaster } from "react-hot-toast";
 import { useUploadThing } from "~/utils/uploadthing";
+import { useDropzone } from "@uploadthing/react/hooks";
+import { generateClientDropzoneAccept } from "uploadthing/client";
 import { FileWithPath } from "@uploadthing/react";
 interface PostData {
   title: string;
@@ -40,21 +43,26 @@ const Aktualnosci = () => {
   });
 
   const { mutate } = api.newsDataRouter.createNewPost.useMutation();
-  const { data } = api.newsDataRouter.getLastPosts.useQuery();
-  console.log(data);
+  const { data: imagesData } = api.newsDataRouter.getLastPosts.useQuery();
+
   const onDrop = useCallback((acceptedFiles: FileWithPath[]) => {
     setFile(acceptedFiles);
   }, []);
 
-  const { startUpload, isUploading } = useUploadThing("imageUploader", {
-    onClientUploadComplete: (data) => {
-      setUrl(data[0]?.url);
-      toast.success("Poprawnie zapisano obraz");
-    },
-    onUploadError: () => {
-      toast.error("Zły obraz, spróbuj ponownie później lub wybierz inny obraz");
-    },
-  });
+  const { startUpload, isUploading, permittedFileInfo } = useUploadThing(
+    "imageUploader",
+    {
+      onClientUploadComplete: (data) => {
+        setUrl(data[0]?.url);
+        toast.success("Poprawnie zapisano obraz");
+      },
+      onUploadError: () => {
+        toast.error(
+          "Zły obraz, spróbuj ponownie później lub wybierz inny obraz"
+        );
+      },
+    }
+  );
 
   const onSubmit: SubmitHandler<PostData> = async () => {
     if (file) {
@@ -72,6 +80,17 @@ const Aktualnosci = () => {
       close();
     }
   }, [isUploading, url]);
+
+  const fileTypes = permittedFileInfo?.config
+    ? Object.keys(permittedFileInfo?.config)
+    : [];
+
+  const { getRootProps } = useDropzone({
+    onDrop,
+    accept: fileTypes ? generateClientDropzoneAccept(fileTypes) : undefined,
+  });
+
+  console.log(file);
 
   return (
     <main className="flex h-full max-h-screen justify-center overflow-hidden bg-backgroundGray font-orkney">
@@ -103,11 +122,14 @@ const Aktualnosci = () => {
             className="font-orkneyBold"
           >
             {isUploading ? (
-              <Loading />
+              <div className="flex h-[323.77px]  items-center justify-center overflow-hidden p-10">
+                <Loader color="yellow" size="xl" variant="dots" />
+              </div>
             ) : (
               <form
                 onSubmit={handleSubmit(onSubmit)}
                 className="flex flex-col items-center p-10"
+                {...getRootProps()}
               >
                 <TextInput
                   {...register("title")}
@@ -126,9 +148,9 @@ const Aktualnosci = () => {
                   <FileInput
                     required
                     rightSection={<MdOutlineAttachFile />}
-                    label="Dołącz plik"
+                    label="Dołącz lub upuść tutaj plik"
                     onChange={(e) => e && setFile([e])}
-                    // rightSectionPointerEvents="none"
+                    value={file[0]}
                     className="w-[50%]"
                     mt="md"
                   />
@@ -142,33 +164,33 @@ const Aktualnosci = () => {
           </Modal>
         </div>
         <div className="flex flex-1 flex-wrap justify-center gap-5 p-10">
-          {/* {imagesWithData?.map((imageWithData) => {
+          {imagesData?.map((imgData) => {
             return (
               <Card
                 shadow="sm"
                 padding="lg"
                 radius="md"
                 withBorder
-                className="max-w-md"
+                className="w-[300px]"
+                key={imgData.id}
               >
                 <Card.Section>
-                  <Image src={imageWithData.url} height={160} alt="image" />
+                  <Image src={imgData.url} height={160} alt="image" />
                 </Card.Section>
 
                 <Group mt="md" mb="xs">
-                  <Text fw={500}>{imageWithData.title}</Text>
+                  <Text fw={500}>{imgData.title}</Text>
                 </Group>
 
                 <Text size="sm" c="dimmed">
-                  {imageWithData.description}
+                  {imgData.description}
                 </Text>
               </Card>
             );
-          })} */}
+          })}
         </div>
       </div>
     </main>
   );
 };
-
 export default Aktualnosci;
