@@ -6,6 +6,7 @@ import { TextComponent } from "./TextComponent";
 import { Loading } from "./Loading";
 import { UserFeeFormField } from "./UserFeeFormField";
 import { ChangeDataInputComponent } from "./changeDataInputComponent";
+import { NewsCard } from "./newsPageComponent/NewsCard";
 
 export {
   SideBar,
@@ -16,4 +17,5 @@ export {
   Loading,
   UserFeeFormField,
   ChangeDataInputComponent,
+  NewsCard,
 };

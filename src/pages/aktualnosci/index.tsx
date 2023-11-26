@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { Navbar, SideBar } from "~/components";
+import { Loading, Navbar, NewsCard, SideBar } from "~/components";
 import {
   TextInput,
   Textarea,
@@ -7,10 +7,6 @@ import {
   Button,
   Tooltip,
   FileInput,
-  Card,
-  Image,
-  Text,
-  Group,
   Loader,
 } from "@mantine/core";
 import toast, { Toaster } from "react-hot-toast";
@@ -43,7 +39,8 @@ const Aktualnosci = () => {
   });
 
   const { mutate } = api.newsDataRouter.createNewPost.useMutation();
-  const { data: imagesData } = api.newsDataRouter.getLastPosts.useQuery();
+  const { data: imagesData, isLoading } =
+    api.newsDataRouter.getLastPosts.useQuery();
 
   const onDrop = useCallback((acceptedFiles: FileWithPath[]) => {
     setFile(acceptedFiles);
@@ -89,8 +86,6 @@ const Aktualnosci = () => {
     onDrop,
     accept: fileTypes ? generateClientDropzoneAccept(fileTypes) : undefined,
   });
-
-  console.log(file);
 
   return (
     <main className="flex h-full max-h-screen justify-center overflow-hidden bg-backgroundGray font-orkney">
@@ -163,31 +158,24 @@ const Aktualnosci = () => {
             )}
           </Modal>
         </div>
+
         <div className="flex flex-1 flex-wrap justify-center gap-5 p-10">
-          {imagesData?.map((imgData) => {
-            return (
-              <Card
-                shadow="sm"
-                padding="lg"
-                radius="md"
-                withBorder
-                className="w-[300px]"
-                key={imgData.id}
-              >
-                <Card.Section>
-                  <Image src={imgData.url} height={160} alt="image" />
-                </Card.Section>
-
-                <Group mt="md" mb="xs">
-                  <Text fw={500}>{imgData.title}</Text>
-                </Group>
-
-                <Text size="sm" c="dimmed">
-                  {imgData.description}
-                </Text>
-              </Card>
-            );
-          })}
+          {isLoading ? (
+            <Loading />
+          ) : (
+            imagesData?.map((imgData) => {
+              return (
+                <NewsCard
+                  role={sessionData?.user.role}
+                  description={imgData.description}
+                  id={imgData.id}
+                  title={imgData.title}
+                  url={imgData.url}
+                  key={imgData.id}
+                />
+              );
+            })
+          )}
         </div>
       </div>
     </main>
