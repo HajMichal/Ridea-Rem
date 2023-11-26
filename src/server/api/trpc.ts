@@ -14,7 +14,6 @@ import superjson from "superjson";
 import { ZodError } from "zod";
 import { getServerAuthSession } from "~/server/auth";
 import { prisma } from "~/server/db";
-import { s3 } from "./routers/photovoltaic/dataFlow";
 
 /**
  * 1. CONTEXT
