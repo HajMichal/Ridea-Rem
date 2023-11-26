@@ -20,6 +20,7 @@ import { useUploadThing } from "~/utils/uploadthing";
 import { useDropzone } from "@uploadthing/react/hooks";
 import { generateClientDropzoneAccept } from "uploadthing/client";
 import { FileWithPath } from "@uploadthing/react";
+
 interface PostData {
   title: string;
   description: string;
@@ -28,6 +29,7 @@ interface PostData {
 
 const Aktualnosci = () => {
   const [opened, { open, close }] = useDisclosure(false);
+
   const { data: sessionData } = useSession();
   const [file, setFile] = useState<File[]>([]);
   const [url, setUrl] = useState<string>();
@@ -38,7 +40,11 @@ const Aktualnosci = () => {
     },
   });
 
-  const { mutate } = api.newsDataRouter.createNewPost.useMutation();
+  const { mutate } = api.newsDataRouter.createNewPost.useMutation({
+    onSuccess: () => {
+      window.location.reload();
+    },
+  });
   const { data: imagesData, isLoading } =
     api.newsDataRouter.getLastPosts.useQuery();
 
@@ -161,7 +167,7 @@ const Aktualnosci = () => {
 
         <div className="flex flex-1 flex-wrap justify-center gap-5 p-10">
           {isLoading ? (
-            <Loading />
+            <Loader color="yellow" size="xl" variant="dots" />
           ) : (
             imagesData?.map((imgData) => {
               return (

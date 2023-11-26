@@ -24,4 +24,32 @@ export const newsDataRouter = createTRPCRouter({
       take: 6,
     });
   }),
+  updatePost: publicProcedure
+    .input(
+      z.object({
+        id: z.string(),
+        title: z.string().optional(),
+        description: z.string().optional(),
+        url: z.string().optional(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      return await ctx.prisma.image.update({
+        where: { id: input.id },
+        data: {
+          description: input.description,
+          title: input.title,
+          url: input.url,
+        },
+      });
+    }),
+  deletePost: publicProcedure
+    .input(z.string())
+    .mutation(async ({ ctx, input }) => {
+      await ctx.prisma.image.delete({
+        where: {
+          id: input,
+        },
+      });
+    }),
 });
