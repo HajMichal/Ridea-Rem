@@ -8,17 +8,14 @@ import {
   rem,
   Modal,
   Textarea,
-  FileInput,
-  Loader,
   TextInput,
 } from "@mantine/core";
 import { PiDotsThreeOutlineVerticalBold, PiTrashBold } from "react-icons/pi";
 import { AiOutlineEdit } from "react-icons/ai";
 import { api } from "~/utils/api";
 import { useDisclosure } from "@mantine/hooks";
-import { MdOutlineAttachFile } from "react-icons/md";
+
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useQueryClient } from "@tanstack/react-query";
 
 interface NewsCardTypes {
   id: string;
@@ -41,7 +38,6 @@ export const NewsCard = ({
   description,
   role = 3,
 }: NewsCardTypes) => {
-  const queryClient = useQueryClient();
   const [opened, { open, close }] = useDisclosure(false);
 
   const { mutate: removePost } = api.newsDataRouter.deletePost.useMutation({
@@ -50,8 +46,7 @@ export const NewsCard = ({
     },
   });
   const { mutate: updatePost } = api.newsDataRouter.updatePost.useMutation({
-    onSuccess: (data) => {
-      queryClient.setQueryData(["post"], data);
+    onSuccess: () => {
       window.location.reload();
     },
   });

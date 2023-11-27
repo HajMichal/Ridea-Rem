@@ -369,7 +369,7 @@ export function totalInstallationCosts({
 }: {
   input: TotalInstallationCostType;
 }) {
-  console.log("fotowoltaika", input);
+  console.log({ fotowoltaika_total_input: input });
   const total_cost =
     input.addon_costs +
     input.base_installation_costs +
@@ -379,6 +379,13 @@ export function totalInstallationCosts({
 
   const fee_value = total_cost * 0.08;
 
+  console.log({
+    fotowoltaika_output: {
+      total_installation_cost: total_cost,
+      total_gross_cost: Number((total_cost + fee_value).toFixed(2)),
+      fee_value: Number(fee_value.toFixed(2)),
+    },
+  });
   return {
     total_installation_cost: total_cost,
     total_gross_cost: Number((total_cost + fee_value).toFixed(2)),
@@ -393,6 +400,16 @@ interface DotationsSumType {
   energyStoreDotation: number;
 }
 export function dotationsSum({ input }: { input: DotationsSumType }) {
+  console.log({
+    input: input,
+  });
+  console.log({
+    suma:
+      input.photovoltaics_dotation +
+      // input.heatStore_dotation +
+      input.energyMenagerDotation +
+      input.energyStoreDotation,
+  });
   return (
     input.photovoltaics_dotation +
     // input.heatStore_dotation +
