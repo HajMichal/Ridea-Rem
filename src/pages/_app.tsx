@@ -5,11 +5,17 @@ import { type AppType } from "next/app";
 import { api } from "~/utils/api";
 import Head from "next/head";
 import { MantineProvider } from "@mantine/core";
+import { useIdle } from "@uidotdev/usehooks";
+import { signOut } from "next-auth/react";
+import { useRouter } from "next/router";
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
   pageProps: { session, ...pageProps },
 }) => {
+  const router = useRouter();
+  const idle = useIdle(600000);
+  if (idle && router.pathname !== "/auth/signin") void signOut();
   return (
     <>
       <Head>

@@ -195,6 +195,7 @@ export const photovoltaics_calculator = createTRPCRouter({
       })
     )
     .mutation(async ({ input, ctx }) => {
+      console.log({ input_markup: input });
       const officeFeeValue =
         Math.round(input.officeFee * input.system_power) + input.constantFee;
       const consultantFeeValue = Math.round(
@@ -218,7 +219,12 @@ export const photovoltaics_calculator = createTRPCRouter({
           officeFeeForBoss
         ).toFixed(2)
       );
-
+      console.log({
+        officeFeeValue: officeFeeValue,
+        officeFeeForBoss: officeFeeForBoss,
+        consultantFeeValue: consultantFeeValue,
+        markupSumValue: markupSumValue,
+      });
       return {
         officeFeeValue: officeFeeValue,
         officeFeeForBoss: officeFeeForBoss,
