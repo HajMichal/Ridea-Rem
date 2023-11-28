@@ -10,7 +10,7 @@
 <br/>
 
 
-~ It was designed to speed up the work of
+⚡It was designed to speed up the work of
 sales professionals within the renewable energy sector. These
 calculators serve as basic tools for estimating installation costs of
 various renewable energy sources. 
