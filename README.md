@@ -1,4 +1,4 @@
-# OZE Calculator 🔢
+# OZE Calculators 🔢
 
 ### This project contains three distinct calcualtors combined under a single domain
 - photovoltaic,
