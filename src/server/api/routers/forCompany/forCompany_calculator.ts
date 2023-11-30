@@ -159,6 +159,7 @@ export const forCompanyCalculator = createTRPCRouter({
           czterysta_piecdziesiat: panelsSchema,
           piecset: panelsSchema,
         }),
+        officeMarkup: z.number(),
       })
     )
     .mutation(calc.baseInstallationsPricing),
