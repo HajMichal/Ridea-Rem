@@ -90,6 +90,7 @@ interface BaseInstallationsPricing {
       overpiecdziesiat: number;
     };
   };
+  officeMarkup: number;
 }
 export function baseInstallationsPricing({
   input,
@@ -113,28 +114,32 @@ export function baseInstallationsPricing({
       ];
 
     if (power <= 6) {
-      panelPrices[panelType] = Number((panelData["szesc"] * power).toFixed(2));
+      panelPrices[panelType] = Number(
+        (panelData["szesc"] * power + input.officeMarkup).toFixed(2)
+      );
     } else if (power <= 8) {
-      panelPrices[panelType] = Number((panelData["osiem"] * power).toFixed(2));
+      panelPrices[panelType] = Number(
+        (panelData["osiem"] * power + input.officeMarkup).toFixed(2)
+      );
     } else if (power <= 12) {
       panelPrices[panelType] = Number(
-        (panelData["dwanascie"] * power).toFixed(2)
+        (panelData["dwanascie"] * power + input.officeMarkup).toFixed(2)
       );
     } else if (power <= 20) {
       panelPrices[panelType] = Number(
-        (panelData["dwadziescia"] * power).toFixed(2)
+        (panelData["dwadziescia"] * power + input.officeMarkup).toFixed(2)
       );
     } else if (power <= 30) {
       panelPrices[panelType] = Number(
-        (panelData["trzydziesci"] * power).toFixed(2)
+        (panelData["trzydziesci"] * power + input.officeMarkup).toFixed(2)
       );
     } else if (power <= 50) {
       panelPrices[panelType] = Number(
-        (panelData["piecdziesiat"] * power).toFixed(2)
+        (panelData["piecdziesiat"] * power + input.officeMarkup).toFixed(2)
       );
     } else if (power > 50) {
       panelPrices[panelType] = Number(
-        (panelData["overpiecdziesiat"] * power).toFixed(2)
+        (panelData["overpiecdziesiat"] * power + input.officeMarkup).toFixed(2)
       );
     } else {
       panelPrices[panelType] = panelData["szesc"] * 0;

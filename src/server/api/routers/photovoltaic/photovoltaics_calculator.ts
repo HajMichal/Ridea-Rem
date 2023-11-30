@@ -220,10 +220,12 @@ export const photovoltaics_calculator = createTRPCRouter({
         ).toFixed(2)
       );
       console.log({
-        officeFeeValue: officeFeeValue,
-        officeFeeForBoss: officeFeeForBoss,
-        consultantFeeValue: consultantFeeValue,
-        markupSumValue: markupSumValue,
+        output_markup: {
+          officeFeeValue: officeFeeValue,
+          officeFeeForBoss: officeFeeForBoss,
+          consultantFeeValue: consultantFeeValue,
+          markupSumValue: markupSumValue,
+        },
       });
       return {
         officeFeeValue: officeFeeValue,

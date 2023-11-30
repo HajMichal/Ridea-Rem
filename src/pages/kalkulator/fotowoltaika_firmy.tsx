@@ -49,8 +49,13 @@ const Fotowoltaika_firmy = () => {
       mutations.setBaseInstallationsPricing({
         system_power: forCompanyCalcStore.allSystemPowers,
         dane: data.dane,
+        officeMarkup: forCompanyCalcStore.officeMarkup.markupSumValue,
       });
-  }, [forCompanyCalcStore.allSystemPowers, data]);
+  }, [
+    forCompanyCalcStore.allSystemPowers,
+    data,
+    forCompanyCalcStore.officeMarkup,
+  ]);
 
   useEffect(() => {
     if (!isInitialRenderRef.current) {
