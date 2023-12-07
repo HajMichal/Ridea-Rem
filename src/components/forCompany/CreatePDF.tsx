@@ -248,9 +248,6 @@ const ForCompanyDocument = ({
               <Text style={styles.eachPanelData}>
                 MOC {forCompanyCalcStore.allSystemPowers.systemPower400} W
               </Text>
-              <Text style={styles.eachPanelData}>
-                {forCompanyCalcStore.baseInstallationsPricing.systemPower400} zł
-              </Text>
             </View>
             <View style={{ display: "flex", alignItems: "center" }}>
               <Image
@@ -296,9 +293,6 @@ const ForCompanyDocument = ({
               </Text>
               <Text style={styles.eachPanelData}>
                 MOC {forCompanyCalcStore.allSystemPowers.systemPower455} W
-              </Text>
-              <Text style={styles.eachPanelData}>
-                {forCompanyCalcStore.baseInstallationsPricing.systemPower455} zł
               </Text>
             </View>
             <View style={{ display: "flex", alignItems: "center" }}>
@@ -346,12 +340,10 @@ const ForCompanyDocument = ({
               <Text style={styles.eachPanelData}>
                 MOC {forCompanyCalcStore.allSystemPowers.systemPower500} W
               </Text>
-              <Text style={styles.eachPanelData}>
-                {forCompanyCalcStore.baseInstallationsPricing.systemPower500} zł
-              </Text>
             </View>
           </View>
         </View>
+
         <View
           style={{
             marginTop: 40,
@@ -463,8 +455,7 @@ const ForCompanyDocument = ({
         <View style={styles.eachRow}>
           <Text>ILOŚĆ PANELI</Text>
           <Text style={styles.boldFont}>
-            {forCompanyCalcStore.modulesCount}
-            SZTUK
+            {forCompanyCalcStore.modulesCount} SZTUK
           </Text>
         </View>
         <View style={styles.eachRow}>
