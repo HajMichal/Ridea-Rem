@@ -193,7 +193,7 @@ const MyDocument = ({
           </Text>
         </View>
         <View style={styles.eachRow}>
-          <Text>PRZEWIDYWANA WYSOKOŚC RACHUNKI ZA 2023 </Text>
+          <Text>PRZEWIDYWANA WYSOKOŚC RACHUNKU ZA 2024 </Text>
           <Text style={styles.boldFont}>
             {photovoltaicCalcStore.yearly_bill_without_photovolatics.toFixed(2)}{" "}
             zł
@@ -305,20 +305,14 @@ const MyDocument = ({
           </Text>
         </View>
         <View style={styles.eachRow}>
-          <Text>ILOŚĆ PANELI</Text>
+          <Text>ILOŚĆ MODUŁÓW</Text>
           <Text style={styles.boldFont}>
             {photovoltaicStore.modulesCount} szt.
           </Text>
         </View>
         <View style={styles.eachRow}>
-          <Text>MOC PANELA</Text>
+          <Text>MOC MODUŁU</Text>
           <Text style={styles.boldFont}>{photovoltaicStore.panelPower}</Text>
-        </View>
-        <View style={styles.eachRow}>
-          <Text>INWERTER HYBRYDOWY</Text>
-          <Text style={styles.boldFont}>
-            {photovoltaicStore.isInwerterChoosed ? "1 szt." : "NIE"}
-          </Text>
         </View>
         <View style={styles.eachRow}>
           <Text>ILOŚĆ OPTYMALIZATORÓW TIGO</Text>
@@ -341,7 +335,7 @@ const MyDocument = ({
           <Text style={styles.boldFont}>AC/DC</Text>
         </View>
         <View style={styles.eachRow}>
-          <Text>STELARZE</Text>
+          <Text>STELAŻE</Text>
           <Text style={styles.boldFont}>ALUMINIOWE</Text>
         </View>
         <View style={styles.eachRow}>
@@ -357,7 +351,7 @@ const MyDocument = ({
           </Text>
         </View>
         <View style={styles.eachRow}>
-          <Text>MONTAŻ NA WIELU POWIERZCHNIACH</Text>
+          <Text>MONTAŻ NA WIELU POŁACIACH</Text>
           <Text style={styles.boldFont}>
             {photovoltaicStore.isSolarEdgeChoosed ? "TAK" : "NIE"}
           </Text>
@@ -383,7 +377,7 @@ const MyDocument = ({
           </Text>
         </View>
         <View style={styles.eachRow}>
-          <Text>WIELKOŚĆ ZBIORNIKA CWU</Text>
+          <Text>POJEMNOŚĆ ZBIORNIKA CWU</Text>
           <Text style={styles.boldFont}>
             {photovoltaicStore.heatStoreDotation
               ? photovoltaicStore.tankSize
@@ -445,7 +439,7 @@ const MyDocument = ({
           </Text>
         </View>
         <View style={styles.eachRow}>
-          <Text>CENA 1 RATY PRZED ODLICZENIEM DOTACJI</Text>
+          <Text>WARTOŚĆ RATY PRZED ODLICZENIEM DOTACJI</Text>
           <Text style={styles.boldFont}>
             {photovoltaicCalcStore.loanForPurcharse.instalmentBeforeDotations.toFixed(
               2
