@@ -16,6 +16,7 @@ import { api } from "~/utils/api";
 import { useDisclosure } from "@mantine/hooks";
 
 import { SubmitHandler, useForm } from "react-hook-form";
+import { urlify } from "./FindUrl";
 
 interface NewsCardTypes {
   id: string;
@@ -111,7 +112,7 @@ export const NewsCard = ({
       </Group>
 
       <Text size="sm" c="dimmed">
-        {description}
+        {urlify(description)}
       </Text>
 
       <Modal
