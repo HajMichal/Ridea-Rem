@@ -20,6 +20,7 @@ import { useUploadThing } from "~/utils/uploadthing";
 import { useDropzone } from "@uploadthing/react/hooks";
 import { generateClientDropzoneAccept } from "uploadthing/client";
 import { FileWithPath } from "@uploadthing/react";
+import { useRouter } from "next/router";
 
 interface PostData {
   title: string;
@@ -28,6 +29,7 @@ interface PostData {
 }
 
 const Aktualnosci = () => {
+  const router = useRouter();
   const [opened, { open, close }] = useDisclosure(false);
 
   const { data: sessionData } = useSession();
@@ -67,11 +69,27 @@ const Aktualnosci = () => {
     }
   );
 
+  const fileTypes = permittedFileInfo?.config
+    ? Object.keys(permittedFileInfo?.config)
+    : [];
+  const { getRootProps } = useDropzone({
+    onDrop,
+    accept: fileTypes ? generateClientDropzoneAccept(fileTypes) : undefined,
+  });
+
   const onSubmit: SubmitHandler<PostData> = async () => {
     if (file) {
       await startUpload(file);
     }
   };
+
+  useEffect(() => {
+    // mutate();
+    if (sessionData === null) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+      void router.push("/auth/signin");
+    }
+  }, [sessionData, router]);
 
   useEffect(() => {
     if (!isUploading && url) {
@@ -83,15 +101,6 @@ const Aktualnosci = () => {
       close();
     }
   }, [isUploading, url]);
-
-  const fileTypes = permittedFileInfo?.config
-    ? Object.keys(permittedFileInfo?.config)
-    : [];
-
-  const { getRootProps } = useDropzone({
-    onDrop,
-    accept: fileTypes ? generateClientDropzoneAccept(fileTypes) : undefined,
-  });
 
   return (
     <main className="flex h-full max-h-screen justify-center overflow-hidden bg-backgroundGray font-orkney">
