@@ -124,76 +124,58 @@ const EditionForm = ({ data }: EditionFormType) => {
       },
     },
     pompy_ciepla: {
-      "Z-PRO53/4MitsubishiInv11-16": {
-        cena: dynamicPropValues.pompy_ciepla["Z-PRO53/4MitsubishiInv11-16"]!
-          .cena,
+      "JGB2-PC10KW": {
+        cena: dynamicPropValues.pompy_ciepla["JGB2-PC10KW"]!.cena,
         mnozik_prowizji:
-          dynamicPropValues.pompy_ciepla["Z-PRO53/4MitsubishiInv11-16"]!
-            .mnozik_prowizji,
+          dynamicPropValues.pompy_ciepla["JGB2-PC10KW"]!.mnozik_prowizji,
       },
-      "Z-PRO53/4MitsubishiIHO11-16": {
-        cena: dynamicPropValues.pompy_ciepla["Z-PRO53/4MitsubishiIHO11-16"]!
-          .cena,
+      "JGB2-PC15KW": {
+        cena: dynamicPropValues.pompy_ciepla["JGB2-PC15KW"]!.cena,
         mnozik_prowizji:
-          dynamicPropValues.pompy_ciepla["Z-PRO53/4MitsubishiIHO11-16"]!
-            .mnozik_prowizji,
+          dynamicPropValues.pompy_ciepla["JGB2-PC15KW"]!.mnozik_prowizji,
       },
-      "SAT63DanfossInv14-23": {
-        cena: dynamicPropValues.pompy_ciepla["SAT63DanfossInv14-23"]!.cena,
+      "LAZAR-HTi20V8KW": {
+        cena: dynamicPropValues.pompy_ciepla["LAZAR-HTi20V8KW"]!.cena,
         mnozik_prowizji:
-          dynamicPropValues.pompy_ciepla["SAT63DanfossInv14-23"]!
-            .mnozik_prowizji,
+          dynamicPropValues.pompy_ciepla["LAZAR-HTi20V8KW"]!.mnozik_prowizji,
       },
-      "SAT63DanfossIHO14-24": {
-        cena: dynamicPropValues.pompy_ciepla["SAT63DanfossIHO14-24"]!.cena,
+      "LAZAR-HTi20V12KW": {
+        cena: dynamicPropValues.pompy_ciepla["LAZAR-HTi20V12KW"]!.cena,
         mnozik_prowizji:
-          dynamicPropValues.pompy_ciepla["SAT63DanfossIHO14-24"]!
-            .mnozik_prowizji,
+          dynamicPropValues.pompy_ciepla["LAZAR-HTi20V12KW"]!.mnozik_prowizji,
       },
 
-      "SATELI82P19i17-29": {
-        cena: dynamicPropValues.pompy_ciepla["SATELI82P19i17-29"]!.cena,
+      "LAZAR-HTi20V16KW": {
+        cena: dynamicPropValues.pompy_ciepla["LAZAR-HTi20V16KW"]!.cena,
         mnozik_prowizji:
-          dynamicPropValues.pompy_ciepla["SATELI82P19i17-29"]!.mnozik_prowizji,
+          dynamicPropValues.pompy_ciepla["LAZAR-HTi20V16KW"]!.mnozik_prowizji,
       },
-      "SATELI83P23i20-32": {
-        cena: dynamicPropValues.pompy_ciepla["SATELI83P23i20-32"]!.cena,
+      "ZEO-VCP-PRO10KW": {
+        cena: dynamicPropValues.pompy_ciepla["ZEO-VCP-PRO10KW"]!.cena,
         mnozik_prowizji:
-          dynamicPropValues.pompy_ciepla["SATELI83P23i20-32"]!.mnozik_prowizji,
+          dynamicPropValues.pompy_ciepla["ZEO-VCP-PRO10KW"]!.mnozik_prowizji,
       },
-      "SATELI83P26i23-34": {
-        cena: dynamicPropValues.pompy_ciepla["SATELI83P26i23-34"]!.cena,
+      "ZEO-VCP-PRO15KW": {
+        cena: dynamicPropValues.pompy_ciepla["ZEO-VCP-PRO15KW"]!.cena,
         mnozik_prowizji:
-          dynamicPropValues.pompy_ciepla["SATELI83P26i23-34"]!.mnozik_prowizji,
+          dynamicPropValues.pompy_ciepla["ZEO-VCP-PRO15KW"]!.mnozik_prowizji,
       },
-      "SATELI83P30i25-37": {
-        cena: dynamicPropValues.pompy_ciepla["SATELI83P30i25-37"]!.cena,
+      "ZEO-VCP-H4516KW": {
+        cena: dynamicPropValues.pompy_ciepla["ZEO-VCP-H4516KW"]!.cena,
         mnozik_prowizji:
-          dynamicPropValues.pompy_ciepla["SATELI83P30i25-37"]!.mnozik_prowizji,
+          dynamicPropValues.pompy_ciepla["ZEO-VCP-H4516KW"]!.mnozik_prowizji,
       },
 
-      "SATELI82P19iHO25-35": {
-        cena: dynamicPropValues.pompy_ciepla["SATELI82P19iHO25-35"]!.cena,
+      "ZEO-SATELLITE16KW": {
+        cena: dynamicPropValues.pompy_ciepla["ZEO-SATELLITE16KW"]!.cena,
         mnozik_prowizji:
-          dynamicPropValues.pompy_ciepla["SATELI82P19iHO25-35"]!
-            .mnozik_prowizji,
+          dynamicPropValues.pompy_ciepla["ZEO-SATELLITE16KW"]!.mnozik_prowizji,
       },
-      "SATELI83P23iHO30-41": {
-        cena: dynamicPropValues.pompy_ciepla["SATELI83P23iHO30-41"]!.cena,
+      "POMPACIEPLA-czystepowietrze": {
+        cena: dynamicPropValues.pompy_ciepla["POMPACIEPLA-czystepowietrze"]!
+          .cena,
         mnozik_prowizji:
-          dynamicPropValues.pompy_ciepla["SATELI83P23iHO30-41"]!
-            .mnozik_prowizji,
-      },
-      "SATELI83P26iHO35-45": {
-        cena: dynamicPropValues.pompy_ciepla["SATELI83P26iHO35-45"]!.cena,
-        mnozik_prowizji:
-          dynamicPropValues.pompy_ciepla["SATELI83P26iHO35-45"]!
-            .mnozik_prowizji,
-      },
-      "SATELI83P30iHO37-48": {
-        cena: dynamicPropValues.pompy_ciepla["SATELI83P30iHO37-48"]!.cena,
-        mnozik_prowizji:
-          dynamicPropValues.pompy_ciepla["SATELI83P30iHO37-48"]!
+          dynamicPropValues.pompy_ciepla["POMPACIEPLA-czystepowietrze"]!
             .mnozik_prowizji,
       },
     },
@@ -277,7 +259,8 @@ const EditionForm = ({ data }: EditionFormType) => {
                       valueAsNumber: true,
                     }
                   )}
-                  title={pumpNamesMappings[key[0]] || key[0]}
+                  title={key[0]}
+                  // title={pumpNamesMappings[key[0]] || key[0]}
                   defaultValue={key[1].cena}
                 />
                 <ChangeDataInputComponent
@@ -499,19 +482,19 @@ const addonNamesMappings: { [key: string]: string } = {
   zamkniecie_ukladu_otwartego: "ZAMKNIĘCIE UKŁADU OTWARTEGO",
 };
 
-const pumpNamesMappings: { [key: string]: string } = {
-  "Z-PRO53/4MitsubishiInv11-16": "Z-PRO.5.3/4.Mitsubishi.Inv.11-16",
-  "Z-PRO53/4MitsubishiIHO11-16": "Z-PRO.5.3/4.Mitsubishi.IHO.11-16",
-  "SAT63DanfossInv14-23": "SAT.6.3.Danfoss.Inv.14-23",
-  "SAT63DanfossIHO14-24": "SAT.6.3.Danfoss.IHO.14-24",
-  "SATELI82P19i17-29": "SAT.ELI.8.2.P19i.17-29",
-  "SATELI83P23i20-32": "SAT.ELI.8.3.P23i.20-32",
-  "SATELI83P26i23-34": "SAT.ELI.8.3.P26i.23-34",
-  "SATELI83P30i25-37": "SAT.ELI.8.3.P30i.25-37",
-  "SATELI82P19iHO25-35": "SAT.ELI.8.2.P19iHO.25-35",
-  "SATELI83P23iHO30-41": "SAT.ELI.8.3.P23iHO.30-41",
-  "SATELI83P26iHO35-45": "SAT.ELI.8.3.P26iHO.35-45",
-  "SATELI83P30iHO37-48": "SAT.ELI.8.3.P30iHO.37-48",
-};
+// const pumpNamesMappings: { [key: string]: string } = {
+//   "Z-PRO53/4MitsubishiInv11-16": "Z-PRO.5.3/4.Mitsubishi.Inv.11-16",
+//   "Z-PRO53/4MitsubishiIHO11-16": "Z-PRO.5.3/4.Mitsubishi.IHO.11-16",
+//   "SAT63DanfossInv14-23": "SAT.6.3.Danfoss.Inv.14-23",
+//   "SAT63DanfossIHO14-24": "SAT.6.3.Danfoss.IHO.14-24",
+//   "SATELI82P19i17-29": "SAT.ELI.8.2.P19i.17-29",
+//   "SATELI83P23i20-32": "SAT.ELI.8.3.P23i.20-32",
+//   "SATELI83P26i23-34": "SAT.ELI.8.3.P26i.23-34",
+//   "SATELI83P30i25-37": "SAT.ELI.8.3.P30i.25-37",
+//   "SATELI82P19iHO25-35": "SAT.ELI.8.2.P19iHO.25-35",
+//   "SATELI83P23iHO30-41": "SAT.ELI.8.3.P23iHO.30-41",
+//   "SATELI83P26iHO35-45": "SAT.ELI.8.3.P26iHO.35-45",
+//   "SATELI83P30iHO37-48": "SAT.ELI.8.3.P30iHO.37-48",
+// };
 
 export default DanePompyCiepla;

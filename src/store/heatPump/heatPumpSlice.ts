@@ -26,18 +26,17 @@ type WindowLayersTypes =
   | "OKNA CIEPŁE 3 SZYBOWE";
 
 export type PumpsOffer =
-  | "Z-PRO53/4MitsubishiInv11-16"
-  | "Z-PRO53/4MitsubishiIHO11-16"
-  | "SAT63DanfossInv14-23"
-  | "SAT63DanfossIHO14-24"
-  | "SATELI82P19i17-29"
-  | "SATELI83P23i20-32"
-  | "SATELI83P26i23-34"
-  | "SATELI83P30i25-37"
-  | "SATELI82P19iHO25-35"
-  | "SATELI83P23iHO30-41"
-  | "SATELI83P26iHO35-45"
-  | "SATELI83P30iHO37-48";
+  | "JGB2-PC10KW"
+  | "JGB2-PC15KW"
+  | "LAZAR-HTi20V8KW"
+  | "LAZAR-HTi20V12KW"
+  | "LAZAR-HTi20V16KW"
+  | "ZEO-VCP-PRO10KW"
+  | "ZEO-VCP-PRO15KW"
+  | "ZEO-VCP-H4516KW"
+  | "ZEO-SATELLITE16KW"
+  | "POMPACIEPLA-czystepowietrze";
+
 type BuforTypes =
   | "Bufor 100l Szeregowo przyłącze schemat 17"
   | "Bufor 100l Szeregowo przyłącze schemat 24"

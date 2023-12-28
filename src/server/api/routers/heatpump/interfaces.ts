@@ -17,26 +17,24 @@ export interface HeatPumpDataToCalculationType {
     };
   };
   pompy_ciepla: {
-    "Z-PRO53/4MitsubishiInv11-16": {
+    "JGB2-PC10KW": {
       cena: number;
       mnozik_prowizji: number;
     };
-    "Z-PRO53/4MitsubishiIHO11-16": {
+    "JGB2-PC15KW": {
       cena: number;
       mnozik_prowizji: number;
     };
-    "SAT63DanfossInv14-23": { cena: number; mnozik_prowizji: number };
-    "SAT63DanfossIHO14-24": { cena: number; mnozik_prowizji: number };
+    "LAZAR-HTi20V8KW": { cena: number; mnozik_prowizji: number };
+    "LAZAR-HTi20V12KW": { cena: number; mnozik_prowizji: number };
 
-    "SATELI82P19i17-29": { cena: number; mnozik_prowizji: number };
-    "SATELI83P23i20-32": { cena: number; mnozik_prowizji: number };
-    "SATELI83P26i23-34": { cena: number; mnozik_prowizji: number };
-    "SATELI83P30i25-37": { cena: number; mnozik_prowizji: number };
+    "LAZAR-HTi20V16KW": { cena: number; mnozik_prowizji: number };
+    "ZEO-VCP-PRO10KW": { cena: number; mnozik_prowizji: number };
+    "ZEO-VCP-PRO15KW": { cena: number; mnozik_prowizji: number };
+    "ZEO-VCP-H4516KW": { cena: number; mnozik_prowizji: number };
 
-    "SATELI82P19iHO25-35": { cena: number; mnozik_prowizji: number };
-    "SATELI83P23iHO30-41": { cena: number; mnozik_prowizji: number };
-    "SATELI83P26iHO35-45": { cena: number; mnozik_prowizji: number };
-    "SATELI83P30iHO37-48": { cena: number; mnozik_prowizji: number };
+    "ZEO-SATELLITE16KW": { cena: number; mnozik_prowizji: number };
+    "POMPACIEPLA-czystepowietrze": { cena: number; mnozik_prowizji: number };
   };
   dodatki: {
     kolejna_kaskada: number;
