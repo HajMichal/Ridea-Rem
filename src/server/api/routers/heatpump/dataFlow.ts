@@ -30,51 +30,44 @@ const schema = z.record(
       //   cena: number;
       //   mnozik_prowizji: number;
       // };
-      "Z-PRO53/4MitsubishiInv11-16": z.object({
+
+      "JGB2-PC10KW": z.object({
         cena: z.number(),
         mnozik_prowizji: z.number(),
       }),
-      "Z-PRO53/4MitsubishiIHO11-16": z.object({
+      "JGB2-PC15KW": z.object({
         cena: z.number(),
         mnozik_prowizji: z.number(),
       }),
-      "SAT63DanfossInv14-23": z.object({
+      "LAZAR-HTi20V8KW": z.object({
         cena: z.number(),
         mnozik_prowizji: z.number(),
       }),
-      "SAT63DanfossIHO14-24": z.object({
+      "LAZAR-HTi20V12KW": z.object({
         cena: z.number(),
         mnozik_prowizji: z.number(),
       }),
-      "SATELI82P19i17-29": z.object({
+      "LAZAR-HTi20V16KW": z.object({
         cena: z.number(),
         mnozik_prowizji: z.number(),
       }),
-      "SATELI83P23i20-32": z.object({
+      "ZEO-VCP-PRO10KW": z.object({
         cena: z.number(),
         mnozik_prowizji: z.number(),
       }),
-      "SATELI83P26i23-34": z.object({
+      "ZEO-VCP-PRO15KW": z.object({
         cena: z.number(),
         mnozik_prowizji: z.number(),
       }),
-      "SATELI83P30i25-37": z.object({
+      "ZEO-VCP-H4516KW": z.object({
         cena: z.number(),
         mnozik_prowizji: z.number(),
       }),
-      "SATELI82P19iHO25-35": z.object({
+      "ZEO-SATELLITE16KW": z.object({
         cena: z.number(),
         mnozik_prowizji: z.number(),
       }),
-      "SATELI83P23iHO30-41": z.object({
-        cena: z.number(),
-        mnozik_prowizji: z.number(),
-      }),
-      "SATELI83P26iHO35-45": z.object({
-        cena: z.number(),
-        mnozik_prowizji: z.number(),
-      }),
-      "SATELI83P30iHO37-48": z.object({
+      "POMPACIEPLA-czystepowietrze": z.object({
         cena: z.number(),
         mnozik_prowizji: z.number(),
       }),
@@ -215,26 +208,24 @@ export const heatPumpDataFlowRouter = createTRPCRouter({
             },
           },
           pompy_ciepla: {
-            "Z-PRO53/4MitsubishiInv11-16": {
-              cena: 32980,
+            "JGB2-PC10KW": {
+              cena: 10000,
               mnozik_prowizji: 12,
             },
-            "Z-PRO53/4MitsubishiIHO11-16": {
-              cena: 39730,
+            "JGB2-PC15KW": {
+              cena: 10000,
               mnozik_prowizji: 15,
             },
-            "SAT63DanfossInv14-23": { cena: 32389, mnozik_prowizji: 12 },
-            "SAT63DanfossIHO14-24": { cena: 36889, mnozik_prowizji: 15 },
+            "LAZAR-HTi20V8KW": { cena: 10000, mnozik_prowizji: 12 },
+            "LAZAR-HTi20V12KW": { cena: 10000, mnozik_prowizji: 15 },
 
-            "SATELI82P19i17-29": { cena: 41587, mnozik_prowizji: 18 },
-            "SATELI83P23i20-32": { cena: 48545, mnozik_prowizji: 22 },
-            "SATELI83P26i23-34": { cena: 50801, mnozik_prowizji: 25 },
-            "SATELI83P30i25-37": { cena: 51865, mnozik_prowizji: 28 },
+            "LAZAR-HTi20V16KW": { cena: 10000, mnozik_prowizji: 18 },
+            "ZEO-VCP-PRO10KW": { cena: 10000, mnozik_prowizji: 22 },
+            "ZEO-VCP-PRO15KW": { cena: 10000, mnozik_prowizji: 25 },
+            "ZEO-VCP-H4516KW": { cena: 10000, mnozik_prowizji: 28 },
 
-            "SATELI82P19iHO25-35": { cena: 46087, mnozik_prowizji: 22 },
-            "SATELI83P23iHO30-41": { cena: 53045, mnozik_prowizji: 27 },
-            "SATELI83P26iHO35-45": { cena: 55301, mnozik_prowizji: 31 },
-            "SATELI83P30iHO37-48": { cena: 56365, mnozik_prowizji: 34 },
+            "ZEO-SATELLITE16KW": { cena: 10000, mnozik_prowizji: 22 },
+            "POMPACIEPLA-czystepowietrze": { cena: 10000, mnozik_prowizji: 27 },
           },
           dodatki: {
             kolejna_kaskada: 3500,
