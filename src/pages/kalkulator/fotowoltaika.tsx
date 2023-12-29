@@ -1,20 +1,20 @@
 import { useSession } from "next-auth/react";
-import { api } from "~/utils/api";
-import { useEffect } from "react";
 import { useRouter } from "next/router";
+import { useEffect } from "react";
+import { api } from "~/utils/api";
 
-import useStore from "~/store";
-import { usePhotovoltaic } from "~/hooks/usePhotovoltaic";
+import { Overlay, ScrollArea } from "@mantine/core";
 import {
-  SelectComponent,
   InputComponent,
-  Navbar,
-  SideBar,
   Loading,
+  Navbar,
+  SelectComponent,
+  SideBar,
 } from "~/components";
 import { Preview } from "~/components/photovoltaics";
-import { Overlay, ScrollArea } from "@mantine/core";
+import { usePhotovoltaic } from "~/hooks/usePhotovoltaic";
 import { PhotovoltaicDataToCalculation } from "~/server/api/routers/photovoltaic/interfaces";
+import useStore from "~/store";
 
 const Fotowoltaika = () => {
   const store = useStore();
@@ -28,6 +28,7 @@ const Fotowoltaika = () => {
     api.dataFlow.downloadFile.useQuery<PhotovoltaicDataToCalculation>(
       sessionData?.user.id
     );
+
   // Dotations
   const energyStore_dotation =
     (photovoltaicStore.emsDotation && photovoltaicStore.heatStoreDotation) ||
@@ -327,6 +328,21 @@ const Fotowoltaika = () => {
     mutations.set_markup_costs,
     data,
   ]);
+
+  useEffect(() => {
+    store.updatePhotovoltaicCalcs(
+      "carPortCost",
+      data &&
+        photovoltaicStore.isCarPort &&
+        photovoltaicStore.choosedCarPort !== "0_stan"
+        ? data.carPort[photovoltaicStore.choosedCarPort]
+        : 0
+    );
+  }, [
+    photovoltaicStore.choosedCarPort,
+    photovoltaicStore.isCarPort,
+    data?.carPort,
+  ]);
   useEffect(() => {
     mutations.set_addon_cost({
       bloczki: photovoltaicCalcStore.bloczki_price,
@@ -336,6 +352,7 @@ const Fotowoltaika = () => {
       solarEdge: photovoltaicCalcStore.solarEdge_price,
       tigo: photovoltaicCalcStore.tigo_price,
       voucher: photovoltaicStore.voucher,
+      carPort: photovoltaicCalcStore.carPortCost,
       markup_costs: photovoltaicCalcStore.markup_costs.markupSumValue ?? 0,
     });
   }, [
@@ -345,6 +362,7 @@ const Fotowoltaika = () => {
     photovoltaicCalcStore.hybridInwerter_price,
     photovoltaicCalcStore.solarEdge_price,
     photovoltaicCalcStore.tigo_price,
+    photovoltaicCalcStore.carPortCost,
     photovoltaicStore.voucher,
     photovoltaicCalcStore.markup_costs,
     mutations.set_addon_cost,
@@ -881,6 +899,34 @@ const Fotowoltaika = () => {
                       />
                     )}
                   </>
+                )}
+
+                <SelectComponent
+                  title="CAR PORT"
+                  onChange={(e) =>
+                    store.updatePhotovoltaic("isCarPort", e == "true")
+                  }
+                  value={photovoltaicStore.isCarPort}
+                  data={yesNoData}
+                />
+                {photovoltaicStore.isCarPort && (
+                  <SelectComponent
+                    title="WIELKOŚĆ CAR PORTU"
+                    onChange={(e) =>
+                      store.updatePhotovoltaic("choosedCarPort", String(e))
+                    }
+                    value={photovoltaicStore.choosedCarPort}
+                    data={[
+                      { value: "0_stan", label: "BRAK" },
+                      { value: "stan1", label: "1 STAN. 10 MODUŁÓW" },
+                      { value: "stan2", label: "2 STAN. 15 MODUŁÓW" },
+                      { value: "stan4", label: "4 STAN. 30 MODUŁÓW" },
+                      { value: "stan6", label: "6 STAN. 45 MODUŁÓW" },
+                      { value: "stan8", label: "8 STAN. 60 MODUŁÓW" },
+                      { value: "stan10", label: "10 STAN. 75 MODUŁÓW" },
+                      { value: "stan12", label: "12 STAN. 90 MODUŁÓW" },
+                    ]}
+                  />
                 )}
                 <SelectComponent
                   title="ULGA PODATKOWA"

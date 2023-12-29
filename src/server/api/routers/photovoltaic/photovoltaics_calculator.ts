@@ -179,6 +179,7 @@ export const photovoltaics_calculator = createTRPCRouter({
         bloczki: z.number().optional(),
         grunt: z.number().optional(),
         solarEdge: z.number().optional(),
+        carPort: z.number(),
         markup_costs: z.number(),
       })
     )

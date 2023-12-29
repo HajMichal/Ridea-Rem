@@ -107,6 +107,15 @@ const EditionForm = ({ data }: EditionForm) => {
         prog1: dynamicPropValues.magazyn_energii_hipontech.prog1,
         prog2: dynamicPropValues.magazyn_energii_hipontech.prog2,
       },
+      carPort: {
+        stan1: dynamicPropValues.carPort.stan1,
+        stan2: dynamicPropValues.carPort.stan2,
+        stan4: dynamicPropValues.carPort.stan4,
+        stan6: dynamicPropValues.carPort.stan6,
+        stan8: dynamicPropValues.carPort.stan8,
+        stan10: dynamicPropValues.carPort.stan10,
+        stan12: dynamicPropValues.carPort.stan12,
+      },
       magazynCiepla: dynamicPropValues.magazynCiepla,
       oprocentowanie_kredytu: dynamicPropValues.oprocentowanie_kredytu,
       prowizjaBiura: dynamicPropValues.prowizjaBiura,
@@ -347,6 +356,27 @@ const EditionForm = ({ data }: EditionForm) => {
           title="SOLAR EDGE"
           defaultValue={dynamicPropValues!.koszty_dodatkowe.solarEdge}
         />
+        <h2 className="mt-10 w-full text-center text-2xl">CAR PORT</h2>
+        {dynamicPropValues &&
+          Object.entries(dynamicPropValues.carPort).map((key, index) => {
+            return (
+              <ChangeDataInputComponent
+                {...register(
+                  `carPort.${key[0]}` as keyof typeof dynamicPropValues,
+                  {
+                    valueAsNumber: true,
+                  }
+                )}
+                title={key[0]}
+                defaultValue={
+                  dynamicPropValues!.carPort[
+                    key[0] as keyof typeof dynamicPropValues.carPort
+                  ]
+                }
+                key={index}
+              />
+            );
+          })}
         <h2 className="mt-10 w-full text-center text-2xl">ZBIORNIKI CWU</h2>
         <ChangeDataInputComponent
           {...register("zbiorniki.zbiornik_100L", {
