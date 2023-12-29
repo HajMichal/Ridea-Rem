@@ -74,7 +74,7 @@ export const NewsCard = ({
       padding="lg"
       radius="md"
       withBorder
-      className="w-[300px]"
+      className="w-1/3 max-w-[500px]"
       key={id}
     >
       <Card.Section>
