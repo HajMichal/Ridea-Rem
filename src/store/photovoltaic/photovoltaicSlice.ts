@@ -12,6 +12,7 @@ export interface PhotovoltaicsSlice {
     energyStoreDotation: boolean;
     isEccentricsChoosed: boolean;
     isInwerterChoosed: boolean;
+    isCarPort: boolean;
     taxCredit: number;
     usageLimit: number;
     modulesCount: number;
@@ -25,6 +26,15 @@ export interface PhotovoltaicsSlice {
     panelPower: number;
     installmentNumber: number;
     tankSize: string;
+    choosedCarPort:
+      | "0_stan"
+      | "stan1"
+      | "stan2"
+      | "stan4"
+      | "stan6"
+      | "stan8"
+      | "stan10"
+      | "stan12";
     energyStoreProducent: "SOLAX" | "HIPONTECH";
   };
   updatePhotovoltaic: (key: string, value: boolean | number | string) => void;
@@ -42,6 +52,7 @@ export const photovoltaicsSlice: StateCreator<PhotovoltaicsSlice> = (set) => ({
     isInwerterChoosed: false,
     emsDotation: false,
     energyStoreDotation: false,
+    isCarPort: false,
     taxCredit: 0.12,
     usageLimit: 0,
     modulesCount: 0,
@@ -55,6 +66,7 @@ export const photovoltaicsSlice: StateCreator<PhotovoltaicsSlice> = (set) => ({
     installmentNumber: 120,
     energyStorePower: 0,
     tankSize: "Brak",
+    choosedCarPort: "0_stan",
     energyStoreProducent: "SOLAX",
   },
   updatePhotovoltaic: (key, value) =>

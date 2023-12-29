@@ -68,6 +68,15 @@ export interface PhotovoltaicDataToCalculation {
     prog1: number;
     prog2: number;
   };
+  carPort: {
+    stan1: number;
+    stan2: number;
+    stan4: number;
+    stan6: number;
+    stan8: number;
+    stan10: number;
+    stan12: number;
+  };
   magazynCiepla: number;
   prowizjaBiura: number;
   oprocentowanie_kredytu: number;

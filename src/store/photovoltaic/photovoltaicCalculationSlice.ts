@@ -57,6 +57,7 @@ export interface PhotovoltaicCalculations {
   energyStoreCost: number;
   energyStoreDotationValue: number;
   energyManagerCost: number;
+  carPortCost: number;
   // PROMOCJA
   // promotionTotalInstallationCosts: {
   //   total_installation_cost: number;
@@ -130,6 +131,7 @@ export const photovoltaicCalculationSlice: StateCreator<
     },
     energyStoreDotationValue: 0,
     energyManagerCost: 0,
+    carPortCost: 0,
     // PROMOCJA
     // promotionTotalInstallationCosts: {
     //   total_installation_cost: 0,

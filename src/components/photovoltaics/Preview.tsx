@@ -120,6 +120,10 @@ export const Preview = ({
                 calculations={photovoltaicStore.isInwerterChoosed}
               />
               <TextComponent
+                title="CAR PORT"
+                calculations={photovoltaicStore.isCarPort}
+              />
+              <TextComponent
                 title="MAGAZYN CIEPŁA"
                 calculations={photovoltaicStore.heatStoreDotation}
               />
