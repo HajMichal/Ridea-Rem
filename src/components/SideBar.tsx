@@ -70,12 +70,12 @@ export const SideBar = () => (
         href2="/edycja/danePompyCiepla"
         title="POMPY CIEPŁA"
       />
-      {/* <SideBarButton
-        href="/kalkulator/magazyn_energii"
-        href2="/edycja/daneMagazynEnergii"
-        title="MAGAZYN ENERGII"
+      <SideBarButton
+        href="/kalkulator/cieplo_wlasciwe"
+        href2="/edycja/daneCieploWlasciwe"
+        title="CIEPŁO WŁAŚCIWE"
         longWord
-      /> */}
+      />
     </div>
     <div className="m-3 text-center text-xs text-white">
       <p>IDEA REM </p>

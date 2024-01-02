@@ -39,6 +39,8 @@ model User {
   imposedFeeForCompany   Int       @default(0)
   imposedFeeHeatPump     Int       @default(0)
   imposedFeePhotovoltaic Int       @default(0)
+  feePerkwHeatHome       Int       @default(0)
+  imposedFeeHeatHome     Int       @default(0)
   creator                User?     @relation("creatorWorker", fields: [creatorId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   workers                User[]    @relation("creatorWorker")
   sessions               Session[]

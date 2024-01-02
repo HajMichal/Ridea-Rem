@@ -548,13 +548,18 @@ const Pompy_ciepla = () => {
                   ]}
                   smallField
                 />
-                <SelectComponent
-                  title="SCHEMAT PRZYŁĄCZENIOWY"
-                  onChange={(e) => store.updateHeatPump("isBufor", e == "true")}
-                  value={heatPumpStore.isBufor}
-                  data={yesNoData}
-                  smallField
-                />
+                {heatPumpStore.suggestedPump !==
+                  "POMPACIEPLA-czystepowietrze" && (
+                  <SelectComponent
+                    title="SCHEMAT PRZYŁĄCZENIOWY"
+                    onChange={(e) =>
+                      store.updateHeatPump("isBufor", e == "true")
+                    }
+                    value={heatPumpStore.isBufor}
+                    data={yesNoData}
+                    smallField
+                  />
+                )}
                 {heatPumpStore.isBufor && (
                   <SelectComponent
                     title="RODZAJ BUFORA"

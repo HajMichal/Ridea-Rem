@@ -1,0 +1,40 @@
+{
+  "kalkulator": [
+    {
+      "Adrian Szymborski": {
+        "ocieplenia": 250,
+        "m2_ocieplenia": 30,
+        "parapety": 50,
+        "tynk": 150,
+        "wykonczenie": 100
+      }
+    },
+    {
+      "biuro": {
+        "ocieplenia": 0,
+        "m2_ocieplenia": 0,
+        "parapety": 0,
+        "tynk": 0,
+        "wykonczenie": 0
+      }
+    },
+    {
+      "Zawiercie1": {
+        "ocieplenia": 0,
+        "m2_ocieplenia": 0,
+        "parapety": 0,
+        "tynk": 0,
+        "wykonczenie": 0
+      }
+    },
+    {
+      "jola": {
+        "ocieplenia": 0,
+        "m2_ocieplenia": 0,
+        "parapety": 0,
+        "tynk": 0,
+        "wykonczenie": 0
+      }
+    }
+  ]
+}

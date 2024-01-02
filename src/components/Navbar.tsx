@@ -10,11 +10,31 @@ import { useHeatPump } from "~/hooks/useHeatPump";
 import { Menu, rem } from "@mantine/core";
 import { BiLogOut } from "react-icons/bi";
 import { useForCompany } from "~/hooks/useForCompany";
+import { useHeatHome } from "~/hooks/useHeatHome";
 
 interface LinkComponentType {
   href: string;
   title: string;
 }
+
+const consultantProvisionsData = [
+  { value: "0", label: "0" },
+  { value: "100", label: "100" },
+  { value: "200", label: "200" },
+  { value: "300", label: "300" },
+  { value: "400", label: "400" },
+  { value: "500", label: "500" },
+  { value: "550", label: "550" },
+  { value: "600", label: "600" },
+  { value: "650", label: "650" },
+  { value: "700", label: "700" },
+  { value: "750", label: "750" },
+  { value: "800", label: "800" },
+  { value: "850", label: "850" },
+  { value: "900", label: "900" },
+  { value: "950", label: "950" },
+  { value: "1000", label: "1000" },
+];
 
 const LinkComponent = ({ href, title }: LinkComponentType) => {
   return (
@@ -34,6 +54,7 @@ export const Navbar = () => {
   const { photovoltaicStore } = usePhotovoltaic();
   const { heatPumpStore } = useHeatPump();
   const { forCompanyStore } = useForCompany();
+  const { heatHomeStore } = useHeatHome();
   return (
     <div className="h-fit w-full">
       <div className="flex h-[105px] w-full items-center justify-between gap-5 bg-white px-2 font-orkneyLight text-sm font-semibold">
@@ -77,24 +98,7 @@ export const Navbar = () => {
                   store.updatePhotovoltaic("consultantMarkup", Number(e));
                 }}
                 value={photovoltaicStore.consultantMarkup}
-                data={[
-                  { value: "0", label: "0" },
-                  { value: "100", label: "100" },
-                  { value: "200", label: "200" },
-                  { value: "300", label: "300" },
-                  { value: "400", label: "400" },
-                  { value: "500", label: "500" },
-                  { value: "550", label: "550" },
-                  { value: "600", label: "600" },
-                  { value: "650", label: "650" },
-                  { value: "700", label: "700" },
-                  { value: "750", label: "750" },
-                  { value: "800", label: "800" },
-                  { value: "850", label: "850" },
-                  { value: "900", label: "900" },
-                  { value: "950", label: "950" },
-                  { value: "1000", label: "1000" },
-                ]}
+                data={consultantProvisionsData}
               />
             )}
             {router.pathname === "/kalkulator/pompy_ciepla" && (
@@ -104,24 +108,7 @@ export const Navbar = () => {
                   store.updateHeatPump("consultantMarkup", Number(e));
                 }}
                 value={heatPumpStore.consultantMarkup}
-                data={[
-                  { value: "0", label: "0" },
-                  { value: "100", label: "100" },
-                  { value: "200", label: "200" },
-                  { value: "300", label: "300" },
-                  { value: "400", label: "400" },
-                  { value: "500", label: "500" },
-                  { value: "550", label: "550" },
-                  { value: "600", label: "600" },
-                  { value: "650", label: "650" },
-                  { value: "700", label: "700" },
-                  { value: "750", label: "750" },
-                  { value: "800", label: "800" },
-                  { value: "850", label: "850" },
-                  { value: "900", label: "900" },
-                  { value: "950", label: "950" },
-                  { value: "1000", label: "1000" },
-                ]}
+                data={consultantProvisionsData}
               />
             )}
             {router.pathname === "/kalkulator/fotowoltaika_firmy" && (
@@ -131,24 +118,17 @@ export const Navbar = () => {
                   store.updateForCompany("consultantMarkup", Number(e));
                 }}
                 value={forCompanyStore.consultantMarkup}
-                data={[
-                  { value: "0", label: "0" },
-                  { value: "100", label: "100" },
-                  { value: "200", label: "200" },
-                  { value: "300", label: "300" },
-                  { value: "400", label: "400" },
-                  { value: "500", label: "500" },
-                  { value: "550", label: "550" },
-                  { value: "600", label: "600" },
-                  { value: "650", label: "650" },
-                  { value: "700", label: "700" },
-                  { value: "750", label: "750" },
-                  { value: "800", label: "800" },
-                  { value: "850", label: "850" },
-                  { value: "900", label: "900" },
-                  { value: "950", label: "950" },
-                  { value: "1000", label: "1000" },
-                ]}
+                data={consultantProvisionsData}
+              />
+            )}
+            {router.pathname === "/kalkulator/cieplo_wlasciwe" && (
+              <SelectComponent
+                title="POZIOM"
+                onChange={(e) => {
+                  store.updateHeatHome("consultantMarkup", Number(e));
+                }}
+                value={heatHomeStore.consultantMarkup}
+                data={consultantProvisionsData}
               />
             )}
           </div>

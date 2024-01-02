@@ -496,7 +496,7 @@ const HeatPumpDocument = ({
         <Text style={styles.pageNum}>05</Text>
       </View>
     </Page>
-    <Page size="A4" style={styles.page}>
+    {/* <Page size="A4" style={styles.page}>
       {heatPumpStore.buforType.includes("17") && (
         <Image
           src={`${process.env.NEXT_PUBLIC_BASE_URL}/static/heatPumpPdf/schemat17.jpg`}
@@ -513,7 +513,7 @@ const HeatPumpDocument = ({
           src={`${process.env.NEXT_PUBLIC_BASE_URL}/static/heatPumpPdf/schemat34.png`}
         />
       )}
-    </Page>
+    </Page> */}
   </Document>
 );
 
