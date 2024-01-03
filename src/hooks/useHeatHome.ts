@@ -54,6 +54,11 @@ export const useHeatHome = () => {
       updateHeatHomeCalcs("dotationValue", data);
     },
   });
+  const { mutate: setFinallCost } = api.heatHome.finallCost.useMutation({
+    onSuccess: (data) => {
+      updateHeatHomeCalcs("finallCost", data);
+    },
+  });
   return {
     jsonData: jsonData,
     heatHomeStore: heatHomeStore,
@@ -67,6 +72,7 @@ export const useHeatHome = () => {
       setMarkupCosts,
       setTotalCost,
       setDotationValue,
+      setFinallCost,
     },
   };
 };

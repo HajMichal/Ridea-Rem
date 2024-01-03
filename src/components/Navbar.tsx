@@ -79,6 +79,12 @@ export const Navbar = () => {
                 href="/edycja/daneFotowoltaiki_firmy"
                 title="EDYCJA DANYCH"
               />
+            )) ||
+            (router.pathname === "/kalkulator/cieplo_wlasciwe" && (
+              <LinkComponent
+                href="/edycja/daneCieploWlasciwe"
+                title="EDYCJA DANYCH"
+              />
             ))}
           {sessionData?.user.role === 2 || sessionData?.user.role === 1 ? (
             <LinkComponent href="/edycja/prowizje" title="PROWIZJE" />

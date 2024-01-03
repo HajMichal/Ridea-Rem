@@ -1,6 +1,6 @@
 import { type StateCreator } from "zustand";
 
-interface HeatHomeCalculations {
+export interface HeatHomeCalculations {
   heatedAreaCost: number;
   heatingThicknessCost: number;
   windowSillCost: number;
@@ -12,8 +12,13 @@ interface HeatHomeCalculations {
     markupSumValue: number;
     officeFeeForBoss: number;
   };
-  totalCost: number;
+  totalCost: {
+    nett: number;
+    gross: number;
+    vat: number;
+  };
   dotationValue: number;
+  finallCost: number;
 }
 
 export interface HeatHomeCalculationSliceType {
@@ -39,8 +44,13 @@ export const heatHomeCalculationSlice: StateCreator<
       markupSumValue: 0,
       officeFeeForBoss: 0,
     },
-    totalCost: 0,
+    totalCost: {
+      nett: 0,
+      gross: 0,
+      vat: 0,
+    },
     dotationValue: 0,
+    finallCost: 0,
   },
   updateHeatHomeCalcs: (key, value) =>
     set((state) => ({

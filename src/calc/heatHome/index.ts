@@ -1,5 +1,5 @@
 export * as default from "./index";
-
+import staticData from "../../static";
 interface AddonCostCounterType {
   area: number;
   cost: number;
@@ -18,8 +18,9 @@ interface TotalCostsType {
   markupSum: number;
 }
 export function totalCosts({ input }: { input: TotalCostsType }) {
-  const sum = Object.values(input).reduce((acc, val) => acc + val, 0);
-  return Number(sum);
+  const nett = Object.values(input).reduce((acc, val) => acc + val, 0);
+  const vatValue = nett * staticData.VATRATE;
+  return { nett: Number(nett), gross: Number(nett + vatValue), vat: vatValue };
 }
 
 interface DotationValueType {
@@ -32,4 +33,15 @@ export function dotationValue({ input }: { input: DotationValueType }) {
   if (dotationStep === "prog1") return Number((0.5 * totalCost).toFixed(2));
   if (dotationStep === "prog2") return Number((0.7 * totalCost).toFixed(2));
   if (dotationStep === "prog3") return totalCost;
+}
+
+interface FinallCostType {
+  dotationValue: number;
+  totalCost: number;
+}
+export function finallCost({ input }: { input: FinallCostType }) {
+  const { totalCost, dotationValue } = input;
+  const diff = totalCost - dotationValue;
+  if (diff <= 0) return 0;
+  else return Number(diff.toFixed(2));
 }

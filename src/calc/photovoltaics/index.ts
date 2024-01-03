@@ -689,7 +689,7 @@ export function promotionTotalInstallationCosts({
     input.totalInstallationCosts.total_installation_cost +
     2 * input.oneInstallmentAmount;
 
-  const fee_value = total_cost * 0.08;
+  const fee_value = total_cost * staticData.VATRATE;
 
   return {
     total_installation_cost: total_cost,

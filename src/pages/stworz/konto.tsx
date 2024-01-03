@@ -24,9 +24,12 @@ const Account = () => {
       },
     });
   const { mutate: addMenagerHeatPumpData } =
-    api.heatPumpDataFlowRouter.addNewMenager.useMutation({});
+    api.heatPumpDataFlowRouter.addNewMenager.useMutation();
   const { mutate: addMenagerForCompany } =
-    api.forCompanyDataFlowRouter.addNewMenager.useMutation({});
+    api.forCompanyDataFlowRouter.addNewMenager.useMutation();
+  const { mutate: addMenagerHeatHome } =
+    api.heatHomeDataFlowRouter.addNewMenager.useMutation();
+
   const { mutate } = api.userDataHandling.createAccount.useMutation({
     onError(error) {
       toast.error(error.message);
@@ -36,6 +39,7 @@ const Account = () => {
         addMenagerPhotovoltaicData(data.userName);
         addMenagerHeatPumpData(data.userName);
         addMenagerForCompany(data.userName);
+        addMenagerHeatHome(data.userName);
       }
       toast.success(`Konto zostało utworzone dla ${data.userName}`);
       reset();

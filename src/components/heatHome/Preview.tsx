@@ -48,6 +48,32 @@ export const Preview = () => {
               calculations={heatHomeStore.topFinish}
               unit="M²"
             />
+            {!!heatHomeCalcStore.totalCost.nett && (
+              <div className="my-10">
+                <h2 className="w-full text-center text-xl">FINANSE</h2>
+                <TextComponent
+                  title="KWOTA NETTO"
+                  calculations={heatHomeCalcStore.totalCost.nett}
+                />
+                <TextComponent
+                  title="KWOTA BRUTTO"
+                  calculations={heatHomeCalcStore.totalCost.gross}
+                />
+              </div>
+            )}
+            <TextComponent
+              title="KWOTA DOTACJI"
+              calculations={heatHomeCalcStore.dotationValue}
+              unit="ZŁ"
+            />
+            <div className="mt-20 text-center">
+              <TextComponent
+                title="KWOTA PO DOTACJACH"
+                color="green"
+                size="xl"
+                calculations={heatHomeCalcStore.finallCost}
+              />
+            </div>
           </div>
           <PdfGeneratorButton />
         </div>

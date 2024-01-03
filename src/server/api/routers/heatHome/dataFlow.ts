@@ -1,7 +1,17 @@
 import { createTRPCRouter, publicProcedure } from "../../trpc";
-import { s3 } from "../photovoltaic/dataFlow";
+import { s3, setFileToBucket } from "../photovoltaic/dataFlow";
 import { EachMenagerHeatHome, HeatHomeCalculatorType } from "./interfaces";
 import { z } from "zod";
+
+const schema = z.record(
+  z.object({
+    ocieplenia: z.number(),
+    m2_ocieplenia: z.number(),
+    parapety: z.number(),
+    tynk: z.number(),
+    wykonczenie: z.number(),
+  })
+);
 
 const getParsedJsonObject = async () => {
   const dataFile = await s3
@@ -47,4 +57,59 @@ export const heatHomeDataFlowRouter = createTRPCRouter({
   downloadEntireJsonFile: publicProcedure.query(async () => {
     return await getParsedJsonObject();
   }),
+  editJSONFile: publicProcedure.input(schema).mutation(async ({ input }) => {
+    const convertedFile: HeatHomeCalculatorType = await getParsedJsonObject();
+    const dynamicKey = Object.keys(input)[0];
+
+    const index = convertedFile.kalkulator.findIndex(
+      (obj) => Object.keys(obj)[0] === dynamicKey
+    );
+
+    if (index !== -1 && dynamicKey) {
+      convertedFile.kalkulator[index] = input;
+    }
+
+    const updatedJSONFile = JSON.stringify(convertedFile);
+    setFileToBucket(updatedJSONFile, "heatHome.json");
+    return input;
+  }),
+  removeMenagerData: publicProcedure
+    .input(z.string())
+    .mutation(async ({ input }) => {
+      const convertedFile = await getParsedJsonObject();
+      const index = convertedFile.kalkulator.findIndex(
+        (obj) => Object.keys(obj)[0] === input
+      );
+
+      if (index !== -1) {
+        convertedFile.kalkulator.splice(index, 1);
+      }
+
+      const updatedJSONFile = JSON.stringify(convertedFile);
+      setFileToBucket(updatedJSONFile, "heatHome.json");
+      return input;
+    }),
+  addNewMenager: publicProcedure
+    .input(z.string())
+    .mutation(async ({ input }) => {
+      const convertedFile = await getParsedJsonObject();
+
+      const newMenagerData = {
+        [input]: {
+          ocieplenia: 0,
+          m2_ocieplenia: 0,
+          parapety: 0,
+          tynk: 0,
+          wykonczenie: 0,
+        },
+      };
+
+      convertedFile.kalkulator.push(newMenagerData);
+      setFileToBucket(JSON.stringify(convertedFile), "heatHome.json");
+      return {
+        status: 200,
+        message:
+          "Menager z bazowymi danymi został stworzony. Aby zmienić jego dane, przejdź do zakładki prowizje 📝",
+      };
+    }),
 });

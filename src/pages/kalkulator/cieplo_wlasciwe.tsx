@@ -93,7 +93,7 @@ const Cieplo_wlasciwe = () => {
   useEffect(() => {
     mutations.setDotationValue({
       dotationStep: heatHomeStore.dotationStep,
-      totalCost: heatHomeCalcStore.totalCost,
+      totalCost: heatHomeCalcStore.totalCost.nett,
     });
   }, [heatHomeStore.dotationStep, heatHomeCalcStore.totalCost]);
   console.log(heatHomeCalcStore.dotationValue);
@@ -178,7 +178,7 @@ const Cieplo_wlasciwe = () => {
                 }
                 value={heatHomeStore.dotationStep}
                 data={[
-                  { label: "PRÓG 1", value: "prog0" },
+                  { label: "PRÓG 0", value: "prog0" },
                   { label: "PRÓG 1", value: "prog1" },
                   { label: "PRÓG 2", value: "prog2" },
                   { label: "PRÓG 3", value: "prog3" },

@@ -1,6 +1,6 @@
 import { type StateCreator } from "zustand";
 
-interface HeatHomeType {
+export interface HeatHomeType {
   heatThickness: number;
   areaToHeat: number;
   windowSillCount: number;

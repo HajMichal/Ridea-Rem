@@ -10,6 +10,8 @@ import { useRouter } from "next/router";
 import { useHeatPump } from "~/hooks/useHeatPump";
 import { ForCompanyDocument } from "./forCompany";
 import { useForCompany } from "~/hooks/useForCompany";
+import { useHeatHome } from "~/hooks/useHeatHome";
+import HeatHomeDocument from "./heatHome/CreatePDF";
 
 interface DataFromJson {
   energyStore_dotation?: number;
@@ -27,6 +29,7 @@ export const PdfGeneratorButton = ({
   const { photovoltaicCalcStore, photovoltaicStore } = usePhotovoltaic();
   const { heatPumpCalcStore, heatPumpStore } = useHeatPump();
   const { forCompanyCalcStore, forCompanyStore } = useForCompany();
+  const { heatHomeCalcStore, heatHomeStore } = useHeatHome();
 
   const photovoltaicDoc = async () => {
     const blobPhotovoltaics = await pdf(
@@ -58,6 +61,15 @@ export const PdfGeneratorButton = ({
     ).toBlob();
     saveAs(blobForCompany, "Oferta dla Klienta - IdeaRem.pdf");
   };
+  const heatHomeDoc = async () => {
+    const blobForCompany = await pdf(
+      <HeatHomeDocument
+        heatHomeCalcStore={heatHomeCalcStore}
+        heatHomeStore={heatHomeStore}
+      />
+    ).toBlob();
+    saveAs(blobForCompany, "Oferta dla Klienta - IdeaRem.pdf");
+  };
 
   const generateContract = async () => {
     setPdfLoading(true);
@@ -67,6 +79,8 @@ export const PdfGeneratorButton = ({
       await heatPumpDoc();
     } else if (router.pathname === "/kalkulator/fotowoltaika_firmy") {
       await forCompanyDoc();
+    } else if (router.pathname === "/kalkulator/cieplo_wlasciwe") {
+      await heatHomeDoc();
     }
     setPdfLoading(false);
   };
