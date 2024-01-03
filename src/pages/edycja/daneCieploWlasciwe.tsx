@@ -1,4 +1,4 @@
-import { Loader, Tabs } from "@mantine/core";
+import { Loader, Modal, Tabs } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
@@ -81,7 +81,7 @@ const DaneCieploWlasciwe = () => {
 const EditionForm = ({ data }: EditionFormType) => {
   const [opened, { open, close }] = useDisclosure(false);
 
-  const { mutate } = api.heatPumpDataFlowRouter.editJSONFile.useMutation({
+  const { mutate } = api.heatHomeDataFlowRouter.editJSONFile.useMutation({
     onSuccess: () => {
       toast.success("Dane zostały pomyślnie zmienione.");
     },
@@ -102,7 +102,7 @@ const EditionForm = ({ data }: EditionFormType) => {
   };
 
   const onSubmit: SubmitHandler<HeatHomeDataCalculationType> = (data) => {
-    // mutate({ [dynamicName!]: data });
+    mutate({ [dynamicName!]: data });
     close();
   };
 
@@ -125,6 +125,38 @@ const EditionForm = ({ data }: EditionFormType) => {
             );
           })}
       </form>
+      <button
+        onClick={open}
+        className="fixed bottom-20 right-56 mx-5 h-12 self-center rounded-xl bg-dark px-10 py-2 font-semibold text-white duration-300 hover:bg-brand hover:text-dark"
+      >
+        Zatwierdź
+      </button>
+      <Modal
+        opened={opened}
+        onClose={close}
+        title="CZY NA PEWNO CHCESZ ZAPISAĆ ZMIENIONE WARTOŚCI ?"
+        className="text-center font-orkneyBold"
+        centered
+      >
+        <p className="font-orkney">
+          Będzie to skutkowało zmianami w bazie danych, przez co ceny nowych
+          wyliczeń za instalację ulegną zmianie.
+        </p>
+        <div className="flex w-full justify-between p-4">
+          <button
+            onClick={close}
+            className="rounded-2xl bg-red p-2 px-4 font-orkneyBold duration-100 hover:scale-110"
+          >
+            ANULUJ
+          </button>
+          <button
+            onClick={handleSubmit(onSubmit)}
+            className="rounded-2xl bg-green-500 p-2 px-4 font-orkneyBold duration-100 hover:scale-110"
+          >
+            TAK
+          </button>
+        </div>
+      </Modal>
     </>
   );
 };
