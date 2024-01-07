@@ -44,7 +44,12 @@ export const heatHomeCalculator = createTRPCRouter({
           officeFeeForBoss
         ).toFixed(2)
       );
-
+      console.log({
+        officeFeeValue: officeFeeValue,
+        officeFeeForBoss: officeFeeForBoss,
+        consultantFeeValue: consultantFeeValue,
+        markupSumValue: markupSumValue,
+      });
       return {
         officeFeeValue: officeFeeValue,
         officeFeeForBoss: officeFeeForBoss,

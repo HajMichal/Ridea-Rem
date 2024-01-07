@@ -35,6 +35,18 @@ const consultantProvisionsData = [
   { value: "950", label: "950" },
   { value: "1000", label: "1000" },
 ];
+const heatHomeProvisionData = [
+  { value: "0", label: "0" },
+  { value: "10", label: "10" },
+  { value: "15", label: "15" },
+  { value: "20", label: "20" },
+  { value: "25", label: "25" },
+  { value: "30", label: "30" },
+  { value: "35", label: "35" },
+  { value: "40", label: "40" },
+  { value: "45", label: "45" },
+  { value: "50", label: "50" },
+];
 
 const LinkComponent = ({ href, title }: LinkComponentType) => {
   return (
@@ -134,7 +146,7 @@ export const Navbar = () => {
                   store.updateHeatHome("consultantMarkup", Number(e));
                 }}
                 value={heatHomeStore.consultantMarkup}
-                data={consultantProvisionsData}
+                data={heatHomeProvisionData}
               />
             )}
           </div>

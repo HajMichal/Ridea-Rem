@@ -3,15 +3,16 @@ import { useDisclosure } from "@mantine/hooks";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { type SubmitHandler, useForm } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
 import { ChangeDataInputComponent, Navbar, SideBar } from "~/components";
 import {
-  EachMenagerHeatHome,
-  HeatHomeDataCalculationType,
+  type EachMenagerHeatHome,
+  type HeatHomeDataCalculationType,
 } from "~/server/api/routers/heatHome/interfaces";
 import { api } from "~/utils/api";
 
+// eslint-disable-next-line @typescript-eslint/consistent-indexed-object-style
 interface EditionFormType {
   [key: string]: EachMenagerHeatHome;
 }
@@ -112,18 +113,23 @@ const EditionForm = ({ data }: EditionFormType) => {
       <form className="w-full pb-20 pt-3">
         <h2 className="mt-5 w-full text-center text-3xl">CIEPŁO WŁAŚCIWE</h2>
         {dynamicPropValues &&
-          Object.entries(dynamicPropValues).map((value, index) => {
-            return (
-              <ChangeDataInputComponent
-                {...register(`${value}` as keyof typeof dynamicPropValues, {
-                  valueAsNumber: true,
-                })}
-                title={jsonKeyNamesMapping[value[0] || value[0]]!}
-                defaultValue={value[1]}
-                key={index}
-              />
-            );
-          })}
+          Object.entries(dynamicPropValues).map(
+            (value: [string, number], index) => {
+              return (
+                <ChangeDataInputComponent
+                  {...register(
+                    `${value[0]}` as keyof typeof dynamicPropValues,
+                    {
+                      valueAsNumber: true,
+                    }
+                  )}
+                  title={jsonKeyNamesMapping[value[0] || value[0]]!}
+                  defaultValue={value[1]}
+                  key={index}
+                />
+              );
+            }
+          )}
       </form>
       <button
         onClick={open}
@@ -160,7 +166,7 @@ const EditionForm = ({ data }: EditionFormType) => {
     </>
   );
 };
-
+// eslint-disable-next-line @typescript-eslint/consistent-indexed-object-style
 const jsonKeyNamesMapping: { [key: string]: string } = {
   ocieplenia: "GRUBOŚĆ OCIEPLENIA",
   m2_ocieplenia: "M² OCIEPLENIA",

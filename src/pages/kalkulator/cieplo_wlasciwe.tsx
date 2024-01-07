@@ -1,5 +1,6 @@
 import { ScrollArea } from "@mantine/core";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { InputComponent, Navbar, SelectComponent, SideBar } from "~/components";
 import { Preview } from "~/components/heatHome/Preview";
@@ -10,8 +11,17 @@ import { api } from "~/utils/api";
 const Cieplo_wlasciwe = () => {
   const { data: sessionData } = useSession();
   const store = useStore();
+  const router = useRouter();
+
   const { jsonData, mutations, heatHomeStore, heatHomeCalcStore } =
     useHeatHome();
+
+  useEffect(() => {
+    if (sessionData === null) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+      void router.push("/auth/signin");
+    }
+  }, [sessionData, router]);
 
   useEffect(() => {
     if (jsonData)
@@ -56,8 +66,8 @@ const Cieplo_wlasciwe = () => {
   useEffect(() => {
     if (sessionData?.user) {
       mutations.setMarkupCosts({
-        officeFee: sessionData?.user.feePerkwPhotovoltaic,
-        constantFee: sessionData.user.imposedFeePhotovoltaic,
+        officeFee: sessionData?.user.feePerkwHeatHome,
+        constantFee: sessionData.user.imposedFeeHeatHome,
         consultantFee: heatHomeStore.consultantMarkup,
         heatingArea: heatHomeStore.areaToHeat,
         creatorId: sessionData.user.creatorId ?? "",
@@ -96,7 +106,13 @@ const Cieplo_wlasciwe = () => {
       totalCost: heatHomeCalcStore.totalCost.nett,
     });
   }, [heatHomeStore.dotationStep, heatHomeCalcStore.totalCost]);
-  console.log(heatHomeCalcStore.dotationValue);
+
+  useEffect(() => {
+    mutations.setFinallCost({
+      dotationValue: heatHomeCalcStore.dotationValue,
+      totalCost: heatHomeCalcStore.totalCost.gross,
+    });
+  }, [heatHomeCalcStore.totalCost, heatHomeCalcStore.dotationValue]);
   return (
     <main className="flex h-full max-h-screen overflow-hidden bg-backgroundGray font-orkney laptop:justify-center">
       {/* {!data && (

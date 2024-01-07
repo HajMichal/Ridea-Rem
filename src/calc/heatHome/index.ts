@@ -18,7 +18,11 @@ interface TotalCostsType {
   markupSum: number;
 }
 export function totalCosts({ input }: { input: TotalCostsType }) {
-  const nett = Object.values(input).reduce((acc, val) => acc + val, 0);
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+  const nett: number = Object.values(input).reduce(
+    (acc: number, val: number) => acc + val,
+    0
+  );
   const vatValue = nett * staticData.VATRATE;
   return { nett: Number(nett), gross: Number(nett + vatValue), vat: vatValue };
 }
