@@ -5,7 +5,6 @@ import { z } from "zod";
 
 const schema = z.record(
   z.object({
-    ocieplenia: z.number(),
     m2_ocieplenia: z.number(),
     parapety: z.number(),
     tynk: z.number(),

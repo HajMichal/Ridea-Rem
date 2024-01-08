@@ -6,7 +6,6 @@ import { InputComponent, Navbar, SelectComponent, SideBar } from "~/components";
 import { Preview } from "~/components/heatHome/Preview";
 import { useHeatHome } from "~/hooks/useHeatHome";
 import useStore from "~/store";
-import { api } from "~/utils/api";
 
 const Cieplo_wlasciwe = () => {
   const { data: sessionData } = useSession();
@@ -30,14 +29,6 @@ const Cieplo_wlasciwe = () => {
         cost: jsonData.m2_ocieplenia,
       });
   }, [heatHomeStore.areaToHeat, jsonData?.m2_ocieplenia]);
-
-  useEffect(() => {
-    if (jsonData)
-      mutations.setHeatingThicknessCost({
-        area: heatHomeStore.heatThickness,
-        cost: jsonData.ocieplenia,
-      });
-  }, [heatHomeStore.heatThickness, jsonData?.ocieplenia]);
 
   useEffect(() => {
     if (jsonData)
@@ -134,14 +125,6 @@ const Cieplo_wlasciwe = () => {
             </h1>
             <ScrollArea h={"78%"}>
               <InputComponent
-                title="GRUBOŚĆ OCIEPLENIA"
-                onChange={(e) =>
-                  store.updateHeatHome("heatThickness", e.target.valueAsNumber)
-                }
-                step={1}
-                value={heatHomeStore.heatThickness}
-              />
-              <InputComponent
                 title="ILOŚĆ M² OCIEPLENIA"
                 onChange={(e) =>
                   store.updateHeatHome("areaToHeat", e.target.valueAsNumber)
@@ -150,7 +133,7 @@ const Cieplo_wlasciwe = () => {
                 value={heatHomeStore.areaToHeat}
               />
               <InputComponent
-                title="LICZBA PARAPETÓW"
+                title="ŁĄCZNA DŁUGOŚĆ PARAPETÓW (MB)"
                 onChange={(e) =>
                   store.updateHeatHome(
                     "windowSillCount",
@@ -161,7 +144,7 @@ const Cieplo_wlasciwe = () => {
                 value={heatHomeStore.windowSillCount}
               />
               <InputComponent
-                title="TYNK M²"
+                title="TYNK AKRYLOWY (M²)"
                 onChange={(e) =>
                   store.updateHeatHome("plasterArea", e.target.valueAsNumber)
                 }
@@ -169,7 +152,7 @@ const Cieplo_wlasciwe = () => {
                 value={heatHomeStore.plasterArea}
               />
               <InputComponent
-                title="WYKOŃCZENIE GÓRNE"
+                title="WYKOŃCZENIE GÓRNE (ATTICA/OGNIOMUR)"
                 onChange={(e) =>
                   store.updateHeatHome("topFinish", e.target.valueAsNumber)
                 }

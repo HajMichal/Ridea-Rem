@@ -40,7 +40,7 @@ const InputWithSubmitButton: React.FC<InputWithSubmitButtonType> = ({
 
   return (
     <>
-      <div className="flex flex-col  justify-end pl-1">
+      <div className="flex flex-col justify-end pl-1">
         <Input.Wrapper id={userId + label} label={label} maw={320} mx="auto">
           <Input
             type="number"
@@ -78,6 +78,8 @@ export const UserFeeFormField = ({
     api.heatPumpDataFlowRouter.removeMenagerData.useMutation();
   const { mutate: removeMenagerForCompanyJson } =
     api.forCompanyDataFlowRouter.removeMenagerData.useMutation();
+  const { mutate: removeMenagerHeatHomeJson } =
+    api.heatHomeDataFlowRouter.removeMenagerData.useMutation();
   const { mutate: removeUserFromDb } =
     api.userDataHandling.removeUser.useMutation();
 
@@ -86,9 +88,15 @@ export const UserFeeFormField = ({
     user.role === 2 && removeMenagerPhotovoltaicJson(user.name!),
       user.role === 2 && removeMenagerHeatPumpJson(user.name!);
     user.role === 2 && removeMenagerForCompanyJson(user.name!);
+    user.role === 2 && removeMenagerHeatHomeJson(user.name!);
     close();
   };
-  const CALCUALTOR_TYPES = ["Photovoltaic", "ForCompany", "HeatPump"];
+  const CALCUALTOR_TYPES = [
+    "Photovoltaic",
+    "ForCompany",
+    "HeatPump",
+    "HeatHome",
+  ];
   return (
     <div className="mt-3 flex gap-5 font-orkney">
       <div className="flex flex-col">
@@ -127,13 +135,20 @@ export const UserFeeFormField = ({
           <div className="flex justify-between">
             <p>Prowizja od kW pompy ciepła</p> <p>{user.feePerkwHeatPump}</p>
           </div>
+          <div className="flex justify-between">
+            <p>Stała prowizja ciepło właściwe</p>{" "}
+            <p>{user.imposedFeeHeatHome}</p>
+          </div>
+          <div className="flex justify-between">
+            <p>Prowizja od M² ciepło właściwe</p> <p>{user.feePerkwHeatHome}</p>
+          </div>
         </div>
       </div>
       <div className="grid grid-cols-3 grid-rows-1 items-end gap-5">
         {!isWorker &&
           CALCUALTOR_TYPES.map((calcualtor) => {
             return (
-              <>
+              <div className="my-5" key={calcualtor}>
                 <InputWithSubmitButton
                   label={`Stała prowizja  
                     ${
@@ -141,7 +156,9 @@ export const UserFeeFormField = ({
                         ? "fotowoltaika"
                         : calcualtor === "ForCompany"
                         ? "dla firm"
-                        : "pompy ciepła"
+                        : calcualtor === "HeatPump"
+                        ? "pompy ciepła"
+                        : "ciepło właściwe"
                     }
                       `}
                   userId={user.id}
@@ -149,20 +166,22 @@ export const UserFeeFormField = ({
                   whichCalcualtor={calcualtor}
                 />
                 <InputWithSubmitButton
-                  label={`Prowizja od kW 
+                  label={`Prowizja od 
                   ${
                     calcualtor === "Photovoltaic"
-                      ? "fotowoltaika"
+                      ? "kW fotowoltaika"
                       : calcualtor === "ForCompany"
-                      ? "dla firm"
-                      : "pompy ciepła"
+                      ? "kW dla firm"
+                      : calcualtor === "HeatPump"
+                      ? "kW pompy ciepła"
+                      : "M² ciepło właściwe"
                   }
                     `}
                   userId={user.id}
                   setter={setFeePerKw}
                   whichCalcualtor={calcualtor}
                 />
-              </>
+              </div>
             );
           })}
       </div>

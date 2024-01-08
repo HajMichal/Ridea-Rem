@@ -1,5 +1,4 @@
 export interface HeatHomeDataCalculationType {
-  ocieplenia: number;
   m2_ocieplenia: number;
   parapety: number;
   tynk: number;

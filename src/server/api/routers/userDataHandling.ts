@@ -102,6 +102,14 @@ export const loginRouter = createTRPCRouter({
           },
         });
         return { status: 200, message: "Prowizja została nałożona na konto" };
+      } else if (input.whichCalcualtor === "HeatHome") {
+        await ctx.prisma.user.update({
+          where: { id: input.userId },
+          data: {
+            imposedFeeHeatHome: input.feeAmount,
+          },
+        });
+        return { status: 200, message: "Prowizja została nałożona na konto" };
       }
     }),
   feePerKwChange: publicProcedure
@@ -134,6 +142,14 @@ export const loginRouter = createTRPCRouter({
           where: { id: input.userId },
           data: {
             feePerkwHeatPump: input.feeAmount,
+          },
+        });
+        return { status: 200, message: "Prowizja została nałożona na konto" };
+      } else if (input.whichCalcualtor === "HeatHome") {
+        await ctx.prisma.user.update({
+          where: { id: input.userId },
+          data: {
+            feePerkwHeatHome: input.feeAmount,
           },
         });
         return { status: 200, message: "Prowizja została nałożona na konto" };

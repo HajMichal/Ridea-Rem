@@ -23,7 +23,7 @@ export function totalCosts({ input }: { input: TotalCostsType }) {
     (acc: number, val: number) => acc + val,
     0
   );
-  const vatValue = nett * staticData.VATRATE;
+  const vatValue = Number((nett * staticData.VATRATE).toFixed(2));
   return { nett: Number(nett), gross: Number(nett + vatValue), vat: vatValue };
 }
 

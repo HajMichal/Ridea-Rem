@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
     fontFamily: "Orkney",
   },
   logo: {
-    width: 60,
+    height: 45,
     alignSelf: "center",
     marginBottom: 50,
   },
@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
     zIndex: -1,
   },
   title: {
-    fontSize: 40,
+    fontSize: 35,
     fontWeight: 600,
     fontFamily: "Orkney",
     textAlign: "center",
@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
   },
   mainPage: {
     display: "flex",
-    marginTop: 50,
+    marginTop: 38.7,
   },
   yellowRow: {
     width: 470,
@@ -89,6 +89,13 @@ const styles = StyleSheet.create({
     fontWeight: 600,
     width: 210,
   },
+  addonRowTittle: {
+    fontSize: 10,
+    fontFamily: "Orkney",
+    marginLeft: 20,
+    width: 210,
+    marginTop: -20,
+  },
   rowData: {
     fontSize: 14,
     fontFamily: "Orkney",
@@ -99,6 +106,10 @@ const styles = StyleSheet.create({
     fontFamily: "Orkney",
     fontWeight: 600,
   },
+  image: {
+    width: "auto",
+    height: "auto",
+  },
 });
 
 interface DataToPDF {
@@ -108,12 +119,17 @@ interface DataToPDF {
 
 const HeatHomeDocument = ({ heatHomeCalcStore, heatHomeStore }: DataToPDF) => (
   <Document>
-    <Page size="A4" style={styles.page}></Page>
+    <Page size="A4" style={styles.page}>
+      <Image
+        style={styles.image}
+        src={`${process.env.NEXT_PUBLIC_BASE_URL}/static/heatHome/termo33.png`}
+      />
+    </Page>
     <Page size="A4" style={styles.page}>
       <View style={styles.mainPage}>
         <Image
           style={styles.logo}
-          src={`${process.env.NEXT_PUBLIC_BASE_URL}/static/pdf/blackLogo.png`}
+          src={`${process.env.NEXT_PUBLIC_BASE_URL}/static/heatHome/logo.png`}
         />
         <Text style={styles.title}>WYCENA</Text>
         <View style={{ marginTop: 20, marginBottom: 56 }}>
@@ -126,9 +142,9 @@ const HeatHomeDocument = ({ heatHomeCalcStore, heatHomeStore }: DataToPDF) => (
           </View>
           <View style={styles.defaultRow}>
             <Text style={styles.rowTitle}>GRUBOŚĆ OCIEPLENIA</Text>
-            <Text style={styles.rowData}>{heatHomeStore.heatThickness} cm</Text>
-            <Text style={styles.rowCost}>
-              {heatHomeCalcStore.heatingThicknessCost} zł
+
+            <Text style={styles.rowData}>
+              Na podstawie audytu energetycznego
             </Text>
           </View>
           <View style={styles.yellowRow}>
@@ -155,10 +171,15 @@ const HeatHomeDocument = ({ heatHomeCalcStore, heatHomeStore }: DataToPDF) => (
             </Text>
           </View>
           <View style={styles.defaultRow}>
-            <Text style={styles.rowTitle}>KOSZTY DODATKOWE</Text>
-            <Text style={styles.rowCost}>
-              {heatHomeStore.additionalAmount} zł
-            </Text>
+            <Text style={styles.addonRowTittle}>(ATTICA/OGNIOMUR)</Text>
+          </View>
+          <View style={{ marginTop: -20 }}>
+            <View style={styles.defaultRow}>
+              <Text style={styles.rowTitle}>KOSZTY DODATKOWE</Text>
+              <Text style={styles.rowCost}>
+                {heatHomeStore.additionalAmount} zł
+              </Text>
+            </View>
           </View>
         </View>
         <View>
@@ -181,7 +202,7 @@ const HeatHomeDocument = ({ heatHomeCalcStore, heatHomeStore }: DataToPDF) => (
             </Text>
           </View>
         </View>
-        <View style={{ marginTop: 50 }}>
+        <View style={{ marginTop: 70 }}>
           <View style={styles.defaultRow}>
             <Text style={styles.rowTitle}>DOTACJA</Text>
             <Text style={styles.rowCost}>
@@ -215,7 +236,12 @@ const HeatHomeDocument = ({ heatHomeCalcStore, heatHomeStore }: DataToPDF) => (
         />
       </View>
     </Page>
-    <Page size="A4" style={styles.page}></Page>
+    <Page size="A4" style={styles.page}>
+      <Image
+        style={styles.image}
+        src={`${process.env.NEXT_PUBLIC_BASE_URL}/static/heatHome/termo3.png`}
+      />
+    </Page>
   </Document>
 );
 

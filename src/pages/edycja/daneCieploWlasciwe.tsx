@@ -95,7 +95,6 @@ const EditionForm = ({ data }: EditionFormType) => {
   const dynamicPropValues = data![dynamicName!];
   const { register, handleSubmit } = useForm<HeatHomeDataCalculationType>();
   dynamicPropValues && {
-    ocieplenia: dynamicPropValues.ocieplenia,
     m2_ocieplenia: dynamicPropValues.m2_ocieplenia,
     parapety: dynamicPropValues.parapety,
     tynk: dynamicPropValues.tynk,
@@ -168,7 +167,6 @@ const EditionForm = ({ data }: EditionFormType) => {
 };
 // eslint-disable-next-line @typescript-eslint/consistent-indexed-object-style
 const jsonKeyNamesMapping: { [key: string]: string } = {
-  ocieplenia: "GRUBOŚĆ OCIEPLENIA",
   m2_ocieplenia: "M² OCIEPLENIA",
   parapety: "PARAPETY",
   tynk: "M² TYNK",

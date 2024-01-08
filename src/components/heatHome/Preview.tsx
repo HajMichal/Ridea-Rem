@@ -25,28 +25,24 @@ export const Preview = () => {
             className="mt-3 h-[75%] w-full overflow-y-auto px-10"
           >
             <TextComponent
-              title="GRUBOŚĆ OCIEPLENIA"
-              calculations={heatHomeStore.heatThickness}
-            />
-            <TextComponent
               title="POWIERZCHNIA DO OCIEPLENIA"
               calculations={heatHomeStore.areaToHeat}
               unit="M²"
             />
             <TextComponent
-              title="PARAPETY"
+              title="ŁĄCZNA DŁUGOŚĆ PARAPETÓW "
               calculations={heatHomeStore.windowSillCount}
-              unit="SZT"
+              unit="MB"
             />
             <TextComponent
-              title="TYNK"
+              title="TYNK AKRYLOWY"
               calculations={heatHomeStore.plasterArea}
               unit="M²"
             />
             <TextComponent
-              title="WYKOŃCZENIE GÓRNE"
+              title="WYKOŃCZENIE GÓRNE (ATTICA/OGNIOMUR)"
               calculations={heatHomeStore.topFinish}
-              unit="M²"
+              unit="MB"
             />
             {!!heatHomeCalcStore.totalCost.nett && (
               <div className="my-10">
