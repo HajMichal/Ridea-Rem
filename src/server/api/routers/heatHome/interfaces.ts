@@ -1,4 +1,9 @@
 export interface HeatHomeDataCalculationType {
+  grubosciOcieplenia: {
+    cm_15: number;
+    cm_20: number;
+    cm_25: number;
+  };
   m2_ocieplenia: number;
   parapety: number;
   tynk: number;

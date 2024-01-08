@@ -29,7 +29,14 @@ const Cieplo_wlasciwe = () => {
         cost: jsonData.m2_ocieplenia,
       });
   }, [heatHomeStore.areaToHeat, jsonData?.m2_ocieplenia]);
-
+  useEffect(() => {
+    if (jsonData)
+      mutations.setHeatingThicknessCost({
+        area: heatHomeStore.areaToHeat,
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
+        cost: jsonData.grubosciOcieplenia[heatHomeStore.heatThickness!],
+      });
+  }, [heatHomeStore.areaToHeat, heatHomeStore.heatThickness!]);
   useEffect(() => {
     if (jsonData)
       mutations.setWindowSillCost({
@@ -104,6 +111,7 @@ const Cieplo_wlasciwe = () => {
       totalCost: heatHomeCalcStore.totalCost.gross,
     });
   }, [heatHomeCalcStore.totalCost, heatHomeCalcStore.dotationValue]);
+
   return (
     <main className="flex h-full max-h-screen overflow-hidden bg-backgroundGray font-orkney laptop:justify-center">
       {/* {!data && (
@@ -124,6 +132,19 @@ const Cieplo_wlasciwe = () => {
               CIEPŁO WŁAŚCIWE
             </h1>
             <ScrollArea h={"78%"}>
+              <SelectComponent
+                title="GRUBOŚĆ OCIEPLENIA"
+                onChange={(e) =>
+                  store.updateHeatHome("heatThickness", String(e))
+                }
+                value={heatHomeStore.heatThickness}
+                data={[
+                  { label: "15 cm", value: "cm_15" },
+                  { label: "20 cm", value: "cm_20" },
+                  { label: "25 cm", value: "cm_25" },
+                ]}
+                smallField
+              />
               <InputComponent
                 title="ILOŚĆ M² OCIEPLENIA"
                 onChange={(e) =>

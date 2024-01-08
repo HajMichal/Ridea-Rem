@@ -5,6 +5,11 @@ import { z } from "zod";
 
 const schema = z.record(
   z.object({
+    grubosciOcieplenia: z.object({
+      cm_15: z.number(),
+      cm_20: z.number(),
+      cm_25: z.number(),
+    }),
     m2_ocieplenia: z.number(),
     parapety: z.number(),
     tynk: z.number(),
@@ -95,7 +100,11 @@ export const heatHomeDataFlowRouter = createTRPCRouter({
 
       const newMenagerData = {
         [input]: {
-          ocieplenia: 0,
+          grubosciOcieplenia: {
+            cm_15: 10,
+            cm_20: 20,
+            cm_25: 30,
+          },
           m2_ocieplenia: 0,
           parapety: 0,
           tynk: 0,

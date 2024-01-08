@@ -1,7 +1,7 @@
 import { type StateCreator } from "zustand";
 
 export interface HeatHomeType {
-  heatThickness: number;
+  heatThickness: "cm_15" | "cm_20" | "cm_25";
   areaToHeat: number;
   windowSillCount: number;
   plasterArea: number;
@@ -21,7 +21,7 @@ export interface HeatHomeSliceType {
 
 export const heatHomeSlice: StateCreator<HeatHomeSliceType> = (set) => ({
   heatHomeStore: {
-    heatThickness: 0,
+    heatThickness: "cm_15",
     areaToHeat: 0,
     windowSillCount: 0,
     plasterArea: 0,

@@ -100,11 +100,14 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontFamily: "Orkney",
     marginRight: 10,
+    textAlign: "right",
   },
   rowCost: {
     fontSize: 14,
     fontFamily: "Orkney",
     fontWeight: 600,
+    textAlign: "right",
+    width: 80,
   },
   image: {
     width: "auto",
@@ -142,9 +145,11 @@ const HeatHomeDocument = ({ heatHomeCalcStore, heatHomeStore }: DataToPDF) => (
           </View>
           <View style={styles.defaultRow}>
             <Text style={styles.rowTitle}>GRUBOŚĆ OCIEPLENIA</Text>
-
             <Text style={styles.rowData}>
-              Na podstawie audytu energetycznego
+              {heatHomeStore.heatThickness.replace(/\D/g, "")} cm
+            </Text>
+            <Text style={styles.rowCost}>
+              {heatHomeCalcStore.heatingThicknessCost} zł
             </Text>
           </View>
           <View style={styles.yellowRow}>
