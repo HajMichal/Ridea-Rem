@@ -36,7 +36,7 @@ const Cieplo_wlasciwe = () => {
         // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
         cost: jsonData.grubosciOcieplenia[heatHomeStore.heatThickness!],
       });
-  }, [heatHomeStore.areaToHeat, heatHomeStore.heatThickness!]);
+  }, [heatHomeStore.areaToHeat, heatHomeStore.heatThickness]);
   useEffect(() => {
     if (jsonData)
       mutations.setWindowSillCost({
