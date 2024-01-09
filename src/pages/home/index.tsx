@@ -14,42 +14,43 @@ export default function Home() {
     }
   }, [sessionData]);
   return (
-    <main className="grid h-screen w-screen grid-cols-3 overflow-hidden hover:cursor-pointer">
-      {/* <div
-        id="energyStore"
+    <main className="grid h-screen w-screen grid-cols-4 overflow-hidden hover:cursor-pointer">
+      <div
+        id="photovoltaic"
         className="bg-[#00B4D8] duration-100 hover:opacity-90"
-        onClick={() => void router.push("/kalkulator/magazyn_energii")}
+        onClick={() => void router.push("/kalkulator/cieplo_wlasciwe")}
       >
         <Image
-          src={"/Magazyn_energii.png"}
+          src={"/home/termomodernizacja.png"}
           alt="Zdjęcie instalacjii"
           width={640}
           height={1080}
-          className="h-3/4 object-cover"
+          className="h-3/4 w-full object-cover"
         />
-
         <div className="flex flex-col items-center font-orkneyLight text-sm text-white">
           <div className="absolute top-[350px] flex flex-col items-center font-orkneyBold text-2xl text-white">
             <Image
-              src={"/MagazynEnergiiIcon.svg"}
+              src={"/home/icons/MagazynEnergiiIcon.svg"}
               alt="Logo"
               width={80}
               height={80}
               className="mb-1 h-14 w-14"
             />
-            <p className="text-3xl">MAGAZYNY </p>
-            <p>ENERGII</p>
+            <p className="text-3xl">CIEPŁO </p>
+            <p>WŁAŚCIWE</p>
           </div>
-          <Image
-            src={"/KlikDoKalkulacji.svg"}
-            alt="Logo"
-            width={80}
-            height={80}
-            className="h-7 w-7"
-          />
-          <p>STWÓRZ OFERTĘ</p>
+          <div className="absolute bottom-10">
+            <Image
+              src={"/home/icons/KlikDoKalkulacji.svg"}
+              alt="Logo"
+              width={80}
+              height={80}
+              className=" ml-10 h-7 w-7"
+            />
+            <p>STWÓRZ OFERTĘ</p>
+          </div>
         </div>
-      </div> */}
+      </div>
       <div
         id="photovoltaic"
         className="bg-[#74B734] duration-100 hover:opacity-90"
