@@ -18,6 +18,7 @@ import { useDisclosure } from "@mantine/hooks";
 
 import { SubmitHandler, useForm } from "react-hook-form";
 import { urlify } from "./FindUrl";
+import CardDescription from "./CardDescription";
 
 interface NewsCardTypes {
   id: string;
@@ -41,7 +42,6 @@ export const NewsCard = ({
   role = 3,
 }: NewsCardTypes) => {
   const [opened, { open, close }] = useDisclosure(false);
-  const [showMore, setShowMore] = useState(false);
 
   const { mutate: removePost } = api.newsDataRouter.deletePost.useMutation({
     onSuccess: () => {
@@ -113,22 +113,7 @@ export const NewsCard = ({
         )}
       </Group>
 
-      <Text
-        size="sm"
-        c="dimmed"
-        className={`${showMore ? "h-min" : "h-40"} overflow-hidden`}
-      >
-        {urlify(description)}
-      </Text>
-
-      <div className="flex w-full justify-end">
-        <button
-          onClick={() => setShowMore(!showMore)}
-          className="z-[9999] font-orkneyBold text-xs"
-        >
-          {showMore ? "ZWIŃ" : "CZYTAJ DALEJ"}
-        </button>
-      </div>
+      <CardDescription description={description} title={title} img={url} />
 
       <Modal
         opened={opened}
