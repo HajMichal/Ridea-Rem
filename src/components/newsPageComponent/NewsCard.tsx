@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Card,
   Image,
@@ -9,6 +9,7 @@ import {
   Modal,
   Textarea,
   TextInput,
+  Button,
 } from "@mantine/core";
 import { PiDotsThreeOutlineVerticalBold, PiTrashBold } from "react-icons/pi";
 import { AiOutlineEdit } from "react-icons/ai";
@@ -40,6 +41,7 @@ export const NewsCard = ({
   role = 3,
 }: NewsCardTypes) => {
   const [opened, { open, close }] = useDisclosure(false);
+  const [showMore, setShowMore] = useState(false);
 
   const { mutate: removePost } = api.newsDataRouter.deletePost.useMutation({
     onSuccess: () => {
@@ -111,9 +113,22 @@ export const NewsCard = ({
         )}
       </Group>
 
-      <Text size="sm" c="dimmed">
+      <Text
+        size="sm"
+        c="dimmed"
+        className={`${showMore ? "h-min" : "h-40"} overflow-hidden`}
+      >
         {urlify(description)}
       </Text>
+
+      <div className="flex w-full justify-end">
+        <button
+          onClick={() => setShowMore(!showMore)}
+          className="z-[9999] font-orkneyBold text-xs"
+        >
+          {showMore ? "ZWIŃ" : "CZYTAJ DALEJ"}
+        </button>
+      </div>
 
       <Modal
         opened={opened}
