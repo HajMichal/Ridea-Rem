@@ -1,5 +1,5 @@
 import React from "react";
-import { Modal, Text, Image } from "@mantine/core";
+import { Modal, Text, Image, ScrollArea } from "@mantine/core";
 import { urlify } from "./FindUrl";
 import { useDisclosure } from "@mantine/hooks";
 
@@ -30,9 +30,11 @@ const CardDescription = ({ description, title, img }: CardDescriptionType) => {
         className="font-orkneyBold"
       >
         <Image src={img} height={260} alt="image" />
-        <Text className="mt-5" c={"dimmed"}>
-          {urlify(description)}
-        </Text>
+        <ScrollArea h={"78%"}>
+          <Text className="my-5 mr-5 max-h-96 px-3" c={"dimmed"}>
+            {urlify(description)}
+          </Text>
+        </ScrollArea>
       </Modal>
     </>
   );
