@@ -64,11 +64,7 @@ export const Preview = ({
               />
               <TextComponent
                 title="MOC INSTALACJI"
-                calculations={
-                  photovoltaicStore.voucher
-                    ? photovoltaicCalcStore.system_power + 0.8
-                    : photovoltaicCalcStore.system_power
-                }
+                calculations={photovoltaicCalcStore.system_power}
                 unit="KW"
               />
               <TextComponent
@@ -148,8 +144,7 @@ export const Preview = ({
                   calculations={photovoltaicCalcStore.energyStoreCost}
                 />
               )}
-              {/* PROMOCJA */}
-              {/* {!!photovoltaicCalcStore.promotionTotalInstallationCosts */}
+
               {!!photovoltaicCalcStore.totalInstallationCosts
                 .total_gross_cost && (
                 <div className="my-10">
@@ -172,6 +167,15 @@ export const Preview = ({
                     //   photovoltaicCalcStore.promotionTotalInstallationCosts
                     //     .total_gross_cost
                     // }
+                  />
+                  <TextComponent
+                    title="ZNIŻKA PROMOCYJNA"
+                    color="green"
+                    calculations={
+                      photovoltaicStore.isPromotion
+                        ? "-" + photovoltaicStore.promotionAmount
+                        : 0
+                    }
                   />
                   <TextComponent
                     title={`CENA 1 RATY PRZY ${photovoltaicStore.installmentNumber} RATACH PRZED ODLICZENIEM DOTACJI`}

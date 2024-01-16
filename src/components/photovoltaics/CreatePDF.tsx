@@ -298,10 +298,7 @@ const MyDocument = ({
         <View style={styles.eachRow}>
           <Text>MOC SYSTEMU PV</Text>
           <Text style={styles.boldFont}>
-            {photovoltaicStore.voucher
-              ? photovoltaicCalcStore.system_power + 0.8
-              : photovoltaicCalcStore.system_power}{" "}
-            kW
+            {photovoltaicCalcStore.system_power} kW
           </Text>
         </View>
         <View style={styles.eachRow}>
@@ -464,7 +461,11 @@ const MyDocument = ({
           <View style={styles.eachRow}>
             <Text>DOTACJA `&#34;`MÓJ PRĄD 5.0`&#34;`</Text>
             <Text style={styles.boldFont}>
-              {photovoltaicCalcStore.dotations_sum} ZŁ
+              {photovoltaicStore.isPromotion
+                ? photovoltaicCalcStore.dotations_sum +
+                  photovoltaicStore.promotionAmount
+                : photovoltaicCalcStore.dotations_sum}{" "}
+              ZŁ
             </Text>
           </View>
           <View style={{ fontSize: 12, paddingLeft: 12, paddingBottom: 12 }}>
@@ -485,6 +486,13 @@ const MyDocument = ({
               DOTACJA NA MAGAZYN ENERGII -{" "}
               {photovoltaicStore.energyStoreDotation
                 ? photovoltaicCalcStore.energyStoreDotationValue
+                : "0"}{" "}
+              ZŁ
+            </Text>
+            <Text>
+              PROMOCJA -{" "}
+              {photovoltaicStore.isPromotion
+                ? photovoltaicStore.promotionAmount
                 : "0"}{" "}
               ZŁ
             </Text>

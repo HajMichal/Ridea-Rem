@@ -334,7 +334,7 @@ export function addonHybridInwerter({
 }
 
 interface TotalAddonCostType {
-  voucher?: boolean;
+  promotionAmount?: number;
   ekierki?: number;
   hybridInwerter?: number;
   tigo?: number;
@@ -346,7 +346,6 @@ interface TotalAddonCostType {
 }
 export function totalAddonCost({ input }: { input: TotalAddonCostType }) {
   return Number(
-    // (input.voucher ? 900 : 0) +
     (
       (input.ekierki ? input.ekierki : 0) +
       (input.hybridInwerter ? input.hybridInwerter : 0) +
@@ -354,6 +353,7 @@ export function totalAddonCost({ input }: { input: TotalAddonCostType }) {
       (input.bloczki ? input.bloczki : 0) +
       (input.grunt ? input.grunt : 0) +
       (input.solarEdge ? input.solarEdge : 0) +
+      (input.promotionAmount ? input.promotionAmount : 0) +
       input.carPort +
       input.markup_costs
     ).toFixed(2)
@@ -697,10 +697,5 @@ export function promotionTotalInstallationCosts({
     fee_value: Number(fee_value.toFixed(2)),
   };
 }
-
-// interface CarPortCostType {
-
-// }
-// export function carPortCost({input}: {input: CarPortCostType})
 
 export * as default from "./index";

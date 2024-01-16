@@ -351,7 +351,9 @@ const Fotowoltaika = () => {
       hybridInwerter: photovoltaicCalcStore.hybridInwerter_price,
       solarEdge: photovoltaicCalcStore.solarEdge_price,
       tigo: photovoltaicCalcStore.tigo_price,
-      voucher: photovoltaicStore.voucher,
+      promotionAmount: photovoltaicStore.isPromotion
+        ? 0
+        : photovoltaicStore.promotionAmount,
       carPort: photovoltaicCalcStore.carPortCost,
       markup_costs: photovoltaicCalcStore.markup_costs.markupSumValue ?? 0,
     });
@@ -363,8 +365,9 @@ const Fotowoltaika = () => {
     photovoltaicCalcStore.solarEdge_price,
     photovoltaicCalcStore.tigo_price,
     photovoltaicCalcStore.carPortCost,
-    photovoltaicStore.voucher,
     photovoltaicCalcStore.markup_costs,
+    photovoltaicStore.isPromotion,
+    photovoltaicStore.promotionAmount,
     mutations.set_addon_cost,
   ]);
 
@@ -940,6 +943,14 @@ const Fotowoltaika = () => {
                     { value: "0.32", label: "32%" },
                   ]}
                 />
+                <SelectComponent
+                  title="UWZGLĘDNIJ PROMOCJĘ"
+                  onChange={(e) =>
+                    store.updatePhotovoltaic("isPromotion", e == "true")
+                  }
+                  value={photovoltaicStore.isPromotion}
+                  data={yesNoData}
+                />
                 <InputComponent
                   title="LICZBA RAT"
                   onChange={(e) => {
@@ -950,6 +961,17 @@ const Fotowoltaika = () => {
                   }}
                   step={10}
                   value={photovoltaicStore.installmentNumber}
+                />
+                <InputComponent
+                  title="PROMOCJA"
+                  onChange={(e) =>
+                    store.updatePhotovoltaic(
+                      "promotionAmount",
+                      e.target.valueAsNumber
+                    )
+                  }
+                  step={100}
+                  value={photovoltaicStore.promotionAmount}
                 />
               </div>
             </ScrollArea>

@@ -172,7 +172,7 @@ export const photovoltaics_calculator = createTRPCRouter({
   addon_cost: publicProcedure
     .input(
       z.object({
-        voucher: z.boolean().optional(),
+        promotionAmount: z.number().optional(),
         ekierki: z.number().optional(),
         hybridInwerter: z.number().optional(),
         tigo: z.number().optional(),

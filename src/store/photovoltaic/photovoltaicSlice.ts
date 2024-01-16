@@ -3,7 +3,6 @@ import { type StateCreator } from "zustand";
 export interface PhotovoltaicsSlice {
   photovoltaicStore: {
     southRoof: boolean;
-    voucher: boolean;
     isGroundMontage: boolean;
     isRoofWeightSystem: boolean;
     isSolarEdgeChoosed: boolean;
@@ -36,6 +35,8 @@ export interface PhotovoltaicsSlice {
       | "stan10"
       | "stan12";
     energyStoreProducent: "SOLAX" | "HIPONTECH";
+    promotionAmount: number;
+    isPromotion: boolean;
   };
   updatePhotovoltaic: (key: string, value: boolean | number | string) => void;
 }
@@ -43,7 +44,6 @@ export interface PhotovoltaicsSlice {
 export const photovoltaicsSlice: StateCreator<PhotovoltaicsSlice> = (set) => ({
   photovoltaicStore: {
     southRoof: false,
-    voucher: false,
     isGroundMontage: false,
     isRoofWeightSystem: false,
     isSolarEdgeChoosed: false,
@@ -53,6 +53,8 @@ export const photovoltaicsSlice: StateCreator<PhotovoltaicsSlice> = (set) => ({
     emsDotation: false,
     energyStoreDotation: false,
     isCarPort: false,
+    isPromotion: false,
+    promotionAmount: 0,
     taxCredit: 0.12,
     usageLimit: 0,
     modulesCount: 0,
@@ -71,10 +73,6 @@ export const photovoltaicsSlice: StateCreator<PhotovoltaicsSlice> = (set) => ({
   },
   updatePhotovoltaic: (key, value) =>
     set((state) => {
-      // if (key === "modulesCount" && Number(value) < 6) {
-      //   value = 5;
-      // }
-
       return {
         ...state,
         photovoltaicStore: { ...state.photovoltaicStore, [key]: value },
