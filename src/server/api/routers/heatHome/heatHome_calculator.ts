@@ -8,6 +8,7 @@ export const heatHomeCalculator = createTRPCRouter({
       z.object({
         area: z.number(),
         cost: z.number(),
+        markup: z.number().optional(),
       })
     )
     .mutation(calc.addonCostCounter),
@@ -66,7 +67,6 @@ export const heatHomeCalculator = createTRPCRouter({
         plaster: z.number(),
         finishTop: z.number(),
         additionalAmount: z.number(),
-        markupSum: z.number(),
       })
     )
     .mutation(calc.totalCosts),

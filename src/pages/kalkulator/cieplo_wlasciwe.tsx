@@ -27,8 +27,13 @@ const Cieplo_wlasciwe = () => {
       mutations.setHeatedAreaCost({
         area: heatHomeStore.areaToHeat,
         cost: jsonData.m2_ocieplenia,
+        markup: heatHomeCalcStore.markupCosts.markupSumValue,
       });
-  }, [heatHomeStore.areaToHeat, jsonData?.m2_ocieplenia]);
+  }, [
+    heatHomeStore.areaToHeat,
+    jsonData?.m2_ocieplenia,
+    heatHomeCalcStore.markupCosts.markupSumValue,
+  ]);
   useEffect(() => {
     if (jsonData)
       mutations.setHeatingThicknessCost({
@@ -87,7 +92,6 @@ const Cieplo_wlasciwe = () => {
         plaster: heatHomeCalcStore.plasterAreaCost,
         finishTop: heatHomeCalcStore.topFinishCost,
         additionalAmount: heatHomeStore.additionalAmount,
-        markupSum: heatHomeCalcStore.markupCosts.markupSumValue,
       });
   }, [
     heatHomeCalcStore.heatingThicknessCost,

@@ -140,7 +140,9 @@ const HeatHomeDocument = ({ heatHomeCalcStore, heatHomeStore }: DataToPDF) => (
             <Text style={styles.rowTitle}>OCIEPLENIE DOMU</Text>
             <Text style={styles.rowData}>{heatHomeStore.areaToHeat} m2</Text>
             <Text style={styles.rowCost}>
-              {heatHomeCalcStore.heatedAreaCost} zł
+              {heatHomeCalcStore.heatedAreaCost +
+                heatHomeCalcStore.heatingThicknessCost}{" "}
+              zł
             </Text>
           </View>
           <View style={styles.defaultRow}>
@@ -148,9 +150,9 @@ const HeatHomeDocument = ({ heatHomeCalcStore, heatHomeStore }: DataToPDF) => (
             <Text style={styles.rowData}>
               {heatHomeStore.heatThickness.replace(/\D/g, "")} cm
             </Text>
-            <Text style={styles.rowCost}>
+            {/* <Text style={styles.rowCost}>
               {heatHomeCalcStore.heatingThicknessCost} zł
-            </Text>
+            </Text> */}
           </View>
           <View style={styles.yellowRow}>
             <Text style={styles.rowTitle}>PARAPETY</Text>

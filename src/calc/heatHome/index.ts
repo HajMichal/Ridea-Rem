@@ -3,9 +3,14 @@ import staticData from "../../static";
 interface AddonCostCounterType {
   area: number;
   cost: number;
+  markup?: number;
 }
 export function addonCostCounter({ input }: { input: AddonCostCounterType }) {
-  return Number((input.area * input.cost).toFixed(2));
+  if (input.markup) {
+    return Number((input.area * input.cost + input.markup).toFixed(2));
+  } else {
+    return Number((input.area * input.cost).toFixed(2));
+  }
 }
 
 interface TotalCostsType {
@@ -15,7 +20,6 @@ interface TotalCostsType {
   plaster: number;
   finishTop: number;
   additionalAmount: number;
-  markupSum: number;
 }
 export function totalCosts({ input }: { input: TotalCostsType }) {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
