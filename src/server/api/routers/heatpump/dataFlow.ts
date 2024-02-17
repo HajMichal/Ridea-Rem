@@ -6,6 +6,11 @@ import {
   type HeatPumpCalculatorType,
 } from "./interfaces";
 
+const heatpumpValidator = z.object({
+  cena: z.number(),
+  mnozik_prowizji: z.number(),
+});
+
 const schema = z.record(
   z.object({
     bufory: z.object({
@@ -25,53 +30,7 @@ const schema = z.record(
         przylaczeSchemat34: z.number(),
       }),
     }),
-    pompy_ciepla: z.object({
-      // [serieName: string]: {
-      //   cena: number;
-      //   mnozik_prowizji: number;
-      // };
-
-      "JGB2-PC10KW": z.object({
-        cena: z.number(),
-        mnozik_prowizji: z.number(),
-      }),
-      "JGB2-PC15KW": z.object({
-        cena: z.number(),
-        mnozik_prowizji: z.number(),
-      }),
-      "LAZAR-HTi20V8KW": z.object({
-        cena: z.number(),
-        mnozik_prowizji: z.number(),
-      }),
-      "LAZAR-HTi20V12KW": z.object({
-        cena: z.number(),
-        mnozik_prowizji: z.number(),
-      }),
-      "LAZAR-HTi20V16KW": z.object({
-        cena: z.number(),
-        mnozik_prowizji: z.number(),
-      }),
-      "ZEO-VCP-PRO10KW": z.object({
-        cena: z.number(),
-        mnozik_prowizji: z.number(),
-      }),
-      "ZEO-VCP-PRO15KW": z.object({
-        cena: z.number(),
-        mnozik_prowizji: z.number(),
-      }),
-      "ZEO-VCP-H4516KW": z.object({
-        cena: z.number(),
-        mnozik_prowizji: z.number(),
-      }),
-      "ZEO-SATELLITE16KW": z.object({
-        cena: z.number(),
-        mnozik_prowizji: z.number(),
-      }),
-      "POMPACIEPLA-czystepowietrze": z.object({
-        cena: z.number(),
-        mnozik_prowizji: z.number(),
-      }),
-    }),
+    pompy_ciepla: z.record(heatpumpValidator),
     dodatki: z.object({
       kolejna_kaskada: z.number(),
       posadowienie_rozsaczanie: z.number(),

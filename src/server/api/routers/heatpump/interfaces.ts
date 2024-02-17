@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/consistent-indexed-object-style */
 export interface HeatPumpDataToCalculationType {
   bufory: {
     bufory100l: {
@@ -17,24 +18,10 @@ export interface HeatPumpDataToCalculationType {
     };
   };
   pompy_ciepla: {
-    "JGB2-PC10KW": {
+    [serieName: string]: {
       cena: number;
       mnozik_prowizji: number;
     };
-    "JGB2-PC15KW": {
-      cena: number;
-      mnozik_prowizji: number;
-    };
-    "LAZAR-HTi20V8KW": { cena: number; mnozik_prowizji: number };
-    "LAZAR-HTi20V12KW": { cena: number; mnozik_prowizji: number };
-
-    "LAZAR-HTi20V16KW": { cena: number; mnozik_prowizji: number };
-    "ZEO-VCP-PRO10KW": { cena: number; mnozik_prowizji: number };
-    "ZEO-VCP-PRO15KW": { cena: number; mnozik_prowizji: number };
-    "ZEO-VCP-H4516KW": { cena: number; mnozik_prowizji: number };
-
-    "ZEO-SATELLITE16KW": { cena: number; mnozik_prowizji: number };
-    "POMPACIEPLA-czystepowietrze": { cena: number; mnozik_prowizji: number };
   };
   dodatki: {
     kolejna_kaskada: number;
@@ -69,7 +56,7 @@ export interface HeatPumpDataToCalculationType {
   cena1kWh: number;
   cop: number;
 }
-// eslint-disable-next-line @typescript-eslint/consistent-indexed-object-style
+
 export interface EachMenagerHeatPump {
   [key: string]: HeatPumpDataToCalculationType;
 }

@@ -8,7 +8,7 @@ import {
   View,
 } from "@react-pdf/renderer";
 
-import { HeatHomeCalculations } from "~/store/homeHeat/heatHomeCalculationSlice";
+import { type HeatHomeCalculations } from "~/store/homeHeat/heatHomeCalculationSlice";
 import { type HeatHomeType } from "~/store/homeHeat/heatHomeSlice";
 
 Font.register({
