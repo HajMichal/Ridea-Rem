@@ -5,7 +5,6 @@ interface SystemPowerType {
   panelPower: number;
 }
 export function systemPower({ input }: { input: SystemPowerType }) {
-  // C11 -> moc systemu = E11 * (moc panela = 400) / 1000
   return Number(((input.modulesCount * input.panelPower) / 1000).toFixed(2));
 }
 
@@ -18,7 +17,6 @@ interface EstimatedKWHProdType {
   system_power: number;
 }
 export function estimatedKWHProd({ input }: { input: EstimatedKWHProdType }) {
-  // D18 -> szacowana produkcja -> if(F9){ 1020 * C11 } esle if(!F9) {920 * C11}
   if (input.southRoof) {
     return 1020 * input.system_power;
   } else {
@@ -48,8 +46,6 @@ export function totalPaymentEnergyTransfer({
 }: {
   input: TotalPaymentEnergyTransferType;
 }) {
-  // D13 -> Łączna opłata za przesył energii elektrycznej  if( (D5 - D20) > H3 ) { (G3 * H3) + (G4 * (D5 - D20 - H3)) } else { (D5 - D20) * G3 }
-
   const difference = input.recentYearTrendUsage - input.autoconsumption;
   if (difference > input.usageLimit) {
     return Number(
@@ -85,7 +81,6 @@ export function totalEnergyTrendFee({
 }: {
   input: TotalEnergyTrendFeeType;
 }) {
-  // D12 -> Łączna opłata energii elektrycznej
   const difference = input.recentYearTrendUsage - input.autoconsumption;
   if (difference > input.usageLimit) {
     const firstPart =
@@ -109,7 +104,6 @@ export function energySoldToDistributor({
 }: {
   input: EnergySoldToDistributorType;
 }) {
-  // D18 - D20  -> Ilośc energii odsprzedanej do Operatora Sieci Dystrybucyjnej (OSD)
   return Number(Math.round(input.estimated_kWh_prod - input.autoconsumption));
 }
 
@@ -122,10 +116,9 @@ export function accumulated_funds_on_account({
 }: {
   input: AccumulatedFundsOnAccountType;
 }) {
-  // D21 * D22 -> Zgromadzone środki na koncie rozliczeniowym u OSD
   return Number(
     (input.autoconsumption * input.estiamtedSellPriceToOsd).toFixed(2)
-  ); // spytac czy wartosc 0.72 to stala wartosc czy modyfikowalna
+  );
 }
 
 interface YearlyBillWithoutPhotovolaticsType {
@@ -218,7 +211,6 @@ interface TotalSaveType {
   yearly_bill_without_photovolatics: number;
 }
 export function totalSave({ input }: { input: TotalSaveType }) {
-  // A4 D15
   return Number(
     (
       input.yearly_bill_without_photovolatics -
@@ -371,25 +363,16 @@ export function totalInstallationCosts({
 }: {
   input: TotalInstallationCostType;
 }) {
-  console.log({ fotowoltaika_total_input: input });
   const total_cost =
     input.addon_costs +
     input.base_installation_costs +
     input.heatStore_energyManager_costs +
     input.energyStoreCost;
-  // + 3200; // promocja 800+
 
   const fee_value = total_cost * 0.08;
 
-  console.log({
-    fotowoltaika_output: {
-      total_installation_cost: total_cost,
-      total_gross_cost: Number((total_cost + fee_value).toFixed(2)),
-      fee_value: Number(fee_value.toFixed(2)),
-    },
-  });
   return {
-    total_installation_cost: total_cost,
+    total_installation_cost: Number(total_cost.toFixed(2)),
     total_gross_cost: Number((total_cost + fee_value).toFixed(2)),
     fee_value: Number(fee_value.toFixed(2)),
   };
@@ -402,19 +385,8 @@ interface DotationsSumType {
   energyStoreDotation: number;
 }
 export function dotationsSum({ input }: { input: DotationsSumType }) {
-  console.log({
-    input: input,
-  });
-  console.log({
-    suma:
-      input.photovoltaics_dotation +
-      // input.heatStore_dotation +
-      input.energyMenagerDotation +
-      input.energyStoreDotation,
-  });
   return (
     input.photovoltaics_dotation +
-    // input.heatStore_dotation +
     input.energyMenagerDotation +
     input.energyStoreDotation
   );
@@ -547,29 +519,6 @@ export function paymentReturnTime({ input }: { input: PaymentReturnTimeType }) {
   return { years: Number(years), months: Number(months) };
 }
 
-interface HeatStoreDotationValueType {
-  gross_instalation_cost: number;
-}
-export function heatStoreDotationValue({
-  input,
-}: {
-  input: HeatStoreDotationValueType;
-}) {
-  // NIE UZYWANE
-  const value =
-    input.gross_instalation_cost - staticData.VALUE_TO_HEATSTORE_DOTATION;
-  if (value < 0) {
-    return 0;
-  }
-  if (value >= 10000) {
-    return 5000;
-  }
-  if (value < 10000) {
-    return Number(
-      (value * staticData.PERCENT_TO_HEATSTORE_DOTATION).toFixed(2)
-    );
-  }
-}
 interface EnergyStoreDotationValueType {
   gross_instalation_cost: number;
 }

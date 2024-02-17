@@ -15,6 +15,7 @@ import { useHeatHome } from "~/hooks/useHeatHome";
 interface LinkComponentType {
   href: string;
   title: string;
+  notification?: boolean;
 }
 
 const consultantProvisionsData = [
@@ -48,12 +49,23 @@ const heatHomeProvisionData = [
   { value: "50", label: "50" },
 ];
 
-const LinkComponent = ({ href, title }: LinkComponentType) => {
+const LinkComponent = ({
+  href,
+  title,
+  notification = false,
+}: LinkComponentType) => {
   return (
     <div className="group -mb-1">
+      {notification && (
+        <span className="absolute top-10 flex h-3 w-3">
+          <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-sky-400 opacity-75"></span>
+          <span className="relative inline-flex h-3 w-3 rounded-full bg-sky-500"></span>
+        </span>
+      )}
       <div className="flex h-[60%] items-center text-dark laptop:px-4">
         <Link href={href}>{title}</Link>
       </div>
+
       <span className="mt-1 block h-[2px] w-full max-w-0 bg-brand transition-all duration-500 group-hover:max-w-full"></span>
     </div>
   );
@@ -72,7 +84,9 @@ export const Navbar = () => {
       <div className="flex h-[105px] w-full items-center justify-between gap-5 bg-white px-2 font-orkneyLight text-sm font-semibold">
         <div className="flex h-full w-full max-w-[800px] items-center justify-evenly gap-3 text-center laptop:gap-0 ">
           <LinkComponent href="/kalkulator/fotowoltaika" title="KALKULACJA" />
-          <LinkComponent href="/aktualnosci" title="AKTUALNOŚCI" />
+
+          <LinkComponent href="/aktualnosci" title="AKTUALNOŚCI" notification />
+
           {(sessionData?.user.role === 1 &&
             router.pathname === "/kalkulator/fotowoltaika" && (
               <LinkComponent

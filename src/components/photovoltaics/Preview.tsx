@@ -162,11 +162,6 @@ export const Preview = ({
                       photovoltaicCalcStore.totalInstallationCosts
                         .total_gross_cost
                     }
-                    // PROMOCJA
-                    // calculations={
-                    //   photovoltaicCalcStore.promotionTotalInstallationCosts
-                    //     .total_gross_cost
-                    // }
                   />
                   <TextComponent
                     title="ZNIŻKA PROMOCYJNA"

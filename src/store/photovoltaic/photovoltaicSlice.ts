@@ -64,7 +64,7 @@ export const photovoltaicsSlice: StateCreator<PhotovoltaicsSlice> = (set) => ({
     energyPriceOutOfLimit: 0,
     recentYearTrendUsage: 0,
     tigoCount: 0,
-    panelPower: 400,
+    panelPower: 415,
     installmentNumber: 120,
     energyStorePower: 0,
     tankSize: "Brak",

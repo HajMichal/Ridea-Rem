@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
@@ -670,14 +671,6 @@ const Fotowoltaika = () => {
                 <h2 className="mt-5 font-orkneyBold">
                   INSTALACJA FOTOWOLTAICZNA
                 </h2>
-                {/* <SelectComponent
-                  title="PROMOCJA 800+"
-                  onChange={(e) =>
-                    store.updatePhotovoltaic("voucher", e == "true")
-                  }
-                  value={photovoltaicStore.voucher}
-                  data={yesNoData}
-                /> */}
                 <SelectComponent
                   title="MOC POJEDYŃCZEGO PANELA W KW"
                   onChange={(e) => {
@@ -685,7 +678,7 @@ const Fotowoltaika = () => {
                   }}
                   value={photovoltaicStore.panelPower}
                   data={[
-                    { value: "400", label: "400" },
+                    { value: "415", label: "415" },
                     { value: "455", label: "455" },
                     { value: "500", label: "500" },
                   ]}

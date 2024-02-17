@@ -2,7 +2,6 @@ import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "../../trpc";
 import calc from "../../../../calc/photovoltaics";
 
-/** hello */
 export const photovoltaics_calculator = createTRPCRouter({
   price_trend: publicProcedure.input(z.number()).mutation(calc.priceTrend),
   system_power: publicProcedure
@@ -332,14 +331,6 @@ export const photovoltaics_calculator = createTRPCRouter({
       })
     )
     .mutation(calc.paymentReturnTime),
-  heatStoreCalcDotation: publicProcedure
-    .input(
-      z.object({
-        gross_instalation_cost: z.number(),
-      })
-    )
-    .mutation(calc.heatStoreDotationValue),
-
   termoModernization: publicProcedure
     .input(
       z.object({

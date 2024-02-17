@@ -222,12 +222,7 @@ export const usePhotovoltaic = () => {
         store.updatePhotovoltaicCalcs("payment_return_time", data);
       },
     });
-  const { mutate: set_heatStoreCalcDotation } =
-    api.photovoltaics.heatStoreCalcDotation.useMutation({
-      onSuccess: (data) => {
-        store.updatePhotovoltaicCalcs("heatStoreCalcDotation", data);
-      },
-    });
+
   const { mutate: set_termo_modernization } =
     api.photovoltaics.termoModernization.useMutation({
       onSuccess: (data) => {
@@ -285,7 +280,7 @@ export const usePhotovoltaic = () => {
   };
 
   const getDataDependsOnPanelPower = () => {
-    if (store.photovoltaicStore.panelPower === 400) return data?.dane.czterysta;
+    if (store.photovoltaicStore.panelPower === 415) return data?.dane.czterysta;
     else if (store.photovoltaicStore.panelPower === 455)
       return data?.dane.czterysta_piecdziesiat;
     else if (store.photovoltaicStore.panelPower === 500)
@@ -337,7 +332,6 @@ export const usePhotovoltaic = () => {
       set_save_on_autoconsumption,
       set_yearly_profit_for_installation,
       set_payment_return_time,
-      set_heatStoreCalcDotation,
       set_termo_modernization,
       getDataDependsOnPanelPower,
       set_loan_for_purcharse,
