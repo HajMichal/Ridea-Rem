@@ -1,12 +1,10 @@
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import React from "react";
-import { useHeatPump } from "~/hooks/useHeatPump";
 import { TextComponent } from "../TextComponent";
-import { Group, Text } from "@mantine/core";
 import { PdfGeneratorButton } from "../PdfGeneratorButton";
 import { useHeatHome } from "~/hooks/useHeatHome";
 
-export const Preview = () => {
+export default function Preview() {
   const { heatHomeStore, heatHomeCalcStore } = useHeatHome();
   const [parent] = useAutoAnimate();
 
@@ -76,4 +74,4 @@ export const Preview = () => {
       </div>
     </div>
   );
-};
+}

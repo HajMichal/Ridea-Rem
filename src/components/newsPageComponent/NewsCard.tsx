@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   Card,
   Image,
@@ -9,15 +9,13 @@ import {
   Modal,
   Textarea,
   TextInput,
-  Button,
 } from "@mantine/core";
 import { PiDotsThreeOutlineVerticalBold, PiTrashBold } from "react-icons/pi";
 import { AiOutlineEdit } from "react-icons/ai";
 import { api } from "~/utils/api";
 import { useDisclosure } from "@mantine/hooks";
 
-import { SubmitHandler, useForm } from "react-hook-form";
-import { urlify } from "./FindUrl";
+import { type SubmitHandler, useForm } from "react-hook-form";
 import CardDescription from "./CardDescription";
 
 interface NewsCardTypes {
@@ -84,7 +82,9 @@ export const NewsCard = ({
       </Card.Section>
 
       <Group mt="md" mb="xs" className="flex w-full justify-between">
-        <Text fw={500}>{title}</Text>
+        <Text fw={500} className="max-w-[85%]">
+          {title}
+        </Text>
         {role === 1 && (
           <Menu shadow="md" width={200}>
             <Menu.Target>

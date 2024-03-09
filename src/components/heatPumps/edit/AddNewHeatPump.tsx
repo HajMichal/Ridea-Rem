@@ -1,7 +1,7 @@
 import { Button, Modal } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 
-export const AddNewHeatPump = (): React.JSX.Element => {
+export const AddNewHeatPump = (): JSX.Element => {
   const [opened, { open, close }] = useDisclosure(false);
   return (
     <>

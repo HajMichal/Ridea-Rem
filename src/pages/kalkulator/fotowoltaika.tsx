@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
@@ -12,9 +11,9 @@ import {
   SelectComponent,
   SideBar,
 } from "~/components";
-import { Preview } from "~/components/photovoltaics";
+import { Preview } from "~/components/photovoltaics/lazyLoading";
 import { usePhotovoltaic } from "~/hooks/usePhotovoltaic";
-import { PhotovoltaicDataToCalculation } from "~/server/api/routers/photovoltaic/interfaces";
+import { type PhotovoltaicDataToCalculation } from "~/server/api/routers/photovoltaic/interfaces";
 import useStore from "~/store";
 
 const Fotowoltaika = () => {
@@ -24,7 +23,6 @@ const Fotowoltaika = () => {
   const { data: sessionData } = useSession();
   const router = useRouter();
 
-  // const { mutate } = api.dataFlow.setJSONFile.useMutation();
   const { data } =
     api.dataFlow.downloadFile.useQuery<PhotovoltaicDataToCalculation>(
       sessionData?.user.id

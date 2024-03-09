@@ -163,7 +163,7 @@ export const EditionForm = ({ data }: EditionFormType) => {
       <form className="w-full pb-20 pt-3">
         <span className="flex w-full items-center justify-center gap-5">
           <h2 className="mt-5 text-center text-3xl ">POMPY CIEPŁA</h2>
-          {AddNewHeatPump()}
+          <AddNewHeatPump />
         </span>
         {dynamicPropValues &&
           Object.entries(dynamicPropValues.pompy_ciepla).map((key, index) => {

@@ -8,12 +8,12 @@ import {
   SelectComponent,
   Loading,
 } from "~/components";
-import { Preview } from "~/components/heatPumps";
+import { Preview } from "~/components/heatPumps/lazyLoading";
 import { useHeatPump } from "~/hooks/useHeatPump";
 import useStore from "~/store";
 import { api } from "~/utils/api";
 import { useSession } from "next-auth/react";
-import { HeatPumpDataToCalculationType } from "~/server/api/routers/heatpump/interfaces";
+import { type HeatPumpDataToCalculationType } from "~/server/api/routers/heatpump/interfaces";
 import { useRouter } from "next/router";
 
 const Pompy_ciepla = () => {

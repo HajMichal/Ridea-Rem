@@ -11,11 +11,11 @@ interface Dotations {
   heatStore_dotation: number | undefined;
 }
 
-export const Preview = ({
+export default function Preview({
   energyStore_dotation,
   photovoltaics_dotation,
   heatStore_dotation,
-}: Dotations) => {
+}: Dotations) {
   const { photovoltaicCalcStore, photovoltaicStore, loading } =
     usePhotovoltaic();
   const [parent] = useAutoAnimate();
@@ -239,4 +239,4 @@ export const Preview = ({
       </div>
     </div>
   );
-};
+}

@@ -3,9 +3,9 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { InputComponent, Navbar, SelectComponent, SideBar } from "~/components";
-import { Preview } from "~/components/heatHome/Preview";
 import { useHeatHome } from "~/hooks/useHeatHome";
 import useStore from "~/store";
+import { Preview } from "~/components/heatHome/lazyLoading";
 
 const Cieplo_wlasciwe = () => {
   const { data: sessionData } = useSession();

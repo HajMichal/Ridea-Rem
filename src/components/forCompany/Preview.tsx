@@ -4,7 +4,7 @@ import { useForCompany } from "~/hooks/useForCompany";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { PdfGeneratorButton } from "../PdfGeneratorButton";
 
-export const Preview = () => {
+export default function Preview() {
   const [parent] = useAutoAnimate();
   const { forCompanyStore, forCompanyCalcStore } = useForCompany();
 
@@ -126,4 +126,4 @@ export const Preview = () => {
       </div>
     </div>
   );
-};
+}

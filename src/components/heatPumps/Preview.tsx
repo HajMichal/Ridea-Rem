@@ -8,8 +8,8 @@ import { PdfGeneratorButton } from "../PdfGeneratorButton";
 interface dataFromJson {
   cop?: number;
 }
-export const Preview = ({ cop }: dataFromJson) => {
-  const { heatPumpStore, heatPumpCalcStore, mutations } = useHeatPump();
+export default function Preview({ cop }: dataFromJson) {
+  const { heatPumpStore, heatPumpCalcStore } = useHeatPump();
   const [parent] = useAutoAnimate();
 
   return (
@@ -193,4 +193,4 @@ export const Preview = ({ cop }: dataFromJson) => {
       </div>
     </div>
   );
-};
+}

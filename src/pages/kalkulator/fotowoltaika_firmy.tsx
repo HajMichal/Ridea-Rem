@@ -5,9 +5,9 @@ import React, { useEffect, useRef } from "react";
 import { InputComponent, Loading, SelectComponent } from "~/components";
 import { Navbar } from "~/components/Navbar";
 import { SideBar } from "~/components/SideBar";
-import { Preview } from "~/components/forCompany";
+import { Preview } from "~/components/forCompany/lazyLoading";
 import { useForCompany } from "~/hooks/useForCompany";
-import { ForCompanyDataToCalcualtionType } from "~/server/api/routers/forCompany/interfaces";
+import { type ForCompanyDataToCalcualtionType } from "~/server/api/routers/forCompany/interfaces";
 import useStore from "~/store";
 import { api } from "~/utils/api";
 
