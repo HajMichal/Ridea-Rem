@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import React, { useEffect } from "react";
 import { Toaster } from "react-hot-toast";
 
-import { Navbar, SideBar } from "~/components";
+import { SideBar, Navbar } from "~/components/LazyLoading";
 import { EditionForm } from "~/components/heatPumps";
 
 import { api } from "~/utils/api";

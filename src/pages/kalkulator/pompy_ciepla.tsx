@@ -1,13 +1,8 @@
 import React, { useEffect } from "react";
 
 import { Overlay, ScrollArea } from "@mantine/core";
-import {
-  SideBar,
-  Navbar,
-  InputComponent,
-  SelectComponent,
-  Loading,
-} from "~/components";
+import { InputComponent, SelectComponent, Loading } from "~/components";
+import { SideBar, Navbar } from "~/components/LazyLoading";
 import { Preview } from "~/components/heatPumps/lazyLoading";
 import { useHeatPump } from "~/hooks/useHeatPump";
 import useStore from "~/store";

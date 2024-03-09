@@ -1,5 +1,5 @@
 import React, { useEffect, lazy } from "react";
-import { Navbar, SideBar } from "~/components";
+import { Navbar, SideBar } from "~/components/LazyLoading";
 import { ScrollArea } from "@mantine/core";
 import { Toaster } from "react-hot-toast";
 import { useSession } from "next-auth/react";

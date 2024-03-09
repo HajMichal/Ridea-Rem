@@ -1,9 +1,9 @@
-import { Loader, Modal, Tabs } from "@mantine/core";
+import { Loader, Tabs } from "@mantine/core";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { Toaster } from "react-hot-toast";
-import { Navbar, SideBar } from "~/components";
+import { SideBar, Navbar } from "~/components/LazyLoading";
 import { EditionForm } from "~/components/heatHome";
 
 import { api } from "~/utils/api";

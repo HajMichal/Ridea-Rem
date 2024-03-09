@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/router";
@@ -42,44 +42,48 @@ const SideBarButton = ({
   );
 };
 
-export const SideBar = () => (
-  <div className="flex h-full max-h-screen min-h-screen w-auto flex-col justify-between gap-3  bg-[#191918] font-orkney">
-    <Link className="mt-3 flex w-full justify-center" href={"/home"}>
-      <Image
-        src={"/icons/logo_solo_yellowSun.svg"}
-        width={180}
-        height={180}
-        alt="Logo"
-        priority
-        className="w-full max-w-[70px]"
-      ></Image>
-    </Link>
-    <div className="-mt-36 flex h-full w-full min-w-[145px] flex-col gap-6 text-white ">
-      <SideBarButton
-        href="/kalkulator/fotowoltaika"
-        href2="/edycja/daneFotowoltaiki"
-        title="FOTOWOLTAIKA"
-      />
-      <SideBarButton
-        href="/kalkulator/fotowoltaika_firmy"
-        href2="/edycja/daneFotowoltaiki_firmy"
-        title="DLA FIRM"
-      />
-      <SideBarButton
-        href="/kalkulator/pompy_ciepla"
-        href2="/edycja/danePompyCiepla"
-        title="POMPY CIEPŁA"
-      />
-      <SideBarButton
-        href="/kalkulator/cieplo_wlasciwe"
-        href2="/edycja/daneCieploWlasciwe"
-        title="CIEPŁO WŁAŚCIWE"
-        longWord
-      />
+const SideBar = memo(function SideBar() {
+  return (
+    <div className="flex h-full max-h-screen min-h-screen w-auto flex-col justify-between gap-3  bg-[#191918] font-orkney">
+      <Link className="mt-3 flex w-full justify-center" href={"/home"}>
+        <Image
+          src={"/icons/logo_solo_yellowSun.svg"}
+          width={180}
+          height={180}
+          alt="Logo"
+          priority
+          className="w-full max-w-[70px]"
+        ></Image>
+      </Link>
+      <div className="-mt-36 flex h-full w-full min-w-[145px] flex-col gap-6 text-white ">
+        <SideBarButton
+          href="/kalkulator/fotowoltaika"
+          href2="/edycja/daneFotowoltaiki"
+          title="FOTOWOLTAIKA"
+        />
+        <SideBarButton
+          href="/kalkulator/fotowoltaika_firmy"
+          href2="/edycja/daneFotowoltaiki_firmy"
+          title="DLA FIRM"
+        />
+        <SideBarButton
+          href="/kalkulator/pompy_ciepla"
+          href2="/edycja/danePompyCiepla"
+          title="POMPY CIEPŁA"
+        />
+        <SideBarButton
+          href="/kalkulator/cieplo_wlasciwe"
+          href2="/edycja/daneCieploWlasciwe"
+          title="CIEPŁO WŁAŚCIWE"
+          longWord
+        />
+      </div>
+      <div className="m-3 text-center text-xs text-white">
+        <p>IDEA REM </p>
+        <p>© 2024 </p>
+      </div>
     </div>
-    <div className="m-3 text-center text-xs text-white">
-      <p>IDEA REM </p>
-      <p>© 2023 </p>
-    </div>
-  </div>
-);
+  );
+});
+
+export default SideBar;

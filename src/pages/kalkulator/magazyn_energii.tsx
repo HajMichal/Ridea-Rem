@@ -1,6 +1,5 @@
 import React from "react";
-import { Navbar } from "~/components/Navbar";
-import { SideBar } from "~/components/SideBar";
+import { SideBar, Navbar } from "~/components/LazyLoading";
 
 const Magazyn_energii = () => {
   return (

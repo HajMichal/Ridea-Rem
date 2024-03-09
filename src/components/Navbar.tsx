@@ -1,16 +1,14 @@
-import { signIn, signOut, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
-import React from "react";
-import { FaUserCircle } from "react-icons/fa";
+import React, { lazy } from "react";
 import { SelectComponent } from "./SelectComponent";
 import useStore from "~/store";
 import { usePhotovoltaic } from "~/hooks/usePhotovoltaic";
 import { useRouter } from "next/router";
 import { useHeatPump } from "~/hooks/useHeatPump";
-import { Menu, rem } from "@mantine/core";
-import { BiLogOut } from "react-icons/bi";
 import { useForCompany } from "~/hooks/useForCompany";
 import { useHeatHome } from "~/hooks/useHeatHome";
+import AuthShowcase from "./AuthShowcase";
 
 interface LinkComponentType {
   href: string;
@@ -71,7 +69,7 @@ const LinkComponent = ({
   );
 };
 
-export const Navbar = () => {
+const Navbar = () => {
   const { data: sessionData } = useSession();
   const router = useRouter();
   const store = useStore();
@@ -171,43 +169,4 @@ export const Navbar = () => {
   );
 };
 
-function AuthShowcase() {
-  const { data: sessionData } = useSession();
-
-  return (
-    <div>
-      <Menu shadow="md" width={200}>
-        <Menu.Target>
-          <button>
-            {sessionData && (
-              <div className="flex gap-1">
-                <FaUserCircle className="h-[40px] w-[40px]" />
-                <div className="flex max-w-[150px] flex-wrap font-orkneyLight font-semibold text-dark">
-                  <p className="min-w-[130px] text-left text-sm">
-                    {sessionData.user.name?.toUpperCase()}
-                  </p>
-                  <p className="text-xs">
-                    {sessionData.user.role === 1 && "ADMINISTRATOR"}
-                    {sessionData.user.role === 2 && "MENAGER"}
-                    {sessionData.user.role === 3 && "HANDLOWIEC"}
-                  </p>
-                </div>
-              </div>
-            )}
-          </button>
-        </Menu.Target>
-        <Menu.Dropdown>
-          <Menu.Label>Konto</Menu.Label>
-          <Menu.Item
-            onClick={() => void signOut()}
-            rightSection={
-              <BiLogOut style={{ width: rem(20), height: rem(20) }} />
-            }
-          >
-            Wyloguj się
-          </Menu.Item>
-        </Menu.Dropdown>
-      </Menu>
-    </div>
-  );
-}
+export default Navbar;

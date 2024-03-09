@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import React, { useEffect } from "react";
 import { api } from "~/utils/api";
 import { Toaster, toast } from "react-hot-toast";
-import { SideBar, Navbar } from "~/components";
+import { SideBar, Navbar } from "~/components/LazyLoading";
 
 interface FormTypes {
   name: string;

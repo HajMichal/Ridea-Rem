@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { api } from "~/utils/api";
-import { Navbar } from "~/components/Navbar";
-import { SideBar } from "~/components/SideBar";
+import { SideBar, Navbar } from "~/components/LazyLoading";
 import { Loader, Tabs } from "@mantine/core";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";

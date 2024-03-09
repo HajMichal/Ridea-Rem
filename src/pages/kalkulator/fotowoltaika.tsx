@@ -1,20 +1,17 @@
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-import { api } from "~/utils/api";
-
 import { Overlay, ScrollArea } from "@mantine/core";
-import {
-  InputComponent,
-  Loading,
-  Navbar,
-  SelectComponent,
-  SideBar,
-} from "~/components";
+
+import { api } from "~/utils/api";
+import useStore from "~/store";
+
+import { InputComponent, Loading, SelectComponent } from "~/components";
+import { SideBar, Navbar } from "~/components/LazyLoading";
 import { Preview } from "~/components/photovoltaics/lazyLoading";
+
 import { usePhotovoltaic } from "~/hooks/usePhotovoltaic";
 import { type PhotovoltaicDataToCalculation } from "~/server/api/routers/photovoltaic/interfaces";
-import useStore from "~/store";
 
 const Fotowoltaika = () => {
   const store = useStore();
@@ -809,13 +806,10 @@ const Fotowoltaika = () => {
                     value={photovoltaicStore.tankSize}
                     data={[
                       { value: "Brak", label: "Brak" },
-                      // { value: "Zbiornik 100L", label: "Zbiornik 100L" },
-                      // { value: "Zbiornik 140L", label: "Zbiornik 140L" },
                       {
                         value: "Zbiornik 140L z wężownicą",
                         label: "Zbiornik 140L z wężownicą",
                       },
-                      // { value: "Zbiornik 200L", label: "Zbiornik 200L" },
                       {
                         value: "Zbiornik 200L z wężownicą",
                         label: "Zbiornik 200L z wężownicą",
