@@ -367,6 +367,128 @@ const MyDocument = ({
         ></Image>
       </View>
     </Page>
+    <Page size="A4" style={styles.page}>
+      <View
+        style={{
+          display: "flex",
+          width: "100%",
+          alignItems: "center",
+        }}
+      >
+        <Image
+          style={{ height: 60, marginTop: 30 }}
+          src={`${process.env.NEXT_PUBLIC_BASE_URL}/static/pdf/logo.png`}
+        />
+        <View style={styles.headerBackground}>
+          <Text style={styles.header}>DANE TECHNICZNE TWOJEJ INSTALACJI</Text>
+        </View>
+
+        <Image
+          style={{
+            width: "100%",
+            height: "100%",
+            position: "absolute",
+            zIndex: -500,
+          }}
+          src={`${process.env.NEXT_PUBLIC_BASE_URL}/static/photovoltaic/background-photovoltaic.png`}
+        ></Image>
+        <View style={{ width: "85%", marginTop: 30 }}>
+          <View style={styles.saveRow}>
+            <Text style={styles.savePrice}>MOC SYSTEMU PV</Text>
+            <Text style={styles.savePrice}>
+              {photovoltaicCalcStore.system_power} KWH
+            </Text>
+          </View>
+          <View style={styles.saveRow}>
+            <Text style={styles.savePrice}>ILOŚĆ MODUŁÓW</Text>
+            <Text style={styles.savePrice}>
+              {photovoltaicStore.modulesCount} KWH
+            </Text>
+          </View>
+          <View style={styles.saveRow}>
+            <Text style={styles.savePrice}>MOC MODUŁU</Text>
+            <Text style={styles.savePrice}>
+              {photovoltaicStore.panelPower} KWH
+            </Text>
+          </View>
+          <View style={styles.saveRow}>
+            <Text style={styles.savePrice}>ILOŚC OPTYMALIZATORÓW TIGO</Text>
+            <Text style={styles.savePrice}>
+              {photovoltaicStore.tigoCount} SZT
+            </Text>
+          </View>
+          <View style={styles.saveRow}>
+            <Text style={styles.savePrice}>
+              SYSTEM OGRZEWANIA ELEKTRYCZNEGO MAGAZYNU
+            </Text>
+            <Text style={styles.savePrice}>2 kW</Text>
+          </View>
+          <View style={styles.saveRow}>
+            <Text style={styles.savePrice}>MENADŻER ENERGII - EMS</Text>
+            <Text style={styles.savePrice}>
+              {" "}
+              {photovoltaicStore.emsDotation ? "TAK" : "NIE"}
+            </Text>
+          </View>
+          <View style={styles.saveRow}>
+            <Text style={styles.savePrice}>ZABEZPIECZENIE ELEKTRYCZNE</Text>
+            <Text style={styles.savePrice}>AC/DC</Text>
+          </View>
+          <View style={styles.saveRow}>
+            <Text style={styles.savePrice}>STELAŻE ALUMINIOWE</Text>
+            <Text style={styles.savePrice}>ALUMINIOWE</Text>
+          </View>
+          <View style={styles.saveRow}>
+            <Text style={styles.savePrice}>
+              MONTAŻ NA DACHU PŁASKIM - EKIERKI
+            </Text>
+            <Text style={styles.savePrice}>
+              {photovoltaicStore.isEccentricsChoosed ? "TAK" : "NIE"}
+            </Text>
+          </View>
+          <View style={styles.saveRow}>
+            <Text style={styles.savePrice}>MONTAŻ NA GRUNCIE</Text>
+            <Text style={styles.savePrice}>
+              {photovoltaicStore.isGroundMontage ? "TAK" : "NIE"}
+            </Text>
+          </View>
+          <View style={styles.saveRow}>
+            <Text style={styles.savePrice}>MONTAŻ NA WIELU POŁACIACH</Text>
+            <Text style={styles.savePrice}>
+              {photovoltaicStore.isSolarEdgeChoosed ? "TAK" : "NIE"}
+            </Text>
+          </View>
+          <View style={styles.saveRow}>
+            <Text style={styles.savePrice}>MAGAZYN ENERGII</Text>
+            <Text style={styles.savePrice}>
+              {photovoltaicStore.energyStoreDotation
+                ? photovoltaicStore.energyStorePower + "W"
+                : "NIE"}
+            </Text>
+          </View>
+          <View style={styles.saveRow}>
+            <Text style={styles.savePrice}>INWERTER HYBRYDOWY</Text>
+            <Text style={styles.savePrice}>
+              {photovoltaicStore.isInwerterChoosed ? "TAK" : "NIE"}
+            </Text>
+          </View>
+          <View style={styles.saveRow}>
+            <Text style={styles.savePrice}>MAGAZYN CIEPŁA</Text>
+            <Text style={styles.savePrice}>
+              {photovoltaicStore.heatStoreDotation ? "TAK" : "NIE"}
+            </Text>
+          </View>
+          <View style={styles.saveRow}>
+            <Text style={styles.savePrice}>POJEMNOŚĆ ZBIORNIKA CWU</Text>
+            <Text style={styles.savePrice}>
+              {photovoltaicStore.heatStoreDotation
+                ? photovoltaicStore.tankSize
+                : "BRAK"}
+            </Text>
+          </View>
+        </View>
+      </View>
+    </Page>
   </Document>
 );
 
