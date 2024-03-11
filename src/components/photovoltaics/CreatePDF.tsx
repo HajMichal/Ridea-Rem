@@ -108,15 +108,11 @@ const styles = StyleSheet.create({
 interface DataToPDF {
   photovoltaicCalcStore: PhotovoltaicCalculations;
   photovoltaicStore: PhotovoltaicsSlice["photovoltaicStore"];
-  energyStore_dotation: number | undefined;
-  photovoltaics_dotation: number | undefined;
 }
 
 const MyDocument = ({
   photovoltaicCalcStore,
   photovoltaicStore,
-  energyStore_dotation,
-  photovoltaics_dotation,
 }: DataToPDF) => (
   <Document>
     <Page size="A4" style={styles.page}>
@@ -139,6 +135,20 @@ const MyDocument = ({
           alignItems: "center",
         }}
       >
+        <Text
+          style={{
+            right: 0,
+            position: "absolute",
+            fontSize: 6,
+            marginRight: 5,
+            marginTop: 5,
+          }}
+        >
+          /nr.zam/ model INW/Z{" "}
+          {photovoltaicCalcStore.markup_costs.consultantFeeValue} /{" "}
+          {photovoltaicCalcStore.markup_costs.officeFeeValue} /{" "}
+          {photovoltaicCalcStore.markup_costs.officeFeeForBoss}
+        </Text>
         <Image
           style={{ height: 60 }}
           src={`${process.env.NEXT_PUBLIC_BASE_URL}/static/pdf/logo.png`}

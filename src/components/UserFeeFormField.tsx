@@ -4,6 +4,7 @@ import { type MenagerType } from "~/pages/edycja/prowizje";
 import { api } from "~/utils/api";
 import { Input, Modal } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
+import { CALCUALTOR_TYPES } from "~/constans/calculatorTypes";
 
 interface UserFormFieldType {
   user: MenagerType | User;
@@ -85,18 +86,13 @@ export const UserFeeFormField = ({
 
   const removeUser = () => {
     removeUserFromDb(user.id);
-    user.role === 2 && removeMenagerPhotovoltaicJson(user.name!),
-      user.role === 2 && removeMenagerHeatPumpJson(user.name!);
+    user.role === 2 && removeMenagerPhotovoltaicJson(user.name!);
+    user.role === 2 && removeMenagerHeatPumpJson(user.name!);
     user.role === 2 && removeMenagerForCompanyJson(user.name!);
     user.role === 2 && removeMenagerHeatHomeJson(user.name!);
     close();
   };
-  const CALCUALTOR_TYPES = [
-    "Photovoltaic",
-    "ForCompany",
-    "HeatPump",
-    "HeatHome",
-  ];
+
   return (
     <div className="mt-3 flex gap-5 font-orkney">
       <div className="flex flex-col">
@@ -197,7 +193,7 @@ export const UserFeeFormField = ({
           dostępu do kalkulatora.
           <br />
           {user.role === 2 &&
-            " W przypadku usunięcia menagera jego stawki bazowe także zostaną usunięte."}
+            "W przypadku usunięcia menagera jego stawki bazowe także zostaną usunięte."}
         </p>
         <div className="flex w-full justify-between p-4">
           <button

@@ -19,11 +19,7 @@ interface DataFromJson {
   cop?: number;
 }
 
-export const PdfGeneratorButton = ({
-  energyStore_dotation,
-  photovoltaics_dotation,
-  cop,
-}: DataFromJson) => {
+export const PdfGeneratorButton = ({ cop }: DataFromJson) => {
   const router = useRouter();
   const [pdfLoading, setPdfLoading] = useState(false);
   const { photovoltaicCalcStore, photovoltaicStore } = usePhotovoltaic();
@@ -36,8 +32,6 @@ export const PdfGeneratorButton = ({
       <MyDocument
         photovoltaicCalcStore={photovoltaicCalcStore}
         photovoltaicStore={photovoltaicStore}
-        energyStore_dotation={energyStore_dotation}
-        photovoltaics_dotation={photovoltaics_dotation}
       />
     ).toBlob();
     saveAs(blobPhotovoltaics, "Oferta dla Klienta - IdeaRem.pdf");

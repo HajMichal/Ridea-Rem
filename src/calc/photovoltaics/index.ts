@@ -519,6 +519,42 @@ export function paymentReturnTime({ input }: { input: PaymentReturnTimeType }) {
   return { years: Number(years), months: Number(months) };
 }
 
+interface PhotovoltaicDotationType {
+  heatStoreDotation: boolean;
+  energyStoreDotation: boolean;
+  mp_mc: number;
+  mojPrad: number;
+}
+export function photovoltaicDotation({
+  input,
+}: {
+  input: PhotovoltaicDotationType;
+}) {
+  if (input.heatStoreDotation || input.energyStoreDotation) {
+    return input.mp_mc;
+  } else return input.mojPrad;
+}
+
+interface EnergyMenagerDotationType {
+  emsDotation: boolean;
+  heatStoreDotation: boolean;
+  energyStoreDotation: boolean;
+  energyMenager: number;
+}
+
+export function energyMenagerDotation({
+  input,
+}: {
+  input: EnergyMenagerDotationType;
+}) {
+  if (
+    (input.emsDotation && input.heatStoreDotation) ||
+    (input.emsDotation && input.energyStoreDotation)
+  ) {
+    return input.energyMenager;
+  } else return 0;
+}
+
 interface EnergyStoreDotationValueType {
   gross_instalation_cost: number;
 }

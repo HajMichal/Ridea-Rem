@@ -5,17 +5,7 @@ import { Loader } from "@mantine/core";
 import { PdfGeneratorButton } from "../PdfGeneratorButton";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 
-interface Dotations {
-  energyStore_dotation: number | undefined;
-  photovoltaics_dotation: number | undefined;
-  heatStore_dotation: number | undefined;
-}
-
-export default function Preview({
-  energyStore_dotation,
-  photovoltaics_dotation,
-  heatStore_dotation,
-}: Dotations) {
+export default function Preview() {
   const { photovoltaicCalcStore, photovoltaicStore, loading } =
     usePhotovoltaic();
   const [parent] = useAutoAnimate();
@@ -181,9 +171,9 @@ export default function Preview({
                   />
                 </div>
               )}
-              {energyStore_dotation ||
-              photovoltaics_dotation ||
-              heatStore_dotation ? (
+              {photovoltaicCalcStore.energyMenagerDotationValue ||
+              photovoltaicCalcStore.photovoltaicDotationValue ||
+              photovoltaicCalcStore.heatStoreCalcDotation ? (
                 <div>
                   <h2 className="mt-10 w-full text-center text-xl">DOTACJE</h2>
                   <TextComponent
@@ -196,11 +186,15 @@ export default function Preview({
                   />
                   <TextComponent
                     title="MENAGER ENERGII"
-                    calculations={energyStore_dotation}
+                    calculations={
+                      photovoltaicCalcStore.energyMenagerDotationValue
+                    }
                   />
                   <TextComponent
                     title="MÓJ PRĄD FOTOWOLTAIKA"
-                    calculations={photovoltaics_dotation}
+                    calculations={
+                      photovoltaicCalcStore.photovoltaicDotationValue
+                    }
                   />
                   <TextComponent
                     title="MAGAZYN ENERGII"
@@ -230,10 +224,7 @@ export default function Preview({
                 />
               </div>
             </div>
-            <PdfGeneratorButton
-              energyStore_dotation={energyStore_dotation}
-              photovoltaics_dotation={photovoltaics_dotation}
-            />
+            <PdfGeneratorButton />
           </div>
         )}
       </div>

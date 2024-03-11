@@ -236,6 +236,12 @@ export const usePhotovoltaic = () => {
         store.updatePhotovoltaicCalcs("loanForPurcharse", data);
       },
     });
+  const { mutate: set_energyMenagerDotationValue } =
+    api.photovoltaics.energyMenagerDotation.useMutation({
+      onSuccess: (data) => {
+        store.updatePhotovoltaicCalcs("energyMenagerDotationValue", data);
+      },
+    });
   const { mutate: set_energyStoreCost } =
     api.photovoltaics.energyStoreCost.useMutation({
       onSuccess: (data) => {
@@ -246,6 +252,12 @@ export const usePhotovoltaic = () => {
     api.photovoltaics.energyStoreDotationValue.useMutation({
       onSuccess: (data) => {
         store.updatePhotovoltaicCalcs("energyStoreDotationValue", data);
+      },
+    });
+  const { mutate: set_photovoltaicDotationValue } =
+    api.photovoltaics.photovoltaicDotation.useMutation({
+      onSuccess: (data) => {
+        store.updatePhotovoltaicCalcs("photovoltaicDotationValue", data);
       },
     });
   // PROMOCJA
@@ -300,6 +312,7 @@ export const usePhotovoltaic = () => {
       yearly_costs_with_photovoltaics_loading,
     },
     mutations: {
+      getDataDependsOnPanelPower,
       handleTigoinput,
       handleOutOfLimitOnChange,
       handleInLimitOnChange,
@@ -335,10 +348,11 @@ export const usePhotovoltaic = () => {
       set_yearly_profit_for_installation,
       set_payment_return_time,
       set_termo_modernization,
-      getDataDependsOnPanelPower,
       set_loan_for_purcharse,
       set_energyManagerCost,
+      set_energyMenagerDotationValue,
       setPromotionTotalInstallationCosts,
+      set_photovoltaicDotationValue,
     },
   };
 };
