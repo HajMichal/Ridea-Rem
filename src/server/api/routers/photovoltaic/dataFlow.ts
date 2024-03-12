@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 import fs from "fs";
-import AWS from "aws-sdk";
+import { s3, setFileToBucket } from "../../aws";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 import { z } from "zod";
 import {
@@ -8,12 +8,6 @@ import {
   type EachMenagerPhotovoltaic,
 } from "./interfaces";
 
-export const s3 = new AWS.S3();
-AWS.config.update({
-  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-  region: "eu-central-1",
-});
 const schema = z.record(
   z.object({
     dane: z.object({
@@ -101,20 +95,6 @@ const schema = z.record(
     oprocentowanie_kredytu: z.number(),
   })
 );
-export const setFileToBucket = (fileContent: Buffer | string, key: string) => {
-  const params = {
-    Bucket: "ridearem",
-    Key: key,
-    Body: fileContent,
-  };
-  s3.putObject(params, (err, data) => {
-    if (err) {
-      console.error(err);
-    } else {
-      console.log(`File uploaded successfully. ETag: ${data.ETag}`);
-    }
-  });
-};
 
 const getParsedJsonObject = async () => {
   const dataFile = await s3

@@ -1,6 +1,9 @@
 import { createTRPCRouter, publicProcedure } from "../../trpc";
-import { s3, setFileToBucket } from "../photovoltaic/dataFlow";
-import { EachMenagerHeatHome, HeatHomeCalculatorType } from "./interfaces";
+import { s3, setFileToBucket } from "../../aws";
+import {
+  type EachMenagerHeatHome,
+  type HeatHomeCalculatorType,
+} from "./interfaces";
 import { z } from "zod";
 
 const schema = z.record(

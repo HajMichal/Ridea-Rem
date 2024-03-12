@@ -228,7 +228,7 @@ export const EditionForm = ({ data }: EditionForm) => {
             (key, index) => {
               const nameMappings: { [key: string]: string } = {
                 prog0: "3.1 kWh",
-                prog1: "6.2 kWh",
+                prog1: "6.1 kWh",
                 prog2: "11.6 kWh",
                 prog3: "17.4 kWh",
                 prog4: "23.2 kWh",

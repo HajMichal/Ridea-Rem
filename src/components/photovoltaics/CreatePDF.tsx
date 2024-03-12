@@ -204,12 +204,15 @@ const MyDocument = ({
             <Text style={styles.estimatedProfitTitle}>
               Z INSTALACJI FOTOWOLTAICZNEJ
             </Text>
-            <Text style={styles.estimatedPrice}>
+            <Text
+              style={{ ...styles.estimatedPrice, fontSize: 20, marginTop: 8 }}
+            >
               {(
                 photovoltaicCalcStore.yearly_profit_for_installation / 12
               ).toFixed(2)}
               ZŁ
             </Text>
+            <View style={styles.brandUnderScore} />
           </View>
           <View style={styles.estimatedProfit}>
             <Text style={styles.estimatedProfitTitleBold}>
@@ -340,17 +343,7 @@ const MyDocument = ({
               ZŁ
             </Text>
           </View>
-          <View style={styles.estimatedProfit}>
-            <Text style={{ ...styles.estimatedProfitTitle, fontSize: 12 }}>
-              ILOŚĆ RAT
-            </Text>
-            <Text
-              style={{ ...styles.estimatedPrice, fontSize: 20, marginTop: 8 }}
-            >
-              {photovoltaicStore.installmentNumber}
-            </Text>
-            <View style={styles.brandUnderScore} />
-          </View>
+
           <View style={styles.estimatedProfit}>
             <Text style={{ ...styles.estimatedProfitTitle, fontSize: 12 }}>
               RATA PO DOTACJI
@@ -362,6 +355,21 @@ const MyDocument = ({
                 2
               )}{" "}
               ZŁ
+            </Text>
+            <View style={styles.brandUnderScore} />
+          </View>
+
+          <View style={styles.estimatedProfit}>
+            <Text style={{ ...styles.estimatedProfitTitle, fontSize: 12 }}>
+              KWOTA PO DOTACJI
+            </Text>
+            <Text
+              style={{ ...styles.estimatedPrice, fontSize: 20, marginTop: 8 }}
+            >
+              {(
+                photovoltaicCalcStore.finall_installation_cost -
+                photovoltaicCalcStore.termoModernization
+              ).toFixed(2)}
             </Text>
             <View style={styles.brandUnderScore} />
           </View>
@@ -406,19 +414,19 @@ const MyDocument = ({
           <View style={styles.saveRow}>
             <Text style={styles.savePrice}>MOC SYSTEMU PV</Text>
             <Text style={styles.savePrice}>
-              {photovoltaicCalcStore.system_power} KWH
+              {photovoltaicCalcStore.system_power} KW
             </Text>
           </View>
           <View style={styles.saveRow}>
             <Text style={styles.savePrice}>ILOŚĆ MODUŁÓW</Text>
             <Text style={styles.savePrice}>
-              {photovoltaicStore.modulesCount} KWH
+              {photovoltaicStore.modulesCount} SZT
             </Text>
           </View>
           <View style={styles.saveRow}>
             <Text style={styles.savePrice}>MOC MODUŁU</Text>
             <Text style={styles.savePrice}>
-              {photovoltaicStore.panelPower} KWH
+              {photovoltaicStore.panelPower} W
             </Text>
           </View>
           <View style={styles.saveRow}>
@@ -426,12 +434,6 @@ const MyDocument = ({
             <Text style={styles.savePrice}>
               {photovoltaicStore.tigoCount} SZT
             </Text>
-          </View>
-          <View style={styles.saveRow}>
-            <Text style={styles.savePrice}>
-              SYSTEM OGRZEWANIA ELEKTRYCZNEGO MAGAZYNU
-            </Text>
-            <Text style={styles.savePrice}>2 kW</Text>
           </View>
           <View style={styles.saveRow}>
             <Text style={styles.savePrice}>MENADŻER ENERGII - EMS</Text>

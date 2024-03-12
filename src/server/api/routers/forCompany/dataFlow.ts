@@ -1,6 +1,6 @@
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 import { z } from "zod";
-import { s3, setFileToBucket } from "../photovoltaic/dataFlow";
+import { s3, setFileToBucket } from "../../aws";
 import {
   type ForCompanyCalculatorType,
   type EachMenagerForCompany,

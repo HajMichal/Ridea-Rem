@@ -1,6 +1,6 @@
 import { useSession } from "next-auth/react";
 import Link from "next/link";
-import React, { lazy } from "react";
+import React from "react";
 import { SelectComponent } from "./SelectComponent";
 import useStore from "~/store";
 import { usePhotovoltaic } from "~/hooks/usePhotovoltaic";

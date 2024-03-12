@@ -242,7 +242,7 @@ const PhotovoltaicFormulas = ({
                   value={photovoltaicStore.energyStorePower}
                   data={[
                     { value: "3.1", label: "3.1 - 1 faza" },
-                    { value: "6.2", label: "6.2 - 1/3 fazy" },
+                    { value: "6.1", label: "6.1 - 1/3 fazy" },
                     { value: "11.6", label: "11.6 - 3 fazy" },
                     { value: "17.4", label: "17.4 - 3 fazy" },
                     { value: "23.2", label: "23.2 - 3 fazy" },

@@ -1,6 +1,6 @@
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import { Suspense, useEffect } from "react";
+import { useEffect } from "react";
 import { Overlay } from "@mantine/core";
 
 import { api } from "~/utils/api";
@@ -44,10 +44,8 @@ const Fotowoltaika = () => {
       <div className="w-full">
         <Navbar />
         <div className="flex h-full max-h-[90vw] flex-wrap overflow-scroll p-4 laptop:overflow-hidden">
-          <Suspense fallback={<Loading />}>
-            <PhotovoltaicMutations data={data} sessionData={sessionData} />
-            <PhotovoltaicFormulas data={data} />
-          </Suspense>
+          <PhotovoltaicMutations data={data} sessionData={sessionData} />
+          <PhotovoltaicFormulas data={data} />
           <Preview />
         </div>
       </div>
