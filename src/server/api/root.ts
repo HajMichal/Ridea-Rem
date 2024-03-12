@@ -10,6 +10,7 @@ import { newsDataRouter } from "./routers/newsData";
 import { heatHomeCalculator } from "./routers/heatHome/heatHome_calculator";
 import { heatHomeDataFlowRouter } from "./routers/heatHome/dataFlow";
 import { uploadDocumentRouter } from "./routers/documents/upload";
+import { getAllDocumentRouter } from "./routers/documents/getAll";
 
 /**
  * This is the primary router for your server.
@@ -19,12 +20,14 @@ import { uploadDocumentRouter } from "./routers/documents/upload";
 export const appRouter = createTRPCRouter({
   newsDataRouter: newsDataRouter,
   userDataHandling: loginRouter,
-  documentRouter: uploadDocumentRouter,
 
-  heatPumpDataFlowRouter: heatPumpDataFlowRouter,
+  uploadDocumentRouter: uploadDocumentRouter,
+  getAllDocumentRouter: getAllDocumentRouter,
+
   dataFlow: dataFlowRouter,
   photovoltaics: photovoltaics_calculator,
   heatPump: heatPump_calculator,
+  heatPumpDataFlowRouter: heatPumpDataFlowRouter,
   forCompany: forCompanyCalculator,
   forCompanyDataFlowRouter: forCompanyDataFlowRouter,
   heatHome: heatHomeCalculator,

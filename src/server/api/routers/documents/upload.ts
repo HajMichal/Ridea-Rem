@@ -1,23 +1,17 @@
 import { z } from "zod";
 import { createTRPCRouter, adminProcedure } from "~/server/api/trpc";
-import { s3 } from "../../aws";
-
-const setFileToBucket = (key: string) => {
-  const params = {
-    Bucket: "ridearem",
-    Key: key,
-  };
-  s3.putObject(params, (err, data) => {
-    if (err) {
-      console.error(err);
-    } else {
-      console.log(`File uploaded successfully. ETag: ${data.ETag}`);
-    }
-  });
-};
+import { setFileToBucket } from "../../aws";
 
 export const uploadDocumentRouter = createTRPCRouter({
-  uploadFile: adminProcedure.input(z.string()).mutation(({ input }) => {
-    return setFileToBucket("documents/" + input);
-  }),
+  uploadFile: adminProcedure
+    .input(
+      z.object({
+        base64: z.string(),
+        fileName: z.string(),
+      })
+    )
+    .mutation(({ input }) => {
+      const decodedPdf = Buffer.from(input.base64, "base64");
+      return setFileToBucket(decodedPdf, "documents/" + input.fileName);
+    }),
 });

@@ -1,18 +1,15 @@
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { SideBar } from "~/components/LazyLoading";
 import { Navbar } from "~/components";
-import { api } from "~/utils/api";
-import { Button, FileInput } from "@mantine/core";
-import { MdOutlineAttachFile } from "react-icons/md";
+import { FileUploader, FileSection } from "~/components/documents/";
+import { Toaster } from "react-hot-toast";
 
 const Pliki = () => {
   const router = useRouter();
   const { data: sessionData } = useSession();
-
-  const [file, setFile] = useState<File>();
-
+  const userRole = sessionData?.user.role;
   useEffect(() => {
     if (sessionData === null) {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call
@@ -20,31 +17,14 @@ const Pliki = () => {
     }
   }, [sessionData, router]);
 
-  const { mutate } = api.documentRouter.uploadFile.useMutation({
-    onSuccess: () => {
-      // window.location.reload();
-    },
-  });
-
   return (
     <main className="flex h-full max-h-screen justify-center overflow-hidden bg-backgroundGray font-orkney">
+      <Toaster />
       <SideBar />
       <div className="w-full">
         <Navbar />
-        <div className="flex h-full max-h-[90vw] flex-wrap overflow-scroll p-4 laptop:overflow-hidden">
-          <FileInput
-            required
-            rightSection={<MdOutlineAttachFile />}
-            label="Dołącz lub upuść tutaj plik"
-            onChange={(e) => e && setFile(e)}
-            value={file}
-            className="w-[50%]"
-            mt="md"
-          />
-          <Button type="submit" onClick={() => console.log(file)}>
-            DODAJ PLIK
-          </Button>
-        </div>
+        {userRole === 1 && <FileUploader />}
+        <FileSection userRole={userRole} />
       </div>
     </main>
   );
