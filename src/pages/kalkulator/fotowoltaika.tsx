@@ -1,6 +1,6 @@
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { StrictMode, useEffect } from "react";
 import { Overlay } from "@mantine/core";
 
 import { api } from "~/utils/api";
@@ -33,23 +33,25 @@ const Fotowoltaika = () => {
   }, [sessionData, router]);
 
   return (
-    <main className="flex h-full max-h-screen overflow-hidden bg-backgroundGray font-orkney laptop:justify-center">
-      {!data && (
-        <>
-          <Overlay color="#000" opacity={0.85} />
-          <Loading />
-        </>
-      )}
-      <SideBar />
-      <div className="w-full">
-        <Navbar />
-        <div className="flex h-full max-h-[90vw] flex-wrap overflow-scroll p-4 laptop:overflow-hidden">
-          <PhotovoltaicMutations data={data} sessionData={sessionData} />
-          <PhotovoltaicFormulas data={data} />
-          <Preview />
+    <StrictMode>
+      <main className="flex h-full max-h-screen overflow-hidden bg-backgroundGray font-orkney laptop:justify-center">
+        {!data && (
+          <>
+            <Overlay color="#000" opacity={0.85} />
+            <Loading />
+          </>
+        )}
+        <SideBar />
+        <div className="w-full">
+          <Navbar />
+          <div className="flex h-full max-h-[90vw] flex-wrap overflow-scroll p-4 laptop:overflow-hidden">
+            <PhotovoltaicMutations data={data} sessionData={sessionData} />
+            <PhotovoltaicFormulas data={data} />
+            <Preview />
+          </div>
         </div>
-      </div>
-    </main>
+      </main>
+    </StrictMode>
   );
 };
 

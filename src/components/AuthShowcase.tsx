@@ -31,7 +31,12 @@ export default function AuthShowcase() {
         <Menu.Dropdown>
           <Menu.Label>Konto</Menu.Label>
           <Menu.Item
-            onClick={() => void signOut()}
+            onClick={() =>
+              void signOut({
+                redirect: true,
+                callbackUrl: `${process.env.NEXT_PUBLIC_BASE_URL}auth/signin`,
+              })
+            }
             rightSection={
               <BiLogOut style={{ width: rem(20), height: rem(20) }} />
             }

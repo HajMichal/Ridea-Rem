@@ -30,18 +30,16 @@ export default function Signin() {
     });
     if (res?.error) setError(res.error);
     else if (res?.ok) {
-      // void setTimeout(async function () {
       await router.push("/home");
-      // }, 400);
     }
   };
 
   useEffect(() => {
-    if (sessionData !== null) {
+    if (sessionData !== null && sessionData !== undefined) {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call
       void router.push("/home");
     }
-  }, [sessionData, router]);
+  }, [sessionData]);
 
   return (
     <div className="grid h-screen w-screen bg-[#E8E7E7] font-orkney laptop:grid-cols-2">
@@ -120,14 +118,13 @@ export default function Signin() {
                   "Nie prawidłowe hasło, spróbuj ponownie"
                 }
               />
-              <Checkbox label="Zapamiętaj mnie" color="dark" />
-              <button className="rounded-full bg-brand p-3 font-orkneyBold">
+              <button className="mt-4 rounded-full bg-brand p-3 font-orkneyBold">
                 ZALOGUJ SIĘ
               </button>
             </form>
           </div>
           <div className="mt-10 flex w-full items-end justify-center p-5 font-orkneyBold xl:mt-32">
-            <h2>IDEA REM © 2023</h2>
+            <h2>IDEA REM © 2024</h2>
           </div>
         </div>
       </div>
