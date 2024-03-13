@@ -25,7 +25,13 @@ export const FileSection = ({ userRole }: FileSectionType): React.ReactNode => {
           <div className="flex justify-center">
             <div className="flex w-[80%] flex-wrap justify-center  gap-28 p-10">
               {data?.map((file, index) => {
-                return <EachFileCard fileName={file} key={index} />;
+                return (
+                  <EachFileCard
+                    fileName={file}
+                    userRole={userRole}
+                    key={index}
+                  />
+                );
               })}
             </div>
           </div>

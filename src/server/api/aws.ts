@@ -2,6 +2,7 @@ import AWS from "aws-sdk";
 
 export const s3 = new AWS.S3();
 const bucket = "ridearem";
+const prefix = "documents";
 
 AWS.config.update({
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
@@ -23,10 +24,10 @@ export const setFileToBucket = (fileContent: Buffer | string, key: string) => {
   });
 };
 
-export const getAllFilesFromBucket = async (key: string) => {
+export const getAllFilesFromBucket = async () => {
   const params = {
     Bucket: bucket,
-    Prefix: key,
+    Prefix: prefix,
   };
 
   try {
@@ -39,4 +40,13 @@ export const getAllFilesFromBucket = async (key: string) => {
   } catch (error) {
     throw error;
   }
+};
+
+export const downloadFileFromBucket = (fileName: string) => {
+  const params = {
+    Bucket: bucket,
+    Key: fileName,
+  };
+  const signedUrl = s3.getSignedUrl("getObject", params);
+  return signedUrl;
 };
