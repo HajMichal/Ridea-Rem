@@ -9,7 +9,7 @@ interface FileSectionType {
 }
 
 export const FileSection = ({ userRole }: FileSectionType): React.ReactNode => {
-  const { data, isLoading } = api.getAllDocumentRouter.uploadFile.useQuery();
+  const { data, isLoading } = api.getAllDocumentRouter.getAllFiles.useQuery();
 
   return (
     <>

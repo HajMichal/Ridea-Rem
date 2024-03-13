@@ -1,4 +1,3 @@
-import { Menu } from "@mantine/core";
 import React from "react";
 import { type IconType } from "react-icons";
 
@@ -12,34 +11,41 @@ interface ContextMenuType {
   positionX: number;
   positionY: number;
   isToggled: boolean;
+  outsideClickRef: React.MutableRefObject<HTMLMenuElement>;
 }
 
 export const ContextMenu = ({
+  outsideClickRef,
   buttons,
   positionX,
   positionY,
   isToggled,
 }: ContextMenuType) => {
-  console.log(positionX, positionY);
-
   return (
     <menu
+      ref={outsideClickRef}
       style={{
-        // position: "absolute",
         top: positionY + 2 + "px",
         left: positionX + 2 + "px",
       }}
-      className={`fixed h-10 w-10 bg-brand ${!isToggled && "hidden"}`}
+      className={`fixed z-[9999] flex flex-col gap-2 rounded-3xl bg-white p-5 shadow-xl  ${
+        !isToggled && "hidden"
+      }`}
     >
       {buttons.map((buttonProps, index) => {
-        function handleClick(e: React.MouseEvent) {
-          e.stopPropagation();
-          buttonProps.onClick;
-        }
-
         return (
-          <button onClick={(e) => handleClick(e)} key={index}>
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              buttonProps.onClick();
+            }}
+            key={index}
+            className={`flex h-10 w-full items-center justify-between gap-8 rounded-xl px-3 font-orkney duration-75 hover:cursor-pointer ${
+              buttonProps.color ? buttonProps.color : "hover:bg-backgroundGray"
+            }`}
+          >
             {buttonProps.text}
+            {buttonProps.icon}
           </button>
         );
       })}

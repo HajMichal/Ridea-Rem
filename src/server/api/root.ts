@@ -1,17 +1,18 @@
 import { createTRPCRouter } from "~/server/api/trpc";
 import { dataFlowRouter } from "./routers/photovoltaic/dataFlow";
-import { loginRouter } from "./routers/userDataHandling";
+import { loginRouter } from "./routers/users/userDataHandling";
 import { photovoltaics_calculator } from "./routers/photovoltaic/photovoltaics_calculator";
 import { heatPump_calculator } from "./routers/heatpump/heatPumps_calculator";
 import { heatPumpDataFlowRouter } from "./routers/heatpump/dataFlow";
 import { forCompanyCalculator } from "./routers/forCompany/forCompany_calculator";
 import { forCompanyDataFlowRouter } from "./routers/forCompany/dataFlow";
-import { newsDataRouter } from "./routers/newsData";
+import { newsDataRouter } from "./routers/news/newsData";
 import { heatHomeCalculator } from "./routers/heatHome/heatHome_calculator";
 import { heatHomeDataFlowRouter } from "./routers/heatHome/dataFlow";
 import { uploadDocumentRouter } from "./routers/documents/upload";
 import { getAllDocumentRouter } from "./routers/documents/getAll";
 import { downloadDocumentRouter } from "./routers/documents/download";
+import { deleteDocumentRouter } from "./routers/documents/remove";
 
 /**
  * This is the primary router for your server.
@@ -25,6 +26,7 @@ export const appRouter = createTRPCRouter({
   uploadDocumentRouter: uploadDocumentRouter,
   getAllDocumentRouter: getAllDocumentRouter,
   downloadDocumentRouter: downloadDocumentRouter,
+  deleteDocumentRouter: deleteDocumentRouter,
 
   dataFlow: dataFlowRouter,
   photovoltaics: photovoltaics_calculator,

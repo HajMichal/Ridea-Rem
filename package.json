@@ -33,6 +33,7 @@
     "@trpc/server": "^10.26.0",
     "@uidotdev/usehooks": "^2.4.1",
     "@uploadthing/react": "^6.0.2",
+    "@vercel/speed-insights": "^1.0.10",
     "aws-sdk": "^2.1424.0",
     "axios": "^1.6.2",
     "bcrypt": "^5.1.0",

@@ -1,58 +1,38 @@
 import React, { useState } from "react";
 import { FileInput } from "@mantine/core";
-import { MdOutlineAttachFile } from "react-icons/md";
-import { MdOutlineExpandMore } from "react-icons/md";
+import { MdOutlineAttachFile, MdOutlineExpandMore } from "react-icons/md";
 import { api } from "~/utils/api";
 import toast from "react-hot-toast";
-
-export const encodeFile = (
-  file: File | undefined | null
-): Promise<string | undefined> => {
-  return new Promise((resolve, reject) => {
-    if (file) {
-      const reader = new FileReader();
-
-      reader.onload = () => {
-        const base64 = reader.result as string;
-        const base64String = base64.split(",")[1];
-        resolve(base64String);
-      };
-
-      reader.onerror = (error) => {
-        reject(error);
-      };
-
-      reader.readAsDataURL(file);
-    } else reject();
-  });
-};
+import { encodeFile } from "~/utils/encodeFile";
 
 export const FileUploader = () => {
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
   const [file, setFile] = useState<File | null>();
+  const ctx = api.useContext();
 
   const { mutate } = api.uploadDocumentRouter.uploadFile.useMutation({
     onSuccess: () => {
       toast.success(`Plik ${file?.name} został poprawnie dodany`);
       setFile(null);
     },
+    onError: (error) => {
+      toast.error("Plik nie został dodany. Treść błędu: " + error.message);
+    },
   });
 
   const handleUpload = async () => {
-    try {
-      const base64String = await encodeFile(file);
-      if (base64String) mutate({ base64: base64String, fileName: file!.name });
-    } catch (error) {
-      toast.error("Wrzucenie pliku nie powiodło się...");
-    }
+    const base64String = await encodeFile(file);
+    if (base64String) mutate({ base64: base64String, fileName: file!.name });
   };
+
+  void ctx.getAllDocumentRouter.getAllFiles.invalidate();
 
   return (
     <div className="fixed z-[99999] my-5 -ml-14 flex w-full flex-col items-center">
       {/* TOP BAR OPEN/CLOSE */}
       <div
         onClick={() => setIsExpanded(!isExpanded)}
-        className={`flex h-12 w-[50%] items-center justify-end rounded-t-3xl bg-white px-5 ${
+        className={`flex h-12 w-[50%] items-center justify-end rounded-t-3xl bg-white px-5 hover:cursor-pointer ${
           !isExpanded && "justify-between rounded-3xl"
         }`}
       >

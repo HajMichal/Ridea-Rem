@@ -8,6 +8,7 @@ import { MantineProvider } from "@mantine/core";
 import { useIdle } from "@uidotdev/usehooks";
 import { signOut } from "next-auth/react";
 import { useRouter } from "next/router";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
@@ -32,6 +33,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
           }}
         >
           <Component {...pageProps} />
+          <SpeedInsights />
         </MantineProvider>
       </SessionProvider>
     </>
