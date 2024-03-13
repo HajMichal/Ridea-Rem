@@ -13,12 +13,12 @@
 ### ⚡App was designed to:
 
 
-speed up the work of
+1. Speed up the work of
 sales professionals within the renewable energy sector. These
 calculators serve as basic tools for estimating installation costs of
 various renewable energy sources. 
 
-eliminate different versions. The previous calculator was created in ``excel``, and salespeople were given ready-made sheets. This caused many employees have different versions of the calculator. 
+2. Eliminate different versions. The previous calculator was created in ``excel``, and salespeople were given ready-made sheets. This caused many employees have different versions of the calculator. 
 
 <br/>
 <br/>
@@ -30,8 +30,8 @@ eliminate different versions. The previous calculator was created in ``excel``, 
 
 > [!NOTE] 
 >Data storage was divided into two services:
-- AWS s3 bucket to store the file with data necessary for calculations and files to  download,
-- Planetscale for user data.
+> - AWS s3 bucket to store the file with data necessary for calculations and files to  download,
+> - Planetscale for user data.
 
 
 <br/>
@@ -60,7 +60,7 @@ eliminate different versions. The previous calculator was created in ``excel``, 
 
 > [!IMPORTANT]
 >## What I've learned
->First of all I've learned work with commercial client and fit to his requirments. For sure I've refined knowledge in React, app optymalizations, write code in clean way, split components into reusable, smaller pieces, read friendly folder structure, pass props between functions, zustand is another state menager I've come to know. 
+>First of all I've learned how to work with commercial client and fit to his requirments. For sure I've refined knowledge in React, app optymalizations, write code in clean way, split components into reusable, smaller pieces, read friendly folder structure, pass props between functions, zustand is another state menager I've come to know. 
 Trpc was used rather schematicly but in readable and clean way. I've mastered the basics on AWS s3 bucket scope, that's why gathering data there will no be the problem no more, despite not friendly UI/UX entire platform.
 
 <br/>
