@@ -633,7 +633,7 @@ interface EnergyStoreCostType {
   };
 }
 export function energyStoreCost({ input }: { input: EnergyStoreCostType }) {
-  if (input.energyStorePower === 6.2) return input.energyStorePowersCost.prog1;
+  if (input.energyStorePower === 6.1) return input.energyStorePowersCost.prog1;
   else if (input.energyStorePower === 3.1)
     return input.energyStorePowersCost.prog0;
   else if (input.energyStorePower === 11.6)
