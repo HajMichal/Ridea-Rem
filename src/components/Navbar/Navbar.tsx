@@ -56,7 +56,12 @@ const Navbar = () => {
   const userRole = sessionData?.user.role;
 
   const dropDownComponents = [
-    <LinkComponent key={1} href="/aktualnosci" title="AKTUALNOŚCI" />,
+    <LinkComponent
+      key={1}
+      href="/aktualnosci"
+      title="AKTUALNOŚCI"
+      notification
+    />,
     <LinkComponent key={2} href="/pliki" title="PLIKI" />,
     <LinkComponent
       key={3}
@@ -80,27 +85,8 @@ const Navbar = () => {
         <div className="flex h-full w-full max-w-[800px] items-center justify-between gap-3 pl-10 text-center xl:justify-evenly xl:pl-0">
           <LinkComponent href="/kalkulator/fotowoltaika" title="KALKULACJA" />
 
-          <div className="hidden w-full gap-3 xl:flex">
-            <LinkComponent
-              href="/aktualnosci"
-              title="AKTUALNOŚCI"
-              notification
-            />
-            <LinkComponent href="/pliki" title="PLIKI" />
-            <LinkComponent
-              key={3}
-              href="/edycja/prowizje"
-              title="PROWIZJE"
-              neededRole={1 || 2}
-              userRole={userRole}
-            />
-            <LinkComponent
-              key={4}
-              href="/stworz/konto"
-              title="KONTA"
-              neededRole={1 || 2}
-              userRole={userRole}
-            />
+          <div className="mt-1 hidden w-full gap-3 xl:flex">
+            {dropDownComponents.map((navButton) => navButton)}
           </div>
 
           <DropdownMenu
