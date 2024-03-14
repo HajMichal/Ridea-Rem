@@ -1,6 +1,6 @@
 import { InputComponent } from "./InputComponent";
 import { SelectComponent } from "./SelectComponent";
-import Navbar from "./Navbar";
+import Navbar from "./Navbar/Navbar";
 import SideBar from "./SideBar";
 import { TextComponent } from "./TextComponent";
 import { Loading } from "./Loading";

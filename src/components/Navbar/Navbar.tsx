@@ -1,20 +1,17 @@
 import { useSession } from "next-auth/react";
-import Link from "next/link";
+import { IoIosMenu } from "react-icons/io";
 import React from "react";
-import { SelectComponent } from "./SelectComponent";
+import { SelectComponent } from "../SelectComponent";
 import useStore from "~/store";
 import { usePhotovoltaic } from "~/hooks/usePhotovoltaic";
 import { useRouter } from "next/router";
 import { useHeatPump } from "~/hooks/useHeatPump";
 import { useForCompany } from "~/hooks/useForCompany";
 import { useHeatHome } from "~/hooks/useHeatHome";
-import AuthShowcase from "./AuthShowcase";
-
-interface LinkComponentType {
-  href: string;
-  title: string;
-  notification?: boolean;
-}
+import AuthShowcase from "../AuthShowcase";
+import { CALCULATORS } from "~/constans/calculatorTypes";
+import { LinkComponent } from "./LinkComponent";
+import { DropdownMenu } from "../DropdownMenu";
 
 const consultantProvisionsData = [
   { value: "0", label: "0" },
@@ -47,28 +44,6 @@ const heatHomeProvisionData = [
   { value: "50", label: "50" },
 ];
 
-const LinkComponent = ({
-  href,
-  title,
-  notification = false,
-}: LinkComponentType) => {
-  return (
-    <div className="group -mb-1">
-      {notification && (
-        <span className="absolute top-10 flex h-3 w-3">
-          <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-sky-400 opacity-75"></span>
-          <span className="relative inline-flex h-3 w-3 rounded-full bg-sky-500"></span>
-        </span>
-      )}
-      <div className="flex h-[60%] items-center text-dark laptop:px-4">
-        <Link href={href}>{title}</Link>
-      </div>
-
-      <span className="mt-1 block h-[2px] w-full max-w-0 bg-brand transition-all duration-500 group-hover:max-w-full"></span>
-    </div>
-  );
-};
-
 const Navbar = () => {
   const { data: sessionData } = useSession();
   const router = useRouter();
@@ -77,49 +52,67 @@ const Navbar = () => {
   const { heatPumpStore } = useHeatPump();
   const { forCompanyStore } = useForCompany();
   const { heatHomeStore } = useHeatHome();
+
+  const userRole = sessionData?.user.role;
+
+  const dropDownComponents = [
+    <LinkComponent key={1} href="/aktualnosci" title="AKTUALNOŚCI" />,
+    <LinkComponent key={2} href="/pliki" title="PLIKI" />,
+    <LinkComponent
+      key={3}
+      href="/edycja/prowizje"
+      title="PROWIZJE"
+      neededRole={1 || 2}
+      userRole={userRole}
+    />,
+    <LinkComponent
+      key={4}
+      href="/stworz/konto"
+      title="KONTA"
+      neededRole={1 || 2}
+      userRole={userRole}
+    />,
+  ];
+
   return (
     <div className="h-fit w-full">
       <div className="flex h-[105px] w-full items-center justify-between gap-5 bg-white px-2 font-orkneyLight text-sm font-semibold">
-        <div className="flex h-full w-full max-w-[800px] items-center justify-evenly gap-3 text-center laptop:gap-0 ">
+        <div className="flex h-full w-full max-w-[800px] items-center justify-between gap-3 pl-10 text-center xl:justify-evenly xl:pl-0">
           <LinkComponent href="/kalkulator/fotowoltaika" title="KALKULACJA" />
 
-          <LinkComponent href="/aktualnosci" title="AKTUALNOŚCI" notification />
+          <div className="hidden w-full gap-3 xl:flex">
+            <LinkComponent
+              href="/aktualnosci"
+              title="AKTUALNOŚCI"
+              notification
+            />
+            <LinkComponent href="/pliki" title="PLIKI" />
+            <LinkComponent
+              key={3}
+              href="/edycja/prowizje"
+              title="PROWIZJE"
+              neededRole={1 || 2}
+              userRole={userRole}
+            />
+            <LinkComponent
+              key={4}
+              href="/stworz/konto"
+              title="KONTA"
+              neededRole={1 || 2}
+              userRole={userRole}
+            />
+          </div>
 
-          {(sessionData?.user.role === 1 &&
-            router.pathname === "/kalkulator/fotowoltaika" && (
-              <LinkComponent
-                href="/edycja/daneFotowoltaiki"
-                title="EDYCJA DANYCH"
-              />
-            )) ||
-            (router.pathname === "/kalkulator/pompy_ciepla" && (
-              <LinkComponent
-                href="/edycja/danePompyCiepla"
-                title="EDYCJA DANYCH"
-              />
-            )) ||
-            (router.pathname === "/kalkulator/fotowoltaika_firmy" && (
-              <LinkComponent
-                href="/edycja/daneFotowoltaiki_firmy"
-                title="EDYCJA DANYCH"
-              />
-            )) ||
-            (router.pathname === "/kalkulator/cieplo_wlasciwe" && (
-              <LinkComponent
-                href="/edycja/daneCieploWlasciwe"
-                title="EDYCJA DANYCH"
-              />
-            ))}
-          {sessionData?.user.role === 2 || sessionData?.user.role === 1 ? (
-            <LinkComponent href="/edycja/prowizje" title="PROWIZJE" />
-          ) : (
-            ""
-          )}
-          {!(sessionData?.user.role === 3) && (
-            <LinkComponent href="/stworz/konto" title="KONTA" />
-          )}
+          <DropdownMenu
+            hide
+            mainButtonTitle={<IoIosMenu className="mb-1 h-7 w-7" />}
+            jsxData={dropDownComponents}
+          />
         </div>
-        <div className="flex items-center gap-10">
+        {userRole === 1 && (
+          <DropdownMenu mainButtonTitle="EDYCJA" contextData={CALCULATORS} />
+        )}
+        <div className="flex min-w-[350px] items-center gap-10">
           <div>
             {router.pathname === "/kalkulator/fotowoltaika" && (
               <SelectComponent

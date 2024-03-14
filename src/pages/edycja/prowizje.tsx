@@ -28,7 +28,7 @@ const Prowizje = () => {
   useEffect(() => {
     if ((sessionData && sessionData?.user.role === 3) || sessionData === null) {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-      void router.push("/");
+      void router.back();
     }
   }, [sessionData, router]);
 
