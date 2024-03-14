@@ -1,5 +1,5 @@
 import { createTRPCRouter, publicProcedure } from "../../trpc";
-import { s3, setFileToBucket } from "../../aws";
+import { bucket, s3, setFileToBucket } from "~/utils/aws";
 import {
   type EachMenagerHeatHome,
   type HeatHomeCalculatorType,
@@ -23,7 +23,7 @@ const schema = z.record(
 const getParsedJsonObject = async () => {
   const dataFile = await s3
     .getObject({
-      Bucket: "ridearem",
+      Bucket: bucket,
       Key: "heatHome.json",
     })
     .promise();

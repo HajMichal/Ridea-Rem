@@ -1,6 +1,6 @@
-import { z } from "zod";
-import bcrypt from "bcrypt";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
+import bcrypt from "bcrypt";
+import { z } from "zod";
 
 export const loginRouter = createTRPCRouter({
   getAllUsers: publicProcedure.query(async ({ ctx }) => {

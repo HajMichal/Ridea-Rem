@@ -1,6 +1,6 @@
-import { z } from "zod";
+import { downloadFileFromBucket } from "~/utils/aws/downloadFileFromBucket";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
-import { downloadFileFromBucket } from "../../aws";
+import { z } from "zod";
 
 export const downloadDocumentRouter = createTRPCRouter({
   downloadFile: publicProcedure

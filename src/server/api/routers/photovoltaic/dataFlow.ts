@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 import fs from "fs";
-import { s3, setFileToBucket } from "../../aws";
+import { bucket, s3, setFileToBucket } from "~/utils/aws";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 import { z } from "zod";
 import {
@@ -99,7 +99,7 @@ const schema = z.record(
 const getParsedJsonObject = async () => {
   const dataFile = await s3
     .getObject({
-      Bucket: "ridearem",
+      Bucket: bucket,
       Key: "data.json",
     })
     .promise();

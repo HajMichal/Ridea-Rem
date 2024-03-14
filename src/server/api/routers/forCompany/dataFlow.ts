@@ -1,10 +1,10 @@
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 import { z } from "zod";
-import { s3, setFileToBucket } from "../../aws";
 import {
   type ForCompanyCalculatorType,
   type EachMenagerForCompany,
 } from "./interfaces";
+import { setFileToBucket, s3, bucket } from "~/utils/aws";
 
 const schema = z.record(
   z.object({
@@ -58,7 +58,7 @@ const schema = z.record(
 const getParsedJsonObject = async () => {
   const dataFile = await s3
     .getObject({
-      Bucket: "ridearem",
+      Bucket: bucket,
       Key: "forCompany.json",
     })
     .promise();
