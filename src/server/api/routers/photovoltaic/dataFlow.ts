@@ -4,7 +4,7 @@ import { bucket, s3, setFileToBucket } from "~/utils/aws";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 import { z } from "zod";
 import {
-  type CalculatorType,
+  type PhotovoltaicCalculatorType,
   type EachMenagerPhotovoltaic,
 } from "./interfaces";
 
@@ -104,7 +104,7 @@ const getParsedJsonObject = async () => {
     })
     .promise();
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  const convertedFile: CalculatorType = JSON.parse(
+  const convertedFile: PhotovoltaicCalculatorType = JSON.parse(
     dataFile?.Body?.toString() ?? "null"
   );
   return convertedFile;

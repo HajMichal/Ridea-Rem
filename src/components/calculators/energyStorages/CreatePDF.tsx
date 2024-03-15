@@ -1,16 +1,5 @@
 import React from "react";
-import {
-  Page,
-  Text,
-  View,
-  Document,
-  StyleSheet,
-  Image,
-  Font,
-} from "@react-pdf/renderer";
-
-import { type HeatPumpCalculations } from "~/store/heatPump/heatPumpCalculationSlice";
-import { type HeatPumpSliceType } from "~/store/heatPump/heatPumpSlice";
+import { Page, Document, StyleSheet, Font } from "@react-pdf/renderer";
 
 Font.register({
   family: "Orkney",
@@ -131,15 +120,7 @@ const styles = StyleSheet.create({
   },
 });
 
-interface DataToPDF {
-  energyStorageCalcStore: HeatPumpCalculations;
-  energyStorageStore: HeatPumpSliceType["heatPumpStore"];
-}
-
-const EnergyStorageDocument = ({
-  energyStorageCalcStore,
-  energyStorageStore,
-}: DataToPDF) => (
+const EnergyStorageDocument = () => (
   <Document>
     <Page size="A4" style={styles.page}></Page>
   </Document>

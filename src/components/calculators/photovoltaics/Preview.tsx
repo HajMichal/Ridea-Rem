@@ -1,8 +1,7 @@
 import React from "react";
-import { TextComponent } from "../TextComponent";
+import { TextComponent, PdfGeneratorButton } from "../../";
 import { usePhotovoltaic } from "~/hooks/usePhotovoltaic";
 import { Loader } from "@mantine/core";
-import { PdfGeneratorButton } from "../PdfGeneratorButton";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 
 export default function Preview() {

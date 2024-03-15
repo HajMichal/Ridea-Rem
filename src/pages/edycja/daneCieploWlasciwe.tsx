@@ -1,11 +1,10 @@
+import { useEffect } from "react";
 import { Loader, Tabs } from "@mantine/core";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/router";
-import { useEffect } from "react";
 import { Toaster } from "react-hot-toast";
+import { useRouter } from "next/router";
 import { SideBar, Navbar } from "~/components/LazyLoading";
-import { EditionForm } from "~/components/heatHome";
-
+import { EditionForm } from "~/components/calculators/heatHome";
 import { api } from "~/utils/api";
 
 const DaneCieploWlasciwe = () => {
@@ -14,6 +13,7 @@ const DaneCieploWlasciwe = () => {
 
   const { data: entireJsonData } =
     api.heatHomeDataFlowRouter.downloadEntireJsonFile.useQuery();
+
   useEffect(() => {
     if ((sessionData && sessionData?.user.role !== 1) || sessionData === null) {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call

@@ -560,5 +560,4 @@ export default function PhotovoltaicMutations({
     data?.magazyn_energii_solax,
     data?.magazyn_energii_hipontech,
   ]);
-  return null;
 }

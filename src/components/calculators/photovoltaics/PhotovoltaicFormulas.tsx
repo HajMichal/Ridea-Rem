@@ -1,9 +1,10 @@
 import { ScrollArea } from "@mantine/core";
 import React from "react";
-import { InputComponent, SelectComponent } from "../";
+import { InputComponent, SelectComponent } from "../../";
 import { usePhotovoltaic } from "~/hooks/usePhotovoltaic";
 import useStore from "~/store";
 import { type PhotovoltaicDataToCalculation } from "~/server/api/routers/photovoltaic/interfaces";
+import { YESNO } from "~/constans/formsData";
 
 const PhotovoltaicFormulas = ({
   data,
@@ -13,11 +14,6 @@ const PhotovoltaicFormulas = ({
   const store = useStore();
 
   const { photovoltaicStore, mutations } = usePhotovoltaic();
-
-  const yesNoData = [
-    { value: "true", label: "Tak" },
-    { value: "false", label: "Nie" },
-  ];
 
   return (
     <div id="FORM" className="h-full p-3 laptop:w-[55%] laptop:min-w-[500px] ">
@@ -96,7 +92,7 @@ const PhotovoltaicFormulas = ({
               store.updatePhotovoltaic("isGroundMontage", e == "true")
             }
             value={photovoltaicStore.isGroundMontage}
-            data={yesNoData}
+            data={YESNO}
           />
           <SelectComponent
             title="STOPIEŃ AUTOKONSUMPCJI ENERGII Z PV"
@@ -122,7 +118,7 @@ const PhotovoltaicFormulas = ({
                 store.updatePhotovoltaic("southRoof", e == "true")
               }
               value={photovoltaicStore.southRoof}
-              data={yesNoData}
+              data={YESNO}
             />
           )}
           <SelectComponent
@@ -131,7 +127,7 @@ const PhotovoltaicFormulas = ({
               store.updatePhotovoltaic("isSolarEdgeChoosed", e == "true")
             }
             value={photovoltaicStore.isSolarEdgeChoosed}
-            data={yesNoData}
+            data={YESNO}
           />
           {!photovoltaicStore.isGroundMontage && (
             <SelectComponent
@@ -140,7 +136,7 @@ const PhotovoltaicFormulas = ({
                 store.updatePhotovoltaic("isEccentricsChoosed", e == "true")
               }
               value={photovoltaicStore.isEccentricsChoosed}
-              data={yesNoData}
+              data={YESNO}
             />
           )}
           {!photovoltaicStore.isGroundMontage && (
@@ -150,7 +146,7 @@ const PhotovoltaicFormulas = ({
                 store.updatePhotovoltaic("isRoofWeightSystem", e == "true")
               }
               value={photovoltaicStore.isRoofWeightSystem}
-              data={yesNoData}
+              data={YESNO}
             />
           )}
           <InputComponent
@@ -172,7 +168,7 @@ const PhotovoltaicFormulas = ({
               store.updatePhotovoltaic("isInwerterChoosed", e == "true")
             }
             value={photovoltaicStore.isInwerterChoosed}
-            data={yesNoData}
+            data={YESNO}
           />
           <SelectComponent
             title="MAGAZYN CIEPŁA"
@@ -180,7 +176,7 @@ const PhotovoltaicFormulas = ({
               store.updatePhotovoltaic("heatStoreDotation", e == "true")
             }
             value={photovoltaicStore.heatStoreDotation}
-            data={yesNoData}
+            data={YESNO}
           />
           {photovoltaicStore.heatStoreDotation && data && (
             <SelectComponent
@@ -212,7 +208,7 @@ const PhotovoltaicFormulas = ({
               store.updatePhotovoltaic("emsDotation", e == "true")
             }
             value={photovoltaicStore.emsDotation}
-            data={yesNoData}
+            data={YESNO}
           />
           <SelectComponent
             title="MAGAZYN ENERGII"
@@ -220,7 +216,7 @@ const PhotovoltaicFormulas = ({
               store.updatePhotovoltaic("energyStoreDotation", e == "true")
             }
             value={photovoltaicStore.energyStoreDotation}
-            data={yesNoData}
+            data={YESNO}
           />
 
           {photovoltaicStore.energyStoreDotation && (
@@ -273,7 +269,7 @@ const PhotovoltaicFormulas = ({
             title="CAR PORT"
             onChange={(e) => store.updatePhotovoltaic("isCarPort", e == "true")}
             value={photovoltaicStore.isCarPort}
-            data={yesNoData}
+            data={YESNO}
           />
           {photovoltaicStore.isCarPort && (
             <SelectComponent
@@ -310,7 +306,7 @@ const PhotovoltaicFormulas = ({
               store.updatePhotovoltaic("isPromotion", e == "true")
             }
             value={photovoltaicStore.isPromotion}
-            data={yesNoData}
+            data={YESNO}
           />
           <InputComponent
             title="LICZBA RAT"

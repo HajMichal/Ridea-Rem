@@ -7,6 +7,7 @@ import { Loading } from "./Loading";
 import { UserFeeFormField } from "./UserFeeFormField";
 import { ChangeDataInputComponent } from "./changeDataInputComponent";
 import { NewsCard } from "./newsPageComponent/NewsCard";
+import { PdfGeneratorButton } from "./PdfGeneratorButton";
 
 export {
   SideBar,
@@ -18,4 +19,5 @@ export {
   UserFeeFormField,
   ChangeDataInputComponent,
   NewsCard,
+  PdfGeneratorButton,
 };

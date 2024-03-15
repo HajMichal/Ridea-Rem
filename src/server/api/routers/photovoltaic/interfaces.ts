@@ -87,6 +87,6 @@ export interface PhotovoltaicDataToCalculation {
 export interface EachMenagerPhotovoltaic {
   [key: string]: PhotovoltaicDataToCalculation;
 }
-export interface CalculatorType {
+export interface PhotovoltaicCalculatorType {
   kalkulator: EachMenagerPhotovoltaic[];
 }

@@ -1,8 +1,7 @@
 import React from "react";
-import { TextComponent } from "../TextComponent";
+import { TextComponent, PdfGeneratorButton } from "../../";
 import { useForCompany } from "~/hooks/useForCompany";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
-import { PdfGeneratorButton } from "../PdfGeneratorButton";
 
 export default function Preview() {
   const [parent] = useAutoAnimate();

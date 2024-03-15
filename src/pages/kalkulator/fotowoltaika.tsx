@@ -1,20 +1,16 @@
-import { useSession } from "next-auth/react";
-import { useRouter } from "next/router";
-import { StrictMode, useEffect } from "react";
-import { Overlay } from "@mantine/core";
-
-import { api } from "~/utils/api";
-
-import { Loading } from "~/components";
-import { SideBar, Navbar } from "~/components/LazyLoading";
+import { type PhotovoltaicDataToCalculation } from "~/server/api/routers/photovoltaic/interfaces";
+import { PhotovoltaicMutations } from "~/components/calculators/photovoltaics";
 import {
   Preview,
   PhotovoltaicFormulas,
-  PhotovoltaicMutations,
-} from "~/components/photovoltaics/lazyLoading";
-
-import { type PhotovoltaicDataToCalculation } from "~/server/api/routers/photovoltaic/interfaces";
-import React from "react";
+} from "~/components/calculators/photovoltaics/lazyLoading";
+import { SideBar, Navbar } from "~/components/LazyLoading";
+import { useSession } from "next-auth/react";
+import React, { useEffect } from "react";
+import { useRouter } from "next/router";
+import { Overlay } from "@mantine/core";
+import { Loading } from "~/components";
+import { api } from "~/utils/api";
 
 const Fotowoltaika = () => {
   const { data: sessionData } = useSession();
@@ -32,26 +28,25 @@ const Fotowoltaika = () => {
     }
   }, [sessionData, router]);
 
+  PhotovoltaicMutations({ data: data, sessionData: sessionData });
+
   return (
-    <StrictMode>
-      <main className="flex h-full max-h-screen overflow-hidden bg-backgroundGray font-orkney laptop:justify-center">
-        {!data && (
-          <>
-            <Overlay color="#000" opacity={0.85} />
-            <Loading />
-          </>
-        )}
-        <SideBar />
-        <div className="w-full">
-          <Navbar />
-          <div className="flex h-full max-h-[90vw] flex-wrap overflow-scroll p-4 laptop:overflow-hidden">
-            <PhotovoltaicMutations data={data} sessionData={sessionData} />
-            <PhotovoltaicFormulas data={data} />
-            <Preview />
-          </div>
+    <main className="flex h-full max-h-screen overflow-hidden bg-backgroundGray font-orkney laptop:justify-center">
+      {!data && (
+        <>
+          <Overlay color="#000" opacity={0.85} />
+          <Loading />
+        </>
+      )}
+      <SideBar />
+      <div className="w-full">
+        <Navbar />
+        <div className="flex h-full max-h-[90vw] flex-wrap overflow-scroll p-4 laptop:overflow-hidden">
+          <PhotovoltaicFormulas data={data} />
+          <Preview />
         </div>
-      </main>
-    </StrictMode>
+      </div>
+    </main>
   );
 };
 

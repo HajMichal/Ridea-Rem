@@ -1,11 +1,11 @@
-import React, { useEffect } from "react";
-import { api } from "~/utils/api";
-import { SideBar, Navbar } from "~/components/LazyLoading";
+import { useEffect } from "react";
 import { Loader, Tabs } from "@mantine/core";
-import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
 import { Toaster } from "react-hot-toast";
-import { EditionForm } from "~/components/photovoltaics";
+import { useRouter } from "next/router";
+import { SideBar, Navbar } from "~/components/LazyLoading";
+import { EditionForm } from "~/components/calculators/photovoltaics";
+import { api } from "~/utils/api";
 
 const DaneFotowoltaiki = () => {
   const { data: sessionData } = useSession();
@@ -27,11 +27,7 @@ const DaneFotowoltaiki = () => {
       <div className="flex max-h-screen w-full flex-wrap ">
         <Navbar />
         <div className="max-h-[88%] w-full overflow-y-scroll">
-          <Tabs
-            color="gray"
-            // orientation="vertical"
-            defaultValue="Adrian Szymborski"
-          >
+          <Tabs color="gray" defaultValue="Adrian Szymborski">
             <Tabs.List className="fixed z-50 w-full bg-backgroundGray">
               {entireJsonData?.kalkulator.map((eachUserRate, index) => {
                 const dynamicKey = Object.keys(eachUserRate)[0];

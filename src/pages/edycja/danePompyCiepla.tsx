@@ -1,12 +1,10 @@
+import { useEffect } from "react";
 import { Loader, Tabs } from "@mantine/core";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/router";
-import React, { useEffect } from "react";
 import { Toaster } from "react-hot-toast";
-
+import { useRouter } from "next/router";
 import { SideBar, Navbar } from "~/components/LazyLoading";
-import { EditionForm } from "~/components/heatPumps";
-
+import { EditionForm } from "~/components/calculators/heatPumps";
 import { api } from "~/utils/api";
 
 const DanePompyCiepla = () => {

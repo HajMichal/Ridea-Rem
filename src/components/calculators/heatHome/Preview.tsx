@@ -1,7 +1,6 @@
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import React from "react";
-import { TextComponent } from "../TextComponent";
-import { PdfGeneratorButton } from "../PdfGeneratorButton";
+import { TextComponent, PdfGeneratorButton } from "../../";
 import { useHeatHome } from "~/hooks/useHeatHome";
 
 export default function Preview() {

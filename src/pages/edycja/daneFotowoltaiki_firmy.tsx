@@ -1,11 +1,11 @@
-import React, { useEffect } from "react";
-import { api } from "~/utils/api";
-import { SideBar, Navbar } from "~/components/LazyLoading";
+import { useEffect } from "react";
 import { Loader, Tabs } from "@mantine/core";
-import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
 import { Toaster } from "react-hot-toast";
-import { EditionForm } from "~/components/forCompany";
+import { useRouter } from "next/router";
+import { SideBar, Navbar } from "~/components/LazyLoading";
+import { EditionForm } from "~/components/calculators/forCompany";
+import { api } from "~/utils/api";
 
 const DaneFotowoltaiki_firm = () => {
   const { data: sessionData } = useSession();

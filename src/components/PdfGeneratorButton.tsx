@@ -1,17 +1,18 @@
 import React, { useState } from "react";
-import { usePhotovoltaic } from "~/hooks/usePhotovoltaic";
-import MyDocument from "./photovoltaics/CreatePDF";
-import HeatPumpDocument from "./heatPumps/CreatePDF";
+import { useRouter } from "next/router";
 import { Badge } from "@mantine/core";
 import { saveAs } from "file-saver";
 import { pdf } from "@react-pdf/renderer";
+
 import { Loading } from "./Loading";
-import { useRouter } from "next/router";
-import { useHeatPump } from "~/hooks/useHeatPump";
-import { ForCompanyDocument } from "./forCompany";
+import { PhotovoltaicDocument } from "./calculators/photovoltaics";
+import { ForCompanyDocument } from "./calculators/forCompany";
+import { HeatPumpDocument } from "./calculators/heatPumps";
+import { HeatHomeDocument } from "./calculators/heatHome";
+import { usePhotovoltaic } from "~/hooks/usePhotovoltaic";
 import { useForCompany } from "~/hooks/useForCompany";
+import { useHeatPump } from "~/hooks/useHeatPump";
 import { useHeatHome } from "~/hooks/useHeatHome";
-import HeatHomeDocument from "./heatHome/CreatePDF";
 
 interface DataFromJson {
   energyStore_dotation?: number;
@@ -29,7 +30,7 @@ export const PdfGeneratorButton = ({ cop }: DataFromJson) => {
 
   const photovoltaicDoc = async () => {
     const blobPhotovoltaics = await pdf(
-      <MyDocument
+      <PhotovoltaicDocument
         photovoltaicCalcStore={photovoltaicCalcStore}
         photovoltaicStore={photovoltaicStore}
       />
