@@ -208,18 +208,7 @@ const HeatPumpFormulas = ({
               store.updateHeatPump("suggestedPump", String(e));
             }}
             value={heatPumpStore.suggestedPump}
-            data={[
-              "JGB2-PC10KW",
-              "JGB2-PC15KW",
-              "LAZAR-HTi20V8KW",
-              "LAZAR-HTi20V12KW",
-              "LAZAR-HTi20V16KW",
-              "ZEO-VCP-PRO10KW",
-              "ZEO-VCP-PRO15KW",
-              "ZEO-VCP-H4516KW",
-              "ZEO-SATELLITE16KW",
-              "POMPACIEPLA-czystepowietrze",
-            ]}
+            data={data ? Object.keys(data.pompy_ciepla) : []}
           />
           <SelectComponent
             title="PUNKT BIWALENTYN POMPY CIEPŁA"

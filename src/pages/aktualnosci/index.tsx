@@ -1,11 +1,12 @@
 import React, { useEffect, lazy } from "react";
-import { Navbar, SideBar } from "~/components/LazyLoading";
+import { SideBar } from "~/components/LazyLoading";
 import { ScrollArea } from "@mantine/core";
 import { Toaster } from "react-hot-toast";
 import { useSession } from "next-auth/react";
 import { api } from "~/utils/api";
 import { useRouter } from "next/router";
 import Content from "~/components/newsPageComponent/Content";
+import { Navbar } from "~/components";
 
 const CreateNewPost = lazy(
   () => import("~/components/newsPageComponent/CreateNewPost")

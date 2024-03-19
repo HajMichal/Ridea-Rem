@@ -3,9 +3,10 @@ import { Loader, Tabs } from "@mantine/core";
 import { useSession } from "next-auth/react";
 import { Toaster } from "react-hot-toast";
 import { useRouter } from "next/router";
-import { SideBar, Navbar } from "~/components/LazyLoading";
+import { SideBar } from "~/components/LazyLoading";
 import { EditionForm } from "~/components/calculators/forCompany";
 import { api } from "~/utils/api";
+import { Navbar } from "~/components";
 
 const DaneFotowoltaiki_firm = () => {
   const { data: sessionData } = useSession();

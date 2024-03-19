@@ -28,7 +28,7 @@ export const FileUploader = () => {
   void ctx.getAllDocumentRouter.getAllFiles.invalidate();
 
   return (
-    <div className="fixed z-[99999] my-5 -ml-14 flex w-full flex-col items-center">
+    <div className="fixed z-[10] my-5 -ml-14 flex w-full flex-col items-center">
       {/* TOP BAR OPEN/CLOSE */}
       <div
         onClick={() => setIsExpanded(!isExpanded)}

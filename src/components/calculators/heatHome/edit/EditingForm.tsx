@@ -35,17 +35,6 @@ export const EditionForm = ({ data }: EditionFormType) => {
   const dynamicName = Object.keys(data!)[0];
   const dynamicPropValues = data![dynamicName!];
   const { register, handleSubmit } = useForm<HeatHomeDataCalculationType>();
-  dynamicPropValues && {
-    grubosciOcieplenia: {
-      cm_15: dynamicPropValues.grubosciOcieplenia.cm_15,
-      cm_20: dynamicPropValues.grubosciOcieplenia.cm_20,
-      cm_25: dynamicPropValues.grubosciOcieplenia.cm_25,
-    },
-    m2_ocieplenia: dynamicPropValues.m2_ocieplenia,
-    parapety: dynamicPropValues.parapety,
-    tynk: dynamicPropValues.tynk,
-    wykonczenie: dynamicPropValues.wykonczenie,
-  };
 
   const onSubmit: SubmitHandler<HeatHomeDataCalculationType> = (data) => {
     mutate({ [dynamicName!]: data });

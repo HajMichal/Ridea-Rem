@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 interface LinkComponentType {
   href: string;
@@ -14,8 +15,12 @@ export const LinkComponent = ({
   userRole = 3, // default role
   neededRole = 3, // default role
 }: LinkComponentType) => {
+  const router = useRouter();
   return (
-    <div className={`group -mb-1 ${userRole !== neededRole && "hidden"}`}>
+    <div
+      onClick={() => void router.push(href)}
+      className={`group -mb-1 ${userRole !== neededRole && "hidden"}`}
+    >
       {notification && (
         <span className="absolute flex h-3 w-3">
           <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-sky-400 opacity-75"></span>

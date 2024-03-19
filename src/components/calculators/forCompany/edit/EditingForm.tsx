@@ -25,58 +25,7 @@ export const EditionForm = ({ data }: EditionForm) => {
   const dynamicKey = Object.keys(data!)[0];
   const dynamicPropValues = data![dynamicKey!];
   const { register, handleSubmit } = useForm<ForCompanyDataToCalcualtionType>();
-  dynamicPropValues && {
-    defaultValues: {
-      cena_skupu_pradu: dynamicPropValues.cena_skupu_pradu,
-      dane: {
-        czterysta: {
-          dwa: dynamicPropValues.dane.czterysta.dwa,
-          cztery: dynamicPropValues.dane.czterysta.cztery,
-          szesc: dynamicPropValues.dane.czterysta.szesc,
-          osiem: dynamicPropValues.dane.czterysta.osiem,
-          dwanascie: dynamicPropValues.dane.czterysta.dwanascie,
-          dwadziescia: dynamicPropValues.dane.czterysta.dwadziescia,
-          trzydziesci: dynamicPropValues.dane.czterysta.trzydziesci,
-          piecdziesiat: dynamicPropValues.dane.czterysta.piecdziesiat,
-          overpiecdziesiat: dynamicPropValues.dane.czterysta.overpiecdziesiat,
-        },
-        czterysta_piecdziesiat: {
-          dwa: dynamicPropValues.dane.czterysta_piecdziesiat.dwa,
-          cztery: dynamicPropValues.dane.czterysta_piecdziesiat.cztery,
-          szesc: dynamicPropValues.dane.czterysta_piecdziesiat.szesc,
-          osiem: dynamicPropValues.dane.czterysta_piecdziesiat.osiem,
-          dwanascie: dynamicPropValues.dane.czterysta_piecdziesiat.dwanascie,
-          dwadziescia:
-            dynamicPropValues.dane.czterysta_piecdziesiat.dwadziescia,
-          trzydziesci:
-            dynamicPropValues.dane.czterysta_piecdziesiat.trzydziesci,
-          piecdziesiat:
-            dynamicPropValues.dane.czterysta_piecdziesiat.piecdziesiat,
-          overpiecdziesiat:
-            dynamicPropValues.dane.czterysta_piecdziesiat.overpiecdziesiat,
-        },
-        piecset: {
-          dwa: dynamicPropValues.dane.piecset.dwa,
-          cztery: dynamicPropValues.dane.piecset.cztery,
-          szesc: dynamicPropValues.dane.piecset.szesc,
-          osiem: dynamicPropValues.dane.piecset.osiem,
-          dwanascie: dynamicPropValues.dane.piecset.dwanascie,
-          dwadziescia: dynamicPropValues.dane.piecset.dwadziescia,
-          trzydziesci: dynamicPropValues.dane.piecset.trzydziesci,
-          piecdziesiat: dynamicPropValues.dane.piecset.piecdziesiat,
-          overpiecdziesiat: dynamicPropValues.dane.piecset.overpiecdziesiat,
-        },
-      },
-      koszty_dodatkowe: {
-        bloczki: dynamicPropValues.koszty_dodatkowe.bloczki,
-        ekierki: dynamicPropValues.koszty_dodatkowe.ekierki,
-        grunt: dynamicPropValues.koszty_dodatkowe.grunt,
-        tigo: dynamicPropValues.koszty_dodatkowe.tigo,
-      },
-      oprocentowanie_kredytu: dynamicPropValues.oprocentowanie_kredytu,
-      prowizjaBiura: dynamicPropValues.prowizjaBiura,
-    },
-  };
+
   const onSubmit: SubmitHandler<ForCompanyDataToCalcualtionType> = (data) => {
     mutate({ [dynamicKey!]: data });
     close();

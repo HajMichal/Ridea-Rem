@@ -2,6 +2,7 @@ import React from "react";
 import { Menu } from "@mantine/core";
 import Link from "next/link";
 import { type IconType } from "react-icons";
+import { useRouter } from "next/router";
 
 interface MenuType {
   mainButtonTitle: string | React.ReactElement<IconType>;
@@ -20,6 +21,11 @@ export const DropdownMenu = ({
   jsxData,
   hide = false,
 }: MenuType) => {
+  const router = useRouter();
+  const handleClickItem = async (href: string) => {
+    await router.push(href);
+  };
+
   return (
     <Menu trigger="hover" openDelay={100} closeDelay={100}>
       <Menu.Target>
@@ -38,9 +44,10 @@ export const DropdownMenu = ({
         {contextData?.map(({ href, title, color }, index) => (
           <Menu.Item
             key={index}
+            onClick={() => handleClickItem(href)}
             className={`flex flex-row px-8 py-3 font-orkneyLight tracking-widest duration-150 ${color}`}
           >
-            <Link href={href}>{title}</Link>
+            <div className="h-full w-full">{title}</div>
           </Menu.Item>
         ))}
         {jsxData?.map((element, index) => (

@@ -6,7 +6,6 @@ import {
 import { z } from "zod";
 import { bucket, s3, setFileToBucket } from "~/utils/aws";
 import {
-  HeatPumpDataToCalculationType,
   type EachMenagerHeatPump,
   type HeatPumpCalculatorType,
 } from "./interfaces";
@@ -167,5 +166,32 @@ export const heatPumpDataFlowRouter = createTRPCRouter({
             "Menager z bazowymi danymi został stworzony. Aby zmienić jego dane, przejdź do zakładki prowizje 📝",
         };
       }
+    }),
+  addNewHeatPump: adminProcedure
+    .input(
+      z.object({
+        name: z.string(),
+        price: z.number(),
+        fee: z.number(),
+      })
+    )
+    .mutation(async ({ input }) => {
+      const convertedFile = await getParsedJsonObject();
+
+      convertedFile.kalkulator.forEach((calculator) => {
+        const menager = Object.keys(calculator)[0];
+        const newPump = {
+          [input.name]: { cena: input.price, mnozik_prowizji: input.fee },
+        };
+        calculator[menager as keyof typeof convertedFile]!.pompy_ciepla = {
+          ...calculator[menager as keyof typeof convertedFile]?.pompy_ciepla,
+          ...newPump,
+        };
+      });
+      setFileToBucket(JSON.stringify(convertedFile), "heatpump.json");
+      return {
+        status: 200,
+        message: "Pompa ciepła została dodana do każdego menagera 📝",
+      };
     }),
 });
