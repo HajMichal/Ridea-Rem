@@ -101,26 +101,21 @@ export const heatHomeDataFlowRouter = createTRPCRouter({
     .mutation(async ({ input }) => {
       const convertedFile = await getParsedJsonObject();
 
-      const newMenagerData = {
-        [input]: {
-          grubosciOcieplenia: {
-            cm_15: 10,
-            cm_20: 20,
-            cm_25: 30,
-          },
-          m2_ocieplenia: 0,
-          parapety: 0,
-          tynk: 0,
-          wykonczenie: 0,
-        },
-      };
+      if (convertedFile.kalkulator[0]) {
+        const mainCalculationData =
+          convertedFile.kalkulator[0]["Adrian Szymborski"]!;
 
-      convertedFile.kalkulator.push(newMenagerData);
-      setFileToBucket(JSON.stringify(convertedFile), "heatHome.json");
-      return {
-        status: 200,
-        message:
-          "Menager z bazowymi danymi został stworzony. Aby zmienić jego dane, przejdź do zakładki prowizje 📝",
-      };
+        const newMenagerData = {
+          [input]: mainCalculationData,
+        };
+
+        convertedFile.kalkulator.push(newMenagerData);
+        setFileToBucket(JSON.stringify(convertedFile), "heatHome.json");
+        return {
+          status: 200,
+          message:
+            "Menager z bazowymi danymi został stworzony. Aby zmienić jego dane, przejdź do zakładki prowizje 📝",
+        };
+      }
     }),
 });

@@ -20,7 +20,7 @@ const Account = () => {
   const { mutate: addMenagerPhotovoltaicData } =
     api.dataFlow.addNewMenager.useMutation({
       onSuccess(data) {
-        toast.success(data.message, { duration: 7000 });
+        toast.success(data!.message, { duration: 7000 });
       },
     });
   const { mutate: addMenagerHeatPumpData } =

@@ -134,60 +134,20 @@ export const forCompanyDataFlowRouter = createTRPCRouter({
     .mutation(async ({ input }) => {
       const convertedFile = await getParsedJsonObject();
 
-      const newMenagerData = {
-        [input]: {
-          dane: {
-            czterysta: {
-              dwa: 4920,
-              cztery: 4700,
-              szesc: 4250,
-              osiem: 3900,
-              dwanascie: 3800,
-              dwadziescia: 3600,
-              trzydziesci: 3400,
-              piecdziesiat: 3300,
-              overpiecdziesiat: 3200,
-            },
-            czterysta_piecdziesiat: {
-              dwa: 4921,
-              cztery: 4701,
-              szesc: 4250,
-              osiem: 3900,
-              dwanascie: 3800,
-              dwadziescia: 3600,
-              trzydziesci: 3400,
-              piecdziesiat: 3300,
-              overpiecdziesiat: 3200,
-            },
-            piecset: {
-              dwa: 4922,
-              cztery: 4702,
-              szesc: 4250,
-              osiem: 3900,
-              dwanascie: 3800,
-              dwadziescia: 3600,
-              trzydziesci: 3400,
-              piecdziesiat: 3300,
-              overpiecdziesiat: 3200,
-            },
-          },
-          koszty_dodatkowe: {
-            bloczki: 850,
-            tigo: 230,
-            ekierki: 330,
-            grunt: 850,
-          },
-          cena_skupu_pradu: 0.72,
-          prowizjaBiura: 550,
-          oprocentowanie_kredytu: 8.3,
-        },
-      };
-      convertedFile.kalkulator.push(newMenagerData);
-      setFileToBucket(JSON.stringify(convertedFile), "forCompany.json");
-      return {
-        status: 200,
-        message:
-          "Menager z bazowymi danymi został stworzony. Aby zmienić jego dane, przejdź do zakładki prowizje 📝",
-      };
+      if (convertedFile.kalkulator[0]) {
+        const mainCalculationData =
+          convertedFile.kalkulator[0]["Adrian Szymborski"]!;
+
+        const newMenagerData = {
+          [input]: mainCalculationData,
+        };
+        convertedFile.kalkulator.push(newMenagerData);
+        setFileToBucket(JSON.stringify(convertedFile), "forCompany.json");
+        return {
+          status: 200,
+          message:
+            "Menager z bazowymi danymi został stworzony. Aby zmienić jego dane, przejdź do zakładki prowizje 📝",
+        };
+      }
     }),
 });

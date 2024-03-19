@@ -1,7 +1,12 @@
-import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
+import {
+  adminProcedure,
+  createTRPCRouter,
+  publicProcedure,
+} from "~/server/api/trpc";
 import { z } from "zod";
 import { bucket, s3, setFileToBucket } from "~/utils/aws";
 import {
+  HeatPumpDataToCalculationType,
   type EachMenagerHeatPump,
   type HeatPumpCalculatorType,
 } from "./interfaces";
@@ -110,7 +115,7 @@ export const heatPumpDataFlowRouter = createTRPCRouter({
   downloadEntireJsonFile: publicProcedure.query(async () => {
     return await getParsedJsonObject();
   }),
-  editJSONFile: publicProcedure.input(schema).mutation(async ({ input }) => {
+  editJSONFile: adminProcedure.input(schema).mutation(async ({ input }) => {
     const convertedFile: HeatPumpCalculatorType = await getParsedJsonObject();
     const dynamicKey = Object.keys(input)[0];
 
@@ -142,90 +147,25 @@ export const heatPumpDataFlowRouter = createTRPCRouter({
       setFileToBucket(updatedJSONFile, "heatpump.json");
       return input;
     }),
-  addNewMenager: publicProcedure
+  addNewMenager: adminProcedure
     .input(z.string())
     .mutation(async ({ input }) => {
       const convertedFile = await getParsedJsonObject();
+      if (convertedFile.kalkulator[0]) {
+        const mainCalculationData =
+          convertedFile.kalkulator[0]["Adrian Szymborski"]!;
 
-      const newMenagerData = {
-        [input]: {
-          bufory: {
-            bufory100l: {
-              przylaczeSchemat17: 13114,
-              przylaczeSchemat24: 14500,
-              przylaczeSchemat34: 18010,
-            },
-            bufory300l: {
-              przylaczeSchemat17: 14414,
-              przylaczeSchemat24: 15900,
-              przylaczeSchemat34: 19410,
-            },
-            bufory500l: {
-              przylaczeSchemat17: 16320,
-              przylaczeSchemat24: 17800,
-              przylaczeSchemat34: 22548,
-            },
-          },
-          pompy_ciepla: {
-            "JGB2-PC10KW": {
-              cena: 10000,
-              mnozik_prowizji: 12,
-            },
-            "JGB2-PC15KW": {
-              cena: 10000,
-              mnozik_prowizji: 15,
-            },
-            "LAZAR-HTi20V8KW": { cena: 10000, mnozik_prowizji: 12 },
-            "LAZAR-HTi20V12KW": { cena: 10000, mnozik_prowizji: 15 },
+        const newMenagerData = {
+          [input]: mainCalculationData,
+        };
 
-            "LAZAR-HTi20V16KW": { cena: 10000, mnozik_prowizji: 18 },
-            "ZEO-VCP-PRO10KW": { cena: 10000, mnozik_prowizji: 22 },
-            "ZEO-VCP-PRO15KW": { cena: 10000, mnozik_prowizji: 25 },
-            "ZEO-VCP-H4516KW": { cena: 10000, mnozik_prowizji: 28 },
-
-            "ZEO-SATELLITE16KW": { cena: 10000, mnozik_prowizji: 22 },
-            "POMPACIEPLA-czystepowietrze": { cena: 10000, mnozik_prowizji: 27 },
-          },
-          dodatki: {
-            kolejna_kaskada: 3500,
-            posadowienie_rozsaczanie: 2500,
-            przewierty: 300,
-            poprowadzenie_instalacji_wierzchu: 30,
-            rura_preizolowana: 2000,
-            dodatkowe_rury_preizolowane: 350,
-            cyrkulacja_cwu: 2000,
-            demontaz_kotla: 1600,
-            posprzatanie: 1000,
-            przeniesienie_zasobnika: 1200,
-            wykonanie_przylacza: 600,
-            spiecie_bufora: 5200,
-            zamkniecie_ukladu_otwartego: 1200,
-          },
-          dotacje: {
-            modernizacja_CO_CWU: {
-              prog1: 8100,
-              prog2: 14300,
-              prog3: 20400,
-              mojPrad: 0,
-            },
-            pc: {
-              prog1: 19400,
-              prog2: 28100,
-              prog3: 35200,
-              mojPrad: 0,
-            },
-          },
-          oprocentowanie_kredytu: 8.3,
-          cena1kWh: 1.5,
-          cop: 3.4,
-        },
-      };
-      convertedFile.kalkulator.push(newMenagerData);
-      setFileToBucket(JSON.stringify(convertedFile), "heatpump.json");
-      return {
-        status: 200,
-        message:
-          "Menager z bazowymi danymi został stworzony. Aby zmienić jego dane, przejdź do zakładki prowizje 📝",
-      };
+        convertedFile.kalkulator.push(newMenagerData);
+        setFileToBucket(JSON.stringify(convertedFile), "heatpump.json");
+        return {
+          status: 200,
+          message:
+            "Menager z bazowymi danymi został stworzony. Aby zmienić jego dane, przejdź do zakładki prowizje 📝",
+        };
+      }
     }),
 });

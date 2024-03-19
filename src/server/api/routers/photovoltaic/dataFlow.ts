@@ -181,99 +181,21 @@ export const dataFlowRouter = createTRPCRouter({
     .mutation(async ({ input }) => {
       const convertedFile = await getParsedJsonObject();
 
-      const newMenagerData = {
-        [input]: {
-          dane: {
-            czterysta: {
-              dwa: 4920,
-              cztery: 4700,
-              szesc: 4250,
-              osiem: 3900,
-              dwanascie: 3800,
-              dwadziescia: 3600,
-              trzydziesci: 3400,
-              piecdziesiat: 3300,
-            },
-            czterysta_piecdziesiat: {
-              dwa: 4921,
-              cztery: 4700,
-              szesc: 4250,
-              osiem: 3900,
-              dwanascie: 3800,
-              dwadziescia: 3600,
-              trzydziesci: 3400,
-              piecdziesiat: 3300,
-            },
-            piecset: {
-              dwa: 4922,
-              cztery: 4700,
-              szesc: 4250,
-              osiem: 3900,
-              dwanascie: 3800,
-              dwadziescia: 3600,
-              trzydziesci: 3400,
-              piecdziesiat: 3300,
-            },
-          },
-          dotacje: {
-            magazynCiepla: 5000,
-            menagerEnergii: 3000,
-            mojPrad: 6000,
-            mp_mc: 7000,
-          },
-          koszty_dodatkowe: {
-            bloczki: 850,
-            tigo: 230,
-            ekierki: 330,
-            grunt: 850,
-            inwerterHybrydowy: 5450,
-            solarEdge: 335,
-          },
-          zbiorniki: {
-            zbiornik_100L: 4900,
-            zbiornik_140L: 5300,
-            zbiornik_140L_z_wezem: 5300,
-            zbiornik_200L: 5600,
-            zbiornik_200L_z_wezem: 6200,
-          },
-          magazyn_energii_solax: {
-            prog0: 15000,
-            prog1: 18463,
-            prog2: 29446,
-            prog3: 38496,
-            prog4: 47488,
-            prog5: 58509,
-            prog6: 65630,
-            prog7: 74551,
-            prog8: 84572,
-          },
-          magazyn_energii_hipontech: {
-            prog0: 17000,
-            prog1: 20000,
-            prog2: 23000,
-          },
-          carPort: {
-            stan1: 0,
-            stan2: 0,
-            stan4: 0,
-            stan6: 0,
-            stan8: 0,
-            stan10: 0,
-            stan12: 0,
-          },
-          magazynCiepla: 3900,
-          cena_skupu_pradu: 0.72,
-          ems: 1500,
-          prowizjaBiura: 550,
-          oprocentowanie_kredytu: 10.3,
-        },
-      };
-      convertedFile.kalkulator.push(newMenagerData);
-      setFileToBucket(JSON.stringify(convertedFile), "data.json");
-      return {
-        status: 200,
-        message:
-          "Menager z bazowymi danymi został stworzony. Aby zmienić jego dane, przejdź do zakładki prowizje 📝",
-      };
+      if (convertedFile.kalkulator[0]) {
+        const mainCalculationData =
+          convertedFile.kalkulator[0]["Adrian Szymborski"]!;
+
+        const newMenagerData = {
+          [input]: mainCalculationData,
+        };
+
+        convertedFile.kalkulator.push(newMenagerData);
+        setFileToBucket(JSON.stringify(convertedFile), "data.json");
+        return {
+          status: 200,
+          message:
+            "Menager z bazowymi danymi został stworzony. Aby zmienić jego dane, przejdź do zakładki prowizje 📝",
+        };
+      }
     }),
 });
