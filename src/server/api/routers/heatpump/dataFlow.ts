@@ -194,4 +194,19 @@ export const heatPumpDataFlowRouter = createTRPCRouter({
         message: "Pompa ciepła została dodana do każdego menagera 📝",
       };
     }),
+  removeHeatPump: adminProcedure
+    .input(z.string())
+    .mutation(async ({ input }) => {
+      const convertedFile = await getParsedJsonObject();
+
+      convertedFile.kalkulator.forEach((calculator) => {
+        const menager = Object.keys(calculator)[0];
+        delete calculator[menager!]!.pompy_ciepla[input];
+      });
+      setFileToBucket(JSON.stringify(convertedFile), "heatpump.json");
+      return {
+        status: 200,
+        message: "Pompa ciepła została usunięta📝",
+      };
+    }),
 });

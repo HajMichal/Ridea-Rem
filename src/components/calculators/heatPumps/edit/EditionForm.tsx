@@ -9,6 +9,8 @@ import {
 } from "~/server/api/routers/heatpump/interfaces";
 import { api } from "~/utils/api";
 import { AddNewHeatPump } from "./AddNewHeatPump";
+import { RemovePump } from "./RemovePump";
+import { ConfirmationModal } from "~/components/ConfirmationModal";
 
 /* eslint @typescript-eslint/consistent-indexed-object-style: ["error", "index-signature"] */
 interface EditionFormType {
@@ -49,17 +51,20 @@ export const EditionForm = ({ data }: EditionFormType) => {
         {dynamicPropValues &&
           Object.entries(dynamicPropValues.pompy_ciepla).map((key, index) => {
             return (
-              <div className="my-7" key={index}>
-                <ChangeDataInputComponent
-                  {...register(
-                    `pompy_ciepla.${key[0]}.cena` as keyof typeof dynamicPropValues,
-                    {
-                      valueAsNumber: true,
-                    }
-                  )}
-                  title={key[0]}
-                  defaultValue={key[1].cena}
-                />
+              <div className="my-7 flex flex-col items-center" key={index}>
+                <div className="flex items-end">
+                  <RemovePump pumpName={key[0]} />
+                  <ChangeDataInputComponent
+                    {...register(
+                      `pompy_ciepla.${key[0]}.cena` as keyof typeof dynamicPropValues,
+                      {
+                        valueAsNumber: true,
+                      }
+                    )}
+                    title={key[0]}
+                    defaultValue={key[1].cena}
+                  />
+                </div>
                 <ChangeDataInputComponent
                   {...register(
                     `pompy_ciepla.${key[0]}.mnozik_prowizji` as keyof typeof dynamicPropValues,
@@ -252,32 +257,14 @@ export const EditionForm = ({ data }: EditionFormType) => {
       >
         Zatwierdź
       </button>
-      <Modal
-        opened={opened}
-        onClose={close}
+      <ConfirmationModal
         title="CZY NA PEWNO CHCESZ ZAPISAĆ ZMIENIONE WARTOŚCI ?"
-        className="text-center font-orkneyBold"
-        centered
-      >
-        <p className="font-orkney">
-          Będzie to skutkowało zmianami w bazie danych, przez co ceny nowych
-          wyliczeń za instalację ulegną zmianie.
-        </p>
-        <div className="flex w-full justify-between p-4">
-          <button
-            onClick={close}
-            className="rounded-2xl bg-red p-2 px-4 font-orkneyBold duration-100 hover:scale-110"
-          >
-            ANULUJ
-          </button>
-          <button
-            onClick={handleSubmit(onSubmit)}
-            className="rounded-2xl bg-green-500 p-2 px-4 font-orkneyBold duration-100 hover:scale-110"
-          >
-            TAK
-          </button>
-        </div>
-      </Modal>
+        close={close}
+        opened={opened}
+        handleFunction={handleSubmit(onSubmit)}
+        description=" Będzie to skutkowało zmianami w bazie danych, przez co ceny nowych
+        wyliczeń za instalację ulegną zmianie."
+      />
     </>
   );
 };

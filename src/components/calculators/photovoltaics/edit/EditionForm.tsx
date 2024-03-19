@@ -2,6 +2,7 @@ import { Modal } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import toast from "react-hot-toast";
+import { ConfirmationModal } from "~/components/ConfirmationModal";
 import { ChangeDataInputComponent } from "~/components/changeDataInputComponent";
 import { type PhotovoltaicDataToCalculation } from "~/server/api/routers/photovoltaic/interfaces";
 import { api } from "~/utils/api";
@@ -361,32 +362,14 @@ export const EditionForm = ({ data }: EditionForm) => {
       >
         Zatwierdź
       </button>
-      <Modal
-        opened={opened}
-        onClose={close}
+      <ConfirmationModal
         title="CZY NA PEWNO CHCESZ ZAPISAĆ ZMIENIONE WARTOŚCI ?"
-        className="text-center font-orkneyBold"
-        centered
-      >
-        <p className="font-orkney">
-          Będzie to skutkowało zmianami w bazie danych, przez co ceny nowych
-          wyliczeń za instalację ulegną zmianie.
-        </p>
-        <div className="flex w-full justify-between p-4">
-          <button
-            onClick={close}
-            className="rounded-2xl bg-red p-2 px-4 font-orkneyBold duration-100 hover:scale-110"
-          >
-            ANULUJ
-          </button>
-          <button
-            onClick={handleSubmit(onSubmit)}
-            className="rounded-2xl bg-green-500 p-2 px-4 font-orkneyBold duration-100 hover:scale-110"
-          >
-            TAK
-          </button>
-        </div>
-      </Modal>
+        close={close}
+        opened={opened}
+        handleFunction={handleSubmit(onSubmit)}
+        description=" Będzie to skutkowało zmianami w bazie danych, przez co ceny nowych
+        wyliczeń za instalację ulegną zmianie."
+      />
     </>
   );
 };

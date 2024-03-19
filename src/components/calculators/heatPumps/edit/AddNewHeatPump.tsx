@@ -13,10 +13,12 @@ interface AddPumpType {
 export const AddNewHeatPump = (): JSX.Element => {
   const [opened, { open, close }] = useDisclosure(false);
   const { register, handleSubmit, reset } = useForm<AddPumpType>();
+  const ctx = api.useContext();
 
   const { mutate } = api.heatPumpDataFlowRouter.addNewHeatPump.useMutation({
-    onSuccess: () => {
+    onSuccess: async () => {
       toast.success("Pompa została pomyślnie dodana");
+      await ctx.heatPumpDataFlowRouter.downloadEntireJsonFile.invalidate();
     },
     onError: () => {
       toast.error(
