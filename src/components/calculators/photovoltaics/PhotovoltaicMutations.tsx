@@ -374,16 +374,15 @@ export default function PhotovoltaicMutations({
       energyMenagerDotation: photovoltaicCalcStore.energyMenagerDotationValue,
       photovoltaics_dotation: photovoltaicCalcStore.photovoltaicDotationValue,
       heatStore_dotation: 0,
-      energyStoreDotation: photovoltaicStore.energyStoreDotation
-        ? photovoltaicCalcStore.energyStoreDotationValue
-        : 0,
+      energyStoreDotation: photovoltaicCalcStore.energyStoreDotationValue,
     });
   }, [
     photovoltaicCalcStore.photovoltaicDotationValue,
     photovoltaicStore.energyStoreDotation,
     photovoltaicCalcStore.energyStoreDotationValue,
     photovoltaicCalcStore.energyMenagerDotationValue,
-    mutations.set_dotations_sum,
+    photovoltaicStore.isDotation,
+    // mutations.set_dotations_sum,
   ]);
 
   useEffect(() => {
@@ -394,11 +393,14 @@ export default function PhotovoltaicMutations({
       mutations.set_amount_after_dotation({
         gross_instalation_cost:
           photovoltaicCalcStore.totalInstallationCosts?.total_gross_cost,
-        summed_dotations: photovoltaicCalcStore.dotations_sum,
+        summed_dotations: photovoltaicStore.isDotation
+          ? photovoltaicCalcStore.dotations_sum
+          : 0,
       });
   }, [
     photovoltaicCalcStore.dotations_sum,
     photovoltaicCalcStore.totalInstallationCosts?.total_gross_cost,
+    photovoltaicStore.isDotation,
     mutations.set_amount_after_dotation,
   ]);
   useEffect(() => {
@@ -418,12 +420,14 @@ export default function PhotovoltaicMutations({
       mutations.set_photovoltaicDotationValue({
         heatStoreDotation: photovoltaicStore.heatStoreDotation,
         energyStoreDotation: photovoltaicStore.energyStoreDotation,
+        isDotation: photovoltaicStore.isDotation,
         mojPrad: data.dotacje.mojPrad,
         mp_mc: data.dotacje.mp_mc,
       });
   }, [
     photovoltaicStore.heatStoreDotation,
     photovoltaicStore.energyStoreDotation,
+    photovoltaicStore.isDotation,
     data?.dotacje.mojPrad,
     data?.dotacje.mp_mc,
   ]);
@@ -431,6 +435,7 @@ export default function PhotovoltaicMutations({
     if (data)
       mutations.set_energyMenagerDotationValue({
         emsDotation: photovoltaicStore.emsDotation,
+        isDotation: photovoltaicStore.isDotation,
         energyMenager: data.dotacje.menagerEnergii,
         energyStoreDotation: photovoltaicStore.energyStoreDotation,
         heatStoreDotation: photovoltaicStore.heatStoreDotation,
@@ -440,6 +445,7 @@ export default function PhotovoltaicMutations({
     data?.dotacje.menagerEnergii,
     photovoltaicStore.energyStoreDotation,
     photovoltaicStore.heatStoreDotation,
+    photovoltaicStore.isDotation,
   ]);
   useEffect(() => {
     if (data)
@@ -458,10 +464,7 @@ export default function PhotovoltaicMutations({
       mutations.set_finall_installation_cost({
         amount_after_dotation: photovoltaicCalcStore.amount_after_dotation,
       });
-  }, [
-    photovoltaicCalcStore.amount_after_dotation,
-    mutations.set_finall_installation_cost,
-  ]);
+  }, [photovoltaicCalcStore.amount_after_dotation]);
   useEffect(() => {
     if (
       photovoltaicStore.recentYearTrendUsage &&
@@ -520,17 +523,24 @@ export default function PhotovoltaicMutations({
       mutations.set_energyStoreDotationValue({
         gross_instalation_cost:
           photovoltaicCalcStore.totalInstallationCosts.total_gross_cost,
+        isDotation: photovoltaicStore.isDotation,
+        energyStoreDotation: photovoltaicStore.energyStoreDotation,
       });
     }
-  }, [photovoltaicCalcStore.totalInstallationCosts.total_gross_cost]);
+  }, [
+    photovoltaicCalcStore.totalInstallationCosts.total_gross_cost,
+    photovoltaicStore.isDotation,
+  ]);
   useEffect(() => {
     mutations.set_termo_modernization({
       amount_after_dotation: photovoltaicCalcStore.amount_after_dotation,
       tax_credit: photovoltaicStore.taxCredit,
+      isDotation: photovoltaicStore.isDotation,
     });
   }, [
     photovoltaicStore.taxCredit,
     photovoltaicCalcStore.amount_after_dotation,
+    photovoltaicStore.isDotation,
   ]);
   useEffect(() => {
     if (data)

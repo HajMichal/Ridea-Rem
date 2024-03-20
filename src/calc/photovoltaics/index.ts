@@ -522,6 +522,7 @@ export function paymentReturnTime({ input }: { input: PaymentReturnTimeType }) {
 interface PhotovoltaicDotationType {
   heatStoreDotation: boolean;
   energyStoreDotation: boolean;
+  isDotation: boolean;
   mp_mc: number;
   mojPrad: number;
 }
@@ -530,6 +531,7 @@ export function photovoltaicDotation({
 }: {
   input: PhotovoltaicDotationType;
 }) {
+  if (!input.isDotation) return 0;
   if (input.heatStoreDotation || input.energyStoreDotation) {
     return input.mp_mc;
   } else return input.mojPrad;
@@ -539,6 +541,7 @@ interface EnergyMenagerDotationType {
   emsDotation: boolean;
   heatStoreDotation: boolean;
   energyStoreDotation: boolean;
+  isDotation: boolean;
   energyMenager: number;
 }
 
@@ -547,6 +550,7 @@ export function energyMenagerDotation({
 }: {
   input: EnergyMenagerDotationType;
 }) {
+  if (!input.isDotation) return 0;
   if (
     (input.emsDotation && input.heatStoreDotation) ||
     (input.emsDotation && input.energyStoreDotation)
@@ -557,6 +561,8 @@ export function energyMenagerDotation({
 
 interface EnergyStoreDotationValueType {
   gross_instalation_cost: number;
+  isDotation: boolean;
+  energyStoreDotation: boolean;
 }
 export function energyStoreDotationValue({
   input,
@@ -566,7 +572,7 @@ export function energyStoreDotationValue({
   const value =
     input.gross_instalation_cost - staticData.VALUE_TO_HEATSTORE_DOTATION;
 
-  if (value < 0) {
+  if (value < 0 || !input.isDotation || !input.energyStoreDotation) {
     return 0;
   }
   if (value >= 32000) {
@@ -583,12 +589,14 @@ export function energyStoreDotationValue({
 interface TermoModernizationType {
   amount_after_dotation: number;
   tax_credit: number;
+  isDotation: boolean;
 }
 export function termoModernization({
   input,
 }: {
   input: TermoModernizationType;
 }) {
+  if (!input.isDotation) return 0;
   return Number((input.amount_after_dotation * input.tax_credit).toFixed(2));
 }
 

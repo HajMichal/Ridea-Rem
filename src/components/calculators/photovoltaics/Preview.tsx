@@ -8,7 +8,6 @@ export default function Preview() {
   const { photovoltaicCalcStore, photovoltaicStore, loading } =
     usePhotovoltaic();
   const [parent] = useAutoAnimate();
-
   return (
     <div
       id="CALCULATIONS"

@@ -301,6 +301,14 @@ const PhotovoltaicFormulas = ({
             ]}
           />
           <SelectComponent
+            title="UWZGLĘDNIENIE DOTACJI"
+            onChange={(e) =>
+              store.updatePhotovoltaic("isDotation", e == "true")
+            }
+            value={photovoltaicStore.isDotation}
+            data={YESNO}
+          />
+          <SelectComponent
             title="UWZGLĘDNIJ PROMOCJĘ"
             onChange={(e) =>
               store.updatePhotovoltaic("isPromotion", e == "true")

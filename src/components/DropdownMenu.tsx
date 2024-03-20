@@ -1,6 +1,5 @@
 import React from "react";
 import { Menu } from "@mantine/core";
-import Link from "next/link";
 import { type IconType } from "react-icons";
 import { useRouter } from "next/router";
 
@@ -35,8 +34,6 @@ export const DropdownMenu = ({
               {mainButtonTitle}
             </button>
           </div>
-
-          {/* <span className="mt-1 block h-[2px] w-full max-w-0 bg-brand transition-all duration-500 group-hover:max-w-full"></span> */}
         </div>
       </Menu.Target>
 
