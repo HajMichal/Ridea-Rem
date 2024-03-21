@@ -1,4 +1,4 @@
-import { bucket, s3 } from "./config";
+import { bucket, s3 } from "../config";
 
 export const removeFileFromBucket = async (fileName: string): Promise<void> => {
   const params = {

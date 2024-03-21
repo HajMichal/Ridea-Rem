@@ -1,4 +1,4 @@
-import { removeFileFromBucket } from "~/utils/aws/removeFileFromBucket";
+import { removeFileFromBucket } from "~/utils/aws/";
 import { createTRPCRouter, adminProcedure } from "~/server/api/trpc";
 import { z } from "zod";
 

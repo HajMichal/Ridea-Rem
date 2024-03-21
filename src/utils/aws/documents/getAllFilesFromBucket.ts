@@ -1,4 +1,4 @@
-import { bucket, prefix, s3 } from "./config";
+import { bucket, prefix, s3 } from "../config";
 
 export const getAllFilesFromBucket = async (): Promise<string[]> => {
   const params = {

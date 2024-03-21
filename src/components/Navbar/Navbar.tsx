@@ -67,14 +67,28 @@ const Navbar = () => {
       key={3}
       href="/edycja/prowizje"
       title="PROWIZJE"
-      neededRole={1 || 2}
+      neededRole={1}
+      userRole={userRole}
+    />,
+    <LinkComponent
+      key={3}
+      href="/edycja/prowizje"
+      title="PROWIZJE"
+      neededRole={2}
       userRole={userRole}
     />,
     <LinkComponent
       key={4}
       href="/stworz/konto"
       title="KONTA"
-      neededRole={1 || 2}
+      neededRole={1}
+      userRole={userRole}
+    />,
+    <LinkComponent
+      key={4}
+      href="/stworz/konto"
+      title="KONTA"
+      neededRole={2}
       userRole={userRole}
     />,
   ];

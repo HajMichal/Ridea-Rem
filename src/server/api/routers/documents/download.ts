@@ -1,4 +1,4 @@
-import { downloadFileFromBucket } from "~/utils/aws/downloadFileFromBucket";
+import { downloadFileFromBucket } from "~/utils/aws/";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 import { z } from "zod";
 

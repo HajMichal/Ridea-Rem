@@ -1,4 +1,4 @@
-import { bucket, s3 } from "./config";
+import { bucket, s3 } from "../config";
 
 export const downloadFileFromBucket = (fileName: string): string => {
   const params = {

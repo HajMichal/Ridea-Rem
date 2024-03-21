@@ -1,5 +1,5 @@
 import { createTRPCRouter, adminProcedure } from "~/server/api/trpc";
-import { setFileToBucket } from "~/utils/aws/setFileToBucket";
+import { setFileToBucket } from "~/utils/aws/";
 import { z } from "zod";
 
 export const uploadDocumentRouter = createTRPCRouter({
