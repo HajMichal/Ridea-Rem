@@ -135,7 +135,7 @@ const HeatHomeDocument = ({ heatHomeCalcStore, heatHomeStore }: DataToPDF) => (
           src={`${process.env.NEXT_PUBLIC_BASE_URL}/static/heatHome/logo.png`}
         />
         <Text style={styles.title}>WYCENA</Text>
-        <View style={{ marginTop: 20, marginBottom: 56 }}>
+        <View style={{ marginTop: 20, marginBottom: 46 }}>
           <View style={styles.yellowRow}>
             <Text style={styles.rowTitle}>OCIEPLENIE DOMU</Text>
             <Text style={styles.rowData}>{heatHomeStore.areaToHeat} m2</Text>
@@ -209,7 +209,7 @@ const HeatHomeDocument = ({ heatHomeCalcStore, heatHomeStore }: DataToPDF) => (
             </Text>
           </View>
         </View>
-        <View style={{ marginTop: 70 }}>
+        <View style={{ marginTop: 50 }}>
           <View style={styles.defaultRow}>
             <Text style={styles.rowTitle}>DOTACJA</Text>
             <Text style={styles.rowCost}>
