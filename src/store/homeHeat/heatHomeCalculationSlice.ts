@@ -18,7 +18,9 @@ export interface HeatHomeCalculations {
     vat: number;
   };
   dotationValue: number;
-  finallCost: number;
+  amountAfterDotation: number;
+  termoModernization: number;
+  finallPrice: number;
 }
 
 export interface HeatHomeCalculationSliceType {
@@ -50,7 +52,9 @@ export const heatHomeCalculationSlice: StateCreator<
       vat: 0,
     },
     dotationValue: 0,
-    finallCost: 0,
+    amountAfterDotation: 0,
+    termoModernization: 0,
+    finallPrice: 0,
   },
   updateHeatHomeCalcs: (key, value) =>
     set((state) => ({

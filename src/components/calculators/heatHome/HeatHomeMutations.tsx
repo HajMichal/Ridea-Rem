@@ -98,11 +98,26 @@ const HeatHomeMutations = ({ sessionData }: HeatHomeMutationsType) => {
   }, [heatHomeStore.dotationStep, heatHomeCalcStore.totalCost]);
 
   useEffect(() => {
-    mutations.setFinallCost({
+    mutations.setAmountAfterDotation({
       dotationValue: heatHomeCalcStore.dotationValue,
       totalCost: heatHomeCalcStore.totalCost.gross,
     });
   }, [heatHomeCalcStore.totalCost, heatHomeCalcStore.dotationValue]);
+
+  useEffect(() => {
+    mutations.setTermoModernization({
+      amountAfterDotation: heatHomeCalcStore.amountAfterDotation,
+    });
+  }, [heatHomeCalcStore.amountAfterDotation]);
+  useEffect(() => {
+    mutations.setFinallPrice({
+      amountAfterDotation: heatHomeCalcStore.amountAfterDotation,
+      termoModernization: heatHomeCalcStore.termoModernization,
+    });
+  }, [
+    heatHomeCalcStore.amountAfterDotation,
+    heatHomeCalcStore.termoModernization,
+  ]);
 };
 
 export default HeatHomeMutations;

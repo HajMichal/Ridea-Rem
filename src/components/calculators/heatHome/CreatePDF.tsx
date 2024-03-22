@@ -216,10 +216,16 @@ const HeatHomeDocument = ({ heatHomeCalcStore, heatHomeStore }: DataToPDF) => (
               {heatHomeCalcStore.dotationValue} zł
             </Text>
           </View>
+          <View style={styles.defaultRow}>
+            <Text style={styles.rowTitle}>TERMOMODERNIZACJA</Text>
+            <Text style={styles.rowCost}>
+              {heatHomeCalcStore.termoModernization} zł
+            </Text>
+          </View>
           <View style={styles.yellowRow}>
             <Text style={styles.rowTitle}>KWOTA OSTATECZNA</Text>
             <Text style={styles.rowCost}>
-              {heatHomeCalcStore.finallCost} zł
+              {heatHomeCalcStore.finallPrice} zł
             </Text>
           </View>
         </View>

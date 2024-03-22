@@ -37,7 +37,7 @@ const Prowizje = () => {
   }
 
   return (
-    <div className="flex h-full max-h-screen min-h-screen justify-center bg-backgroundGray font-orkney">
+    <div className="flex h-full max-h-screen min-h-screen justify-center overflow-hidden bg-backgroundGray font-orkney">
       <SideBar />
       <div className="flex h-screen max-h-screen w-full flex-wrap">
         <Navbar />

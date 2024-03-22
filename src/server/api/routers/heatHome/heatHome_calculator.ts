@@ -78,12 +78,27 @@ export const heatHomeCalculator = createTRPCRouter({
       })
     )
     .mutation(calc.dotationValue),
-  finallCost: publicProcedure
+  amountAfterDotation: publicProcedure
     .input(
       z.object({
         totalCost: z.number(),
         dotationValue: z.number(),
       })
     )
-    .mutation(calc.finallCost),
+    .mutation(calc.amountAfterDotation),
+  termoModernization: publicProcedure
+    .input(
+      z.object({
+        amountAfterDotation: z.number(),
+      })
+    )
+    .mutation(calc.termoModernization),
+  finallPrice: publicProcedure
+    .input(
+      z.object({
+        amountAfterDotation: z.number(),
+        termoModernization: z.number(),
+      })
+    )
+    .mutation(calc.finallPrice),
 });

@@ -1,4 +1,5 @@
 export * as default from "./index";
+import { tax8 } from "~/constans/taxPercentage";
 import staticData from "../../static";
 interface AddonCostCounterType {
   area: number;
@@ -43,13 +44,38 @@ export function dotationValue({ input }: { input: DotationValueType }) {
   if (dotationStep === "prog3") return totalCost;
 }
 
-interface FinallCostType {
+interface AmountAfterDotationType {
   dotationValue: number;
   totalCost: number;
 }
-export function finallCost({ input }: { input: FinallCostType }) {
+export function amountAfterDotation({
+  input,
+}: {
+  input: AmountAfterDotationType;
+}) {
   const { totalCost, dotationValue } = input;
   const diff = totalCost - dotationValue;
   if (diff <= 0) return 0;
   else return Number(diff.toFixed(2));
+}
+
+interface TermoModernizationType {
+  amountAfterDotation: number;
+}
+export function termoModernization({
+  input,
+}: {
+  input: TermoModernizationType;
+}) {
+  return Number((input.amountAfterDotation * tax8).toFixed(2));
+}
+
+interface FinallPriceType {
+  amountAfterDotation: number;
+  termoModernization: number;
+}
+export function finallPrice({ input }: { input: FinallPriceType }) {
+  return Number(
+    (input.amountAfterDotation - input.termoModernization).toFixed(2)
+  );
 }

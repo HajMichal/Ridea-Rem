@@ -64,7 +64,7 @@ export default function Preview() {
                 title="KWOTA PO DOTACJACH"
                 color="green"
                 size="xl"
-                calculations={heatHomeCalcStore.finallCost}
+                calculations={heatHomeCalcStore.amountAfterDotation}
               />
             </div>
           </div>

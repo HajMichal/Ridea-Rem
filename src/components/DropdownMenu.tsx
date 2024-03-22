@@ -3,6 +3,14 @@ import { Menu } from "@mantine/core";
 import { type IconType } from "react-icons";
 import { useRouter } from "next/router";
 
+interface jsxType {
+  props: {
+    href: string;
+    title: string;
+    userRole?: number;
+    neededRole?: number;
+  };
+}
 interface MenuType {
   mainButtonTitle: string | React.ReactElement<IconType>;
   contextData?: {
@@ -47,14 +55,18 @@ export const DropdownMenu = ({
             <div className="h-full w-full">{title}</div>
           </Menu.Item>
         ))}
-        {jsxData?.map((element, index) => (
-          <Menu.Item
-            key={index}
-            className="flex flex-row px-8 py-3 font-orkneyLight tracking-widest duration-150"
-          >
-            {element}
-          </Menu.Item>
-        ))}
+        {jsxData
+          ?.filter(
+            (data: jsxType) => data.props?.neededRole === data.props?.userRole
+          )
+          .map((element, index) => (
+            <Menu.Item
+              key={index}
+              className="flex flex-row px-8 py-3 font-orkneyLight tracking-widest duration-150"
+            >
+              {element}
+            </Menu.Item>
+          ))}
       </Menu.Dropdown>
     </Menu>
   );

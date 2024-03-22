@@ -54,9 +54,21 @@ export const useHeatHome = () => {
       updateHeatHomeCalcs("dotationValue", data);
     },
   });
-  const { mutate: setFinallCost } = api.heatHome.finallCost.useMutation({
+  const { mutate: setAmountAfterDotation } =
+    api.heatHome.amountAfterDotation.useMutation({
+      onSuccess: (data) => {
+        updateHeatHomeCalcs("amountAfterDotation", data);
+      },
+    });
+  const { mutate: setTermoModernization } =
+    api.heatHome.termoModernization.useMutation({
+      onSuccess: (data) => {
+        updateHeatHomeCalcs("termoModernization", data);
+      },
+    });
+  const { mutate: setFinallPrice } = api.heatHome.finallPrice.useMutation({
     onSuccess: (data) => {
-      updateHeatHomeCalcs("finallCost", data);
+      updateHeatHomeCalcs("finallPrice", data);
     },
   });
   return {
@@ -72,7 +84,9 @@ export const useHeatHome = () => {
       setMarkupCosts,
       setTotalCost,
       setDotationValue,
-      setFinallCost,
+      setAmountAfterDotation,
+      setTermoModernization,
+      setFinallPrice,
     },
   };
 };
