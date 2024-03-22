@@ -4,7 +4,8 @@ import { useRouter } from "next/router";
 import React, { useEffect } from "react";
 import { api } from "~/utils/api";
 import { Toaster, toast } from "react-hot-toast";
-import { SideBar, Navbar } from "~/components/LazyLoading";
+import { SideBar } from "~/components/LazyLoading";
+import { Navbar } from "~/components";
 
 interface FormTypes {
   name: string;
@@ -78,70 +79,68 @@ const Account = () => {
   return (
     <div className="flex h-full max-h-screen min-h-screen justify-center bg-[#E8E7E7] font-orkney">
       <SideBar />
-      <Toaster />
       <div className="flex max-h-screen w-full flex-wrap justify-center">
         <Navbar />
         <div className="h-full max-h-[80%]">
           <h1 className="mb-4 w-full  text-center text-xl font-medium text-dark">
             Stwórz nowe konto
           </h1>
-          <div>
-            <form
-              onSubmit={handleSubmit(onSubmit)}
-              className="flex w-min max-w-[350px] flex-wrap justify-center gap-3 text-dark"
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="flex w-min max-w-[350px] flex-wrap justify-center gap-3 text-dark"
+          >
+            <input
+              {...register("name", { required: true })}
+              autoComplete={"off"}
+              placeholder="Imię"
+              className="p-1"
+            />
+            <input
+              {...register("login", { required: true })}
+              autoComplete={"off"}
+              placeholder="Login"
+              className="p-1"
+            />
+            <input
+              {...register("password", { required: true })}
+              autoComplete={"off"}
+              type="password"
+              placeholder="Hasło"
+              className="p-1"
+            />
+            {sessionData?.user.role === 1 && (
+              <>
+                <p className="w-full text-center">Ranga</p>
+                <div className="flex gap-1">
+                  <label htmlFor="role">Menager</label>
+                  <input
+                    {...register("role", { required: true })}
+                    type="radio"
+                    name="role"
+                    value={2}
+                  />
+                </div>
+                <div className="flex gap-1">
+                  <input
+                    {...register("role", { required: true })}
+                    type="radio"
+                    name="role"
+                    value={3}
+                  />
+                  <label htmlFor="role">Pracownik</label>
+                </div>
+              </>
+            )}
+            <button
+              type="submit"
+              className="rounded-full bg-brand px-10 py-3 font-semibold no-underline transition hover:bg-white/20"
             >
-              <input
-                {...register("name", { required: true })}
-                autoComplete="false"
-                placeholder="Imię"
-                className="p-1"
-              />
-              <input
-                {...register("login", { required: true })}
-                autoComplete="false"
-                placeholder="Login"
-                className="p-1"
-              />
-              <input
-                {...register("password", { required: true })}
-                autoComplete="false"
-                type="password"
-                placeholder="Hasło"
-                className="p-1"
-              />
-              {sessionData?.user.role === 1 && (
-                <>
-                  <label className="w-full text-center">Ranga</label>
-                  <div className="flex gap-1">
-                    <label htmlFor="role">Menager</label>
-                    <input
-                      {...register("role", { required: true })}
-                      type="radio"
-                      name="role"
-                      value={2}
-                    />
-                  </div>
-                  <div className="flex gap-1">
-                    <input
-                      {...register("role", { required: true })}
-                      type="radio"
-                      name="role"
-                      value={3}
-                    />
-                    <label htmlFor="role">Pracownik</label>
-                  </div>
-                </>
-              )}
-              <button
-                type="submit"
-                className="rounded-full bg-brand px-10 py-3 font-semibold no-underline transition hover:bg-white/20"
-              >
-                Stwórz
-              </button>
-            </form>
-          </div>
+              Stwórz
+            </button>
+          </form>
         </div>
       </div>
+      <Toaster />
     </div>
   );
 };
