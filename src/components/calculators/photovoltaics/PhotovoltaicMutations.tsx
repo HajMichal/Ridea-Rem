@@ -373,7 +373,7 @@ export default function PhotovoltaicMutations({
     mutations.set_dotations_sum({
       energyMenagerDotation: photovoltaicCalcStore.energyMenagerDotationValue,
       photovoltaics_dotation: photovoltaicCalcStore.photovoltaicDotationValue,
-      heatStore_dotation: 0,
+      heatStore_dotation: photovoltaicStore.heatStoreDotation ? 5000 : 0,
       energyStoreDotation: photovoltaicCalcStore.energyStoreDotationValue,
     });
   }, [
@@ -381,8 +381,8 @@ export default function PhotovoltaicMutations({
     photovoltaicStore.energyStoreDotation,
     photovoltaicCalcStore.energyStoreDotationValue,
     photovoltaicCalcStore.energyMenagerDotationValue,
+    photovoltaicStore.heatStoreDotation,
     photovoltaicStore.isDotation,
-    // mutations.set_dotations_sum,
   ]);
 
   useEffect(() => {
