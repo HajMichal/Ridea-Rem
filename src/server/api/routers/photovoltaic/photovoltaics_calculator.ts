@@ -171,7 +171,7 @@ export const photovoltaics_calculator = createTRPCRouter({
   addon_cost: publicProcedure
     .input(
       z.object({
-        promotionAmount: z.number().optional(),
+        promotionAmount: z.number(),
         ekierki: z.number().optional(),
         hybridInwerter: z.number().optional(),
         tigo: z.number().optional(),
@@ -180,6 +180,7 @@ export const photovoltaics_calculator = createTRPCRouter({
         solarEdge: z.number().optional(),
         carPort: z.number(),
         markup_costs: z.number(),
+        twoInstallmentsFree: z.number(),
       })
     )
     .mutation(calc.totalAddonCost),

@@ -316,6 +316,14 @@ const PhotovoltaicFormulas = ({
             value={photovoltaicStore.isPromotion}
             data={YESNO}
           />
+          <SelectComponent
+            title="2 RATY GRATIS"
+            onChange={(e) =>
+              store.updatePhotovoltaic("twoInstallmentsFree", e == "true")
+            }
+            value={photovoltaicStore.twoInstallmentsFree}
+            data={YESNO}
+          />
           <InputComponent
             title="LICZBA RAT"
             onChange={(e) => {

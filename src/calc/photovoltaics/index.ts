@@ -326,7 +326,8 @@ export function addonHybridInwerter({
 }
 
 interface TotalAddonCostType {
-  promotionAmount?: number;
+  promotionAmount: number;
+  twoInstallmentsFree: number;
   ekierki?: number;
   hybridInwerter?: number;
   tigo?: number;
@@ -345,9 +346,10 @@ export function totalAddonCost({ input }: { input: TotalAddonCostType }) {
       (input.bloczki ? input.bloczki : 0) +
       (input.grunt ? input.grunt : 0) +
       (input.solarEdge ? input.solarEdge : 0) +
-      (input.promotionAmount ? input.promotionAmount : 0) +
+      input.promotionAmount +
       input.carPort +
-      input.markup_costs
+      input.markup_costs +
+      input.twoInstallmentsFree
     ).toFixed(2)
   );
 }

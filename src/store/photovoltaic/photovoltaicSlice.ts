@@ -37,6 +37,7 @@ export interface PhotovoltaicsSlice {
     energyStoreProducent: "SOLAX" | "HIPONTECH";
     promotionAmount: number;
     isPromotion: boolean;
+    twoInstallmentsFree: boolean;
     isDotation: boolean;
   };
   updatePhotovoltaic: (key: string, value: boolean | number | string) => void;
@@ -56,6 +57,7 @@ export const photovoltaicsSlice: StateCreator<PhotovoltaicsSlice> = (set) => ({
     isCarPort: false,
     isPromotion: false,
     isDotation: true,
+    twoInstallmentsFree: false,
     promotionAmount: 0,
     taxCredit: 0.12,
     usageLimit: 0,
