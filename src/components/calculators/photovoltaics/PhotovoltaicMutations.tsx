@@ -324,6 +324,7 @@ export default function PhotovoltaicMutations({
         ? 0
         : photovoltaicStore.promotionAmount,
       twoInstallmentsFree: photovoltaicStore.twoInstallmentsFree ? 1000 : 0,
+      voucherHolyday: photovoltaicStore.holyDayVoucher ? 1500 : 0,
       carPort: photovoltaicCalcStore.carPortCost,
       markup_costs: photovoltaicCalcStore.markup_costs.markupSumValue ?? 0,
     });
@@ -339,6 +340,7 @@ export default function PhotovoltaicMutations({
     photovoltaicStore.isPromotion,
     photovoltaicStore.promotionAmount,
     photovoltaicStore.twoInstallmentsFree,
+    photovoltaicStore.holyDayVoucher,
     mutations.set_addon_cost,
   ]);
 

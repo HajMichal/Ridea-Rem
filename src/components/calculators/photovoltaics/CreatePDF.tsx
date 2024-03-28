@@ -327,13 +327,24 @@ const PhotovoltaicDocument = ({
               ZŁ
             </Text>
           </View>
+          <View style={styles.saveRow}>
+            <Text style={{ ...styles.saveTitle, fontWeight: 600 }}>
+              2 RATY GRATIS / VOUCHER HOLYDAY
+            </Text>
+            <Text style={styles.savePrice}>
+              {photovoltaicStore.twoInstallmentsFree ? "TAK" : "NIE"} /{" "}
+              {photovoltaicStore.holyDayVoucher ? "TAK" : "NIE"}
+            </Text>
+          </View>
         </View>
 
         <View style={styles.headerBackground}>
           <Text style={styles.header}>PODSUMOWANIE</Text>
         </View>
 
-        <View style={styles.pricingSection}>
+        <View
+          style={{ ...styles.pricingSection, marginTop: -20, paddingTop: 5 }}
+        >
           <View style={styles.estimatedProfit}>
             <Text style={{ ...styles.estimatedProfitTitle, fontSize: 12 }}>
               RATA PRZED DOTACJĄ
@@ -371,7 +382,8 @@ const PhotovoltaicDocument = ({
               {(
                 photovoltaicCalcStore.finall_installation_cost -
                 photovoltaicCalcStore.termoModernization
-              ).toFixed(2)}
+              ).toFixed(2)}{" "}
+              ZŁ
             </Text>
             <View style={styles.brandUnderScore} />
           </View>

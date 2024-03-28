@@ -328,6 +328,7 @@ export function addonHybridInwerter({
 interface TotalAddonCostType {
   promotionAmount: number;
   twoInstallmentsFree: number;
+  voucherHolyday: number;
   ekierki?: number;
   hybridInwerter?: number;
   tigo?: number;
@@ -349,7 +350,8 @@ export function totalAddonCost({ input }: { input: TotalAddonCostType }) {
       input.promotionAmount +
       input.carPort +
       input.markup_costs +
-      input.twoInstallmentsFree
+      input.twoInstallmentsFree +
+      input.voucherHolyday
     ).toFixed(2)
   );
 }
