@@ -181,7 +181,7 @@ export const photovoltaics_calculator = createTRPCRouter({
         carPort: z.number(),
         markup_costs: z.number(),
         twoInstallmentsFree: z.number(),
-        voucherHolyday: z.number(),
+        voucherholiday: z.number(),
       })
     )
     .mutation(calc.totalAddonCost),

@@ -329,11 +329,11 @@ const PhotovoltaicDocument = ({
           </View>
           <View style={styles.saveRow}>
             <Text style={{ ...styles.saveTitle, fontWeight: 600 }}>
-              2 RATY GRATIS / VOUCHER HOLYDAY
+              2 RATY GRATIS / VOUCHER HOLIDAY
             </Text>
             <Text style={styles.savePrice}>
               {photovoltaicStore.twoInstallmentsFree ? "TAK" : "NIE"} /{" "}
-              {photovoltaicStore.holyDayVoucher ? "TAK" : "NIE"}
+              {photovoltaicStore.holidayVoucher ? "TAK" : "NIE"}
             </Text>
           </View>
         </View>

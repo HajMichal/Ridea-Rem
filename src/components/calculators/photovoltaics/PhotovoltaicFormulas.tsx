@@ -325,11 +325,11 @@ const PhotovoltaicFormulas = ({
             data={YESNO}
           />
           <SelectComponent
-            title="VOUCHER HOLYDAY"
+            title="VOUCHER HOLIDAY"
             onChange={(e) =>
-              store.updatePhotovoltaic("holyDayVoucher", e == "true")
+              store.updatePhotovoltaic("holidayVoucher", e == "true")
             }
-            value={photovoltaicStore.holyDayVoucher}
+            value={photovoltaicStore.holidayVoucher}
             data={YESNO}
           />
           <InputComponent

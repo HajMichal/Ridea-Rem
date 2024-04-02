@@ -38,7 +38,7 @@ export interface PhotovoltaicsSlice {
     promotionAmount: number;
     isPromotion: boolean;
     twoInstallmentsFree: boolean;
-    holyDayVoucher: boolean;
+    holidayVoucher: boolean;
     isDotation: boolean;
   };
   updatePhotovoltaic: (key: string, value: boolean | number | string) => void;
@@ -59,7 +59,7 @@ export const photovoltaicsSlice: StateCreator<PhotovoltaicsSlice> = (set) => ({
     isPromotion: false,
     isDotation: true,
     twoInstallmentsFree: false,
-    holyDayVoucher: false,
+    holidayVoucher: false,
     promotionAmount: 0,
     taxCredit: 0.12,
     usageLimit: 0,
