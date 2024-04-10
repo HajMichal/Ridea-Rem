@@ -131,7 +131,6 @@ export const dataFlowRouter = createTRPCRouter({
       const userData = await ctx.prisma.user.findFirst({
         where: { id: input },
       });
-
       if (userData?.role === 1) {
         return getObjectById(userData.name!);
       } else if (userData?.role === 2) {
