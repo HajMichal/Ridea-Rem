@@ -33,7 +33,7 @@ export default function AuthShowcase() {
           <Menu.Item
             onClick={() =>
               void signOut({
-                redirect: false,
+                redirect: true,
                 callbackUrl: `${process.env.NEXT_PUBLIC_BASE_URL}auth/signin`,
               })
             }
