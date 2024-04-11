@@ -1,4 +1,5 @@
 import { type StateCreator } from "zustand";
+import { smallestPanel } from "~/constans/panelPowers";
 
 export interface PhotovoltaicsSlice {
   photovoltaicStore: {
@@ -70,7 +71,7 @@ export const photovoltaicsSlice: StateCreator<PhotovoltaicsSlice> = (set) => ({
     energyPriceOutOfLimit: 0,
     recentYearTrendUsage: 0,
     tigoCount: 0,
-    panelPower: 415,
+    panelPower: smallestPanel,
     installmentNumber: 120,
     energyStorePower: 0,
     tankSize: "Brak",

@@ -12,6 +12,11 @@ import {
 
 import { type PhotovoltaicCalculations } from "~/store/photovoltaic/photovoltaicCalculationSlice";
 import { type PhotovoltaicsSlice } from "~/store/photovoltaic/photovoltaicSlice";
+import {
+  largestPanel,
+  mediumPanel,
+  smallestPanel,
+} from "~/constans/panelPowers";
 
 Font.register({
   family: "Orkney",
@@ -440,7 +445,11 @@ const PhotovoltaicDocument = ({
           <View style={styles.saveRow}>
             <Text style={styles.savePrice}>MOC MODUŁU</Text>
             <Text style={styles.savePrice}>
-              {photovoltaicStore.panelPower} W
+              {photovoltaicStore.panelPower === smallestPanel &&
+                "DASSOLAR 410W"}
+              {photovoltaicStore.panelPower === mediumPanel &&
+                "NORD DASSOLAR 450W"}
+              {photovoltaicStore.panelPower === largestPanel && "500W"}
             </Text>
           </View>
           <View style={styles.saveRow}>

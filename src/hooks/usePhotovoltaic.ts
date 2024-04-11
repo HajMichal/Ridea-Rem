@@ -1,4 +1,8 @@
-import { panel415, panel455, panel500 } from "~/constans/panelPowers";
+import {
+  smallestPanel,
+  mediumPanel,
+  largestPanel,
+} from "~/constans/panelPowers";
 import { type PhotovoltaicDataToCalculation } from "~/server/api/routers/photovoltaic/interfaces";
 import useStore from "~/store";
 import { api } from "~/utils/api";
@@ -293,11 +297,11 @@ export const usePhotovoltaic = () => {
   };
 
   const getDataDependsOnPanelPower = () => {
-    if (store.photovoltaicStore.panelPower === panel415)
+    if (store.photovoltaicStore.panelPower === smallestPanel)
       return data?.dane.czterysta;
-    else if (store.photovoltaicStore.panelPower === panel455)
+    else if (store.photovoltaicStore.panelPower === mediumPanel)
       return data?.dane.czterysta_piecdziesiat;
-    else if (store.photovoltaicStore.panelPower === panel500)
+    else if (store.photovoltaicStore.panelPower === largestPanel)
       return data?.dane.piecset;
   };
 

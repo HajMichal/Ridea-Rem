@@ -5,6 +5,11 @@ import { usePhotovoltaic } from "~/hooks/usePhotovoltaic";
 import useStore from "~/store";
 import { type PhotovoltaicDataToCalculation } from "~/server/api/routers/photovoltaic/interfaces";
 import { YESNO } from "~/constans/formsData";
+import {
+  largestPanel,
+  mediumPanel,
+  smallestPanel,
+} from "~/constans/panelPowers";
 
 const PhotovoltaicFormulas = ({
   data,
@@ -73,9 +78,9 @@ const PhotovoltaicFormulas = ({
             }}
             value={photovoltaicStore.panelPower}
             data={[
-              { value: "415", label: "415" },
-              { value: "455", label: "455" },
-              { value: "500", label: "500" },
+              { value: smallestPanel.toString(), label: "410W DASSOLAR" },
+              { value: mediumPanel.toString(), label: "450W NORD DASSOLAR" },
+              { value: largestPanel.toString(), label: "500W" },
             ]}
           />
           <InputComponent

@@ -33,8 +33,8 @@ export const EditionForm = ({ data }: EditionForm) => {
   };
 
   const jsxPanel400Elements = [];
-  const jsxPanel455Elements = [];
-  const jsxPanel500Elements = [];
+  const jsxmediumPanelElements = [];
+  const jsxlargestPanelElements = [];
 
   for (const panelData in dynamicPropValues?.dane.czterysta) {
     const title = dataNamesMappings[panelData]!;
@@ -67,7 +67,7 @@ export const EditionForm = ({ data }: EditionForm) => {
         dynamicPropValues.dane.czterysta_piecdziesiat[
           panelData as keyof typeof dynamicPropValues.dane.czterysta_piecdziesiat
         ];
-      jsxPanel455Elements.push(
+      jsxmediumPanelElements.push(
         <ChangeDataInputComponent
           {...register(registerAddonKey, {
             valueAsNumber: true,
@@ -87,7 +87,7 @@ export const EditionForm = ({ data }: EditionForm) => {
         dynamicPropValues.dane.piecset[
           panelData as keyof typeof dynamicPropValues.dane.piecset
         ];
-      jsxPanel500Elements.push(
+      jsxlargestPanelElements.push(
         <ChangeDataInputComponent
           {...register(registerAddonKey, {
             valueAsNumber: true,
@@ -117,7 +117,7 @@ export const EditionForm = ({ data }: EditionForm) => {
             <h2 className="mb-2 ml-3 mt-5 w-full text-center font-orkneyLight text-2xl">
               PANEL 455
             </h2>
-            {jsxPanel455Elements.map((element, index) => (
+            {jsxmediumPanelElements.map((element, index) => (
               <div key={index}>{element}</div>
             ))}
           </div>
@@ -125,7 +125,7 @@ export const EditionForm = ({ data }: EditionForm) => {
             <h2 className="mb-2 ml-3 mt-5 w-full text-center font-orkneyLight text-2xl">
               PANEL 500
             </h2>
-            {jsxPanel500Elements.map((element, index) => (
+            {jsxlargestPanelElements.map((element, index) => (
               <div key={index}>{element}</div>
             ))}
           </div>
