@@ -18,7 +18,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
 
   if (idle && router.pathname !== "/auth/signin")
     void signOut({
-      redirect: true,
+      redirect: false,
       callbackUrl: `${process.env.NEXT_PUBLIC_BASE_URL}auth/signin`,
     });
   return (

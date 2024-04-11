@@ -8,7 +8,8 @@ export default function Home() {
   const router = useRouter();
 
   useEffect(() => {
-    if (!sessionData) {
+    if (!sessionData?.user) {
+      console.log(sessionData?.user);
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call
       void router.push("/auth/signin");
     }

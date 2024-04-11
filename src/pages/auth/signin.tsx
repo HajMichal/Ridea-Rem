@@ -33,11 +33,10 @@ export default function Signin() {
       await router.push("/home");
     }
   };
-
   useEffect(() => {
     if (sessionData !== null && sessionData !== undefined) {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-      void router.push("/home");
+      console.log(sessionData);
+      // void router.push("/home");
     }
   }, [sessionData]);
 
