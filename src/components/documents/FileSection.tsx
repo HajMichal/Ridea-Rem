@@ -2,15 +2,20 @@ import React from "react";
 import { api } from "~/utils/api";
 import { Loading } from "../Loading";
 import { ScrollArea } from "@mantine/core";
-import { EachFileCard } from "./EachFileCard";
+import { FilesTable } from "./FilesTable";
 
 interface FileSectionType {
   userRole: number | undefined;
 }
 
 export const FileSection = ({ userRole }: FileSectionType): React.ReactNode => {
-  const { data, isLoading } = api.getAllDocumentRouter.getAllFiles.useQuery();
-
+  const {
+    data: documentsFiles,
+    isLoading,
+    isSuccess: isDocumentSuccess,
+  } = api.getAllDocumentRouter.getAllFiles.useQuery("documents");
+  const { data: specificationFiles, isSuccess: isSpecificationSuccess } =
+    api.getAllDocumentRouter.getAllFiles.useQuery("specification");
   return (
     <>
       {isLoading ? (
@@ -22,19 +27,20 @@ export const FileSection = ({ userRole }: FileSectionType): React.ReactNode => {
           h={userRole === 1 ? "80%" : "85%"}
           className={userRole === 1 ? "mt-20" : "mt-5"}
         >
-          <div className="flex justify-center">
-            <div className="flex w-[80%] flex-wrap justify-center  gap-28 p-10">
-              {data?.map((file, index) => {
-                return (
-                  <EachFileCard
-                    fileName={file}
-                    userRole={userRole}
-                    key={index}
-                  />
-                );
-              })}
-            </div>
-          </div>
+          {isDocumentSuccess && documentsFiles.length > 0 && (
+            <FilesTable
+              files={documentsFiles}
+              title="DOKUMENTACJE"
+              userRole={userRole}
+            />
+          )}
+          {isSpecificationSuccess && specificationFiles.length > 0 && (
+            <FilesTable
+              files={specificationFiles}
+              title="SPECYFIKACJE"
+              userRole={userRole}
+            />
+          )}
         </ScrollArea>
       )}
     </>

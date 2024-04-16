@@ -6,7 +6,6 @@ export const s3 = new AWS.S3({
   region: "eu-central-1",
 });
 export const bucket = process.env.BUCKET!;
-export const prefix = "documents";
 
 // AWS.config.update({
 //   accessKeyId: process.env.AWS_ACCESS_KEY_ID,

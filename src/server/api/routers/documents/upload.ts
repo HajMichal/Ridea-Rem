@@ -8,10 +8,14 @@ export const uploadDocumentRouter = createTRPCRouter({
       z.object({
         base64: z.string(),
         fileName: z.string(),
+        fileFolder: z.string(),
       })
     )
     .mutation(({ input }) => {
-      const decodedPdf = Buffer.from(input.base64, "base64");
-      return setFileToBucket(decodedPdf, "documents/" + input.fileName);
+      const decodedFile = Buffer.from(input.base64, "base64");
+      return setFileToBucket(
+        decodedFile,
+        input.fileFolder + "/" + input.fileName
+      );
     }),
 });
