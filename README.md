@@ -26,12 +26,12 @@ various renewable energy sources.
  ### 📖 Tech Stack:
 - T3 stack ( trpc, React, Next-Auth, Prisma, zustand as state menegment, TailwindCSS )
 - Vercel,
-- AWS S3 Bucket / Planetscale
+- AWS S3 Bucket / Amazon RDS
 
 > [!NOTE] 
 >Data storage was divided into two services:
 > - AWS s3 bucket to store the file with data necessary for calculations and files to  download,
-> - Planetscale for user data.
+> - Amazon RDS for user data.
 
 
 <br/>
