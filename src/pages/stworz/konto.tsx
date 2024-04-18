@@ -16,7 +16,14 @@ interface FormTypes {
 
 const Account = () => {
   const router = useRouter();
-  const { data: sessionData } = useSession();
+  const { data: sessionData, status } = useSession();
+
+  useEffect(() => {
+    if (status === "unauthenticated") void router.push("/auth/signin");
+    if (status === "authenticated") {
+      if (sessionData?.user.role === 3) void router.push("/auth/signin");
+    }
+  }, [sessionData, router, status]);
 
   const { mutate: addMenagerPhotovoltaicData } =
     api.dataFlow.addNewMenager.useMutation({
@@ -55,14 +62,6 @@ const Account = () => {
       role: 3,
     },
   });
-
-  useEffect(() => {
-    if (sessionData?.user.role === 3) {
-      void router.push("/");
-    } else if (sessionData === null) {
-      void router.push("/auth/signin");
-    }
-  }, [sessionData, router]);
 
   const onSubmit: SubmitHandler<FormTypes> = (data) => {
     if (sessionData?.user.id) {

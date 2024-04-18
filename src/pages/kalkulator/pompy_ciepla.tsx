@@ -15,14 +15,11 @@ import HeatPumpFormulas from "~/components/calculators/heatPumps/HeatPumpFormula
 
 const Pompy_ciepla = () => {
   const router = useRouter();
-  const { data: sessionData } = useSession();
+  const { data: sessionData, status } = useSession();
 
   useEffect(() => {
-    if (sessionData === null) {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-      void router.push("/auth/signin");
-    }
-  }, [sessionData, router]);
+    if (status === "unauthenticated") void router.push("/auth/signin");
+  }, [router, status]);
 
   const { data } =
     api.heatPumpDataFlowRouter.downloadFile.useQuery<HeatPumpDataToCalculationType>(

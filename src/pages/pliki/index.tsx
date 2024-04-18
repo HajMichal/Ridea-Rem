@@ -8,14 +8,12 @@ import { Toaster } from "react-hot-toast";
 
 const Pliki = () => {
   const router = useRouter();
-  const { data: sessionData } = useSession();
-  const userRole = sessionData?.user.role;
+  const { data: sessionData, status } = useSession();
   useEffect(() => {
-    if (sessionData === null) {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-      void router.push("/auth/signin");
-    }
-  }, [sessionData, router]);
+    if (status === "unauthenticated") void router.push("/auth/signin");
+  }, [status, router]);
+
+  const userRole = sessionData?.user.role;
 
   return (
     <main className="flex h-full max-h-screen justify-center overflow-hidden bg-backgroundGray font-orkney">

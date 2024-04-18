@@ -14,17 +14,14 @@ const HeatHomeFormulas = lazy(
 );
 
 const Cieplo_wlasciwe = () => {
-  const { data: sessionData } = useSession();
+  const { data: sessionData, status } = useSession();
   const router = useRouter();
 
   const { jsonData } = useHeatHome();
 
   useEffect(() => {
-    if (sessionData === null) {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-      void router.push("/auth/signin");
-    }
-  }, [sessionData, router]);
+    if (status === "unauthenticated") void router.push("/auth/signin");
+  }, [router, status]);
 
   HeatHomeMutations({ sessionData: sessionData });
 

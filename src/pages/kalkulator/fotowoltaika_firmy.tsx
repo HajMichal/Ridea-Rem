@@ -17,7 +17,7 @@ const ForCompanyFormulas = lazy(
 
 const Fotowoltaika_firmy = () => {
   const router = useRouter();
-  const { data: sessionData } = useSession();
+  const { data: sessionData, status } = useSession();
 
   const { data } =
     api.forCompanyDataFlowRouter.downloadFile.useQuery<ForCompanyDataToCalcualtionType>(
@@ -25,11 +25,8 @@ const Fotowoltaika_firmy = () => {
     );
 
   useEffect(() => {
-    if (sessionData === null) {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-      void router.push("/auth/signin");
-    }
-  }, [sessionData, router]);
+    if (status === "unauthenticated") void router.push("/auth/signin");
+  }, [router, status]);
 
   ForCompanyMutation({ data: data, sessionData: sessionData });
 

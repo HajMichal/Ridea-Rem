@@ -14,7 +14,7 @@ const Preview = lazy(
 );
 
 const Fotowoltaika = () => {
-  const { data: sessionData } = useSession();
+  const { data: sessionData, status } = useSession();
   const router = useRouter();
 
   const { data } =
@@ -23,11 +23,8 @@ const Fotowoltaika = () => {
     );
 
   useEffect(() => {
-    if (sessionData === null) {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-      void router.push("/auth/signin");
-    }
-  }, [sessionData, router]);
+    if (status === "unauthenticated") void router.push("/auth/signin");
+  }, [router, status]);
 
   PhotovoltaicMutations({ data: data, sessionData: sessionData });
 

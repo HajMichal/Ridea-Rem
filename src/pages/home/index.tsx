@@ -4,16 +4,12 @@ import { useEffect } from "react";
 import { HomeTile } from "~/components/home/HomeTile";
 
 export default function Home() {
-  const { data: sessionData } = useSession();
+  const { status } = useSession();
   const router = useRouter();
 
   useEffect(() => {
-    if (!sessionData?.user) {
-      console.log(sessionData?.user);
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-      void router.push("/auth/signin");
-    }
-  }, [sessionData]);
+    if (status === "unauthenticated") void router.push("/auth/signin");
+  }, [status]);
   return (
     <main className="m-0 grid h-screen max-h-screen w-screen grid-cols-4 overflow-hidden hover:cursor-pointer">
       <HomeTile
