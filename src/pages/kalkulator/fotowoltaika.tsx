@@ -1,16 +1,17 @@
 import { type PhotovoltaicDataToCalculation } from "~/server/api/routers/photovoltaic/interfaces";
 import { PhotovoltaicMutations } from "~/components/calculators/photovoltaics";
-import {
-  Preview,
-  PhotovoltaicFormulas,
-} from "~/components/calculators/photovoltaics/lazyLoading";
 import { SideBar, Navbar } from "~/components/LazyLoading";
 import { useSession } from "next-auth/react";
-import React, { useEffect } from "react";
+import React, { lazy, useEffect } from "react";
 import { useRouter } from "next/router";
 import { Overlay } from "@mantine/core";
 import { Loading } from "~/components";
 import { api } from "~/utils/api";
+import PhotovoltaicFormulas from "~/components/calculators/photovoltaics/PhotovoltaicFormulas";
+
+const Preview = lazy(
+  () => import("~/components/calculators/photovoltaics/Preview")
+);
 
 const Fotowoltaika = () => {
   const { data: sessionData } = useSession();

@@ -1,31 +1,22 @@
-import React, { useEffect, useState } from "react";
-import { useForm, type SubmitHandler } from "react-hook-form";
-import { getProviders, signIn, useSession } from "next-auth/react";
+import React, { useState } from "react";
+import { getProviders, signIn } from "next-auth/react";
 import { type GetServerSideProps } from "next";
-import { TextInput, PasswordInput, Checkbox } from "@mantine/core";
+import { TextInput, PasswordInput } from "@mantine/core";
 import Image from "next/image";
 import { useRouter } from "next/router";
 
-interface FormTypes {
-  login: string;
-  password: string;
-}
-
 export default function Signin() {
   const [error, setError] = useState<string>();
-  const { data: sessionData } = useSession();
   const router = useRouter();
-
-  const { register, handleSubmit } = useForm<FormTypes>({
-    defaultValues: {
-      login: "",
-      password: "",
-    },
+  const [userData, setUserData] = useState({
+    login: "",
+    password: "",
   });
-  const onSubmit: SubmitHandler<FormTypes> = async (data) => {
+
+  const onSubmit = async () => {
     const res = await signIn("credentials", {
-      login: data.login,
-      password: data.password,
+      login: userData.login,
+      password: userData.password,
       redirect: false,
     });
     if (res?.error) setError(res.error);
@@ -33,12 +24,6 @@ export default function Signin() {
       await router.push("/home");
     }
   };
-  useEffect(() => {
-    if (sessionData !== null && sessionData !== undefined) {
-      console.log(sessionData);
-      // void router.push("/home");
-    }
-  }, [sessionData]);
 
   return (
     <div className="grid h-screen w-screen bg-[#E8E7E7] font-orkney laptop:grid-cols-2">
@@ -60,17 +45,16 @@ export default function Signin() {
             <h3 className="xl:text-xl">Wprowadź dane logowania</h3>
           </div>
           <div className="flex w-full justify-center">
-            <form
-              onSubmit={handleSubmit(onSubmit)}
-              className="flex w-3/5 max-w-sm flex-col gap-5 font-orkneyLight"
-            >
+            <div className="flex w-3/5 max-w-sm flex-col gap-5 font-orkneyLight">
               <TextInput
-                {...register("login", { required: true })}
                 maw={620}
                 label="Login"
-                onChange={() => {
-                  error === "Invalid Credentials" && setError("");
-                }}
+                onChange={(e) =>
+                  setUserData({
+                    login: e.target.value,
+                    password: userData.password,
+                  })
+                }
                 styles={{
                   input: {
                     borderTop: 0,
@@ -90,12 +74,14 @@ export default function Signin() {
                 }
               />
               <PasswordInput
-                {...register("password", { required: true })}
                 maw={620}
                 label="Hasło"
-                onChange={() => {
-                  error === "Invalid Password" && setError("");
-                }}
+                onChange={(e) =>
+                  setUserData({
+                    login: userData.login,
+                    password: e.target.value,
+                  })
+                }
                 styles={{
                   input: {
                     borderTop: 0,
@@ -117,10 +103,13 @@ export default function Signin() {
                   "Nie prawidłowe hasło, spróbuj ponownie"
                 }
               />
-              <button className="mt-4 rounded-full bg-brand p-3 font-orkneyBold">
+              <button
+                onClick={onSubmit}
+                className="mt-4 rounded-full bg-brand p-3 font-orkneyBold"
+              >
                 ZALOGUJ SIĘ
               </button>
-            </form>
+            </div>
           </div>
           <div className="mt-10 flex w-full items-end justify-center p-5 font-orkneyBold xl:mt-32">
             <h2>IDEA REM © 2024</h2>

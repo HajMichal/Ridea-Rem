@@ -3,6 +3,7 @@ import { usePhotovoltaic } from "~/hooks/usePhotovoltaic";
 import { type PhotovoltaicDataToCalculation } from "~/server/api/routers/photovoltaic/interfaces";
 import useStore from "~/store";
 import { type Session } from "next-auth";
+import { useDebouncedValue } from "@mantine/hooks";
 
 interface PhotovoltaicMutationsType {
   data?: PhotovoltaicDataToCalculation;
@@ -17,6 +18,7 @@ export default function PhotovoltaicMutations({
 
   const { photovoltaicStore, photovoltaicCalcStore, mutations } =
     usePhotovoltaic();
+  const [debouncedPhotovStore] = useDebouncedValue(photovoltaicStore, 200);
 
   useEffect(() => {
     mutations.set_system_power({
@@ -24,7 +26,7 @@ export default function PhotovoltaicMutations({
       panelPower: photovoltaicStore.panelPower,
     });
   }, [
-    photovoltaicStore.modulesCount,
+    debouncedPhotovStore.modulesCount,
     photovoltaicStore.panelPower,
     mutations.set_system_power,
   ]);
@@ -67,10 +69,10 @@ export default function PhotovoltaicMutations({
       });
   }, [
     photovoltaicCalcStore.autoconsumption,
-    photovoltaicStore.energyPriceInLimit,
-    photovoltaicStore.usageLimit,
-    photovoltaicStore.energyPriceOutOfLimit,
-    photovoltaicStore.recentYearTrendUsage,
+    debouncedPhotovStore.energyPriceInLimit,
+    debouncedPhotovStore.usageLimit,
+    debouncedPhotovStore.energyPriceOutOfLimit,
+    debouncedPhotovStore.recentYearTrendUsage,
     mutations.set_total_payment_energy_transfer,
   ]);
   useEffect(() => {
@@ -121,10 +123,10 @@ export default function PhotovoltaicMutations({
   }, [
     photovoltaicCalcStore.accumulated_funds_on_account,
     photovoltaicCalcStore.autoconsumption,
-    photovoltaicStore.energyPriceInLimit,
-    photovoltaicStore.energyPriceOutOfLimit,
-    photovoltaicStore.usageLimit,
-    photovoltaicStore.recentYearTrendUsage,
+    debouncedPhotovStore.energyPriceInLimit,
+    debouncedPhotovStore.energyPriceOutOfLimit,
+    debouncedPhotovStore.usageLimit,
+    debouncedPhotovStore.recentYearTrendUsage,
     mutations.set_total_energy_trend_fee,
   ]);
   useEffect(() => {
@@ -140,8 +142,8 @@ export default function PhotovoltaicMutations({
         usageLimit: photovoltaicStore.usageLimit,
       });
   }, [
-    photovoltaicStore.usageLimit,
-    photovoltaicStore.recentYearTrendUsage,
+    debouncedPhotovStore.usageLimit,
+    debouncedPhotovStore.recentYearTrendUsage,
     photovoltaicCalcStore.outOfLimit_price_trend,
     photovoltaicCalcStore.limit_price_trend,
     mutations.set_yearly_bill_without_photovolatics,
@@ -159,10 +161,10 @@ export default function PhotovoltaicMutations({
         usageLimit: photovoltaicStore.usageLimit,
       });
   }, [
-    photovoltaicStore.usageLimit,
-    photovoltaicStore.recentYearTrendUsage,
-    photovoltaicStore.energyPriceInLimit,
-    photovoltaicStore.energyPriceOutOfLimit,
+    debouncedPhotovStore.usageLimit,
+    debouncedPhotovStore.recentYearTrendUsage,
+    debouncedPhotovStore.energyPriceInLimit,
+    debouncedPhotovStore.energyPriceOutOfLimit,
     mutations.set_yearly_total_fees,
   ]);
   useEffect(() => {
@@ -223,7 +225,7 @@ export default function PhotovoltaicMutations({
         modules_count: photovoltaicStore.modulesCount,
       });
   }, [
-    photovoltaicStore.modulesCount,
+    debouncedPhotovStore.modulesCount,
     data,
     photovoltaicStore.isEccentricsChoosed,
     mutations.set_ekierki_price,
@@ -262,7 +264,7 @@ export default function PhotovoltaicMutations({
         modules_count: photovoltaicStore.modulesCount,
       });
   }, [
-    photovoltaicStore.modulesCount,
+    debouncedPhotovStore.modulesCount,
     photovoltaicStore.isSolarEdgeChoosed,
     data,
     mutations.set_solarEdge_price,
