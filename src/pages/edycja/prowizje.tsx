@@ -13,7 +13,7 @@ export type MenagerType = User & {
 
 const Prowizje = () => {
   const router = useRouter();
-  const { data: sessionData } = useSession();
+  const { data: sessionData, status } = useSession();
 
   const { data } = api.userDataHandling.getUsers.useQuery(
     {
@@ -26,8 +26,10 @@ const Prowizje = () => {
   );
 
   useEffect(() => {
-    if ((sessionData && sessionData?.user.role === 3) || sessionData === null) {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+    if (
+      (status === "authenticated" && sessionData?.user.role === 3) ||
+      status === "unauthenticated"
+    ) {
       void router.back();
     }
   }, [sessionData, router]);
@@ -41,44 +43,42 @@ const Prowizje = () => {
       <SideBar />
       <div className="flex h-screen max-h-screen w-full flex-wrap">
         <Navbar />
-        <div className="flex h-full max-h-[88%] w-full flex-wrap gap-20 overflow-y-scroll px-20 ">
+        <div className="flex h-full max-h-[88%] w-full flex-wrap gap-20 overflow-y-scroll">
           {sessionData.user.role === 1 && (
             <div className="w-full ">
-              <h1>Menagerowie</h1>
-              <div>
-                <div>
-                  {data?.getMenagerWithWorkers?.map((menager: MenagerType) => (
-                    <div key={menager.id}>
-                      <UserFeeFormField user={menager} key={menager.id} />
-
-                      {menager.workers.length !== 0 && (
-                        <div className="ml-10  p-5">
-                          <h2 className="p-3 text-xl">
-                            Handlowcy pracujący pod {menager.name}
-                          </h2>
-                          {menager.workers.map((worker) => (
-                            <UserFeeFormField
-                              isWorker
-                              user={worker}
-                              key={worker.id}
-                            />
-                          ))}
-                        </div>
-                      )}
+              {data?.getMenagerWithWorkers?.map((menager: MenagerType) => (
+                <div key={menager.id} className="grid grid-cols-2">
+                  <div className="flex w-full flex-col items-center">
+                    <UserFeeFormField user={menager} key={menager.id} />
+                  </div>
+                  {menager.workers.length !== 0 && (
+                    <div className="flex w-full flex-col items-center p-5">
+                      {/* <h2 className="p-3 text-xl">
+                          Handlowcy pracujący pod {menager.name}
+                        </h2> */}
+                      {menager.workers.map((worker) => (
+                        <UserFeeFormField
+                          isWorker
+                          user={worker}
+                          key={worker.id}
+                        />
+                      ))}
                     </div>
-                  ))}
+                  )}
                 </div>
+              ))}
+            </div>
+          )}
+          {data && data.getWorkers.length > 0 && (
+            <div className="w-full px-20 pb-32">
+              <h1>Handlowcy</h1>
+              <div>
+                {data?.getWorkers?.map((worker) => (
+                  <UserFeeFormField key={worker.id} user={worker} />
+                ))}
               </div>
             </div>
           )}
-          <div className=" w-full pb-32">
-            <h1>Handlowcy</h1>
-            <div>
-              {data?.getWorkers?.map((worker) => (
-                <UserFeeFormField key={worker.id} user={worker} />
-              ))}
-            </div>
-          </div>
         </div>
       </div>
     </div>

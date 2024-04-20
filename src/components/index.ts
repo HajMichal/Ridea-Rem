@@ -8,7 +8,7 @@ import { UserFeeFormField } from "./UserFeeFormField";
 import { ChangeDataInputComponent } from "./changeDataInputComponent";
 import { NewsCard } from "./newsPageComponent/NewsCard";
 import { PdfGeneratorButton } from "./PdfGeneratorButton";
-
+import { FeesTable } from "./fees/FeesTable";
 export {
   SideBar,
   Navbar,
@@ -20,4 +20,5 @@ export {
   ChangeDataInputComponent,
   NewsCard,
   PdfGeneratorButton,
+  FeesTable,
 };

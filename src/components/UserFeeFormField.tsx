@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { type User } from "@prisma/client";
 import { type MenagerType } from "~/pages/edycja/prowizje";
 import { api } from "~/utils/api";
-import { Input, Modal } from "@mantine/core";
+import { Button, Input, Modal } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { CALCUALTOR_TYPES } from "~/constans/calculatorTypes";
+import { FeesTable } from ".";
 
 interface UserFormFieldType {
   user: MenagerType | User;
@@ -41,7 +42,7 @@ const InputWithSubmitButton: React.FC<InputWithSubmitButtonType> = ({
 
   return (
     <>
-      <div className="flex flex-col justify-end pl-1">
+      <div className="flex flex-col items-center justify-end gap-2 pl-1">
         <Input.Wrapper id={userId + label} label={label} maw={320} mx="auto">
           <Input
             type="number"
@@ -50,13 +51,13 @@ const InputWithSubmitButton: React.FC<InputWithSubmitButtonType> = ({
             step={100}
           />
         </Input.Wrapper>
-        <button
-          onClick={() => handleImposedFeeInput()}
-          className=" rounded-xl bg-brand p-2 px-4 font-orkneyBold text-dark"
+        <Button
+          onClick={handleImposedFeeInput}
+          className=" w-[90%] rounded-md bg-brand p-2 px-4 font-orkneyBold text-dark hover:bg-yellow-400"
           type="submit"
         >
           Zmień prowizję
-        </button>
+        </Button>
       </div>
     </>
   );
@@ -66,7 +67,8 @@ export const UserFeeFormField = ({
   user,
   isWorker = false,
 }: UserFormFieldType) => {
-  const [opened, { open, close }] = useDisclosure(false);
+  const [removeUserModal, setRemoveUserModal] = useState(false);
+  const [changeDataModal, setChangeDataModal] = useState(false);
 
   const { mutate: setImposedFeeAmount } =
     api.userDataHandling.imposeTheFee.useMutation();
@@ -86,63 +88,88 @@ export const UserFeeFormField = ({
 
   const removeUser = () => {
     removeUserFromDb(user.id);
-    user.role === 2 && removeMenagerPhotovoltaicJson(user.name!);
-    user.role === 2 && removeMenagerHeatPumpJson(user.name!);
-    user.role === 2 && removeMenagerForCompanyJson(user.name!);
-    user.role === 2 && removeMenagerHeatHomeJson(user.name!);
+    if (user.role === 2) {
+      removeMenagerPhotovoltaicJson(user.name!);
+      removeMenagerHeatPumpJson(user.name!);
+      removeMenagerForCompanyJson(user.name!);
+      removeMenagerHeatHomeJson(user.name!);
+    }
     close();
   };
+
+  const handleRemoveUserModal = () => setRemoveUserModal(!removeUserModal);
+  const handleChangeDataModal = () => setChangeDataModal(!changeDataModal);
 
   return (
     <div className="mt-3 flex gap-5 font-orkney">
       <div className="flex flex-col">
-        <div className="mt-2 flex w-96 gap-5">
+        <div className="my-2 w-96 ">
           <h2 className="font-orkneyBold text-2xl">
             {user.name} - {user.role === 2 ? "menager" : "handlowiec"}
           </h2>
-          <div>
-            <button
-              className="rounded-xl bg-red px-8 py-1 font-semibold text-dark"
-              onClick={open}
+          <div className="flex justify-end gap-5">
+            <Button
+              className="rounded-xl bg-red px-8 py-1 font-semibold text-dark duration-100 hover:bg-rose-400"
+              onClick={handleRemoveUserModal}
             >
               Usuń
-            </button>
+            </Button>
+            {!isWorker && (
+              <Button
+                className="rounded-xl bg-green-500 px-8 py-1 font-semibold text-dark duration-100 hover:bg-green-400"
+                onClick={handleChangeDataModal}
+              >
+                Edytuj
+              </Button>
+            )}
           </div>
         </div>
-
-        <div className="rounded-lg border-2 border-black p-3 ">
-          <div className="flex justify-between">
-            <p>Stała prowizja fotowoltaiki</p>{" "}
-            <p>{user.imposedFeePhotovoltaic}</p>
-          </div>
-          <div className="flex justify-between">
-            <p>Prowizja od kW fotowoltaiki</p>{" "}
-            <p>{user.feePerkwPhotovoltaic}</p>
-          </div>
-          <div className="flex justify-between">
-            <p>Stała prowizja dla firm</p> <p>{user.imposedFeeForCompany}</p>
-          </div>
-          <div className="flex justify-between">
-            <p>Prowizja od kW dla firm</p> <p>{user.feePerkwForCompany}</p>
-          </div>
-          <div className="flex justify-between">
-            <p>Stała prowizja pompy ciepła</p> <p>{user.imposedFeeHeatPump}</p>
-          </div>
-          <div className="flex justify-between">
-            <p>Prowizja od kW pompy ciepła</p> <p>{user.feePerkwHeatPump}</p>
-          </div>
-          <div className="flex justify-between">
-            <p>Stała prowizja ciepło właściwe</p>{" "}
-            <p>{user.imposedFeeHeatHome}</p>
-          </div>
-          <div className="flex justify-between">
-            <p>Prowizja od M² ciepło właściwe</p> <p>{user.feePerkwHeatHome}</p>
-          </div>
-        </div>
+        <FeesTable user={user} />
       </div>
-      <div className="grid grid-cols-3 grid-rows-1 items-end gap-5">
-        {!isWorker &&
-          CALCUALTOR_TYPES.map((calcualtor) => {
+
+      {/* REMOVE USER MODAL */}
+      <Modal
+        opened={removeUserModal}
+        onClose={handleRemoveUserModal}
+        title={`CZY NA PEWNO CHCESZ USUNĄĆ UŻYTKOWNIKA ${user.name}`}
+        className="text-center font-orkneyBold"
+        centered
+      >
+        <p className="font-orkney">
+          Będzie to skutkowało usunięciem konta użytkownika. Nie będzie miał on
+          dostępu do kalkulatora.
+          <br />
+          {user.role === 2 &&
+            "W przypadku usunięcia menagera jego stawki bazowe także zostaną usunięte."}
+        </p>
+        <div className="flex w-full justify-between p-4">
+          <button
+            onClick={handleRemoveUserModal}
+            className="rounded-2xl bg-red p-2 px-4 font-orkneyBold duration-100 hover:scale-110"
+          >
+            ANULUJ
+          </button>
+          <button
+            onClick={removeUser}
+            className="rounded-2xl bg-green-500 p-2 px-4 font-orkneyBold duration-100 hover:scale-110"
+          >
+            TAK
+          </button>
+        </div>
+      </Modal>
+
+      {/* CHANGE DATA MODAL */}
+
+      <Modal
+        opened={changeDataModal}
+        onClose={handleChangeDataModal}
+        title={`ZMIENIASZ DANE UŻYTKOWNIKA ${user.name}`}
+        className="text-center font-orkneyBold"
+        size={"xl"}
+        centered
+      >
+        <div className="grid grid-cols-3 grid-rows-1 items-end gap-5">
+          {CALCUALTOR_TYPES.map((calcualtor) => {
             return (
               <div className="my-5" key={calcualtor}>
                 <InputWithSubmitButton
@@ -180,34 +207,9 @@ export const UserFeeFormField = ({
               </div>
             );
           })}
-      </div>
-      <Modal
-        opened={opened}
-        onClose={close}
-        title={`CZY NA PEWNO CHCESZ USUNĄĆ UŻYTKOWNIKA ${user.name}`}
-        className="text-center font-orkneyBold"
-        centered
-      >
-        <p className="font-orkney">
-          Będzie to skutkowało usunięciem konta użytkownika. Nie będzie miał on
-          dostępu do kalkulatora.
-          <br />
-          {user.role === 2 &&
-            "W przypadku usunięcia menagera jego stawki bazowe także zostaną usunięte."}
-        </p>
-        <div className="flex w-full justify-between p-4">
-          <button
-            onClick={close}
-            className="rounded-2xl bg-red p-2 px-4 font-orkneyBold duration-100 hover:scale-110"
-          >
-            ANULUJ
-          </button>
-          <button
-            onClick={removeUser}
-            className="rounded-2xl bg-green-500 p-2 px-4 font-orkneyBold duration-100 hover:scale-110"
-          >
-            TAK
-          </button>
+          <div className="col-span-2">
+            <FeesTable user={user} />
+          </div>
         </div>
       </Modal>
     </div>
