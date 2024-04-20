@@ -52,10 +52,7 @@ const Prowizje = () => {
                     <UserFeeFormField user={menager} key={menager.id} />
                   </div>
                   {menager.workers.length !== 0 && (
-                    <div className="flex w-full flex-col items-center p-5">
-                      {/* <h2 className="p-3 text-xl">
-                          Handlowcy pracujący pod {menager.name}
-                        </h2> */}
+                    <div className="flex w-full flex-col items-center p-5 xl:items-start">
                       {menager.workers.map((worker) => (
                         <UserFeeFormField
                           isWorker

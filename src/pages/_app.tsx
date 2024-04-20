@@ -28,14 +28,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
         <link rel="icon" href="/icons/logo_solo_white.svg" sizes="any" />
       </Head>
       <SessionProvider session={session}>
-        <MantineProvider
-          withGlobalStyles
-          withNormalizeCSS
-          theme={{
-            /** Put your mantine theme override here */
-            colorScheme: "light",
-          }}
-        >
+        <MantineProvider withGlobalStyles withNormalizeCSS>
           <Component {...pageProps} />
         </MantineProvider>
       </SessionProvider>
