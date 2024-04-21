@@ -1,13 +1,18 @@
-import { HeatHomeDataCalculationType } from "~/server/api/routers/heatHome/interfaces";
+import { useSession } from "next-auth/react";
+import { type HeatHomeDataCalculationType } from "~/server/api/routers/heatHome/interfaces";
 import useStore from "~/store";
 import { api } from "~/utils/api";
 
 export const useHeatHome = () => {
   const store = useStore();
+  const { data: sessionData } = useSession();
+
   const { updateHeatHomeCalcs, heatHomeStore, heatHomeCalculationsStore } =
     store;
   const { data: jsonData } =
-    api.heatHomeDataFlowRouter.downloadFile.useQuery<HeatHomeDataCalculationType>();
+    api.heatHomeDataFlowRouter.downloadFile.useQuery<HeatHomeDataCalculationType>(
+      sessionData?.user.id
+    );
 
   const { mutate: setHeatedAreaCost } =
     api.heatHome.addonCostCounter.useMutation({

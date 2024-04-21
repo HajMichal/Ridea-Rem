@@ -52,7 +52,7 @@ const ForCompanyFormulas = () => {
     <div id="FORM" className="h-full w-[55%] min-w-[500px] p-3 ">
       <h1
         style={{ textShadow: " 24px 24px #bebebe" }}
-        className="z-50 mb-10 font-orkneyBold text-5xl"
+        className="z-50 mb-10 font-orkneyBold text-5xl font-semibold"
       >
         FOTOWOLTAIKA DLA FIRM
       </h1>

@@ -1,3 +1,4 @@
+import { useSession } from "next-auth/react";
 import {
   smallestPanel,
   mediumPanel,
@@ -9,8 +10,13 @@ import { api } from "~/utils/api";
 
 export const usePhotovoltaic = () => {
   const store = useStore();
+
+  const { data: sessionData } = useSession();
+
   const { data } =
-    api.dataFlow.downloadFile.useQuery<PhotovoltaicDataToCalculation>();
+    api.dataFlow.downloadFile.useQuery<PhotovoltaicDataToCalculation>(
+      sessionData?.user.id
+    );
 
   const {
     mutate: set_limit_price_trend,
@@ -306,6 +312,7 @@ export const usePhotovoltaic = () => {
   };
 
   return {
+    photovoltaicData: data,
     photovoltaicStore: store.photovoltaicStore,
     photovoltaicCalcStore: store.photovoltaicCalculations,
     loading: {

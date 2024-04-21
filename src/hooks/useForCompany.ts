@@ -1,3 +1,4 @@
+import { useSession } from "next-auth/react";
 import {
   smallestPanel,
   mediumPanel,
@@ -9,8 +10,12 @@ import { api } from "~/utils/api";
 
 export const useForCompany = () => {
   const store = useStore();
+  const { data: sessionData } = useSession();
+
   const { data } =
-    api.forCompanyDataFlowRouter.downloadFile.useQuery<ForCompanyDataToCalcualtionType>();
+    api.forCompanyDataFlowRouter.downloadFile.useQuery<ForCompanyDataToCalcualtionType>(
+      sessionData?.user.id
+    );
 
   const { mutate: setCalculateModuleCount } =
     api.forCompany.calculateModuleCount.useMutation({
@@ -104,6 +109,7 @@ export const useForCompany = () => {
       return data?.dane.piecset;
   };
   return {
+    forCompanyData: data,
     forCompanyStore: store.forCompanyStore,
     forCompanyCalcStore: store.forCompanyCalculationStore,
     mutations: {

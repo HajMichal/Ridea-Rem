@@ -8,6 +8,7 @@ import { MantineProvider } from "@mantine/core";
 import { useIdle } from "@uidotdev/usehooks";
 import { signOut } from "next-auth/react";
 import { useRouter } from "next/router";
+import { orkney, orkneyBold, orkneyLight } from "~/utils/fonts";
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
@@ -22,7 +23,9 @@ const MyApp: AppType<{ session: Session | null }> = ({
       callbackUrl: `${process.env.NEXT_PUBLIC_BASE_URL}auth/signin`,
     });
   return (
-    <>
+    <main
+      className={`${orkney.variable} ${orkneyBold.variable} ${orkneyLight.variable} font-sans`}
+    >
       <Head>
         <title>IdeaRem - Kalkulator 🔢</title>
         <link rel="icon" href="/icons/logo_solo_white.svg" sizes="any" />
@@ -32,7 +35,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
           <Component {...pageProps} />
         </MantineProvider>
       </SessionProvider>
-    </>
+    </main>
   );
 };
 

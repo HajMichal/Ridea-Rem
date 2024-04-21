@@ -1,4 +1,3 @@
-import { Modal } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import toast from "react-hot-toast";

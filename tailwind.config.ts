@@ -16,9 +16,9 @@ module.exports = {
         backgroundGray: "#E8E7E7",
       },
       fontFamily: {
-        orkney: "Orkney",
-        orkneyBold: "Orkney-Bold",
-        orkneyLight: "Orkney-Light",
+        orkney: ["var(--font-orkney)"],
+        orkneyBold: ["var(--font-orkneyBold)"],
+        orkneyLight: ["var(--font-orkneyLight)"],
       },
       backgroundImage: {
         "cover-pic": "url('/login.png')",

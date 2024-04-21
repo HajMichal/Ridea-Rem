@@ -30,7 +30,10 @@ export function HomeTile({
         alt="Zdjęcie instalacjii"
         width={640}
         height={1080}
+        sizes="100%"
         className="h-3/4 w-full object-cover"
+        loading="eager"
+        priority={true}
       />
       <div className="flex flex-col items-center font-orkneyLight text-sm text-white">
         <div className="absolute top-[350px] flex flex-col items-center font-orkneyBold text-2xl text-white">

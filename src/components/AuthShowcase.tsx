@@ -14,7 +14,7 @@ export default function AuthShowcase() {
             {sessionData && (
               <div className="flex gap-1">
                 <FaUserCircle className="h-[40px] w-[40px]" />
-                <div className="flex max-w-[150px] flex-wrap font-orkneyLight font-semibold text-dark">
+                <div className="flex max-w-[150px] flex-wrap font-orkneyLight text-dark">
                   <p className="min-w-[130px] text-left text-sm">
                     {sessionData.user.name?.toUpperCase()}
                   </p>

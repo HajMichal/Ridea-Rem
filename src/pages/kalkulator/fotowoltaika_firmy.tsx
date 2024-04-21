@@ -3,13 +3,11 @@ import React, { lazy, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 
-import { type ForCompanyDataToCalcualtionType } from "~/server/api/routers/forCompany/interfaces";
-import { api } from "~/utils/api";
-
 import { Loading } from "~/components";
 import { SideBar, Navbar } from "~/components/LazyLoading";
 import { ForCompanyMutation } from "~/components/calculators/forCompany";
 import { Preview } from "~/components/calculators/forCompany/lazyLoading";
+import { useForCompany } from "~/hooks/useForCompany";
 
 const ForCompanyFormulas = lazy(
   () => import("~/components/calculators/forCompany/ForCompanyFormulas")
@@ -19,20 +17,17 @@ const Fotowoltaika_firmy = () => {
   const router = useRouter();
   const { data: sessionData, status } = useSession();
 
-  const { data } =
-    api.forCompanyDataFlowRouter.downloadFile.useQuery<ForCompanyDataToCalcualtionType>(
-      sessionData?.user.id
-    );
+  const { forCompanyData } = useForCompany();
 
   useEffect(() => {
     if (status === "unauthenticated") void router.push("/auth/signin");
   }, [router, status]);
 
-  ForCompanyMutation({ data: data, sessionData: sessionData });
+  ForCompanyMutation({ data: forCompanyData, sessionData: sessionData });
 
   return (
     <main className="flex h-full max-h-screen overflow-hidden bg-backgroundGray font-orkney laptop:justify-center">
-      {!data && (
+      {!forCompanyData && (
         <>
           <Overlay color="#000" opacity={0.85} />
           <Loading />
