@@ -11,11 +11,11 @@ import {
   smallestPanel,
 } from "~/constans/panelPowers";
 
-const PhotovoltaicFormulas = ({
+export function PhotovoltaicFormulas({
   data,
 }: {
   data: PhotovoltaicDataToCalculation | undefined;
-}) => {
+}) {
   const store = useStore();
 
   const { photovoltaicStore, mutations } = usePhotovoltaic();
@@ -363,6 +363,4 @@ const PhotovoltaicFormulas = ({
       </ScrollArea>
     </div>
   );
-};
-
-export default PhotovoltaicFormulas;
+}

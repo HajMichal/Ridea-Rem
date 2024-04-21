@@ -1,8 +1,7 @@
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import React, { useEffect } from "react";
-import { SideBar } from "~/components/LazyLoading";
-import { Navbar } from "~/components";
+import { Navbar, SideBar } from "~/components";
 import { FileUploader, FileSection } from "~/components/documents/";
 import { Toaster } from "react-hot-toast";
 

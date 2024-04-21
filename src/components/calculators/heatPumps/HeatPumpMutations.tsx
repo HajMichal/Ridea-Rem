@@ -8,7 +8,10 @@ interface HeatPumpMutationType {
   sessionData: Session | null;
 }
 
-const HeatPumpMutations = ({ data, sessionData }: HeatPumpMutationType) => {
+export const HeatPumpMutations = ({
+  data,
+  sessionData,
+}: HeatPumpMutationType) => {
   const { heatPumpStore, heatPumpCalcStore, mutations } = useHeatPump();
 
   useEffect(() => {
@@ -269,5 +272,3 @@ const HeatPumpMutations = ({ data, sessionData }: HeatPumpMutationType) => {
     heatPumpCalcStore.heatStoreDotations,
   ]);
 };
-
-export default HeatPumpMutations;

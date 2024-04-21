@@ -15,8 +15,6 @@ import { useHeatPump } from "~/hooks/useHeatPump";
 import { useHeatHome } from "~/hooks/useHeatHome";
 
 interface DataFromJson {
-  energyStore_dotation?: number;
-  photovoltaics_dotation?: number;
   cop?: number;
 }
 

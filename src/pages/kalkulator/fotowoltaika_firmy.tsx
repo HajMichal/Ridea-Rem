@@ -1,17 +1,15 @@
 import { Overlay } from "@mantine/core";
-import React, { lazy, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 
-import { Loading } from "~/components";
-import { SideBar, Navbar } from "~/components/LazyLoading";
-import { ForCompanyMutation } from "~/components/calculators/forCompany";
-import { Preview } from "~/components/calculators/forCompany/lazyLoading";
+import { Loading, Navbar, SideBar } from "~/components";
+import {
+  ForCompanyFormulas,
+  ForCompanyMutation,
+  Preview,
+} from "~/components/calculators/forCompany";
 import { useForCompany } from "~/hooks/useForCompany";
-
-const ForCompanyFormulas = lazy(
-  () => import("~/components/calculators/forCompany/ForCompanyFormulas")
-);
 
 const Fotowoltaika_firmy = () => {
   const router = useRouter();

@@ -3,10 +3,9 @@ import { Loader, Tabs } from "@mantine/core";
 import { useSession } from "next-auth/react";
 import { Toaster } from "react-hot-toast";
 import { useRouter } from "next/router";
-import { SideBar } from "~/components/LazyLoading";
 import { EditionForm } from "~/components/calculators/heatPumps";
 import { api } from "~/utils/api";
-import { Navbar } from "~/components";
+import { Navbar, SideBar } from "~/components";
 
 const DanePompyCiepla = () => {
   const { data: sessionData } = useSession();

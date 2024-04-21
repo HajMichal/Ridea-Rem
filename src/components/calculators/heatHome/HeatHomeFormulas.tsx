@@ -4,7 +4,7 @@ import { InputComponent, SelectComponent } from "~/components";
 import { useHeatHome } from "~/hooks/useHeatHome";
 import useStore from "~/store";
 
-const HeatHomeFormulas = () => {
+export const HeatHomeFormulas = () => {
   const store = useStore();
 
   const { heatHomeStore } = useHeatHome();

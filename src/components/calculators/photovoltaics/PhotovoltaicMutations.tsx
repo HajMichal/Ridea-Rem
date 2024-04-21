@@ -10,7 +10,7 @@ interface PhotovoltaicMutationsType {
   sessionData: Session | null;
 }
 
-export default function PhotovoltaicMutations({
+export function PhotovoltaicMutations({
   data,
   sessionData,
 }: PhotovoltaicMutationsType) {

@@ -6,7 +6,7 @@ interface HeatHomeMutationsType {
   sessionData: Session | null;
 }
 
-const HeatHomeMutations = ({ sessionData }: HeatHomeMutationsType) => {
+export const HeatHomeMutations = ({ sessionData }: HeatHomeMutationsType) => {
   const { jsonData, mutations, heatHomeStore, heatHomeCalcStore } =
     useHeatHome();
 
@@ -119,5 +119,3 @@ const HeatHomeMutations = ({ sessionData }: HeatHomeMutationsType) => {
     heatHomeCalcStore.termoModernization,
   ]);
 };
-
-export default HeatHomeMutations;

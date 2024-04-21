@@ -4,10 +4,11 @@ import { usePhotovoltaic } from "~/hooks/usePhotovoltaic";
 import { Loader } from "@mantine/core";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 
-export default function Preview() {
+export function Preview() {
   const { photovoltaicCalcStore, photovoltaicStore, loading } =
     usePhotovoltaic();
   const [parent] = useAutoAnimate();
+
   return (
     <div
       id="CALCULATIONS"

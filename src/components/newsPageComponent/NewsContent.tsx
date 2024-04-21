@@ -15,7 +15,7 @@ interface ContentType {
   isLoading: boolean;
 }
 
-const Content = ({ isLoading, imagesData, role }: ContentType) => {
+export const NewsContent = ({ isLoading, imagesData, role }: ContentType) => {
   return (
     <div className="flex flex-1 flex-wrap justify-start gap-5 p-10">
       {isLoading ? (
@@ -39,5 +39,3 @@ const Content = ({ isLoading, imagesData, role }: ContentType) => {
     </div>
   );
 };
-
-export default Content;

@@ -94,7 +94,7 @@ export const UserFeeFormField = ({
       removeMenagerForCompanyJson(user.name!);
       removeMenagerHeatHomeJson(user.name!);
     }
-    close();
+    setRemoveUserModal(false);
   };
 
   const handleRemoveUserModal = () => setRemoveUserModal(!removeUserModal);

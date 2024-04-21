@@ -4,8 +4,7 @@ import { useSession } from "next-auth/react";
 
 import { api } from "~/utils/api";
 import { type User } from "@prisma/client";
-import { Loading, UserFeeFormField } from "~/components";
-import { SideBar, Navbar } from "~/components/LazyLoading";
+import { Loading, Navbar, SideBar, UserFeeFormField } from "~/components";
 
 export type MenagerType = User & {
   workers: User[];

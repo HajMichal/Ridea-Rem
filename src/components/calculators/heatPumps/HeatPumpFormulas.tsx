@@ -6,7 +6,7 @@ import { useHeatPump } from "~/hooks/useHeatPump";
 import { type HeatPumpDataToCalculationType } from "~/server/api/routers/heatpump/interfaces";
 import useStore from "~/store";
 
-const HeatPumpFormulas = ({
+export const HeatPumpFormulas = ({
   data,
 }: {
   data: HeatPumpDataToCalculationType | undefined;
@@ -424,5 +424,3 @@ const HeatPumpFormulas = ({
     </div>
   );
 };
-
-export default HeatPumpFormulas;

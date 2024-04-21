@@ -8,7 +8,10 @@ interface ForCompanyMutationType {
   sessionData: Session | null;
 }
 
-const ForCompanyMutation = ({ data, sessionData }: ForCompanyMutationType) => {
+export const ForCompanyMutation = ({
+  data,
+  sessionData,
+}: ForCompanyMutationType) => {
   const isInitialRenderRef = useRef(true);
   const { mutations, forCompanyStore, forCompanyCalcStore } = useForCompany();
 
@@ -191,5 +194,3 @@ const ForCompanyMutation = ({ data, sessionData }: ForCompanyMutationType) => {
     forCompanyCalcStore.totalInstallationCosts,
   ]);
 };
-
-export default ForCompanyMutation;

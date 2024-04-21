@@ -5,7 +5,7 @@ import { YESNO } from "~/constans/formsData";
 import { useForCompany } from "~/hooks/useForCompany";
 import useStore from "~/store";
 
-const ForCompanyFormulas = () => {
+export const ForCompanyFormulas = () => {
   const store = useStore();
 
   const { forCompanyStore, forCompanyCalcStore } = useForCompany();
@@ -208,5 +208,3 @@ const ForCompanyFormulas = () => {
     </div>
   );
 };
-
-export default ForCompanyFormulas;

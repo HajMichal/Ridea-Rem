@@ -2,14 +2,13 @@ import React, { useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { Overlay } from "@mantine/core";
 import { useRouter } from "next/router";
-
-import { Loading } from "~/components";
-import { SideBar, Navbar } from "~/components/LazyLoading";
-import { Preview } from "~/components/calculators/heatPumps/lazyLoading";
-
-import HeatPumpMutations from "~/components/calculators/heatPumps/HeatPumpMutations";
-import HeatPumpFormulas from "~/components/calculators/heatPumps/HeatPumpFormulas";
 import { useHeatPump } from "~/hooks/useHeatPump";
+import { SideBar, Navbar, Loading } from "~/components";
+import {
+  HeatPumpMutations,
+  HeatPumpFormulas,
+  Preview,
+} from "~/components/calculators/heatPumps";
 
 const Pompy_ciepla = () => {
   const router = useRouter();

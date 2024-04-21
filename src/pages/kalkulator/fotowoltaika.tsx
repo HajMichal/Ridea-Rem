@@ -1,16 +1,14 @@
-import { PhotovoltaicMutations } from "~/components/calculators/photovoltaics";
-import { SideBar, Navbar } from "~/components/LazyLoading";
+import React, { useEffect } from "react";
 import { useSession } from "next-auth/react";
-import React, { lazy, useEffect } from "react";
-import { useRouter } from "next/router";
 import { Overlay } from "@mantine/core";
-import { Loading } from "~/components";
-import PhotovoltaicFormulas from "~/components/calculators/photovoltaics/PhotovoltaicFormulas";
+import {
+  PhotovoltaicMutations,
+  PhotovoltaicFormulas,
+  Preview,
+} from "~/components/calculators/photovoltaics";
+import { useRouter } from "next/router";
+import { Loading, Navbar, SideBar } from "~/components";
 import { usePhotovoltaic } from "~/hooks/usePhotovoltaic";
-
-const Preview = lazy(
-  () => import("~/components/calculators/photovoltaics/Preview")
-);
 
 const Fotowoltaika = () => {
   const { data: sessionData, status } = useSession();

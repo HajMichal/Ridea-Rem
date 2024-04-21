@@ -3,7 +3,7 @@ import { TextComponent, PdfGeneratorButton } from "../../";
 import { useForCompany } from "~/hooks/useForCompany";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 
-export default function Preview() {
+export function Preview() {
   const [parent] = useAutoAnimate();
   const { forCompanyStore, forCompanyCalcStore } = useForCompany();
 

@@ -1,17 +1,15 @@
 import { Overlay } from "@mantine/core";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import { lazy, useEffect } from "react";
+import { useEffect } from "react";
 
-import { Loading } from "~/components";
-import { SideBar, Navbar } from "~/components/LazyLoading";
-import { HeatHomeMutations } from "~/components/calculators/heatHome";
-import { Preview } from "~/components/calculators/heatHome/lazyLoading";
+import { Loading, Navbar, SideBar } from "~/components";
+import {
+  HeatHomeMutations,
+  Preview,
+  HeatHomeFormulas,
+} from "~/components/calculators/heatHome";
 import { useHeatHome } from "~/hooks/useHeatHome";
-
-const HeatHomeFormulas = lazy(
-  () => import("~/components/calculators/heatHome/HeatHomeFormulas")
-);
 
 const Cieplo_wlasciwe = () => {
   const { data: sessionData, status } = useSession();

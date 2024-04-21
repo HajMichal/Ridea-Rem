@@ -7,7 +7,7 @@ import { Group, Text } from "@mantine/core";
 interface dataFromJson {
   cop?: number;
 }
-export default function Preview({ cop }: dataFromJson) {
+export function Preview({ cop }: dataFromJson) {
   const { heatPumpStore, heatPumpCalcStore } = useHeatPump();
   const [parent] = useAutoAnimate();
 

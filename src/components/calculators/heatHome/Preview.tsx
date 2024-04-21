@@ -1,9 +1,9 @@
-import { useAutoAnimate } from "@formkit/auto-animate/react";
 import React from "react";
+import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { TextComponent, PdfGeneratorButton } from "../../";
 import { useHeatHome } from "~/hooks/useHeatHome";
 
-export default function Preview() {
+export function Preview() {
   const { heatHomeStore, heatHomeCalcStore } = useHeatHome();
   const [parent] = useAutoAnimate();
 
