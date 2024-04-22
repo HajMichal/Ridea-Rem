@@ -1,9 +1,14 @@
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import React, { useEffect } from "react";
-import { Navbar, SideBar } from "~/components";
-import { FileUploader, FileSection } from "~/components/documents/";
-import { Toaster } from "react-hot-toast";
+import dynamic from "next/dynamic";
+
+const SideBar = dynamic(() => import("~/components/SideBar"));
+const Navbar = dynamic(() => import("~/components/Navbar/Navbar"));
+const FileSection = dynamic(() => import("~/components/documents/FileSection"));
+const FileUploader = dynamic(
+  () => import("~/components/documents/FileUploader")
+);
 
 const Pliki = () => {
   const router = useRouter();
@@ -16,7 +21,6 @@ const Pliki = () => {
 
   return (
     <main className="flex h-full max-h-screen justify-center overflow-hidden bg-backgroundGray font-orkney">
-      <Toaster />
       <SideBar />
       <div className="w-full">
         <Navbar />

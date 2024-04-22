@@ -35,7 +35,7 @@ export interface PhotovoltaicsSlice {
       | "stan8"
       | "stan10"
       | "stan12";
-    energyStoreProducent: "SOLAX" | "HIPONTECH";
+    energyStoreProducent: "SOLAX" | "HYPONTECH";
     promotionAmount: number;
     isPromotion: boolean;
     twoInstallmentsFree: boolean;

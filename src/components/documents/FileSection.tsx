@@ -8,17 +8,22 @@ interface FileSectionType {
   userRole: number | undefined;
 }
 
-export const FileSection = ({ userRole }: FileSectionType): React.ReactNode => {
+export default function FileSection({
+  userRole,
+}: FileSectionType): React.ReactNode {
   const {
     data: documentsFiles,
-    isLoading,
+    isLoading: isDocumnetsLoading,
     isSuccess: isDocumentSuccess,
   } = api.getAllDocumentRouter.getAllFiles.useQuery("documents");
-  const { data: specificationFiles, isSuccess: isSpecificationSuccess } =
-    api.getAllDocumentRouter.getAllFiles.useQuery("specification");
+  const {
+    data: specificationFiles,
+    isLoading: isSpecificationLoading,
+    isSuccess: isSpecificationSuccess,
+  } = api.getAllDocumentRouter.getAllFiles.useQuery("specification");
   return (
     <>
-      {isLoading ? (
+      {isDocumnetsLoading || isSpecificationLoading ? (
         <div className="flex w-full justify-center">
           <Loading />
         </div>
@@ -45,4 +50,4 @@ export const FileSection = ({ userRole }: FileSectionType): React.ReactNode => {
       )}
     </>
   );
-};
+}

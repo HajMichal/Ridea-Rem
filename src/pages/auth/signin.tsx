@@ -4,6 +4,10 @@ import { type GetServerSideProps } from "next";
 import { TextInput, PasswordInput } from "@mantine/core";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import dynamic from "next/dynamic";
+
+const Logo = dynamic(() => import("~/components/Logo"));
+const Footer = dynamic(() => import("~/components/Footer"));
 
 export default function Signin() {
   const [error, setError] = useState<string>();
@@ -29,21 +33,12 @@ export default function Signin() {
     <div className="grid h-screen w-screen bg-[#E8E7E7] font-orkney laptop:grid-cols-2">
       <div className="flex h-screen items-center justify-between">
         <div className="h-[90%] w-5/6  rounded-r-[60px] bg-white p-10 shadow-sm">
-          <div className="flex w-full items-center justify-center ">
-            <Image
-              src={"/icons/logo_solo_color.svg"}
-              alt="Logo"
-              width={80}
-              height={80}
-              className="h-1/6 w-1/6"
-            />
-          </div>
-          <div className="flex w-full flex-col items-center gap-3 p-10">
-            <h1 className="font-orkneyBold font-extrabold xl:text-5xl">
-              DZIEŃ DOBRY!
-            </h1>
-            <h3 className="xl:text-xl">Wprowadź dane logowania</h3>
-          </div>
+          <Logo
+            isTitle
+            title="DZIEŃ DOBRY!"
+            subTitle="Tutaj stworzysz nowe konto!"
+            className="lg:h-[10%] lg:w-[10%] xl:h-1/6 xl:w-1/6"
+          />
           <div className="flex w-full justify-center">
             <div className="flex w-3/5 max-w-sm flex-col gap-5 font-orkneyLight">
               <TextInput
@@ -111,9 +106,7 @@ export default function Signin() {
               </button>
             </div>
           </div>
-          <div className="mt-10 flex w-full items-end justify-center p-5 font-orkneyBold xl:mt-32">
-            <h2>IDEA REM © 2024</h2>
-          </div>
+          <Footer />
         </div>
       </div>
       <div className="hidden h-screen items-center justify-center laptop:flex">
@@ -124,6 +117,7 @@ export default function Signin() {
             height={780}
             alt="Instalacja fotowoltiaki"
             priority
+            loading="eager"
             className="absolute right-0 h-auto  max-h-[730px] w-[60%] max-w-[1170px] rounded-l-[60px] xxl:max-h-[888px] xxl:max-w-[1582px]"
           ></Image>
         </div>

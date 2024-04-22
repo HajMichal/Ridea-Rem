@@ -162,7 +162,7 @@ export const EditionForm = ({ data }: EditionForm) => {
             }
           )}
         <h2 className="mt-10 w-full text-center text-2xl">
-          MAGAZYN ENERGII HIPONTECH
+          MAGAZYN ENERGII HYPONTECH
         </h2>
         {dynamicPropValues &&
           Object.entries(dynamicPropValues.magazyn_energii_hipontech).map(

@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import { FileInput, Radio } from "@mantine/core";
 import { MdOutlineAttachFile, MdOutlineExpandMore } from "react-icons/md";
 import { api } from "~/utils/api";
-import toast from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 import { encodeFile } from "~/utils/encodeFile";
 
-export const FileUploader = () => {
+export default function FileUploader() {
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
   const [file, setFile] = useState<File | null>();
   const [fileFolder, setFileFolder] = useState("documents");
@@ -94,6 +94,7 @@ export const FileUploader = () => {
           DODAJ PLIK
         </button>
       </div>
+      <Toaster />
     </div>
   );
-};
+}

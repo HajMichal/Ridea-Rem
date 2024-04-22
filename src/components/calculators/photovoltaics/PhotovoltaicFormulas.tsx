@@ -232,7 +232,7 @@ export function PhotovoltaicFormulas({
                   store.updatePhotovoltaic("energyStoreProducent", String(e))
                 }
                 value={photovoltaicStore.energyStoreProducent}
-                data={["SOLAX", "HIPONTECH"]}
+                data={["SOLAX", "HYPONTECH"]}
               />
               {photovoltaicStore.energyStoreProducent === "SOLAX" ? (
                 <SelectComponent
