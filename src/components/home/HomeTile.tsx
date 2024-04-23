@@ -9,7 +9,7 @@ interface HomeTileType {
   title: string;
   subTitle: string;
 }
-export function HomeTile({
+export default function HomeTile({
   url,
   src,
   iconSrc,

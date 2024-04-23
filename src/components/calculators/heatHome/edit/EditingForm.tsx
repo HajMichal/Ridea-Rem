@@ -20,7 +20,7 @@ interface HeatingThicknessType {
 interface EditionFormType {
   [key: string]: EachMenagerHeatHome;
 }
-export const EditionForm = ({ data }: EditionFormType) => {
+export default function EditionForm({ data }: EditionFormType) {
   const [opened, { open, close }] = useDisclosure(false);
 
   const { mutate } = api.heatHomeDataFlowRouter.editJSONFile.useMutation({
@@ -101,7 +101,7 @@ export const EditionForm = ({ data }: EditionFormType) => {
       />
     </>
   );
-};
+}
 // eslint-disable-next-line @typescript-eslint/consistent-indexed-object-style
 const jsonKeyNamesMapping: { [key: string]: string } = {
   m2_ocieplenia: "M² OCIEPLENIA",

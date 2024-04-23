@@ -1,7 +1,9 @@
 import { useSession } from "next-auth/react";
+import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-import { HomeTile } from "~/components/home/HomeTile";
+
+const HomeTile = dynamic(() => import("~/components/home/HomeTile"));
 
 export default function Home() {
   const { status } = useSession();

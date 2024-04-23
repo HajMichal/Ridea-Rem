@@ -2,10 +2,10 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import React, { useEffect } from "react";
 import dynamic from "next/dynamic";
+import FileSection from "~/components/documents/FileSection";
 
 const SideBar = dynamic(() => import("~/components/SideBar"));
-const Navbar = dynamic(() => import("~/components/Navbar/Navbar"));
-const FileSection = dynamic(() => import("~/components/documents/FileSection"));
+const Navbar = dynamic(() => import("~/components/navbar/Navbar"));
 const FileUploader = dynamic(
   () => import("~/components/documents/FileUploader")
 );

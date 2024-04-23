@@ -10,6 +10,7 @@ import {
 import { useDisclosure } from "@mantine/hooks";
 import { type FileWithPath } from "@uploadthing/react";
 import { useDropzone } from "@uploadthing/react/hooks";
+import { Toaster } from "react-hot-toast";
 
 import React, { useCallback, useEffect, useState } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
@@ -157,6 +158,7 @@ const CreateNewPost = ({ role = 3 }: CreateNewPostType) => {
           </form>
         )}
       </Modal>
+      <Toaster />
     </div>
   );
 };

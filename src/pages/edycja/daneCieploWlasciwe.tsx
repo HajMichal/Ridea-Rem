@@ -3,9 +3,14 @@ import { Loader, Tabs } from "@mantine/core";
 import { useSession } from "next-auth/react";
 import { Toaster } from "react-hot-toast";
 import { useRouter } from "next/router";
-import { EditionForm } from "~/components/calculators/heatHome";
 import { api } from "~/utils/api";
-import { Navbar, SideBar } from "~/components";
+import { Navbar } from "~/components";
+import dynamic from "next/dynamic";
+
+const SideBar = dynamic(() => import("~/components/SideBar"));
+const EditionForm = dynamic(
+  () => import("~/components/calculators/heatHome/edit/EditingForm")
+);
 
 const DaneCieploWlasciwe = () => {
   const { data: sessionData } = useSession();
@@ -16,7 +21,6 @@ const DaneCieploWlasciwe = () => {
 
   useEffect(() => {
     if ((sessionData && sessionData?.user.role !== 1) || sessionData === null) {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
       void router.push("/");
     }
   }, [sessionData, router]);
