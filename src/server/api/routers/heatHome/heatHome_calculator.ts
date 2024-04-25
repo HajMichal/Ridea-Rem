@@ -101,4 +101,14 @@ export const heatHomeCalculator = createTRPCRouter({
       })
     )
     .mutation(calc.finallPrice),
+  loanForPurcharse: publicProcedure
+    .input(
+      z.object({
+        finall_installation_cost: z.number(),
+        creditPercentage: z.number(),
+        instalmentNumber: z.number(),
+        grossInstalltaionBeforeDotationsCost: z.number(),
+      })
+    )
+    .mutation(calc.loanForPurcharse),
 });

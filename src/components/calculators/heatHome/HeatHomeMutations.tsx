@@ -118,4 +118,19 @@ export const HeatHomeMutations = ({ sessionData }: HeatHomeMutationsType) => {
     heatHomeCalcStore.amountAfterDotation,
     heatHomeCalcStore.termoModernization,
   ]);
+  useEffect(() => {
+    const creditPercentage = sessionStorage.getItem("creditPercentage");
+
+    if (jsonData && creditPercentage)
+      mutations.setLoanForpurcharse({
+        creditPercentage: Number(JSON.parse(creditPercentage)),
+        instalmentNumber: heatHomeStore.installmentNumber,
+        finall_installation_cost: heatHomeCalcStore.amountAfterDotation,
+        grossInstalltaionBeforeDotationsCost: heatHomeCalcStore.totalCost.gross,
+      });
+  }, [
+    heatHomeStore.installmentNumber,
+    heatHomeCalcStore.amountAfterDotation,
+    heatHomeCalcStore.totalCost,
+  ]);
 };

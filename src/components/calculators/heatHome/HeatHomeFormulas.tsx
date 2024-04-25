@@ -69,6 +69,15 @@ export const HeatHomeFormulas = () => {
           step={1}
           value={heatHomeStore.additionalAmount}
         />
+
+        <InputComponent
+          title="LICZBA RAT"
+          onChange={(e) => {
+            store.updateHeatHome("installmentNumber", e.target.valueAsNumber);
+          }}
+          step={10}
+          value={heatHomeStore.installmentNumber}
+        />
         <SelectComponent
           title="DOTACJA"
           onChange={(e) => store.updateHeatHome("dotationStep", String(e))}

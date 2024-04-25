@@ -1,4 +1,5 @@
 import { useSession } from "next-auth/react";
+import { useEffect } from "react";
 import {
   smallestPanel,
   mediumPanel,
@@ -17,6 +18,13 @@ export const usePhotovoltaic = () => {
     api.dataFlow.downloadFile.useQuery<PhotovoltaicDataToCalculation>(
       sessionData?.user.id
     );
+
+  useEffect(() => {
+    sessionStorage.setItem(
+      "creditPercentage",
+      JSON.stringify(data?.oprocentowanie_kredytu)
+    );
+  }, [data?.oprocentowanie_kredytu]);
 
   const {
     mutate: set_limit_price_trend,

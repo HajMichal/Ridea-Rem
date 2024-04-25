@@ -9,6 +9,7 @@ export interface HeatHomeType {
   consultantMarkup: number;
   additionalAmount: number;
   dotationStep: string;
+  installmentNumber: number;
 }
 
 export interface HeatHomeSliceType {
@@ -29,6 +30,7 @@ export const heatHomeSlice: StateCreator<HeatHomeSliceType> = (set) => ({
     consultantMarkup: 0,
     additionalAmount: 0,
     dotationStep: "prog0",
+    installmentNumber: 120,
   },
   updateHeatHome: (key, value) =>
     set((state) => ({

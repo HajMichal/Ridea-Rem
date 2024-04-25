@@ -89,3 +89,25 @@ export function finallPrice({ input }: { input: FinallPriceType }) {
     (input.amountAfterDotation - input.termoModernization).toFixed(2)
   );
 }
+
+interface LoanForPurcharseType {
+  finall_installation_cost: number;
+  creditPercentage: number;
+  instalmentNumber: number;
+  grossInstalltaionBeforeDotationsCost: number;
+}
+export function loanForPurcharse({ input }: { input: LoanForPurcharseType }) {
+  const monthlyInterestRate = input.creditPercentage / 12 / 100;
+
+  const monthlyPaymentBeforeDotations =
+    (input.grossInstalltaionBeforeDotationsCost * monthlyInterestRate) /
+    (1 - Math.pow(1 + monthlyInterestRate, -input.instalmentNumber));
+
+  const monthlyPayment =
+    (input.finall_installation_cost * monthlyInterestRate) /
+    (1 - Math.pow(1 + monthlyInterestRate, -input.instalmentNumber));
+  return {
+    finallInstalmentPice: Number(monthlyPayment.toFixed(2)),
+    instalmentBeforeDotations: Number(monthlyPaymentBeforeDotations.toFixed(2)),
+  };
+}

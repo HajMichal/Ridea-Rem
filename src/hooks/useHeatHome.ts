@@ -76,6 +76,12 @@ export const useHeatHome = () => {
       updateHeatHomeCalcs("finallPrice", data);
     },
   });
+  const { mutate: setLoanForpurcharse } =
+    api.heatHome.loanForPurcharse.useMutation({
+      onSuccess: (data) => {
+        updateHeatHomeCalcs("installmentPrice", data);
+      },
+    });
   return {
     jsonData: jsonData,
     heatHomeStore: heatHomeStore,
@@ -92,6 +98,7 @@ export const useHeatHome = () => {
       setAmountAfterDotation,
       setTermoModernization,
       setFinallPrice,
+      setLoanForpurcharse,
     },
   };
 };
