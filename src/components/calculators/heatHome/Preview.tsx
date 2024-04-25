@@ -52,12 +52,15 @@ export function Preview() {
                   title="KWOTA BRUTTO"
                   calculations={heatHomeCalcStore.totalCost.gross}
                 />
-                <TextComponent
-                  title="KWOTA RATY PRZED ODLICZENIEM DOTACJI"
-                  calculations={
-                    heatHomeCalcStore.installmentPrice.instalmentBeforeDotations
-                  }
-                />
+                {heatHomeStore.dotationStep !== "prog0" && (
+                  <TextComponent
+                    title="KWOTA RATY PRZED ODLICZENIEM DOTACJI"
+                    calculations={
+                      heatHomeCalcStore.installmentPrice
+                        .instalmentBeforeDotations
+                    }
+                  />
+                )}
               </div>
             )}
             <TextComponent
@@ -73,7 +76,7 @@ export function Preview() {
                 calculations={heatHomeCalcStore.amountAfterDotation}
               />
               <TextComponent
-                title={`KWOTA RATY PRZY ${heatHomeStore.installmentNumber} DOTACJACH`}
+                title={`KWOTA RATY PRZY ${heatHomeStore.installmentNumber} RATACH`}
                 color="green"
                 size="xl"
                 calculations={

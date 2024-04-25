@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
     zIndex: -1,
   },
   title: {
-    fontSize: 35,
+    fontSize: 25,
     fontWeight: 600,
     fontFamily: "Orkney",
     textAlign: "center",
@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontFamily: "Orkney",
     fontWeight: 600,
-    width: 210,
+    width: 230,
   },
   addonRowTittle: {
     fontSize: 10,
@@ -135,7 +135,7 @@ const HeatHomeDocument = ({ heatHomeCalcStore, heatHomeStore }: DataToPDF) => (
           src={`${process.env.NEXT_PUBLIC_BASE_URL}/static/heatHome/logo.png`}
         />
         <Text style={styles.title}>WYCENA</Text>
-        <View style={{ marginTop: 20, marginBottom: 46 }}>
+        <View style={{ marginTop: 20, marginBottom: 38 }}>
           <View style={styles.yellowRow}>
             <Text style={styles.rowTitle}>OCIEPLENIE DOMU</Text>
             <Text style={styles.rowData}>{heatHomeStore.areaToHeat} m2</Text>
@@ -150,9 +150,6 @@ const HeatHomeDocument = ({ heatHomeCalcStore, heatHomeStore }: DataToPDF) => (
             <Text style={styles.rowData}>
               {heatHomeStore.heatThickness.replace(/\D/g, "")} cm
             </Text>
-            {/* <Text style={styles.rowCost}>
-              {heatHomeCalcStore.heatingThicknessCost} zł
-            </Text> */}
           </View>
           <View style={styles.yellowRow}>
             <Text style={styles.rowTitle}>PARAPETY</Text>
@@ -209,7 +206,7 @@ const HeatHomeDocument = ({ heatHomeCalcStore, heatHomeStore }: DataToPDF) => (
             </Text>
           </View>
         </View>
-        <View style={{ marginTop: 50 }}>
+        <View style={{ marginTop: 40 }}>
           <View style={styles.defaultRow}>
             <Text style={styles.rowTitle}>DOTACJA</Text>
             <Text style={styles.rowCost}>
@@ -220,6 +217,14 @@ const HeatHomeDocument = ({ heatHomeCalcStore, heatHomeStore }: DataToPDF) => (
             <Text style={styles.rowTitle}>TERMOMODERNIZACJA</Text>
             <Text style={styles.rowCost}>
               {heatHomeCalcStore.termoModernization} zł
+            </Text>
+          </View>
+          <View style={styles.defaultRow}>
+            <Text style={styles.rowTitle}>
+              KWOTA RATY PRZY {heatHomeStore.installmentNumber} RATACH
+            </Text>
+            <Text style={styles.rowCost}>
+              {heatHomeCalcStore.installmentPrice.finallInstalmentPice} zł
             </Text>
           </View>
           <View style={styles.yellowRow}>
