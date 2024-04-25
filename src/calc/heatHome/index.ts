@@ -39,9 +39,19 @@ interface DotationValueType {
 export function dotationValue({ input }: { input: DotationValueType }) {
   const { dotationStep, totalCost } = input;
   if (dotationStep === "prog0") return 0;
-  if (dotationStep === "prog1") return Number((0.5 * totalCost).toFixed(2));
-  if (dotationStep === "prog2") return Number((0.7 * totalCost).toFixed(2));
-  if (dotationStep === "prog3") return totalCost;
+  if (dotationStep === "prog1") {
+    const dotationValue = Number((0.5 * totalCost).toFixed(2));
+    if (dotationValue > 66000) return 66000;
+    else return dotationValue;
+  }
+  if (dotationStep === "prog2") {
+    const dotationValue = Number((0.7 * totalCost).toFixed(2));
+    if (dotationValue > 99000) return 99000;
+    else return dotationValue;
+  }
+  if (dotationStep === "prog3")
+    if (totalCost > 135000) return 135000;
+    else return totalCost;
 }
 
 interface AmountAfterDotationType {
