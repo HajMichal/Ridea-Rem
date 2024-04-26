@@ -44,17 +44,6 @@ export const heatPump_calculator = createTRPCRouter({
         bufforType: z.string(),
         buffors: z.object({
           bufory100l: z.object({
-            przylaczeSchemat17: z.number(),
-            przylaczeSchemat24: z.number(),
-            przylaczeSchemat34: z.number(),
-          }),
-          bufory300l: z.object({
-            przylaczeSchemat17: z.number(),
-            przylaczeSchemat24: z.number(),
-            przylaczeSchemat34: z.number(),
-          }),
-          bufory500l: z.object({
-            przylaczeSchemat17: z.number(),
             przylaczeSchemat24: z.number(),
             przylaczeSchemat34: z.number(),
           }),
@@ -170,7 +159,6 @@ export const heatPump_calculator = createTRPCRouter({
     .input(
       z.object({
         montagePumpInCascadeCost: z.number(),
-        placementWithBurstCost: z.number(),
         newDrillingsCost: z.number(),
         longerIsolationFromMineralWoolCost: z.number(),
         preisolatedPipeCost: z.number(),
@@ -233,15 +221,6 @@ export const heatPump_calculator = createTRPCRouter({
       })
     )
     .mutation(calc.loanForPurcharse),
-  heatingWithHeatPump: publicProcedure
-    .input(
-      z.object({
-        yearlyHeatingUsage: z.number(),
-        cop: z.number(),
-        priceOf1kWh: z.number(),
-      })
-    )
-    .mutation(calc.heatingWithHeatPump),
   heatPumpCost: publicProcedure
     .input(
       z.object({

@@ -133,12 +133,6 @@ export const useHeatPump = () => {
         store.updateHeatPumpCalcs("loanForPurcharse", data);
       },
     });
-  const { mutate: setHeatingWithHeatPump } =
-    api.heatPump.heatingWithHeatPump.useMutation({
-      onSuccess: (data) => {
-        store.updateHeatPumpCalcs("heatingWithHeatPump", data);
-      },
-    });
   const { mutate: setMarkupCosts } = api.heatPump.markupCosts.useMutation({
     onSuccess: (data) => {
       store.updateHeatPumpCalcs("markupCosts", data);
@@ -151,7 +145,6 @@ export const useHeatPump = () => {
     heatPumpCalcStore: store.heatPumpCalculationStore,
     mutations: {
       setMarkupCosts,
-      setHeatingWithHeatPump,
       setBufforCost,
       setMontageInCascadeCost,
       setPlacementWithBurstCost,

@@ -30,14 +30,7 @@ export const HeatPumpMutations = ({
       });
     }
   }, [heatPumpStore.isAnotherHeatPumpInCascade, data]);
-  useEffect(() => {
-    if (data) {
-      mutations.setPlacementWithBurstCost({
-        isChoosed: heatPumpStore.isPlacemnetWithBurst,
-        placementCost: data.dodatki.posadowienie_rozsaczanie,
-      });
-    }
-  }, [heatPumpStore.isPlacemnetWithBurst, data]);
+
   useEffect(() => {
     if (data) {
       mutations.setNewDrillings({
@@ -166,7 +159,6 @@ export const HeatPumpMutations = ({
       montagePumpInCascadeCost: heatPumpCalcStore.montagePumpInCascadeCost,
       moveCwuCost: heatPumpCalcStore.moveCwuCost,
       newDrillingsCost: heatPumpCalcStore.newDrillingsCost,
-      placementWithBurstCost: heatPumpCalcStore.placementWithBurstCost,
       preisolatedPipeCost: heatPumpCalcStore.preisolatedPipeCost,
       markupSumValue: heatPumpCalcStore.markupCosts.markupSumValue,
     });
@@ -182,7 +174,6 @@ export const HeatPumpMutations = ({
     heatPumpCalcStore.montagePumpInCascadeCost,
     heatPumpCalcStore.newDrillingsCost,
     heatPumpCalcStore.moveCwuCost,
-    heatPumpCalcStore.placementWithBurstCost,
     heatPumpCalcStore.preisolatedPipeCost,
     heatPumpCalcStore.markupCosts,
   ]);
@@ -249,15 +240,6 @@ export const HeatPumpMutations = ({
     heatPumpCalcStore.finallGrossInstalationCost,
     data?.oprocentowanie_kredytu,
   ]);
-  useEffect(() => {
-    if (data) {
-      mutations.setHeatingWithHeatPump({
-        yearlyHeatingUsage: heatPumpStore.yearlyHeatingUsage,
-        cop: data.cop,
-        priceOf1kWh: data.cena1kWh,
-      });
-    }
-  }, [data, heatPumpStore.yearlyHeatingUsage]);
   useEffect(() => {
     mutations.setTermoModernizationRelif({
       dotationModernizationCoCwu:

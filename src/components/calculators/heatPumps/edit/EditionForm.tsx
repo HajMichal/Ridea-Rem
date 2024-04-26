@@ -79,71 +79,22 @@ export const EditionForm = ({ data }: EditionFormType) => {
           })}
         <h2 className="mt-5 w-full text-center text-3xl">BUFORY</h2>
         <h2 className="mt-5 w-full text-center text-xl">BUFORY 100L</h2>
-        <ChangeDataInputComponent
-          {...register("bufory.bufory100l.przylaczeSchemat17", {
-            valueAsNumber: true,
-          })}
-          title="PRZYŁĄCZE SCHEMAT 17"
-          defaultValue={dynamicPropValues!.bufory.bufory100l.przylaczeSchemat17}
-        />
+
         <ChangeDataInputComponent
           {...register("bufory.bufory100l.przylaczeSchemat24", {
             valueAsNumber: true,
           })}
-          title="PRZYŁĄCZE SCHEMAT 24"
+          title="SMART TOWER 1 OBIEG GRZEWCZY"
           defaultValue={dynamicPropValues!.bufory.bufory100l.przylaczeSchemat24}
         />
         <ChangeDataInputComponent
           {...register("bufory.bufory100l.przylaczeSchemat34", {
             valueAsNumber: true,
           })}
-          title="PRZYŁĄCZE SCHEMAT 34"
+          title="SMART TOWER 2 OBIEGI GRZEWCZE"
           defaultValue={dynamicPropValues!.bufory.bufory100l.przylaczeSchemat34}
         />
-        <h2 className="mt-5 w-full text-center text-xl">BUFORY 300L</h2>
-        <ChangeDataInputComponent
-          {...register("bufory.bufory300l.przylaczeSchemat17", {
-            valueAsNumber: true,
-          })}
-          title="PRZYŁĄCZE SCHEMAT 17"
-          defaultValue={dynamicPropValues!.bufory.bufory300l.przylaczeSchemat17}
-        />
-        <ChangeDataInputComponent
-          {...register("bufory.bufory300l.przylaczeSchemat24", {
-            valueAsNumber: true,
-          })}
-          title="PRZYŁĄCZE SCHEMAT 24"
-          defaultValue={dynamicPropValues!.bufory.bufory300l.przylaczeSchemat24}
-        />
-        <ChangeDataInputComponent
-          {...register("bufory.bufory300l.przylaczeSchemat34", {
-            valueAsNumber: true,
-          })}
-          title="PRZYŁĄCZE SCHEMAT 34"
-          defaultValue={dynamicPropValues!.bufory.bufory300l.przylaczeSchemat34}
-        />
-        <h2 className="mt-5 w-full text-center text-xl">BUFORY 500L</h2>
-        <ChangeDataInputComponent
-          {...register("bufory.bufory500l.przylaczeSchemat17", {
-            valueAsNumber: true,
-          })}
-          title="PRZYŁĄCZE SCHEMAT 17"
-          defaultValue={dynamicPropValues!.bufory.bufory500l.przylaczeSchemat17}
-        />
-        <ChangeDataInputComponent
-          {...register("bufory.bufory500l.przylaczeSchemat24", {
-            valueAsNumber: true,
-          })}
-          title="PRZYŁĄCZE SCHEMAT 24"
-          defaultValue={dynamicPropValues!.bufory.bufory500l.przylaczeSchemat24}
-        />
-        <ChangeDataInputComponent
-          {...register("bufory.bufory500l.przylaczeSchemat34", {
-            valueAsNumber: true,
-          })}
-          title="PRZYŁĄCZE SCHEMAT 34"
-          defaultValue={dynamicPropValues!.bufory.bufory500l.przylaczeSchemat34}
-        />
+
         {/* {jsxAddonsElements.map((element, index) => (
             <div key={index}>{element}</div>
           ))} */}
@@ -270,7 +221,6 @@ export const EditionForm = ({ data }: EditionFormType) => {
 
 const addonNamesMappings: { [key: string]: string } = {
   kolejna_kaskada: "KOLEJNA POMPA CIEPŁA W KASKADZIE",
-  posadowienie_rozsaczanie: "POSADOWIENIE Z ROZSĄCZANIEM",
   przewierty: "DODATKOWE PRZEWIERTY",
   poprowadzenie_instalacji_wierzchu:
     "INSTALACJA OD PC DO BUDYNKU W IZOLACJI Z WEŁNY MINERALNEJ",

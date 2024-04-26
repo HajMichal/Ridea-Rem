@@ -3,7 +3,6 @@ import { type StateCreator } from "zustand";
 export interface HeatPumpCalculations {
   bufforCost: number;
   montagePumpInCascadeCost: number;
-  placementWithBurstCost: number;
   newDrillingsCost: number;
   longerIsolationFromMineralWoolCost: number;
   preisolatedPipeCost: number;
@@ -33,10 +32,7 @@ export interface HeatPumpCalculations {
     finallInstalmentPice: number;
     instalmentBeforeDotations: number;
   };
-  heatingWithHeatPump: {
-    heatingWithHeatPumpCost: number;
-    heatPumpUsage: number;
-  };
+
   markupCosts: {
     officeFeeValue: number;
     consultantFeeValue: number;
@@ -60,7 +56,6 @@ export const heatPumpCalculationSlice: StateCreator<
     montagePumpInCascadeCost: 0,
     termoModernizationRelif: 0,
     bufforCost: 0,
-    placementWithBurstCost: 0,
     newDrillingsCost: 0,
     longerIsolationFromMineralWoolCost: 0,
     preisolatedPipeCost: 0,
@@ -89,10 +84,7 @@ export const heatPumpCalculationSlice: StateCreator<
       finallInstalmentPice: 0,
       instalmentBeforeDotations: 0,
     },
-    heatingWithHeatPump: {
-      heatingWithHeatPumpCost: 0,
-      heatPumpUsage: 0,
-    },
+
     markupCosts: {
       officeFeeValue: 0,
       consultantFeeValue: 0,

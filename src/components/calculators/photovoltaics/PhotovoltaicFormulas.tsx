@@ -91,14 +91,16 @@ export function PhotovoltaicFormulas({
             step={1}
             value={photovoltaicStore.modulesCount}
           />
-          <SelectComponent
-            title="MONTAŻ NA GRUNCIE"
-            onChange={(e) =>
-              store.updatePhotovoltaic("isGroundMontage", e == "true")
-            }
-            value={photovoltaicStore.isGroundMontage}
-            data={YESNO}
-          />
+          {!photovoltaicStore.isGroundMontage && (
+            <SelectComponent
+              title="DACH SKIEROWANY NA POŁUDNIE"
+              onChange={(e) =>
+                store.updatePhotovoltaic("southRoof", e == "true")
+              }
+              value={photovoltaicStore.southRoof}
+              data={YESNO}
+            />
+          )}
           <SelectComponent
             title="STOPIEŃ AUTOKONSUMPCJI ENERGII Z PV"
             onChange={(e) => {
@@ -116,16 +118,14 @@ export function PhotovoltaicFormulas({
               { value: "0.8", label: "80%" },
             ]}
           />
-          {!photovoltaicStore.isGroundMontage && (
-            <SelectComponent
-              title="DACH SKIEROWANY NA POŁUDNIE"
-              onChange={(e) =>
-                store.updatePhotovoltaic("southRoof", e == "true")
-              }
-              value={photovoltaicStore.southRoof}
-              data={YESNO}
-            />
-          )}
+          <SelectComponent
+            title="MONTAŻ NA GRUNCIE"
+            onChange={(e) =>
+              store.updatePhotovoltaic("isGroundMontage", e == "true")
+            }
+            value={photovoltaicStore.isGroundMontage}
+            data={YESNO}
+          />
           <SelectComponent
             title="MONTAŻ NA WIELU POWIERZCHNIACH - SOLAR EDGE"
             onChange={(e) =>

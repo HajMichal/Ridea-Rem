@@ -31,24 +31,7 @@ export function Preview({ cop }: dataFromJson) {
                 {heatPumpStore.suggestedPump}
               </Group>
             )}
-            <TextComponent
-              title="POWIERZCHNIA OGRZEWANA"
-              calculations={heatPumpStore.heatedArea}
-              unit="M²"
-            />
-            <TextComponent
-              title="WYSOKOŚĆ POMIESZCZEŃ"
-              calculations={heatPumpStore.roomHeight}
-              unit="CM"
-            />
-            <TextComponent
-              title="SUGEROWANA MOC URZĄDZENIA GRZEWCZEGO"
-              calculations={heatPumpStore.suggestedPumpPower}
-            />
-            <TextComponent
-              title="ROCZNE ZUŻYCIE ENERGII CIEPLNEJ NA OGRZEWANIE"
-              calculations={heatPumpStore.yearlyHeatingUsage}
-            />
+
             <TextComponent
               title="CENA ZAKUPU 1 TONY"
               calculations={heatPumpStore.oneTonneOfResourceCost}
@@ -85,10 +68,6 @@ export function Preview({ cop }: dataFromJson) {
             <TextComponent
               title="PRZYGOTOWANE PODŁOŻE POD POSADOWIENIE"
               calculations={heatPumpStore.isPumpPlacementOnCobblestone}
-            />
-            <TextComponent
-              title="POSADOWIENIE Z ROZSĄCZANIEM"
-              calculations={heatPumpStore.isPlacemnetWithBurst}
             />
             <TextComponent
               title="DODATKOWE PRZEWIERTY DO KOLEJNEGO POMIESZCZENIA Z MASZYNOWNI"
@@ -133,12 +112,6 @@ export function Preview({ cop }: dataFromJson) {
             <TextComponent
               title="ZAMKNIĘCIE UKŁADU OTWARTEGO"
               calculations={heatPumpStore.closingOpenSytem}
-            />
-            <TextComponent
-              title="SZACUNKOWY KOSZT OGRZEWANIA POMPĄ CIEPŁA"
-              calculations={heatPumpCalcStore.heatingWithHeatPump.heatingWithHeatPumpCost.toFixed(
-                2
-              )}
             />
             {!!heatPumpCalcStore.heatPumpPricingBeforeDotations.vatValue && (
               <TextComponent

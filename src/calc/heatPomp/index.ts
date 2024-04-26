@@ -201,41 +201,16 @@ interface BufforCostType {
   bufforType: string;
   buffors: {
     bufory100l: {
-      przylaczeSchemat17: number;
-      przylaczeSchemat24: number;
-      przylaczeSchemat34: number;
-    };
-    bufory300l: {
-      przylaczeSchemat17: number;
-      przylaczeSchemat24: number;
-      przylaczeSchemat34: number;
-    };
-    bufory500l: {
-      przylaczeSchemat17: number;
       przylaczeSchemat24: number;
       przylaczeSchemat34: number;
     };
   };
 }
 export function bufforCost({ input }: { input: BufforCostType }) {
-  if (input.bufforType === "Bufor 100l Szeregowo przyłącze schemat 17") {
-    return input.buffors.bufory100l.przylaczeSchemat17;
-  } else if (input.bufforType === "Bufor 100l Szeregowo przyłącze schemat 24") {
+  if (input.bufforType === "SMART TOWER 1 OBIEG GRZEWCZY") {
     return input.buffors.bufory100l.przylaczeSchemat24;
-  } else if (input.bufforType === "Bufor 100l Szeregowo przyłącze schemat 34") {
+  } else if (input.bufforType === "SMART TOWER 2 OBIEGI GRZEWCZE") {
     return input.buffors.bufory100l.przylaczeSchemat34;
-  } else if (input.bufforType === "Bufor 300l Szeregowo przyłącze schemat 17") {
-    return input.buffors.bufory300l.przylaczeSchemat17;
-  } else if (input.bufforType === "Bufor 300l Szeregowo przyłącze schemat 24") {
-    return input.buffors.bufory300l.przylaczeSchemat24;
-  } else if (input.bufforType === "Bufor 300l Szeregowo przyłącze schemat 34") {
-    return input.buffors.bufory300l.przylaczeSchemat34;
-  } else if (input.bufforType === "Bufor 500l Szeregowo przyłącze schemat 17") {
-    return input.buffors.bufory500l.przylaczeSchemat17;
-  } else if (input.bufforType === "Bufor 500l Szeregowo przyłącze schemat 24") {
-    return input.buffors.bufory500l.przylaczeSchemat24;
-  } else if (input.bufforType === "Bufor 500l Szeregowo przyłącze schemat 34") {
-    return input.buffors.bufory500l.przylaczeSchemat34;
   }
 }
 interface MontageAnotherPumpInCascadeType {
@@ -382,7 +357,6 @@ export function heatPumpCost({ input }: { input: HeatPumpCostType }) {
 
 interface AddonsSumCost {
   montagePumpInCascadeCost: number;
-  placementWithBurstCost: number;
   newDrillingsCost: number;
   longerIsolationFromMineralWoolCost: number;
   preisolatedPipeCost: number;
@@ -399,7 +373,6 @@ interface AddonsSumCost {
 export function addonsSumCost({ input }: { input: AddonsSumCost }) {
   return (
     input.montagePumpInCascadeCost +
-    input.placementWithBurstCost +
     input.newDrillingsCost +
     input.longerIsolationFromMineralWoolCost +
     input.preisolatedPipeCost +
@@ -525,21 +498,4 @@ export function loanForPurcharse({ input }: { input: LoanForPurcharseType }) {
   };
 }
 
-interface HeatingWithHeatPumpType {
-  yearlyHeatingUsage: number;
-  cop: number;
-  priceOf1kWh: number;
-}
-export function heatingWithHeatPump({
-  input,
-}: {
-  input: HeatingWithHeatPumpType;
-}) {
-  return {
-    heatingWithHeatPumpCost: Number(
-      ((input.yearlyHeatingUsage / input.cop) * input.priceOf1kWh).toFixed(2)
-    ),
-    heatPumpUsage: Number((input.yearlyHeatingUsage / input.cop).toFixed(2)),
-  };
-}
 export * as default from "./index";

@@ -19,17 +19,6 @@ const schema = z.record(
   z.object({
     bufory: z.object({
       bufory100l: z.object({
-        przylaczeSchemat17: z.number(),
-        przylaczeSchemat24: z.number(),
-        przylaczeSchemat34: z.number(),
-      }),
-      bufory300l: z.object({
-        przylaczeSchemat17: z.number(),
-        przylaczeSchemat24: z.number(),
-        przylaczeSchemat34: z.number(),
-      }),
-      bufory500l: z.object({
-        przylaczeSchemat17: z.number(),
         przylaczeSchemat24: z.number(),
         przylaczeSchemat34: z.number(),
       }),
@@ -37,7 +26,6 @@ const schema = z.record(
     pompy_ciepla: z.record(heatpumpValidator),
     dodatki: z.object({
       kolejna_kaskada: z.number(),
-      posadowienie_rozsaczanie: z.number(),
       przewierty: z.number(),
       poprowadzenie_instalacji_wierzchu: z.number(),
       rura_preizolowana: z.number(),

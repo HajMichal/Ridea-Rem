@@ -2,17 +2,6 @@
 export interface HeatPumpDataToCalculationType {
   bufory: {
     bufory100l: {
-      przylaczeSchemat17: number;
-      przylaczeSchemat24: number;
-      przylaczeSchemat34: number;
-    };
-    bufory300l: {
-      przylaczeSchemat17: number;
-      przylaczeSchemat24: number;
-      przylaczeSchemat34: number;
-    };
-    bufory500l: {
-      przylaczeSchemat17: number;
       przylaczeSchemat24: number;
       przylaczeSchemat34: number;
     };
@@ -25,7 +14,6 @@ export interface HeatPumpDataToCalculationType {
   };
   dodatki: {
     kolejna_kaskada: number;
-    posadowienie_rozsaczanie: number;
     przewierty: number;
     poprowadzenie_instalacji_wierzchu: number;
     rura_preizolowana: number;

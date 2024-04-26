@@ -25,138 +25,6 @@ export const HeatPumpFormulas = ({
       </h1>
       <ScrollArea h={"78%"}>
         <div className=" mr-4">
-          <h2 className="font-orkneyBold">DANE Z PORTALU CIEPŁO WŁAŚCIWE</h2>
-          <InputComponent
-            title="POWIERZCHNIA OGRZEWANA W M²"
-            onChange={(e) =>
-              store.updateHeatPump("heatedArea", e.target.valueAsNumber)
-            }
-            value={heatPumpStore.heatedArea}
-            step={10}
-          />
-          <InputComponent
-            title="WYSOKOŚĆ POMIESZCZEŃ W CM"
-            onChange={(e) =>
-              store.updateHeatPump("roomHeight", e.target.valueAsNumber)
-            }
-            value={heatPumpStore.roomHeight}
-            step={10}
-          />
-          <SelectComponent
-            title="DEKLAROWANA IZOLACJA BUDYNKU"
-            onChange={(e) =>
-              store.updateHeatPump("buildingIsolation", String(e))
-            }
-            value={heatPumpStore.buildingIsolation}
-            data={[
-              {
-                value: "OCIEPLENIE STYROPIAN / WEŁNA 5 CM",
-                label: "STYROPIAN / WEŁNA 5 CM",
-              },
-              {
-                value: "OCIEPLENIE STYROPIAN / WEŁNA 10 CM",
-                label: "STYROPIAN / WEŁNA 10 CM",
-              },
-              {
-                value: "OCIEPLENIE STYROPIAN / WEŁNA 15 CM",
-                label: "STYROPIAN / WEŁNA 15 CM",
-              },
-              {
-                value: "OCIEPLENIE STYROPIAN / WEŁNA 20 CM",
-                label: "STYROPIAN / WEŁNA 20 CM",
-              },
-              {
-                value: "OCIEPLENIE STYROPIAN / WEŁNA 25 CM",
-                label: "STYROPIAN / WEŁNA 25 CM",
-              },
-            ]}
-          />
-          <SelectComponent
-            title="OKNA"
-            onChange={(e) => store.updateHeatPump("windowLayers", String(e))}
-            value={heatPumpStore.windowLayers}
-            data={[
-              {
-                value: "OKNA CIEPŁE 1 SZYBOWE",
-                label: "CIEPŁE 1 SZYBOWE",
-              },
-              {
-                value: "OKNA CIEPŁE 2 SZYBOWE",
-                label: "CIEPŁE 2 SZYBOWE",
-              },
-              {
-                value: "OKNA CIEPŁE 3 SZYBOWE",
-                label: "CIEPŁE 3 SZYBOWE",
-              },
-            ]}
-          />
-          <SelectComponent
-            title="PRZESZKLENIA"
-            onChange={(e) => store.updateHeatPump("glazingType", String(e))}
-            value={heatPumpStore.glazingType}
-            data={[
-              {
-                value: "STANDARDOWE PRZESZKLENIA",
-                label: "STANDARDOWE",
-              },
-              { value: "DUŻE PRZESZKLENIA", label: "DUŻE" },
-            ]}
-          />
-          <SelectComponent
-            title="STROP"
-            onChange={(e) => store.updateHeatPump("isolatedCeiling", String(e))}
-            value={heatPumpStore.isolatedCeiling}
-            data={[
-              {
-                value: "IZOLOWANY STROP",
-                label: "IZOLOWANY",
-              },
-              { value: "NIEIZOLOWANY STROP", label: "NIEIZOLOWANY" },
-            ]}
-          />
-          <SelectComponent
-            title="DRZWI"
-            onChange={(e) => store.updateHeatPump("isolatedDoor", String(e))}
-            value={heatPumpStore.isolatedDoor}
-            data={[
-              {
-                value: "IZOLOWANE DRZWI",
-                label: "IZOLOWANE",
-              },
-              { value: "NIEIZOLOWANE DRZWI", label: "NIEIZOLOWANE" },
-            ]}
-          />
-          <SelectComponent
-            title="GRZEJNIKI"
-            onChange={(e) => store.updateHeatPump("heatersType", String(e))}
-            value={heatPumpStore.heatersType}
-            data={[
-              {
-                value: "GRZEJNIKI WYSOKOTEMPERATUROWE",
-                label: "WYSOKOTEMPERATUROWE",
-              },
-              {
-                value: "GRZEJNIKI NISKOTEMPERATUROWE",
-                label: "NISKOTEMPERATUROWE",
-              },
-            ]}
-          />
-          <InputComponent
-            title="SUGEROWANA MOC URZĄDZENIA GRZEWCZEGO"
-            onChange={(e) =>
-              store.updateHeatPump("suggestedPumpPower", e.target.valueAsNumber)
-            }
-            value={heatPumpStore.suggestedPumpPower}
-            step={1}
-          />
-          <InputComponent
-            title="ROCZNE ZUŻYCIE ENERGII CIEPLNEJ NA OGRZEWANIE"
-            onChange={(e) =>
-              store.updateHeatPump("yearlyHeatingUsage", e.target.valueAsNumber)
-            }
-            value={heatPumpStore.yearlyHeatingUsage}
-            step={1}
-          />
           <h2 className="mt-5 font-orkneyBold">AKTUALNE OGRZEWANIE</h2>
           <SelectComponent
             title="OBECNIE STOSOWANE PALIWO DO OGRZEWANIA"
@@ -241,15 +109,8 @@ export const HeatPumpFormulas = ({
               }}
               value={heatPumpStore.buforType}
               data={[
-                "Bufor 100l Szeregowo przyłącze schemat 17",
-                "Bufor 100l Szeregowo przyłącze schemat 24",
-                "Bufor 100l Szeregowo przyłącze schemat 34",
-                "Bufor 300l Szeregowo przyłącze schemat 17",
-                "Bufor 300l Szeregowo przyłącze schemat 24",
-                "Bufor 300l Szeregowo przyłącze schemat 34",
-                "Bufor 500l Szeregowo przyłącze schemat 17",
-                "Bufor 500l Szeregowo przyłącze schemat 24",
-                "Bufor 500l Szeregowo przyłącze schemat 34",
+                "SMART TOWER 1 OBIEG GRZEWCZY",
+                "SMART TOWER 2 OBIEGI GRZEWCZE",
               ]}
             />
           )}
@@ -287,15 +148,7 @@ export const HeatPumpFormulas = ({
             data={YESNO}
             smallField
           />
-          <SelectComponent
-            title="POSADOWIENIE Z ROZSĄCZANIEM"
-            onChange={(e) =>
-              store.updateHeatPump("isPlacemnetWithBurst", e == "true")
-            }
-            value={heatPumpStore.isPlacemnetWithBurst}
-            data={YESNO}
-            smallField
-          />
+
           <SelectComponent
             title="DODATKOWE PRZEWIERTY DO KOLEJNEGO POMIESZCZENIA Z MASZYNOWNI"
             onChange={(e) => store.updateHeatPump("newDrillings", e == "true")}

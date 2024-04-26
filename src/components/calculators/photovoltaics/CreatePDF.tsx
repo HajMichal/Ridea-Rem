@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
   headerBackground: {
     width: "70%",
     height: 40,
-    backgroundColor: "#FEEB1A",
+    backgroundColor: "#9cc766",
     borderRadius: "50%",
     display: "flex",
     justifyContent: "center",
@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
     width: "70%",
     marginTop: -10,
     height: 10,
-    backgroundColor: "#FEEB1A",
+    backgroundColor: "#9cc766",
     alignSelf: "center",
     zIndex: -200,
   },
@@ -154,10 +154,10 @@ const PhotovoltaicDocument = ({
           {photovoltaicCalcStore.markup_costs.officeFeeValue} /{" "}
           {photovoltaicCalcStore.markup_costs.officeFeeForBoss}
         </Text>
-        <Image
+        {/* <Image
           style={{ height: 60 }}
           src={`${process.env.NEXT_PUBLIC_BASE_URL}/static/pdf/logo.png`}
-        />
+        /> */}
 
         <View style={styles.headerBackground}>
           <Text style={styles.header}>OSZCZĘDNOŚCI Z TWOJEJ INSTALACJI</Text>
@@ -412,15 +412,15 @@ const PhotovoltaicDocument = ({
           alignItems: "center",
         }}
       >
-        <Image
+        {/* <Image
           style={{ height: 60, marginTop: 30 }}
           src={`${process.env.NEXT_PUBLIC_BASE_URL}/static/pdf/logo.png`}
-        />
+        /> */}
         <View style={styles.headerBackground}>
           <Text style={styles.header}>DANE TECHNICZNE TWOJEJ INSTALACJI</Text>
         </View>
 
-        <Image
+        {/* <Image
           style={{
             width: "100%",
             height: "100%",
@@ -428,6 +428,15 @@ const PhotovoltaicDocument = ({
             zIndex: -500,
           }}
           src={`${process.env.NEXT_PUBLIC_BASE_URL}/static/photovoltaic/background-photovoltaic.png`}
+        ></Image> */}
+        <Image
+          style={{
+            width: "100%",
+            height: "100%",
+            position: "absolute",
+            zIndex: -500,
+          }}
+          src={`${process.env.NEXT_PUBLIC_BASE_URL}/static/pdf/background.png`}
         ></Image>
         <View style={{ width: "85%", marginTop: 30 }}>
           <View style={styles.saveRow}>

@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
   },
   eachRow: {
     paddingHorizontal: 20,
-    backgroundColor: "#FEEB1A",
+    backgroundColor: "#9cc766",
     borderBottomLeftRadius: "50%",
     borderTopRightRadius: "50%",
     padding: 12,
@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
   },
   priceRow: {
     paddingHorizontal: 20,
-    backgroundColor: "#FEEB1A",
+    backgroundColor: "#9cc766",
     borderBottomLeftRadius: "50%",
     borderTopRightRadius: "50%",
     padding: 10,
@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
   },
   paymentReturnTime: {
     paddingHorizontal: 20,
-    backgroundColor: "#FEEB1A",
+    backgroundColor: "#9cc766",
     borderBottomLeftRadius: "50%",
     borderTopRightRadius: "50%",
     padding: 10,
@@ -155,35 +155,10 @@ const HeatPumpDocument = ({
       />
     </Page>
     <Page size="A4" style={styles.page}>
-      <Image
-        style={styles.image}
-        src={`${process.env.NEXT_PUBLIC_BASE_URL}/static/heatPumpPdf/strona3.png`}
-      />
-    </Page>
-    <Page size="A4" style={styles.page}>
       <View style={styles.pricingSection}>
         <Text style={styles.title}>OFERTA</Text>
         <Text style={styles.subTitle}>DOBÓR MOCY I ZAKRES USŁUG</Text>
-        <View style={styles.eachRow}>
-          <Text>WIELKOŚĆ POWIERZCHNI OGRZEWANEJ</Text>
-          <Text style={styles.boldFont}>{heatPumpStore.heatedArea} m2</Text>
-        </View>
-        <View style={styles.eachRow}>
-          <Text>WYSOKOŚĆ POMIESZCZEŃ</Text>
-          <Text style={styles.boldFont}>{heatPumpStore.roomHeight} cm</Text>
-        </View>
-        <View style={styles.eachRow}>
-          <Text>OSZACOWANE ZAPOTRZEBOWANIE NA CIEPŁO</Text>
-          <Text style={styles.boldFont}>
-            {heatPumpStore.suggestedPumpPower}
-          </Text>
-        </View>
-        <View style={styles.eachRow}>
-          <Text>PRZEWIDYWANE ROCZNE ZAPOTRZEBOWANI</Text>
-          <Text style={styles.boldFont}>
-            {heatPumpStore.yearlyHeatingUsage}
-          </Text>
-        </View>
+
         <View style={styles.eachRow}>
           <Text>ŚREDNIE SCOP POMPY CIEPŁA</Text>
           <Text style={styles.boldFont}>{cop}</Text>
@@ -191,18 +166,6 @@ const HeatPumpDocument = ({
         <View style={styles.eachRow}>
           <Text>POMPA CIEPŁA</Text>
           <Text style={styles.boldFont}>{heatPumpStore.suggestedPump}</Text>
-        </View>
-        <View style={styles.eachRow}>
-          <Text>PRZEWIDYWANE ZUŻYCIE ENERGII PRZEZ POMPĘ</Text>
-          <Text style={styles.boldFont}>
-            {heatPumpCalcStore.heatingWithHeatPump.heatPumpUsage} kWh/rok
-          </Text>
-        </View>
-        <View style={styles.eachRow}>
-          <Text>PRZEWIDYWANE KOSZTY OGRZEWANIA POMPĄ CIEPŁA</Text>
-          <Text style={styles.boldFont}>
-            {heatPumpCalcStore.heatingWithHeatPump.heatingWithHeatPumpCost} zł
-          </Text>
         </View>
         <View style={styles.eachRow}>
           <Text>TEMPERATURA BIWALENTNA</Text>
@@ -260,15 +223,14 @@ const HeatPumpDocument = ({
         </Text>
       </View>
       <View style={styles.imageSection}>
-        <Image
+        {/* <Image
           style={styles.logoImage}
           src={`${process.env.NEXT_PUBLIC_BASE_URL}/static/pdf/blackLogo.png`}
         />
         <Image
           style={styles.signatureImage}
           src={`${process.env.NEXT_PUBLIC_BASE_URL}/static/pdf/signatureIdeaRem.png`}
-        />
-        <Text style={styles.pageNum}>03</Text>
+        /> */}
       </View>
     </Page>
     <Page size="A4" style={styles.page}>
@@ -280,14 +242,6 @@ const HeatPumpDocument = ({
           <Text style={styles.boldFont}>
             {heatPumpStore.isAnotherHeatPumpInCascade
               ? heatPumpCalcStore.montagePumpInCascadeCost
-              : "NIE"}
-          </Text>
-        </View>
-        <View style={styles.eachRow}>
-          <Text>POSADADOWIENIE Z ROZSĄCZENIEM KONDENSATU</Text>
-          <Text style={styles.boldFont}>
-            {heatPumpStore.isPlacemnetWithBurst
-              ? heatPumpCalcStore.placementWithBurstCost
               : "NIE"}
           </Text>
         </View>
@@ -381,15 +335,14 @@ const HeatPumpDocument = ({
         </View>
       </View>
       <View style={styles.imageSection}>
-        <Image
+        {/* <Image
           style={styles.logoImage}
           src={`${process.env.NEXT_PUBLIC_BASE_URL}/static/pdf/blackLogo.png`}
         />
         <Image
           style={styles.signatureImage}
           src={`${process.env.NEXT_PUBLIC_BASE_URL}/static/pdf/signatureIdeaRem.png`}
-        />
-        <Text style={styles.pageNum}>04</Text>
+        /> */}
       </View>
     </Page>
     <Page size="A4" style={styles.page}>
@@ -432,7 +385,7 @@ const HeatPumpDocument = ({
         </View>
         <View
           style={{
-            backgroundColor: "#FEEB1A",
+            backgroundColor: "#9cc766",
             borderBottomLeftRadius: "25%",
             borderTopRightRadius: "25%",
             marginTop: 3,
@@ -464,7 +417,7 @@ const HeatPumpDocument = ({
           style={{
             marginTop: 150,
             marginRight: -300,
-            backgroundColor: "#FEEB1A",
+            backgroundColor: "#9cc766",
             borderBottomLeftRadius: "50%",
             padding: 22,
           }}
@@ -485,35 +438,16 @@ const HeatPumpDocument = ({
         </View>
       </View>
       <View style={styles.imageSection}>
-        <Image
+        {/* <Image
           style={styles.logoImage}
           src={`${process.env.NEXT_PUBLIC_BASE_URL}/static/pdf/blackLogo.png`}
         />
         <Image
           style={styles.signatureImage}
           src={`${process.env.NEXT_PUBLIC_BASE_URL}/static/pdf/signatureIdeaRem.png`}
-        />
-        <Text style={styles.pageNum}>05</Text>
+        /> */}
       </View>
     </Page>
-    {/* <Page size="A4" style={styles.page}>
-      {heatPumpStore.buforType.includes("17") && (
-        <Image
-          src={`${process.env.NEXT_PUBLIC_BASE_URL}/static/heatPumpPdf/schemat17.jpg`}
-        />
-      )}
-      {heatPumpStore.buforType.includes("24") && (
-        <Image
-          src={`${process.env.NEXT_PUBLIC_BASE_URL}/static/heatPumpPdf/schemat24.png`}
-        />
-      )}
-
-      {heatPumpStore.buforType.includes("34") && (
-        <Image
-          src={`${process.env.NEXT_PUBLIC_BASE_URL}/static/heatPumpPdf/schemat34.png`}
-        />
-      )}
-    </Page> */}
   </Document>
 );
 
