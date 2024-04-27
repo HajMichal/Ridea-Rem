@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
   headerBackground: {
     width: "70%",
     height: 40,
-    backgroundColor: "#9cc766",
+    backgroundColor: "#a3c572",
     borderRadius: "50%",
     display: "flex",
     justifyContent: "center",
@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
     width: "70%",
     marginTop: -10,
     height: 10,
-    backgroundColor: "#9cc766",
+    backgroundColor: "#a3c572",
     alignSelf: "center",
     zIndex: -200,
   },

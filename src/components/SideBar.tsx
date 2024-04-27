@@ -45,14 +45,14 @@ const SideBarButton = ({
 const SideBar = memo(function SideBar() {
   return (
     <div className="flex h-full max-h-screen min-h-screen w-auto flex-col justify-between gap-3  bg-[#191918] font-orkney">
-      <Link className="mt-3 flex w-full justify-center" href={"/home"}>
+      <Link className="mt-[30px] flex w-full justify-center" href={"/home"}>
         <Image
-          src={"/icons/logo_solo_yellowSun.svg"}
+          src={"/icons/newLogoBlack.svg"}
           width={180}
           height={180}
           alt="Logo"
-          priority
-          className="w-full max-w-[70px]"
+          loading="eager"
+          className="w-full max-w-[120px]"
         ></Image>
       </Link>
       <div className="-mt-36 flex h-full w-full min-w-[145px] flex-col gap-6 text-white ">
@@ -79,7 +79,7 @@ const SideBar = memo(function SideBar() {
         />
       </div>
       <div className="m-3 text-center text-xs text-white">
-        <p>IDEA REM </p>
+        <p>Przyjazna Natura</p>
         <p>© 2024 </p>
       </div>
     </div>

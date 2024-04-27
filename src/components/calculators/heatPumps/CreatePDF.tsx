@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
   },
   eachRow: {
     paddingHorizontal: 20,
-    backgroundColor: "#9cc766",
+    backgroundColor: "#a3c572",
     borderBottomLeftRadius: "50%",
     borderTopRightRadius: "50%",
     padding: 12,
@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
   },
   priceRow: {
     paddingHorizontal: 20,
-    backgroundColor: "#9cc766",
+    backgroundColor: "#a3c572",
     borderBottomLeftRadius: "50%",
     borderTopRightRadius: "50%",
     padding: 10,
@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
   },
   paymentReturnTime: {
     paddingHorizontal: 20,
-    backgroundColor: "#9cc766",
+    backgroundColor: "#a3c572",
     borderBottomLeftRadius: "50%",
     borderTopRightRadius: "50%",
     padding: 10,
@@ -385,7 +385,7 @@ const HeatPumpDocument = ({
         </View>
         <View
           style={{
-            backgroundColor: "#9cc766",
+            backgroundColor: "#a3c572",
             borderBottomLeftRadius: "25%",
             borderTopRightRadius: "25%",
             marginTop: 3,
@@ -417,7 +417,7 @@ const HeatPumpDocument = ({
           style={{
             marginTop: 150,
             marginRight: -300,
-            backgroundColor: "#9cc766",
+            backgroundColor: "#a3c572",
             borderBottomLeftRadius: "50%",
             padding: 22,
           }}
