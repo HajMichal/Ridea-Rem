@@ -9,13 +9,6 @@ import {
 } from "~/server/api/routers/heatHome/interfaces";
 import { api } from "~/utils/api";
 
-interface HeatingThicknessType {
-  grubosciOcieplenia: {
-    cm_15: number;
-    cm_20: number;
-    cm_25: number;
-  };
-}
 // eslint-disable-next-line @typescript-eslint/consistent-indexed-object-style
 interface EditionFormType {
   [key: string]: EachMenagerHeatHome;
@@ -48,40 +41,20 @@ export default function EditionForm({ data }: EditionFormType) {
         <h2 className="mt-5 w-full text-center text-3xl">CIEPŁO WŁAŚCIWE</h2>
         {dynamicPropValues &&
           Object.entries(dynamicPropValues).map(
-            (value: [string, number | HeatingThicknessType], index) => {
-              if (typeof value[1] !== "number") {
-                return Object.entries(dynamicPropValues.grubosciOcieplenia).map(
-                  (value: [string, number], index) => (
-                    <ChangeDataInputComponent
-                      {...register(
-                        `grubosciOcieplenia.${value[0]}` as keyof typeof dynamicPropValues,
-                        {
-                          valueAsNumber: true,
-                        }
-                      )}
-                      title={
-                        heatingThicknessNamesMapping[value[0] || value[0]]!
-                      }
-                      defaultValue={value[1]}
-                      key={index}
-                    />
-                  )
-                );
-              } else {
-                return (
-                  <ChangeDataInputComponent
-                    {...register(
-                      `${value[0]}` as keyof typeof dynamicPropValues,
-                      {
-                        valueAsNumber: true,
-                      }
-                    )}
-                    title={jsonKeyNamesMapping[value[0] || value[0]]!}
-                    defaultValue={value[1]}
-                    key={index}
-                  />
-                );
-              }
+            (value: [string, number], index) => {
+              return (
+                <ChangeDataInputComponent
+                  {...register(
+                    `${value[0]}` as keyof typeof dynamicPropValues,
+                    {
+                      valueAsNumber: true,
+                    }
+                  )}
+                  title={jsonKeyNamesMapping[value[0] || value[0]]!}
+                  defaultValue={value[1]}
+                  key={index}
+                />
+              );
             }
           )}
       </form>
@@ -108,10 +81,5 @@ const jsonKeyNamesMapping: { [key: string]: string } = {
   parapety: "PARAPETY",
   tynk: "M² TYNK",
   wykonczenie: "M² WYKOŃCZENIE GÓRNE",
-};
-// eslint-disable-next-line @typescript-eslint/consistent-indexed-object-style
-const heatingThicknessNamesMapping: { [key: string]: string } = {
-  cm_15: "15 CM GRUBOŚCI",
-  cm_20: "20 CM GRUBOŚCI",
-  cm_25: "25 CM GRUBOŚCI",
+  audytEnergetyczny: "AUDYT ENERGETYCZNY",
 };

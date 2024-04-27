@@ -24,14 +24,6 @@ export const HeatHomeMutations = ({ sessionData }: HeatHomeMutationsType) => {
   ]);
   useEffect(() => {
     if (jsonData)
-      mutations.setHeatingThicknessCost({
-        area: heatHomeStore.areaToHeat,
-        // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
-        cost: jsonData.grubosciOcieplenia[heatHomeStore.heatThickness!],
-      });
-  }, [heatHomeStore.areaToHeat, heatHomeStore.heatThickness]);
-  useEffect(() => {
-    if (jsonData)
       mutations.setWindowSillCost({
         area: heatHomeStore.windowSillCount,
         cost: jsonData.parapety,
@@ -133,4 +125,13 @@ export const HeatHomeMutations = ({ sessionData }: HeatHomeMutationsType) => {
     heatHomeCalcStore.amountAfterDotation,
     heatHomeCalcStore.totalCost,
   ]);
+
+  useEffect(() => {
+    if (jsonData) {
+      mutations.setEneregeticAuditCost({
+        isAudit: heatHomeStore.isEnergeticAudit,
+        auditCost: jsonData.audytEnergetyczny,
+      });
+    }
+  }, [jsonData?.audytEnergetyczny, heatHomeStore.isEnergeticAudit]);
 };

@@ -20,12 +20,6 @@ export const useHeatHome = () => {
         updateHeatHomeCalcs("heatedAreaCost", data);
       },
     });
-  const { mutate: setHeatingThicknessCost } =
-    api.heatHome.addonCostCounter.useMutation({
-      onSuccess: (data) => {
-        updateHeatHomeCalcs("heatingThicknessCost", data);
-      },
-    });
   const { mutate: setWindowSillCost } =
     api.heatHome.addonCostCounter.useMutation({
       onSuccess: (data) => {
@@ -82,13 +76,18 @@ export const useHeatHome = () => {
         updateHeatHomeCalcs("installmentPrice", data);
       },
     });
+  const { mutate: setEneregeticAuditCost } =
+    api.heatHome.eneregeticAuditCost.useMutation({
+      onSuccess: (data) => {
+        updateHeatHomeCalcs("energeticAuditCost", data);
+      },
+    });
   return {
     jsonData: jsonData,
     heatHomeStore: heatHomeStore,
     heatHomeCalcStore: heatHomeCalculationsStore,
     mutations: {
       setHeatedAreaCost,
-      setHeatingThicknessCost,
       setWindowSillCost,
       setPlasterAreaCost,
       setTopFinishCost,
@@ -99,6 +98,7 @@ export const useHeatHome = () => {
       setTermoModernization,
       setFinallPrice,
       setLoanForpurcharse,
+      setEneregeticAuditCost,
     },
   };
 };

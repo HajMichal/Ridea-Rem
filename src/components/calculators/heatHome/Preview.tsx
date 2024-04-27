@@ -21,6 +21,9 @@ export function Preview() {
             ref={parent}
             className="mt-3 h-[75%] w-full overflow-y-auto px-10"
           >
+            <h3 className="text-center font-orkneyLight">
+              GRUBOŚĆ OCIEPLENIA DOBRANA NA PODSTAWIE AUDYTU ENERGETYCZNEGO
+            </h3>
             <TextComponent
               title="POWIERZCHNIA DO OCIEPLENIA"
               calculations={heatHomeStore.areaToHeat}
@@ -82,6 +85,11 @@ export function Preview() {
                 calculations={
                   heatHomeCalcStore.installmentPrice.finallInstalmentPice
                 }
+              />
+              <TextComponent
+                title="CENA AUDYTU ENERGETYCZNEGO"
+                calculations={heatHomeCalcStore.energeticAuditCost}
+                unit="ZŁ"
               />
             </div>
           </div>

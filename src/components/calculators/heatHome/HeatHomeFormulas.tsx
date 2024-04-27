@@ -1,6 +1,7 @@
 import { ScrollArea } from "@mantine/core";
 import React from "react";
 import { InputComponent, SelectComponent } from "~/components";
+import { YESNO } from "~/constans/formsData";
 import { useHeatHome } from "~/hooks/useHeatHome";
 import useStore from "~/store";
 
@@ -18,22 +19,12 @@ export const HeatHomeFormulas = () => {
         CIEPŁO WŁAŚCIWE
       </h1>
       <ScrollArea h={"78%"}>
-        <SelectComponent
-          title="GRUBOŚĆ OCIEPLENIA"
-          onChange={(e) => store.updateHeatHome("heatThickness", String(e))}
-          value={heatHomeStore.heatThickness}
-          data={[
-            { label: "15 cm", value: "cm_15" },
-            { label: "20 cm", value: "cm_20" },
-            { label: "25 cm", value: "cm_25" },
-          ]}
-          smallField
-        />
         <InputComponent
           title="ILOŚĆ M² OCIEPLENIA"
-          onChange={(e) =>
-            store.updateHeatHome("areaToHeat", e.target.valueAsNumber)
-          }
+          onChange={(e) => {
+            store.updateHeatHome("areaToHeat", e.target.valueAsNumber);
+            store.updateHeatHome("plasterArea", e.target.valueAsNumber);
+          }}
           step={1}
           value={heatHomeStore.areaToHeat}
         />
@@ -51,7 +42,8 @@ export const HeatHomeFormulas = () => {
             store.updateHeatHome("plasterArea", e.target.valueAsNumber)
           }
           step={1}
-          value={heatHomeStore.plasterArea}
+          value={heatHomeStore.areaToHeat}
+          disable
         />
         <InputComponent
           title="WYKOŃCZENIE GÓRNE (ATTICA/OGNIOMUR)"
@@ -69,7 +61,6 @@ export const HeatHomeFormulas = () => {
           step={1}
           value={heatHomeStore.additionalAmount}
         />
-
         <InputComponent
           title="LICZBA RAT"
           onChange={(e) => {
@@ -89,6 +80,16 @@ export const HeatHomeFormulas = () => {
             { label: "PRÓG 3", value: "prog3" },
           ]}
           smallField
+        />
+
+        <SelectComponent
+          title="AUDYT ENERGETYCZNY"
+          onChange={(e) =>
+            store.updateHeatHome("isEnergeticAudit", e == "true")
+          }
+          value={heatHomeStore.isEnergeticAudit}
+          data={YESNO}
+          className="mt-20"
         />
       </ScrollArea>
     </div>

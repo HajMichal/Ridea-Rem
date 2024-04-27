@@ -111,3 +111,16 @@ export function loanForPurcharse({ input }: { input: LoanForPurcharseType }) {
     instalmentBeforeDotations: Number(monthlyPaymentBeforeDotations.toFixed(2)),
   };
 }
+
+interface EneregeticAuditCostType {
+  auditCost: number;
+  isAudit: boolean;
+}
+export function eneregeticAuditCost({
+  input,
+}: {
+  input: EneregeticAuditCostType;
+}) {
+  if (input.isAudit) return Number((input.auditCost * 1.23).toFixed(2));
+  else return 0;
+}

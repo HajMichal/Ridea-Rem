@@ -1,7 +1,6 @@
 import { type StateCreator } from "zustand";
 
 export interface HeatHomeType {
-  heatThickness: "cm_15" | "cm_20" | "cm_25";
   areaToHeat: number;
   windowSillCount: number;
   plasterArea: number;
@@ -10,27 +9,28 @@ export interface HeatHomeType {
   additionalAmount: number;
   dotationStep: string;
   installmentNumber: number;
+  isEnergeticAudit: boolean;
 }
 
 export interface HeatHomeSliceType {
   heatHomeStore: HeatHomeType;
   updateHeatHome: (
     key: string,
-    value: string | number | undefined | object
+    value: string | number | boolean | undefined | object
   ) => void;
 }
 
 export const heatHomeSlice: StateCreator<HeatHomeSliceType> = (set) => ({
   heatHomeStore: {
-    heatThickness: "cm_15",
     areaToHeat: 0,
     windowSillCount: 0,
     plasterArea: 0,
     topFinish: 0,
     consultantMarkup: 0,
     additionalAmount: 0,
-    dotationStep: "prog0",
     installmentNumber: 120,
+    dotationStep: "prog0",
+    isEnergeticAudit: false,
   },
   updateHeatHome: (key, value) =>
     set((state) => ({

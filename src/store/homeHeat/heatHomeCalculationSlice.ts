@@ -21,6 +21,7 @@ export interface HeatHomeCalculations {
   amountAfterDotation: number;
   termoModernization: number;
   finallPrice: number;
+  energeticAuditCost: number;
   installmentPrice: {
     finallInstalmentPice: number;
     instalmentBeforeDotations: number;
@@ -59,6 +60,7 @@ export const heatHomeCalculationSlice: StateCreator<
     amountAfterDotation: 0,
     termoModernization: 0,
     finallPrice: 0,
+    energeticAuditCost: 0,
     installmentPrice: {
       finallInstalmentPice: 0,
       instalmentBeforeDotations: 0,

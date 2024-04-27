@@ -11,16 +11,20 @@ interface SelectType {
       }[]
     | string[];
   smallField?: boolean;
+  className?: string;
 }
 export const SelectComponent = ({
   title,
   onChange,
   value,
   data,
+  className,
   smallField = false,
 }: SelectType) => {
   return (
-    <div className="my-3 flex w-full items-center gap-2 font-orkneyLight">
+    <div
+      className={`my-3 flex w-full items-center gap-2 font-orkneyLight ${className}`}
+    >
       <Select
         onChange={onChange}
         value={String(value)}

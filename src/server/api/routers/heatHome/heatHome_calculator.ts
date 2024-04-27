@@ -111,4 +111,13 @@ export const heatHomeCalculator = createTRPCRouter({
       })
     )
     .mutation(calc.loanForPurcharse),
+
+  eneregeticAuditCost: publicProcedure
+    .input(
+      z.object({
+        isAudit: z.boolean(),
+        auditCost: z.number(),
+      })
+    )
+    .mutation(calc.eneregeticAuditCost),
 });

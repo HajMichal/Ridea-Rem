@@ -135,8 +135,20 @@ const HeatHomeDocument = ({ heatHomeCalcStore, heatHomeStore }: DataToPDF) => (
           src={`${process.env.NEXT_PUBLIC_BASE_URL}/static/heatHome/logo.png`}
         />
         <Text style={styles.title}>WYCENA</Text>
-        <View style={{ marginTop: 20, marginBottom: 38 }}>
+        <View style={{ marginTop: 20, marginBottom: 24 }}>
           <View style={styles.yellowRow}>
+            <Text
+              style={{
+                width: "100%",
+                fontSize: "10px",
+                textAlign: "center",
+                marginTop: -2,
+              }}
+            >
+              GRUBOŚĆ OCIEPLENIA DOBRANA NA PODSTAWIE AUDYTU ENERGETYCZNEGO
+            </Text>
+          </View>
+          <View style={styles.defaultRow}>
             <Text style={styles.rowTitle}>OCIEPLENIE DOMU</Text>
             <Text style={styles.rowData}>{heatHomeStore.areaToHeat} m2</Text>
             <Text style={styles.rowCost}>
@@ -145,12 +157,7 @@ const HeatHomeDocument = ({ heatHomeCalcStore, heatHomeStore }: DataToPDF) => (
               zł
             </Text>
           </View>
-          <View style={styles.defaultRow}>
-            <Text style={styles.rowTitle}>GRUBOŚĆ OCIEPLENIA</Text>
-            <Text style={styles.rowData}>
-              {heatHomeStore.heatThickness.replace(/\D/g, "")} cm
-            </Text>
-          </View>
+
           <View style={styles.yellowRow}>
             <Text style={styles.rowTitle}>PARAPETY</Text>
             <Text style={styles.rowData}>
@@ -206,14 +213,14 @@ const HeatHomeDocument = ({ heatHomeCalcStore, heatHomeStore }: DataToPDF) => (
             </Text>
           </View>
         </View>
-        <View style={{ marginTop: 40 }}>
+        <View style={{ marginTop: 24 }}>
           <View style={styles.defaultRow}>
             <Text style={styles.rowTitle}>DOTACJA</Text>
             <Text style={styles.rowCost}>
               {heatHomeCalcStore.dotationValue} zł
             </Text>
           </View>
-          <View style={styles.defaultRow}>
+          <View style={styles.yellowRow}>
             <Text style={styles.rowTitle}>TERMOMODERNIZACJA</Text>
             <Text style={styles.rowCost}>
               {heatHomeCalcStore.termoModernization} zł
@@ -231,6 +238,12 @@ const HeatHomeDocument = ({ heatHomeCalcStore, heatHomeStore }: DataToPDF) => (
             <Text style={styles.rowTitle}>KWOTA OSTATECZNA</Text>
             <Text style={styles.rowCost}>
               {heatHomeCalcStore.finallPrice} zł
+            </Text>
+          </View>
+          <View style={styles.defaultRow}>
+            <Text style={styles.rowTitle}>AUDYT ENERGETYCZNY</Text>
+            <Text style={styles.rowCost}>
+              {heatHomeCalcStore.energeticAuditCost} zł
             </Text>
           </View>
         </View>

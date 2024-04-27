@@ -17,6 +17,7 @@ const schema = z.record(
     parapety: z.number(),
     tynk: z.number(),
     wykonczenie: z.number(),
+    audytEnergetyczny: z.number(),
   })
 );
 
