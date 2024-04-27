@@ -17,34 +17,23 @@ const SideBarButton = ({
   longWord = false,
 }: LinkComponentType) => {
   const { asPath } = useRouter();
+  const validator = asPath === href || asPath === href2;
   return (
     <Link
       href={href}
-      className={`mt-20 flex h-full w-full -rotate-90 flex-wrap items-stretch justify-center text-center ${
-        longWord && "mt-28"
-      }`}
+      className={`mt-5 flex h-full w-60 flex-wrap items-stretch gap-1 px-3 duration-300 hover:translate-x-3`}
     >
-      <p
-        className={`${
-          asPath === href || asPath === href2 ? "text-brand" : ""
-        } whitespace-nowrap `}
-      >
+      <span className={`h-5 w-1 bg-brand ${!validator && "hidden"}`} />
+      <h3 className={`${validator ? "text-brand" : ""} tracking-wide`}>
         {title}
-      </p>
-      <div
-        className={
-          asPath === href || asPath === href2
-            ? "h-1 w-3/4 translate-y-[59px] bg-brand"
-            : ""
-        }
-      ></div>
+      </h3>
     </Link>
   );
 };
 
 const SideBar = memo(function SideBar() {
   return (
-    <div className="flex h-full max-h-screen min-h-screen w-auto flex-col justify-between gap-3  bg-[#191918] font-orkney">
+    <div className="flex h-full max-h-screen min-h-screen w-auto flex-col justify-between gap-3 bg-[#191918] font-orkney">
       <Link className="mt-[30px] flex w-full justify-center" href={"/home"}>
         <Image
           src={"/icons/newLogoGreen.svg"}
@@ -52,10 +41,10 @@ const SideBar = memo(function SideBar() {
           height={180}
           alt="Logo"
           loading="eager"
-          className="w-full max-w-[120px]"
+          className="w-full max-w-[160px]"
         ></Image>
       </Link>
-      <div className="-mt-36 flex h-full w-full min-w-[145px] flex-col gap-6 text-white ">
+      <div className="-mt-36 flex h-full w-full min-w-[145px] flex-col justify-start gap-6 text-white">
         <SideBarButton
           href="/kalkulator/fotowoltaika"
           href2="/edycja/daneFotowoltaiki"
@@ -75,7 +64,16 @@ const SideBar = memo(function SideBar() {
           href="/kalkulator/cieplo_wlasciwe"
           href2="/edycja/daneCieploWlasciwe"
           title="TERMOMODERNIZACJA"
-          longWord
+        />
+        <SideBarButton
+          href="/kalkulator/kotly"
+          href2="/edycja/daneKotlyPelletowe"
+          title="KOTŁY PELLETOWE"
+        />
+        <SideBarButton
+          href="/kalkulator/okna"
+          href2="/edycja/daneOkna"
+          title="OKNA"
         />
       </div>
       <div className="m-3 text-center text-xs text-white">
