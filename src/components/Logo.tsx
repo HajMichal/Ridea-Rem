@@ -16,16 +16,16 @@ export default function Logo({
     <>
       <div className="flex w-full items-center justify-center ">
         <Image
-          src={"/icons/logo_solo_color.svg"}
+          src={"/icons/newLogoGreen.svg"}
           alt="Logo"
-          width={80}
+          width={160}
           height={80}
           className={className}
         />
       </div>
       {isTitle && (
         <div className="flex w-full flex-col items-center gap-3 p-10">
-          <h1 className="font-orkneyBold font-extrabold laptop:text-xl xl:text-5xl">
+          <h1 className="font-orkneyBold font-extrabold text-[#383630] laptop:text-xl xl:text-5xl">
             {title}
           </h1>
           <h3 className="text-xl">{subTitle}</h3>

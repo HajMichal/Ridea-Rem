@@ -29,7 +29,7 @@ const Account = () => {
             isTitle
             title="DZIEŃ DOBRY!"
             subTitle="Tutaj stworzysz nowe konto!"
-            className="lg:h-[10%] lg:w-[10%] xl:h-1/6 xl:w-1/6"
+            className="w-auto lg:h-[10%] xl:h-[6vh]"
           />
           <CreateAccountForm sessionData={sessionData} />
           <Footer />

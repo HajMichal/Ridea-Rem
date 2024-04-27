@@ -142,7 +142,7 @@ export default function CreateAccountForm({
           onClick={handleSubmit(onSubmit)}
           className="mt-4 rounded-full bg-brand p-3 font-orkneyBold"
         >
-          ZALOGUJ SIĘ
+          STWÓRZ KONTO
         </button>
       </div>
       <Toaster />

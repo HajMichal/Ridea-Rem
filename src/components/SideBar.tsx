@@ -47,7 +47,7 @@ const SideBar = memo(function SideBar() {
     <div className="flex h-full max-h-screen min-h-screen w-auto flex-col justify-between gap-3  bg-[#191918] font-orkney">
       <Link className="mt-[30px] flex w-full justify-center" href={"/home"}>
         <Image
-          src={"/icons/newLogoBlack.svg"}
+          src={"/icons/newLogoGreen.svg"}
           width={180}
           height={180}
           alt="Logo"
@@ -74,7 +74,7 @@ const SideBar = memo(function SideBar() {
         <SideBarButton
           href="/kalkulator/cieplo_wlasciwe"
           href2="/edycja/daneCieploWlasciwe"
-          title="CIEPŁO WŁAŚCIWE"
+          title="TERMOMODERNIZACJA"
           longWord
         />
       </div>
