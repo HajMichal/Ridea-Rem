@@ -487,19 +487,17 @@ const PhotovoltaicDocument = ({
               MONTAŻ NA DACHU PŁASKIM - EKIERKI
             </Text>
             <Text style={styles.savePrice}>
-              {photovoltaicStore.isEccentricsChoosed ? "TAK" : "NIE"}
+              {photovoltaicStore.eccentrics !== "None"
+                ? photovoltaicStore.eccentrics === "standardEccentrics"
+                  ? "STANDARDOWE"
+                  : "CERTYFIKOWANE"
+                : "NIE"}
             </Text>
           </View>
           <View style={styles.saveRow}>
             <Text style={styles.savePrice}>MONTAŻ NA GRUNCIE</Text>
             <Text style={styles.savePrice}>
               {photovoltaicStore.isGroundMontage ? "TAK" : "NIE"}
-            </Text>
-          </View>
-          <View style={styles.saveRow}>
-            <Text style={styles.savePrice}>MONTAŻ NA WIELU POŁACIACH</Text>
-            <Text style={styles.savePrice}>
-              {photovoltaicStore.isSolarEdgeChoosed ? "TAK" : "NIE"}
             </Text>
           </View>
           <View style={styles.saveRow}>

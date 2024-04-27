@@ -128,8 +128,8 @@ export const usePhotovoltaic = () => {
       store.updatePhotovoltaicCalcs("tigo_price", data);
     },
   });
-  const { mutate: set_ekierki_price } =
-    api.photovoltaics.addon_ekierki.useMutation({
+  const { mutate: setEccentricsPrice } =
+    api.photovoltaics.addonEccentrics.useMutation({
       onSuccess: (data) => {
         store.updatePhotovoltaicCalcs("ekierki_price", data);
       },
@@ -151,12 +151,6 @@ export const usePhotovoltaic = () => {
     api.photovoltaics.addon_hybridInwerter.useMutation({
       onSuccess: (data) => {
         store.updatePhotovoltaicCalcs("hybridInwerter_price", data);
-      },
-    });
-  const { mutate: set_solarEdge_price } =
-    api.photovoltaics.addon_solarEdge.useMutation({
-      onSuccess: (data) => {
-        store.updatePhotovoltaicCalcs("solarEdge_price", data);
       },
     });
   const { mutate: set_addon_cost } = api.photovoltaics.addon_cost.useMutation({
@@ -347,12 +341,11 @@ export const usePhotovoltaic = () => {
       set_yearly_costs_with_photovoltaics,
       set_total_save,
       set_installationAndPer1KW_price,
-      set_ekierki_price,
+      setEccentricsPrice,
       set_bloczki_price,
       set_grunt_price,
       set_amount_after_dotation,
       set_hybridInwerter_price,
-      set_solarEdge_price,
       set_addon_cost,
       set_markup_costs,
       set_totalInstallationCost,

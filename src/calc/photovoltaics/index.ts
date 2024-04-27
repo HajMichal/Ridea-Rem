@@ -284,17 +284,13 @@ export function addonTigo({ input }: { input: AddonTigoType }) {
   return input.tigo_price * input.tigo_count;
 }
 
-interface AddonEkierkiType {
-  isChoosed: boolean;
-  price: number;
+interface AddonEccentricsType {
+  isEccentrics: boolean;
   modules_count: number;
+  price: number;
 }
-export function addonEkierkiAndSolarEdge({
-  input,
-}: {
-  input: AddonEkierkiType;
-}) {
-  if (!input.isChoosed) return 0;
+export function addonEccentrics({ input }: { input: AddonEccentricsType }) {
+  if (!input.isEccentrics) return 0;
   return input.price * input.modules_count;
 }
 
@@ -334,7 +330,6 @@ interface TotalAddonCostType {
   tigo?: number;
   bloczki?: number;
   grunt?: number;
-  solarEdge?: number;
   carPort: number;
   markup_costs: number;
 }
@@ -346,7 +341,6 @@ export function totalAddonCost({ input }: { input: TotalAddonCostType }) {
       (input.tigo ? input.tigo : 0) +
       (input.bloczki ? input.bloczki : 0) +
       (input.grunt ? input.grunt : 0) +
-      (input.solarEdge ? input.solarEdge : 0) +
       input.promotionAmount +
       input.carPort +
       input.markup_costs +

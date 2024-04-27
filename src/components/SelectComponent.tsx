@@ -3,7 +3,7 @@ import { Select } from "@mantine/core";
 interface SelectType {
   title: string;
   onChange: (value: string | null) => void;
-  value: number | boolean | string;
+  value: number | boolean | string | null;
   data:
     | {
         value: string;

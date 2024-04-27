@@ -25,12 +25,20 @@ export const TextComponent = ({
           mb="xs"
           className="grid grid-cols-12 justify-between"
         >
-          <Text className="col-start-1 col-end-9">{title}</Text>
+          <Text
+            className={`col-start-1 ${
+              typeof calculations === "string" ? "col-end-8" : "col-end-9"
+            }`}
+          >
+            {title}
+          </Text>
           <Badge
             color={color}
             variant="light"
             size={size}
-            className="col-start-9 col-end-13"
+            className={`${
+              typeof calculations === "string" ? "col-start-8" : "col-start-9"
+            }  col-end-13 `}
           >
             {typeof calculations === "boolean" ? "TAK" : calculations} {unit}
           </Badge>

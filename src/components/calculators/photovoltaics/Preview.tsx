@@ -80,16 +80,18 @@ export function Preview() {
                 calculations={photovoltaicStore.southRoof}
               />
               <TextComponent
-                title="DACH PŁASKI - EKIERKI"
-                calculations={photovoltaicStore.isEccentricsChoosed}
+                title={`RODZAJ EKIERKI`}
+                calculations={
+                  photovoltaicStore.eccentrics !== "None"
+                    ? photovoltaicStore.eccentrics === "standardEccentrics"
+                      ? "standardowe"
+                      : "certyfikowane"
+                    : false
+                }
               />
               <TextComponent
                 title="MONTAŻ NA GRUNCIE"
                 calculations={photovoltaicStore.isGroundMontage}
-              />
-              <TextComponent
-                title="SOLAR EDGE"
-                calculations={photovoltaicStore.isSolarEdgeChoosed}
               />
               <TextComponent
                 title="SYSTEM DACHOWY - OBIĄŻENIOWY LUB BALASTOWY"

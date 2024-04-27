@@ -19,7 +19,6 @@ export function PhotovoltaicFormulas({
   const store = useStore();
 
   const { photovoltaicStore, mutations } = usePhotovoltaic();
-
   return (
     <div id="FORM" className="h-full p-3 laptop:w-[55%] laptop:min-w-[500px] ">
       <h1
@@ -126,22 +125,19 @@ export function PhotovoltaicFormulas({
             value={photovoltaicStore.isGroundMontage}
             data={YESNO}
           />
-          <SelectComponent
-            title="MONTAŻ NA WIELU POWIERZCHNIACH - SOLAR EDGE"
-            onChange={(e) =>
-              store.updatePhotovoltaic("isSolarEdgeChoosed", e == "true")
-            }
-            value={photovoltaicStore.isSolarEdgeChoosed}
-            data={YESNO}
-          />
           {!photovoltaicStore.isGroundMontage && (
             <SelectComponent
-              title="MONTAŻ NA DACHU PŁASKIM - EKIERKI"
-              onChange={(e) =>
-                store.updatePhotovoltaic("isEccentricsChoosed", e == "true")
-              }
-              value={photovoltaicStore.isEccentricsChoosed}
-              data={YESNO}
+              title="EKIERKI STANDARDOWE / CERTYFIKOWANE"
+              onChange={(e) => store.updatePhotovoltaic("eccentrics", e)}
+              value={photovoltaicStore.eccentrics}
+              data={[
+                { label: "Nie", value: "None" },
+                { label: "EKIERKI STANDARDOWE", value: "standardEccentrics" },
+                {
+                  label: "EKIERKI CERTYFIKOWANE",
+                  value: "certifiedEccentrics",
+                },
+              ]}
             />
           )}
           {!photovoltaicStore.isGroundMontage && (

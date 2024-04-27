@@ -124,15 +124,15 @@ export const photovoltaics_calculator = createTRPCRouter({
       })
     )
     .mutation(calc.addonTigo),
-  addon_ekierki: publicProcedure
+  addonEccentrics: publicProcedure
     .input(
       z.object({
-        price: z.number(),
-        isChoosed: z.boolean(),
+        isEccentrics: z.boolean(),
         modules_count: z.number(),
+        price: z.number(),
       })
     )
-    .mutation(calc.addonEkierkiAndSolarEdge),
+    .mutation(calc.addonEccentrics),
   addon_bloczki: publicProcedure
     .input(
       z.object({
@@ -151,15 +151,6 @@ export const photovoltaics_calculator = createTRPCRouter({
       })
     )
     .mutation(calc.addonGruntAndBloczki),
-  addon_solarEdge: publicProcedure
-    .input(
-      z.object({
-        price: z.number(),
-        isChoosed: z.boolean(),
-        modules_count: z.number(),
-      })
-    )
-    .mutation(calc.addonEkierkiAndSolarEdge),
   addon_hybridInwerter: publicProcedure
     .input(
       z.object({
@@ -177,7 +168,6 @@ export const photovoltaics_calculator = createTRPCRouter({
         tigo: z.number().optional(),
         bloczki: z.number().optional(),
         grunt: z.number().optional(),
-        solarEdge: z.number().optional(),
         carPort: z.number(),
         markup_costs: z.number(),
         twoInstallmentsFree: z.number(),

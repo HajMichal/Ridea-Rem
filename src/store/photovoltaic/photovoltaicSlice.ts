@@ -1,16 +1,20 @@
 import { type StateCreator } from "zustand";
 import { smallestPanel } from "~/constans/panelPowers";
 
+export type EccentricsType =
+  | "None"
+  | "standardEccentrics"
+  | "certifiedEccentrics";
+
 export interface PhotovoltaicsSlice {
   photovoltaicStore: {
     southRoof: boolean;
     isGroundMontage: boolean;
     isRoofWeightSystem: boolean;
-    isSolarEdgeChoosed: boolean;
     heatStoreDotation: boolean;
     emsDotation: boolean;
     energyStoreDotation: boolean;
-    isEccentricsChoosed: boolean;
+    eccentrics: EccentricsType;
     isInwerterChoosed: boolean;
     isCarPort: boolean;
     taxCredit: number;
@@ -42,7 +46,10 @@ export interface PhotovoltaicsSlice {
     holidayVoucher: boolean;
     isDotation: boolean;
   };
-  updatePhotovoltaic: (key: string, value: boolean | number | string) => void;
+  updatePhotovoltaic: (
+    key: string,
+    value: boolean | number | string | null
+  ) => void;
 }
 
 export const photovoltaicsSlice: StateCreator<PhotovoltaicsSlice> = (set) => ({
@@ -50,9 +57,9 @@ export const photovoltaicsSlice: StateCreator<PhotovoltaicsSlice> = (set) => ({
     southRoof: false,
     isGroundMontage: false,
     isRoofWeightSystem: false,
-    isSolarEdgeChoosed: false,
+
     heatStoreDotation: false,
-    isEccentricsChoosed: false,
+    eccentrics: "None",
     isInwerterChoosed: false,
     emsDotation: false,
     energyStoreDotation: false,

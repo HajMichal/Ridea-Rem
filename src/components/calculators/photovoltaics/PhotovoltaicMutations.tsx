@@ -19,7 +19,6 @@ export function PhotovoltaicMutations({
   const { photovoltaicStore, photovoltaicCalcStore, mutations } =
     usePhotovoltaic();
   const [debouncedPhotovStore] = useDebouncedValue(photovoltaicStore, 200);
-
   useEffect(() => {
     mutations.set_system_power({
       modulesCount: photovoltaicStore.modulesCount,
@@ -219,16 +218,19 @@ export function PhotovoltaicMutations({
 
   useEffect(() => {
     if (data && photovoltaicStore.modulesCount)
-      mutations.set_ekierki_price({
-        price: data.koszty_dodatkowe.ekierki,
-        isChoosed: photovoltaicStore.isEccentricsChoosed,
+      mutations.setEccentricsPrice({
+        price:
+          photovoltaicStore.eccentrics === "standardEccentrics"
+            ? data.koszty_dodatkowe.ekierki
+            : data.koszty_dodatkowe.certyfikowaneEkierki,
+        isEccentrics: photovoltaicStore.eccentrics !== "None",
         modules_count: photovoltaicStore.modulesCount,
       });
   }, [
     debouncedPhotovStore.modulesCount,
     data,
-    photovoltaicStore.isEccentricsChoosed,
-    mutations.set_ekierki_price,
+    photovoltaicStore.eccentrics,
+    mutations.setEccentricsPrice,
   ]);
   useEffect(() => {
     if (data && photovoltaicCalcStore.system_power)
@@ -256,19 +258,7 @@ export function PhotovoltaicMutations({
     photovoltaicStore.isGroundMontage,
     mutations.set_grunt_price,
   ]);
-  useEffect(() => {
-    if (data && photovoltaicStore.modulesCount)
-      mutations.set_solarEdge_price({
-        price: data.koszty_dodatkowe.solarEdge,
-        isChoosed: photovoltaicStore.isSolarEdgeChoosed,
-        modules_count: photovoltaicStore.modulesCount,
-      });
-  }, [
-    debouncedPhotovStore.modulesCount,
-    photovoltaicStore.isSolarEdgeChoosed,
-    data,
-    mutations.set_solarEdge_price,
-  ]);
+
   useEffect(() => {
     if (data)
       mutations.set_hybridInwerter_price({
@@ -320,7 +310,6 @@ export function PhotovoltaicMutations({
       ekierki: photovoltaicCalcStore.ekierki_price,
       grunt: photovoltaicCalcStore.grunt_price,
       hybridInwerter: photovoltaicCalcStore.hybridInwerter_price,
-      solarEdge: photovoltaicCalcStore.solarEdge_price,
       tigo: photovoltaicCalcStore.tigo_price,
       promotionAmount: photovoltaicStore.isPromotion
         ? 0
@@ -335,7 +324,6 @@ export function PhotovoltaicMutations({
     photovoltaicCalcStore.ekierki_price,
     photovoltaicCalcStore.grunt_price,
     photovoltaicCalcStore.hybridInwerter_price,
-    photovoltaicCalcStore.solarEdge_price,
     photovoltaicCalcStore.tigo_price,
     photovoltaicCalcStore.carPortCost,
     photovoltaicCalcStore.markup_costs,

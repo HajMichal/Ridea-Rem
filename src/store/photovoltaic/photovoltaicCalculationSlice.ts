@@ -22,10 +22,10 @@ export interface PhotovoltaicCalculations {
     | undefined;
   tigo_price: number;
   ekierki_price: number;
+  certEkierki_price: number;
   bloczki_price: number;
   grunt_price: number;
   hybridInwerter_price: number;
-  solarEdge_price: number;
   addon_cost: number;
   markup_costs: {
     officeFeeValue: number;
@@ -99,10 +99,10 @@ export const photovoltaicCalculationSlice: StateCreator<
     },
     tigo_price: 0,
     ekierki_price: 0,
+    certEkierki_price: 0,
     bloczki_price: 0,
     grunt_price: 0,
     hybridInwerter_price: 0,
-    solarEdge_price: 0,
     addon_cost: 0,
     markup_costs: {
       officeFeeValue: 0,

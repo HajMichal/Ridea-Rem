@@ -52,9 +52,9 @@ const schema = z.record(
       bloczki: z.number(),
       tigo: z.number(),
       ekierki: z.number(),
+      certyfikowaneEkierki: z.number(),
       grunt: z.number(),
       inwerterHybrydowy: z.number(),
-      solarEdge: z.number(),
     }),
     zbiorniki: z.object({
       zbiornik_100L: z.number(),

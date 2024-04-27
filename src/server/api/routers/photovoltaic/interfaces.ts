@@ -41,9 +41,9 @@ export interface PhotovoltaicDataToCalculation {
     bloczki: number;
     tigo: number;
     ekierki: number;
+    certyfikowaneEkierki: number;
     grunt: number;
     inwerterHybrydowy: number;
-    solarEdge: number;
   };
   zbiorniki: {
     zbiornik_100L: number;

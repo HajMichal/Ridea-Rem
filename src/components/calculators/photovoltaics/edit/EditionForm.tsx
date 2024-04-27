@@ -236,8 +236,17 @@ export const EditionForm = ({ data }: EditionForm) => {
           {...register("koszty_dodatkowe.ekierki", {
             valueAsNumber: true,
           })}
-          title="EKIERKI"
+          title="STANDARDOWE EKIERKI"
           defaultValue={dynamicPropValues!.koszty_dodatkowe.ekierki}
+        />
+        <ChangeDataInputComponent
+          {...register("koszty_dodatkowe.certyfikowaneEkierki", {
+            valueAsNumber: true,
+          })}
+          title="CERTYFIKOWANE EKIERKI"
+          defaultValue={
+            dynamicPropValues!.koszty_dodatkowe.certyfikowaneEkierki
+          }
         />
         <ChangeDataInputComponent
           {...register("koszty_dodatkowe.grunt", {
@@ -252,13 +261,6 @@ export const EditionForm = ({ data }: EditionForm) => {
           })}
           title="INWERTER HYBRYDOWY"
           defaultValue={dynamicPropValues!.koszty_dodatkowe.inwerterHybrydowy}
-        />
-        <ChangeDataInputComponent
-          {...register("koszty_dodatkowe.solarEdge", {
-            valueAsNumber: true,
-          })}
-          title="SOLAR EDGE"
-          defaultValue={dynamicPropValues!.koszty_dodatkowe.solarEdge}
         />
         <h2 className="mt-10 w-full text-center text-2xl">CAR PORT</h2>
         {dynamicPropValues &&
@@ -366,7 +368,7 @@ export const EditionForm = ({ data }: EditionForm) => {
         close={close}
         opened={opened}
         handleFunction={handleSubmit(onSubmit)}
-        description=" Będzie to skutkowało zmianami w bazie danych, przez co ceny nowych
+        description="Będzie to skutkowało zmianami w bazie danych, przez co ceny nowych
         wyliczeń za instalację ulegną zmianie."
       />
     </>
