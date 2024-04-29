@@ -154,10 +154,10 @@ const PhotovoltaicDocument = ({
           {photovoltaicCalcStore.markup_costs.officeFeeValue} /{" "}
           {photovoltaicCalcStore.markup_costs.officeFeeForBoss}
         </Text>
-        {/* <Image
-          style={{ height: 60 }}
-          src={`${process.env.NEXT_PUBLIC_BASE_URL}/static/pdf/logo.png`}
-        /> */}
+        <Image
+          style={{ height: 50, marginTop: 10 }}
+          src={`${process.env.NEXT_PUBLIC_BASE_URL}/static/pdf/logoprzyjazna.png`}
+        />
 
         <View style={styles.headerBackground}>
           <Text style={styles.header}>OSZCZĘDNOŚCI Z TWOJEJ INSTALACJI</Text>
@@ -412,10 +412,10 @@ const PhotovoltaicDocument = ({
           alignItems: "center",
         }}
       >
-        {/* <Image
-          style={{ height: 60, marginTop: 30 }}
-          src={`${process.env.NEXT_PUBLIC_BASE_URL}/static/pdf/logo.png`}
-        /> */}
+        <Image
+          style={{ height: 50, marginTop: 30, marginBottom: 10 }}
+          src={`${process.env.NEXT_PUBLIC_BASE_URL}/static/pdf/logoprzyjazna.png`}
+        />
         <View style={styles.headerBackground}>
           <Text style={styles.header}>DANE TECHNICZNE TWOJEJ INSTALACJI</Text>
         </View>

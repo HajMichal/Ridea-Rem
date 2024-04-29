@@ -131,7 +131,7 @@ const Navbar = () => {
                   store.updateHeatPump("consultantMarkup", Number(e));
                 }}
                 value={heatPumpStore.consultantMarkup}
-                data={consultantProvisionsData}
+                data={consultantProvisionsData.slice(0, 6)}
               />
             )}
             {router.pathname === "/kalkulator/fotowoltaika_firmy" && (
