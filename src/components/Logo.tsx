@@ -4,14 +4,8 @@ interface LogoType {
   isTitle?: boolean;
   title: string;
   subTitle: string;
-  className: string;
 }
-export default function Logo({
-  isTitle = false,
-  title,
-  subTitle,
-  className,
-}: LogoType) {
+export default function Logo({ isTitle = false, title, subTitle }: LogoType) {
   return (
     <>
       <div className="flex w-full items-center justify-center ">
@@ -20,7 +14,7 @@ export default function Logo({
           alt="Logo"
           width={160}
           height={80}
-          className={className}
+          className="w-auto lg:h-[10%] xl:h-[6vh]"
         />
       </div>
       {isTitle && (

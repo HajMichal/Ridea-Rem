@@ -16,8 +16,7 @@ export default function Signin() {
           <Logo
             isTitle
             title="DZIEŃ DOBRY!"
-            subTitle="Tutaj stworzysz nowe konto!"
-            className="w-auto lg:h-[10%] xl:h-[6vh]"
+            subTitle="Wprowadź dane do swojego konta!"
           />
           <LoginForm />
           <Footer />
