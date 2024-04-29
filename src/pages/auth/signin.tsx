@@ -12,7 +12,7 @@ export default function Signin() {
   return (
     <div className="grid h-screen w-screen bg-[#E8E7E7] font-orkney laptop:grid-cols-2">
       <div className="flex h-screen items-center justify-between">
-        <div className="h-[90%] w-5/6  rounded-r-[60px] bg-white p-10 shadow-sm">
+        <div className="h-[90%] w-5/6 rounded-r-[60px] bg-white p-10 pt-[13vh] shadow-sm">
           <Logo
             isTitle
             title="DZIEŃ DOBRY!"
