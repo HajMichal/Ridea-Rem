@@ -26,7 +26,7 @@ export const CALCULATORS = [
   },
   {
     href: "/edycja/daneCieploWlasciwe",
-    title: "CIEPŁO WŁAŚCIWE",
+    title: "TERMOMODERNIZACJA",
     color: "hover:bg-[#00B4D8]",
     iconSrc: "/home/icons/MagazynEnergiiIcon.svg",
   },
