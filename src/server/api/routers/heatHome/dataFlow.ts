@@ -8,11 +8,6 @@ import { z } from "zod";
 
 const schema = z.record(
   z.object({
-    grubosciOcieplenia: z.object({
-      cm_15: z.number(),
-      cm_20: z.number(),
-      cm_25: z.number(),
-    }),
     m2_ocieplenia: z.number(),
     parapety: z.number(),
     tynk: z.number(),

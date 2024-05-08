@@ -44,7 +44,7 @@ const DaneCieploWlasciwe = () => {
               })}
             </Tabs.List>
 
-            <div className="flex min-h-[85vh] w-full justify-center">
+            <div className="flex min-h-[88vh] w-full justify-center">
               {entireJsonData ? (
                 entireJsonData.kalkulator.map((eachUserData, index) => {
                   const dynamicKey = Object.keys(eachUserData)[0];
