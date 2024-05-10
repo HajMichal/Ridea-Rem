@@ -171,15 +171,17 @@ export function PhotovoltaicFormulas({
             value={photovoltaicStore.isInwerterChoosed}
             data={YESNO}
           />
-          <SelectComponent
+
+          {/* MOZLIWE ZE WROCI || POSSIBILITY TO RETURN */}
+          {/* <SelectComponent
             title="MAGAZYN CIEPŁA"
             onChange={(e) =>
               store.updatePhotovoltaic("heatStoreDotation", e == "true")
             }
             value={photovoltaicStore.heatStoreDotation}
             data={YESNO}
-          />
-          {photovoltaicStore.heatStoreDotation && data && (
+          /> */}
+          {/* {photovoltaicStore.heatStoreDotation && data && (
             <SelectComponent
               title={"WIELKOŚĆ ZBIORNIKA CWU"}
               onChange={(e) => {
@@ -202,7 +204,7 @@ export function PhotovoltaicFormulas({
                 },
               ]}
             />
-          )}
+          )} */}
           <SelectComponent
             title="EMS"
             onChange={(e) =>
@@ -317,14 +319,15 @@ export function PhotovoltaicFormulas({
             value={photovoltaicStore.isPromotion}
             data={YESNO}
           />
-          <SelectComponent
+          {/* PROMOCJA || 2 RATY GRATIS ||  MOZLIWE ZE WROCI || POSSIBILITY TO RETURN  */}
+          {/* <SelectComponent
             title="2 RATY GRATIS"
             onChange={(e) =>
               store.updatePhotovoltaic("twoInstallmentsFree", e == "true")
             }
             value={photovoltaicStore.twoInstallmentsFree}
             data={YESNO}
-          />
+          /> */}
           <SelectComponent
             title="VOUCHER HOLIDAY"
             onChange={(e) =>
