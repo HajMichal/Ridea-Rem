@@ -3,7 +3,6 @@ import React from "react";
 import { InputComponent, SelectComponent } from "../../";
 import { usePhotovoltaic } from "~/hooks/usePhotovoltaic";
 import useStore from "~/store";
-import { type PhotovoltaicDataToCalculation } from "~/server/api/routers/photovoltaic/interfaces";
 import { YESNO } from "~/constans/formsData";
 import {
   largestPanel,
@@ -11,11 +10,7 @@ import {
   smallestPanel,
 } from "~/constans/panelPowers";
 
-export function PhotovoltaicFormulas({
-  data,
-}: {
-  data: PhotovoltaicDataToCalculation | undefined;
-}) {
+export function PhotovoltaicFormulas() {
   const store = useStore();
 
   const { photovoltaicStore, mutations } = usePhotovoltaic();

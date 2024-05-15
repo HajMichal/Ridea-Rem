@@ -34,7 +34,7 @@ const Fotowoltaika = () => {
       <div className="w-full">
         <Navbar />
         <div className="flex h-full max-h-[90vw] flex-wrap overflow-scroll p-4 laptop:overflow-hidden">
-          <PhotovoltaicFormulas data={photovoltaicData} />
+          <PhotovoltaicFormulas />
           <Preview />
         </div>
       </div>

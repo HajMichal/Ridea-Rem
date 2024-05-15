@@ -18,7 +18,8 @@ export const EditionForm = ({ data }: EditionForm) => {
     onSuccess: () => {
       toast.success("Dane zostały pomyślnie zmienione.");
     },
-    onError: () => {
+    onError: (err) => {
+      console.log(err);
       toast.error("UWAGA BŁĄD! Dane nie zostały zmienione. Spróbuj ponownie.");
     },
   });
@@ -321,13 +322,13 @@ export const EditionForm = ({ data }: EditionForm) => {
         />
 
         <h2 className="mt-10 w-full text-center text-2xl">POZOSTAŁE</h2>
-        {/* <ChangeDataInputComponent
+        <ChangeDataInputComponent
           {...register("magazynCiepla", {
             valueAsNumber: true,
           })}
           title="MAGAZYN CIEPŁA - CENA"
           defaultValue={dynamicPropValues!.magazynCiepla}
-        /> */}
+        />
         <ChangeDataInputComponent
           {...register("cena_skupu_pradu", {
             valueAsNumber: true,
