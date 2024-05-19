@@ -67,7 +67,7 @@ export const EachFileCard = ({
       >
         <FiDownload className="h-12 w-12" />
         <p className="max-h-34 overflow-hidden text-center">
-          {fileName.slice(10)}
+          {fileName.split("/").slice(1).join("/")}
         </p>
       </div>
 
