@@ -266,10 +266,16 @@ export const usePhotovoltaic = () => {
         store.updatePhotovoltaicCalcs("energyStoreDotationValue", data);
       },
     });
-  const { mutate: set_photovoltaicDotationValue } =
-    api.photovoltaics.photovoltaicDotation.useMutation({
+  const { mutate: setPhotovoltaicDotation_mojprad } =
+    api.photovoltaics.dotation_mojprad.useMutation({
       onSuccess: (data) => {
-        store.updatePhotovoltaicCalcs("photovoltaicDotationValue", data);
+        store.updatePhotovoltaicCalcs("photovoltaicDotation_mojprad", data);
+      },
+    });
+  const { mutate: setPhotovoltaicDotation_czpowietrze } =
+    api.photovoltaics.dotation_czpowietrze.useMutation({
+      onSuccess: (data) => {
+        store.updatePhotovoltaicCalcs("photovoltaicDotation_czpowietrze", data);
       },
     });
   // PROMOCJA
@@ -364,7 +370,8 @@ export const usePhotovoltaic = () => {
       set_energyManagerCost,
       set_energyMenagerDotationValue,
       setPromotionTotalInstallationCosts,
-      set_photovoltaicDotationValue,
+      setPhotovoltaicDotation_mojprad,
+      setPhotovoltaicDotation_czpowietrze,
     },
   };
 };

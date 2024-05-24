@@ -377,16 +377,15 @@ export function totalInstallationCosts({
 }
 
 interface DotationsSumType {
-  photovoltaics_dotation: number;
-  heatStore_dotation: number;
+  photovoltaicDotation_mojprad: number;
   energyMenagerDotation: number;
-  energyStoreDotation: number;
+  energyStoreDotationValue: number;
 }
 export function dotationsSum({ input }: { input: DotationsSumType }) {
   return (
-    input.photovoltaics_dotation +
+    input.photovoltaicDotation_mojprad +
     input.energyMenagerDotation +
-    input.energyStoreDotation
+    input.energyStoreDotationValue
   );
 }
 
@@ -517,29 +516,48 @@ export function paymentReturnTime({ input }: { input: PaymentReturnTimeType }) {
   return { years: Number(years), months: Number(months) };
 }
 
-interface PhotovoltaicDotationType {
+interface DotationMojPradType {
   heatStoreDotation: boolean;
-  energyStoreDotation: boolean;
-  isDotation: boolean;
+  isEnergyStoreDotation: boolean;
+  isDotation_mojprad: boolean;
   mp_mc: number;
   mojPrad: number;
 }
-export function photovoltaicDotation({
-  input,
-}: {
-  input: PhotovoltaicDotationType;
-}) {
-  if (!input.isDotation) return 0;
-  if (input.heatStoreDotation || input.energyStoreDotation) {
+export function dotation_mojprad({ input }: { input: DotationMojPradType }) {
+  if (!input.isDotation_mojprad) return 0;
+  if (input.heatStoreDotation || input.isEnergyStoreDotation) {
     return input.mp_mc;
   } else return input.mojPrad;
+}
+
+interface DotationValueType {
+  isDotation_czpowietrze: boolean;
+  dotationStep: string;
+  totalCost: number;
+}
+export function dotation_czpowietrze({ input }: { input: DotationValueType }) {
+  const { dotationStep, totalCost } = input;
+  if (!input.isDotation_czpowietrze) return 0;
+  if (dotationStep === "prog0") return 0;
+  if (dotationStep === "prog1") {
+    const dotationValue = Number((0.4 * totalCost).toFixed(2));
+    if (dotationValue > 6000) return 6000;
+    else return dotationValue;
+  }
+  if (dotationStep === "prog2") {
+    const dotationValue = Number((0.7 * totalCost).toFixed(2));
+    if (dotationValue > 9000) return 9000;
+    else return dotationValue;
+  }
+  if (dotationStep === "prog3")
+    if (totalCost > 15000) return 15000;
+    else return totalCost;
 }
 
 interface EnergyMenagerDotationType {
   emsDotation: boolean;
   heatStoreDotation: boolean;
-  energyStoreDotation: boolean;
-  isDotation: boolean;
+  isEnergyStoreDotation: boolean;
   energyMenager: number;
 }
 
@@ -548,10 +566,9 @@ export function energyMenagerDotation({
 }: {
   input: EnergyMenagerDotationType;
 }) {
-  if (!input.isDotation) return 0;
   if (
     (input.emsDotation && input.heatStoreDotation) ||
-    (input.emsDotation && input.energyStoreDotation)
+    (input.emsDotation && input.isEnergyStoreDotation)
   ) {
     return input.energyMenager;
   } else return 0;
@@ -559,8 +576,7 @@ export function energyMenagerDotation({
 
 interface EnergyStoreDotationValueType {
   gross_instalation_cost: number;
-  isDotation: boolean;
-  energyStoreDotation: boolean;
+  isEnergyStoreDotation: boolean;
 }
 export function energyStoreDotationValue({
   input,
@@ -570,7 +586,7 @@ export function energyStoreDotationValue({
   const value =
     input.gross_instalation_cost - staticData.VALUE_TO_HEATSTORE_DOTATION;
 
-  if (value < 0 || !input.isDotation || !input.energyStoreDotation) {
+  if (value < 0 || !input.isEnergyStoreDotation) {
     return 0;
   }
   if (value >= 32000) {
@@ -587,14 +603,12 @@ export function energyStoreDotationValue({
 interface TermoModernizationType {
   amount_after_dotation: number;
   tax_credit: number;
-  isDotation: boolean;
 }
 export function termoModernization({
   input,
 }: {
   input: TermoModernizationType;
 }) {
-  if (!input.isDotation) return 0;
   return Number((input.amount_after_dotation * input.tax_credit).toFixed(2));
 }
 

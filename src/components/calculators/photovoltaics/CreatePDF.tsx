@@ -503,7 +503,7 @@ const PhotovoltaicDocument = ({
           <View style={styles.saveRow}>
             <Text style={styles.savePrice}>MAGAZYN ENERGII</Text>
             <Text style={styles.savePrice}>
-              {photovoltaicStore.energyStoreDotation
+              {photovoltaicStore.isEnergyStoreDotation
                 ? photovoltaicStore.energyStorePower + "W"
                 : "NIE"}
             </Text>

@@ -347,14 +347,14 @@ export function PhotovoltaicMutations({
           photovoltaicCalcStore.heatStore_energyManager_costs +
             photovoltaicCalcStore.energyManagerCost ?? 0,
         energyStoreCost:
-          photovoltaicStore.energyStoreDotation &&
+          photovoltaicStore.isEnergyStoreDotation &&
           photovoltaicCalcStore.energyStoreCost
             ? photovoltaicCalcStore.energyStoreCost
             : 0,
       });
   }, [
     photovoltaicCalcStore.energyStoreCost,
-    photovoltaicStore.energyStoreDotation,
+    photovoltaicStore.isEnergyStoreDotation,
     photovoltaicCalcStore.energyManagerCost,
     photovoltaicCalcStore.addon_cost,
     photovoltaicCalcStore.installationAndPer1KW_price?.base_installation_price,
@@ -366,17 +366,16 @@ export function PhotovoltaicMutations({
   useEffect(() => {
     mutations.set_dotations_sum({
       energyMenagerDotation: photovoltaicCalcStore.energyMenagerDotationValue,
-      photovoltaics_dotation: photovoltaicCalcStore.photovoltaicDotationValue,
-      heatStore_dotation: photovoltaicStore.heatStoreDotation ? 5000 : 0,
-      energyStoreDotation: photovoltaicCalcStore.energyStoreDotationValue,
+      photovoltaicDotation_mojprad:
+        photovoltaicCalcStore.photovoltaicDotation_mojprad,
+      energyStoreDotationValue: photovoltaicCalcStore.energyStoreDotationValue,
     });
   }, [
-    photovoltaicCalcStore.photovoltaicDotationValue,
-    photovoltaicStore.energyStoreDotation,
+    photovoltaicCalcStore.photovoltaicDotation_mojprad,
+    photovoltaicCalcStore.photovoltaicDotation_czpowietrze,
+    photovoltaicStore.isEnergyStoreDotation,
     photovoltaicCalcStore.energyStoreDotationValue,
     photovoltaicCalcStore.energyMenagerDotationValue,
-    photovoltaicStore.heatStoreDotation,
-    photovoltaicStore.isDotation,
   ]);
 
   useEffect(() => {
@@ -387,14 +386,14 @@ export function PhotovoltaicMutations({
       mutations.set_amount_after_dotation({
         gross_instalation_cost:
           photovoltaicCalcStore.totalInstallationCosts?.total_gross_cost,
-        summed_dotations: photovoltaicStore.isDotation
-          ? photovoltaicCalcStore.dotations_sum
-          : 0,
+        summed_dotations:
+          photovoltaicCalcStore.dotations_sum +
+          photovoltaicCalcStore.photovoltaicDotation_czpowietrze,
       });
   }, [
     photovoltaicCalcStore.dotations_sum,
     photovoltaicCalcStore.totalInstallationCosts?.total_gross_cost,
-    photovoltaicStore.isDotation,
+    photovoltaicCalcStore.photovoltaicDotation_czpowietrze,
     mutations.set_amount_after_dotation,
   ]);
   useEffect(() => {
@@ -411,35 +410,45 @@ export function PhotovoltaicMutations({
   ]);
   useEffect(() => {
     if (data)
-      mutations.set_photovoltaicDotationValue({
+      mutations.setPhotovoltaicDotation_mojprad({
         heatStoreDotation: photovoltaicStore.heatStoreDotation,
-        energyStoreDotation: photovoltaicStore.energyStoreDotation,
-        isDotation: photovoltaicStore.isDotation,
+        isEnergyStoreDotation: photovoltaicStore.isEnergyStoreDotation,
+        isDotation_mojprad: photovoltaicStore.isDotation_mojprad,
         mojPrad: data.dotacje.mojPrad,
         mp_mc: data.dotacje.mp_mc,
       });
   }, [
     photovoltaicStore.heatStoreDotation,
-    photovoltaicStore.energyStoreDotation,
-    photovoltaicStore.isDotation,
+    photovoltaicStore.isEnergyStoreDotation,
+    photovoltaicStore.isDotation_mojprad,
     data?.dotacje.mojPrad,
     data?.dotacje.mp_mc,
+  ]);
+  useEffect(() => {
+    mutations.setPhotovoltaicDotation_czpowietrze({
+      isDotation_czpowietrze: photovoltaicStore.isDotation_czpowietrze,
+      dotationStep: photovoltaicStore.dotationStep_czpowietrze,
+      totalCost:
+        photovoltaicCalcStore.totalInstallationCosts.total_installation_cost,
+    });
+  }, [
+    photovoltaicStore.isDotation_czpowietrze,
+    photovoltaicStore.dotationStep_czpowietrze,
+    photovoltaicCalcStore.totalInstallationCosts.total_installation_cost,
   ]);
   useEffect(() => {
     if (data)
       mutations.set_energyMenagerDotationValue({
         emsDotation: photovoltaicStore.emsDotation,
-        isDotation: photovoltaicStore.isDotation,
         energyMenager: data.dotacje.menagerEnergii,
-        energyStoreDotation: photovoltaicStore.energyStoreDotation,
+        isEnergyStoreDotation: photovoltaicStore.isEnergyStoreDotation,
         heatStoreDotation: photovoltaicStore.heatStoreDotation,
       });
   }, [
     photovoltaicStore.emsDotation,
     data?.dotacje.menagerEnergii,
-    photovoltaicStore.energyStoreDotation,
+    photovoltaicStore.isEnergyStoreDotation,
     photovoltaicStore.heatStoreDotation,
-    photovoltaicStore.isDotation,
   ]);
   useEffect(() => {
     if (data)
@@ -517,24 +526,18 @@ export function PhotovoltaicMutations({
       mutations.set_energyStoreDotationValue({
         gross_instalation_cost:
           photovoltaicCalcStore.totalInstallationCosts.total_gross_cost,
-        isDotation: photovoltaicStore.isDotation,
-        energyStoreDotation: photovoltaicStore.energyStoreDotation,
+        isEnergyStoreDotation: photovoltaicStore.isEnergyStoreDotation,
       });
     }
-  }, [
-    photovoltaicCalcStore.totalInstallationCosts.total_gross_cost,
-    photovoltaicStore.isDotation,
-  ]);
+  }, [photovoltaicCalcStore.totalInstallationCosts.total_gross_cost]);
   useEffect(() => {
     mutations.set_termo_modernization({
       amount_after_dotation: photovoltaicCalcStore.amount_after_dotation,
       tax_credit: photovoltaicStore.taxCredit,
-      isDotation: photovoltaicStore.isDotation,
     });
   }, [
     photovoltaicStore.taxCredit,
     photovoltaicCalcStore.amount_after_dotation,
-    photovoltaicStore.isDotation,
   ]);
   useEffect(() => {
     if (data)

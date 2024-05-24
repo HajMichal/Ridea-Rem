@@ -14,6 +14,7 @@ export function PhotovoltaicFormulas() {
   const store = useStore();
 
   const { photovoltaicStore, mutations } = usePhotovoltaic();
+
   return (
     <div id="FORM" className="h-full p-3 laptop:w-[55%] laptop:min-w-[500px] ">
       <h1
@@ -211,13 +212,13 @@ export function PhotovoltaicFormulas() {
           <SelectComponent
             title="MAGAZYN ENERGII"
             onChange={(e) =>
-              store.updatePhotovoltaic("energyStoreDotation", e == "true")
+              store.updatePhotovoltaic("isEnergyStoreDotation", e == "true")
             }
-            value={photovoltaicStore.energyStoreDotation}
+            value={photovoltaicStore.isEnergyStoreDotation}
             data={YESNO}
           />
 
-          {photovoltaicStore.energyStoreDotation && (
+          {photovoltaicStore.isEnergyStoreDotation && (
             <>
               <SelectComponent
                 title="PRODUCENT MAGAZYNU ENERGII"
@@ -299,13 +300,46 @@ export function PhotovoltaicFormulas() {
             ]}
           />
           <SelectComponent
-            title="UWZGLĘDNIENIE DOTACJI"
-            onChange={(e) =>
-              store.updatePhotovoltaic("isDotation", e == "true")
-            }
-            value={photovoltaicStore.isDotation}
+            title="KLIENT KWALIFIKUJE SIĘ DO PROGRAMU MÓJ PRĄD"
+            onChange={(e) => {
+              store.updatePhotovoltaic("isDotation_mojprad", e == "true");
+
+              // Protection against activation 2 different dotations in the same time
+              if (photovoltaicStore.isDotation_mojprad === false) {
+                store.updatePhotovoltaic("isDotation_czpowietrze", false);
+                store.updatePhotovoltaic("dotationStep_czpowietrze", "prog0");
+              }
+            }}
+            value={photovoltaicStore.isDotation_mojprad}
             data={YESNO}
           />
+          <SelectComponent
+            title="KLIENT KWALIFIKUJE SIĘ DO PROGRAMU CZYSTE POWIETRZE"
+            onChange={(e) => {
+              store.updatePhotovoltaic("isDotation_czpowietrze", e == "true");
+
+              // Protection against activation 2 different dotations in the same time
+              if (photovoltaicStore.isDotation_czpowietrze === false)
+                store.updatePhotovoltaic("isDotation_mojprad", false);
+            }}
+            value={photovoltaicStore.isDotation_czpowietrze}
+            data={YESNO}
+          />
+          {photovoltaicStore.isDotation_czpowietrze && (
+            <SelectComponent
+              title="DOTACJA"
+              onChange={(e) =>
+                store.updatePhotovoltaic("dotationStep_czpowietrze", String(e))
+              }
+              value={photovoltaicStore.dotationStep_czpowietrze}
+              data={[
+                { label: "PRÓG 0", value: "prog0" },
+                { label: "PRÓG 1", value: "prog1" },
+                { label: "PRÓG 2", value: "prog2" },
+                { label: "PRÓG 3", value: "prog3" },
+              ]}
+            />
+          )}
           <SelectComponent
             title="UWZGLĘDNIJ PROMOCJĘ"
             onChange={(e) =>

@@ -13,10 +13,15 @@ export interface PhotovoltaicsSlice {
     isRoofWeightSystem: boolean;
     heatStoreDotation: boolean;
     emsDotation: boolean;
-    energyStoreDotation: boolean;
+    isEnergyStoreDotation: boolean;
     eccentrics: EccentricsType;
     isInwerterChoosed: boolean;
     isCarPort: boolean;
+    isDotation_mojprad: boolean;
+    isDotation_czpowietrze: boolean;
+    isPromotion: boolean;
+    twoInstallmentsFree: boolean;
+    holidayVoucher: boolean;
     taxCredit: number;
     usageLimit: number;
     modulesCount: number;
@@ -29,7 +34,9 @@ export interface PhotovoltaicsSlice {
     tigoCount: number;
     panelPower: number;
     installmentNumber: number;
+    promotionAmount: number;
     tankSize: string;
+    dotationStep_czpowietrze: "prog0" | "prog1" | "prog2" | "prog3";
     choosedCarPort:
       | "0_stan"
       | "stan1"
@@ -40,11 +47,6 @@ export interface PhotovoltaicsSlice {
       | "stan10"
       | "stan12";
     energyStoreProducent: "SOLAX" | "HYPONTECH";
-    promotionAmount: number;
-    isPromotion: boolean;
-    twoInstallmentsFree: boolean;
-    holidayVoucher: boolean;
-    isDotation: boolean;
   };
   updatePhotovoltaic: (
     key: string,
@@ -57,15 +59,14 @@ export const photovoltaicsSlice: StateCreator<PhotovoltaicsSlice> = (set) => ({
     southRoof: false,
     isGroundMontage: false,
     isRoofWeightSystem: false,
-
     heatStoreDotation: false,
-    eccentrics: "None",
     isInwerterChoosed: false,
     emsDotation: false,
-    energyStoreDotation: false,
+    isEnergyStoreDotation: false,
     isCarPort: false,
     isPromotion: false,
-    isDotation: true,
+    isDotation_mojprad: true,
+    isDotation_czpowietrze: false,
     twoInstallmentsFree: false,
     holidayVoucher: false,
     promotionAmount: 0,
@@ -81,6 +82,8 @@ export const photovoltaicsSlice: StateCreator<PhotovoltaicsSlice> = (set) => ({
     panelPower: smallestPanel,
     installmentNumber: 120,
     energyStorePower: 0,
+    dotationStep_czpowietrze: "prog1",
+    eccentrics: "None",
     tankSize: "Brak",
     choosedCarPort: "0_stan",
     energyStoreProducent: "SOLAX",

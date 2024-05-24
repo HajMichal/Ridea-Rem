@@ -120,16 +120,16 @@ export function Preview() {
               />
               <TextComponent
                 title="MAGAZYN ENERGII"
-                calculations={photovoltaicStore.energyStoreDotation}
+                calculations={photovoltaicStore.isEnergyStoreDotation}
               />
-              {photovoltaicStore.energyStoreDotation && (
+              {photovoltaicStore.isEnergyStoreDotation && (
                 <TextComponent
                   title="MOC MAGAZYNU ENERGII"
                   calculations={photovoltaicStore.energyStorePower}
                   unit="kWh"
                 />
               )}
-              {photovoltaicStore.energyStoreDotation && (
+              {photovoltaicStore.isEnergyStoreDotation && (
                 <TextComponent
                   title="CENA MAGAZYNU ENERGII"
                   calculations={photovoltaicCalcStore.energyStoreCost}
@@ -173,7 +173,8 @@ export function Preview() {
                 </div>
               )}
               {photovoltaicCalcStore.energyMenagerDotationValue ||
-              photovoltaicCalcStore.photovoltaicDotationValue ||
+              photovoltaicCalcStore.photovoltaicDotation_mojprad ||
+              photovoltaicCalcStore.photovoltaicDotation_czpowietrze ||
               photovoltaicCalcStore.heatStoreCalcDotation ? (
                 <div>
                   <h2 className="mt-10 w-full text-center text-xl">DOTACJE</h2>
@@ -194,13 +195,19 @@ export function Preview() {
                   <TextComponent
                     title="MÓJ PRĄD FOTOWOLTAIKA"
                     calculations={
-                      photovoltaicCalcStore.photovoltaicDotationValue
+                      photovoltaicCalcStore.photovoltaicDotation_mojprad
+                    }
+                  />
+                  <TextComponent
+                    title="CZYSTE POWIETRZE FOTOWOLTAIKA - KWOTA"
+                    calculations={
+                      photovoltaicCalcStore.photovoltaicDotation_czpowietrze
                     }
                   />
                   <TextComponent
                     title="MAGAZYN ENERGII"
                     calculations={
-                      photovoltaicStore.energyStoreDotation &&
+                      photovoltaicStore.isEnergyStoreDotation &&
                       photovoltaicCalcStore.energyStoreDotationValue
                     }
                   />
