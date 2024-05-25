@@ -93,6 +93,11 @@ export const useHeatPump = () => {
         store.updateHeatPumpCalcs("closeOpenedSystemCost", data);
       },
     });
+  const { mutate: setAuditCost } = api.heatPump.energeticAudit.useMutation({
+    onSuccess: (data) => {
+      store.updateHeatPumpCalcs("energeticAuditCost", data);
+    },
+  });
   const { mutate: setHeatPumpCost } = api.heatPump.heatPumpCost.useMutation({
     onSuccess: (data) => {
       store.updateHeatPumpCalcs("heatPumpCost", data);
@@ -166,6 +171,7 @@ export const useHeatPump = () => {
       setFinallGrossInstalationCost,
       setHeatStoreDotationValue,
       setLoanForPurcharse,
+      setAuditCost,
     },
   };
 };

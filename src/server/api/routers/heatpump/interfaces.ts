@@ -25,6 +25,7 @@ export interface HeatPumpDataToCalculationType {
     wykonanie_przylacza: number;
     spiecie_bufora: number;
     zamkniecie_ukladu_otwartego: number;
+    audyt: number;
   };
   dotacje: {
     modernizacja_CO_CWU: {

@@ -37,6 +37,7 @@ const schema = z.record(
       wykonanie_przylacza: z.number(),
       spiecie_bufora: z.number(),
       zamkniecie_ukladu_otwartego: z.number(),
+      audyt: z.number(),
     }),
     dotacje: z.object({
       modernizacja_CO_CWU: z.object({

@@ -252,13 +252,9 @@ export const HeatPumpFormulas = ({
           />
           <SelectComponent
             title="AUDYT ENERGETYCZNY"
-            onChange={(e) => {
-              store.updateHeatHomeCalcs(
-                "energeticAuditCost",
-                e == "true" ? 1200 : 0
-              );
-              store.updateHeatPump("isEnergeticAudit", e == "true");
-            }}
+            onChange={(e) =>
+              store.updateHeatPump("isEnergeticAudit", e == "true")
+            }
             value={heatPumpStore.isEnergeticAudit}
             data={YESNO}
             smallField

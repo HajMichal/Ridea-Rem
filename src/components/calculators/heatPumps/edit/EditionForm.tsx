@@ -233,4 +233,5 @@ const addonNamesMappings: { [key: string]: string } = {
   wykonanie_przylacza: "WYKONANIE PRZYŁĄCZA ENERGETYCZNEGO DO ZASILANIA PC",
   spiecie_bufora: "SPIĘCIE BUFOR CO Z DODATKOOWYM ŹRÓDŁEM GRZEWCZYM",
   zamkniecie_ukladu_otwartego: "ZAMKNIĘCIE UKŁADU OTWARTEGO",
+  audyt: "AUDYT ENERGETYCZNY",
 };

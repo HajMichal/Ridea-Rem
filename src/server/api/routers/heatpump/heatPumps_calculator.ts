@@ -3,41 +3,6 @@ import { createTRPCRouter, publicProcedure } from "../../trpc";
 import calc from "../../../../calc/heatPomp";
 
 export const heatPump_calculator = createTRPCRouter({
-  kubatura: publicProcedure
-    .input(
-      z.object({
-        heatedArea: z.number(),
-        roomHeight: z.number(),
-      })
-    )
-    .mutation(calc.kubatura),
-  D34: publicProcedure
-    .input(
-      z.object({
-        kubatura: z.number(),
-        heatLost: z.number(),
-        I30: z.number(),
-        H30: z.number(),
-      })
-    )
-    .mutation(calc.D34),
-  assumedHeatNeed: publicProcedure
-    .input(
-      z.object({
-        D34: z.number(),
-        kubatura: z.number(),
-      })
-    )
-    .mutation(calc.assumedHeatNeed),
-  G335: publicProcedure.mutation(calc.G335),
-  yearlyEnergeticCost: publicProcedure
-    .input(
-      z.object({
-        D34: z.number(),
-        G335: z.number(),
-      })
-    )
-    .mutation(calc.yearlyEnergeticCost),
   bufforCost: publicProcedure
     .input(
       z.object({
@@ -55,106 +20,114 @@ export const heatPump_calculator = createTRPCRouter({
     .input(
       z.object({
         isChoosed: z.boolean(),
-        montageCost: z.number(),
+        elementCost: z.number(),
       })
     )
-    .mutation(calc.montageAnotherPumpInCascade),
+    .mutation(calc.setAddonCost),
   placementWithBurst: publicProcedure
     .input(
       z.object({
         isChoosed: z.boolean(),
-        placementCost: z.number(),
+        elementCost: z.number(),
       })
     )
-    .mutation(calc.placementWithBurst),
+    .mutation(calc.setAddonCost),
   newDrillings: publicProcedure
     .input(
       z.object({
         isChoosed: z.boolean(),
-        newDrillingsCost: z.number(),
+        elementCost: z.number(),
       })
     )
-    .mutation(calc.newDrillings),
+    .mutation(calc.setAddonCost),
   longerIsolationFromMineralWool: publicProcedure
     .input(
       z.object({
-        isolationLength: z.number(),
-        longerIsolationFromMineralWoolCost: z.number(),
+        length: z.number(),
+        elementCost: z.number(),
       })
     )
-    .mutation(calc.longerIsolationFromMineralWool),
+    .mutation(calc.setAddonCostWithLength),
   preisolatedPipe: publicProcedure
     .input(
       z.object({
         isChoosed: z.boolean(),
-        preisolatedPipeCost: z.number(),
+        elementCost: z.number(),
       })
     )
-    .mutation(calc.preisolatedPipe),
+    .mutation(calc.setAddonCost),
   longerPreIsolatedPipe: publicProcedure
     .input(
       z.object({
-        preIsolationLength: z.number(),
-        preIsolationCost: z.number(),
+        length: z.number(),
+        elementCost: z.number(),
       })
     )
-    .mutation(calc.longerPreIsolatedPipe),
+    .mutation(calc.setAddonCostWithLength),
   circulationMontage: publicProcedure
     .input(
       z.object({
         isChoosed: z.boolean(),
-        circulationCost: z.number(),
+        elementCost: z.number(),
       })
     )
-    .mutation(calc.circulationMontage),
+    .mutation(calc.setAddonCost),
   demontageOldBoiler: publicProcedure
     .input(
       z.object({
         isChoosed: z.boolean(),
-        demontageCost: z.number(),
+        elementCost: z.number(),
       })
     )
-    .mutation(calc.demontageOldBoiler),
+    .mutation(calc.setAddonCost),
   cleanPlacement: publicProcedure
     .input(
       z.object({
         isChoosed: z.boolean(),
-        cleaningCost: z.number(),
+        elementCost: z.number(),
       })
     )
-    .mutation(calc.cleanPlacement),
+    .mutation(calc.setAddonCost),
   moveCwu: publicProcedure
     .input(
       z.object({
         isChoosed: z.boolean(),
-        moveCwuCost: z.number(),
+        elementCost: z.number(),
       })
     )
-    .mutation(calc.moveCwu),
+    .mutation(calc.setAddonCost),
   makeEnergeticConnection: publicProcedure
     .input(
       z.object({
         isChoosed: z.boolean(),
-        energeticConnectionCost: z.number(),
+        elementCost: z.number(),
       })
     )
-    .mutation(calc.makeEnergeticConnection),
+    .mutation(calc.setAddonCost),
   buforWithSupport: publicProcedure
     .input(
       z.object({
         isChoosed: z.boolean(),
-        buforWithSupportCost: z.number(),
+        elementCost: z.number(),
       })
     )
-    .mutation(calc.buforWithSupport),
+    .mutation(calc.setAddonCost),
   closeOpenedSystem: publicProcedure
     .input(
       z.object({
         isChoosed: z.boolean(),
-        closeSystemCost: z.number(),
+        elementCost: z.number(),
       })
     )
-    .mutation(calc.closeOpenedSystem),
+    .mutation(calc.setAddonCost),
+  energeticAudit: publicProcedure
+    .input(
+      z.object({
+        isChoosed: z.boolean(),
+        elementCost: z.number(),
+      })
+    )
+    .mutation(calc.setAddonCost),
   addonsSumCost: publicProcedure
     .input(
       z.object({
