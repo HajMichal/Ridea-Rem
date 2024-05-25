@@ -30,7 +30,7 @@ export const heatHomeSlice: StateCreator<HeatHomeSliceType> = (set) => ({
     additionalAmount: 0,
     installmentNumber: 120,
     dotationStep: "prog0",
-    isEnergeticAudit: false,
+    isEnergeticAudit: true,
   },
   updateHeatHome: (key, value) =>
     set((state) => ({

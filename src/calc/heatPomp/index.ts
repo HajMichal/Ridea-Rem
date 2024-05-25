@@ -369,6 +369,7 @@ interface AddonsSumCost {
   buforWithSupportCost: number;
   closeOpenedSystemCost: number;
   markupSumValue: number;
+  auditCost: number;
 }
 export function addonsSumCost({ input }: { input: AddonsSumCost }) {
   return (
@@ -384,7 +385,8 @@ export function addonsSumCost({ input }: { input: AddonsSumCost }) {
     input.energeticConnectionCost +
     input.buforWithSupportCost +
     input.closeOpenedSystemCost +
-    input.markupSumValue
+    input.markupSumValue +
+    input.auditCost
   );
 }
 

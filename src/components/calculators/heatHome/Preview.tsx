@@ -67,8 +67,13 @@ export function Preview() {
               </div>
             )}
             <TextComponent
-              title="KWOTA DOTACJI"
+              title="DOTACJE NA TERMOMODERNIZACJE"
               calculations={heatHomeCalcStore.dotationValue}
+              unit="ZŁ"
+            />
+            <TextComponent
+              title="DOTACJE NA AUDYT ENERGETYCZNY"
+              calculations={1200}
               unit="ZŁ"
             />
             <div className="mt-20 text-center">

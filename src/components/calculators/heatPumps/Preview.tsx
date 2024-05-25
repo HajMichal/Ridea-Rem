@@ -143,6 +143,12 @@ export function Preview({ cop }: dataFromJson) {
                 heatPumpCalcStore.heatStoreDotations.heatStoreDotationValue
               }
             />
+            {heatPumpStore.isEnergeticAudit && (
+              <TextComponent
+                title="DOTACJA NA POMPĘ CIEPŁA"
+                calculations={1200}
+              />
+            )}
             <div className="mt-20 text-center">
               <TextComponent
                 title="KWOTA PO DOTACJACH"

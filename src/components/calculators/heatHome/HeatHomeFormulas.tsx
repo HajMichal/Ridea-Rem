@@ -81,16 +81,6 @@ export const HeatHomeFormulas = () => {
           ]}
           smallField
         />
-
-        <SelectComponent
-          title="AUDYT ENERGETYCZNY"
-          onChange={(e) =>
-            store.updateHeatHome("isEnergeticAudit", e == "true")
-          }
-          value={heatHomeStore.isEnergeticAudit}
-          data={YESNO}
-          className="mt-20"
-        />
       </ScrollArea>
     </div>
   );

@@ -16,6 +16,7 @@ export interface HeatPumpCalculations {
   closeOpenedSystemCost: number;
   heatPumpCost: number;
   addonSumCost: number;
+  energeticAuditCost: number;
   heatPumpPricingBeforeDotations: {
     netSystemValue: number;
     vatValue: number;
@@ -69,6 +70,7 @@ export const heatPumpCalculationSlice: StateCreator<
     closeOpenedSystemCost: 0,
     heatPumpCost: 0,
     addonSumCost: 0,
+    energeticAuditCost: 0,
     heatPumpPricingBeforeDotations: {
       netSystemValue: 0,
       vatValue: 0,

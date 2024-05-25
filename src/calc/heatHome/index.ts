@@ -41,16 +41,16 @@ export function dotationValue({ input }: { input: DotationValueType }) {
   if (dotationStep === "prog0") return 0;
   if (dotationStep === "prog1") {
     const dotationValue = Number((0.5 * totalCost).toFixed(2));
-    if (dotationValue > 66000) return 66000;
+    if (dotationValue > 33000) return 33000;
     else return dotationValue;
   }
   if (dotationStep === "prog2") {
-    const dotationValue = Number((0.7 * totalCost).toFixed(2));
-    if (dotationValue > 99000) return 99000;
+    const dotationValue = Number((0.75 * totalCost).toFixed(2));
+    if (dotationValue > 48000) return 48000;
     else return dotationValue;
   }
   if (dotationStep === "prog3")
-    if (totalCost > 135000) return 135000;
+    if (totalCost > 70000) return 70000;
     else return totalCost;
 }
 

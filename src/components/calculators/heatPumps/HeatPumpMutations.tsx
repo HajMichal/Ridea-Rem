@@ -127,6 +127,7 @@ export const HeatPumpMutations = ({
       });
     }
   }, [heatPumpStore.suggestedPump, data]);
+
   useEffect(() => {
     if (data && sessionData?.user && heatPumpStore.suggestedPump) {
       mutations.setMarkupCosts({
@@ -149,6 +150,8 @@ export const HeatPumpMutations = ({
     mutations.setAddonsSumCost({
       buforWithSupportCost: heatPumpCalcStore.buforWithSupportCost,
       circulationMontageCost: heatPumpCalcStore.circulationMontageCost,
+      // TODO: zmienic wartosc 1200 na wartosc z bazy danych
+      auditCost: heatPumpStore.isEnergeticAudit ? 1200 : 0,
       closeOpenedSystemCost: heatPumpCalcStore.closeOpenedSystemCost,
       demontageOldBoilerCost: heatPumpCalcStore.demontageOldBoilerCost,
       cleanPlacementCost: heatPumpCalcStore.cleanPlacementCost,
@@ -163,6 +166,7 @@ export const HeatPumpMutations = ({
       markupSumValue: heatPumpCalcStore.markupCosts.markupSumValue,
     });
   }, [
+    heatPumpStore.isEnergeticAudit,
     heatPumpCalcStore.buforWithSupportCost,
     heatPumpCalcStore.circulationMontageCost,
     heatPumpCalcStore.closeOpenedSystemCost,

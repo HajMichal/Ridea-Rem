@@ -57,6 +57,7 @@ export interface HeatPumpSliceType {
     makeEnergeticConnection: boolean;
     mergeNewBufforWithOld: boolean;
     closingOpenSytem: boolean;
+    isEnergeticAudit: boolean;
 
     longerPreIsolatedPipe: number;
     longerIsolationFromMineralWool: number;
@@ -94,9 +95,9 @@ export const heatPumpSlice: StateCreator<HeatPumpSliceType> = (set) => ({
     makeEnergeticConnection: false,
     mergeNewBufforWithOld: false,
     closingOpenSytem: false,
+    isEnergeticAudit: false,
 
     yearlyHeatingHomeCost: 0,
-
     longerPreIsolatedPipe: 0,
     oneTonneOfResourceCost: 0,
     longerIsolationFromMineralWool: 0,
