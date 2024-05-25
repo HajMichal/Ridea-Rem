@@ -15,10 +15,11 @@ export function PhotovoltaicMutations({
   sessionData,
 }: PhotovoltaicMutationsType) {
   const store = useStore();
-
   const { photovoltaicStore, photovoltaicCalcStore, mutations } =
     usePhotovoltaic();
+
   const [debouncedPhotovStore] = useDebouncedValue(photovoltaicStore, 200);
+
   useEffect(() => {
     mutations.set_system_power({
       modulesCount: photovoltaicStore.modulesCount,
@@ -379,10 +380,7 @@ export function PhotovoltaicMutations({
   ]);
 
   useEffect(() => {
-    if (
-      photovoltaicCalcStore.dotations_sum &&
-      photovoltaicCalcStore.totalInstallationCosts?.total_gross_cost
-    )
+    if (photovoltaicCalcStore.totalInstallationCosts?.total_gross_cost)
       mutations.set_amount_after_dotation({
         gross_instalation_cost:
           photovoltaicCalcStore.totalInstallationCosts?.total_gross_cost,
