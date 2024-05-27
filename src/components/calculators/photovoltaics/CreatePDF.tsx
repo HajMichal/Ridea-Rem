@@ -308,7 +308,11 @@ const PhotovoltaicDocument = ({
           </View>
           <View style={styles.saveRow}>
             <Text style={{ ...styles.saveTitle, fontWeight: 600 }}>
-              DOTACJE Z PROGRAMU &#34;MÓJ PRĄD&#34;
+              DOTACJE Z PROGRAMU &#34;
+              {photovoltaicStore.isDotation_mojprad
+                ? "MÓJ PRĄD"
+                : "CZYSTE POWIETRZE"}
+              &#34;
             </Text>
             <Text style={styles.savePrice}>
               {photovoltaicStore.isPromotion

@@ -157,7 +157,6 @@ export const HeatPumpMutations = ({
     mutations.setAddonsSumCost({
       buforWithSupportCost: heatPumpCalcStore.buforWithSupportCost,
       circulationMontageCost: heatPumpCalcStore.circulationMontageCost,
-      auditCost: heatPumpCalcStore.energeticAuditCost,
       closeOpenedSystemCost: heatPumpCalcStore.closeOpenedSystemCost,
       demontageOldBoilerCost: heatPumpCalcStore.demontageOldBoilerCost,
       cleanPlacementCost: heatPumpCalcStore.cleanPlacementCost,
@@ -172,7 +171,6 @@ export const HeatPumpMutations = ({
       markupSumValue: heatPumpCalcStore.markupCosts.markupSumValue,
     });
   }, [
-    heatPumpStore.isEnergeticAudit,
     heatPumpCalcStore.buforWithSupportCost,
     heatPumpCalcStore.circulationMontageCost,
     heatPumpCalcStore.closeOpenedSystemCost,
@@ -191,10 +189,14 @@ export const HeatPumpMutations = ({
     mutations.setHeatPumpPricingBeforeDotations({
       addonsSumCost: heatPumpCalcStore.addonSumCost,
       buforCost: heatPumpCalcStore.bufforCost,
+      auditCost: heatPumpStore.isEnergeticAudit
+        ? heatPumpCalcStore.energeticAuditCost
+        : 0,
       netPriceForHeatPump: heatPumpCalcStore.heatPumpCost,
       vat: heatPumpStore.forCompany ? 0.23 : 0.08,
     });
   }, [
+    heatPumpStore.isEnergeticAudit,
     heatPumpCalcStore.addonSumCost,
     heatPumpCalcStore.bufforCost,
     heatPumpCalcStore.heatPumpCost,

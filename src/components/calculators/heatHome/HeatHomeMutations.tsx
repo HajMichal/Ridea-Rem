@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useHeatHome } from "~/hooks/useHeatHome";
 import { type Session } from "next-auth";
+import { AUDIT_DOTATION } from "~/constans/heatHome/dotations";
 
 interface HeatHomeMutationsType {
   sessionData: Session | null;
@@ -91,7 +92,7 @@ export const HeatHomeMutations = ({ sessionData }: HeatHomeMutationsType) => {
 
   useEffect(() => {
     mutations.setAmountAfterDotation({
-      dotationValue: heatHomeCalcStore.dotationValue,
+      dotationValue: heatHomeCalcStore.dotationValue + AUDIT_DOTATION,
       totalCost: heatHomeCalcStore.totalCost.gross,
     });
   }, [heatHomeCalcStore.totalCost, heatHomeCalcStore.dotationValue]);

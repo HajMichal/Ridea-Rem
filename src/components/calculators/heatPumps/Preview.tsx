@@ -145,7 +145,7 @@ export function Preview({ cop }: dataFromJson) {
             />
             {heatPumpStore.isEnergeticAudit && (
               <TextComponent
-                title="DOTACJA NA POMPĘ CIEPŁA"
+                title="DOTACJA NA AUDYT ENERGETYCZNY"
                 calculations={1200}
               />
             )}

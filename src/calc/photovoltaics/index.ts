@@ -378,12 +378,14 @@ export function totalInstallationCosts({
 
 interface DotationsSumType {
   photovoltaicDotation_mojprad: number;
+  photovoltaicDotation_czpowietrze: number;
   energyMenagerDotation: number;
   energyStoreDotationValue: number;
 }
 export function dotationsSum({ input }: { input: DotationsSumType }) {
   return (
     input.photovoltaicDotation_mojprad +
+    input.photovoltaicDotation_czpowietrze +
     input.energyMenagerDotation +
     input.energyStoreDotationValue
   );
@@ -517,7 +519,6 @@ export function paymentReturnTime({ input }: { input: PaymentReturnTimeType }) {
 }
 
 interface DotationMojPradType {
-  heatStoreDotation: boolean;
   isEnergyStoreDotation: boolean;
   isDotation_mojprad: boolean;
   mp_mc: number;
@@ -525,7 +526,7 @@ interface DotationMojPradType {
 }
 export function dotation_mojprad({ input }: { input: DotationMojPradType }) {
   if (!input.isDotation_mojprad) return 0;
-  if (input.heatStoreDotation || input.isEnergyStoreDotation) {
+  if (input.isEnergyStoreDotation) {
     return input.mp_mc;
   } else return input.mojPrad;
 }

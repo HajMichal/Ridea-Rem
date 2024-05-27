@@ -132,7 +132,6 @@ export const heatPump_calculator = createTRPCRouter({
     .input(
       z.object({
         montagePumpInCascadeCost: z.number(),
-        auditCost: z.number(),
         newDrillingsCost: z.number(),
         longerIsolationFromMineralWoolCost: z.number(),
         preisolatedPipeCost: z.number(),
@@ -154,6 +153,7 @@ export const heatPump_calculator = createTRPCRouter({
         addonsSumCost: z.number(),
         netPriceForHeatPump: z.number(),
         buforCost: z.number(),
+        auditCost: z.number(),
         vat: z.number(),
       })
     )

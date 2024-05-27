@@ -179,14 +179,6 @@ export function Preview() {
                 <div>
                   <h2 className="mt-10 w-full text-center text-xl">DOTACJE</h2>
                   <TextComponent
-                    title="MAGAZYN CIEPŁA"
-                    calculations={
-                      photovoltaicStore.heatStoreDotation &&
-                      // photovoltaicCalcStore.heatStoreCalcDotation
-                      "Do 5000"
-                    }
-                  />
-                  <TextComponent
                     title="MENAGER ENERGII"
                     calculations={
                       photovoltaicCalcStore.energyMenagerDotationValue

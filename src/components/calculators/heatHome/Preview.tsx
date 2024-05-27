@@ -2,6 +2,7 @@ import React from "react";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { TextComponent, PdfGeneratorButton } from "../../";
 import { useHeatHome } from "~/hooks/useHeatHome";
+import { AUDIT_DOTATION } from "~/constans/heatHome/dotations";
 
 export function Preview() {
   const { heatHomeStore, heatHomeCalcStore } = useHeatHome();
@@ -66,6 +67,7 @@ export function Preview() {
                 )}
               </div>
             )}
+            <h2 className="mt-10 w-full text-center text-xl">DOTACJE</h2>
             <TextComponent
               title="DOTACJE NA TERMOMODERNIZACJE"
               calculations={heatHomeCalcStore.dotationValue}
@@ -73,7 +75,7 @@ export function Preview() {
             />
             <TextComponent
               title="DOTACJE NA AUDYT ENERGETYCZNY"
-              calculations={1200}
+              calculations={AUDIT_DOTATION}
               unit="ZŁ"
             />
             <div className="mt-20 text-center">
