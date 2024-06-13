@@ -505,6 +505,14 @@ const PhotovoltaicDocument = ({
             </Text>
           </View>
           <View style={styles.saveRow}>
+            <Text style={styles.savePrice}>
+              SYSTEM DACHOWY - OBIĄŻENIOWY LUB BALASTOWY
+            </Text>
+            <Text style={styles.savePrice}>
+              {photovoltaicStore.isRoofWeightSystem ? "TAK" : "NIE"}
+            </Text>
+          </View>
+          <View style={styles.saveRow}>
             <Text style={styles.savePrice}>MAGAZYN ENERGII</Text>
             <Text style={styles.savePrice}>
               {photovoltaicStore.isEnergyStoreDotation
