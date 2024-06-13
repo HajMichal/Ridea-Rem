@@ -251,15 +251,6 @@ export const HeatPumpFormulas = ({
             smallField
           />
           <SelectComponent
-            title="AUDYT ENERGETYCZNY"
-            onChange={(e) =>
-              store.updateHeatPump("isEnergeticAudit", e == "true")
-            }
-            value={heatPumpStore.isEnergeticAudit}
-            data={YESNO}
-            smallField
-          />
-          <SelectComponent
             title="DOTACJA"
             onChange={(e) =>
               store.updateHeatPump("choosedHeatPumpDotation", String(e))

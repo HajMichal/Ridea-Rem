@@ -95,7 +95,7 @@ export const heatPumpSlice: StateCreator<HeatPumpSliceType> = (set) => ({
     makeEnergeticConnection: false,
     mergeNewBufforWithOld: false,
     closingOpenSytem: false,
-    isEnergeticAudit: false,
+    isEnergeticAudit: true,
 
     yearlyHeatingHomeCost: 0,
     longerPreIsolatedPipe: 0,
