@@ -394,10 +394,19 @@ const HeatPumpDocument = ({
           <View style={styles.eachRow}>
             <Text>SUMA DOTACJI</Text>
             <Text style={styles.boldFont}>
-              {heatPumpCalcStore.heatStoreDotations.dotationSum} zł
+              {heatPumpCalcStore.heatStoreDotations.dotationSum + 1200} zł
             </Text>
           </View>
-          <View style={{ fontSize: 12, paddingLeft: 12, paddingBottom: 12 }}>
+          <View
+            style={{
+              fontSize: 12,
+              paddingLeft: 12,
+              paddingBottom: 12,
+              display: "flex",
+              flexDirection: "column",
+              gap: 5,
+            }}
+          >
             <Text></Text>
             <Text>
               DOTACJA NA POMPĘ CIEPŁA{" "}
@@ -410,6 +419,7 @@ const HeatPumpDocument = ({
               DOTACJA NA MODERNIZACJE CO + CWU -{" "}
               {heatPumpCalcStore.heatStoreDotations.modernizationDotation} zł
             </Text>
+            <Text>DOTACJA NA AUDYT ENERGETYCZNY - {1200} zł</Text>
           </View>
         </View>
 
