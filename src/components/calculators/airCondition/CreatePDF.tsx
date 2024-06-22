@@ -120,10 +120,10 @@ const styles = StyleSheet.create({
   },
 });
 
-const EnergyStorageDocument = () => (
+const AirConditionDocument = () => (
   <Document>
     <Page size="A4" style={styles.page}></Page>
   </Document>
 );
 
-export default EnergyStorageDocument;
+export default AirConditionDocument;

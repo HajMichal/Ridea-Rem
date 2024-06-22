@@ -30,4 +30,10 @@ export const CALCULATORS = [
     color: "hover:bg-[#00B4D8]",
     iconSrc: "/home/icons/MagazynEnergiiIcon.svg",
   },
+  {
+    href: "/edycja/daneKlimatyzacja",
+    title: "KLIMATYZACJA",
+    color: "hover:bg-[#54f4ff]",
+    iconSrc: "/home/icons/MagazynEnergiiIcon.svg",
+  },
 ];

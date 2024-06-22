@@ -66,6 +66,11 @@ const SideBar = memo(function SideBar() {
           title="TERMOMODERNIZACJA"
         />
         <SideBarButton
+          href="/kalkulator/klimatyzacja"
+          href2="/edycja/daneKlimatyzacja"
+          title="KLIMATYZACJA"
+        />
+        <SideBarButton
           href="/kalkulator/kotly"
           href2="/edycja/daneKotlyPelletowe"
           title="KOTŁY PELLETOWE"
