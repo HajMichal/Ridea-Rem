@@ -37,7 +37,7 @@ type BuforTypes =
   | "Bufor 500l Szeregowo przyłącze schemat 24"
   | "Bufor 500l Szeregowo przyłącze schemat 34";
 
-export interface HeatPumpSliceType {
+export interface HeatPumpSlice {
   heatPumpStore: {
     auditHeatSupply: boolean;
     isBufor: boolean;
@@ -75,7 +75,7 @@ export interface HeatPumpSliceType {
   updateHeatPump: (key: string, value: boolean | number | string) => void;
 }
 
-export const heatPumpSlice: StateCreator<HeatPumpSliceType> = (set) => ({
+export const heatPumpSlice: StateCreator<HeatPumpSlice> = (set) => ({
   heatPumpStore: {
     auditHeatSupply: false,
     isBufor: false,

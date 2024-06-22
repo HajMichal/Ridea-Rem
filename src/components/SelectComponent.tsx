@@ -30,7 +30,7 @@ export const SelectComponent = ({
         value={String(value)}
         data={data}
         radius="lg"
-        className={`${smallField ? "max-w-[120px]" : "max-w-[215px]"} w-full`}
+        className={`${smallField ? "max-w-[120px]" : "max-w-[220px]"} w-full`}
       />
       <div className="mt-[6px]">{title}</div>
     </div>

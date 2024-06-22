@@ -1,14 +1,24 @@
-import { Navbar, SideBar } from "~/components";
+import { Overlay } from "@mantine/core";
+import { Loading, Navbar, SideBar } from "~/components";
+import AirConditionFormulas from "~/components/calculators/airCondition/AirConditionFormulas";
+import { useAirCondition } from "~/hooks/useAirCondition";
 
 function Klimatyzacja() {
+  const { jsonData } = useAirCondition();
   return (
     <main className="flex h-full max-h-screen overflow-hidden bg-backgroundGray font-orkney font-normal laptop:justify-center">
+      {!jsonData && (
+        <>
+          <Overlay color="#000" opacity={0.85} />
+          <Loading />
+        </>
+      )}
       <SideBar />
       <div className="w-full">
         <Navbar />
-        <div className="p-5">
-          <h1>Kalkulator w trakcie budowy</h1>
-          <h3>Wkrótce dostępny!</h3>
+        <div className="flex h-full max-h-[90vw] flex-wrap overflow-scroll p-4 laptop:overflow-hidden">
+          <AirConditionFormulas />
+          {/* <Preview /> */}
         </div>
       </div>
     </main>

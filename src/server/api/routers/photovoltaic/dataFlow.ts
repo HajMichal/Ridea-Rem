@@ -111,11 +111,6 @@ const getParsedJsonObject = async () => {
 };
 
 export const dataFlowRouter = createTRPCRouter({
-  setJSONFile: publicProcedure.mutation(() => {
-    const fileContent = fs.readFileSync("data.json");
-    setFileToBucket(fileContent, "data.json");
-  }),
-
   downloadFile: publicProcedure
     .input(z.string().optional())
     .query(async ({ input, ctx }) => {

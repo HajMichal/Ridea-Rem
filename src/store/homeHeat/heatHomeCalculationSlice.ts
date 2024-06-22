@@ -28,7 +28,7 @@ export interface HeatHomeCalculations {
   };
 }
 
-export interface HeatHomeCalculationSliceType {
+export interface HeatHomeCalculationSlice {
   heatHomeCalculationsStore: HeatHomeCalculations;
   updateHeatHomeCalcs: (
     key: string,
@@ -37,7 +37,7 @@ export interface HeatHomeCalculationSliceType {
 }
 
 export const heatHomeCalculationSlice: StateCreator<
-  HeatHomeCalculationSliceType
+  HeatHomeCalculationSlice
 > = (set) => ({
   heatHomeCalculationsStore: {
     heatedAreaCost: 0,

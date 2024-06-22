@@ -12,7 +12,7 @@ export interface HeatHomeType {
   isEnergeticAudit: boolean;
 }
 
-export interface HeatHomeSliceType {
+export interface HeatHomeSlice {
   heatHomeStore: HeatHomeType;
   updateHeatHome: (
     key: string,
@@ -20,7 +20,7 @@ export interface HeatHomeSliceType {
   ) => void;
 }
 
-export const heatHomeSlice: StateCreator<HeatHomeSliceType> = (set) => ({
+export const heatHomeSlice: StateCreator<HeatHomeSlice> = (set) => ({
   heatHomeStore: {
     areaToHeat: 0,
     windowSillCount: 0,
