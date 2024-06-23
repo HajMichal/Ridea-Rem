@@ -12,8 +12,8 @@ export interface AirConditionStore {
   elasticPipeLen: number;
   tape: number;
   wallPass: number;
-  syfon: number;
-  dashPump: number;
+  syfon: boolean;
+  dashPump: boolean;
 }
 
 export interface AirConditionSlice {
@@ -28,14 +28,14 @@ export const airConditionSlice: StateCreator<AirConditionSlice> = (set) => ({
     copperCableLen15: 10,
     copperCableLen16: 10,
     pipeDashLen: 10,
-    airConditionerSupport: 10,
+    airConditionerSupport: 1,
     gutterLen: 10,
-    pipeConnector: 10,
-    elasticPipeLen: 10,
-    tape: 10,
-    wallPass: 10,
-    syfon: 0,
-    dashPump: 0,
+    pipeConnector: 1,
+    elasticPipeLen: 1,
+    tape: 1,
+    wallPass: 1,
+    syfon: false,
+    dashPump: false,
   },
   updateAirCondition: (key, value) =>
     set((state) => {
