@@ -9,7 +9,7 @@ import {
 } from "@react-pdf/renderer";
 
 import { type HeatPumpCalculations } from "~/store/heatPump/heatPumpCalculationSlice";
-import { type HeatPumpSliceType } from "~/store/heatPump/heatPumpSlice";
+import { type HeatPumpSlice } from "~/store/heatPump/heatPumpSlice";
 
 Font.register({
   family: "Orkney",
@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
 
 interface DataToPDF {
   heatPumpCalcStore: HeatPumpCalculations;
-  heatPumpStore: HeatPumpSliceType["heatPumpStore"];
+  heatPumpStore: HeatPumpSlice["heatPumpStore"];
   cop?: number;
 }
 
