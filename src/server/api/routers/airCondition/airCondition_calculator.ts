@@ -1,19 +1,15 @@
 import { z } from "zod";
 import { protectedProcedure } from "../../trpc";
 import { createTRPCRouter } from "../../trpc";
+import { addonPrice } from "../../../../calc/airCondition";
 
-export const airCondition_calculator = createTRPCRouter({
-  test: protectedProcedure
+export const airConditionCalculator = createTRPCRouter({
+  setCopperPipePrice: protectedProcedure
     .input(
       z.object({
-        bufforType: z.string(),
-        buffors: z.object({
-          bufory100l: z.object({
-            przylaczeSchemat24: z.number(),
-            przylaczeSchemat34: z.number(),
-          }),
-        }),
+        quantity: z.number(),
+        price: z.number(),
       })
     )
-    .mutation(() => console.log("test")),
+    .mutation(addonPrice),
 });

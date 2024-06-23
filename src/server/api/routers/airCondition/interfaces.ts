@@ -1,12 +1,13 @@
+export interface AirConditionData {
+  type: string;
+  power: number;
+  option: string;
+  area: string;
+  energyType: string;
+  price: number;
+}
 export interface AirConditionDataToCalculation {
-  airConditioner: {
-    type: string;
-    power: number;
-    option: string;
-    area: string;
-    energyType: string;
-    price: number;
-  }[];
+  airConditioner: AirConditionData[];
   addons: {
     "copperPipe1/4+3/8": number;
     "copperCable1/5": number;

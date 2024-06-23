@@ -1,7 +1,14 @@
 import { type StateCreator } from "zustand";
 
 export interface AirConditionStore {
-  choosedAirCondition: string | null;
+  choosedAirConditioner: {
+    type: string;
+    power: number;
+    option: string;
+    area: string;
+    energyType: string;
+    price: number;
+  } | null;
   copperPipeLen: number;
   copperCableLen15: number;
   copperCableLen16: number;
@@ -18,12 +25,15 @@ export interface AirConditionStore {
 
 export interface AirConditionSlice {
   airConditionStore: AirConditionStore;
-  updateAirCondition: (key: string, value: boolean | number | string) => void;
+  updateAirCondition: (
+    key: string,
+    value: boolean | number | string | object
+  ) => void;
 }
 
 export const airConditionSlice: StateCreator<AirConditionSlice> = (set) => ({
   airConditionStore: {
-    choosedAirCondition: null,
+    choosedAirConditioner: null,
     copperPipeLen: 10,
     copperCableLen15: 10,
     copperCableLen16: 10,
