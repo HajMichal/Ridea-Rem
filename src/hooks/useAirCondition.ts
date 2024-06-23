@@ -23,6 +23,59 @@ export const useAirCondition = () => {
         updateAirConditionCalculation("copperPipePrice", data);
       },
     });
+  const { mutate: setCopperCable15Price } =
+    api.airCondition.setCopperCable15Price.useMutation({
+      onSuccess: (data) => {
+        updateAirConditionCalculation("copperCable15Price", data);
+      },
+    });
+  const { mutate: setCopperCable16Price } =
+    api.airCondition.setCopperCable16Price.useMutation({
+      onSuccess: (data) => {
+        updateAirConditionCalculation("copperCable16Price", data);
+      },
+    });
+  const { mutate: setDashPipePrice } =
+    api.airCondition.setDashPipePrice.useMutation({
+      onSuccess: (data) => {
+        updateAirConditionCalculation("dashPipePrice", data);
+      },
+    });
+  const { mutate: setAirConditionerSupportPrice } =
+    api.airCondition.setAirConditionerSupportPrice.useMutation({
+      onSuccess: (data) => {
+        updateAirConditionCalculation("airConditionerSupportPrice", data);
+      },
+    });
+  const { mutate: setGutterPrice } =
+    api.airCondition.setGutterPrice.useMutation({
+      onSuccess: (data) => {
+        updateAirConditionCalculation("gutterPrice", data);
+      },
+    });
+  const { mutate: setPipeConnectorPrice } =
+    api.airCondition.setPipeConnectorPrice.useMutation({
+      onSuccess: (data) => {
+        updateAirConditionCalculation("pipeConnectorPrice", data);
+      },
+    });
+  const { mutate: setElasticPipePrice } =
+    api.airCondition.setElasticPipePrice.useMutation({
+      onSuccess: (data) => {
+        updateAirConditionCalculation("elasticPipePrice", data);
+      },
+    });
+  const { mutate: setTapePrice } = api.airCondition.setTapePrice.useMutation({
+    onSuccess: (data) => {
+      updateAirConditionCalculation("tapePrice", data);
+    },
+  });
+  const { mutate: setWallPassPrice } =
+    api.airCondition.setWallPassPrice.useMutation({
+      onSuccess: (data) => {
+        updateAirConditionCalculation("wallPassPrice", data);
+      },
+    });
 
   return {
     jsonData: jsonData,
@@ -30,6 +83,15 @@ export const useAirCondition = () => {
     airConditionCalcStore: airConditionCalcStore,
     mutations: {
       setCopperPipePrice,
+      setCopperCable15Price,
+      setCopperCable16Price,
+      setDashPipePrice,
+      setAirConditionerSupportPrice,
+      setGutterPrice,
+      setPipeConnectorPrice,
+      setElasticPipePrice,
+      setTapePrice,
+      setWallPassPrice,
     },
   };
 };
