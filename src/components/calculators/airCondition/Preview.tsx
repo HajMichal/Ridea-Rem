@@ -1,6 +1,6 @@
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import React from "react";
-import { TextComponent } from "~/components";
+import { PdfGeneratorButton, TextComponent } from "~/components";
 import { useAirCondition } from "~/hooks/useAirCondition";
 
 export const Preview = () => {
@@ -20,7 +20,7 @@ export const Preview = () => {
         <div className="flex w-full flex-wrap justify-between font-orkneyBold font-semibold">
           <div
             ref={parent}
-            className="mt-3 h-[75%] w-full overflow-y-auto px-10"
+            className="mt-3 h-[75%] w-full overflow-y-auto overflow-x-hidden px-10"
           >
             <h3 className="flex w-full justify-center text-xl">
               {airConditionStore.choosedAirConditioner?.type}
@@ -48,7 +48,70 @@ export const Preview = () => {
               calculations={airConditionStore.choosedAirConditioner?.price}
               unit="ZŁ"
             />
+            <h3 className="flex w-full justify-center text-xl">MONTAŻ</h3>
+            <TextComponent
+              title="RURA MIEDZIANA W OTULINIE"
+              calculations={airConditionStore.copperPipeLen}
+              unit="mb"
+            />
+            <TextComponent
+              title="KABEL MIEDZIANY 3x1.5"
+              calculations={airConditionStore.copperCableLen15}
+              unit="mb"
+            />
+            <TextComponent
+              title="KABEL MIEDZIANY 3x1.6"
+              calculations={airConditionStore.copperCableLen16}
+              unit="mb"
+            />
+            <TextComponent
+              title="RURKA SKROPLIN"
+              calculations={airConditionStore.pipeDashLen}
+              unit="mb"
+            />
+            <TextComponent
+              title="WSPORNIK KLIMATYZATORA"
+              calculations={airConditionStore.airConditionerSupport}
+              unit="szt"
+            />
+            <TextComponent
+              title="KORYTKO 8x6mm"
+              calculations={airConditionStore.gutterLen}
+              unit="mb"
+            />
+            <TextComponent
+              title="ŁĄCZNIK / KOLANO / ZAKOŃCZENIE"
+              calculations={airConditionStore.pipeConnector}
+              unit="kpl"
+            />
+            <TextComponent
+              title="RURA ELASTYCZNA fi 50"
+              calculations={airConditionStore.elasticPipeLen}
+              unit="mb"
+            />
+            <TextComponent
+              title="TAŚMA MONTAŻOWA"
+              calculations={airConditionStore.tape}
+              unit="szt"
+            />
+            <TextComponent
+              title="PRZEPUST ŚCIENNY"
+              calculations={airConditionStore.wallPass}
+              unit="szt"
+            />
+            <h3 className="mt-5 flex w-full justify-center text-xl">
+              ELEMENTY DODATKOWE
+            </h3>
+            <TextComponent
+              title="SYFON"
+              calculations={airConditionStore.syfon}
+            />
+            <TextComponent
+              title="POMPA SKROPLIN"
+              calculations={airConditionStore.dashPump}
+            />
           </div>
+          <PdfGeneratorButton />
         </div>
       </div>
     </div>

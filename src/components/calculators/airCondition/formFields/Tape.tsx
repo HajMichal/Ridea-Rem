@@ -21,7 +21,9 @@ export const Tape = () => {
   return (
     <InputComponent
       title="TAŚMA DO INSTALACJI"
-      onChange={(e) => store.updateAirCondition("tape", Number(e))}
+      onChange={({ target }) =>
+        store.updateAirCondition("tape", target.valueAsNumber)
+      }
       step={1}
       value={airConditionStore.tape}
     />

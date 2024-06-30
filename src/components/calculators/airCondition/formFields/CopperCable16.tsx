@@ -24,7 +24,9 @@ export const CopperCable16 = () => {
   return (
     <InputComponent
       title="KABEL MIEDZIANY 3x1.6"
-      onChange={(e) => store.updateAirCondition("copperCableLen16", Number(e))}
+      onChange={({ target }) =>
+        store.updateAirCondition("copperCableLen16", target.valueAsNumber)
+      }
       step={1}
       value={airConditionStore.copperCableLen16}
     />

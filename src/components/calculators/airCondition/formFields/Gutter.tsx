@@ -21,7 +21,9 @@ export const Gutter = () => {
   return (
     <InputComponent
       title="KORYTO 8x6 mm"
-      onChange={(e) => store.updateAirCondition("gutterLen", Number(e))}
+      onChange={({ target }) =>
+        store.updateAirCondition("gutterLen", target.valueAsNumber)
+      }
       step={1}
       value={airConditionStore.gutterLen}
     />

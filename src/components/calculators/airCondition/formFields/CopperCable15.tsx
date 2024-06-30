@@ -17,14 +17,16 @@ export const CopperCable15 = () => {
         price: jsonData.addons["copperCable1/5"],
       });
   }, [
-    debouncedAirCondStore.copperCableLen15,
     jsonData?.addons["copperCable1/5"],
+    debouncedAirCondStore.copperCableLen15,
   ]);
 
   return (
     <InputComponent
       title="KABEL MIEDZIANY 3x1.5"
-      onChange={(e) => store.updateAirCondition("copperCableLen15", Number(e))}
+      onChange={({ target }) =>
+        store.updateAirCondition("copperCableLen15", target.valueAsNumber)
+      }
       step={1}
       value={airConditionStore.copperCableLen15}
     />

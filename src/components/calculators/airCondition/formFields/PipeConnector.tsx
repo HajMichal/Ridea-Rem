@@ -21,7 +21,9 @@ export const PipeConnector = () => {
   return (
     <InputComponent
       title="ŁĄCZNIK / KOLANO / ZAKOŃCZENIE"
-      onChange={(e) => store.updateAirCondition("pipeConnector", Number(e))}
+      onChange={({ target }) =>
+        store.updateAirCondition("pipeConnector", target.valueAsNumber)
+      }
       step={1}
       value={airConditionStore.pipeConnector}
     />

@@ -24,8 +24,8 @@ export const AirConditionerSupport = () => {
   return (
     <InputComponent
       title="WSPORNIK KLIMATYZATORA"
-      onChange={(e) =>
-        store.updateAirCondition("airConditionerSupport", Number(e))
+      onChange={({ target }) =>
+        store.updateAirCondition("airConditionerSupport", target.valueAsNumber)
       }
       step={1}
       value={airConditionStore.airConditionerSupport}

@@ -21,7 +21,9 @@ export const WallPass = () => {
   return (
     <InputComponent
       title="PRZEPUST ŚCIENNY"
-      onChange={(e) => store.updateAirCondition("wallPass", Number(e))}
+      onChange={({ target }) =>
+        store.updateAirCondition("wallPass", target.valueAsNumber)
+      }
       step={1}
       value={airConditionStore.wallPass}
     />

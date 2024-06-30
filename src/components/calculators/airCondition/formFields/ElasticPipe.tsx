@@ -21,7 +21,9 @@ export const ElasticPipe = () => {
   return (
     <InputComponent
       title="RURA ELASTYCZNA fi50"
-      onChange={(e) => store.updateAirCondition("elasticPipeLen", Number(e))}
+      onChange={({ target }) =>
+        store.updateAirCondition("elasticPipeLen", target.valueAsNumber)
+      }
       step={1}
       value={airConditionStore.elasticPipeLen}
     />

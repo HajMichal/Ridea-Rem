@@ -21,7 +21,9 @@ function DashPipe() {
   return (
     <InputComponent
       title="RURKA SKROPLIN"
-      onChange={(e) => store.updateAirCondition("pipeDashLen", Number(e))}
+      onChange={({ target }) =>
+        store.updateAirCondition("pipeDashLen", target.valueAsNumber)
+      }
       step={1}
       value={airConditionStore.pipeDashLen}
     />
