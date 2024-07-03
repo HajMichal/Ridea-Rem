@@ -99,9 +99,11 @@ export const Preview = () => {
               calculations={airConditionStore.wallPass}
               unit="szt"
             />
-            <h3 className="mt-5 flex w-full justify-center text-xl">
-              ELEMENTY DODATKOWE
-            </h3>
+            {(airConditionStore.syfon || airConditionStore.dashPump) && (
+              <h3 className="mt-5 flex w-full justify-center text-xl">
+                ELEMENTY DODATKOWE
+              </h3>
+            )}
             <TextComponent
               title="SYFON"
               calculations={airConditionStore.syfon}

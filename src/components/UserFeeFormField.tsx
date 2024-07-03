@@ -83,16 +83,19 @@ export const UserFeeFormField = ({
     api.forCompanyDataFlowRouter.removeMenagerData.useMutation();
   const { mutate: removeMenagerHeatHomeJson } =
     api.heatHomeDataFlowRouter.removeMenagerData.useMutation();
+  const { mutate: removeMenagerAirConditionJson } =
+    api.airConditionDataFlowRouter.removeMenagerData.useMutation();
   const { mutate: removeUserFromDb } =
     api.userDataHandling.removeUser.useMutation();
 
   const removeUser = () => {
     removeUserFromDb(user.id);
-    if (user.role === 2) {
-      removeMenagerPhotovoltaicJson(user.name!);
-      removeMenagerHeatPumpJson(user.name!);
-      removeMenagerForCompanyJson(user.name!);
-      removeMenagerHeatHomeJson(user.name!);
+    if (user.role === 2 && user.name) {
+      removeMenagerPhotovoltaicJson(user.name);
+      removeMenagerHeatPumpJson(user.name);
+      removeMenagerForCompanyJson(user.name);
+      removeMenagerHeatHomeJson(user.name);
+      removeMenagerAirConditionJson(user.name);
     }
     setRemoveUserModal(false);
   };

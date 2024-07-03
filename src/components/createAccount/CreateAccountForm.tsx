@@ -28,6 +28,8 @@ export default function CreateAccountForm({
     api.forCompanyDataFlowRouter.addNewMenager.useMutation();
   const { mutate: addMenagerHeatHome } =
     api.heatHomeDataFlowRouter.addNewMenager.useMutation();
+  const { mutate: addMenagerAirCondition } =
+    api.airConditionDataFlowRouter.addNewMenager.useMutation();
 
   const { mutate } = api.userDataHandling.createAccount.useMutation({
     onError(error) {
@@ -39,6 +41,7 @@ export default function CreateAccountForm({
         addMenagerHeatPumpData(data.userName);
         addMenagerForCompany(data.userName);
         addMenagerHeatHome(data.userName);
+        addMenagerAirCondition(data.userName);
       }
       toast.success(`Konto zostało utworzone dla ${data.userName}`);
       reset();

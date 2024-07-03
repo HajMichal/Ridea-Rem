@@ -14,7 +14,7 @@ const DaneFotowoltaiki = () => {
   const { data: entireJsonData } = api.dataFlow.getEntireJsonFile.useQuery();
 
   useEffect(() => {
-    if ((sessionData && sessionData?.user.role !== 1) || sessionData === null) {
+    if (sessionData === null || (sessionData && sessionData.user.role !== 1)) {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call
       void router.push("/");
     }
