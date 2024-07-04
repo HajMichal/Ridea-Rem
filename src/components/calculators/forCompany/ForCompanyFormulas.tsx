@@ -2,6 +2,11 @@ import { ScrollArea } from "@mantine/core";
 import React, { useEffect } from "react";
 import { InputComponent, SelectComponent } from "~/components";
 import { YESNO } from "~/constans/formsData";
+import {
+  largestPanel,
+  mediumPanel,
+  smallestPanel,
+} from "~/constans/panelPowers";
 import { useForCompany } from "~/hooks/useForCompany";
 import useStore from "~/store";
 
@@ -11,17 +16,17 @@ export const ForCompanyFormulas = () => {
   const { forCompanyStore, forCompanyCalcStore } = useForCompany();
 
   useEffect(() => {
-    if (forCompanyStore.panelPower === 400) {
+    if (forCompanyStore.panelPower === smallestPanel) {
       store.updateForCompanyCalculation(
         "sysPower",
         forCompanyCalcStore.allSystemPowers.systemPower400
       );
-    } else if (forCompanyStore.panelPower === 455) {
+    } else if (forCompanyStore.panelPower === mediumPanel) {
       store.updateForCompanyCalculation(
         "sysPower",
         forCompanyCalcStore.allSystemPowers.systemPower455
       );
-    } else if (forCompanyStore.panelPower === 500) {
+    } else if (forCompanyStore.panelPower === largestPanel) {
       store.updateForCompanyCalculation(
         "sysPower",
         forCompanyCalcStore.allSystemPowers.systemPower500
@@ -30,17 +35,17 @@ export const ForCompanyFormulas = () => {
   }, [forCompanyCalcStore.allSystemPowers, forCompanyStore.panelPower]);
 
   useEffect(() => {
-    if (forCompanyStore.panelPower === 400) {
+    if (forCompanyStore.panelPower === smallestPanel) {
       store.updateForCompanyCalculation(
         "modulesCount",
         forCompanyCalcStore.calculateModuleCount.modulesCount400
       );
-    } else if (forCompanyStore.panelPower === 455) {
+    } else if (forCompanyStore.panelPower === mediumPanel) {
       store.updateForCompanyCalculation(
         "modulesCount",
         forCompanyCalcStore.calculateModuleCount.modulesCount455
       );
-    } else if (forCompanyStore.panelPower === 500) {
+    } else if (forCompanyStore.panelPower === largestPanel) {
       store.updateForCompanyCalculation(
         "modulesCount",
         forCompanyCalcStore.calculateModuleCount.modulesCount500
@@ -175,11 +180,7 @@ export const ForCompanyFormulas = () => {
               store.updateForCompany("panelPower", Number(e));
             }}
             value={forCompanyStore.panelPower}
-            data={[
-              { value: "400", label: "400" },
-              { value: "455", label: "455" },
-              { value: "500", label: "500" },
-            ]}
+            data={[largestPanel.toString()]}
           />
           <SelectComponent
             title="STAWKA VAT"
