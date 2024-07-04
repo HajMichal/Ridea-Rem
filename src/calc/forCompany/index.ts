@@ -1,3 +1,9 @@
+import {
+  largestPanel,
+  mediumPanel,
+  smallestPanel,
+} from "~/constans/panelPowers";
+
 interface CalculateModuleCountType {
   wantedInstaltionPower: number;
 }
@@ -6,9 +12,15 @@ export function calculateModuleCount({
 }: {
   input: CalculateModuleCountType;
 }) {
-  const panelCount400 = Math.floor((input.wantedInstaltionPower * 1000) / 400);
-  const panelCount455 = Math.floor((input.wantedInstaltionPower * 1000) / 455);
-  const panelCount500 = Math.floor((input.wantedInstaltionPower * 1000) / 500);
+  const panelCount400 = Math.floor(
+    (input.wantedInstaltionPower * 1000) / smallestPanel
+  );
+  const panelCount455 = Math.floor(
+    (input.wantedInstaltionPower * 1000) / mediumPanel
+  );
+  const panelCount500 = Math.floor(
+    (input.wantedInstaltionPower * 1000) / largestPanel
+  );
 
   return {
     modulesCount400: panelCount400,
@@ -27,13 +39,22 @@ interface SystemPowerType {
 export function systemPower({ input }: { input: SystemPowerType }) {
   return {
     systemPower400: Number(
-      ((input.calculateModuleCount.modulesCount400 * 400) / 1000).toFixed(2)
+      (
+        (input.calculateModuleCount.modulesCount400 * smallestPanel) /
+        1000
+      ).toFixed(2)
     ),
     systemPower455: Number(
-      ((input.calculateModuleCount.modulesCount455 * 455) / 1000).toFixed(2)
+      (
+        (input.calculateModuleCount.modulesCount455 * mediumPanel) /
+        1000
+      ).toFixed(2)
     ),
     systemPower500: Number(
-      ((input.calculateModuleCount.modulesCount500 * 500) / 1000).toFixed(2)
+      (
+        (input.calculateModuleCount.modulesCount500 * largestPanel) /
+        1000
+      ).toFixed(2)
     ),
   };
 }

@@ -2,6 +2,11 @@ import React from "react";
 import { TextComponent, PdfGeneratorButton } from "../../";
 import { useForCompany } from "~/hooks/useForCompany";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
+import {
+  largestPanel,
+  mediumPanel,
+  smallestPanel,
+} from "~/constans/panelPowers";
 
 export function Preview() {
   const [parent] = useAutoAnimate();
@@ -23,7 +28,9 @@ export function Preview() {
             unit="kW"
           />
           {!!forCompanyCalcStore.calculateModuleCount.modulesCount400 && (
-            <h2 className="mt-7 w-full text-center text-xl">PANEL 400W</h2>
+            <h2 className="mt-7 w-full text-center text-xl">
+              PANEL {smallestPanel}W
+            </h2>
           )}
           <TextComponent
             title="POTRZEBNA LICZBA PANELI"
@@ -45,7 +52,9 @@ export function Preview() {
             unit="zł"
           />
           {!!forCompanyCalcStore.calculateModuleCount.modulesCount455 && (
-            <h2 className="mt-7 w-full text-center text-xl">PANEL 455W</h2>
+            <h2 className="mt-7 w-full text-center text-xl">
+              PANEL {mediumPanel}W
+            </h2>
           )}
           <TextComponent
             title="POTRZEBNA LICZBA PANELI"
@@ -67,7 +76,9 @@ export function Preview() {
             unit="zł"
           />
           {!!forCompanyCalcStore.calculateModuleCount.modulesCount500 && (
-            <h2 className="mt-7 w-full text-center text-xl">PANEL 500W</h2>
+            <h2 className="mt-7 w-full text-center text-xl">
+              PANEL {largestPanel}W
+            </h2>
           )}
           <TextComponent
             title="POTRZEBNA LICZBA PANELI"

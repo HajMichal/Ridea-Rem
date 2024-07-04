@@ -73,9 +73,15 @@ export function PhotovoltaicFormulas() {
             }}
             value={photovoltaicStore.panelPower}
             data={[
-              { value: smallestPanel.toString(), label: "410W DASSOLAR" },
-              { value: mediumPanel.toString(), label: "450W NORD DASSOLAR" },
-              { value: largestPanel.toString(), label: "500W" },
+              {
+                value: smallestPanel.toString(),
+                label: `${smallestPanel}W DASSOLAR`,
+              },
+              {
+                value: mediumPanel.toString(),
+                label: `${mediumPanel}W NORD DASSOLAR`,
+              },
+              { value: largestPanel.toString(), label: `${largestPanel}W` },
             ]}
           />
           <InputComponent

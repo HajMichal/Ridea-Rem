@@ -180,7 +180,17 @@ export const ForCompanyFormulas = () => {
               store.updateForCompany("panelPower", Number(e));
             }}
             value={forCompanyStore.panelPower}
-            data={[largestPanel.toString()]}
+            data={[
+              {
+                value: smallestPanel.toString(),
+                label: `${smallestPanel}W DASSOLAR`,
+              },
+              {
+                value: mediumPanel.toString(),
+                label: `${mediumPanel}W NORD DASSOLAR`,
+              },
+              { value: largestPanel.toString(), label: `${largestPanel}W` },
+            ]}
           />
           <SelectComponent
             title="STAWKA VAT"

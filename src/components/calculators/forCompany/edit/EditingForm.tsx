@@ -106,7 +106,7 @@ export const EditionForm = ({ data }: EditionForm) => {
         <div className="flex">
           <div>
             <h2 className="mb-2 ml-3 mt-5 w-full text-center font-orkneyLight text-2xl">
-              PANEL 400
+              PANEL 410
             </h2>
             {jsxPanel400Elements.map((element, index) => (
               <div key={index}>{element}</div>
@@ -122,7 +122,7 @@ export const EditionForm = ({ data }: EditionForm) => {
           </div>
           <div>
             <h2 className="mb-2 ml-3 mt-5 w-full text-center font-orkneyLight text-2xl">
-              PANEL 500
+              PANEL 580
             </h2>
             {jsxlargestPanelElements.map((element, index) => (
               <div key={index}>{element}</div>

@@ -1,4 +1,5 @@
 import { type StateCreator } from "zustand";
+import { smallestPanel } from "~/constans/panelPowers";
 
 export interface ForCompanySlice {
   forCompanyStore: {
@@ -41,7 +42,7 @@ export const forCompanySlice: StateCreator<ForCompanySlice> = (set) => ({
     groundPanelCount: 0,
     roofWeightSystemCount: 0,
     tigoCount: 0,
-    panelPower: 400,
+    panelPower: smallestPanel,
     installmentNumber: 120,
     tankSize: "Brak",
   },

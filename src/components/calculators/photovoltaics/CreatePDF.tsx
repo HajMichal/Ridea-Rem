@@ -462,7 +462,7 @@ const PhotovoltaicDocument = ({
                 "DASSOLAR 410W"}
               {photovoltaicStore.panelPower === mediumPanel &&
                 "NORD DASSOLAR 450W"}
-              {photovoltaicStore.panelPower === largestPanel && "500W"}
+              {photovoltaicStore.panelPower === largestPanel && "580W"}
             </Text>
           </View>
           <View style={styles.saveRow}>

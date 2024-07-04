@@ -10,6 +10,11 @@ import {
 } from "@react-pdf/renderer";
 import { type ForCompanySlice } from "~/store/forCompany/forCompanySlice";
 import { type ForCompanyCalculation } from "~/store/forCompany/forCompanyCalculationSlice";
+import {
+  largestPanel,
+  mediumPanel,
+  smallestPanel,
+} from "~/constans/panelPowers";
 
 Font.register({
   family: "Orkney",
@@ -226,7 +231,7 @@ const ForCompanyDocument = ({
                   justifyContent: "center",
                 }}
               >
-                400W
+                ${smallestPanel}W
               </Text>
               <Text
                 style={{
@@ -272,7 +277,7 @@ const ForCompanyDocument = ({
                   justifyContent: "center",
                 }}
               >
-                455W
+                ${mediumPanel}W
               </Text>
               <Text
                 style={{
@@ -318,7 +323,7 @@ const ForCompanyDocument = ({
                   justifyContent: "center",
                 }}
               >
-                500W
+                ${largestPanel}W
               </Text>
               <Text
                 style={{
