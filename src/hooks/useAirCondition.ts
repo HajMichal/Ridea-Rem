@@ -76,6 +76,17 @@ export const useAirCondition = () => {
         updateAirConditionCalculation("wallPassPrice", data);
       },
     });
+  const { mutate: setAddonSum } = api.airCondition.setAddonSum.useMutation({
+    onSuccess: (data) => {
+      updateAirConditionCalculation("addonsSumPrice", data);
+    },
+  });
+  const { mutate: setInstallationPrice } =
+    api.airCondition.setInstallationPrice.useMutation({
+      onSuccess: (data) => {
+        updateAirConditionCalculation("installationPricing", data);
+      },
+    });
 
   return {
     jsonData: jsonData,
@@ -92,6 +103,8 @@ export const useAirCondition = () => {
       setElasticPipePrice,
       setTapePrice,
       setWallPassPrice,
+      setAddonSum,
+      setInstallationPrice,
     },
   };
 };

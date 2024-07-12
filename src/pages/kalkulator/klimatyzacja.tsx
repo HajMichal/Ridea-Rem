@@ -8,7 +8,7 @@ import { useAirCondition } from "~/hooks/useAirCondition";
 function Klimatyzacja() {
   const { jsonData } = useAirCondition();
 
-  // AirConditionMutations();
+  AirConditionMutations();
   return (
     <main className="flex h-full max-h-screen overflow-hidden bg-backgroundGray font-orkney font-normal laptop:justify-center">
       {!jsonData && (

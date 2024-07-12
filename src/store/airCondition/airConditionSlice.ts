@@ -19,6 +19,7 @@ export interface AirConditionStore {
   elasticPipeLen: number;
   tape: number;
   wallPass: number;
+  consultantMarkup: number;
   syfon: boolean;
   dashPump: boolean;
 }
@@ -44,6 +45,7 @@ export const airConditionSlice: StateCreator<AirConditionSlice> = (set) => ({
     elasticPipeLen: 1,
     tape: 1,
     wallPass: 1,
+    consultantMarkup: 500,
     syfon: false,
     dashPump: false,
   },

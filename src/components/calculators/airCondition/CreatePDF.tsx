@@ -1,5 +1,15 @@
 import React from "react";
-import { Page, Document, StyleSheet, Font } from "@react-pdf/renderer";
+import {
+  Page,
+  Text,
+  View,
+  Document,
+  StyleSheet,
+  Image,
+  Font,
+} from "@react-pdf/renderer";
+import { type AirConditionStore } from "~/store/airCondition/airConditionSlice";
+import { type AirConditionCalculationStore } from "~/store/airCondition/airConditionCalculationSlice";
 
 Font.register({
   family: "Orkney",
@@ -120,8 +130,21 @@ const styles = StyleSheet.create({
   },
 });
 
-const AirConditionDocument = () => (
+interface DataToPDF {
+  airConditionStore: AirConditionStore;
+  airConditionCalcStore: AirConditionCalculationStore;
+}
+const AirConditionDocument = ({
+  airConditionStore,
+  airConditionCalcStore,
+}: DataToPDF) => (
   <Document>
+    <Page size="A4" style={styles.page}>
+      <Image
+        style={styles.image}
+        src={`${process.env.NEXT_PUBLIC_BASE_URL}/static/airCondition/airConditionFirstPage.png`}
+      />
+    </Page>
     <Page size="A4" style={styles.page}></Page>
   </Document>
 );

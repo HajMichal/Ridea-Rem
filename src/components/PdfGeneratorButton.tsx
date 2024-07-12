@@ -13,6 +13,8 @@ import { usePhotovoltaic } from "~/hooks/usePhotovoltaic";
 import { useForCompany } from "~/hooks/useForCompany";
 import { useHeatPump } from "~/hooks/useHeatPump";
 import { useHeatHome } from "~/hooks/useHeatHome";
+import { AirConditionDocument } from "./calculators/airCondition";
+import { useAirCondition } from "~/hooks/useAirCondition";
 
 interface DataFromJson {
   cop?: number;
@@ -25,6 +27,7 @@ export const PdfGeneratorButton = ({ cop }: DataFromJson) => {
   const { heatPumpCalcStore, heatPumpStore } = useHeatPump();
   const { forCompanyCalcStore, forCompanyStore } = useForCompany();
   const { heatHomeCalcStore, heatHomeStore } = useHeatHome();
+  const { airConditionCalcStore, airConditionStore } = useAirCondition();
 
   const photovoltaicDoc = async () => {
     const blobPhotovoltaics = await pdf(
@@ -33,7 +36,7 @@ export const PdfGeneratorButton = ({ cop }: DataFromJson) => {
         photovoltaicStore={photovoltaicStore}
       />
     ).toBlob();
-    saveAs(blobPhotovoltaics, "Oferta dla Klienta - IdeaRem.pdf");
+    saveAs(blobPhotovoltaics, "Oferta dla Klienta - PrzyjaznaNatura.pdf");
   };
   const heatPumpDoc = async () => {
     const blobHeatPump = await pdf(
@@ -43,7 +46,7 @@ export const PdfGeneratorButton = ({ cop }: DataFromJson) => {
         cop={cop}
       />
     ).toBlob();
-    saveAs(blobHeatPump, "Oferta dla Klienta - IdeaRem.pdf");
+    saveAs(blobHeatPump, "Oferta dla Klienta - PrzyjaznaNatura.pdf");
   };
   const forCompanyDoc = async () => {
     const blobForCompany = await pdf(
@@ -52,7 +55,7 @@ export const PdfGeneratorButton = ({ cop }: DataFromJson) => {
         forCompanyStore={forCompanyStore}
       />
     ).toBlob();
-    saveAs(blobForCompany, "Oferta dla Klienta - IdeaRem.pdf");
+    saveAs(blobForCompany, "Oferta dla Klienta - PrzyjaznaNatura.pdf");
   };
   const heatHomeDoc = async () => {
     const blobForCompany = await pdf(
@@ -61,7 +64,16 @@ export const PdfGeneratorButton = ({ cop }: DataFromJson) => {
         heatHomeStore={heatHomeStore}
       />
     ).toBlob();
-    saveAs(blobForCompany, "Oferta dla Klienta - IdeaRem.pdf");
+    saveAs(blobForCompany, "Oferta dla Klienta - PrzyjaznaNatura.pdf");
+  };
+  const airConditionDoc = async () => {
+    const blobAirCondition = await pdf(
+      <AirConditionDocument
+        airConditionStore={airConditionStore}
+        airConditionCalcStore={airConditionCalcStore}
+      />
+    ).toBlob();
+    saveAs(blobAirCondition, "Oferta dla Klienta - PrzyjaznaNatura.pdf");
   };
 
   const generateContract = async () => {
@@ -74,6 +86,8 @@ export const PdfGeneratorButton = ({ cop }: DataFromJson) => {
       await forCompanyDoc();
     } else if (router.pathname === "/kalkulator/cieplo_wlasciwe") {
       await heatHomeDoc();
+    } else if (router.pathname == "/kalkulator/klimatyzacja") {
+      await airConditionDoc();
     }
     setPdfLoading(false);
   };

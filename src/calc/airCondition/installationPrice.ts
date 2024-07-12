@@ -7,9 +7,13 @@ interface InstallationPrice {
   };
 }
 export function installationPrice({ input }: InstallationPrice) {
-  const netInstallationPrice = input.airConditionerPrice + input.addonsSumPrice;
+  const netInstallationPrice = Number(
+    (input.airConditionerPrice + input.addonsSumPrice).toFixed(2)
+  );
   const vatValue = Number((netInstallationPrice * tax23).toFixed(2));
-  const grossInstallationPrice = netInstallationPrice + vatValue;
+  const grossInstallationPrice = Number(
+    (netInstallationPrice + vatValue).toFixed(2)
+  );
 
   return {
     netInstallationPrice,

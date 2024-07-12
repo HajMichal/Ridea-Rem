@@ -13,6 +13,7 @@ interface AddonsSum {
     montagePrice: number;
     syfonPrice: number;
     dashPumpPrice: number;
+    consultantProvision: number;
   };
 }
 export function addonsSum({ input }: AddonsSum) {

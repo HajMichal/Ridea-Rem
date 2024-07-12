@@ -2,6 +2,7 @@ import { useAutoAnimate } from "@formkit/auto-animate/react";
 import React from "react";
 import { PdfGeneratorButton, TextComponent } from "~/components";
 import { useAirCondition } from "~/hooks/useAirCondition";
+import { airConditionCalculationSlice } from "~/store/airCondition/airConditionCalculationSlice";
 
 export const Preview = () => {
   const { jsonData, airConditionStore, airConditionCalcStore } =
@@ -112,6 +113,32 @@ export const Preview = () => {
               title="POMPA SKROPLIN"
               calculations={airConditionStore.dashPump}
             />
+
+            <div>
+              <h3 className="mt-10 w-full text-center text-xl">FINANSE</h3>
+              <TextComponent
+                title="KWOTA NETTO ZA INSTALACJĘ"
+                calculations={
+                  airConditionCalcStore.installationPricing.netInstallationPrice
+                }
+                unit="ZŁ"
+              />
+              <TextComponent
+                title="KWOTA BRUTTO ZA INSTALACJĘ"
+                calculations={
+                  airConditionCalcStore.installationPricing
+                    .grossInstallationPrice
+                }
+                unit="ZŁ"
+              />
+              <TextComponent
+                title="KWOTA VAT"
+                calculations={
+                  airConditionCalcStore.installationPricing.vatValue
+                }
+                unit="ZŁ"
+              />
+            </div>
           </div>
           <PdfGeneratorButton />
         </div>

@@ -26,7 +26,7 @@ export interface AirConditionCalcualtionSlice {
   airConditionCalcStore: AirConditionCalculationStore;
   updateAirConditionCalculation: (
     key: string,
-    value: string | number | boolean
+    value: string | number | boolean | object
   ) => void;
 }
 

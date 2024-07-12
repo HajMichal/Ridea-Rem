@@ -1,7 +1,11 @@
 import { z } from "zod";
 import { protectedProcedure } from "../../trpc";
 import { createTRPCRouter } from "../../trpc";
-import { addonPrice } from "../../../../calc/airCondition";
+import {
+  addonPrice,
+  addonsSum,
+  installationPrice,
+} from "../../../../calc/airCondition";
 
 export const airConditionCalculator = createTRPCRouter({
   setCopperPipePrice: protectedProcedure
@@ -84,4 +88,32 @@ export const airConditionCalculator = createTRPCRouter({
       })
     )
     .mutation(addonPrice),
+  setAddonSum: protectedProcedure
+    .input(
+      z.object({
+        copperPipePrice: z.number(),
+        copperCable15Price: z.number(),
+        copperCable16Price: z.number(),
+        dashPipePrice: z.number(),
+        airConditionSupportPrice: z.number(),
+        gutterPrice: z.number(),
+        pipeConnectorPrice: z.number(),
+        elasticPipePrice: z.number(),
+        tapePrice: z.number(),
+        wallPassPrice: z.number(),
+        montagePrice: z.number(),
+        syfonPrice: z.number(),
+        dashPumpPrice: z.number(),
+        consultantProvision: z.number(),
+      })
+    )
+    .mutation(addonsSum),
+  setInstallationPrice: protectedProcedure
+    .input(
+      z.object({
+        airConditionerPrice: z.number(),
+        addonsSumPrice: z.number(),
+      })
+    )
+    .mutation(installationPrice),
 });
