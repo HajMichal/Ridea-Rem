@@ -9,6 +9,7 @@ import {
 } from "~/server/api/routers/airCondition/interfaces";
 import { api } from "~/utils/api";
 
+/* eslint @typescript-eslint/consistent-indexed-object-style: ["error", "index-signature"] */
 interface EditionForm {
   [key: string]: { [key: string]: AirConditionDataToCalculation };
 }

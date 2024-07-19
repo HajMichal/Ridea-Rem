@@ -97,8 +97,12 @@ export const PdfGeneratorButton = ({ cop }: DataFromJson) => {
       {pdfLoading ? (
         <Loading isDownloading />
       ) : (
-        <Badge size="xl" className="bg-brand py-5 text-dark">
-          <button onClick={generateContract}>Pobierz kalkulacje!</button>
+        <Badge
+          size="xl"
+          className="group bg-brand py-5 text-dark hover:cursor-pointer"
+          onClick={generateContract}
+        >
+          <button>Pobierz kalkulacje!</button>
         </Badge>
       )}
     </div>
