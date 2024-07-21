@@ -110,6 +110,14 @@ export const loginRouter = createTRPCRouter({
           },
         });
         return { status: 200, message: "Prowizja została nałożona na konto" };
+      } else if (input.whichCalcualtor === "AirCondition") {
+        await ctx.prisma.user.update({
+          where: { id: input.userId },
+          data: {
+            imposedFeeAirCondition: input.feeAmount,
+          },
+        });
+        return { status: 200, message: "Prowizja została nałożona na konto" };
       }
     }),
   feePerKwChange: publicProcedure

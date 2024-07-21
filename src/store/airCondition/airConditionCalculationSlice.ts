@@ -13,8 +13,11 @@ export interface AirConditionCalculationStore {
   wallPassPrice: number;
   syfonPrice: number;
   dashPump: number;
-
   addonsSumPrice: number;
+  officeProvision: {
+    officeProvision: number;
+    bossProvision: number;
+  };
   installationPricing: {
     netInstallationPrice: number;
     vatValue: number;
@@ -47,6 +50,10 @@ export const airConditionCalculationSlice: StateCreator<
     syfonPrice: 0,
     dashPump: 0,
     addonsSumPrice: 0,
+    officeProvision: {
+      officeProvision: 0,
+      bossProvision: 0,
+    },
     installationPricing: {
       netInstallationPrice: 0,
       vatValue: 0,

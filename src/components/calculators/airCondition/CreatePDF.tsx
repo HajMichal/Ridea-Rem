@@ -313,6 +313,21 @@ const AirConditionDocument = ({
           </View>
         </View>
       </View>
+      <Text
+        style={{
+          right: 0,
+          position: "absolute",
+          fontSize: 6,
+          marginRight: 5,
+          marginTop: 5,
+          width: "100%",
+          textAlign: "right",
+        }}
+      >
+        /nr.zam/ model INW/Z {airConditionStore.consultantMarkup} /{" "}
+        {airConditionCalcStore.officeProvision.officeProvision} /{" "}
+        {airConditionCalcStore.officeProvision.bossProvision}
+      </Text>
       <Image
         style={{
           width: "100%",

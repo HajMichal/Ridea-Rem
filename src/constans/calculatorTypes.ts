@@ -3,6 +3,7 @@ export const CALCUALTOR_TYPES = [
   "ForCompany",
   "HeatPump",
   "HeatHome",
+  "AirCondition",
 ];
 
 export const CALCULATORS = [

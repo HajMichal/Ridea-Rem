@@ -3,8 +3,13 @@ import { useEffect } from "react";
 import { useAirCondition } from "~/hooks/useAirCondition";
 
 export function AirConditionMutations() {
-  const { jsonData, mutations, airConditionStore, airConditionCalcStore } =
-    useAirCondition();
+  const {
+    sessionData,
+    jsonData,
+    mutations,
+    airConditionStore,
+    airConditionCalcStore,
+  } = useAirCondition();
 
   useEffect(() => {
     if (jsonData?.addons)
@@ -24,6 +29,7 @@ export function AirConditionMutations() {
         syfonPrice: airConditionCalcStore.syfonPrice,
         dashPumpPrice: airConditionCalcStore.dashPump,
         consultantProvision: airConditionStore.consultantMarkup,
+        officeProvision: airConditionCalcStore.officeProvision.officeProvision,
       });
   }, [
     airConditionCalcStore.copperPipePrice,
@@ -39,7 +45,17 @@ export function AirConditionMutations() {
     airConditionCalcStore.syfonPrice,
     airConditionCalcStore.dashPump,
     airConditionStore.consultantMarkup,
+    airConditionCalcStore.officeProvision,
   ]);
+
+  useEffect(() => {
+    if (sessionData?.user.creatorId) {
+      mutations.setOfficeProvision({
+        officeFee: sessionData.user.imposedFeeAirCondition,
+        creatorId: sessionData.user.creatorId,
+      });
+    }
+  }, [sessionData?.user]);
 
   useEffect(() => {
     if (airConditionStore.choosedAirConditioner) {

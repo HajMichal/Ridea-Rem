@@ -14,6 +14,7 @@ interface AddonsSum {
     syfonPrice: number;
     dashPumpPrice: number;
     consultantProvision: number;
+    officeProvision: number;
   };
 }
 export function addonsSum({ input }: AddonsSum) {

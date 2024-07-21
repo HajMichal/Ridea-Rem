@@ -1,9 +1,8 @@
-import { Dispatch, SetStateAction, useState } from "react";
+import { useState } from "react";
 import { type User } from "@prisma/client";
 import { type MenagerType } from "~/pages/edycja/prowizje";
 import { api } from "~/utils/api";
 import { Button, Input, Modal } from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
 import { CALCUALTOR_TYPES } from "~/constans/calculatorTypes";
 import { FeesTable } from ".";
 
@@ -21,12 +20,14 @@ interface InputWithSubmitButtonType {
     whichCalcualtor: string;
   }) => void;
   whichCalcualtor: string;
+  isDisabled?: boolean;
 }
 const InputWithSubmitButton: React.FC<InputWithSubmitButtonType> = ({
   userId,
   setter,
   label,
   whichCalcualtor,
+  isDisabled = false,
 }) => {
   const [value, setValue] = useState(0);
 
@@ -49,12 +50,14 @@ const InputWithSubmitButton: React.FC<InputWithSubmitButtonType> = ({
             id={userId + label}
             onChange={(e) => setValue(e.target.valueAsNumber)}
             step={100}
+            disabled={isDisabled}
           />
         </Input.Wrapper>
         <Button
           onClick={handleImposedFeeInput}
-          className=" w-[90%] rounded-md bg-brand p-2 px-4 font-orkneyBold text-dark hover:bg-yellow-400"
+          className="w-[90%] rounded-md bg-brand p-2 px-4 font-orkneyBold text-dark hover:bg-yellow-400"
           type="submit"
+          disabled={isDisabled}
         >
           Zmień prowizję
         </Button>
@@ -184,25 +187,28 @@ export const UserFeeFormField = ({
                         ? "dla firm"
                         : calcualtor === "HeatPump"
                         ? "pompy ciepła"
-                        : "ciepło właściwe"
-                    }
-                      `}
+                        : calcualtor === "HeatHome"
+                        ? "ciepło właściwe"
+                        : "klimatyzacja"
+                    }`}
                   userId={user.id}
                   setter={setImposedFeeAmount}
                   whichCalcualtor={calcualtor}
                 />
                 <InputWithSubmitButton
-                  label={`Prowizja od 
+                  label={`
                   ${
                     calcualtor === "Photovoltaic"
-                      ? "kW fotowoltaika"
+                      ? "Prowizja od kW fotowoltaika"
                       : calcualtor === "ForCompany"
-                      ? "kW dla firm"
+                      ? "Prowizja od kW dla firm"
                       : calcualtor === "HeatPump"
-                      ? "kW pompy ciepła"
-                      : "M² ciepło właściwe"
-                  }
-                    `}
+                      ? "Prowizja od kW pompy ciepła"
+                      : calcualtor === "HeatHome"
+                      ? "Prowizja od M² ciepło właściwe"
+                      : ""
+                  }`}
+                  isDisabled={calcualtor == "AirCondition"}
                   userId={user.id}
                   setter={setFeePerKw}
                   whichCalcualtor={calcualtor}

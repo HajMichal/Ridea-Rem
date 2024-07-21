@@ -44,7 +44,7 @@ const heatHomeProvisionData = [
   { value: "45", label: "45" },
   { value: "50", label: "50" },
 ];
-const airCondtitionProvisionData = ["500", "1000", "1500", "2000"];
+const airCondtitionProvisionData = ["0", "500", "1000", "1500", "2000"];
 
 const Navbar = () => {
   const { data: sessionData } = useSession();

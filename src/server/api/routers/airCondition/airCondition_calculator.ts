@@ -105,6 +105,7 @@ export const airConditionCalculator = createTRPCRouter({
         syfonPrice: z.number(),
         dashPumpPrice: z.number(),
         consultantProvision: z.number(),
+        officeProvision: z.number(),
       })
     )
     .mutation(addonsSum),
@@ -116,4 +117,19 @@ export const airConditionCalculator = createTRPCRouter({
       })
     )
     .mutation(installationPrice),
+  officeMarkup: protectedProcedure
+    .input(
+      z.object({ officeFee: z.number(), creatorId: z.string().optional() })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const creator = await ctx.prisma.user.findFirst({
+        where: { id: input.creatorId },
+      });
+
+      const officeFeeForBoss = creator ? creator.imposedFeeAirCondition : 0;
+      return {
+        officeProvision: officeFeeForBoss + input.officeFee,
+        bossProvision: officeFeeForBoss,
+      };
+    }),
 });

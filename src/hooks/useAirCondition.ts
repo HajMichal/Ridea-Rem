@@ -81,6 +81,12 @@ export const useAirCondition = () => {
       updateAirConditionCalculation("addonsSumPrice", data);
     },
   });
+  const { mutate: setOfficeProvision } =
+    api.airCondition.officeMarkup.useMutation({
+      onSuccess: (data) => {
+        updateAirConditionCalculation("officeProvision", data);
+      },
+    });
   const { mutate: setInstallationPrice } =
     api.airCondition.setInstallationPrice.useMutation({
       onSuccess: (data) => {
@@ -89,6 +95,7 @@ export const useAirCondition = () => {
     });
 
   return {
+    sessionData: sessionData,
     jsonData: jsonData,
     airConditionStore: airConditionStore,
     airConditionCalcStore: airConditionCalcStore,
@@ -104,6 +111,7 @@ export const useAirCondition = () => {
       setTapePrice,
       setWallPassPrice,
       setAddonSum,
+      setOfficeProvision,
       setInstallationPrice,
     },
   };
