@@ -126,7 +126,7 @@ export const HeatPumpMutations = ({
         elementCost: data.dodatki.audyt,
       });
     }
-  }, [heatPumpStore.closingOpenSytem, data]);
+  }, [heatPumpStore.isEnergeticAudit, data]);
   useEffect(() => {
     if (data && heatPumpStore.suggestedPump) {
       mutations.setHeatPumpCost({
@@ -168,6 +168,7 @@ export const HeatPumpMutations = ({
       moveCwuCost: heatPumpCalcStore.moveCwuCost,
       newDrillingsCost: heatPumpCalcStore.newDrillingsCost,
       preisolatedPipeCost: heatPumpCalcStore.preisolatedPipeCost,
+      auditCost: heatPumpCalcStore.energeticAuditCost,
       markupSumValue: heatPumpCalcStore.markupCosts.markupSumValue,
     });
   }, [
@@ -184,19 +185,16 @@ export const HeatPumpMutations = ({
     heatPumpCalcStore.moveCwuCost,
     heatPumpCalcStore.preisolatedPipeCost,
     heatPumpCalcStore.markupCosts,
+    heatPumpCalcStore.energeticAuditCost,
   ]);
   useEffect(() => {
     mutations.setHeatPumpPricingBeforeDotations({
       addonsSumCost: heatPumpCalcStore.addonSumCost,
       buforCost: heatPumpCalcStore.bufforCost,
-      auditCost: heatPumpStore.isEnergeticAudit
-        ? heatPumpCalcStore.energeticAuditCost
-        : 0,
       netPriceForHeatPump: heatPumpCalcStore.heatPumpCost,
       vat: heatPumpStore.forCompany ? 0.23 : 0.08,
     });
   }, [
-    heatPumpStore.isEnergeticAudit,
     heatPumpCalcStore.addonSumCost,
     heatPumpCalcStore.bufforCost,
     heatPumpCalcStore.heatPumpCost,

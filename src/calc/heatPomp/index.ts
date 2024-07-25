@@ -56,6 +56,7 @@ interface AddonsSumCost {
   energeticConnectionCost: number;
   buforWithSupportCost: number;
   closeOpenedSystemCost: number;
+  auditCost: number;
   markupSumValue: number;
 }
 export function addonsSumCost({ input }: { input: AddonsSumCost }) {
@@ -72,6 +73,7 @@ export function addonsSumCost({ input }: { input: AddonsSumCost }) {
     input.energeticConnectionCost +
     input.buforWithSupportCost +
     input.closeOpenedSystemCost +
+    input.auditCost +
     input.markupSumValue
   );
 }
@@ -80,7 +82,6 @@ interface HeatPumpPricingBeforeDotationsType {
   addonsSumCost: number;
   netPriceForHeatPump: number;
   buforCost: number;
-  auditCost: number;
   vat: number;
 }
 export function heatPumpPricingBeforeDotations({
@@ -92,8 +93,7 @@ export function heatPumpPricingBeforeDotations({
     input.addonsSumCost + input.buforCost + input.netPriceForHeatPump;
   const vatValue = netSystemValue * input.vat;
 
-  // W kwocie audytu już jest zawarty 23% vat dlatego dodajemy go odrazu do grossSystemValue
-  const grossSystemValue = netSystemValue + vatValue + input.auditCost;
+  const grossSystemValue = netSystemValue + vatValue;
   return {
     netSystemValue: Number(netSystemValue.toFixed(2)),
     vatValue: Number(vatValue.toFixed(2)),
