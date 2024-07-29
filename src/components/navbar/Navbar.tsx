@@ -13,7 +13,7 @@ import { CALCULATORS } from "~/constans/calculatorTypes";
 import { LinkComponent } from "./LinkComponent";
 import { DropdownMenu } from "../DropdownMenu";
 
-const photovoltaicProvision = [
+const consultantProvisionsData = [
   "0",
   "100",
   "200",
@@ -26,9 +26,6 @@ const photovoltaicProvision = [
   "700",
   "750",
   "800",
-];
-const consultantProvisionsData = [
-  ...photovoltaicProvision,
   "850",
   "900",
   "950",
@@ -124,7 +121,7 @@ const Navbar = () => {
                   store.updatePhotovoltaic("consultantMarkup", Number(e));
                 }}
                 value={photovoltaicStore.consultantMarkup}
-                data={photovoltaicProvision}
+                data={consultantProvisionsData}
               />
             )}
             {router.pathname === "/kalkulator/pompy_ciepla" && (
