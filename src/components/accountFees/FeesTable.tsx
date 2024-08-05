@@ -27,6 +27,9 @@ export const FeesTable = ({ user }: { user: User }) => {
       <div className="flex justify-between">
         <p>Prowizja od M² ciepło właściwe</p> <p>{user.feePerkwHeatHome}</p>
       </div>
+      <div className="flex justify-between">
+        <p>Stała prowizja klimatyzacja</p> <p>{user.imposedFeeAirCondition}</p>
+      </div>
     </div>
   );
 };

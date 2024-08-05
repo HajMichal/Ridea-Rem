@@ -20,10 +20,12 @@ declare module "next-auth" {
       feePerkwHeatPump: number;
       feePerkwPhotovoltaic: number;
       feePerkwHeatHome: number;
+      feePerkwAirCondition: number;
       imposedFeeForCompany: number;
       imposedFeeHeatPump: number;
       imposedFeePhotovoltaic: number;
       imposedFeeHeatHome: number;
+      imposedFeeAirCondition: number;
       creatorId: string;
       // ...other properties
       role: number;

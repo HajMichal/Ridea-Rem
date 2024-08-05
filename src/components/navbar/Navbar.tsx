@@ -12,6 +12,7 @@ import AuthShowcase from "../AuthShowcase";
 import { CALCULATORS } from "~/constans/calculatorTypes";
 import { LinkComponent } from "./LinkComponent";
 import { DropdownMenu } from "../DropdownMenu";
+import { useAirCondition } from "~/hooks/useAirCondition";
 
 const consultantProvisionsData = [
   "0",
@@ -43,6 +44,7 @@ const heatHomeProvisionData = [
   { value: "45", label: "45" },
   { value: "50", label: "50" },
 ];
+const airCondtitionProvisionData = ["0", "500", "1000", "1500", "2000"];
 
 const Navbar = () => {
   const { data: sessionData } = useSession();
@@ -52,6 +54,7 @@ const Navbar = () => {
   const { heatPumpStore } = useHeatPump();
   const { forCompanyStore } = useForCompany();
   const { heatHomeStore } = useHeatHome();
+  const { airConditionStore } = useAirCondition();
 
   const userRole = sessionData?.user.role;
 
@@ -152,6 +155,16 @@ const Navbar = () => {
                 }}
                 value={heatHomeStore.consultantMarkup}
                 data={heatHomeProvisionData}
+              />
+            )}
+            {router.pathname === "/kalkulator/klimatyzacja" && (
+              <SelectComponent
+                title="POZIOM"
+                onChange={(e) => {
+                  store.updateAirCondition("consultantMarkup", Number(e));
+                }}
+                value={airConditionStore.consultantMarkup}
+                data={airCondtitionProvisionData}
               />
             )}
           </div>

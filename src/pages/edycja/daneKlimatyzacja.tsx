@@ -1,17 +1,18 @@
-import { useEffect } from "react";
 import { Loader, Tabs } from "@mantine/core";
 import { useSession } from "next-auth/react";
-import { Toaster } from "react-hot-toast";
 import { useRouter } from "next/router";
-import { EditionForm } from "~/components/calculators/photovoltaics";
-import { api } from "~/utils/api";
+import { useEffect } from "react";
+import { Toaster } from "react-hot-toast";
 import { Navbar, SideBar } from "~/components";
+import { EditionForm } from "~/components/calculators/airCondition/edit/EditionForm";
+import { api } from "~/utils/api";
 
-const DaneFotowoltaiki = () => {
+function DaneKlimatyzacja() {
   const { data: sessionData } = useSession();
   const router = useRouter();
 
-  const { data: entireJsonData } = api.dataFlow.getEntireJsonFile.useQuery();
+  const { data: entireJsonData } =
+    api.airConditionDataFlowRouter.getEntireJsonFile.useQuery();
 
   useEffect(() => {
     if (sessionData === null || (sessionData && sessionData.user.role !== 1)) {
@@ -19,7 +20,6 @@ const DaneFotowoltaiki = () => {
       void router.push("/");
     }
   }, [sessionData, router]);
-
   return (
     <div className="flex h-full max-h-screen min-h-screen justify-center overflow-hidden bg-[#E8E7E7] font-orkney">
       <Toaster />
@@ -63,6 +63,5 @@ const DaneFotowoltaiki = () => {
       </div>
     </div>
   );
-};
-
-export default DaneFotowoltaiki;
+}
+export default DaneKlimatyzacja;

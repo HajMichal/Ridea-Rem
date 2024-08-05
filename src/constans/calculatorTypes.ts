@@ -3,6 +3,7 @@ export const CALCUALTOR_TYPES = [
   "ForCompany",
   "HeatPump",
   "HeatHome",
+  "AirCondition",
 ];
 
 export const CALCULATORS = [
@@ -28,6 +29,12 @@ export const CALCULATORS = [
     href: "/edycja/daneCieploWlasciwe",
     title: "TERMOMODERNIZACJA",
     color: "hover:bg-[#00B4D8]",
+    iconSrc: "/home/icons/MagazynEnergiiIcon.svg",
+  },
+  {
+    href: "/edycja/daneKlimatyzacja",
+    title: "KLIMATYZACJA",
+    color: "hover:bg-[#54f4ff]",
     iconSrc: "/home/icons/MagazynEnergiiIcon.svg",
   },
 ];
