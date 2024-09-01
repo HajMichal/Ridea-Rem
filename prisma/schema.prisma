@@ -28,7 +28,7 @@ model User {
   name                   String?
   login                  String    @unique
   role                   Int       @default(3)
-  email                  String?   @unique
+  email                  String?   
   password               String
   image                  String?
   creatorId              String?
