@@ -3,12 +3,12 @@ generator client {
 }
 
 datasource db {
-  provider     = "mongodb"
+  provider     = "postgresql"
   url          = env("DATABASE_URL")
 }
 
 model User {
-  id                     String    @id @default(auto()) @map("_id") @db.ObjectId
+  id                     String    @id @default(cuid())
   name                   String?   @unique
   login                  String    @unique
   role                   Int       @default(3)
@@ -34,22 +34,22 @@ model User {
 }
 
 model Image {
-  id          String @id @default(auto()) @map("_id") @db.ObjectId
+  id          String  @id @default(cuid())
   title       String
   description String 
   url         String
 }
 
-model Photovoltaic {
-  id                     String    @id @default(auto()) @map("_id") @db.ObjectId
-  userId                 String    @unique
-  panels_small           Int[]
-  panels_medium          Int[]
-  panels_large           Int[]
-  addons                 Json
-  dotations              Json
-  boilers                Json
-  energyStore            Json
-  carPort                Int[]
-  creditPercentage       Int
-}
+// model Photovoltaic {
+//   id                     String    @id @default(cuid())
+//   userId                 String    @unique
+//   panels_small           Int[]
+//   panels_medium          Int[]
+//   panels_large           Int[]
+//   addons                 Json
+//   dotations              Json
+//   boilers                Json
+//   energyStore            Json
+//   carPort                Int[]
+//   creditPercentage       Int
+// }

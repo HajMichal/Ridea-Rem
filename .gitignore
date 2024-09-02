@@ -49,3 +49,5 @@ forCompany.json
 *.tsbuildinfo
 
 docker-compose.yml
+seed.js
+users.json
