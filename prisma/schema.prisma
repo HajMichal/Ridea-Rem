@@ -3,29 +3,13 @@ generator client {
 }
 
 datasource db {
-  provider     = "mongodb"
+  provider     = "postgresql"
   url          = env("DATABASE_URL")
 }
 
-model Example {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-model Session {
-  id           String   @id @default(auto()) @map("_id") @db.ObjectId
-  sessionToken String   @unique
-  userId       String
-  expires      DateTime
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@index([userId])
-}
-
 model User {
-  id                     String    @id @default(auto()) @map("_id") @db.ObjectId
-  name                   String?
+  id                     String    @id @default(cuid())
+  name                   String?   @unique
   login                  String    @unique
   role                   Int       @default(3)
   email                  String?   
@@ -45,22 +29,27 @@ model User {
   feePerkwTurbines       Int       @default(0)
   creator                User?     @relation("creatorWorker", fields: [creatorId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   workers                User[]    @relation("creatorWorker")
-  sessions               Session[]
 
   @@index([creatorId])
 }
 
 model Image {
-  id          String @id @default(auto()) @map("_id") @db.ObjectId
+  id          String  @id @default(cuid())
   title       String
   description String 
   url         String
 }
 
-model VerificationToken {
-  identifier String   @id @db.ObjectId @map("_id")
-  token      String   @unique
-  expires    DateTime
-
-  @@unique([identifier, token])
-}
+// model Photovoltaic {
+//   id                     String    @id @default(cuid())
+//   userId                 String    @unique
+//   panels_small           Int[]
+//   panels_medium          Int[]
+//   panels_large           Int[]
+//   addons                 Json
+//   dotations              Json
+//   boilers                Json
+//   energyStore            Json
+//   carPort                Int[]
+//   creditPercentage       Int
+// }

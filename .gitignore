@@ -11,7 +11,6 @@
 # database
 /prisma/db.sqlite
 /prisma/db.sqlite-journal
-seed.ts
 
 
 # next.js
@@ -48,3 +47,7 @@ forCompany.json
 
 # typescript
 *.tsbuildinfo
+
+docker-compose.yml
+seed.js
+users.json
