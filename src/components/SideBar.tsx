@@ -7,15 +7,9 @@ interface LinkComponentType {
   href: string;
   title: string;
   href2?: string;
-  longWord?: boolean;
 }
 
-const SideBarButton = ({
-  href,
-  href2,
-  title,
-  longWord = false,
-}: LinkComponentType) => {
+const SideBarButton = ({ href, href2, title }: LinkComponentType) => {
   const { asPath } = useRouter();
   const validator = asPath === href || asPath === href2;
   return (
@@ -50,11 +44,11 @@ const SideBar = memo(function SideBar() {
           href2="/edycja/daneFotowoltaiki"
           title="FOTOWOLTAIKA"
         />
-        <SideBarButton
+        {/* <SideBarButton
           href="/kalkulator/fotowoltaika_firmy"
           href2="/edycja/daneFotowoltaiki_firmy"
           title="DLA FIRM"
-        />
+        /> */}
         <SideBarButton
           href="/kalkulator/pompy_ciepla"
           href2="/edycja/danePompyCiepla"

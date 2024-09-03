@@ -19,12 +19,12 @@ export const CALCULATORS = [
     color: "hover:bg-[#731DD8]",
     iconSrc: "/home/icons/PompaDoKalkulacji.svg",
   },
-  {
-    href: "/edycja/daneFotowoltaiki_firmy",
-    title: "FOTOWOLTAIKA DLA FIRM",
-    color: "hover:bg-[#FFE15D]",
-    iconSrc: "/home/icons/FotowoltaikaIcon.svg",
-  },
+  // {
+  //   href: "/edycja/daneFotowoltaiki_firmy",
+  //   title: "FOTOWOLTAIKA DLA FIRM",
+  //   color: "hover:bg-[#FFE15D]",
+  //   iconSrc: "/home/icons/FotowoltaikaIcon.svg",
+  // },
   {
     href: "/edycja/daneCieploWlasciwe",
     title: "TERMOMODERNIZACJA",
