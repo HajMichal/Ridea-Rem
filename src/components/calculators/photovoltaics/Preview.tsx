@@ -31,6 +31,10 @@ export function Preview() {
               className="mt-3 h-[75%] w-full overflow-y-auto px-10"
             >
               <TextComponent
+                title="MONTAŻ NA FIRMĘ"
+                calculations={photovoltaicStore.vat23}
+              />
+              <TextComponent
                 title="CENA PRĄDU BEZ INSTALACJI FOTOWOLTAICZNEJ"
                 calculations={
                   photovoltaicCalcStore.yearly_bill_without_photovolatics

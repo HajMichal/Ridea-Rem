@@ -39,12 +39,12 @@ export default function Home() {
         subTitle={"CIEPŁA"}
       />
       <HomeTile
-        url={"/kalkulator/fotowoltaika_firmy"}
+        url={"/kalkulator/klimatyzacja"}
         src={"/home/Foto_firm.png"}
-        iconSrc={"/home/icons/FotowoltaikaIcon.svg"}
+        iconSrc={"/home/icons/PompaDoKalkulacji.svg"}
         color={"bg-[#FFE15D]"}
-        title={"FOTOWOLTAIKA"}
-        subTitle={"DLA FIRM"}
+        title={"KLIMATYZACJA"}
+        subTitle={""}
       />
     </main>
   );

@@ -346,12 +346,13 @@ export function PhotovoltaicMutations({
             .base_installation_price,
         heatStore_energyManager_costs:
           photovoltaicCalcStore.heatStore_energyManager_costs +
-            photovoltaicCalcStore.energyManagerCost ?? 0,
+          photovoltaicCalcStore.energyManagerCost,
         energyStoreCost:
           photovoltaicStore.isEnergyStoreDotation &&
           photovoltaicCalcStore.energyStoreCost
             ? photovoltaicCalcStore.energyStoreCost
             : 0,
+        isVat23: photovoltaicStore.vat23,
       });
   }, [
     photovoltaicCalcStore.energyStoreCost,
@@ -361,6 +362,7 @@ export function PhotovoltaicMutations({
     photovoltaicCalcStore.installationAndPer1KW_price?.base_installation_price,
     photovoltaicCalcStore.heatStore_energyManager_costs,
     photovoltaicCalcStore.termoModernization,
+    photovoltaicStore.vat23,
     mutations.set_totalInstallationCost,
   ]);
   useEffect(() => {
@@ -371,6 +373,7 @@ export function PhotovoltaicMutations({
       photovoltaicDotation_mojprad:
         photovoltaicCalcStore.photovoltaicDotation_mojprad,
       energyStoreDotationValue: photovoltaicCalcStore.energyStoreDotationValue,
+      isVat23: photovoltaicStore.vat23,
     });
   }, [
     photovoltaicCalcStore.photovoltaicDotation_mojprad,
@@ -378,6 +381,7 @@ export function PhotovoltaicMutations({
     photovoltaicStore.isEnergyStoreDotation,
     photovoltaicCalcStore.energyStoreDotationValue,
     photovoltaicCalcStore.energyMenagerDotationValue,
+    photovoltaicStore.vat23,
   ]);
 
   useEffect(() => {

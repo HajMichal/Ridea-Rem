@@ -17,6 +17,7 @@ import {
   mediumPanel,
   smallestPanel,
 } from "~/constans/panelPowers";
+import { tax23, tax8 } from "~/constans/taxPercentage";
 
 Font.register({
   family: "Orkney",
@@ -271,7 +272,7 @@ const PhotovoltaicDocument = ({
           </View>
           <View style={styles.estimatedProfit}>
             <Text style={{ ...styles.estimatedProfitTitle, fontSize: 12 }}>
-              PODATEK VAT 8%
+              PODATEK VAT {(photovoltaicStore.vat23 ? tax23 : tax8) * 100}%
             </Text>
             <Text style={{ ...styles.estimatedPrice, fontSize: 14 }}>
               {photovoltaicCalcStore.totalInstallationCosts.fee_value.toFixed(
@@ -424,15 +425,6 @@ const PhotovoltaicDocument = ({
           <Text style={styles.header}>DANE TECHNICZNE TWOJEJ INSTALACJI</Text>
         </View>
 
-        {/* <Image
-          style={{
-            width: "100%",
-            height: "100%",
-            position: "absolute",
-            zIndex: -500,
-          }}
-          src={`${process.env.NEXT_PUBLIC_BASE_URL}/static/photovoltaic/background-photovoltaic.png`}
-        ></Image> */}
         <Image
           style={{
             width: "100%",

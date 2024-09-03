@@ -224,6 +224,7 @@ export const photovoltaics_calculator = createTRPCRouter({
         base_installation_costs: z.number(),
         heatStore_energyManager_costs: z.number(),
         energyStoreCost: z.number(),
+        isVat23: z.boolean(),
       })
     )
     .mutation(calc.totalInstallationCosts),
@@ -234,6 +235,7 @@ export const photovoltaics_calculator = createTRPCRouter({
         photovoltaicDotation_czpowietrze: z.number(),
         energyMenagerDotation: z.number(),
         energyStoreDotationValue: z.number(),
+        isVat23: z.boolean(),
       })
     )
     .mutation(calc.dotationsSum),

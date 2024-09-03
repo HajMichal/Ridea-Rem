@@ -67,6 +67,14 @@ export function PhotovoltaicFormulas() {
           />
           <h2 className="mt-5 font-orkneyBold">INSTALACJA FOTOWOLTAICZNA</h2>
           <SelectComponent
+            title="MONTAŻ NA FIRMĘ"
+            value={photovoltaicStore.vat23}
+            onChange={(e) => {
+              store.updatePhotovoltaic("vat23", e == "true");
+            }}
+            data={YESNO}
+          />
+          <SelectComponent
             title="MOC POJEDYŃCZEGO PANELA W KW"
             onChange={(e) => {
               store.updatePhotovoltaic("panelPower", Number(e));

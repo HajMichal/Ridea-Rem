@@ -1,3 +1,4 @@
+import { tax23, tax8 } from "~/constans/taxPercentage";
 import staticData from "../../static";
 
 interface SystemPowerType {
@@ -355,6 +356,7 @@ interface TotalInstallationCostType {
   base_installation_costs: number;
   heatStore_energyManager_costs: number;
   energyStoreCost: number;
+  isVat23: boolean;
 }
 export function totalInstallationCosts({
   input,
@@ -367,7 +369,7 @@ export function totalInstallationCosts({
     input.heatStore_energyManager_costs +
     input.energyStoreCost;
 
-  const fee_value = total_cost * 0.08;
+  const fee_value = total_cost * (input.isVat23 ? tax23 : tax8);
 
   return {
     total_installation_cost: Number(total_cost.toFixed(2)),
@@ -381,8 +383,10 @@ interface DotationsSumType {
   photovoltaicDotation_czpowietrze: number;
   energyMenagerDotation: number;
   energyStoreDotationValue: number;
+  isVat23: boolean;
 }
 export function dotationsSum({ input }: { input: DotationsSumType }) {
+  if (input.isVat23) return 0;
   return (
     input.photovoltaicDotation_mojprad +
     input.photovoltaicDotation_czpowietrze +
