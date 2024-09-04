@@ -50,4 +50,6 @@ forCompany.json
 
 docker-compose.yml
 seed.js
+
 users.json
+photovoltaic.json

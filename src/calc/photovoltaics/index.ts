@@ -640,45 +640,34 @@ export function loanForPurcharse({ input }: { input: LoanForPurcharseType }) {
 }
 interface EnergyStoreCostType {
   energyStorePower: number;
-  energyStorePowersCost: {
-    prog0: number;
-    prog1: number;
-    prog2: number;
-    prog3: number;
-    prog4: number;
-    prog5: number;
-    prog6: number;
-    prog7: number;
-    prog8: number;
-  };
-  hipontechCost: {
-    prog0: number;
-    prog1: number;
-    prog2: number;
+  energyStore: {
+    solax: number;
+    hipontech: number;
   };
 }
 export function energyStoreCost({ input }: { input: EnergyStoreCostType }) {
-  if (input.energyStorePower === 6.1) return input.energyStorePowersCost.prog1;
-  else if (input.energyStorePower === 3.1)
-    return input.energyStorePowersCost.prog0;
-  else if (input.energyStorePower === 11.6)
-    return input.energyStorePowersCost.prog2;
-  else if (input.energyStorePower === 17.4)
-    return input.energyStorePowersCost.prog3;
-  else if (input.energyStorePower === 23.2)
-    return input.energyStorePowersCost.prog4;
-  else if (input.energyStorePower === 29)
-    return input.energyStorePowersCost.prog5;
-  else if (input.energyStorePower === 34.8)
-    return input.energyStorePowersCost.prog6;
-  else if (input.energyStorePower === 40.6)
-    return input.energyStorePowersCost.prog7;
-  else if (input.energyStorePower === 46.4)
-    return input.energyStorePowersCost.prog8;
-  // hipontech
-  else if (input.energyStorePower === 7.2) return input.hipontechCost.prog0;
-  else if (input.energyStorePower === 10.8) return input.hipontechCost.prog1;
-  else if (input.energyStorePower === 14.4) return input.hipontechCost.prog2;
+  // if (input.energyStorePower === 6.1) return input.;
+  // else if (input.energyStorePower === 3.1)
+  //   return input.energyStorePowersCost.prog0;
+  // else if (input.energyStorePower === 11.6)
+  //   return input.energyStorePowersCost.prog2;
+  // else if (input.energyStorePower === 17.4)
+  //   return input.energyStorePowersCost.prog3;
+  // else if (input.energyStorePower === 23.2)
+  //   return input.energyStorePowersCost.prog4;
+  // else if (input.energyStorePower === 29)
+  //   return input.energyStorePowersCost.prog5;
+  // else if (input.energyStorePower === 34.8)
+  //   return input.energyStorePowersCost.prog6;
+  // else if (input.energyStorePower === 40.6)
+  //   return input.energyStorePowersCost.prog7;
+  // else if (input.energyStorePower === 46.4)
+  //   return input.energyStorePowersCost.prog8;
+  // // hipontech
+  // else if (input.energyStorePower === 7.2) return input.hipontechCost.prog0;
+  // else if (input.energyStorePower === 10.8) return input.hipontechCost.prog1;
+  // else if (input.energyStorePower === 14.4) return input.hipontechCost.prog2;
+  return input.energyStore.solax;
 }
 
 // PROMOCJA

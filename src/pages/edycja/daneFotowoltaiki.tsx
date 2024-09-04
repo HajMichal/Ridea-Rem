@@ -6,12 +6,14 @@ import { useRouter } from "next/router";
 import { EditionForm } from "~/components/calculators/photovoltaics";
 import { api } from "~/utils/api";
 import { Navbar, SideBar } from "~/components";
+import { type PhotovoltaicDataToCalculation } from "~/server/api/routers/photovoltaic/interfaces";
 
 const DaneFotowoltaiki = () => {
   const { data: sessionData } = useSession();
   const router = useRouter();
 
-  const { data: entireJsonData } = api.dataFlow.getEntireJsonFile.useQuery();
+  const { data: entireJsonData } =
+    api.dataFlow.getEntireJsonFile.useQuery<PhotovoltaicDataToCalculation[]>();
 
   useEffect(() => {
     if (sessionData === null || (sessionData && sessionData.user.role !== 1)) {
@@ -27,13 +29,13 @@ const DaneFotowoltaiki = () => {
       <div className="flex max-h-screen w-full flex-wrap ">
         <Navbar />
         <div className="max-h-[88%] w-full overflow-y-scroll">
-          <Tabs color="gray" defaultValue="Adrian Szymborski">
+          {/* This default value should be changed */}
+          <Tabs color="gray" defaultValue={"cm0o4ylab0000q4dcocvv1heu"}>
             <Tabs.List className="fixed z-50 w-full bg-backgroundGray">
-              {entireJsonData?.kalkulator.map((eachUserRate, index) => {
-                const dynamicKey = Object.keys(eachUserRate)[0];
+              {entireJsonData?.map((calcData, index) => {
                 return (
-                  <Tabs.Tab value={dynamicKey!} key={index}>
-                    {dynamicKey}
+                  <Tabs.Tab value={calcData.id} key={index}>
+                    {calcData.userName}
                   </Tabs.Tab>
                 );
               })}
@@ -41,11 +43,10 @@ const DaneFotowoltaiki = () => {
 
             <div className="flex w-full justify-center ">
               {entireJsonData ? (
-                entireJsonData.kalkulator.map((eachUserData, index) => {
-                  const dynamicKey = Object.keys(eachUserData)[0];
+                entireJsonData.map((calcData, index) => {
                   return (
-                    <Tabs.Panel value={dynamicKey!} key={index}>
-                      <EditionForm data={eachUserData} />
+                    <Tabs.Panel value={calcData.id} key={index}>
+                      <EditionForm data={calcData} />
                     </Tabs.Panel>
                   );
                 })

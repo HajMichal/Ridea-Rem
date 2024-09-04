@@ -40,16 +40,20 @@ model Image {
   url         String
 }
 
-// model Photovoltaic {
-//   id                     String    @id @default(cuid())
-//   userId                 String    @unique
-//   panels_small           Int[]
-//   panels_medium          Int[]
-//   panels_large           Int[]
-//   addons                 Json
-//   dotations              Json
-//   boilers                Json
-//   energyStore            Json
-//   carPort                Int[]
-//   creditPercentage       Int
-// }
+model Photovoltaic {
+  id                     String    @id @default(cuid())
+  userId                 String    @unique
+  userName               String    
+  panels_small           Json
+  panels_medium          Json    
+  panels_large           Json    
+  addons                 Json     
+  dotations              Json     
+  boilers                Json     
+  energyStore            Json     
+  carPort                Json
+  creditPercentage       Float
+  electricityPrice       Float  
+
+    @@index([userId])
+}

@@ -182,7 +182,6 @@ export const photovoltaics_calculator = createTRPCRouter({
         system_power: z.number(),
         consultantFee: z.number(),
         constantFee: z.number(),
-        officeFeeFromJsonFile: z.number(),
         creatorId: z.string().optional(),
       })
     )
@@ -206,7 +205,6 @@ export const photovoltaics_calculator = createTRPCRouter({
           input.officeFee * input.system_power +
           input.consultantFee * input.system_power +
           input.constantFee +
-          input.officeFeeFromJsonFile +
           officeFeeForBoss
         ).toFixed(2)
       );
@@ -338,21 +336,9 @@ export const photovoltaics_calculator = createTRPCRouter({
     .input(
       z.object({
         energyStorePower: z.number(),
-        energyStorePowersCost: z.object({
-          prog0: z.number(),
-          prog1: z.number(),
-          prog2: z.number(),
-          prog3: z.number(),
-          prog4: z.number(),
-          prog5: z.number(),
-          prog6: z.number(),
-          prog7: z.number(),
-          prog8: z.number(),
-        }),
-        hipontechCost: z.object({
-          prog0: z.number(),
-          prog1: z.number(),
-          prog2: z.number(),
+        energyStore: z.object({
+          solax: z.number(),
+          hipontech: z.number(),
         }),
       })
     )

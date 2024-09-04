@@ -1,4 +1,3 @@
-import { useSession } from "next-auth/react";
 import { useEffect } from "react";
 import {
   smallestPanel,
@@ -12,19 +11,16 @@ import { api } from "~/utils/api";
 export const usePhotovoltaic = () => {
   const store = useStore();
 
-  const { data: sessionData } = useSession();
-
   const { data } =
-    api.dataFlow.downloadFile.useQuery<PhotovoltaicDataToCalculation>(
-      sessionData?.user.id
-    );
+    api.dataFlow.downloadFile.useQuery<PhotovoltaicDataToCalculation | null>();
+  console.log(data);
 
   useEffect(() => {
     sessionStorage.setItem(
       "creditPercentage",
-      JSON.stringify(data?.oprocentowanie_kredytu)
+      JSON.stringify(data?.creditPercentage)
     );
-  }, [data?.oprocentowanie_kredytu]);
+  }, [data?.creditPercentage]);
 
   const {
     mutate: set_limit_price_trend,
@@ -305,18 +301,18 @@ export const usePhotovoltaic = () => {
   const handleTigoinput = (e: { target: { valueAsNumber: number } }) => {
     if (data)
       set_tigo_price({
-        tigo_price: data.koszty_dodatkowe.tigo,
+        tigo_price: data?.addons.tigo,
         tigo_count: e.target.valueAsNumber,
       });
   };
 
   const getDataDependsOnPanelPower = () => {
     if (store.photovoltaicStore.panelPower === smallestPanel)
-      return data?.dane.czterysta;
+      return data?.panels_small;
     else if (store.photovoltaicStore.panelPower === mediumPanel)
-      return data?.dane.czterysta_piecdziesiat;
+      return data?.panels_medium;
     else if (store.photovoltaicStore.panelPower === largestPanel)
-      return data?.dane.piecset;
+      return data?.panels_large;
   };
 
   return {
