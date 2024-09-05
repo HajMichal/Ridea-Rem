@@ -5,6 +5,9 @@ import { ConfirmationModal } from "~/components/ConfirmationModal";
 import { ChangeDataInputComponent } from "~/components/changeDataInputComponent";
 import { type PhotovoltaicDataToCalculation } from "~/server/api/routers/photovoltaic/interfaces";
 import { api } from "~/utils/api";
+import { AddNewElement } from "./AddNewEnergyStore";
+import { Button } from "@mantine/core";
+import { MdOutlineAddchart } from "react-icons/md";
 
 interface EditionForm {
   data: PhotovoltaicDataToCalculation;
@@ -287,12 +290,20 @@ export const EditionForm = ({ data }: EditionForm) => {
           defaultValue={data.creditPercentage}
         />
       </form>
-      <button
-        onClick={open}
-        className="fixed bottom-20 right-56 mx-5 h-12 self-center rounded-xl bg-dark px-10 py-2 font-semibold text-white duration-300 hover:bg-brand hover:text-dark"
-      >
-        Zatwierdź
-      </button>
+      <div className="fixed bottom-10 right-56 flex flex-col gap-4">
+        <Button
+          onClick={open}
+          size="md"
+          radius="md"
+          leftIcon={<MdOutlineAddchart size={18} />}
+          className="bg-gradient-to-br from-dark to-blue-900 tracking-wider text-white duration-150 hover:bg-blend-hard-light hover:shadow-xl"
+        >
+          Zatwierdź
+        </Button>
+
+        <AddNewElement />
+      </div>
+
       <ConfirmationModal
         title="CZY NA PEWNO CHCESZ ZAPISAĆ ZMIENIONE WARTOŚCI ?"
         close={close}

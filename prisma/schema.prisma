@@ -62,7 +62,10 @@ model Photovoltaic {
   addons                 Json     
   dotations              Json     
   boilers                Json     
+
+  /// [EnergyStoreType]
   energyStore            Json     
+  
   carPort                Json
   creditPercentage       Float
   electricityPrice       Float  

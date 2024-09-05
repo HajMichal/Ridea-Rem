@@ -11,6 +11,11 @@ declare global {
       trzydziesci: number;
       piecdziesiat: number;
     };
+
+    // eslint-disable-next-line @typescript-eslint/consistent-type-definitions, @typescript-eslint/consistent-indexed-object-style
+    type EnergyStoreType = {
+      [name: string]: number;
+    };
   }
 }
 export {};

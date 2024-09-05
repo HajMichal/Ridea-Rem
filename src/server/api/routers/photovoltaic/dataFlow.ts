@@ -7,6 +7,7 @@ import {
 } from "~/server/api/trpc";
 import { z } from "zod";
 import { type PhotovoltaicCalculatorType } from "./interfaces";
+import { type Photovoltaic } from "@prisma/client";
 
 const schema = z.object({
   id: z.string().optional(),
@@ -149,14 +150,14 @@ export const dataFlowRouter = createTRPCRouter({
           data: {
             userId: input.userId,
             userName: input.userName,
-            addons: baseCalc.addons!,
-            boilers: baseCalc.boilers!,
-            carPort: baseCalc.carPort!,
-            panels_large: baseCalc.panels_large!,
-            panels_medium: baseCalc.panels_medium!,
-            panels_small: baseCalc.panels_small!,
-            dotations: baseCalc.dotations!,
-            energyStore: baseCalc.energyStore!,
+            addons: baseCalc.addons,
+            boilers: baseCalc.boilers,
+            carPort: baseCalc.carPort,
+            panels_large: baseCalc.panels_large,
+            panels_medium: baseCalc.panels_medium,
+            panels_small: baseCalc.panels_small,
+            dotations: baseCalc.dotations,
+            energyStore: baseCalc.energyStore,
             creditPercentage: baseCalc.creditPercentage,
             electricityPrice: baseCalc.electricityPrice,
           },
@@ -165,12 +166,53 @@ export const dataFlowRouter = createTRPCRouter({
         return {
           status: 200,
           message:
-            "Menager z bazowymi danymi został stworzony. Aby zmienić jego dane, przejdź do zakładki prowizje 📝",
+            "Menager z bazowymi danymi został stworzony. Aby zmienić jego dane, przejdź do zakładki PROWIZJE 📝",
         };
       } else {
         return {
           status: 404,
           message: "Wystąpił błąd spróbuj ponownie 📝",
+        };
+      }
+    }),
+
+  addNewElement: adminProcedure
+    .input(
+      z.object({
+        element: z.string(), // Existing record in Photovoltaic table
+        name: z.string(), // New element name
+        price: z.number(), // New element price
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      try {
+        const allCalcs = await ctx.prisma.photovoltaic.findMany();
+
+        // Loop through all calcs
+        allCalcs.map(async (calc) => {
+          // Add new element object to previous
+          const addElement = {
+            ...(calc[input.element as keyof Photovoltaic] as object),
+            ...{ [input.name]: input.price },
+          };
+
+          await ctx.prisma.photovoltaic.update({
+            where: {
+              userId: calc.userId,
+            },
+            data: {
+              [input.element]: addElement,
+            },
+          });
+        });
+        return {
+          status: 200,
+          message: "Element został dodany 📝",
+        };
+      } catch (error) {
+        return {
+          status: 404,
+          message: "Element nie został dodany 📝",
         };
       }
     }),

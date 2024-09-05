@@ -595,7 +595,7 @@ export function energyStoreDotationValue({
     return 0;
   }
   if (value >= 32000) {
-    return 16000;
+    return 17000;
   }
 
   if (value < 32000) {
