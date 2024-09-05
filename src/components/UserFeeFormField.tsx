@@ -94,7 +94,7 @@ export const UserFeeFormField = ({
   const removeUser = () => {
     removeUserFromDb(user.id);
     if (user.role === 2 && user.name) {
-      removeMenagerPhotovoltaicJson(user.name);
+      removeMenagerPhotovoltaicJson(user.id);
       removeMenagerHeatPumpJson(user.name);
       removeMenagerForCompanyJson(user.name);
       removeMenagerHeatHomeJson(user.name);

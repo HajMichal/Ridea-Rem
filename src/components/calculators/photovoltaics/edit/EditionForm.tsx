@@ -25,8 +25,8 @@ export const EditionForm = ({ data }: EditionForm) => {
   });
   const { register, handleSubmit } = useForm<PhotovoltaicDataToCalculation>();
 
-  const onSubmit: SubmitHandler<PhotovoltaicDataToCalculation> = (data) => {
-    mutate(data);
+  const onSubmit: SubmitHandler<PhotovoltaicDataToCalculation> = (formData) => {
+    mutate({ ...formData, userId: data.userId });
     close();
   };
 

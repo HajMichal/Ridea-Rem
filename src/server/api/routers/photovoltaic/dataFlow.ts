@@ -9,9 +9,9 @@ import { z } from "zod";
 import { type PhotovoltaicCalculatorType } from "./interfaces";
 
 const schema = z.object({
-  id: z.string(),
+  id: z.string().optional(),
   userId: z.string(),
-  userName: z.string(),
+  userName: z.string().optional(),
   panels_small: z.object({
     dwa: z.number(),
     cztery: z.number(),
@@ -124,39 +124,53 @@ export const dataFlowRouter = createTRPCRouter({
     }),
   removeMenagerData: adminProcedure
     .input(z.string())
-    .mutation(async ({ input }) => {
-      const convertedFile = await getParsedJsonObject();
-      const index = convertedFile.kalkulator.findIndex(
-        (obj) => Object.keys(obj)[0] === input
-      );
-
-      if (index !== -1) {
-        convertedFile.kalkulator.splice(index, 1);
-      }
-
-      const updatedJSONFile = JSON.stringify(convertedFile);
-      setFileToBucket(updatedJSONFile, "data.json");
-      return input;
+    .mutation(async ({ ctx, input }) => {
+      await ctx.prisma.photovoltaic.delete({
+        where: {
+          userId: input,
+        },
+      });
     }),
   addNewMenager: adminProcedure
-    .input(z.string())
-    .mutation(async ({ input }) => {
-      const convertedFile = await getParsedJsonObject();
+    .input(
+      z.object({
+        userId: z.string(),
+        userName: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const baseCalc = await ctx.prisma.photovoltaic.findFirst({
+        where: {
+          userId: "66d4e13565e073fe1f84366d",
+        },
+      });
+      if (baseCalc) {
+        await ctx.prisma.photovoltaic.create({
+          data: {
+            userId: input.userId,
+            userName: input.userName,
+            addons: baseCalc.addons!,
+            boilers: baseCalc.boilers!,
+            carPort: baseCalc.carPort!,
+            panels_large: baseCalc.panels_large!,
+            panels_medium: baseCalc.panels_medium!,
+            panels_small: baseCalc.panels_small!,
+            dotations: baseCalc.dotations!,
+            energyStore: baseCalc.energyStore!,
+            creditPercentage: baseCalc.creditPercentage,
+            electricityPrice: baseCalc.electricityPrice,
+          },
+        });
 
-      if (convertedFile.kalkulator[0]) {
-        const mainCalculationData =
-          convertedFile.kalkulator[0]["Adrian Szymborski"]!;
-
-        const newMenagerData = {
-          [input]: mainCalculationData,
-        };
-
-        convertedFile.kalkulator.push(newMenagerData);
-        setFileToBucket(JSON.stringify(convertedFile), "data.json");
         return {
           status: 200,
           message:
             "Menager z bazowymi danymi został stworzony. Aby zmienić jego dane, przejdź do zakładki prowizje 📝",
+        };
+      } else {
+        return {
+          status: 404,
+          message: "Wystąpił błąd spróbuj ponownie 📝",
         };
       }
     }),
