@@ -245,24 +245,10 @@ export const photovoltaics_calculator = createTRPCRouter({
       })
     )
     .mutation(calc.amountAfterDotation),
-  heatStore_cost: publicProcedure
-    .input(
-      z.object({
-        choosed_tank_type: z.string(),
-        tanks_costs: z.object({
-          zbiornik_100L: z.number(),
-          zbiornik_140L: z.number(),
-          zbiornik_140L_z_wezem: z.number(),
-          zbiornik_200L: z.number(),
-          zbiornik_200L_z_wezem: z.number(),
-        }),
-      })
-    )
-    .mutation(calc.heatStoreCost),
   heatStore_energyManager_costs: publicProcedure
     .input(
       z.object({
-        heatStore_cost: z.number(),
+        heatStoreCost: z.number(),
         isHeatStoreSystem: z.boolean(),
       })
     )
@@ -332,17 +318,6 @@ export const photovoltaics_calculator = createTRPCRouter({
       })
     )
     .mutation(calc.loanForPurcharse),
-  energyStoreCost: publicProcedure
-    .input(
-      z.object({
-        energyStorePower: z.number(),
-        energyStore: z.object({
-          solax: z.number(),
-          hipontech: z.number(),
-        }),
-      })
-    )
-    .mutation(calc.energyStoreCost),
   dotation_mojprad: publicProcedure
     .input(
       z.object({

@@ -13,7 +13,7 @@ const DaneFotowoltaiki = () => {
   const router = useRouter();
 
   const { data: entireJsonData } =
-    api.dataFlow.getEntireJsonFile.useQuery<PhotovoltaicDataToCalculation[]>();
+    api.dataFlow.getAllPvCalcs.useQuery<PhotovoltaicDataToCalculation[]>();
 
   useEffect(() => {
     if (sessionData === null || (sessionData && sessionData.user.role !== 1)) {

@@ -4,28 +4,33 @@ import { type SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { api } from "~/utils/api";
 import { BsBuildingFillGear } from "react-icons/bs";
+import { useState } from "react";
 
-interface AddNewElementType {
-  element: string;
+interface AddElementType {
   name: string;
   price: number;
 }
 
-export const AddNewElement = () => {
+export const AddElement = () => {
+  const [element, setElement] = useState("boilers");
+  const ctx = api.useContext();
   const [opened, { open, close }] = useDisclosure(false);
-  const { register, handleSubmit, reset } = useForm<AddNewElementType>();
+  const { register, handleSubmit, reset } = useForm<AddElementType>();
 
   const { mutate } = api.dataFlow.addNewElement.useMutation({
-    onSuccess: () => toast.success("Element został dodany"),
+    onSuccess: async () => {
+      await ctx.dataFlow.getAllPvCalcs.invalidate();
+      toast.success("Element został dodany");
+    },
     onError: () => {
       toast.error(
-        "Nastąpił nieoczekiwany błąd podczas dodawania nowej pompy ciepła. Spróbuj ponownie później"
+        "Nastąpił nieoczekiwany błąd podczas dodawania nowego elemenetu instalacjii PV. Spróbuj ponownie!"
       );
     },
   });
 
-  const onSubmit: SubmitHandler<AddNewElementType> = (data) => {
-    mutate(data);
+  const onSubmit: SubmitHandler<AddElementType> = (data) => {
+    mutate({ ...data, element: element });
     reset();
     close();
   };
@@ -51,6 +56,8 @@ export const AddNewElement = () => {
           <Select
             label="Element, który chcesz dodać"
             autoComplete={"off"}
+            value={element}
+            onChange={(e: string) => setElement(e)}
             data={[
               { label: "Zbiornik CWU", value: "boilers" },
               { label: "Magazyn energii", value: "energyStore" },

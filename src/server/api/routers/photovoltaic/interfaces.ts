@@ -51,15 +51,10 @@ export interface PhotovoltaicDataToCalculation extends Photovoltaic {
     ems: number;
   };
   boilers: {
-    zbiornik_100L: number;
-    zbiornik_140L: number;
-    zbiornik_140L_z_wezem: number;
-    zbiornik_200L: number;
-    zbiornik_200L_z_wezem: number;
+    [boiler: string]: number;
   };
   energyStore: {
-    solax: number;
-    hipontech: number;
+    [energyStoreElement: string]: number;
   };
   carPort: {
     stan1: number;

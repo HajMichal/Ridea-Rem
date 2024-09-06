@@ -1,4 +1,4 @@
-import { ScrollArea } from "@mantine/core";
+import { ScrollArea, Select } from "@mantine/core";
 import React from "react";
 import { InputComponent, SelectComponent } from "../../";
 import { usePhotovoltaic } from "~/hooks/usePhotovoltaic";
@@ -13,7 +13,25 @@ import {
 export function PhotovoltaicFormulas() {
   const store = useStore();
 
-  const { photovoltaicStore, mutations } = usePhotovoltaic();
+  const { photovoltaicStore, mutations, photovoltaicData } = usePhotovoltaic();
+
+  const energyStore = photovoltaicData?.energyStore
+    ? Object.entries(photovoltaicData.energyStore).map(([key, value]) => {
+        return {
+          label: key,
+          value: JSON.stringify({ name: key, price: value }),
+        };
+      })
+    : [];
+
+  const boilers = photovoltaicData?.boilers
+    ? Object.entries(photovoltaicData.boilers).map(([key, value]) => {
+        return {
+          label: key,
+          value: JSON.stringify({ name: key, price: value }),
+        };
+      })
+    : [];
 
   return (
     <div id="FORM" className="h-full p-3 laptop:w-[55%] laptop:min-w-[500px] ">
@@ -183,38 +201,33 @@ export function PhotovoltaicFormulas() {
           />
 
           {/* MOZLIWE ZE WROCI || POSSIBILITY TO RETURN */}
-          {/* <SelectComponent
+          <SelectComponent
             title="MAGAZYN CIEPŁA"
             onChange={(e) =>
               store.updatePhotovoltaic("heatStoreDotation", e == "true")
             }
             value={photovoltaicStore.heatStoreDotation}
             data={YESNO}
-          /> */}
-          {/* {photovoltaicStore.heatStoreDotation && data && (
+          />
+          {photovoltaicStore.heatStoreDotation && (
             <SelectComponent
               title={"WIELKOŚĆ ZBIORNIKA CWU"}
               onChange={(e) => {
-                store.updatePhotovoltaic("tankSize", String(e));
-                mutations.set_heatStore_cost({
-                  choosed_tank_type: String(e),
-                  tanks_costs: data?.zbiorniki,
-                });
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+                const choosedBoiler: { name: string; price: number } | null = e
+                  ? JSON.parse(e)
+                  : null;
+
+                store.updatePhotovoltaic("cwuTank", choosedBoiler);
+                store.updatePhotovoltaicCalcs(
+                  "heatStoreCost",
+                  choosedBoiler?.price
+                );
               }}
-              value={photovoltaicStore.tankSize}
-              data={[
-                { value: "Brak", label: "Brak" },
-                {
-                  value: "Zbiornik 140L z wężownicą",
-                  label: "Zbiornik 140L z wężownicą",
-                },
-                {
-                  value: "Zbiornik 200L z wężownicą",
-                  label: "Zbiornik 200L z wężownicą",
-                },
-              ]}
+              value={JSON.stringify(photovoltaicStore.cwuTank)}
+              data={boilers}
             />
-          )} */}
+          )}
           <SelectComponent
             title="EMS"
             onChange={(e) =>
@@ -232,51 +245,21 @@ export function PhotovoltaicFormulas() {
             data={YESNO}
           />
 
-          {photovoltaicStore.isEnergyStoreDotation && (
-            <>
+          {photovoltaicData?.energyStore &&
+            photovoltaicStore.isEnergyStoreDotation && (
               <SelectComponent
-                title="PRODUCENT MAGAZYNU ENERGII"
-                onChange={(e) =>
-                  store.updatePhotovoltaic("energyStoreProducent", String(e))
-                }
-                value={photovoltaicStore.energyStoreProducent}
-                data={["SOLAX", "HYPONTECH"]}
+                title="MAGAZYN ENERGII"
+                onChange={(e) => {
+                  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+                  const choosedStore: { name: string; price: number } | null = e
+                    ? JSON.parse(e)
+                    : null;
+                  store.updatePhotovoltaic("energyStore", choosedStore);
+                }}
+                value={JSON.stringify(photovoltaicStore.energyStore)}
+                data={energyStore}
               />
-              {photovoltaicStore.energyStoreProducent === "SOLAX" ? (
-                <SelectComponent
-                  title="MOC MAGAZYNU ENERGII"
-                  onChange={(e) => {
-                    store.updatePhotovoltaic("energyStorePower", Number(e));
-                  }}
-                  value={photovoltaicStore.energyStorePower}
-                  data={[
-                    { value: "3.1", label: "3.1 - 1 faza" },
-                    { value: "6.1", label: "6.1 - 1/3 fazy" },
-                    { value: "11.6", label: "11.6 - 3 fazy" },
-                    { value: "17.4", label: "17.4 - 3 fazy" },
-                    { value: "23.2", label: "23.2 - 3 fazy" },
-                    { value: "29", label: "29 - 3 fazy" },
-                    { value: "34.8", label: "34.8 - 3 fazy" },
-                    { value: "40.6", label: "40.6 - 3 fazy" },
-                    { value: "46.4", label: "46.4 - 3 fazy" },
-                  ]}
-                />
-              ) : (
-                <SelectComponent
-                  title="MOC MAGAZYNU ENERGII"
-                  onChange={(e) => {
-                    store.updatePhotovoltaic("energyStorePower", Number(e));
-                  }}
-                  value={photovoltaicStore.energyStorePower}
-                  data={[
-                    { value: "7.2", label: "7.2 - 3 fazy" },
-                    { value: "10.8", label: "10.8 - 3 fazy" },
-                    { value: "14.4", label: "14.4 - 3 fazy" },
-                  ]}
-                />
-              )}
-            </>
-          )}
+            )}
 
           <SelectComponent
             title="CAR PORT"

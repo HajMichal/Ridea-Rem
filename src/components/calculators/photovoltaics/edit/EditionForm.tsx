@@ -5,9 +5,10 @@ import { ConfirmationModal } from "~/components/ConfirmationModal";
 import { ChangeDataInputComponent } from "~/components/changeDataInputComponent";
 import { type PhotovoltaicDataToCalculation } from "~/server/api/routers/photovoltaic/interfaces";
 import { api } from "~/utils/api";
-import { AddNewElement } from "./AddNewEnergyStore";
+import { AddElement } from "./AddElement";
 import { Button } from "@mantine/core";
 import { MdOutlineAddchart } from "react-icons/md";
+import { RemoveElement } from "./RemoveElement";
 
 interface EditionForm {
   data: PhotovoltaicDataToCalculation;
@@ -125,14 +126,16 @@ export const EditionForm = ({ data }: EditionForm) => {
         {data &&
           Object.entries(data.energyStore).map((key, index) => {
             return (
-              <ChangeDataInputComponent
-                key={index}
-                {...register(`energyStore.${key[0]}` as keyof typeof data, {
-                  valueAsNumber: true,
-                })}
-                title={key[0]}
-                defaultValue={key[1]}
-              />
+              <div key={index} className="flex items-end justify-center gap-9">
+                <ChangeDataInputComponent
+                  {...register(`energyStore.${key[0]}` as keyof typeof data, {
+                    valueAsNumber: true,
+                  })}
+                  title={key[0]}
+                  defaultValue={key[1]}
+                />
+                <RemoveElement element="energyStore" name={key[0]} />
+              </div>
             );
           })}
 
@@ -237,41 +240,21 @@ export const EditionForm = ({ data }: EditionForm) => {
             );
           })}
         <h2 className="mt-10 w-full text-center text-2xl">ZBIORNIKI CWU</h2>
-        <ChangeDataInputComponent
-          {...register("boilers.zbiornik_100L", {
-            valueAsNumber: true,
+        {data &&
+          Object.entries(data.boilers).map((key, index) => {
+            return (
+              <div key={index} className="flex items-end justify-center gap-9">
+                <ChangeDataInputComponent
+                  {...register(`boilers.${key[0]}` as keyof typeof data, {
+                    valueAsNumber: true,
+                  })}
+                  title={key[0]}
+                  defaultValue={key[1]}
+                />
+                <RemoveElement element="boilers" name={key[0]} />
+              </div>
+            );
           })}
-          title="Zbiornik 100L"
-          defaultValue={data.boilers.zbiornik_100L}
-        />
-        <ChangeDataInputComponent
-          {...register("boilers.zbiornik_140L", {
-            valueAsNumber: true,
-          })}
-          title="Zbiornik 140L"
-          defaultValue={data.boilers.zbiornik_140L}
-        />
-        <ChangeDataInputComponent
-          {...register("boilers.zbiornik_140L_z_wezem", {
-            valueAsNumber: true,
-          })}
-          title="Zbiornik 140L Z wężownicą"
-          defaultValue={data.boilers.zbiornik_140L_z_wezem}
-        />
-        <ChangeDataInputComponent
-          {...register("boilers.zbiornik_200L", {
-            valueAsNumber: true,
-          })}
-          title="Zbiornik 200L"
-          defaultValue={data.boilers.zbiornik_200L}
-        />
-        <ChangeDataInputComponent
-          {...register("boilers.zbiornik_200L_z_wezem", {
-            valueAsNumber: true,
-          })}
-          title="Zbiornik 200L z wężownicą"
-          defaultValue={data.boilers.zbiornik_200L_z_wezem}
-        />
 
         <h2 className="mt-10 w-full text-center text-2xl">POZOSTAŁE</h2>
 
@@ -301,7 +284,7 @@ export const EditionForm = ({ data }: EditionForm) => {
           Zatwierdź
         </Button>
 
-        <AddNewElement />
+        <AddElement />
       </div>
 
       <ConfirmationModal

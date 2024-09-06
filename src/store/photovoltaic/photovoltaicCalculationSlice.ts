@@ -41,7 +41,7 @@ export interface PhotovoltaicCalculations {
   dotations_sum: number;
   amount_after_dotation: number;
 
-  heatStore_cost: number | undefined;
+  heatStoreCost: number;
   finall_installation_cost: number;
   heatStore_energyManager_costs: number;
   estiamted_price_for_trend_in_1KWH: number;
@@ -119,7 +119,7 @@ export const photovoltaicCalculationSlice: StateCreator<
     dotations_sum: 0,
     amount_after_dotation: 0,
     energyStoreCost: 0,
-    heatStore_cost: 0,
+    heatStoreCost: 0,
     finall_installation_cost: 0,
     heatStore_energyManager_costs: 0,
     estiamted_price_for_trend_in_1KWH: 0,

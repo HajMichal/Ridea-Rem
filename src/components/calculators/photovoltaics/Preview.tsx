@@ -126,13 +126,20 @@ export function Preview() {
                 title="MAGAZYN ENERGII"
                 calculations={photovoltaicStore.isEnergyStoreDotation}
               />
-              {photovoltaicStore.isEnergyStoreDotation && (
-                <TextComponent
-                  title="MOC MAGAZYNU ENERGII"
-                  calculations={photovoltaicStore.energyStorePower}
-                  unit="kWh"
-                />
-              )}
+              {photovoltaicStore.isEnergyStoreDotation &&
+                photovoltaicStore.energyStore && (
+                  <>
+                    <TextComponent
+                      title="WYBRANY MAGAZYN ENERGII"
+                      calculations={photovoltaicStore.energyStore.name}
+                    />
+                    <TextComponent
+                      title="KOSZT MAGAZYNU ENERGII"
+                      calculations={photovoltaicStore.energyStore.price}
+                      unit="zł"
+                    />
+                  </>
+                )}
               {photovoltaicStore.isEnergyStoreDotation && (
                 <TextComponent
                   title="CENA MAGAZYNU ENERGII"

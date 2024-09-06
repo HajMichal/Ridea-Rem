@@ -398,11 +398,11 @@ export function PhotovoltaicMutations({
   useEffect(() => {
     if (data)
       mutations.set_heatStore_energyManager_costs({
-        heatStore_cost: photovoltaicCalcStore.heatStore_cost ?? 0,
+        heatStoreCost: photovoltaicCalcStore.heatStoreCost ?? 0,
         isHeatStoreSystem: photovoltaicStore.heatStoreDotation,
       });
   }, [
-    photovoltaicCalcStore.heatStore_cost,
+    photovoltaicCalcStore.heatStoreCost,
     photovoltaicStore.heatStoreDotation,
     mutations.set_heatStore_energyManager_costs,
   ]);
@@ -551,11 +551,4 @@ export function PhotovoltaicMutations({
     photovoltaicCalcStore.totalInstallationCosts.total_gross_cost,
     data?.creditPercentage,
   ]);
-  useEffect(() => {
-    if (data)
-      mutations.set_energyStoreCost({
-        energyStorePower: photovoltaicStore.energyStorePower,
-        energyStore: data?.energyStore,
-      });
-  }, [photovoltaicStore.energyStorePower, data?.energyStore]);
 }

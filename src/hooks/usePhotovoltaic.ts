@@ -13,7 +13,6 @@ export const usePhotovoltaic = () => {
 
   const { data } =
     api.dataFlow.downloadFile.useQuery<PhotovoltaicDataToCalculation | null>();
-  console.log(data);
 
   useEffect(() => {
     sessionStorage.setItem(
@@ -179,12 +178,6 @@ export const usePhotovoltaic = () => {
       },
     });
 
-  const { mutate: set_heatStore_cost } =
-    api.photovoltaics.heatStore_cost.useMutation({
-      onSuccess: (data) => {
-        store.updatePhotovoltaicCalcs("heatStore_cost", data);
-      },
-    });
   const { mutate: set_finall_installation_cost } =
     api.photovoltaics.finall_installation_cost.useMutation({
       onSuccess: (data) => {
@@ -250,12 +243,7 @@ export const usePhotovoltaic = () => {
         store.updatePhotovoltaicCalcs("energyMenagerDotationValue", data);
       },
     });
-  const { mutate: set_energyStoreCost } =
-    api.photovoltaics.energyStoreCost.useMutation({
-      onSuccess: (data) => {
-        store.updatePhotovoltaicCalcs("energyStoreCost", data);
-      },
-    });
+
   const { mutate: set_energyStoreDotationValue } =
     api.photovoltaics.energyStoreDotationValue.useMutation({
       onSuccess: (data) => {
@@ -351,10 +339,8 @@ export const usePhotovoltaic = () => {
       set_addon_cost,
       set_markup_costs,
       set_totalInstallationCost,
-      set_energyStoreCost,
       set_dotations_sum,
       set_energyStoreDotationValue,
-      set_heatStore_cost,
       set_finall_installation_cost,
       set_heatStore_energyManager_costs,
       set_estiamted_price_for_trend_in_1KWH,

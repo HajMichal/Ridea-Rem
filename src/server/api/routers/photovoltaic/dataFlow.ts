@@ -1,12 +1,11 @@
+/* eslint-disable @typescript-eslint/consistent-indexed-object-style */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
-import { bucket, s3, setFileToBucket } from "~/utils/aws";
 import {
   adminProcedure,
   createTRPCRouter,
   protectedProcedure,
 } from "~/server/api/trpc";
 import { z } from "zod";
-import { type PhotovoltaicCalculatorType } from "./interfaces";
 import { type Photovoltaic } from "@prisma/client";
 
 const schema = z.object({
@@ -59,17 +58,8 @@ const schema = z.object({
     magazynCiepla: z.number(),
     ems: z.number(),
   }),
-  boilers: z.object({
-    zbiornik_100L: z.number(),
-    zbiornik_140L: z.number(),
-    zbiornik_140L_z_wezem: z.number(),
-    zbiornik_200L: z.number(),
-    zbiornik_200L_z_wezem: z.number(),
-  }),
-  energyStore: z.object({
-    solax: z.number(),
-    hipontech: z.number(),
-  }),
+  boilers: z.record(z.number()),
+  energyStore: z.record(z.number()),
   carPort: z.object({
     stan1: z.number(),
     stan2: z.number(),
@@ -83,20 +73,6 @@ const schema = z.object({
   creditPercentage: z.number(),
 });
 
-const getParsedJsonObject = async () => {
-  const dataFile = await s3
-    .getObject({
-      Bucket: bucket,
-      Key: "data.json",
-    })
-    .promise();
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  const convertedFile: PhotovoltaicCalculatorType = JSON.parse(
-    dataFile?.Body?.toString() ?? "null"
-  );
-  return convertedFile;
-};
-
 export const dataFlowRouter = createTRPCRouter({
   downloadFile: protectedProcedure.query(async ({ ctx }) => {
     const user = ctx.session?.user;
@@ -108,7 +84,7 @@ export const dataFlowRouter = createTRPCRouter({
       },
     });
   }),
-  getEntireJsonFile: adminProcedure.query(async ({ ctx }) => {
+  getAllPvCalcs: adminProcedure.query(async ({ ctx }) => {
     return await ctx.prisma.photovoltaic.findMany();
   }),
   editJSONFile: adminProcedure
@@ -179,7 +155,7 @@ export const dataFlowRouter = createTRPCRouter({
   addNewElement: adminProcedure
     .input(
       z.object({
-        element: z.string(), // Existing record in Photovoltaic table
+        element: z.string(), // Existing Json record in Photovoltaic table
         name: z.string(), // New element name
         price: z.number(), // New element price
       })
@@ -209,6 +185,42 @@ export const dataFlowRouter = createTRPCRouter({
           status: 200,
           message: "Element został dodany 📝",
         };
+      } catch (error) {
+        return {
+          status: 404,
+          message: "Element nie został dodany 📝",
+        };
+      }
+    }),
+  removeElement: adminProcedure
+    .input(
+      z.object({
+        element: z.string(), // Existing Json record in Photovoltaic table
+        name: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      try {
+        const allCalcs = await ctx.prisma.photovoltaic.findMany();
+
+        allCalcs.map(async (calc) => {
+          const elementFromRemove = calc[
+            input.element as keyof Photovoltaic
+          ] as { [key: string]: number };
+
+          if (elementFromRemove[input.name as keyof Photovoltaic]) {
+            delete elementFromRemove[input.name];
+          } else throw new Error();
+
+          await ctx.prisma.photovoltaic.update({
+            where: {
+              id: calc.id,
+            },
+            data: {
+              [input.element]: elementFromRemove,
+            },
+          });
+        });
       } catch (error) {
         return {
           status: 404,

@@ -407,40 +407,16 @@ export function amountAfterDotation({
   return input.gross_instalation_cost - input.summed_dotations;
 }
 
-interface HeatStoreCostType {
-  choosed_tank_type: string;
-  tanks_costs: {
-    zbiornik_100L: number;
-    zbiornik_140L: number;
-    zbiornik_140L_z_wezem: number;
-    zbiornik_200L: number;
-    zbiornik_200L_z_wezem: number;
-  };
-}
-export function heatStoreCost({ input }: { input: HeatStoreCostType }) {
-  if (input.choosed_tank_type === "Zbiornik 100L") {
-    return input.tanks_costs.zbiornik_100L;
-  } else if (input.choosed_tank_type === "Zbiornik 140L") {
-    return input.tanks_costs.zbiornik_140L;
-  } else if (input.choosed_tank_type === "Zbiornik 140L z wężownicą") {
-    return input.tanks_costs.zbiornik_140L_z_wezem;
-  } else if (input.choosed_tank_type === "Zbiornik 200L") {
-    return input.tanks_costs.zbiornik_200L;
-  } else if (input.choosed_tank_type === "Zbiornik 200L z wężownicą") {
-    return input.tanks_costs.zbiornik_200L_z_wezem;
-  }
-}
-
 interface HeatStoreWithEnergyManagerCostType {
   isHeatStoreSystem: boolean;
-  heatStore_cost: number;
+  heatStoreCost: number;
 }
 export function heatStoreWithEnergyManagerCost({
   input,
 }: {
   input: HeatStoreWithEnergyManagerCostType;
 }) {
-  return input.isHeatStoreSystem ? input.heatStore_cost : 0;
+  return input.isHeatStoreSystem ? input.heatStoreCost : 0;
 }
 interface EnergyManagerCostType {
   isEnergyMenagerSystem: boolean;
@@ -637,37 +613,6 @@ export function loanForPurcharse({ input }: { input: LoanForPurcharseType }) {
     finallInstalmentPice: Number(monthlyPayment.toFixed(2)),
     instalmentBeforeDotations: Number(monthlyPaymentBeforeDotations.toFixed(2)),
   };
-}
-interface EnergyStoreCostType {
-  energyStorePower: number;
-  energyStore: {
-    solax: number;
-    hipontech: number;
-  };
-}
-export function energyStoreCost({ input }: { input: EnergyStoreCostType }) {
-  // if (input.energyStorePower === 6.1) return input.;
-  // else if (input.energyStorePower === 3.1)
-  //   return input.energyStorePowersCost.prog0;
-  // else if (input.energyStorePower === 11.6)
-  //   return input.energyStorePowersCost.prog2;
-  // else if (input.energyStorePower === 17.4)
-  //   return input.energyStorePowersCost.prog3;
-  // else if (input.energyStorePower === 23.2)
-  //   return input.energyStorePowersCost.prog4;
-  // else if (input.energyStorePower === 29)
-  //   return input.energyStorePowersCost.prog5;
-  // else if (input.energyStorePower === 34.8)
-  //   return input.energyStorePowersCost.prog6;
-  // else if (input.energyStorePower === 40.6)
-  //   return input.energyStorePowersCost.prog7;
-  // else if (input.energyStorePower === 46.4)
-  //   return input.energyStorePowersCost.prog8;
-  // // hipontech
-  // else if (input.energyStorePower === 7.2) return input.hipontechCost.prog0;
-  // else if (input.energyStorePower === 10.8) return input.hipontechCost.prog1;
-  // else if (input.energyStorePower === 14.4) return input.hipontechCost.prog2;
-  return input.energyStore.solax;
 }
 
 // PROMOCJA
