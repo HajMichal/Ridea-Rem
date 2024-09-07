@@ -153,7 +153,8 @@ const PhotovoltaicDocument = ({
           /nr.zam/ model INW/Z{" "}
           {photovoltaicCalcStore.markup_costs.consultantFeeValue} /{" "}
           {photovoltaicCalcStore.markup_costs.officeFeeValue} /{" "}
-          {photovoltaicCalcStore.markup_costs.officeFeeForBoss}
+          {photovoltaicCalcStore.markup_costs.officeFeeForBoss} /
+          {!photovoltaicStore.isPromotion && photovoltaicStore.promotionAmount}
         </Text>
         <Image
           style={{ height: 50, marginTop: 10 }}

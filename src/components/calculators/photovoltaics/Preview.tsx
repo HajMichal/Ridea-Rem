@@ -99,18 +99,15 @@ export function Preview() {
                 unit="m"
               />
               <TextComponent
-                title="CENA DODATKOWEGO OKABLOWANIA"
-                calculations={photovoltaicCalcStore.cableACCost}
-                unit="zł"
-              />
-              <TextComponent
                 title="MONTAŻ NA GRUNCIE"
                 calculations={photovoltaicStore.isGroundMontage}
               />
-              <TextComponent
-                title="PRZEKOP W ZAKRESIE KLIENTA"
-                calculations={photovoltaicStore.isDitch ? "TAK" : "NIE"}
-              />
+              {photovoltaicStore.isGroundMontage && (
+                <TextComponent
+                  title="PRZEKOP W ZAKRESIE KLIENTA"
+                  calculations={photovoltaicStore.isDitch ? "TAK" : "NIE"}
+                />
+              )}
               <TextComponent
                 title="DŁUGOŚĆ PRZEKOPU"
                 calculations={photovoltaicStore.ditchLength}
