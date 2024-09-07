@@ -1,194 +1,233 @@
+/* eslint-disable @typescript-eslint/consistent-indexed-object-style */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
-import fs from "fs";
-import { bucket, s3, setFileToBucket } from "~/utils/aws";
-import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
-import { z } from "zod";
 import {
-  type PhotovoltaicCalculatorType,
-  type EachMenagerPhotovoltaic,
-} from "./interfaces";
+  adminProcedure,
+  createTRPCRouter,
+  protectedProcedure,
+} from "~/server/api/trpc";
+import { z } from "zod";
+import { type Photovoltaic } from "@prisma/client";
 
-const schema = z.record(
-  z.object({
-    dane: z.object({
-      czterysta: z.object({
-        dwa: z.number(),
-        cztery: z.number(),
-        szesc: z.number(),
-        osiem: z.number(),
-        dwanascie: z.number(),
-        dwadziescia: z.number(),
-        trzydziesci: z.number(),
-        piecdziesiat: z.number(),
-      }),
-      czterysta_piecdziesiat: z.object({
-        dwa: z.number(),
-        cztery: z.number(),
-        szesc: z.number(),
-        osiem: z.number(),
-        dwanascie: z.number(),
-        dwadziescia: z.number(),
-        trzydziesci: z.number(),
-        piecdziesiat: z.number(),
-      }),
-      piecset: z.object({
-        dwa: z.number(),
-        cztery: z.number(),
-        szesc: z.number(),
-        osiem: z.number(),
-        dwanascie: z.number(),
-        dwadziescia: z.number(),
-        trzydziesci: z.number(),
-        piecdziesiat: z.number(),
-      }),
-    }),
-    dotacje: z.object({
-      magazynCiepla: z.number(),
-      menagerEnergii: z.number(),
-      mojPrad: z.number(),
-      mp_mc: z.number(),
-    }),
-    koszty_dodatkowe: z.object({
-      bloczki: z.number(),
-      tigo: z.number(),
-      ekierki: z.number(),
-      certyfikowaneEkierki: z.number(),
-      grunt: z.number(),
-      inwerterHybrydowy: z.number(),
-    }),
-    zbiorniki: z.object({
-      zbiornik_100L: z.number(),
-      zbiornik_140L: z.number(),
-      zbiornik_140L_z_wezem: z.number(),
-      zbiornik_200L: z.number(),
-      zbiornik_200L_z_wezem: z.number(),
-    }),
-    magazyn_energii_solax: z.object({
-      prog0: z.number(),
-      prog1: z.number(),
-      prog2: z.number(),
-      prog3: z.number(),
-      prog4: z.number(),
-      prog5: z.number(),
-      prog6: z.number(),
-      prog7: z.number(),
-      prog8: z.number(),
-    }),
-    magazyn_energii_hipontech: z.object({
-      prog0: z.number(),
-      prog1: z.number(),
-      prog2: z.number(),
-    }),
-    carPort: z.object({
-      stan1: z.number(),
-      stan2: z.number(),
-      stan4: z.number(),
-      stan6: z.number(),
-      stan8: z.number(),
-      stan10: z.number(),
-      stan12: z.number(),
-    }),
+const schema = z.object({
+  id: z.string().optional(),
+  userId: z.string(),
+  userName: z.string().optional(),
+  panels_small: z.object({
+    dwa: z.number(),
+    cztery: z.number(),
+    szesc: z.number(),
+    osiem: z.number(),
+    dwanascie: z.number(),
+    dwadziescia: z.number(),
+    trzydziesci: z.number(),
+    piecdziesiat: z.number(),
+  }),
+  panels_medium: z.object({
+    dwa: z.number(),
+    cztery: z.number(),
+    szesc: z.number(),
+    osiem: z.number(),
+    dwanascie: z.number(),
+    dwadziescia: z.number(),
+    trzydziesci: z.number(),
+    piecdziesiat: z.number(),
+  }),
+  panels_large: z.object({
+    dwa: z.number(),
+    cztery: z.number(),
+    szesc: z.number(),
+    osiem: z.number(),
+    dwanascie: z.number(),
+    dwadziescia: z.number(),
+    trzydziesci: z.number(),
+    piecdziesiat: z.number(),
+  }),
+  dotations: z.object({
     magazynCiepla: z.number(),
-    cena_skupu_pradu: z.number(),
+    menagerEnergii: z.number(),
+    mojPrad: z.number(),
+    mp_mc: z.number(),
+  }),
+  addons: z.object({
+    bloczki: z.number(),
+    tigo: z.number(),
+    ekierki: z.number(),
+    certyfikowaneEkierki: z.number(),
+    grunt: z.number(),
+    inwerterHybrydowy: z.number(),
+    magazynCiepla: z.number(),
     ems: z.number(),
-    prowizjaBiura: z.number(),
-    oprocentowanie_kredytu: z.number(),
-  })
-);
-
-const getParsedJsonObject = async () => {
-  const dataFile = await s3
-    .getObject({
-      Bucket: bucket,
-      Key: "data.json",
-    })
-    .promise();
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  const convertedFile: PhotovoltaicCalculatorType = JSON.parse(
-    dataFile?.Body?.toString() ?? "null"
-  );
-  return convertedFile;
-};
+    matebox: z.number(),
+    kableAC: z.number(),
+    przekopy: z.number(),
+  }),
+  boilers: z.record(z.number()),
+  energyStore: z.record(z.number()),
+  carPort: z.object({
+    stan1: z.number(),
+    stan2: z.number(),
+    stan4: z.number(),
+    stan6: z.number(),
+    stan8: z.number(),
+    stan10: z.number(),
+    stan12: z.number(),
+  }),
+  electricityPrice: z.number(),
+  creditPercentage: z.number(),
+});
 
 export const dataFlowRouter = createTRPCRouter({
-  downloadFile: publicProcedure
-    .input(z.string().optional())
-    .query(async ({ input, ctx }) => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      const convertedFile = await getParsedJsonObject();
+  downloadFile: protectedProcedure.query(async ({ ctx }) => {
+    const user = ctx.session?.user;
+    if (!user) return null;
 
-      function getObjectById(id: string) {
-        const object: EachMenagerPhotovoltaic | undefined =
-          convertedFile.kalkulator.find((item) => Object.keys(item)[0] === id);
-        return object ? object[id] : null;
-      }
-
-      const userData = await ctx.prisma.user.findFirst({
-        where: { id: input },
+    return await ctx.prisma.photovoltaic.findUnique({
+      where: {
+        userId: user.role === 3 ? user.creatorId : user.id,
+      },
+    });
+  }),
+  getAllPvCalcs: adminProcedure.query(async ({ ctx }) => {
+    return await ctx.prisma.photovoltaic.findMany();
+  }),
+  editJSONFile: adminProcedure
+    .input(schema)
+    .mutation(async ({ ctx, input }) => {
+      await ctx.prisma.photovoltaic.update({
+        where: {
+          userId: input.userId,
+        },
+        data: input,
       });
-      if (userData?.role === 1) {
-        return getObjectById(userData.name!);
-      } else if (userData?.role === 2) {
-        return getObjectById(userData.name!);
-      } else if (userData?.creatorId && userData.role === 3) {
-        const creator = await ctx.prisma.user.findFirst({
-          where: { id: userData.creatorId },
-        });
-        return getObjectById(creator?.name ?? "");
-      }
-    }),
-  getEntireJsonFile: publicProcedure.query(async () => {
-    return await getParsedJsonObject();
-  }),
-  editJSONFile: publicProcedure.input(schema).mutation(async ({ input }) => {
-    const convertedFile = await getParsedJsonObject();
-    const dynamicKey = Object.keys(input)[0];
 
-    const index = convertedFile.kalkulator.findIndex(
-      (obj) => Object.keys(obj)[0] === dynamicKey
-    );
-    if (index !== -1) {
-      convertedFile.kalkulator[index] = input;
-    }
-    const updatedJSONFile = JSON.stringify(convertedFile);
-    setFileToBucket(updatedJSONFile, "data.json");
-    return input;
-  }),
-  removeMenagerData: publicProcedure
-    .input(z.string())
-    .mutation(async ({ input }) => {
-      const convertedFile = await getParsedJsonObject();
-      const index = convertedFile.kalkulator.findIndex(
-        (obj) => Object.keys(obj)[0] === input
-      );
-
-      if (index !== -1) {
-        convertedFile.kalkulator.splice(index, 1);
-      }
-
-      const updatedJSONFile = JSON.stringify(convertedFile);
-      setFileToBucket(updatedJSONFile, "data.json");
       return input;
     }),
-  addNewMenager: publicProcedure
+  removeMenagerData: adminProcedure
     .input(z.string())
-    .mutation(async ({ input }) => {
-      const convertedFile = await getParsedJsonObject();
+    .mutation(async ({ ctx, input }) => {
+      await ctx.prisma.photovoltaic.delete({
+        where: {
+          userId: input,
+        },
+      });
+    }),
+  addNewMenager: adminProcedure
+    .input(
+      z.object({
+        userId: z.string(),
+        userName: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const baseCalc = await ctx.prisma.photovoltaic.findFirst({
+        where: {
+          userId: "66d4e13565e073fe1f84366d",
+        },
+      });
+      if (baseCalc) {
+        await ctx.prisma.photovoltaic.create({
+          data: {
+            userId: input.userId,
+            userName: input.userName,
+            addons: baseCalc.addons,
+            boilers: baseCalc.boilers,
+            carPort: baseCalc.carPort,
+            panels_large: baseCalc.panels_large,
+            panels_medium: baseCalc.panels_medium,
+            panels_small: baseCalc.panels_small,
+            dotations: baseCalc.dotations,
+            energyStore: baseCalc.energyStore,
+            creditPercentage: baseCalc.creditPercentage,
+            electricityPrice: baseCalc.electricityPrice,
+          },
+        });
 
-      if (convertedFile.kalkulator[0]) {
-        const mainCalculationData =
-          convertedFile.kalkulator[0]["Adrian Szymborski"]!;
-
-        const newMenagerData = {
-          [input]: mainCalculationData,
-        };
-
-        convertedFile.kalkulator.push(newMenagerData);
-        setFileToBucket(JSON.stringify(convertedFile), "data.json");
         return {
           status: 200,
           message:
-            "Menager z bazowymi danymi został stworzony. Aby zmienić jego dane, przejdź do zakładki prowizje 📝",
+            "Menager z bazowymi danymi został stworzony. Aby zmienić jego dane, przejdź do zakładki PROWIZJE 📝",
+        };
+      } else {
+        return {
+          status: 404,
+          message: "Wystąpił błąd spróbuj ponownie 📝",
+        };
+      }
+    }),
+
+  addNewElement: adminProcedure
+    .input(
+      z.object({
+        element: z.string(), // Existing Json record in Photovoltaic table
+        name: z.string(), // New element name
+        price: z.number(), // New element price
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      try {
+        const allCalcs = await ctx.prisma.photovoltaic.findMany();
+
+        // Loop through all calcs
+        allCalcs.map(async (calc) => {
+          // Add new element object to previous
+          const addElement = {
+            ...(calc[input.element as keyof Photovoltaic] as object),
+            ...{ [input.name]: input.price },
+          };
+
+          await ctx.prisma.photovoltaic.update({
+            where: {
+              userId: calc.userId,
+            },
+            data: {
+              [input.element]: addElement,
+            },
+          });
+        });
+        return {
+          status: 200,
+          message: "Element został dodany 📝",
+        };
+      } catch (error) {
+        return {
+          status: 404,
+          message: "Element nie został dodany 📝",
+        };
+      }
+    }),
+  removeElement: adminProcedure
+    .input(
+      z.object({
+        element: z.string(), // Existing Json record in Photovoltaic table
+        name: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      try {
+        const allCalcs = await ctx.prisma.photovoltaic.findMany();
+
+        allCalcs.map(async (calc) => {
+          const elementFromRemove = calc[
+            input.element as keyof Photovoltaic
+          ] as { [key: string]: number };
+
+          if (elementFromRemove[input.name as keyof Photovoltaic]) {
+            delete elementFromRemove[input.name];
+          } else throw new Error();
+
+          await ctx.prisma.photovoltaic.update({
+            where: {
+              id: calc.id,
+            },
+            data: {
+              [input.element]: elementFromRemove,
+            },
+          });
+        });
+      } catch (error) {
+        return {
+          status: 404,
+          message: "Element nie został dodany 📝",
         };
       }
     }),

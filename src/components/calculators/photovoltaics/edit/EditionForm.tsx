@@ -5,12 +5,16 @@ import { ConfirmationModal } from "~/components/ConfirmationModal";
 import { ChangeDataInputComponent } from "~/components/changeDataInputComponent";
 import { type PhotovoltaicDataToCalculation } from "~/server/api/routers/photovoltaic/interfaces";
 import { api } from "~/utils/api";
+import { AddElement } from "./AddElement";
+import { Button } from "@mantine/core";
+import { MdOutlineAddchart } from "react-icons/md";
+import { RemoveElement } from "./RemoveElement";
 
-/* eslint @typescript-eslint/consistent-indexed-object-style: ["error", "index-signature"] */
 interface EditionForm {
-  [key: string]: { [key: string]: PhotovoltaicDataToCalculation };
+  data: PhotovoltaicDataToCalculation;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const EditionForm = ({ data }: EditionForm) => {
   const [opened, { open, close }] = useDisclosure(false);
 
@@ -23,12 +27,10 @@ export const EditionForm = ({ data }: EditionForm) => {
       toast.error("UWAGA BŁĄD! Dane nie zostały zmienione. Spróbuj ponownie.");
     },
   });
-  const dynamicKey = Object.keys(data!)[0];
-  const dynamicPropValues = data![dynamicKey!];
   const { register, handleSubmit } = useForm<PhotovoltaicDataToCalculation>();
 
-  const onSubmit: SubmitHandler<PhotovoltaicDataToCalculation> = (data) => {
-    mutate({ [dynamicKey!]: data });
+  const onSubmit: SubmitHandler<PhotovoltaicDataToCalculation> = (formData) => {
+    mutate({ ...formData, userId: data.userId });
     close();
   };
 
@@ -36,15 +38,12 @@ export const EditionForm = ({ data }: EditionForm) => {
   const jsxmediumPanelElements = [];
   const jsxlargestPanelElements = [];
 
-  for (const panelData in dynamicPropValues?.dane.czterysta) {
+  for (const panelData in data?.panels_small) {
     const title = dataNamesMappings[panelData]!;
-    if (dynamicPropValues.dane.czterysta.hasOwnProperty(panelData)) {
-      const registerAddonKey =
-        `dane.czterysta.${panelData}` as keyof typeof dynamicPropValues;
+    if (data.panels_small.hasOwnProperty(panelData)) {
+      const registerAddonKey = `panels_small.${panelData}` as keyof typeof data;
       const panelDataPrice =
-        dynamicPropValues.dane.czterysta[
-          panelData as keyof typeof dynamicPropValues.dane.czterysta
-        ];
+        data.panels_small[panelData as keyof typeof data.panels_small];
       jsxPanel400Elements.push(
         <ChangeDataInputComponent
           {...register(registerAddonKey, {
@@ -56,17 +55,13 @@ export const EditionForm = ({ data }: EditionForm) => {
       );
     }
   }
-  for (const panelData in dynamicPropValues?.dane.czterysta_piecdziesiat) {
+  for (const panelData in data?.panels_medium) {
     const title = dataNamesMappings[panelData]!;
-    if (
-      dynamicPropValues.dane.czterysta_piecdziesiat.hasOwnProperty(panelData)
-    ) {
+    if (data.panels_medium.hasOwnProperty(panelData)) {
       const registerAddonKey =
-        `dane.czterysta_piecdziesiat.${panelData}` as keyof typeof dynamicPropValues;
+        `panels_medium.${panelData}` as keyof typeof data;
       const panelDataPrice =
-        dynamicPropValues.dane.czterysta_piecdziesiat[
-          panelData as keyof typeof dynamicPropValues.dane.czterysta_piecdziesiat
-        ];
+        data.panels_medium[panelData as keyof typeof data.panels_medium];
       jsxmediumPanelElements.push(
         <ChangeDataInputComponent
           {...register(registerAddonKey, {
@@ -78,15 +73,12 @@ export const EditionForm = ({ data }: EditionForm) => {
       );
     }
   }
-  for (const panelData in dynamicPropValues?.dane.piecset) {
+  for (const panelData in data?.panels_large) {
     const title = dataNamesMappings[panelData]!;
-    if (dynamicPropValues.dane.piecset.hasOwnProperty(panelData)) {
-      const registerAddonKey =
-        `dane.piecset.${panelData}` as keyof typeof dynamicPropValues;
+    if (data.panels_large.hasOwnProperty(panelData)) {
+      const registerAddonKey = `panels_large.${panelData}` as keyof typeof data;
       const panelDataPrice =
-        dynamicPropValues.dane.piecset[
-          panelData as keyof typeof dynamicPropValues.dane.piecset
-        ];
+        data.panels_large[panelData as keyof typeof data.panels_large];
       jsxlargestPanelElements.push(
         <ChangeDataInputComponent
           {...register(registerAddonKey, {
@@ -101,7 +93,7 @@ export const EditionForm = ({ data }: EditionForm) => {
 
   return (
     <>
-      <h1 className="w-full pt-14 text-center">{dynamicKey}</h1>
+      <h1 className="w-full pt-14 text-center">{data.userName}</h1>
       <form className="w-full pb-20 pt-3">
         <h2 className="mt-5 w-full text-center text-3xl">DANE </h2>
         <div className="flex">
@@ -130,240 +122,192 @@ export const EditionForm = ({ data }: EditionForm) => {
             ))}
           </div>
         </div>
-        <h2 className="mt-10 w-full text-center text-2xl">
-          MAGAZYN ENERGII SOLAX
-        </h2>
-        {dynamicPropValues &&
-          Object.entries(dynamicPropValues.magazyn_energii_solax).map(
-            (key, index) => {
-              const nameMappings: { [key: string]: string } = {
-                prog0: "3.1 kWh",
-                prog1: "6.1 kWh",
-                prog2: "11.6 kWh",
-                prog3: "17.4 kWh",
-                prog4: "23.2 kWh",
-                prog5: "29 kWh",
-                prog6: "34.8 kWh",
-                prog7: "40.6 kWh",
-                prog8: "46.4 kWh",
-              };
-              return (
+        <h2 className="mt-10 w-full text-center text-2xl">MAGAZYN ENERGII</h2>
+        {data &&
+          Object.entries(data.energyStore).map((key, index) => {
+            return (
+              <div key={index} className="flex items-end justify-center gap-9">
                 <ChangeDataInputComponent
-                  key={index}
-                  {...register(
-                    `magazyn_energii_solax.${key[0]}` as keyof typeof dynamicPropValues,
-                    {
-                      valueAsNumber: true,
-                    }
-                  )}
-                  title={nameMappings[key[0]] || key[0]}
+                  {...register(`energyStore.${key[0]}` as keyof typeof data, {
+                    valueAsNumber: true,
+                  })}
+                  title={key[0]}
                   defaultValue={key[1]}
                 />
-              );
-            }
-          )}
-        <h2 className="mt-10 w-full text-center text-2xl">
-          MAGAZYN ENERGII HYPONTECH
-        </h2>
-        {dynamicPropValues &&
-          Object.entries(dynamicPropValues.magazyn_energii_hipontech).map(
-            (key, index) => {
-              const nameMappings: { [key: string]: string } = {
-                prog0: "7.2 kWh",
-                prog1: "10.8 kWh",
-                prog2: "14.4kWh",
-              };
-              return (
-                <ChangeDataInputComponent
-                  key={index}
-                  {...register(
-                    `magazyn_energii_hipontech.${key[0]}` as keyof typeof dynamicPropValues,
-                    {
-                      valueAsNumber: true,
-                    }
-                  )}
-                  title={nameMappings[key[0]] || key[0]}
-                  defaultValue={key[1]}
-                />
-              );
-            }
-          )}
+                <RemoveElement element="energyStore" name={key[0]} />
+              </div>
+            );
+          })}
 
         <h2 className="mt-10 w-full text-center text-2xl">DOTACJE</h2>
         <ChangeDataInputComponent
-          {...register("dotacje.magazynCiepla", {
+          {...register("dotations.magazynCiepla", {
             valueAsNumber: true,
           })}
           title="MAGAZYN CIEPŁA"
-          defaultValue={dynamicPropValues!.dotacje.magazynCiepla}
+          defaultValue={data.dotations.magazynCiepla}
         />
         <ChangeDataInputComponent
-          {...register("dotacje.menagerEnergii", {
+          {...register("dotations.menagerEnergii", {
             valueAsNumber: true,
           })}
           title="MENAGER ENERGII"
-          defaultValue={dynamicPropValues!.dotacje.menagerEnergii}
+          defaultValue={data.dotations.menagerEnergii}
         />
         <ChangeDataInputComponent
-          {...register("dotacje.mojPrad", {
+          {...register("dotations.mojPrad", {
             valueAsNumber: true,
           })}
           title="MÓJ PRĄD"
-          defaultValue={dynamicPropValues!.dotacje.mojPrad}
+          defaultValue={data.dotations.mojPrad}
         />
         <ChangeDataInputComponent
-          {...register("dotacje.mp_mc", {
+          {...register("dotations.mp_mc", {
             valueAsNumber: true,
           })}
           title="MÓJ PRĄD + MAGAZYN CIEPŁA"
-          defaultValue={dynamicPropValues!.dotacje.mp_mc}
+          defaultValue={data.dotations.mp_mc}
         />
         <h2 className="mt-10 w-full text-center text-2xl">KOSZTY DODATKOWE</h2>
         <ChangeDataInputComponent
-          {...register("koszty_dodatkowe.bloczki", {
+          {...register("addons.bloczki", {
             valueAsNumber: true,
           })}
           title="BLOCZKI"
-          defaultValue={dynamicPropValues!.koszty_dodatkowe.bloczki}
+          defaultValue={data.addons.bloczki}
         />
         <ChangeDataInputComponent
-          {...register("koszty_dodatkowe.tigo", {
+          {...register("addons.tigo", {
             valueAsNumber: true,
           })}
           title="TIGO"
-          defaultValue={dynamicPropValues!.koszty_dodatkowe.tigo}
+          defaultValue={data.addons.tigo}
         />
         <ChangeDataInputComponent
-          {...register("koszty_dodatkowe.ekierki", {
+          {...register("addons.ekierki", {
             valueAsNumber: true,
           })}
           title="STANDARDOWE EKIERKI"
-          defaultValue={dynamicPropValues!.koszty_dodatkowe.ekierki}
+          defaultValue={data.addons.ekierki}
         />
         <ChangeDataInputComponent
-          {...register("koszty_dodatkowe.certyfikowaneEkierki", {
+          {...register("addons.certyfikowaneEkierki", {
             valueAsNumber: true,
           })}
           title="CERTYFIKOWANE EKIERKI"
-          defaultValue={
-            dynamicPropValues!.koszty_dodatkowe.certyfikowaneEkierki
-          }
+          defaultValue={data.addons.certyfikowaneEkierki}
         />
         <ChangeDataInputComponent
-          {...register("koszty_dodatkowe.grunt", {
+          {...register("addons.grunt", {
             valueAsNumber: true,
           })}
           title="GRUNT"
-          defaultValue={dynamicPropValues!.koszty_dodatkowe.grunt}
+          defaultValue={data.addons.grunt}
         />
         <ChangeDataInputComponent
-          {...register("koszty_dodatkowe.inwerterHybrydowy", {
+          {...register("addons.matebox", {
+            valueAsNumber: true,
+          })}
+          title="MATEBOX"
+          defaultValue={data.addons.grunt}
+        />
+        <ChangeDataInputComponent
+          {...register("addons.kableAC", {
+            valueAsNumber: true,
+          })}
+          title="KABLE AC"
+          defaultValue={data.addons.kableAC}
+        />
+        <ChangeDataInputComponent
+          {...register("addons.przekopy", {
+            valueAsNumber: true,
+          })}
+          title="PRZEKOPY"
+          defaultValue={data.addons.przekopy}
+        />
+        <ChangeDataInputComponent
+          {...register("addons.inwerterHybrydowy", {
             valueAsNumber: true,
           })}
           title="INWERTER HYBRYDOWY"
-          defaultValue={dynamicPropValues!.koszty_dodatkowe.inwerterHybrydowy}
+          defaultValue={data.addons.inwerterHybrydowy}
+        />
+        <ChangeDataInputComponent
+          {...register("addons.magazynCiepla", {
+            valueAsNumber: true,
+          })}
+          title="MAGAZYN CIEPŁA - CENA"
+          defaultValue={data.addons.magazynCiepla}
+        />
+        <ChangeDataInputComponent
+          {...register("addons.ems", {
+            valueAsNumber: true,
+          })}
+          title="EMS"
+          defaultValue={data.addons.ems}
         />
         <h2 className="mt-10 w-full text-center text-2xl">CAR PORT</h2>
-        {dynamicPropValues &&
-          Object.entries(dynamicPropValues.carPort).map((key, index) => {
+        {data &&
+          Object.entries(data.carPort).map((key, index) => {
             return (
               <ChangeDataInputComponent
-                {...register(
-                  `carPort.${key[0]}` as keyof typeof dynamicPropValues,
-                  {
-                    valueAsNumber: true,
-                  }
-                )}
+                {...register(`carPort.${key[0]}` as keyof typeof data, {
+                  valueAsNumber: true,
+                })}
                 title={key[0]}
-                defaultValue={
-                  dynamicPropValues.carPort[
-                    key[0] as keyof typeof dynamicPropValues.carPort
-                  ]
-                }
+                defaultValue={data.carPort[key[0] as keyof typeof data.carPort]}
                 key={index}
               />
             );
           })}
         <h2 className="mt-10 w-full text-center text-2xl">ZBIORNIKI CWU</h2>
-        <ChangeDataInputComponent
-          {...register("zbiorniki.zbiornik_100L", {
-            valueAsNumber: true,
+        {data &&
+          Object.entries(data.boilers).map((key, index) => {
+            return (
+              <div key={index} className="flex items-end justify-center gap-9">
+                <ChangeDataInputComponent
+                  {...register(`boilers.${key[0]}` as keyof typeof data, {
+                    valueAsNumber: true,
+                  })}
+                  title={key[0]}
+                  defaultValue={key[1]}
+                />
+                <RemoveElement element="boilers" name={key[0]} />
+              </div>
+            );
           })}
-          title="Zbiornik 100L"
-          defaultValue={dynamicPropValues!.zbiorniki.zbiornik_100L}
-        />
-        <ChangeDataInputComponent
-          {...register("zbiorniki.zbiornik_140L", {
-            valueAsNumber: true,
-          })}
-          title="Zbiornik 140L"
-          defaultValue={dynamicPropValues!.zbiorniki.zbiornik_140L}
-        />
-        <ChangeDataInputComponent
-          {...register("zbiorniki.zbiornik_140L_z_wezem", {
-            valueAsNumber: true,
-          })}
-          title="Zbiornik 140L Z wężownicą"
-          defaultValue={dynamicPropValues!.zbiorniki.zbiornik_140L_z_wezem}
-        />
-        <ChangeDataInputComponent
-          {...register("zbiorniki.zbiornik_200L", {
-            valueAsNumber: true,
-          })}
-          title="Zbiornik 200L"
-          defaultValue={dynamicPropValues!.zbiorniki.zbiornik_200L}
-        />
-        <ChangeDataInputComponent
-          {...register("zbiorniki.zbiornik_200L_z_wezem", {
-            valueAsNumber: true,
-          })}
-          title="Zbiornik 200L z wężownicą"
-          defaultValue={dynamicPropValues!.zbiorniki.zbiornik_200L_z_wezem}
-        />
 
         <h2 className="mt-10 w-full text-center text-2xl">POZOSTAŁE</h2>
+
         <ChangeDataInputComponent
-          {...register("magazynCiepla", {
-            valueAsNumber: true,
-          })}
-          title="MAGAZYN CIEPŁA - CENA"
-          defaultValue={dynamicPropValues!.magazynCiepla}
-        />
-        <ChangeDataInputComponent
-          {...register("cena_skupu_pradu", {
+          {...register("electricityPrice", {
             valueAsNumber: true,
           })}
           title="CENA SKUPU PRĄDU"
-          defaultValue={dynamicPropValues!.cena_skupu_pradu}
+          defaultValue={data.electricityPrice}
         />
         <ChangeDataInputComponent
-          {...register("ems", {
-            valueAsNumber: true,
-          })}
-          title="EMS"
-          defaultValue={dynamicPropValues!.ems}
-        />
-        <ChangeDataInputComponent
-          {...register("prowizjaBiura", {
-            valueAsNumber: true,
-          })}
-          title="PROWIZJA BIURA"
-          defaultValue={dynamicPropValues!.prowizjaBiura}
-        />
-        <ChangeDataInputComponent
-          {...register("oprocentowanie_kredytu", {
+          {...register("creditPercentage", {
             valueAsNumber: true,
           })}
           title="OPROCENTOWANIE KREDYTU"
-          defaultValue={dynamicPropValues!.oprocentowanie_kredytu}
+          defaultValue={data.creditPercentage}
         />
       </form>
-      <button
-        onClick={open}
-        className="fixed bottom-20 right-56 mx-5 h-12 self-center rounded-xl bg-dark px-10 py-2 font-semibold text-white duration-300 hover:bg-brand hover:text-dark"
-      >
-        Zatwierdź
-      </button>
+      <div className="fixed bottom-10 right-56 flex flex-col gap-4">
+        <Button
+          onClick={open}
+          size="md"
+          radius="md"
+          leftIcon={<MdOutlineAddchart size={18} />}
+          className="bg-gradient-to-br from-dark to-blue-900 tracking-wider text-white duration-150 hover:bg-blend-hard-light hover:shadow-xl"
+        >
+          Zatwierdź
+        </Button>
+
+        <AddElement />
+      </div>
+
       <ConfirmationModal
         title="CZY NA PEWNO CHCESZ ZAPISAĆ ZMIENIONE WARTOŚCI ?"
         close={close}
@@ -376,7 +320,7 @@ export const EditionForm = ({ data }: EditionForm) => {
   );
 };
 
-const dataNamesMappings: { [key: string]: string } = {
+const dataNamesMappings: Record<string, string> = {
   dwa: "OD 0 DO 2",
   cztery: "OD 2.1 DO 4",
   szesc: "OD 4.1 DO 6",

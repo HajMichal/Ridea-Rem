@@ -12,7 +12,7 @@ function DaneKlimatyzacja() {
   const router = useRouter();
 
   const { data: entireJsonData } =
-    api.airConditionDataFlowRouter.getEntireJsonFile.useQuery();
+    api.airConditionDataFlowRouter.getAllPvCalcs.useQuery();
 
   useEffect(() => {
     if (sessionData === null || (sessionData && sessionData.user.role !== 1)) {

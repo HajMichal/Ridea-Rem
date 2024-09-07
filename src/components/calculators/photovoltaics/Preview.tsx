@@ -94,8 +94,24 @@ export function Preview() {
                 }
               />
               <TextComponent
+                title="DŁUGOŚĆ DODATKOWEGO PRZEWODU AC"
+                calculations={photovoltaicStore.cableAC}
+                unit="m"
+              />
+              <TextComponent
                 title="MONTAŻ NA GRUNCIE"
                 calculations={photovoltaicStore.isGroundMontage}
+              />
+              {photovoltaicStore.isGroundMontage && (
+                <TextComponent
+                  title="PRZEKOP W ZAKRESIE KLIENTA"
+                  calculations={photovoltaicStore.isDitch ? "TAK" : "NIE"}
+                />
+              )}
+              <TextComponent
+                title="DŁUGOŚĆ PRZEKOPU"
+                calculations={photovoltaicStore.ditchLength}
+                unit="m"
               />
               <TextComponent
                 title="SYSTEM DACHOWY - OBIĄŻENIOWY LUB BALASTOWY"
@@ -109,6 +125,10 @@ export function Preview() {
               <TextComponent
                 title="INWERTER HYBRYDOWY"
                 calculations={photovoltaicStore.isInwerterChoosed}
+              />
+              <TextComponent
+                title="MATEBOX"
+                calculations={photovoltaicStore.isMatebox}
               />
               <TextComponent
                 title="CAR PORT"
@@ -126,13 +146,20 @@ export function Preview() {
                 title="MAGAZYN ENERGII"
                 calculations={photovoltaicStore.isEnergyStoreDotation}
               />
-              {photovoltaicStore.isEnergyStoreDotation && (
-                <TextComponent
-                  title="MOC MAGAZYNU ENERGII"
-                  calculations={photovoltaicStore.energyStorePower}
-                  unit="kWh"
-                />
-              )}
+              {photovoltaicStore.isEnergyStoreDotation &&
+                photovoltaicStore.energyStore && (
+                  <>
+                    <TextComponent
+                      title="WYBRANY MAGAZYN ENERGII"
+                      calculations={photovoltaicStore.energyStore.name}
+                    />
+                    <TextComponent
+                      title="KOSZT MAGAZYNU ENERGII"
+                      calculations={photovoltaicStore.energyStore.price}
+                      unit="zł"
+                    />
+                  </>
+                )}
               {photovoltaicStore.isEnergyStoreDotation && (
                 <TextComponent
                   title="CENA MAGAZYNU ENERGII"

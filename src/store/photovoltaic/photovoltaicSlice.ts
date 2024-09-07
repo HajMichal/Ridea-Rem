@@ -23,6 +23,9 @@ export interface PhotovoltaicsSlice {
     twoInstallmentsFree: boolean;
     holidayVoucher: boolean;
     vat23: boolean;
+    isMatebox: boolean;
+    isDitch: boolean;
+    ditchLength: number;
     taxCredit: number;
     usageLimit: number;
     modulesCount: number;
@@ -31,12 +34,19 @@ export interface PhotovoltaicsSlice {
     energyPriceInLimit: number;
     energyPriceOutOfLimit: number;
     recentYearTrendUsage: number;
-    energyStorePower: number;
+    energyStore: {
+      name: string;
+      price: number;
+    };
+    cableAC: number;
     tigoCount: number;
     panelPower: number;
     installmentNumber: number;
     promotionAmount: number;
-    tankSize: string;
+    cwuTank: {
+      name: string;
+      price: number;
+    };
     dotationStep_czpowietrze: "prog0" | "prog1" | "prog2" | "prog3";
     choosedCarPort:
       | "0_stan"
@@ -47,11 +57,10 @@ export interface PhotovoltaicsSlice {
       | "stan8"
       | "stan10"
       | "stan12";
-    energyStoreProducent: "SOLAX" | "HYPONTECH";
   };
   updatePhotovoltaic: (
     key: string,
-    value: boolean | number | string | null
+    value: boolean | number | string | object | null
   ) => void;
 }
 
@@ -71,6 +80,9 @@ export const photovoltaicsSlice: StateCreator<PhotovoltaicsSlice> = (set) => ({
     twoInstallmentsFree: false,
     holidayVoucher: false,
     vat23: false,
+    isMatebox: false,
+    isDitch: true,
+    ditchLength: 0,
     promotionAmount: 0,
     taxCredit: 0.12,
     usageLimit: 0,
@@ -81,14 +93,20 @@ export const photovoltaicsSlice: StateCreator<PhotovoltaicsSlice> = (set) => ({
     energyPriceOutOfLimit: 0,
     recentYearTrendUsage: 0,
     tigoCount: 0,
+    cableAC: 0,
     panelPower: smallestPanel,
     installmentNumber: 120,
-    energyStorePower: 0,
+    energyStore: {
+      name: "",
+      price: 0,
+    },
     dotationStep_czpowietrze: "prog1",
     eccentrics: "None",
-    tankSize: "Brak",
+    cwuTank: {
+      name: "",
+      price: 0,
+    },
     choosedCarPort: "0_stan",
-    energyStoreProducent: "SOLAX",
   },
   updatePhotovoltaic: (key, value) =>
     set((state) => {

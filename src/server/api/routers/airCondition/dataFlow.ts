@@ -79,7 +79,7 @@ export const airConditionDataFlowRouter = createTRPCRouter({
         return getObjectById(creator?.name ?? "");
       }
     }),
-  getEntireJsonFile: adminProcedure.query(async () => {
+  getAllPvCalcs: adminProcedure.query(async () => {
     return await getParsedJsonObject();
   }),
   editJSONFile: adminProcedure.input(schema).mutation(async ({ input }) => {

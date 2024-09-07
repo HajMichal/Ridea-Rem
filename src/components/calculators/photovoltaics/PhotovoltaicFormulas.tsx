@@ -1,4 +1,4 @@
-import { ScrollArea } from "@mantine/core";
+import { ScrollArea, Select } from "@mantine/core";
 import React from "react";
 import { InputComponent, SelectComponent } from "../../";
 import { usePhotovoltaic } from "~/hooks/usePhotovoltaic";
@@ -13,7 +13,25 @@ import {
 export function PhotovoltaicFormulas() {
   const store = useStore();
 
-  const { photovoltaicStore, mutations } = usePhotovoltaic();
+  const { photovoltaicStore, mutations, photovoltaicData } = usePhotovoltaic();
+
+  const energyStore = photovoltaicData?.energyStore
+    ? Object.entries(photovoltaicData.energyStore).map(([key, value]) => {
+        return {
+          label: key,
+          value: JSON.stringify({ name: key, price: value }),
+        };
+      })
+    : [];
+
+  const boilers = photovoltaicData?.boilers
+    ? Object.entries(photovoltaicData.boilers).map(([key, value]) => {
+        return {
+          label: key,
+          value: JSON.stringify({ name: key, price: value }),
+        };
+      })
+    : [];
 
   return (
     <div id="FORM" className="h-full p-3 laptop:w-[55%] laptop:min-w-[500px] ">
@@ -100,16 +118,6 @@ export function PhotovoltaicFormulas() {
             step={1}
             value={photovoltaicStore.modulesCount}
           />
-          {!photovoltaicStore.isGroundMontage && (
-            <SelectComponent
-              title="DACH SKIEROWANY NA POŁUDNIE"
-              onChange={(e) =>
-                store.updatePhotovoltaic("southRoof", e == "true")
-              }
-              value={photovoltaicStore.southRoof}
-              data={YESNO}
-            />
-          )}
           <SelectComponent
             title="STOPIEŃ AUTOKONSUMPCJI ENERGII Z PV"
             onChange={(e) => {
@@ -127,6 +135,21 @@ export function PhotovoltaicFormulas() {
               { value: "0.8", label: "80%" },
             ]}
           />
+          <InputComponent
+            title="DŁUGOŚĆ PRZEWODU AC NAD STAN"
+            onChange={(e) => {
+              store.updatePhotovoltaic("cableAC", e.target.valueAsNumber);
+              photovoltaicData?.addons &&
+                store.updatePhotovoltaicCalcs(
+                  "cableACCost",
+                  e.target.valueAsNumber * photovoltaicData?.addons.kableAC
+                );
+            }}
+            step={1}
+            value={
+              photovoltaicStore.cableAC === 0 ? "" : photovoltaicStore.cableAC
+            }
+          />
           <SelectComponent
             title="MONTAŻ NA GRUNCIE"
             onChange={(e) =>
@@ -135,6 +158,43 @@ export function PhotovoltaicFormulas() {
             value={photovoltaicStore.isGroundMontage}
             data={YESNO}
           />
+          {photovoltaicStore.isGroundMontage && (
+            <SelectComponent
+              title="PRZEKOP W ZAKRESIE KLIENTA"
+              onChange={(e) => store.updatePhotovoltaic("isDitch", e == "true")}
+              value={photovoltaicStore.isDitch}
+              data={YESNO}
+            />
+          )}
+          {photovoltaicStore.isGroundMontage && !photovoltaicStore.isDitch && (
+            <InputComponent
+              title="DŁUGOŚĆ PRZEKOPU"
+              onChange={(e) => {
+                store.updatePhotovoltaic("ditchLength", e.target.valueAsNumber);
+                photovoltaicData?.addons &&
+                  store.updatePhotovoltaicCalcs(
+                    "ditchCost",
+                    e.target.valueAsNumber * photovoltaicData?.addons.przekopy
+                  );
+              }}
+              step={1}
+              value={
+                photovoltaicStore.ditchLength == 0
+                  ? ""
+                  : photovoltaicStore.ditchLength
+              }
+            />
+          )}
+          {!photovoltaicStore.isGroundMontage && (
+            <SelectComponent
+              title="DACH SKIEROWANY NA POŁUDNIE"
+              onChange={(e) =>
+                store.updatePhotovoltaic("southRoof", e == "true")
+              }
+              value={photovoltaicStore.southRoof}
+              data={YESNO}
+            />
+          )}
           {!photovoltaicStore.isGroundMontage && (
             <SelectComponent
               title="EKIERKI STANDARDOWE / CERTYFIKOWANE"
@@ -183,38 +243,33 @@ export function PhotovoltaicFormulas() {
           />
 
           {/* MOZLIWE ZE WROCI || POSSIBILITY TO RETURN */}
-          {/* <SelectComponent
+          <SelectComponent
             title="MAGAZYN CIEPŁA"
             onChange={(e) =>
               store.updatePhotovoltaic("heatStoreDotation", e == "true")
             }
             value={photovoltaicStore.heatStoreDotation}
             data={YESNO}
-          /> */}
-          {/* {photovoltaicStore.heatStoreDotation && data && (
+          />
+          {photovoltaicStore.heatStoreDotation && (
             <SelectComponent
               title={"WIELKOŚĆ ZBIORNIKA CWU"}
               onChange={(e) => {
-                store.updatePhotovoltaic("tankSize", String(e));
-                mutations.set_heatStore_cost({
-                  choosed_tank_type: String(e),
-                  tanks_costs: data?.zbiorniki,
-                });
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+                const choosedBoiler: { name: string; price: number } | null = e
+                  ? JSON.parse(e)
+                  : null;
+
+                store.updatePhotovoltaic("cwuTank", choosedBoiler);
+                store.updatePhotovoltaicCalcs(
+                  "heatStoreCost",
+                  choosedBoiler?.price
+                );
               }}
-              value={photovoltaicStore.tankSize}
-              data={[
-                { value: "Brak", label: "Brak" },
-                {
-                  value: "Zbiornik 140L z wężownicą",
-                  label: "Zbiornik 140L z wężownicą",
-                },
-                {
-                  value: "Zbiornik 200L z wężownicą",
-                  label: "Zbiornik 200L z wężownicą",
-                },
-              ]}
+              value={JSON.stringify(photovoltaicStore.cwuTank)}
+              data={boilers}
             />
-          )} */}
+          )}
           <SelectComponent
             title="EMS"
             onChange={(e) =>
@@ -232,51 +287,36 @@ export function PhotovoltaicFormulas() {
             data={YESNO}
           />
 
-          {photovoltaicStore.isEnergyStoreDotation && (
-            <>
+          {photovoltaicData?.energyStore &&
+            photovoltaicStore.isEnergyStoreDotation && (
               <SelectComponent
-                title="PRODUCENT MAGAZYNU ENERGII"
-                onChange={(e) =>
-                  store.updatePhotovoltaic("energyStoreProducent", String(e))
-                }
-                value={photovoltaicStore.energyStoreProducent}
-                data={["SOLAX", "HYPONTECH"]}
+                title="MAGAZYN ENERGII"
+                onChange={(e) => {
+                  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+                  const choosedStore: { name: string; price: number } | null = e
+                    ? JSON.parse(e)
+                    : null;
+                  store.updatePhotovoltaic("energyStore", choosedStore);
+                }}
+                value={JSON.stringify(photovoltaicStore.energyStore)}
+                data={energyStore}
               />
-              {photovoltaicStore.energyStoreProducent === "SOLAX" ? (
-                <SelectComponent
-                  title="MOC MAGAZYNU ENERGII"
-                  onChange={(e) => {
-                    store.updatePhotovoltaic("energyStorePower", Number(e));
-                  }}
-                  value={photovoltaicStore.energyStorePower}
-                  data={[
-                    { value: "3.1", label: "3.1 - 1 faza" },
-                    { value: "6.1", label: "6.1 - 1/3 fazy" },
-                    { value: "11.6", label: "11.6 - 3 fazy" },
-                    { value: "17.4", label: "17.4 - 3 fazy" },
-                    { value: "23.2", label: "23.2 - 3 fazy" },
-                    { value: "29", label: "29 - 3 fazy" },
-                    { value: "34.8", label: "34.8 - 3 fazy" },
-                    { value: "40.6", label: "40.6 - 3 fazy" },
-                    { value: "46.4", label: "46.4 - 3 fazy" },
-                  ]}
-                />
-              ) : (
-                <SelectComponent
-                  title="MOC MAGAZYNU ENERGII"
-                  onChange={(e) => {
-                    store.updatePhotovoltaic("energyStorePower", Number(e));
-                  }}
-                  value={photovoltaicStore.energyStorePower}
-                  data={[
-                    { value: "7.2", label: "7.2 - 3 fazy" },
-                    { value: "10.8", label: "10.8 - 3 fazy" },
-                    { value: "14.4", label: "14.4 - 3 fazy" },
-                  ]}
-                />
-              )}
-            </>
-          )}
+            )}
+          {photovoltaicStore.isEnergyStoreDotation ||
+            (photovoltaicStore.isInwerterChoosed && (
+              <SelectComponent
+                title="MATEBOX"
+                onChange={(e) => {
+                  store.updatePhotovoltaic("isMatebox", e == "true");
+                  store.updatePhotovoltaicCalcs(
+                    "mateboxCost",
+                    e == "true" ? photovoltaicData?.addons.matebox : 0
+                  );
+                }}
+                value={photovoltaicStore.isMatebox}
+                data={YESNO}
+              />
+            ))}
 
           <SelectComponent
             title="CAR PORT"

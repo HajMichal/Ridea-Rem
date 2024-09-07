@@ -1,72 +1,63 @@
-export interface PhotovoltaicDataToCalculation {
-  dane: {
-    czterysta: {
-      dwa: number;
-      cztery: number;
-      szesc: number;
-      osiem: number;
-      dwanascie: number;
-      dwadziescia: number;
-      trzydziesci: number;
-      piecdziesiat: number;
-    };
-    czterysta_piecdziesiat: {
-      dwa: number;
-      cztery: number;
-      szesc: number;
-      osiem: number;
-      dwanascie: number;
-      dwadziescia: number;
-      trzydziesci: number;
-      piecdziesiat: number;
-    };
-    piecset: {
-      dwa: number;
-      cztery: number;
-      szesc: number;
-      osiem: number;
-      dwanascie: number;
-      dwadziescia: number;
-      trzydziesci: number;
-      piecdziesiat: number;
-    };
+import { type Photovoltaic } from "@prisma/client";
+
+export interface PhotovoltaicDataToCalculation extends Photovoltaic {
+  id: string;
+  userId: string;
+  userName: string;
+  panels_small: {
+    dwa: number;
+    cztery: number;
+    szesc: number;
+    osiem: number;
+    dwanascie: number;
+    dwadziescia: number;
+    trzydziesci: number;
+    piecdziesiat: number;
   };
-  dotacje: {
+  panels_medium: {
+    dwa: number;
+    cztery: number;
+    szesc: number;
+    osiem: number;
+    dwanascie: number;
+    dwadziescia: number;
+    trzydziesci: number;
+    piecdziesiat: number;
+  };
+  panels_large: {
+    dwa: number;
+    cztery: number;
+    szesc: number;
+    osiem: number;
+    dwanascie: number;
+    dwadziescia: number;
+    trzydziesci: number;
+    piecdziesiat: number;
+  };
+  dotations: {
     magazynCiepla: number;
     menagerEnergii: number;
     mojPrad: number;
     mp_mc: number;
   };
-  koszty_dodatkowe: {
+  addons: {
     bloczki: number;
     tigo: number;
     ekierki: number;
     certyfikowaneEkierki: number;
     grunt: number;
     inwerterHybrydowy: number;
+    magazynCiepla: number;
+    ems: number;
+    matebox: number;
+    kableAC: number;
+    przekopy: number;
   };
-  zbiorniki: {
-    zbiornik_100L: number;
-    zbiornik_140L: number;
-    zbiornik_140L_z_wezem: number;
-    zbiornik_200L: number;
-    zbiornik_200L_z_wezem: number;
+  boilers: {
+    [boiler: string]: number;
   };
-  magazyn_energii_solax: {
-    prog0: number;
-    prog1: number;
-    prog2: number;
-    prog3: number;
-    prog4: number;
-    prog5: number;
-    prog6: number;
-    prog7: number;
-    prog8: number;
-  };
-  magazyn_energii_hipontech: {
-    prog0: number;
-    prog1: number;
-    prog2: number;
+  energyStore: {
+    [energyStoreElement: string]: number;
   };
   carPort: {
     stan1: number;
@@ -77,11 +68,8 @@ export interface PhotovoltaicDataToCalculation {
     stan10: number;
     stan12: number;
   };
-  magazynCiepla: number;
-  prowizjaBiura: number;
-  oprocentowanie_kredytu: number;
-  cena_skupu_pradu: number;
-  ems: number;
+  creditPercentage: number;
+  electricityPrice: number;
 }
 /* eslint @typescript-eslint/consistent-indexed-object-style: ["error", "index-signature"] */
 export interface EachMenagerPhotovoltaic {

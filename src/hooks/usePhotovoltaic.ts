@@ -1,4 +1,3 @@
-import { useSession } from "next-auth/react";
 import { useEffect } from "react";
 import {
   smallestPanel,
@@ -12,19 +11,15 @@ import { api } from "~/utils/api";
 export const usePhotovoltaic = () => {
   const store = useStore();
 
-  const { data: sessionData } = useSession();
-
   const { data } =
-    api.dataFlow.downloadFile.useQuery<PhotovoltaicDataToCalculation>(
-      sessionData?.user.id
-    );
+    api.dataFlow.downloadFile.useQuery<PhotovoltaicDataToCalculation | null>();
 
   useEffect(() => {
     sessionStorage.setItem(
       "creditPercentage",
-      JSON.stringify(data?.oprocentowanie_kredytu)
+      JSON.stringify(data?.creditPercentage)
     );
-  }, [data?.oprocentowanie_kredytu]);
+  }, [data?.creditPercentage]);
 
   const {
     mutate: set_limit_price_trend,
@@ -183,12 +178,6 @@ export const usePhotovoltaic = () => {
       },
     });
 
-  const { mutate: set_heatStore_cost } =
-    api.photovoltaics.heatStore_cost.useMutation({
-      onSuccess: (data) => {
-        store.updatePhotovoltaicCalcs("heatStore_cost", data);
-      },
-    });
   const { mutate: set_finall_installation_cost } =
     api.photovoltaics.finall_installation_cost.useMutation({
       onSuccess: (data) => {
@@ -254,12 +243,7 @@ export const usePhotovoltaic = () => {
         store.updatePhotovoltaicCalcs("energyMenagerDotationValue", data);
       },
     });
-  const { mutate: set_energyStoreCost } =
-    api.photovoltaics.energyStoreCost.useMutation({
-      onSuccess: (data) => {
-        store.updatePhotovoltaicCalcs("energyStoreCost", data);
-      },
-    });
+
   const { mutate: set_energyStoreDotationValue } =
     api.photovoltaics.energyStoreDotationValue.useMutation({
       onSuccess: (data) => {
@@ -305,18 +289,18 @@ export const usePhotovoltaic = () => {
   const handleTigoinput = (e: { target: { valueAsNumber: number } }) => {
     if (data)
       set_tigo_price({
-        tigo_price: data.koszty_dodatkowe.tigo,
+        tigo_price: data?.addons.tigo,
         tigo_count: e.target.valueAsNumber,
       });
   };
 
   const getDataDependsOnPanelPower = () => {
     if (store.photovoltaicStore.panelPower === smallestPanel)
-      return data?.dane.czterysta;
+      return data?.panels_small;
     else if (store.photovoltaicStore.panelPower === mediumPanel)
-      return data?.dane.czterysta_piecdziesiat;
+      return data?.panels_medium;
     else if (store.photovoltaicStore.panelPower === largestPanel)
-      return data?.dane.piecset;
+      return data?.panels_large;
   };
 
   return {
@@ -355,10 +339,8 @@ export const usePhotovoltaic = () => {
       set_addon_cost,
       set_markup_costs,
       set_totalInstallationCost,
-      set_energyStoreCost,
       set_dotations_sum,
       set_energyStoreDotationValue,
-      set_heatStore_cost,
       set_finall_installation_cost,
       set_heatStore_energyManager_costs,
       set_estiamted_price_for_trend_in_1KWH,

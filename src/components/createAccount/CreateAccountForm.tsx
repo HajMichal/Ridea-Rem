@@ -19,7 +19,7 @@ export default function CreateAccountForm({
   const { mutate: addMenagerPhotovoltaicData } =
     api.dataFlow.addNewMenager.useMutation({
       onSuccess(data) {
-        toast.success(data!.message, { duration: 4000 });
+        toast.success(data.message, { duration: 4000 });
       },
     });
   const { mutate: addMenagerHeatPumpData } =
@@ -37,7 +37,10 @@ export default function CreateAccountForm({
     },
     onSuccess(data) {
       if (data.userRole === 2) {
-        addMenagerPhotovoltaicData(data.userName);
+        addMenagerPhotovoltaicData({
+          userId: data.userId,
+          userName: data.userName,
+        });
         addMenagerHeatPumpData(data.userName);
         addMenagerForCompany(data.userName);
         addMenagerHeatHome(data.userName);

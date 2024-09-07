@@ -6,7 +6,7 @@ import { type Session } from "next-auth";
 import { useDebouncedValue } from "@mantine/hooks";
 
 interface PhotovoltaicMutationsType {
-  data?: PhotovoltaicDataToCalculation;
+  data?: PhotovoltaicDataToCalculation | null;
   sessionData: Session | null;
 }
 
@@ -92,11 +92,11 @@ export function PhotovoltaicMutations({
   useEffect(() => {
     if (
       photovoltaicCalcStore.energy_sold_to_distributor &&
-      data?.cena_skupu_pradu
+      data?.electricityPrice
     )
       mutations.set_accumulated_funds_on_account({
         autoconsumption: photovoltaicCalcStore.energy_sold_to_distributor,
-        estiamtedSellPriceToOsd: data.cena_skupu_pradu,
+        estiamtedSellPriceToOsd: data.electricityPrice,
       });
   }, [
     photovoltaicCalcStore.energy_sold_to_distributor,
@@ -222,8 +222,8 @@ export function PhotovoltaicMutations({
       mutations.setEccentricsPrice({
         price:
           photovoltaicStore.eccentrics === "standardEccentrics"
-            ? data.koszty_dodatkowe.ekierki
-            : data.koszty_dodatkowe.certyfikowaneEkierki,
+            ? data.addons.ekierki
+            : data.addons.certyfikowaneEkierki,
         isEccentrics: photovoltaicStore.eccentrics !== "None",
         modules_count: photovoltaicStore.modulesCount,
       });
@@ -236,7 +236,7 @@ export function PhotovoltaicMutations({
   useEffect(() => {
     if (data && photovoltaicCalcStore.system_power)
       mutations.set_bloczki_price({
-        price: data.koszty_dodatkowe.bloczki,
+        price: data.addons.bloczki,
         isChoosed: photovoltaicStore.isRoofWeightSystem,
         system_power: photovoltaicCalcStore.system_power,
       });
@@ -249,7 +249,7 @@ export function PhotovoltaicMutations({
   useEffect(() => {
     if (data && photovoltaicCalcStore.system_power)
       mutations.set_grunt_price({
-        price: data.koszty_dodatkowe.grunt,
+        price: data.addons.grunt,
         isChoosed: photovoltaicStore.isGroundMontage,
         system_power: photovoltaicCalcStore.system_power,
       });
@@ -263,7 +263,7 @@ export function PhotovoltaicMutations({
   useEffect(() => {
     if (data)
       mutations.set_hybridInwerter_price({
-        hybridInwerter_price: data.koszty_dodatkowe.inwerterHybrydowy,
+        hybridInwerter_price: data.addons.inwerterHybrydowy,
         isHybridInwerterChoosed: photovoltaicStore.isInwerterChoosed,
       });
   }, [
@@ -279,7 +279,6 @@ export function PhotovoltaicMutations({
         officeFee: sessionData.user.feePerkwPhotovoltaic,
         constantFee: sessionData.user.imposedFeePhotovoltaic,
         consultantFee: photovoltaicStore.consultantMarkup,
-        officeFeeFromJsonFile: data.prowizjaBiura,
         creatorId:
           sessionData.user.role === 3 ? sessionData.user.creatorId : "",
       });
@@ -319,6 +318,9 @@ export function PhotovoltaicMutations({
       voucherholiday: photovoltaicStore.holidayVoucher ? 1500 : 0,
       carPort: photovoltaicCalcStore.carPortCost,
       markup_costs: photovoltaicCalcStore.markup_costs.markupSumValue ?? 0,
+      cableACCost: photovoltaicCalcStore.cableACCost,
+      mateboxCost: photovoltaicCalcStore.mateboxCost,
+      ditchingCost: photovoltaicCalcStore.ditchCost,
     });
   }, [
     photovoltaicCalcStore.bloczki_price,
@@ -332,6 +334,9 @@ export function PhotovoltaicMutations({
     photovoltaicStore.promotionAmount,
     photovoltaicStore.twoInstallmentsFree,
     photovoltaicStore.holidayVoucher,
+    photovoltaicCalcStore.cableACCost,
+    photovoltaicCalcStore.mateboxCost,
+    photovoltaicCalcStore.ditchCost,
     mutations.set_addon_cost,
   ]);
 
@@ -399,28 +404,27 @@ export function PhotovoltaicMutations({
   useEffect(() => {
     if (data)
       mutations.set_heatStore_energyManager_costs({
-        heatStore_cost: photovoltaicCalcStore.heatStore_cost ?? 0,
+        heatStoreCost: photovoltaicCalcStore.heatStoreCost ?? 0,
         isHeatStoreSystem: photovoltaicStore.heatStoreDotation,
       });
   }, [
-    photovoltaicCalcStore.heatStore_cost,
+    photovoltaicCalcStore.heatStoreCost,
     photovoltaicStore.heatStoreDotation,
     mutations.set_heatStore_energyManager_costs,
-    data?.magazynCiepla,
   ]);
   useEffect(() => {
     if (data)
       mutations.setPhotovoltaicDotation_mojprad({
         isEnergyStoreDotation: photovoltaicStore.isEnergyStoreDotation,
         isDotation_mojprad: photovoltaicStore.isDotation_mojprad,
-        mojPrad: data.dotacje.mojPrad,
-        mp_mc: data.dotacje.mp_mc,
+        mojPrad: data.dotations.mojPrad,
+        mp_mc: data.dotations.mp_mc,
       });
   }, [
     photovoltaicStore.isEnergyStoreDotation,
     photovoltaicStore.isDotation_mojprad,
-    data?.dotacje.mojPrad,
-    data?.dotacje.mp_mc,
+    data?.dotations.mojPrad,
+    data?.dotations.mp_mc,
   ]);
   useEffect(() => {
     mutations.setPhotovoltaicDotation_czpowietrze({
@@ -438,13 +442,13 @@ export function PhotovoltaicMutations({
     if (data)
       mutations.set_energyMenagerDotationValue({
         emsDotation: photovoltaicStore.emsDotation,
-        energyMenager: data.dotacje.menagerEnergii,
+        energyMenager: data.dotations.menagerEnergii,
         isEnergyStoreDotation: photovoltaicStore.isEnergyStoreDotation,
         heatStoreDotation: photovoltaicStore.heatStoreDotation,
       });
   }, [
     photovoltaicStore.emsDotation,
-    data?.dotacje.menagerEnergii,
+    data?.dotations.menagerEnergii,
     photovoltaicStore.isEnergyStoreDotation,
     photovoltaicStore.heatStoreDotation,
   ]);
@@ -452,10 +456,10 @@ export function PhotovoltaicMutations({
     if (data)
       mutations.set_energyManagerCost({
         isEnergyMenagerSystem: photovoltaicStore.emsDotation,
-        energyMenagerCost: data.ems,
+        energyMenagerCost: data.addons.ems,
       });
   }, [
-    data?.ems,
+    data?.addons.ems,
     photovoltaicStore.emsDotation,
     mutations.set_energyManagerCost,
   ]);
@@ -540,7 +544,7 @@ export function PhotovoltaicMutations({
   useEffect(() => {
     if (data)
       mutations.set_loan_for_purcharse({
-        creditPercentage: data.oprocentowanie_kredytu,
+        creditPercentage: data.creditPercentage,
         instalmentNumber: photovoltaicStore.installmentNumber,
         finall_installation_cost:
           photovoltaicCalcStore.finall_installation_cost,
@@ -551,18 +555,6 @@ export function PhotovoltaicMutations({
     photovoltaicCalcStore.finall_installation_cost,
     photovoltaicStore.installmentNumber,
     photovoltaicCalcStore.totalInstallationCosts.total_gross_cost,
-    data?.oprocentowanie_kredytu,
-  ]);
-  useEffect(() => {
-    if (data)
-      mutations.set_energyStoreCost({
-        energyStorePower: photovoltaicStore.energyStorePower,
-        energyStorePowersCost: data.magazyn_energii_solax,
-        hipontechCost: data.magazyn_energii_hipontech,
-      });
-  }, [
-    photovoltaicStore.energyStorePower,
-    data?.magazyn_energii_solax,
-    data?.magazyn_energii_hipontech,
+    data?.creditPercentage,
   ]);
 }

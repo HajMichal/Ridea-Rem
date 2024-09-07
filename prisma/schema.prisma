@@ -2,6 +2,11 @@ generator client {
   provider = "prisma-client-js"
 }
 
+generator json {
+  provider = "prisma-json-types-generator"
+}
+
+
 datasource db {
   provider     = "postgresql"
   url          = env("DATABASE_URL")
@@ -40,16 +45,30 @@ model Image {
   url         String
 }
 
-// model Photovoltaic {
-//   id                     String    @id @default(cuid())
-//   userId                 String    @unique
-//   panels_small           Int[]
-//   panels_medium          Int[]
-//   panels_large           Int[]
-//   addons                 Json
-//   dotations              Json
-//   boilers                Json
-//   energyStore            Json
-//   carPort                Int[]
-//   creditPercentage       Int
-// }
+model Photovoltaic {
+  id                     String    @id @default(cuid())
+  userId                 String    @unique
+  userName               String  
+
+  /// [PanelsType]  
+  panels_small           Json
+
+  /// [PanelsType]  
+  panels_medium          Json
+      
+  /// [PanelsType]  
+  panels_large           Json    
+
+  addons                 Json     
+  dotations              Json     
+  boilers                Json     
+
+  /// [EnergyStoreType]
+  energyStore            Json     
+  
+  carPort                Json
+  creditPercentage       Float
+  electricityPrice       Float  
+
+    @@index([userId])
+}

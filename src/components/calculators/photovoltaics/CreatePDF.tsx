@@ -153,7 +153,8 @@ const PhotovoltaicDocument = ({
           /nr.zam/ model INW/Z{" "}
           {photovoltaicCalcStore.markup_costs.consultantFeeValue} /{" "}
           {photovoltaicCalcStore.markup_costs.officeFeeValue} /{" "}
-          {photovoltaicCalcStore.markup_costs.officeFeeForBoss}
+          {photovoltaicCalcStore.markup_costs.officeFeeForBoss} /
+          {!photovoltaicStore.isPromotion && photovoltaicStore.promotionAmount}
         </Text>
         <Image
           style={{ height: 50, marginTop: 10 }}
@@ -505,10 +506,10 @@ const PhotovoltaicDocument = ({
             </Text>
           </View>
           <View style={styles.saveRow}>
-            <Text style={styles.savePrice}>MAGAZYN ENERGII</Text>
+            <Text style={styles.savePrice}>WYBRANY MAGAZYN ENERGII</Text>
             <Text style={styles.savePrice}>
               {photovoltaicStore.isEnergyStoreDotation
-                ? photovoltaicStore.energyStorePower + "W"
+                ? photovoltaicStore.energyStore?.name
                 : "NIE"}
             </Text>
           </View>
@@ -516,6 +517,12 @@ const PhotovoltaicDocument = ({
             <Text style={styles.savePrice}>INWERTER HYBRYDOWY</Text>
             <Text style={styles.savePrice}>
               {photovoltaicStore.isInwerterChoosed ? "TAK" : "NIE"}
+            </Text>
+          </View>
+          <View style={styles.saveRow}>
+            <Text style={styles.savePrice}>MATEBOX</Text>
+            <Text style={styles.savePrice}>
+              {photovoltaicStore.isMatebox ? "TAK" : "NIE"}
             </Text>
           </View>
           <View style={styles.saveRow}>
@@ -528,9 +535,19 @@ const PhotovoltaicDocument = ({
             <Text style={styles.savePrice}>POJEMNOŚĆ ZBIORNIKA CWU</Text>
             <Text style={styles.savePrice}>
               {photovoltaicStore.heatStoreDotation
-                ? photovoltaicStore.tankSize
+                ? photovoltaicStore.cwuTank.name
                 : "BRAK"}
             </Text>
+          </View>
+          <View style={styles.saveRow}>
+            <Text style={styles.savePrice}>PRZEKOP W ZAKRESIE KLIENTA</Text>
+            <Text style={styles.savePrice}>
+              {photovoltaicStore.isDitch ? "TAK" : "NIE"}
+            </Text>
+          </View>
+          <View style={styles.saveRow}>
+            <Text style={styles.savePrice}>DŁUGOŚĆ OKABLOWANIA NAD STAN</Text>
+            <Text style={styles.savePrice}>{photovoltaicStore.cableAC} M</Text>
           </View>
         </View>
       </View>

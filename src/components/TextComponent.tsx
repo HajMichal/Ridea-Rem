@@ -37,7 +37,10 @@ export const TextComponent = ({
             variant="light"
             size={size}
             className={`${
-              typeof calculations === "string" ? "col-start-8" : "col-start-9"
+              typeof calculations === "string" &&
+              !(calculations === "TAK" || calculations === "NIE")
+                ? "col-start-8"
+                : "col-start-9"
             }  col-end-13 `}
           >
             {typeof calculations === "boolean" ? "TAK" : calculations} {unit}
