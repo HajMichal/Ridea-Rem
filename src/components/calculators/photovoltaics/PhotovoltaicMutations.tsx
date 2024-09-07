@@ -318,6 +318,9 @@ export function PhotovoltaicMutations({
       voucherholiday: photovoltaicStore.holidayVoucher ? 1500 : 0,
       carPort: photovoltaicCalcStore.carPortCost,
       markup_costs: photovoltaicCalcStore.markup_costs.markupSumValue ?? 0,
+      cableACCost: photovoltaicCalcStore.cableACCost,
+      mateboxCost: photovoltaicCalcStore.mateboxCost,
+      ditchingCost: photovoltaicCalcStore.ditchCost,
     });
   }, [
     photovoltaicCalcStore.bloczki_price,
@@ -331,6 +334,9 @@ export function PhotovoltaicMutations({
     photovoltaicStore.promotionAmount,
     photovoltaicStore.twoInstallmentsFree,
     photovoltaicStore.holidayVoucher,
+    photovoltaicCalcStore.cableACCost,
+    photovoltaicCalcStore.mateboxCost,
+    photovoltaicCalcStore.ditchCost,
     mutations.set_addon_cost,
   ]);
 

@@ -205,6 +205,27 @@ export const EditionForm = ({ data }: EditionForm) => {
           defaultValue={data.addons.grunt}
         />
         <ChangeDataInputComponent
+          {...register("addons.matebox", {
+            valueAsNumber: true,
+          })}
+          title="MATEBOX"
+          defaultValue={data.addons.grunt}
+        />
+        <ChangeDataInputComponent
+          {...register("addons.kableAC", {
+            valueAsNumber: true,
+          })}
+          title="KABLE AC"
+          defaultValue={data.addons.kableAC}
+        />
+        <ChangeDataInputComponent
+          {...register("addons.przekopy", {
+            valueAsNumber: true,
+          })}
+          title="PRZEKOPY"
+          defaultValue={data.addons.przekopy}
+        />
+        <ChangeDataInputComponent
           {...register("addons.inwerterHybrydowy", {
             valueAsNumber: true,
           })}

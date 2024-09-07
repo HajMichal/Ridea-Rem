@@ -333,6 +333,9 @@ interface TotalAddonCostType {
   grunt?: number;
   carPort: number;
   markup_costs: number;
+  cableACCost: number;
+  mateboxCost: number;
+  ditchingCost: number;
 }
 export function totalAddonCost({ input }: { input: TotalAddonCostType }) {
   return Number(
@@ -346,7 +349,10 @@ export function totalAddonCost({ input }: { input: TotalAddonCostType }) {
       input.carPort +
       input.markup_costs +
       input.twoInstallmentsFree +
-      input.voucherholiday
+      input.voucherholiday +
+      input.cableACCost +
+      input.mateboxCost +
+      input.ditchingCost
     ).toFixed(2)
   );
 }

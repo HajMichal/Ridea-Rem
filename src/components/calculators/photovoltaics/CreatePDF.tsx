@@ -519,6 +519,12 @@ const PhotovoltaicDocument = ({
             </Text>
           </View>
           <View style={styles.saveRow}>
+            <Text style={styles.savePrice}>MATEBOX</Text>
+            <Text style={styles.savePrice}>
+              {photovoltaicStore.isMatebox ? "TAK" : "NIE"}
+            </Text>
+          </View>
+          <View style={styles.saveRow}>
             <Text style={styles.savePrice}>MAGAZYN CIEPŁA</Text>
             <Text style={styles.savePrice}>
               {photovoltaicStore.heatStoreDotation ? "TAK" : "NIE"}
@@ -531,6 +537,16 @@ const PhotovoltaicDocument = ({
                 ? photovoltaicStore.cwuTank.name
                 : "BRAK"}
             </Text>
+          </View>
+          <View style={styles.saveRow}>
+            <Text style={styles.savePrice}>PRZEKOP W ZAKRESIE KLIENTA</Text>
+            <Text style={styles.savePrice}>
+              {photovoltaicStore.isDitch ? "TAK" : "NIE"}
+            </Text>
+          </View>
+          <View style={styles.saveRow}>
+            <Text style={styles.savePrice}>DŁUGOŚĆ OKABLOWANIA NAD STAN</Text>
+            <Text style={styles.savePrice}>{photovoltaicStore.cableAC} M</Text>
           </View>
         </View>
       </View>

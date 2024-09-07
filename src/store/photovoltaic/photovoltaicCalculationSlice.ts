@@ -61,6 +61,9 @@ export interface PhotovoltaicCalculations {
   photovoltaicDotation_czpowietrze: number;
   energyManagerCost: number;
   carPortCost: number;
+  cableACCost: number;
+  mateboxCost: number;
+  ditchCost: number;
   // PROMOCJA
   // promotionTotalInstallationCosts: {
   //   total_installation_cost: number;
@@ -138,6 +141,9 @@ export const photovoltaicCalculationSlice: StateCreator<
     photovoltaicDotation_czpowietrze: 0,
     energyManagerCost: 0,
     carPortCost: 0,
+    cableACCost: 0,
+    mateboxCost: 0,
+    ditchCost: 0,
   },
   updatePhotovoltaicCalcs: (key, value) =>
     set((state) => ({

@@ -23,6 +23,9 @@ export interface PhotovoltaicsSlice {
     twoInstallmentsFree: boolean;
     holidayVoucher: boolean;
     vat23: boolean;
+    isMatebox: boolean;
+    isDitch: boolean;
+    ditchLength: number;
     taxCredit: number;
     usageLimit: number;
     modulesCount: number;
@@ -35,6 +38,7 @@ export interface PhotovoltaicsSlice {
       name: string;
       price: number;
     };
+    cableAC: number;
     tigoCount: number;
     panelPower: number;
     installmentNumber: number;
@@ -76,6 +80,9 @@ export const photovoltaicsSlice: StateCreator<PhotovoltaicsSlice> = (set) => ({
     twoInstallmentsFree: false,
     holidayVoucher: false,
     vat23: false,
+    isMatebox: false,
+    isDitch: true,
+    ditchLength: 0,
     promotionAmount: 0,
     taxCredit: 0.12,
     usageLimit: 0,
@@ -86,6 +93,7 @@ export const photovoltaicsSlice: StateCreator<PhotovoltaicsSlice> = (set) => ({
     energyPriceOutOfLimit: 0,
     recentYearTrendUsage: 0,
     tigoCount: 0,
+    cableAC: 0,
     panelPower: smallestPanel,
     installmentNumber: 120,
     energyStore: {

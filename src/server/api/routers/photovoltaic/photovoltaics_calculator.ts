@@ -1,10 +1,10 @@
 import { z } from "zod";
-import { createTRPCRouter, publicProcedure } from "../../trpc";
+import { createTRPCRouter, protectedProcedure } from "../../trpc";
 import calc from "../../../../calc/photovoltaics";
 
 export const photovoltaics_calculator = createTRPCRouter({
-  price_trend: publicProcedure.input(z.number()).mutation(calc.priceTrend),
-  system_power: publicProcedure
+  price_trend: protectedProcedure.input(z.number()).mutation(calc.priceTrend),
+  system_power: protectedProcedure
     .input(
       z.object({
         modulesCount: z.number(),
@@ -12,10 +12,10 @@ export const photovoltaics_calculator = createTRPCRouter({
       })
     )
     .mutation(calc.systemPower),
-  estimated_kWh_production: publicProcedure
+  estimated_kWh_production: protectedProcedure
     .input(z.object({ southRoof: z.boolean(), system_power: z.number() }))
     .mutation(calc.estimatedKWHProd),
-  autoconsumption: publicProcedure
+  autoconsumption: protectedProcedure
     .input(
       z.object({
         autoconsumption_step: z.number(),
@@ -23,7 +23,7 @@ export const photovoltaics_calculator = createTRPCRouter({
       })
     )
     .mutation(calc.autoconsumption),
-  total_payment_energy_transfer: publicProcedure
+  total_payment_energy_transfer: protectedProcedure
     .input(
       z.object({
         recentYearTrendUsage: z.number(),
@@ -34,7 +34,7 @@ export const photovoltaics_calculator = createTRPCRouter({
       })
     )
     .mutation(calc.totalPaymentEnergyTransfer),
-  total_energy_trend_fee: publicProcedure
+  total_energy_trend_fee: protectedProcedure
     .input(
       z.object({
         recentYearTrendUsage: z.number(),
@@ -46,7 +46,7 @@ export const photovoltaics_calculator = createTRPCRouter({
       })
     )
     .mutation(calc.totalEnergyTrendFee),
-  energy_sold_to_distributor: publicProcedure
+  energy_sold_to_distributor: protectedProcedure
     .input(
       z.object({
         autoconsumption: z.number(),
@@ -54,7 +54,7 @@ export const photovoltaics_calculator = createTRPCRouter({
       })
     )
     .mutation(calc.energySoldToDistributor),
-  accumulated_funds_on_account: publicProcedure
+  accumulated_funds_on_account: protectedProcedure
     .input(
       z.object({
         autoconsumption: z.number(),
@@ -62,7 +62,7 @@ export const photovoltaics_calculator = createTRPCRouter({
       })
     )
     .mutation(calc.accumulated_funds_on_account),
-  yearly_bill_without_photovolatics: publicProcedure
+  yearly_bill_without_photovolatics: protectedProcedure
     .input(
       z.object({
         limit_price_trend: z.number(),
@@ -72,7 +72,7 @@ export const photovoltaics_calculator = createTRPCRouter({
       })
     )
     .mutation(calc.yearlyBillWithoutPhotovolatics),
-  yearly_total_fees: publicProcedure
+  yearly_total_fees: protectedProcedure
     .input(
       z.object({
         energyPriceInLimit: z.number(),
@@ -82,7 +82,7 @@ export const photovoltaics_calculator = createTRPCRouter({
       })
     )
     .mutation(calc.yearlyTotalFees),
-  yearly_costs_with_photovoltaics: publicProcedure
+  yearly_costs_with_photovoltaics: protectedProcedure
     .input(
       z.object({
         total_energy_trend_fee: z.number(),
@@ -90,7 +90,7 @@ export const photovoltaics_calculator = createTRPCRouter({
       })
     )
     .mutation(calc.yearlyCostsWithPhotovoltaics),
-  total_save: publicProcedure
+  total_save: protectedProcedure
     .input(
       z.object({
         yearly_bill_without_photovolatics: z.number(),
@@ -99,7 +99,7 @@ export const photovoltaics_calculator = createTRPCRouter({
     )
     .mutation(calc.totalSave),
 
-  price_for_1_KW: publicProcedure
+  price_for_1_KW: protectedProcedure
     .input(
       z.object({
         system_power: z.number(),
@@ -116,7 +116,7 @@ export const photovoltaics_calculator = createTRPCRouter({
       })
     )
     .mutation(calc.priceFor1KW),
-  addon_tigo: publicProcedure
+  addon_tigo: protectedProcedure
     .input(
       z.object({
         tigo_price: z.number(),
@@ -124,7 +124,7 @@ export const photovoltaics_calculator = createTRPCRouter({
       })
     )
     .mutation(calc.addonTigo),
-  addonEccentrics: publicProcedure
+  addonEccentrics: protectedProcedure
     .input(
       z.object({
         isEccentrics: z.boolean(),
@@ -133,7 +133,7 @@ export const photovoltaics_calculator = createTRPCRouter({
       })
     )
     .mutation(calc.addonEccentrics),
-  addon_bloczki: publicProcedure
+  addon_bloczki: protectedProcedure
     .input(
       z.object({
         price: z.number(),
@@ -142,7 +142,7 @@ export const photovoltaics_calculator = createTRPCRouter({
       })
     )
     .mutation(calc.addonGruntAndBloczki),
-  addon_grunt: publicProcedure
+  addon_grunt: protectedProcedure
     .input(
       z.object({
         price: z.number(),
@@ -151,7 +151,7 @@ export const photovoltaics_calculator = createTRPCRouter({
       })
     )
     .mutation(calc.addonGruntAndBloczki),
-  addon_hybridInwerter: publicProcedure
+  addon_hybridInwerter: protectedProcedure
     .input(
       z.object({
         hybridInwerter_price: z.number(),
@@ -159,7 +159,7 @@ export const photovoltaics_calculator = createTRPCRouter({
       })
     )
     .mutation(calc.addonHybridInwerter),
-  addon_cost: publicProcedure
+  addon_cost: protectedProcedure
     .input(
       z.object({
         promotionAmount: z.number(),
@@ -172,10 +172,13 @@ export const photovoltaics_calculator = createTRPCRouter({
         markup_costs: z.number(),
         twoInstallmentsFree: z.number(),
         voucherholiday: z.number(),
+        cableACCost: z.number(),
+        mateboxCost: z.number(),
+        ditchingCost: z.number(),
       })
     )
     .mutation(calc.totalAddonCost),
-  officeMarkup: publicProcedure
+  officeMarkup: protectedProcedure
     .input(
       z.object({
         officeFee: z.number(),
@@ -215,7 +218,7 @@ export const photovoltaics_calculator = createTRPCRouter({
         markupSumValue: markupSumValue,
       };
     }),
-  totalInstallation_cost: publicProcedure
+  totalInstallation_cost: protectedProcedure
     .input(
       z.object({
         addon_costs: z.number(),
@@ -226,7 +229,7 @@ export const photovoltaics_calculator = createTRPCRouter({
       })
     )
     .mutation(calc.totalInstallationCosts),
-  dotations_sum: publicProcedure
+  dotations_sum: protectedProcedure
     .input(
       z.object({
         photovoltaicDotation_mojprad: z.number(),
@@ -237,7 +240,7 @@ export const photovoltaics_calculator = createTRPCRouter({
       })
     )
     .mutation(calc.dotationsSum),
-  amount_after_dotation: publicProcedure
+  amount_after_dotation: protectedProcedure
     .input(
       z.object({
         summed_dotations: z.number(),
@@ -245,7 +248,7 @@ export const photovoltaics_calculator = createTRPCRouter({
       })
     )
     .mutation(calc.amountAfterDotation),
-  heatStore_energyManager_costs: publicProcedure
+  heatStore_energyManager_costs: protectedProcedure
     .input(
       z.object({
         heatStoreCost: z.number(),
@@ -253,7 +256,7 @@ export const photovoltaics_calculator = createTRPCRouter({
       })
     )
     .mutation(calc.heatStoreWithEnergyManagerCost),
-  energyManagerCost: publicProcedure
+  energyManagerCost: protectedProcedure
     .input(
       z.object({
         isEnergyMenagerSystem: z.boolean(),
@@ -261,14 +264,14 @@ export const photovoltaics_calculator = createTRPCRouter({
       })
     )
     .mutation(calc.energyManagerCost),
-  finall_installation_cost: publicProcedure
+  finall_installation_cost: protectedProcedure
     .input(
       z.object({
         amount_after_dotation: z.number(),
       })
     )
     .mutation(calc.finallInstallationCost),
-  estiamted_price_for_trend_in_1KWH: publicProcedure
+  estiamted_price_for_trend_in_1KWH: protectedProcedure
     .input(
       z.object({
         recentYearTrendUsage: z.number(),
@@ -276,7 +279,7 @@ export const photovoltaics_calculator = createTRPCRouter({
       })
     )
     .mutation(calc.estiamtedPriceForTrendIn1KWH),
-  save_on_autoconsumption: publicProcedure
+  save_on_autoconsumption: protectedProcedure
     .input(
       z.object({
         autoconsumption: z.number(),
@@ -284,7 +287,7 @@ export const photovoltaics_calculator = createTRPCRouter({
       })
     )
     .mutation(calc.saveOnAutoconsumption),
-  yearly_profit_for_installation: publicProcedure
+  yearly_profit_for_installation: protectedProcedure
     .input(
       z.object({
         accumulated_funds_on_account: z.number(),
@@ -292,7 +295,7 @@ export const photovoltaics_calculator = createTRPCRouter({
       })
     )
     .mutation(calc.yearlyProfitForInstallation),
-  payment_return_time: publicProcedure
+  payment_return_time: protectedProcedure
     .input(
       z.object({
         yearlyProfit: z.number(),
@@ -300,7 +303,7 @@ export const photovoltaics_calculator = createTRPCRouter({
       })
     )
     .mutation(calc.paymentReturnTime),
-  termoModernization: publicProcedure
+  termoModernization: protectedProcedure
     .input(
       z.object({
         amount_after_dotation: z.number(),
@@ -308,7 +311,7 @@ export const photovoltaics_calculator = createTRPCRouter({
       })
     )
     .mutation(calc.termoModernization),
-  loanForPurcharse: publicProcedure
+  loanForPurcharse: protectedProcedure
     .input(
       z.object({
         finall_installation_cost: z.number(),
@@ -318,7 +321,7 @@ export const photovoltaics_calculator = createTRPCRouter({
       })
     )
     .mutation(calc.loanForPurcharse),
-  dotation_mojprad: publicProcedure
+  dotation_mojprad: protectedProcedure
     .input(
       z.object({
         isEnergyStoreDotation: z.boolean(),
@@ -328,7 +331,7 @@ export const photovoltaics_calculator = createTRPCRouter({
       })
     )
     .mutation(calc.dotation_mojprad),
-  dotation_czpowietrze: publicProcedure
+  dotation_czpowietrze: protectedProcedure
     .input(
       z.object({
         isDotation_czpowietrze: z.boolean(),
@@ -337,7 +340,7 @@ export const photovoltaics_calculator = createTRPCRouter({
       })
     )
     .mutation(calc.dotation_czpowietrze),
-  energyMenagerDotation: publicProcedure
+  energyMenagerDotation: protectedProcedure
     .input(
       z.object({
         emsDotation: z.boolean(),
@@ -347,7 +350,7 @@ export const photovoltaics_calculator = createTRPCRouter({
       })
     )
     .mutation(calc.energyMenagerDotation),
-  energyStoreDotationValue: publicProcedure
+  energyStoreDotationValue: protectedProcedure
     .input(
       z.object({
         gross_instalation_cost: z.number(),
@@ -355,7 +358,7 @@ export const photovoltaics_calculator = createTRPCRouter({
       })
     )
     .mutation(calc.energyStoreDotationValue),
-  promotionTotalInstallationCosts: publicProcedure
+  promotionTotalInstallationCosts: protectedProcedure
     .input(
       z.object({
         totalInstallationCosts: z.object({

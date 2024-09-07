@@ -49,6 +49,9 @@ export interface PhotovoltaicDataToCalculation extends Photovoltaic {
     inwerterHybrydowy: number;
     magazynCiepla: number;
     ems: number;
+    matebox: number;
+    kableAC: number;
+    przekopy: number;
   };
   boilers: {
     [boiler: string]: number;

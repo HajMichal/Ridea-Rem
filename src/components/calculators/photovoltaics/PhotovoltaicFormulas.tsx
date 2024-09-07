@@ -118,16 +118,6 @@ export function PhotovoltaicFormulas() {
             step={1}
             value={photovoltaicStore.modulesCount}
           />
-          {!photovoltaicStore.isGroundMontage && (
-            <SelectComponent
-              title="DACH SKIEROWANY NA POŁUDNIE"
-              onChange={(e) =>
-                store.updatePhotovoltaic("southRoof", e == "true")
-              }
-              value={photovoltaicStore.southRoof}
-              data={YESNO}
-            />
-          )}
           <SelectComponent
             title="STOPIEŃ AUTOKONSUMPCJI ENERGII Z PV"
             onChange={(e) => {
@@ -145,6 +135,21 @@ export function PhotovoltaicFormulas() {
               { value: "0.8", label: "80%" },
             ]}
           />
+          <InputComponent
+            title="DŁUGOŚĆ PRZEWODU AC NAD STAN"
+            onChange={(e) => {
+              store.updatePhotovoltaic("cableAC", e.target.valueAsNumber);
+              photovoltaicData?.addons &&
+                store.updatePhotovoltaicCalcs(
+                  "cableACCost",
+                  e.target.valueAsNumber * photovoltaicData?.addons.kableAC
+                );
+            }}
+            step={1}
+            value={
+              photovoltaicStore.cableAC === 0 ? "" : photovoltaicStore.cableAC
+            }
+          />
           <SelectComponent
             title="MONTAŻ NA GRUNCIE"
             onChange={(e) =>
@@ -153,6 +158,43 @@ export function PhotovoltaicFormulas() {
             value={photovoltaicStore.isGroundMontage}
             data={YESNO}
           />
+          {photovoltaicStore.isGroundMontage && (
+            <SelectComponent
+              title="PRZEKOP W ZAKRESIE KLIENTA"
+              onChange={(e) => store.updatePhotovoltaic("isDitch", e == "true")}
+              value={photovoltaicStore.isDitch}
+              data={YESNO}
+            />
+          )}
+          {photovoltaicStore.isGroundMontage && !photovoltaicStore.isDitch && (
+            <InputComponent
+              title="DŁUGOŚĆ PRZEKOPU"
+              onChange={(e) => {
+                store.updatePhotovoltaic("ditchLength", e.target.valueAsNumber);
+                photovoltaicData?.addons &&
+                  store.updatePhotovoltaicCalcs(
+                    "ditchCost",
+                    e.target.valueAsNumber * photovoltaicData?.addons.przekopy
+                  );
+              }}
+              step={1}
+              value={
+                photovoltaicStore.ditchLength == 0
+                  ? ""
+                  : photovoltaicStore.ditchLength
+              }
+            />
+          )}
+          {!photovoltaicStore.isGroundMontage && (
+            <SelectComponent
+              title="DACH SKIEROWANY NA POŁUDNIE"
+              onChange={(e) =>
+                store.updatePhotovoltaic("southRoof", e == "true")
+              }
+              value={photovoltaicStore.southRoof}
+              data={YESNO}
+            />
+          )}
           {!photovoltaicStore.isGroundMontage && (
             <SelectComponent
               title="EKIERKI STANDARDOWE / CERTYFIKOWANE"
@@ -260,6 +302,21 @@ export function PhotovoltaicFormulas() {
                 data={energyStore}
               />
             )}
+          {photovoltaicStore.isEnergyStoreDotation ||
+            (photovoltaicStore.isInwerterChoosed && (
+              <SelectComponent
+                title="MATEBOX"
+                onChange={(e) => {
+                  store.updatePhotovoltaic("isMatebox", e == "true");
+                  store.updatePhotovoltaicCalcs(
+                    "mateboxCost",
+                    e == "true" ? photovoltaicData?.addons.matebox : 0
+                  );
+                }}
+                value={photovoltaicStore.isMatebox}
+                data={YESNO}
+              />
+            ))}
 
           <SelectComponent
             title="CAR PORT"
