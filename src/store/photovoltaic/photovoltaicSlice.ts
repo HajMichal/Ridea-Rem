@@ -20,7 +20,6 @@ export interface PhotovoltaicsSlice {
     isDotation_mojprad: boolean;
     isDotation_czpowietrze: boolean;
     isPromotion: boolean;
-    twoInstallmentsFree: boolean;
     holidayVoucher: boolean;
     vat23: boolean;
     isMatebox: boolean;
@@ -77,7 +76,6 @@ export const photovoltaicsSlice: StateCreator<PhotovoltaicsSlice> = (set) => ({
     isPromotion: false,
     isDotation_mojprad: true,
     isDotation_czpowietrze: false,
-    twoInstallmentsFree: false,
     holidayVoucher: false,
     vat23: false,
     isMatebox: false,

@@ -18,7 +18,7 @@ const DaneFotowoltaiki = () => {
   useEffect(() => {
     if (sessionData === null || (sessionData && sessionData.user.role !== 1)) {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-      void router.push("/");
+      void router.push("/auth/signin");
     }
   }, [sessionData, router]);
 
@@ -29,7 +29,6 @@ const DaneFotowoltaiki = () => {
       <div className="flex max-h-screen w-full flex-wrap ">
         <Navbar />
         <div className="max-h-[88%] w-full overflow-y-scroll">
-          {/* This default value should be changed */}
           <Tabs color="gray" defaultValue={"cm0o4ylab0000q4dcocvv1heu"}>
             <Tabs.List className="fixed z-50 w-full bg-backgroundGray">
               {entireJsonData?.map((calcData, index) => {

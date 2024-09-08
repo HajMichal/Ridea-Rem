@@ -277,15 +277,6 @@ export const usePhotovoltaic = () => {
     store.updatePhotovoltaic("energyPriceInLimit", e.target.valueAsNumber);
   };
 
-  const handleOutOfLimitOnChange = (e: {
-    target: { valueAsNumber: number };
-  }) => {
-    if (e.target.valueAsNumber) {
-      set_outOfLimit_price_trend(e.target.valueAsNumber);
-    }
-    store.updatePhotovoltaic("energyPriceOutOfLimit", e.target.valueAsNumber);
-  };
-
   const handleTigoinput = (e: { target: { valueAsNumber: number } }) => {
     if (data)
       set_tigo_price({
@@ -317,8 +308,8 @@ export const usePhotovoltaic = () => {
     mutations: {
       getDataDependsOnPanelPower,
       handleTigoinput,
-      handleOutOfLimitOnChange,
       handleInLimitOnChange,
+      set_outOfLimit_price_trend,
       set_system_power,
       set_estimated_kWh_prod,
       set_total_payment_energy_transfer,

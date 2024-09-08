@@ -314,7 +314,6 @@ export function PhotovoltaicMutations({
       promotionAmount: photovoltaicStore.isPromotion
         ? 0
         : photovoltaicStore.promotionAmount,
-      twoInstallmentsFree: photovoltaicStore.twoInstallmentsFree ? 1200 : 0,
       voucherholiday: photovoltaicStore.holidayVoucher ? 1500 : 0,
       carPort: photovoltaicCalcStore.carPortCost,
       markup_costs: photovoltaicCalcStore.markup_costs.markupSumValue ?? 0,
@@ -332,7 +331,6 @@ export function PhotovoltaicMutations({
     photovoltaicCalcStore.markup_costs,
     photovoltaicStore.isPromotion,
     photovoltaicStore.promotionAmount,
-    photovoltaicStore.twoInstallmentsFree,
     photovoltaicStore.holidayVoucher,
     photovoltaicCalcStore.cableACCost,
     photovoltaicCalcStore.mateboxCost,

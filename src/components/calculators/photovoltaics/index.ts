@@ -1,6 +1,6 @@
 import PhotovoltaicDocument from "./CreatePDF";
+import PhotovoltaicFormulas from "./PhotovoltaicFormulas";
 import { EditionForm } from "./edit/EditionForm";
-import { PhotovoltaicFormulas } from "./PhotovoltaicFormulas";
 import { PhotovoltaicMutations } from "./PhotovoltaicMutations";
 import { Preview } from "./Preview";
 
