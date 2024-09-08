@@ -54,7 +54,6 @@ export interface PhotovoltaicCalculations {
     finallInstalmentPice: number;
     instalmentBeforeDotations: number;
   };
-  energyStoreCost: number;
   energyStoreDotationValue: number;
   energyMenagerDotationValue: number;
   photovoltaicDotation_mojprad: number;
@@ -121,7 +120,6 @@ export const photovoltaicCalculationSlice: StateCreator<
     },
     dotations_sum: 0,
     amount_after_dotation: 0,
-    energyStoreCost: 0,
     heatStoreCost: 0,
     finall_installation_cost: 0,
     heatStore_energyManager_costs: 0,
