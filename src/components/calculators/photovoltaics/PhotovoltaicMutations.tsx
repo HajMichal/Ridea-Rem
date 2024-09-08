@@ -324,15 +324,13 @@ export function PhotovoltaicMutations({
         heatStore_energyManager_costs:
           photovoltaicCalcStore.heatStore_energyManager_costs +
           photovoltaicCalcStore.energyManagerCost,
-        energyStoreCost:
-          photovoltaicStore.isEnergyStoreDotation &&
-          photovoltaicCalcStore.energyStoreCost
-            ? photovoltaicCalcStore.energyStoreCost
-            : 0,
+        energyStoreCost: photovoltaicStore.isEnergyStoreDotation
+          ? photovoltaicStore.energyStore.price
+          : 0,
         isVat23: photovoltaicStore.vat23,
       });
   }, [
-    photovoltaicCalcStore.energyStoreCost,
+    photovoltaicStore.energyStore,
     photovoltaicStore.isEnergyStoreDotation,
     photovoltaicCalcStore.energyManagerCost,
     photovoltaicCalcStore.addon_cost,

@@ -160,12 +160,6 @@ export function Preview() {
                     />
                   </>
                 )}
-              {photovoltaicStore.isEnergyStoreDotation && (
-                <TextComponent
-                  title="CENA MAGAZYNU ENERGII"
-                  calculations={photovoltaicCalcStore.energyStoreCost}
-                />
-              )}
 
               {!!photovoltaicCalcStore.totalInstallationCosts
                 .total_gross_cost && (
