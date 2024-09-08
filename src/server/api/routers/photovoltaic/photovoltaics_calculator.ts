@@ -151,14 +151,6 @@ export const photovoltaics_calculator = createTRPCRouter({
       })
     )
     .mutation(calc.addonGruntAndBloczki),
-  addon_hybridInwerter: protectedProcedure
-    .input(
-      z.object({
-        hybridInwerter_price: z.number(),
-        isHybridInwerterChoosed: z.boolean(),
-      })
-    )
-    .mutation(calc.addonHybridInwerter),
   addon_cost: protectedProcedure
     .input(
       z.object({
@@ -170,7 +162,6 @@ export const photovoltaics_calculator = createTRPCRouter({
         grunt: z.number().optional(),
         carPort: z.number(),
         markup_costs: z.number(),
-        twoInstallmentsFree: z.number(),
         voucherholiday: z.number(),
         cableACCost: z.number(),
         mateboxCost: z.number(),

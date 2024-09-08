@@ -261,18 +261,6 @@ export function PhotovoltaicMutations({
   ]);
 
   useEffect(() => {
-    if (data)
-      mutations.set_hybridInwerter_price({
-        hybridInwerter_price: data.addons.inwerterHybrydowy,
-        isHybridInwerterChoosed: photovoltaicStore.isInwerterChoosed,
-      });
-  }, [
-    data,
-    photovoltaicStore.isInwerterChoosed,
-    mutations.set_hybridInwerter_price,
-  ]);
-
-  useEffect(() => {
     if (data && photovoltaicCalcStore.system_power && sessionData)
       mutations.set_markup_costs({
         system_power: photovoltaicCalcStore.system_power,
@@ -291,20 +279,6 @@ export function PhotovoltaicMutations({
   ]);
 
   useEffect(() => {
-    store.updatePhotovoltaicCalcs(
-      "carPortCost",
-      data &&
-        photovoltaicStore.isCarPort &&
-        photovoltaicStore.choosedCarPort !== "0_stan"
-        ? data.carPort[photovoltaicStore.choosedCarPort]
-        : 0
-    );
-  }, [
-    photovoltaicStore.choosedCarPort,
-    photovoltaicStore.isCarPort,
-    data?.carPort,
-  ]);
-  useEffect(() => {
     mutations.set_addon_cost({
       bloczki: photovoltaicCalcStore.bloczki_price,
       ekierki: photovoltaicCalcStore.ekierki_price,
@@ -314,7 +288,6 @@ export function PhotovoltaicMutations({
       promotionAmount: photovoltaicStore.isPromotion
         ? 0
         : photovoltaicStore.promotionAmount,
-      twoInstallmentsFree: photovoltaicStore.twoInstallmentsFree ? 1200 : 0,
       voucherholiday: photovoltaicStore.holidayVoucher ? 1500 : 0,
       carPort: photovoltaicCalcStore.carPortCost,
       markup_costs: photovoltaicCalcStore.markup_costs.markupSumValue ?? 0,
@@ -332,7 +305,6 @@ export function PhotovoltaicMutations({
     photovoltaicCalcStore.markup_costs,
     photovoltaicStore.isPromotion,
     photovoltaicStore.promotionAmount,
-    photovoltaicStore.twoInstallmentsFree,
     photovoltaicStore.holidayVoucher,
     photovoltaicCalcStore.cableACCost,
     photovoltaicCalcStore.mateboxCost,

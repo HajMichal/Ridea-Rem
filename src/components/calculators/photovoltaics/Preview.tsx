@@ -203,10 +203,11 @@ export function Preview() {
                   />
                 </div>
               )}
-              {photovoltaicCalcStore.energyMenagerDotationValue ||
-              photovoltaicCalcStore.photovoltaicDotation_mojprad ||
-              photovoltaicCalcStore.photovoltaicDotation_czpowietrze ||
-              photovoltaicCalcStore.heatStoreCalcDotation ? (
+              {!photovoltaicStore.vat23 &&
+              (photovoltaicCalcStore.energyMenagerDotationValue ||
+                photovoltaicCalcStore.photovoltaicDotation_mojprad ||
+                photovoltaicCalcStore.photovoltaicDotation_czpowietrze ||
+                photovoltaicCalcStore.heatStoreCalcDotation) ? (
                 <div>
                   <h2 className="mt-10 w-full text-center text-xl">DOTACJE</h2>
                   <TextComponent

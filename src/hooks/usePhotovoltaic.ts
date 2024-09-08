@@ -142,12 +142,7 @@ export const usePhotovoltaic = () => {
       },
     }
   );
-  const { mutate: set_hybridInwerter_price } =
-    api.photovoltaics.addon_hybridInwerter.useMutation({
-      onSuccess: (data) => {
-        store.updatePhotovoltaicCalcs("hybridInwerter_price", data);
-      },
-    });
+
   const { mutate: set_addon_cost } = api.photovoltaics.addon_cost.useMutation({
     onSuccess: (data) => {
       store.updatePhotovoltaicCalcs("addon_cost", data);
@@ -277,15 +272,6 @@ export const usePhotovoltaic = () => {
     store.updatePhotovoltaic("energyPriceInLimit", e.target.valueAsNumber);
   };
 
-  const handleOutOfLimitOnChange = (e: {
-    target: { valueAsNumber: number };
-  }) => {
-    if (e.target.valueAsNumber) {
-      set_outOfLimit_price_trend(e.target.valueAsNumber);
-    }
-    store.updatePhotovoltaic("energyPriceOutOfLimit", e.target.valueAsNumber);
-  };
-
   const handleTigoinput = (e: { target: { valueAsNumber: number } }) => {
     if (data)
       set_tigo_price({
@@ -317,8 +303,8 @@ export const usePhotovoltaic = () => {
     mutations: {
       getDataDependsOnPanelPower,
       handleTigoinput,
-      handleOutOfLimitOnChange,
       handleInLimitOnChange,
+      set_outOfLimit_price_trend,
       set_system_power,
       set_estimated_kWh_prod,
       set_total_payment_energy_transfer,
@@ -335,7 +321,6 @@ export const usePhotovoltaic = () => {
       set_bloczki_price,
       set_grunt_price,
       set_amount_after_dotation,
-      set_hybridInwerter_price,
       set_addon_cost,
       set_markup_costs,
       set_totalInstallationCost,
