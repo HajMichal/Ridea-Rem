@@ -72,3 +72,18 @@ model Photovoltaic {
 
     @@index([userId])
 }
+
+
+model Turbines {
+  id          String    @id @default(cuid())
+  userId      String    @unique
+  userName    String  
+  
+  /// [Turbines]
+  turbines    Json
+
+  /// [TurbinesAddons]
+  addons      Json
+
+  @@index([userId])
+}

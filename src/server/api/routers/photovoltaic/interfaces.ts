@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/consistent-indexed-object-style */
 import { type Photovoltaic } from "@prisma/client";
 
 export interface PhotovoltaicDataToCalculation extends Photovoltaic {
@@ -70,11 +71,4 @@ export interface PhotovoltaicDataToCalculation extends Photovoltaic {
   };
   creditPercentage: number;
   electricityPrice: number;
-}
-/* eslint @typescript-eslint/consistent-indexed-object-style: ["error", "index-signature"] */
-export interface EachMenagerPhotovoltaic {
-  [key: string]: PhotovoltaicDataToCalculation;
-}
-export interface PhotovoltaicCalculatorType {
-  kalkulator: EachMenagerPhotovoltaic[];
 }
