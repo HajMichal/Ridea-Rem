@@ -142,12 +142,7 @@ export const usePhotovoltaic = () => {
       },
     }
   );
-  const { mutate: set_hybridInwerter_price } =
-    api.photovoltaics.addon_hybridInwerter.useMutation({
-      onSuccess: (data) => {
-        store.updatePhotovoltaicCalcs("hybridInwerter_price", data);
-      },
-    });
+
   const { mutate: set_addon_cost } = api.photovoltaics.addon_cost.useMutation({
     onSuccess: (data) => {
       store.updatePhotovoltaicCalcs("addon_cost", data);
@@ -326,7 +321,6 @@ export const usePhotovoltaic = () => {
       set_bloczki_price,
       set_grunt_price,
       set_amount_after_dotation,
-      set_hybridInwerter_price,
       set_addon_cost,
       set_markup_costs,
       set_totalInstallationCost,

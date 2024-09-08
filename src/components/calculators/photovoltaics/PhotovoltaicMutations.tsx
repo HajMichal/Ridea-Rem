@@ -261,18 +261,6 @@ export function PhotovoltaicMutations({
   ]);
 
   useEffect(() => {
-    if (data)
-      mutations.set_hybridInwerter_price({
-        hybridInwerter_price: data.addons.inwerterHybrydowy,
-        isHybridInwerterChoosed: photovoltaicStore.isInwerterChoosed,
-      });
-  }, [
-    data,
-    photovoltaicStore.isInwerterChoosed,
-    mutations.set_hybridInwerter_price,
-  ]);
-
-  useEffect(() => {
     if (data && photovoltaicCalcStore.system_power && sessionData)
       mutations.set_markup_costs({
         system_power: photovoltaicCalcStore.system_power,
@@ -290,20 +278,6 @@ export function PhotovoltaicMutations({
     data,
   ]);
 
-  useEffect(() => {
-    store.updatePhotovoltaicCalcs(
-      "carPortCost",
-      data &&
-        photovoltaicStore.isCarPort &&
-        photovoltaicStore.choosedCarPort !== "0_stan"
-        ? data.carPort[photovoltaicStore.choosedCarPort]
-        : 0
-    );
-  }, [
-    photovoltaicStore.choosedCarPort,
-    photovoltaicStore.isCarPort,
-    data?.carPort,
-  ]);
   useEffect(() => {
     mutations.set_addon_cost({
       bloczki: photovoltaicCalcStore.bloczki_price,

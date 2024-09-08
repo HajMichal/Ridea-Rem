@@ -5,11 +5,19 @@ import { usePhotovoltaic } from "~/hooks/usePhotovoltaic";
 import useStore from "~/store";
 
 const IsHybridInverter = () => {
-  const { photovoltaicStore } = usePhotovoltaic();
+  const { photovoltaicStore, photovoltaicData } = usePhotovoltaic();
   const store = useStore();
 
-  const handleChange = (e: string | null) =>
+  const handleChange = (e: string | null) => {
     store.updatePhotovoltaic("isInwerterChoosed", e == "true");
+    if (photovoltaicData?.addons) {
+      store.updatePhotovoltaicCalcs(
+        "hybridInwerter_price",
+        e == "true" ? photovoltaicData.addons.inwerterHybrydowy : 0
+      );
+    }
+  };
+
   return (
     <SelectComponent
       title="INWERTER HYBRYDOWY"

@@ -15,11 +15,19 @@ const data = [
 ];
 
 const ChooseCarPort = () => {
-  const { photovoltaicStore } = usePhotovoltaic();
+  const { photovoltaicStore, photovoltaicData } = usePhotovoltaic();
   const store = useStore();
 
-  const handleChange = (e: string | null) =>
+  const handleChange = (e: string | null) => {
     store.updatePhotovoltaic("choosedCarPort", String(e));
+    if (photovoltaicData?.carPort) {
+      const carPortCost =
+        photovoltaicStore.choosedCarPort !== "0_stan"
+          ? photovoltaicData.carPort[photovoltaicStore.choosedCarPort]
+          : 0;
+      store.updatePhotovoltaicCalcs("carPortCost", carPortCost);
+    }
+  };
 
   return (
     <>

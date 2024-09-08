@@ -309,19 +309,6 @@ export function addonGruntAndBloczki({
   return input.price * input.system_power;
 }
 
-interface AddonHybridInwerterType {
-  isHybridInwerterChoosed: boolean;
-  hybridInwerter_price: number;
-}
-export function addonHybridInwerter({
-  input,
-}: {
-  input: AddonHybridInwerterType;
-}) {
-  if (!input.isHybridInwerterChoosed) return 0;
-  return input.hybridInwerter_price;
-}
-
 interface TotalAddonCostType {
   promotionAmount: number;
   voucherholiday: number;

@@ -1,9 +1,5 @@
-import { ScrollArea, Select } from "@mantine/core";
+import { ScrollArea } from "@mantine/core";
 import React, { memo } from "react";
-import { InputComponent, SelectComponent } from "../../";
-import { usePhotovoltaic } from "~/hooks/usePhotovoltaic";
-import useStore from "~/store";
-import { YESNO } from "~/constans/formsData";
 
 import {
   Autoconsumption,
