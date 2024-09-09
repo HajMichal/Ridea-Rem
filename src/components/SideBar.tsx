@@ -54,17 +54,22 @@ const SideBar = memo(function SideBar() {
           href2="/edycja/danePompyCiepla"
           title="POMPY CIEPŁA"
         />
-        <SideBarButton
+        {/* <SideBarButton
           href="/kalkulator/cieplo_wlasciwe"
           href2="/edycja/daneCieploWlasciwe"
           title="TERMOMODERNIZACJA"
-        />
+        /> */}
         <SideBarButton
           href="/kalkulator/klimatyzacja"
           href2="/edycja/daneKlimatyzacja"
           title="KLIMATYZACJA"
         />
         <SideBarButton
+          href="/kalkulator/turbiny"
+          href2="/edycja/daneKlimatyzacja"
+          title="TURBINY"
+        />
+        {/* <SideBarButton
           href="/kalkulator/kotly"
           href2="/edycja/daneKotlyPelletowe"
           title="KOTŁY PELLETOWE"
@@ -73,7 +78,7 @@ const SideBar = memo(function SideBar() {
           href="/kalkulator/okna"
           href2="/edycja/daneOkna"
           title="OKNA"
-        />
+        /> */}
       </div>
       <div className="m-3 text-center text-xs text-white">
         <p>Przyjazna Natura</p>

@@ -167,6 +167,16 @@ const Navbar = () => {
                 data={airCondtitionProvisionData}
               />
             )}
+            {/* {router.pathname === "/kalkulator/turbiny" && (
+              <SelectComponent
+                title="POZIOM"
+                onChange={(e) => {
+                  store.updateAirCondition("consultantMarkup", Number(e));
+                }}
+                value={airConditionStore.consultantMarkup}
+                data={airCondtitionProvisionData}
+              />
+            )} */}
           </div>
           <AuthShowcase />
         </div>

@@ -37,4 +37,10 @@ export const CALCULATORS = [
     color: "hover:bg-[#54f4ff]",
     iconSrc: "/home/icons/MagazynEnergiiIcon.svg",
   },
+  {
+    href: "/edycja/daneTurbiny",
+    title: "TURBINY",
+    color: "hover:bg-[#FFE15D]",
+    iconSrc: "/home/icons/PompaDoKalkulacji.svg",
+  },
 ];
