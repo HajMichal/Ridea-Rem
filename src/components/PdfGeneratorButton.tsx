@@ -15,6 +15,7 @@ import { useHeatPump } from "~/hooks/useHeatPump";
 import { useHeatHome } from "~/hooks/useHeatHome";
 import { AirConditionDocument } from "./calculators/airCondition";
 import { useAirCondition } from "~/hooks/useAirCondition";
+import TurbinesDocument from "./calculators/turbines/CreatePDF";
 
 interface DataFromJson {
   cop?: number;
@@ -75,6 +76,15 @@ export const PdfGeneratorButton = ({ cop }: DataFromJson) => {
     ).toBlob();
     saveAs(blobAirCondition, "Oferta dla Klienta - PrzyjaznaNatura.pdf");
   };
+  const turbinesDoc = async () => {
+    const blobAirCondition = await pdf(
+      <TurbinesDocument
+      // airConditionStore={airConditionStore}
+      // airConditionCalcStore={airConditionCalcStore}
+      />
+    ).toBlob();
+    saveAs(blobAirCondition, "Oferta dla Klienta - PrzyjaznaNatura.pdf");
+  };
 
   const generateContract = async () => {
     setPdfLoading(true);
@@ -88,6 +98,8 @@ export const PdfGeneratorButton = ({ cop }: DataFromJson) => {
       await heatHomeDoc();
     } else if (router.pathname == "/kalkulator/klimatyzacja") {
       await airConditionDoc();
+    } else if (router.pathname == "/kalkulator/turbiny") {
+      await turbinesDoc();
     }
     setPdfLoading(false);
   };
