@@ -10,13 +10,13 @@ export interface TurbinesSlice {
     steelMast: 0 | 3 | 6 | 9 | 12;
     batteryCapacity: 0 | 3 | 6 | 9 | 12;
     threePhases: boolean;
-    threePhasesInverter: boolean;
+    isThreePhasesInverter: boolean;
     isHybridInverter: boolean;
     mastFoundation: boolean;
     isMatebox: boolean;
     isEnergyMenagerCounter: boolean;
     isBatteryController: boolean;
-    mastType: "strunobetonowy" | "stalowy";
+    mastType: "strunobetonowy" | "stalowy" | null;
   };
   updateTurbines: (
     key: string,
@@ -33,13 +33,13 @@ export const turbinesSlice: StateCreator<TurbinesSlice> = (set) => ({
     steelMast: 0,
     batteryCapacity: 0,
     threePhases: false,
-    threePhasesInverter: false,
+    isThreePhasesInverter: false,
     isHybridInverter: false,
     mastFoundation: false,
     isMatebox: false,
     isEnergyMenagerCounter: false,
     isBatteryController: false,
-    mastType: "strunobetonowy",
+    mastType: null,
   },
   updateTurbines: (key, value) =>
     set((state) => {

@@ -8,7 +8,10 @@ const MastFoundation = () => {
 
   const handleChange = (e: string | null) => {
     updateTurbinesStore("mastFoundation", e == "true");
-    if (e != "true") updateTurbinesStore("steelMast", 0);
+    if (e != "true") {
+      updateTurbinesStore("steelMast", 0);
+      updateTurbinesStore("mastType", null);
+    }
   };
 
   return (

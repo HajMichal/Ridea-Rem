@@ -27,7 +27,7 @@ const MastType = () => {
         />
       )}
 
-      {turbinesStore.mastType === "stalowy" && (
+      {turbinesStore.mastFoundation && turbinesStore.mastType === "stalowy" && (
         <SelectComponent
           title="MASZT STALOWY"
           value={turbinesStore.steelMast}

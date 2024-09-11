@@ -1,13 +1,35 @@
-import { memo } from "react";
+import { memo, useEffect } from "react";
 import { SelectComponent } from "~/components";
 import { useTurbines } from "~/hooks/useTurbines";
 
 const BatteryCapacity = () => {
-  const { turbinesStore, updateTurbinesStore } = useTurbines();
+  const {
+    turbinesStore,
+    turbinesData,
+    updateTurbinesStore,
+    updateTurbinesCalcStore,
+  } = useTurbines();
 
-  const handleChange = (e: string | null) => {
-    updateTurbinesStore("batteryCapacity", Number(e));
+  const batteries = turbinesData?.energyStore.battery;
+  const getCapacityPrice = batteries && {
+    0: 0,
+    3: batteries.trzy,
+    6: batteries.szesc,
+    9: batteries.dziewiec,
+    12: batteries.dwanascie,
   };
+
+  useEffect(() => {
+    if (getCapacityPrice) {
+      updateTurbinesCalcStore(
+        "batterCost",
+        getCapacityPrice[turbinesStore.batteryCapacity]
+      );
+    }
+  }, [turbinesStore.batteryCapacity, turbinesData?.energyStore]);
+
+  const handleChange = (e: string | null) =>
+    updateTurbinesStore("batteryCapacity", Number(e));
 
   return (
     <>

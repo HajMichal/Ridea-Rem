@@ -9,7 +9,7 @@ const Phases = () => {
     const isThreePhases = e === "3";
     updateTurbinesStore("threePhases", isThreePhases);
 
-    if (isThreePhases) updateTurbinesStore("threePhasesInverter", false);
+    if (isThreePhases) updateTurbinesStore("isThreePhasesInverter", false);
     else updateTurbinesStore("isHybridInverter", false);
   };
   return (

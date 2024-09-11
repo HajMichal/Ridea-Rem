@@ -1,10 +1,10 @@
 import Turbines from "./Turbines";
-import ThreePhasesInverter from "./ThreePhasesInverter";
+import ThreePhasesInverter from "./Inverters";
 import Phases from "./Phases";
 import MastFoundation from "./MastFoundation";
 import EnergyMenagerCounter from "./EnergyMenagerCounter";
 import Matebox from "./Matebox";
-import HybridInverter from "./HybridInverter";
+import Inverters from "./Inverters";
 import MastType from "./MastType";
 import BatteryController from "./BatteryController";
 import BatteryCapacity from "./BatteryCapacity";
@@ -16,7 +16,7 @@ export {
   MastFoundation,
   EnergyMenagerCounter,
   Matebox,
-  HybridInverter,
+  Inverters,
   MastType,
   BatteryController,
   BatteryCapacity,

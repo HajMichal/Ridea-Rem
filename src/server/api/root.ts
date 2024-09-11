@@ -16,7 +16,7 @@ import { deleteDocumentRouter } from "./routers/documents/remove";
 import { airConditionDataFlowRouter } from "./routers/airCondition/dataFlow";
 import { airConditionCalculator } from "./routers/airCondition/airCondition_calculator";
 import { turbinesDataFlowRouter } from "./routers/turbines/dataFlow";
-
+import { turbinesCalculator } from "./routers/turbines/turbinesCalculator";
 /**
  * This is the primary router for your server.
  *
@@ -42,6 +42,7 @@ export const appRouter = createTRPCRouter({
   airCondition: airConditionCalculator,
   airConditionDataFlowRouter: airConditionDataFlowRouter,
   turbinesDataFlowRouter: turbinesDataFlowRouter,
+  turbines: turbinesCalculator,
 });
 
 // export type definition of API

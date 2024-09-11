@@ -4,12 +4,24 @@ import { YESNO } from "~/constans/formsData";
 import { useTurbines } from "~/hooks/useTurbines";
 
 const BatteryController = () => {
-  const { turbinesStore, updateTurbinesStore } = useTurbines();
+  const {
+    turbinesStore,
+    turbinesData,
+    updateTurbinesStore,
+    updateTurbinesCalcStore,
+  } = useTurbines();
 
   const handleChange = (e: string | null) => {
     updateTurbinesStore("isBatteryController", e == "true");
-
-    if (e != "true") updateTurbinesStore("batteryCapacity", 0);
+    if (e == "true" && turbinesData?.energyStore) {
+      updateTurbinesCalcStore(
+        "t30ControllerCost",
+        turbinesData.energyStore["T30 controller"]
+      );
+    } else {
+      updateTurbinesCalcStore("t30ControllerCost", 0);
+      updateTurbinesStore("batteryCapacity", 0);
+    }
   };
 
   return (

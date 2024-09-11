@@ -6,7 +6,8 @@ import { useTurbines } from "~/hooks/useTurbines";
 
 export function Preview() {
   const [parent] = useAutoAnimate();
-  const { turbinesStore } = useTurbines();
+  const { turbinesStore, turbinesCalcStore } = useTurbines();
+
   return (
     <div
       id="CALCULATIONS"
@@ -51,7 +52,7 @@ export function Preview() {
               {!turbinesStore.isHybridInverter && (
                 <TextComponent
                   title="INWERTERA TRÓJ-FAZOWY"
-                  calculations={turbinesStore.threePhasesInverter}
+                  calculations={turbinesStore.isThreePhasesInverter}
                 />
               )}
               <TextComponent
