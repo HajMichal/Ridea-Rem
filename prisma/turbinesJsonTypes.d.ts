@@ -13,6 +13,12 @@ declare global {
       "podstawa dachowa": number;
       "podstawa dachowa3000": number;
       strunobeton: number;
+      stalowy: {
+        trzy: number;
+        szesc: number;
+        dziewiec: number;
+        dwanascie: number;
+      };
       maszt: number;
       "inwerter 3fazowy": number;
       "inwerter hybrydowy": number;
@@ -20,6 +26,19 @@ declare global {
       "montaż dodatkowo": number;
       wysylka: number;
       "podstawa inwertera": number;
+    };
+
+    // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
+    type EnergyStore = {
+      "T30 controller": number;
+      licznik: number;
+      battery: {
+        trzy: number;
+        szesc: number;
+        dziewiec: number;
+        dwanascie: number;
+      };
+      matebox: number;
     };
   }
 }

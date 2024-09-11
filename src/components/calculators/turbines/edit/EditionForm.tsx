@@ -53,12 +53,62 @@ const EditionForm = ({ data }: Props) => {
         <article>
           <h2 className="mt-5 w-full text-center text-3xl">KOSZTY DODATKOWE</h2>
           {Object.entries(data.addons).map(([key, value]) => {
+            if (typeof value === "object") return null;
             return (
               <ChangeDataInputComponent
                 key={key}
                 {...register(`addons[${key}]` as keyof typeof data, {
                   valueAsNumber: true,
                 })}
+                title={key}
+                defaultValue={value}
+              />
+            );
+          })}
+        </article>
+        <article>
+          <h2 className="mt-5 w-full text-center text-3xl">MASZT STALOWY</h2>
+          {Object.entries(data.addons.stalowy).map(([key, value]) => {
+            return (
+              <ChangeDataInputComponent
+                key={key}
+                {...register(`addons.stalowy[${key}]` as keyof typeof data, {
+                  valueAsNumber: true,
+                })}
+                title={key + " " + "metry/ów"}
+                defaultValue={value}
+              />
+            );
+          })}
+        </article>
+        <article>
+          <h2 className="mt-5 w-full text-center text-3xl">MAGAZYN ENERGII</h2>
+          {Object.entries(data.energyStore).map(([key, value]) => {
+            if (typeof value === "object") return null;
+            return (
+              <ChangeDataInputComponent
+                key={key}
+                {...register(`energyStore[${key}]` as keyof typeof data, {
+                  valueAsNumber: true,
+                })}
+                title={key}
+                defaultValue={value}
+              />
+            );
+          })}
+        </article>
+        <article>
+          <h2 className="mt-5 w-full text-center text-xl">POJEMNOŚĆ BATERII</h2>
+          {Object.entries(data.energyStore.battery).map(([key, value]) => {
+            return (
+              <ChangeDataInputComponent
+                key={key}
+                {...register(
+                  `energyStore.battery[${key}]` as keyof typeof data,
+                  {
+                    valueAsNumber: true,
+                  }
+                )}
                 title={key}
                 defaultValue={value}
               />

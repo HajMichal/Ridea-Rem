@@ -25,6 +25,10 @@ export function Preview() {
               className="mt-3 h-[75%] w-full overflow-y-auto px-10"
             >
               <TextComponent
+                title="ILOŚĆ FAZ U KLIENTA"
+                calculations={turbinesStore.threePhases ? "3" : "1"}
+              />
+              <TextComponent
                 title="TURBINA 500"
                 calculations={turbinesStore.turbine500Count}
                 unit="szt"
@@ -44,7 +48,39 @@ export function Preview() {
                 calculations={turbinesStore.turbine3000Count}
                 unit="szt"
               />
-
+              {!turbinesStore.isHybridInverter && (
+                <TextComponent
+                  title="INWERTERA TRÓJ-FAZOWY"
+                  calculations={turbinesStore.threePhasesInverter}
+                />
+              )}
+              <TextComponent
+                title="INWERTER HYBRYDOWY"
+                calculations={turbinesStore.isHybridInverter}
+              />
+              <TextComponent
+                title="POSADOWIENIE NA MASZCIE"
+                calculations={turbinesStore.mastFoundation}
+              />
+              {turbinesStore.mastFoundation && (
+                <TextComponent
+                  title="RODZAJ MASZTU"
+                  calculations={turbinesStore.mastType}
+                />
+              )}
+              <TextComponent
+                title="MASZT STALOWY"
+                calculations={turbinesStore.steelMast}
+                unit="m"
+              />
+              <TextComponent
+                title="MATE BOX"
+                calculations={turbinesStore.isMatebox}
+              />
+              <TextComponent
+                title="LICZNIK DO MAGAZYNU ENERGII"
+                calculations={turbinesStore.isEnergyMenagerCounter}
+              />
               <div className="mt-20 text-center"></div>
             </div>
             <PdfGeneratorButton />

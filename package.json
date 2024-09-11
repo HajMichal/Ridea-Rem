@@ -2,7 +2,6 @@
   "name": "ridea-rem",
   "version": "0.1.0",
   "private": true,
-  "type": "module",
   "prisma": {
     "seed": "ts-node ./seed.js"
   },

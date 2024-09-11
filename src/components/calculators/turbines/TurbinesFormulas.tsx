@@ -1,5 +1,16 @@
 import { ScrollArea } from "@mantine/core";
-import { Turbines } from "./formFields";
+import {
+  Turbines,
+  Phases,
+  ThreePhasesInverter,
+  MastFoundation,
+  Matebox,
+  EnergyMenagerCounter,
+  HybridInverter,
+  MastType,
+  BatteryController,
+  BatteryCapacity,
+} from "./formFields";
 
 export function TurbinesFormulas() {
   return (
@@ -14,6 +25,16 @@ export function TurbinesFormulas() {
         <div className="laptop:mr-4">
           <h2 className="font-orkneyBold">CENA ENERGII</h2>
           <Turbines />
+          <Phases />
+          <ThreePhasesInverter />
+          <HybridInverter />
+          <MastFoundation />
+          <MastType />
+          <h2 className="font-orkneyBold">MAGAZYN ENERGII</h2>
+          <BatteryController />
+          <EnergyMenagerCounter />
+          <BatteryCapacity />
+          <Matebox />
         </div>
       </ScrollArea>
     </div>

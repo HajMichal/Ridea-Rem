@@ -19,6 +19,12 @@ export const TurbinesCalcSchema = z.object({
     "podstawa dachowa": z.number(),
     "podstawa dachowa3000": z.number(),
     strunobeton: z.number(),
+    stalowy: z.object({
+      trzy: z.number(),
+      szesc: z.number(),
+      dziewiec: z.number(),
+      dwanascie: z.number(),
+    }),
     maszt: z.number(),
     "inwerter 3fazowy": z.number(),
     "inwerter hybrydowy": z.number(),
@@ -26,6 +32,17 @@ export const TurbinesCalcSchema = z.object({
     "montaż dodatkowo": z.number(),
     wysylka: z.number(),
     "podstawa inwertera": z.number(),
+  }),
+  energyStore: z.object({
+    "T30 controller": z.number(),
+    licznik: z.number(),
+    battery: z.object({
+      trzy: z.number(),
+      szesc: z.number(),
+      dziewiec: z.number(),
+      dwanascie: z.number(),
+    }),
+    matebox: z.number(),
   }),
 });
 
@@ -84,6 +101,8 @@ export const turbinesDataFlowRouter = createTRPCRouter({
             userName: input.userName,
             addons: baseCalc.addons,
             turbines: baseCalc.turbines,
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+            energyStore: baseCalc.energyStore,
           },
         });
 
