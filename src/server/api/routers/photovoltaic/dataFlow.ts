@@ -168,22 +168,31 @@ export const dataFlowRouter = createTRPCRouter({
         const allCalcs = await ctx.prisma.photovoltaic.findMany();
 
         // Loop through all calcs
-        allCalcs.map(async (calc) => {
-          // Add new element object to previous
-          const addElement = {
-            ...(calc[input.element as keyof Photovoltaic] as object),
-            ...{ [input.name]: input.price },
-          };
+        for (const calc of allCalcs) {
+          try {
+            // Add new element object to previous
+            const addElement = {
+              ...(calc[input.element as keyof Photovoltaic] as object),
+              ...{ [input.name]: input.price },
+            };
 
-          await ctx.prisma.photovoltaic.update({
-            where: {
-              userId: calc.userId,
-            },
-            data: {
-              [input.element]: addElement,
-            },
-          });
-        });
+            await ctx.prisma.photovoltaic.update({
+              where: {
+                userId: calc.userId,
+              },
+              data: {
+                [input.element]: addElement,
+              },
+            });
+          } catch (error) {
+            console.error(
+              `Error adding element to calculator ${calc.userId}: `,
+              error
+            );
+            throw error; // Rethrow the error to break out of the loop
+          }
+        }
+
         return {
           status: 200,
           message: "Element został dodany 📝",
@@ -206,24 +215,38 @@ export const dataFlowRouter = createTRPCRouter({
       try {
         const allCalcs = await ctx.prisma.photovoltaic.findMany();
 
-        allCalcs.map(async (calc) => {
-          const elementFromRemove = calc[
-            input.element as keyof Photovoltaic
-          ] as { [key: string]: number };
+        // Loop through all calcs
+        for (const calc of allCalcs) {
+          try {
+            const elementFromRemove = calc[
+              input.element as keyof Photovoltaic
+            ] as { [key: string]: number };
 
-          if (elementFromRemove[input.name as keyof Photovoltaic]) {
-            delete elementFromRemove[input.name];
-          } else throw new Error();
+            // Check if the element exists before attempting to delete
+            if (elementFromRemove[input.name as keyof Photovoltaic]) {
+              delete elementFromRemove[input.name];
+            } else {
+              throw new Error(
+                `Element ${input.name} not found in calculator ${calc.id}`
+              );
+            }
 
-          await ctx.prisma.photovoltaic.update({
-            where: {
-              id: calc.id,
-            },
-            data: {
-              [input.element]: elementFromRemove,
-            },
-          });
-        });
+            await ctx.prisma.photovoltaic.update({
+              where: {
+                id: calc.id,
+              },
+              data: {
+                [input.element]: elementFromRemove,
+              },
+            });
+          } catch (error) {
+            console.error(
+              `Error removing element from calculator ${calc.id}: `,
+              error
+            );
+            throw error; // Rethrow the error to break out of the loop
+          }
+        }
       } catch (error) {
         return {
           status: 404,
