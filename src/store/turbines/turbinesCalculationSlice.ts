@@ -8,6 +8,9 @@ export interface TurbinesCalculationSlice {
     turbine1500Cost: number;
     turbine3000Cost: number;
 
+    turbinesBasesCost: number;
+    turbinesMontageCost: number;
+
     // addons
     inverterCost: number;
     mastCost: number;
@@ -17,6 +20,12 @@ export interface TurbinesCalculationSlice {
     energyCounterCost: number;
     mateboxCost: number;
     batterCost: number;
+
+    energyStoreTotalCosts: {
+      netCost: number;
+      taxValue: number;
+      grossCost: number;
+    };
   };
   updateTurbinesCalc: (
     key: string,
@@ -34,6 +43,9 @@ export const turbinesCalcSlice: StateCreator<TurbinesCalculationSlice> = (
     turbine1500Cost: 0,
     turbine3000Cost: 0,
 
+    turbinesBasesCost: 0,
+    turbinesMontageCost: 0,
+
     // addons
     inverterCost: 0,
     mastCost: 0,
@@ -43,6 +55,12 @@ export const turbinesCalcSlice: StateCreator<TurbinesCalculationSlice> = (
     energyCounterCost: 0,
     mateboxCost: 0,
     batterCost: 0,
+
+    energyStoreTotalCosts: {
+      netCost: 0,
+      taxValue: 0,
+      grossCost: 0,
+    },
   },
   updateTurbinesCalc: (key, value) =>
     set((state) => {

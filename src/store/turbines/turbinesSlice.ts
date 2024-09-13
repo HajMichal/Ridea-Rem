@@ -7,6 +7,14 @@ export interface TurbinesSlice {
     turbine1000Count: number;
     turbine1500Count: number;
     turbine3000Count: number;
+
+    turbinesDetails: {
+      totalPower: number;
+      turbinesCount: number;
+      smallBaseCount: number;
+      biggerBaseCount: number;
+    };
+
     steelMast: 0 | 3 | 6 | 9 | 12;
     batteryCapacity: 0 | 3 | 6 | 9 | 12;
     threePhases: boolean;
@@ -30,6 +38,13 @@ export const turbinesSlice: StateCreator<TurbinesSlice> = (set) => ({
     turbine1000Count: 0,
     turbine1500Count: 0,
     turbine3000Count: 0,
+    turbinesDetails: {
+      totalPower: 0,
+      turbinesCount: 0,
+      smallBaseCount: 0,
+      biggerBaseCount: 0,
+    },
+
     steelMast: 0,
     batteryCapacity: 0,
     threePhases: false,

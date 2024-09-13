@@ -13,4 +13,24 @@ export const turbinesCalculator = createTRPCRouter({
       })
     )
     .mutation(calc.setInverterCost),
+  setEnergyStoreTotalCost: protectedProcedure
+    .input(
+      z.object({
+        t30ControllerCost: z.number(),
+        energyCounterCost: z.number(),
+        mateboxCost: z.number(),
+        batterCost: z.number(),
+      })
+    )
+    .mutation(calc.setEnergyStoreTotalCost),
+  setTurbinesDetails: protectedProcedure
+    .input(
+      z.object({
+        turbine500Count: z.number(),
+        turbine1000Count: z.number(),
+        turbine1500Count: z.number(),
+        turbine3000Count: z.number(),
+      })
+    )
+    .mutation(calc.setTurbinesDetails),
 });

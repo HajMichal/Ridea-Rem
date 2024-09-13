@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { usePhotovoltaic } from "~/hooks/usePhotovoltaic";
 import { type PhotovoltaicDataToCalculation } from "~/server/api/routers/photovoltaic/interfaces";
-import useStore from "~/store";
 import { type Session } from "next-auth";
 import { useDebouncedValue } from "@mantine/hooks";
 
@@ -14,7 +13,6 @@ export function PhotovoltaicMutations({
   data,
   sessionData,
 }: PhotovoltaicMutationsType) {
-  const store = useStore();
   const { photovoltaicStore, photovoltaicCalcStore, mutations } =
     usePhotovoltaic();
 

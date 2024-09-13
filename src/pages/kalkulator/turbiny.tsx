@@ -3,11 +3,15 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { Loading, Navbar, SideBar } from "~/components";
-import { TurbinesFormulas, Preview } from "~/components/calculators/turbines";
+import {
+  TurbinesFormulas,
+  Preview,
+  TurbinesMutations,
+} from "~/components/calculators/turbines";
 import { api } from "~/utils/api";
 
 const Turbiny = () => {
-  const { data: sessionData, status } = useSession();
+  const { status } = useSession();
   const router = useRouter();
   const { data: turbinesData } =
     api.turbinesDataFlowRouter.getCalcData.useQuery();
@@ -16,6 +20,7 @@ const Turbiny = () => {
     if (status === "unauthenticated") void router.push("/auth/signin");
   }, [router, status]);
 
+  TurbinesMutations();
   return (
     <main className="flex h-full max-h-screen overflow-hidden bg-backgroundGray font-orkney laptop:justify-center">
       {!turbinesData && (
