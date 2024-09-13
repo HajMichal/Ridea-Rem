@@ -4,13 +4,15 @@ import { YESNO } from "~/constans/formsData";
 import { useTurbines } from "~/hooks/useTurbines";
 
 const MastFoundation = () => {
-  const { turbinesStore, updateTurbinesStore } = useTurbines();
+  const { turbinesStore, updateTurbinesStore, updateTurbinesCalcStore } =
+    useTurbines();
 
   const handleChange = (e: string | null) => {
     updateTurbinesStore("mastFoundation", e == "true");
     if (e != "true") {
       updateTurbinesStore("steelMast", 0);
-      updateTurbinesStore("mastType", null);
+      updateTurbinesCalcStore("mastCost", 0);
+      updateTurbinesStore("mastType", "nie wybrano");
     }
   };
 

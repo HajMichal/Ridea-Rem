@@ -16,7 +16,7 @@ export interface TurbinesSlice {
     isMatebox: boolean;
     isEnergyMenagerCounter: boolean;
     isBatteryController: boolean;
-    mastType: "strunobetonowy" | "stalowy" | null;
+    mastType: "strunobetonowy" | "stalowy" | "nie wybrano";
   };
   updateTurbines: (
     key: string,
@@ -39,7 +39,7 @@ export const turbinesSlice: StateCreator<TurbinesSlice> = (set) => ({
     isMatebox: false,
     isEnergyMenagerCounter: false,
     isBatteryController: false,
-    mastType: null,
+    mastType: "nie wybrano",
   },
   updateTurbines: (key, value) =>
     set((state) => {

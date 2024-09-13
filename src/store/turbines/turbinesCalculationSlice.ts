@@ -10,6 +10,7 @@ export interface TurbinesCalculationSlice {
 
     // addons
     inverterCost: number;
+    mastCost: number;
 
     // energy store
     t30ControllerCost: number;
@@ -35,6 +36,7 @@ export const turbinesCalcSlice: StateCreator<TurbinesCalculationSlice> = (
 
     // addons
     inverterCost: 0,
+    mastCost: 0,
 
     // energy store
     t30ControllerCost: 0,

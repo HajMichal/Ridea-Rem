@@ -7,7 +7,7 @@ import { useTurbines } from "~/hooks/useTurbines";
 export function Preview() {
   const [parent] = useAutoAnimate();
   const { turbinesStore, turbinesCalcStore } = useTurbines();
-
+  console.log(turbinesCalcStore);
   return (
     <div
       id="CALCULATIONS"
