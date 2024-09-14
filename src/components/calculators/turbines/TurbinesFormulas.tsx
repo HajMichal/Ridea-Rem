@@ -9,6 +9,7 @@ import {
   MastType,
   BatteryController,
   BatteryCapacity,
+  Installments,
 } from "./formFields";
 
 export function TurbinesFormulas() {
@@ -33,6 +34,7 @@ export function TurbinesFormulas() {
           <EnergyMenagerCounter />
           <BatteryCapacity />
           <Matebox />
+          <Installments />
         </div>
       </ScrollArea>
     </div>

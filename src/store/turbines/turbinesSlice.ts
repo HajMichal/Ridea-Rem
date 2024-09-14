@@ -1,4 +1,3 @@
-import { boolean } from "zod";
 import { type StateCreator } from "zustand";
 
 export interface TurbinesSlice {
@@ -10,6 +9,7 @@ export interface TurbinesSlice {
 
     turbinesDetails: {
       totalPower: number;
+      roundedTotalPower: number;
       turbinesCount: number;
       smallBaseCount: number;
       biggerBaseCount: number;
@@ -17,6 +17,9 @@ export interface TurbinesSlice {
 
     steelMast: 0 | 3 | 6 | 9 | 12;
     batteryCapacity: 0 | 3 | 6 | 9 | 12;
+    installmentNumber: number;
+    consultantMarkup: number;
+
     threePhases: boolean;
     isThreePhasesInverter: boolean;
     isHybridInverter: boolean;
@@ -40,6 +43,7 @@ export const turbinesSlice: StateCreator<TurbinesSlice> = (set) => ({
     turbine3000Count: 0,
     turbinesDetails: {
       totalPower: 0,
+      roundedTotalPower: 0,
       turbinesCount: 0,
       smallBaseCount: 0,
       biggerBaseCount: 0,
@@ -47,6 +51,9 @@ export const turbinesSlice: StateCreator<TurbinesSlice> = (set) => ({
 
     steelMast: 0,
     batteryCapacity: 0,
+    installmentNumber: 120,
+    consultantMarkup: 120,
+
     threePhases: false,
     isThreePhasesInverter: false,
     isHybridInverter: false,

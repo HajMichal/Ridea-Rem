@@ -53,14 +53,68 @@ export function setTurbinesDetails({ input }: TurbinesDetailsType) {
   const power1500 = input.turbine1500Count * 1500;
   const power3000 = input.turbine3000Count * 3000;
 
-  const totalPower = power500 + power1000 + power1500 + power3000;
+  const totalPower = (power500 + power1000 + power1500 + power3000) / 1000;
   const smallBaseCount =
     input.turbine500Count + input.turbine1000Count + input.turbine1500Count;
   return {
     totalPower,
+    roundedTotalPower: Math.floor(totalPower * 2) / 2,
     turbinesCount: smallBaseCount + input.turbine3000Count,
     smallBaseCount,
     biggerBaseCount: input.turbine3000Count,
+  };
+}
+
+interface TurbinesTotalCost {
+  input: {
+    turbine500Cost: number;
+    turbine1000Cost: number;
+    turbine1500Cost: number;
+    turbine3000Cost: number;
+
+    turbinesBasesCost: number;
+    turbinesMontageCost: number;
+    inverterCost: number;
+    mastCost: number;
+    transportCost: number;
+    inverterBase: number;
+    feesAmount: number;
+  };
+}
+export function setTurbinesTotalCost({ input }: TurbinesTotalCost) {
+  const values = Object.values(input);
+  const netCost = values.reduce((acc, value) => acc + value, 0);
+  const taxValue = netCost * tax8;
+  const grossCost = netCost + taxValue;
+
+  return {
+    netCost: Number(netCost.toFixed(2)),
+    taxValue: Number(taxValue.toFixed(2)),
+    grossCost: Number(grossCost.toFixed(2)),
+  };
+}
+
+interface LoanForPurcharseType {
+  input: {
+    finallInstallationCost: number;
+    creditPercentage: number;
+    instalmentNumber: number;
+    grossInstalltaionBeforeDotationsCost: number;
+  };
+}
+export function loanForPurcharse({ input }: LoanForPurcharseType) {
+  const monthlyInterestRate = input.creditPercentage / 12 / 100;
+
+  const monthlyPaymentBeforeDotations =
+    (input.grossInstalltaionBeforeDotationsCost * monthlyInterestRate) /
+    (1 - Math.pow(1 + monthlyInterestRate, -input.instalmentNumber));
+
+  const monthlyPayment =
+    (input.finallInstallationCost * monthlyInterestRate) /
+    (1 - Math.pow(1 + monthlyInterestRate, -input.instalmentNumber));
+  return {
+    finallInstalmentPice: Number(monthlyPayment.toFixed(2)),
+    instalmentBeforeDotations: Number(monthlyPaymentBeforeDotations.toFixed(2)),
   };
 }
 

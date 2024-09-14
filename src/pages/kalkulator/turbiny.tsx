@@ -32,10 +32,12 @@ const Turbiny = () => {
       <SideBar />
       <div className="w-full">
         <Navbar />
-        <div className="flex h-full max-h-[90vw] flex-wrap justify-center overflow-scroll p-4 laptop:overflow-hidden">
-          <TurbinesFormulas />
-          <Preview />
-        </div>
+        {turbinesData && (
+          <div className="flex h-full flex-wrap justify-center overflow-scroll p-4 laptop:overflow-hidden">
+            <TurbinesFormulas />
+            <Preview />
+          </div>
+        )}
       </div>
     </main>
   );

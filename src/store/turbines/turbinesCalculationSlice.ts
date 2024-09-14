@@ -11,6 +11,17 @@ export interface TurbinesCalculationSlice {
     turbinesBasesCost: number;
     turbinesMontageCost: number;
 
+    turbinesTotalCosts: {
+      netCost: number;
+      taxValue: number;
+      grossCost: number;
+    };
+    turbinesAfterDotationCost: number;
+
+    // dotations
+    turbinesDotationAmount: number;
+    energyStoreDotationAmount: number;
+
     // addons
     inverterCost: number;
     mastCost: number;
@@ -25,6 +36,18 @@ export interface TurbinesCalculationSlice {
       netCost: number;
       taxValue: number;
       grossCost: number;
+    };
+    energyStoreAfterDotationCost: number;
+
+    loanForPurcharse: {
+      finallInstalmentPice: number;
+      instalmentBeforeDotations: number;
+    };
+    officeMarkup: {
+      officeFeeValue: number;
+      officeFeeForBoss: number;
+      consultantFeeValue: number;
+      markupSumValue: number;
     };
   };
   updateTurbinesCalc: (
@@ -46,6 +69,17 @@ export const turbinesCalcSlice: StateCreator<TurbinesCalculationSlice> = (
     turbinesBasesCost: 0,
     turbinesMontageCost: 0,
 
+    turbinesTotalCosts: {
+      netCost: 0,
+      taxValue: 0,
+      grossCost: 0,
+    },
+    turbinesAfterDotationCost: 0,
+
+    // dotations
+    turbinesDotationAmount: 0,
+    energyStoreDotationAmount: 0,
+
     // addons
     inverterCost: 0,
     mastCost: 0,
@@ -60,6 +94,19 @@ export const turbinesCalcSlice: StateCreator<TurbinesCalculationSlice> = (
       netCost: 0,
       taxValue: 0,
       grossCost: 0,
+    },
+
+    energyStoreAfterDotationCost: 0,
+
+    loanForPurcharse: {
+      finallInstalmentPice: 0,
+      instalmentBeforeDotations: 0,
+    },
+    officeMarkup: {
+      officeFeeValue: 0,
+      officeFeeForBoss: 0,
+      consultantFeeValue: 0,
+      markupSumValue: 0,
     },
   },
   updateTurbinesCalc: (key, value) =>

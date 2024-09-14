@@ -8,6 +8,7 @@ import Inverters from "./Inverters";
 import MastType from "./MastType";
 import BatteryController from "./BatteryController";
 import BatteryCapacity from "./BatteryCapacity";
+import Installments from "./Installments";
 
 export {
   Turbines,
@@ -20,4 +21,5 @@ export {
   MastType,
   BatteryController,
   BatteryCapacity,
+  Installments,
 };
