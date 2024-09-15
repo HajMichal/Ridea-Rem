@@ -1,9 +1,10 @@
 export const CALCUALTOR_TYPES = [
   "Photovoltaic",
-  "ForCompany",
+  // "ForCompany",
   "HeatPump",
-  "HeatHome",
+  // "HeatHome",
   "AirCondition",
+  "Turbines",
 ];
 
 export const CALCULATORS = [

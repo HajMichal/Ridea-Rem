@@ -78,7 +78,7 @@ export const UserFeeFormField = ({
   const { mutate: setFeePerKw } =
     api.userDataHandling.feePerKwChange.useMutation();
 
-  const { mutate: removeMenagerPhotovoltaicJson } =
+  const { mutate: removeMenagerCalcDataPhotovoltaic } =
     api.dataFlow.removeMenagerData.useMutation();
   const { mutate: removeMenagerHeatPumpJson } =
     api.heatPumpDataFlowRouter.removeMenagerData.useMutation();
@@ -88,13 +88,16 @@ export const UserFeeFormField = ({
     api.heatHomeDataFlowRouter.removeMenagerData.useMutation();
   const { mutate: removeMenagerAirConditionJson } =
     api.airConditionDataFlowRouter.removeMenagerData.useMutation();
+  const { mutate: removeMenagerCalcDataTurbines } =
+    api.turbinesDataFlowRouter.removeMenagerCalcData.useMutation();
   const { mutate: removeUserFromDb } =
     api.userDataHandling.removeUser.useMutation();
 
   const removeUser = () => {
     removeUserFromDb(user.id);
     if (user.role === 2 && user.name) {
-      removeMenagerPhotovoltaicJson(user.id);
+      removeMenagerCalcDataPhotovoltaic(user.id);
+      removeMenagerCalcDataTurbines(user.id);
       removeMenagerHeatPumpJson(user.name);
       removeMenagerForCompanyJson(user.name);
       removeMenagerHeatHomeJson(user.name);
@@ -189,7 +192,9 @@ export const UserFeeFormField = ({
                         ? "pompy ciepła"
                         : calcualtor === "HeatHome"
                         ? "ciepło właściwe"
-                        : "klimatyzacja"
+                        : calcualtor === "AirCondition"
+                        ? "klimatyzacja"
+                        : "turbiny"
                     }`}
                   userId={user.id}
                   setter={setImposedFeeAmount}
@@ -206,7 +211,9 @@ export const UserFeeFormField = ({
                       ? "Prowizja od kW pompy ciepła"
                       : calcualtor === "HeatHome"
                       ? "Prowizja od M² ciepło właściwe"
-                      : ""
+                      : calcualtor === "AirCondition"
+                      ? ""
+                      : "Prowizja od kW turbiny"
                   }`}
                   isDisabled={calcualtor == "AirCondition"}
                   userId={user.id}

@@ -18,6 +18,8 @@ import {
   smallestPanel,
 } from "~/constans/panelPowers";
 import { tax23, tax8 } from "~/constans/taxPercentage";
+import { TurbinesSlice } from "~/store/turbines/turbinesSlice";
+import { TurbinesCalculationSlice } from "~/store/turbines/turbinesCalculationSlice";
 
 Font.register({
   family: "Orkney",
@@ -111,8 +113,50 @@ const styles = StyleSheet.create({
   },
 });
 
-const TurbinesDocument = () => (
+interface TurbinesDocumentType {
+  turbinesStore: TurbinesSlice["turbinesStore"];
+  turbinesCalcStore: TurbinesCalculationSlice["turbinesCalcStore"];
+}
+const TurbinesDocument = ({
+  turbinesStore,
+  turbinesCalcStore,
+}: TurbinesDocumentType) => (
   <Document>
+    <Page size="A4" style={styles.page}></Page>
+    <Page size="A4" style={styles.page}>
+      <View
+        style={{
+          display: "flex",
+          width: "100%",
+          alignItems: "center",
+        }}
+      >
+        <Text
+          style={{
+            right: 0,
+            position: "absolute",
+            fontSize: 6,
+            marginRight: 5,
+            marginTop: 5,
+          }}
+        >
+          /nr.zam/ model INW/Z{" "}
+          {turbinesCalcStore.officeMarkup.consultantFeeValue} /{" "}
+          {turbinesCalcStore.officeMarkup.officeFeeValue} /{" "}
+          {turbinesCalcStore.officeMarkup.officeFeeForBoss}
+        </Text>
+        <Image
+          style={{ height: 50, marginTop: 10 }}
+          src={`${process.env.NEXT_PUBLIC_BASE_URL}/static/pdf/logoprzyjazna.png`}
+        />
+
+        <View style={styles.headerBackground}>
+          <Text style={styles.header}>OSZCZĘDNOŚCI Z TWOJEJ INSTALACJI</Text>
+        </View>
+
+        <View style={{ width: "85%", marginTop: 30 }}></View>
+      </View>
+    </Page>
     <Page size="A4" style={styles.page}></Page>
   </Document>
 );
