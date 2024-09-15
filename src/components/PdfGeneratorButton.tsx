@@ -16,6 +16,7 @@ import { useHeatHome } from "~/hooks/useHeatHome";
 import { AirConditionDocument } from "./calculators/airCondition";
 import { useAirCondition } from "~/hooks/useAirCondition";
 import TurbinesDocument from "./calculators/turbines/CreatePDF";
+import { useTurbines } from "~/hooks/useTurbines";
 
 interface DataFromJson {
   cop?: number;
@@ -29,6 +30,7 @@ export const PdfGeneratorButton = ({ cop }: DataFromJson) => {
   const { forCompanyCalcStore, forCompanyStore } = useForCompany();
   const { heatHomeCalcStore, heatHomeStore } = useHeatHome();
   const { airConditionCalcStore, airConditionStore } = useAirCondition();
+  const { turbinesStore, turbinesCalcStore } = useTurbines();
 
   const photovoltaicDoc = async () => {
     const blobPhotovoltaics = await pdf(
@@ -79,8 +81,8 @@ export const PdfGeneratorButton = ({ cop }: DataFromJson) => {
   const turbinesDoc = async () => {
     const blobAirCondition = await pdf(
       <TurbinesDocument
-      // airConditionStore={airConditionStore}
-      // airConditionCalcStore={airConditionCalcStore}
+        turbinesStore={turbinesStore}
+        turbinesCalcStore={turbinesCalcStore}
       />
     ).toBlob();
     saveAs(blobAirCondition, "Oferta dla Klienta - PrzyjaznaNatura.pdf");
