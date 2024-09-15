@@ -30,7 +30,7 @@ export interface TurbinesCalculationSlice {
     t30ControllerCost: number;
     energyCounterCost: number;
     mateboxCost: number;
-    batterCost: number;
+    batteryCost: number;
 
     energyStoreTotalCosts: {
       netCost: number;
@@ -39,6 +39,7 @@ export interface TurbinesCalculationSlice {
     };
     energyStoreAfterDotationCost: number;
 
+    // General
     loanForPurcharse: {
       finallInstalmentPice: number;
       instalmentBeforeDotations: number;
@@ -88,16 +89,16 @@ export const turbinesCalcSlice: StateCreator<TurbinesCalculationSlice> = (
     t30ControllerCost: 0,
     energyCounterCost: 0,
     mateboxCost: 0,
-    batterCost: 0,
+    batteryCost: 0,
 
     energyStoreTotalCosts: {
       netCost: 0,
       taxValue: 0,
       grossCost: 0,
     },
-
     energyStoreAfterDotationCost: 0,
 
+    // General
     loanForPurcharse: {
       finallInstalmentPice: 0,
       instalmentBeforeDotations: 0,

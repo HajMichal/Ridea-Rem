@@ -22,7 +22,7 @@ const BatteryCapacity = () => {
   useEffect(() => {
     if (getCapacityPrice) {
       updateTurbinesCalcStore(
-        "batterCost",
+        "batteryCost",
         getCapacityPrice[turbinesStore.batteryCapacity]
       );
     }

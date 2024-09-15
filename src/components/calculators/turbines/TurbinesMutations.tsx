@@ -9,13 +9,15 @@ export function TurbinesMutations() {
 
   useEffect(() => {
     mutations.setEnergyStoreTotalCost({
-      batterCost: turbinesCalcStore.batterCost,
+      choosedEnergyStore: turbinesStore.energyStore.price,
+      batteryCost: turbinesCalcStore.batteryCost,
       energyCounterCost: turbinesCalcStore.energyCounterCost,
       mateboxCost: turbinesCalcStore.mateboxCost,
       t30ControllerCost: turbinesCalcStore.t30ControllerCost,
     });
   }, [
-    turbinesCalcStore.batterCost,
+    turbinesStore.energyStore,
+    turbinesCalcStore.batteryCost,
     turbinesCalcStore.energyCounterCost,
     turbinesCalcStore.mateboxCost,
     turbinesCalcStore.t30ControllerCost,
@@ -41,7 +43,7 @@ export function TurbinesMutations() {
           turbinesStore.turbinesDetails.turbinesCount !== 0
             ? turbinesData.addons["podstawa inwertera"]
             : 0,
-        feesAmount: 0,
+        feesAmount: turbinesCalcStore.officeMarkup.markupSumValue,
       });
   }, [
     turbinesCalcStore.turbine500Cost,
@@ -51,6 +53,7 @@ export function TurbinesMutations() {
     turbinesCalcStore.turbinesBasesCost,
     turbinesCalcStore.turbinesMontageCost,
     turbinesCalcStore.inverterCost,
+    turbinesCalcStore.officeMarkup,
     turbinesCalcStore.mastCost,
     turbinesStore.turbinesDetails.turbinesCount,
   ]);

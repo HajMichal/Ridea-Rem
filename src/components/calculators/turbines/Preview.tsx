@@ -7,6 +7,7 @@ import { useTurbines } from "~/hooks/useTurbines";
 export function Preview() {
   const [parent] = useAutoAnimate();
   const { turbinesStore, turbinesCalcStore } = useTurbines();
+  console.log(turbinesStore);
   console.log(turbinesCalcStore);
   return (
     <div
@@ -74,14 +75,108 @@ export function Preview() {
                 calculations={turbinesStore.steelMast}
                 unit="m"
               />
+              {turbinesStore.energyStore.name !== "" && (
+                <h2 className="mt-10 w-full text-center text-xl">
+                  MAGAZYN ENERGII
+                </h2>
+              )}
               <TextComponent
-                title="MATE BOX"
-                calculations={turbinesStore.isMatebox}
+                title={turbinesStore.energyStore.name}
+                calculations={turbinesStore.energyStore.price}
+              />
+              <TextComponent
+                title="T30 CONTROLLER BATTERY SOLAX"
+                calculations={turbinesStore.isBatteryController}
+              />
+              <TextComponent
+                title="POJEMNOŚĆ BATERII"
+                calculations={turbinesStore.batteryCapacity}
+                unit="kWh"
               />
               <TextComponent
                 title="LICZNIK DO MAGAZYNU ENERGII"
                 calculations={turbinesStore.isEnergyMenagerCounter}
               />
+              <TextComponent
+                title="MATE BOX"
+                calculations={turbinesStore.isMatebox}
+              />
+
+              {(turbinesCalcStore.turbinesTotalCosts.netCost !== 0 ||
+                turbinesCalcStore.energyStoreTotalCosts.netCost !== 0) && (
+                <>
+                  <h2 className="mt-12 w-full text-center text-2xl underline">
+                    FINANSE
+                  </h2>
+                  <h2 className="mt-7 w-full text-center text-xl">DOTACJE</h2>
+                </>
+              )}
+              <TextComponent
+                title="TURBINY"
+                calculations={turbinesCalcStore.turbinesDotationAmount}
+                color="green"
+                size="xl"
+              />
+              <TextComponent
+                title="MAGAZYN ENERGII"
+                calculations={turbinesCalcStore.energyStoreDotationAmount}
+                color="green"
+                size="xl"
+              />
+
+              {turbinesCalcStore.turbinesTotalCosts.netCost !== 0 && (
+                <h2 className="mt-10 w-full text-center text-xl">TURBINY</h2>
+              )}
+
+              <TextComponent
+                title="KWOTA NETTO"
+                calculations={turbinesCalcStore.turbinesTotalCosts.netCost}
+              />
+              <TextComponent
+                title="KWOTA BRUTTO"
+                calculations={turbinesCalcStore.turbinesTotalCosts.grossCost}
+              />
+              <TextComponent
+                title="KWOTA PO DOTACJI"
+                color="green"
+                calculations={turbinesCalcStore.turbinesAfterDotationCost}
+                size="xl"
+              />
+
+              {turbinesCalcStore.energyStoreTotalCosts.netCost !== 0 && (
+                <h2 className="mt-10 w-full text-center text-xl">
+                  MAGAZYN ENERGII
+                </h2>
+              )}
+              <TextComponent
+                title="KWOTA NETTO"
+                calculations={turbinesCalcStore.energyStoreTotalCosts.netCost}
+              />
+              <TextComponent
+                title="KWOTA BRUTTO"
+                calculations={turbinesCalcStore.energyStoreTotalCosts.grossCost}
+              />
+              <TextComponent
+                title="KWOTA PO DOTACJI"
+                color="green"
+                calculations={turbinesCalcStore.energyStoreAfterDotationCost}
+                size="xl"
+              />
+
+              {turbinesCalcStore.loanForPurcharse.finallInstalmentPice !==
+                0 && (
+                <h2 className="mt-10 w-full text-center text-lg">
+                  KREDYTOWANIE INSTALACJI
+                </h2>
+              )}
+              <TextComponent
+                title={`CENA 1 RATY PRZY ${turbinesStore.installmentNumber} RATACH PO ODLICZENIU DOTACJI`}
+                color="green"
+                calculations={
+                  turbinesCalcStore.loanForPurcharse.finallInstalmentPice
+                }
+              />
+
               <div className="mt-20 text-center"></div>
             </div>
             <PdfGeneratorButton />

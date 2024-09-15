@@ -20,10 +20,11 @@ export function setInverterCost({ input }: { input: InverterType }) {
 
 interface EnergyStoreTotalCostType {
   input: {
+    choosedEnergyStore: number;
     t30ControllerCost: number;
     energyCounterCost: number;
     mateboxCost: number;
-    batterCost: number;
+    batteryCost: number;
   };
 }
 export function setEnergyStoreTotalCost({ input }: EnergyStoreTotalCostType) {

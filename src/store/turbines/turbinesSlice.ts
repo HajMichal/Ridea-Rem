@@ -19,6 +19,10 @@ export interface TurbinesSlice {
     batteryCapacity: 0 | 3 | 6 | 9 | 12;
     installmentNumber: number;
     consultantMarkup: number;
+    energyStore: {
+      name: string;
+      price: number;
+    };
 
     threePhases: boolean;
     isThreePhasesInverter: boolean;
@@ -52,7 +56,11 @@ export const turbinesSlice: StateCreator<TurbinesSlice> = (set) => ({
     steelMast: 0,
     batteryCapacity: 0,
     installmentNumber: 120,
-    consultantMarkup: 120,
+    consultantMarkup: 0,
+    energyStore: {
+      name: "",
+      price: 0,
+    },
 
     threePhases: false,
     isThreePhasesInverter: false,

@@ -10,6 +10,7 @@ import {
   BatteryController,
   BatteryCapacity,
   Installments,
+  ChooseEnergyStore,
 } from "./formFields";
 
 export function TurbinesFormulas() {
@@ -23,13 +24,14 @@ export function TurbinesFormulas() {
       </h1>
       <ScrollArea h={"78%"}>
         <div className="laptop:mr-4">
-          <h2 className="font-orkneyBold">CENA ENERGII</h2>
+          <h2 className="font-orkneyBold">TURBINY</h2>
           <Turbines />
           <Phases />
           <Inverters />
           <MastFoundation />
           <MastType />
           <h2 className="font-orkneyBold">MAGAZYN ENERGII</h2>
+          <ChooseEnergyStore />
           <BatteryController />
           <EnergyMenagerCounter />
           <BatteryCapacity />

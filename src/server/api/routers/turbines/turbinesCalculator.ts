@@ -16,10 +16,11 @@ export const turbinesCalculator = createTRPCRouter({
   setEnergyStoreTotalCost: protectedProcedure
     .input(
       z.object({
+        choosedEnergyStore: z.number(),
         t30ControllerCost: z.number(),
         energyCounterCost: z.number(),
         mateboxCost: z.number(),
-        batterCost: z.number(),
+        batteryCost: z.number(),
       })
     )
     .mutation(calc.setEnergyStoreTotalCost),
