@@ -15,12 +15,12 @@ export default function Home() {
   return (
     <main className="m-0 grid h-screen max-h-screen w-screen grid-cols-4 overflow-hidden hover:cursor-pointer">
       <HomeTile
-        url={"/kalkulator/cieplo_wlasciwe"}
+        url={"/kalkulator/turbiny"}
         src={"/home/termomodernizacja.png"}
         iconSrc={"/home/icons/MagazynEnergiiIcon.svg"}
-        color={"bg-[#00B4D8]"}
-        title={"CIEPŁO"}
-        subTitle={"WŁAŚCIWE"}
+        color={"bg-[#FFE15D]"}
+        title={"TURBINY"}
+        subTitle={"WIATROWE"}
       />
       <HomeTile
         url={"/kalkulator/fotowoltaika"}
@@ -42,7 +42,7 @@ export default function Home() {
         url={"/kalkulator/klimatyzacja"}
         src={"/home/Foto_firm.png"}
         iconSrc={"/home/icons/PompaDoKalkulacji.svg"}
-        color={"bg-[#FFE15D]"}
+        color={"bg-[#00B4D8]"}
         title={"KLIMATYZACJA"}
         subTitle={""}
       />

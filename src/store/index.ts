@@ -34,6 +34,11 @@ import {
   airConditionSlice,
   type AirConditionSlice,
 } from "./airCondition/airConditionSlice";
+import { turbinesSlice, type TurbinesSlice } from "./turbines/turbinesSlice";
+import {
+  turbinesCalcSlice,
+  type TurbinesCalculationSlice,
+} from "./turbines/turbinesCalculationSlice";
 
 type Store = PhotovoltaicsSlice &
   PhotovoltaicCalculationSlice &
@@ -44,7 +49,9 @@ type Store = PhotovoltaicsSlice &
   HeatHomeSlice &
   HeatHomeCalculationSlice &
   AirConditionSlice &
-  AirConditionCalcualtionSlice;
+  AirConditionCalcualtionSlice &
+  TurbinesSlice &
+  TurbinesCalculationSlice;
 
 // ...a is set and get cb from zustand
 const useStore = create<Store>()((...a) => ({
@@ -58,6 +65,8 @@ const useStore = create<Store>()((...a) => ({
   ...heatHomeCalculationSlice(...a),
   ...airConditionSlice(...a),
   ...airConditionCalculationSlice(...a),
+  ...turbinesSlice(...a),
+  ...turbinesCalcSlice(...a),
 }));
 
 export default useStore;

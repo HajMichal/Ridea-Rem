@@ -38,7 +38,6 @@ const InputWithSubmitButton: React.FC<InputWithSubmitButtonType> = ({
       whichCalcualtor: whichCalcualtor,
     });
     setValue(0);
-    window.location.reload();
   };
 
   return (
@@ -74,11 +73,16 @@ export const UserFeeFormField = ({
   const [changeDataModal, setChangeDataModal] = useState(false);
 
   const { mutate: setImposedFeeAmount } =
-    api.userDataHandling.imposeTheFee.useMutation();
-  const { mutate: setFeePerKw } =
-    api.userDataHandling.feePerKwChange.useMutation();
+    api.userDataHandling.imposeTheFee.useMutation({
+      onSuccess: () => window.location.reload(),
+    });
 
-  const { mutate: removeMenagerPhotovoltaicJson } =
+  const { mutate: setFeePerKw } =
+    api.userDataHandling.feePerKwChange.useMutation({
+      onSuccess: () => window.location.reload(),
+    });
+
+  const { mutate: removeMenagerCalcDataPhotovoltaic } =
     api.dataFlow.removeMenagerData.useMutation();
   const { mutate: removeMenagerHeatPumpJson } =
     api.heatPumpDataFlowRouter.removeMenagerData.useMutation();
@@ -88,13 +92,16 @@ export const UserFeeFormField = ({
     api.heatHomeDataFlowRouter.removeMenagerData.useMutation();
   const { mutate: removeMenagerAirConditionJson } =
     api.airConditionDataFlowRouter.removeMenagerData.useMutation();
+  const { mutate: removeMenagerCalcDataTurbines } =
+    api.turbinesDataFlowRouter.removeMenagerCalcData.useMutation();
   const { mutate: removeUserFromDb } =
     api.userDataHandling.removeUser.useMutation();
 
   const removeUser = () => {
     removeUserFromDb(user.id);
     if (user.role === 2 && user.name) {
-      removeMenagerPhotovoltaicJson(user.id);
+      removeMenagerCalcDataPhotovoltaic(user.id);
+      removeMenagerCalcDataTurbines(user.id);
       removeMenagerHeatPumpJson(user.name);
       removeMenagerForCompanyJson(user.name);
       removeMenagerHeatHomeJson(user.name);
@@ -183,13 +190,15 @@ export const UserFeeFormField = ({
                     ${
                       calcualtor === "Photovoltaic"
                         ? "fotowoltaika"
-                        : calcualtor === "ForCompany"
-                        ? "dla firm"
-                        : calcualtor === "HeatPump"
+                        : // : calcualtor === "ForCompany"
+                        // ? "dla firm"
+                        calcualtor === "HeatPump"
                         ? "pompy ciepła"
-                        : calcualtor === "HeatHome"
-                        ? "ciepło właściwe"
-                        : "klimatyzacja"
+                        : // : calcualtor === "HeatHome"
+                        // ? "ciepło właściwe"
+                        calcualtor === "AirCondition"
+                        ? "klimatyzacja"
+                        : "turbiny"
                     }`}
                   userId={user.id}
                   setter={setImposedFeeAmount}
@@ -200,13 +209,15 @@ export const UserFeeFormField = ({
                   ${
                     calcualtor === "Photovoltaic"
                       ? "Prowizja od kW fotowoltaika"
-                      : calcualtor === "ForCompany"
-                      ? "Prowizja od kW dla firm"
-                      : calcualtor === "HeatPump"
+                      : // : calcualtor === "ForCompany"
+                      // ? "Prowizja od kW dla firm"
+                      calcualtor === "HeatPump"
                       ? "Prowizja od kW pompy ciepła"
-                      : calcualtor === "HeatHome"
-                      ? "Prowizja od M² ciepło właściwe"
-                      : ""
+                      : // : calcualtor === "HeatHome"
+                      // ? "Prowizja od M² ciepło właściwe"
+                      calcualtor === "AirCondition"
+                      ? ""
+                      : "Prowizja od kW turbiny"
                   }`}
                   isDisabled={calcualtor == "AirCondition"}
                   userId={user.id}

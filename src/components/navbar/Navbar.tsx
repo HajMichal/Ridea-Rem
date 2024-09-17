@@ -13,6 +13,7 @@ import { CALCULATORS } from "~/constans/calculatorTypes";
 import { LinkComponent } from "./LinkComponent";
 import { DropdownMenu } from "../DropdownMenu";
 import { useAirCondition } from "~/hooks/useAirCondition";
+import { useTurbines } from "~/hooks/useTurbines";
 
 const consultantProvisionsData = [
   "0",
@@ -33,18 +34,37 @@ const consultantProvisionsData = [
   "1000",
 ];
 const heatHomeProvisionData = [
-  { value: "0", label: "0" },
-  { value: "10", label: "10" },
-  { value: "15", label: "15" },
-  { value: "20", label: "20" },
-  { value: "25", label: "25" },
-  { value: "30", label: "30" },
-  { value: "35", label: "35" },
-  { value: "40", label: "40" },
-  { value: "45", label: "45" },
-  { value: "50", label: "50" },
+  "0",
+  "10",
+  "15",
+  "20",
+  "25",
+  "30",
+  "35",
+  "40",
+  "45",
+  "50",
 ];
 const airCondtitionProvisionData = ["0", "500", "1000", "1500", "2000"];
+const turbinesProvisionData = [
+  "0",
+  "100",
+  "200",
+  "300",
+  "400",
+  "500",
+  "600",
+  "700",
+  "800",
+  "900",
+  "1000",
+  "1100",
+  "1200",
+  "1300",
+  "1400",
+  "1500",
+  "1600",
+];
 
 const Navbar = () => {
   const { data: sessionData } = useSession();
@@ -55,6 +75,7 @@ const Navbar = () => {
   const { forCompanyStore } = useForCompany();
   const { heatHomeStore } = useHeatHome();
   const { airConditionStore } = useAirCondition();
+  const { turbinesStore } = useTurbines();
 
   const userRole = sessionData?.user.role;
 
@@ -165,6 +186,16 @@ const Navbar = () => {
                 }}
                 value={airConditionStore.consultantMarkup}
                 data={airCondtitionProvisionData}
+              />
+            )}
+            {router.pathname === "/kalkulator/turbiny" && (
+              <SelectComponent
+                title="POZIOM"
+                onChange={(e) => {
+                  store.updateTurbines("consultantMarkup", Number(e));
+                }}
+                value={turbinesStore.consultantMarkup}
+                data={turbinesProvisionData}
               />
             )}
           </div>

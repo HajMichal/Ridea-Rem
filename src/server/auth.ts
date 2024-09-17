@@ -26,6 +26,8 @@ declare module "next-auth" {
       imposedFeePhotovoltaic: number;
       imposedFeeHeatHome: number;
       imposedFeeAirCondition: number;
+      imposedFeeTurbines: number;
+      feePerkwTurbines: number;
       creatorId: string;
       // ...other properties
       role: number;

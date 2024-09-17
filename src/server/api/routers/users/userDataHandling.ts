@@ -56,12 +56,18 @@ export const loginRouter = createTRPCRouter({
     .query(async ({ ctx, input }) => {
       const getWorkers = await ctx.prisma.user.findMany({
         where: { creatorId: input.userId, role: 3 },
+        orderBy: {
+          name: "asc",
+        },
       });
       if (input.role === 1) {
         const getMenagerWithWorkers = await ctx.prisma.user.findMany({
           where: { role: 2 },
           include: {
             workers: true,
+          },
+          orderBy: {
+            name: "asc",
           },
         });
 
@@ -118,6 +124,14 @@ export const loginRouter = createTRPCRouter({
           },
         });
         return { status: 200, message: "Prowizja została nałożona na konto" };
+      } else if (input.whichCalcualtor === "Turbines") {
+        await ctx.prisma.user.update({
+          where: { id: input.userId },
+          data: {
+            imposedFeeTurbines: input.feeAmount,
+          },
+        });
+        return { status: 200, message: "Prowizja została nałożona na konto" };
       }
     }),
   feePerKwChange: publicProcedure
@@ -158,6 +172,14 @@ export const loginRouter = createTRPCRouter({
           where: { id: input.userId },
           data: {
             feePerkwHeatHome: input.feeAmount,
+          },
+        });
+        return { status: 200, message: "Prowizja została nałożona na konto" };
+      } else if (input.whichCalcualtor === "Turbines") {
+        await ctx.prisma.user.update({
+          where: { id: input.userId },
+          data: {
+            feePerkwTurbines: input.feeAmount,
           },
         });
         return { status: 200, message: "Prowizja została nałożona na konto" };

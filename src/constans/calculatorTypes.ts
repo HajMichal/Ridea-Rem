@@ -1,9 +1,10 @@
 export const CALCUALTOR_TYPES = [
   "Photovoltaic",
-  "ForCompany",
+  // "ForCompany",
   "HeatPump",
-  "HeatHome",
+  // "HeatHome",
   "AirCondition",
+  "Turbines",
 ];
 
 export const CALCULATORS = [
@@ -36,5 +37,11 @@ export const CALCULATORS = [
     title: "KLIMATYZACJA",
     color: "hover:bg-[#54f4ff]",
     iconSrc: "/home/icons/MagazynEnergiiIcon.svg",
+  },
+  {
+    href: "/edycja/daneTurbiny",
+    title: "TURBINY",
+    color: "hover:bg-[#FFE15D]",
+    iconSrc: "/home/icons/PompaDoKalkulacji.svg",
   },
 ];

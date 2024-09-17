@@ -87,6 +87,32 @@ export const dataFlowRouter = createTRPCRouter({
       },
     });
   }),
+  getCreditPercentage: protectedProcedure.query(async ({ ctx }) => {
+    const user = ctx.session?.user;
+    if (!user) return null;
+
+    return await ctx.prisma.photovoltaic.findUnique({
+      where: {
+        userId: user.role === 3 ? user.creatorId : user.id,
+      },
+      select: {
+        creditPercentage: true,
+      },
+    });
+  }),
+  getEnergyStoreData: protectedProcedure.query(async ({ ctx }) => {
+    const user = ctx.session?.user;
+    if (!user) return null;
+
+    return await ctx.prisma.photovoltaic.findUnique({
+      where: {
+        userId: user.role === 3 ? user.creatorId : user.id,
+      },
+      select: {
+        energyStore: true,
+      },
+    });
+  }),
   getAllPvCalcs: adminProcedure.query(async ({ ctx }) => {
     return await ctx.prisma.photovoltaic.findMany();
   }),
