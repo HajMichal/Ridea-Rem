@@ -48,6 +48,14 @@ export const useTurbines = () => {
             "turbinesDotationAmount",
             dotationAmount > 30000 ? 30000 : dotationAmount
           );
+
+          const transportCost =
+            data.turbinesCount !== 0 ? calcData.addons.wysylka : 0;
+          store.updateTurbinesCalc("transportCost", transportCost);
+
+          const greaterPowerFee =
+            data.totalPower > 3 ? calcData.addons["instalacja powyzej 3kw"] : 0;
+          store.updateTurbinesCalc("greaterPowerFee", greaterPowerFee);
         }
       },
     });

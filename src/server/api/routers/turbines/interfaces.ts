@@ -27,6 +27,7 @@ export interface TurbineCalcData extends Turbines {
     "montaż dodatkowo": number;
     wysylka: number;
     "podstawa inwertera": number;
+    "instalacja powyzej 3kw": number;
   };
   energyStore: {
     "T30 controller": number;

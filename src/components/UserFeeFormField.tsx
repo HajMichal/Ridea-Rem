@@ -38,7 +38,6 @@ const InputWithSubmitButton: React.FC<InputWithSubmitButtonType> = ({
       whichCalcualtor: whichCalcualtor,
     });
     setValue(0);
-    window.location.reload();
   };
 
   return (
@@ -74,9 +73,14 @@ export const UserFeeFormField = ({
   const [changeDataModal, setChangeDataModal] = useState(false);
 
   const { mutate: setImposedFeeAmount } =
-    api.userDataHandling.imposeTheFee.useMutation();
+    api.userDataHandling.imposeTheFee.useMutation({
+      onSuccess: () => window.location.reload(),
+    });
+
   const { mutate: setFeePerKw } =
-    api.userDataHandling.feePerKwChange.useMutation();
+    api.userDataHandling.feePerKwChange.useMutation({
+      onSuccess: () => window.location.reload(),
+    });
 
   const { mutate: removeMenagerCalcDataPhotovoltaic } =
     api.dataFlow.removeMenagerData.useMutation();
@@ -186,13 +190,13 @@ export const UserFeeFormField = ({
                     ${
                       calcualtor === "Photovoltaic"
                         ? "fotowoltaika"
-                        : calcualtor === "ForCompany"
-                        ? "dla firm"
-                        : calcualtor === "HeatPump"
+                        : // : calcualtor === "ForCompany"
+                        // ? "dla firm"
+                        calcualtor === "HeatPump"
                         ? "pompy ciepła"
-                        : calcualtor === "HeatHome"
-                        ? "ciepło właściwe"
-                        : calcualtor === "AirCondition"
+                        : // : calcualtor === "HeatHome"
+                        // ? "ciepło właściwe"
+                        calcualtor === "AirCondition"
                         ? "klimatyzacja"
                         : "turbiny"
                     }`}
@@ -205,13 +209,13 @@ export const UserFeeFormField = ({
                   ${
                     calcualtor === "Photovoltaic"
                       ? "Prowizja od kW fotowoltaika"
-                      : calcualtor === "ForCompany"
-                      ? "Prowizja od kW dla firm"
-                      : calcualtor === "HeatPump"
+                      : // : calcualtor === "ForCompany"
+                      // ? "Prowizja od kW dla firm"
+                      calcualtor === "HeatPump"
                       ? "Prowizja od kW pompy ciepła"
-                      : calcualtor === "HeatHome"
-                      ? "Prowizja od M² ciepło właściwe"
-                      : calcualtor === "AirCondition"
+                      : // : calcualtor === "HeatHome"
+                      // ? "Prowizja od M² ciepło właściwe"
+                      calcualtor === "AirCondition"
                       ? ""
                       : "Prowizja od kW turbiny"
                   }`}

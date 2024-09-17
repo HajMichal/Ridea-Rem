@@ -35,14 +35,9 @@ export function TurbinesMutations() {
         turbinesMontageCost: turbinesCalcStore.turbinesMontageCost,
         inverterCost: turbinesCalcStore.inverterCost,
         mastCost: turbinesCalcStore.mastCost,
-        transportCost:
-          turbinesStore.turbinesDetails.turbinesCount !== 0
-            ? turbinesData.addons.wysylka
-            : 0,
-        inverterBase:
-          turbinesStore.turbinesDetails.turbinesCount !== 0
-            ? turbinesData.addons["podstawa inwertera"]
-            : 0,
+        transportCost: turbinesCalcStore.transportCost,
+        inverterBase: turbinesCalcStore.inverterBaseCost,
+        greaterPowerFee: turbinesCalcStore.greaterPowerFee,
         feesAmount: turbinesCalcStore.officeMarkup.markupSumValue,
       });
   }, [
@@ -55,7 +50,9 @@ export function TurbinesMutations() {
     turbinesCalcStore.inverterCost,
     turbinesCalcStore.officeMarkup,
     turbinesCalcStore.mastCost,
-    turbinesStore.turbinesDetails.turbinesCount,
+    turbinesCalcStore.transportCost,
+    turbinesCalcStore.inverterBaseCost,
+    turbinesCalcStore.greaterPowerFee,
   ]);
 
   useEffect(() => {

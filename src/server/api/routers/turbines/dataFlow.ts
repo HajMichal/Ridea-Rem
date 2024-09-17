@@ -32,6 +32,7 @@ export const TurbinesCalcSchema = z.object({
     "montaż dodatkowo": z.number(),
     wysylka: z.number(),
     "podstawa inwertera": z.number(),
+    "instalacja powyzej 3kw": z.number(),
   }),
   energyStore: z.object({
     "T30 controller": z.number(),

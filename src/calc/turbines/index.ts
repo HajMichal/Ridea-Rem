@@ -78,6 +78,7 @@ interface TurbinesTotalCost {
     inverterCost: number;
     mastCost: number;
     transportCost: number;
+    greaterPowerFee: number;
     inverterBase: number;
     feesAmount: number;
   };

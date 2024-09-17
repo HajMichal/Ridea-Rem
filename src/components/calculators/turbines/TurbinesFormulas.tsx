@@ -30,7 +30,7 @@ export function TurbinesFormulas() {
           <Inverters />
           <MastFoundation />
           <MastType />
-          <h2 className="font-orkneyBold">MAGAZYN ENERGII</h2>
+          <h2 className="mt-8 font-orkneyBold">MAGAZYN ENERGII</h2>
           <ChooseEnergyStore />
           <BatteryController />
           <EnergyMenagerCounter />

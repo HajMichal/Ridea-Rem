@@ -4,8 +4,13 @@ import { YESNO } from "~/constans/formsData";
 import { useTurbines } from "~/hooks/useTurbines";
 
 const Inverters = () => {
-  const { turbinesStore, turbinesData, updateTurbinesStore, mutations } =
-    useTurbines();
+  const {
+    turbinesStore,
+    turbinesData,
+    updateTurbinesStore,
+    updateTurbinesCalcStore,
+    mutations,
+  } = useTurbines();
 
   useEffect(() => {
     if (turbinesData?.addons)
@@ -16,6 +21,17 @@ const Inverters = () => {
         hybridInvCost: turbinesData.addons["inwerter hybrydowy"],
       });
   }, [turbinesStore.isThreePhasesInverter, turbinesStore.isHybridInverter]);
+
+  useEffect(() => {
+    if (turbinesData?.addons) {
+      const invBase = turbinesData.addons["podstawa inwertera"];
+      const invBaseCost =
+        turbinesStore.turbinesDetails.totalPower !== 0
+          ? invBase + invBase * turbinesStore.turbinesDetails.totalPower
+          : 0;
+      updateTurbinesCalcStore("inverterBaseCost", invBaseCost);
+    }
+  }, [turbinesStore.turbinesDetails.totalPower]);
 
   const handle3PhaseInverterChange = (e: string | null) => {
     updateTurbinesStore("isThreePhasesInverter", e == "true");

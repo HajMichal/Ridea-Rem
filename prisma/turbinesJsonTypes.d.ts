@@ -26,6 +26,7 @@ declare global {
       "montaż dodatkowo": number;
       wysylka: number;
       "podstawa inwertera": number;
+      "instalacja powyzej 3kw": number;
     };
 
     // eslint-disable-next-line @typescript-eslint/consistent-type-definitions

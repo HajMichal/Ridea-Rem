@@ -47,6 +47,7 @@ export const turbinesCalculator = createTRPCRouter({
         inverterCost: z.number(),
         mastCost: z.number(),
         transportCost: z.number(),
+        greaterPowerFee: z.number(),
         inverterBase: z.number(),
         feesAmount: z.number(),
       })

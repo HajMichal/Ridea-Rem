@@ -50,6 +50,11 @@ export function Preview() {
                 calculations={turbinesStore.turbine3000Count}
                 unit="szt"
               />
+              <TextComponent
+                title="MOC INSTALACJI"
+                calculations={turbinesStore.turbinesDetails.totalPower}
+                unit="kW"
+              />
               {!turbinesStore.isHybridInverter && (
                 <TextComponent
                   title="INWERTERA TRÓJ-FAZOWY"
