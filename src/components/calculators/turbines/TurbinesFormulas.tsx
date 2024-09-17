@@ -32,9 +32,9 @@ export function TurbinesFormulas() {
           <MastType />
           <h2 className="mt-8 font-orkneyBold">MAGAZYN ENERGII</h2>
           <ChooseEnergyStore />
-          <BatteryController />
-          <EnergyMenagerCounter />
-          <BatteryCapacity />
+          {/* <BatteryController /> */}
+          {/* <EnergyMenagerCounter /> */}
+          {/* <BatteryCapacity /> */}
           <Matebox />
           <Installments />
         </div>

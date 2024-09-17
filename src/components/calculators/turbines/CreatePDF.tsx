@@ -18,8 +18,8 @@ import {
   smallestPanel,
 } from "~/constans/panelPowers";
 import { tax23, tax8 } from "~/constans/taxPercentage";
-import { TurbinesSlice } from "~/store/turbines/turbinesSlice";
-import { TurbinesCalculationSlice } from "~/store/turbines/turbinesCalculationSlice";
+import { type TurbinesSlice } from "~/store/turbines/turbinesSlice";
+import { type TurbinesCalculationSlice } from "~/store/turbines/turbinesCalculationSlice";
 
 Font.register({
   family: "Orkney",
@@ -266,13 +266,15 @@ const TurbinesDocument = ({
           <View style={styles.saveRow}>
             <Text style={styles.saveTitle}>T30 CONTROLER BATERY SOLAX</Text>
             <Text style={styles.savePrice}>
-              {turbinesStore.isBatteryController ? "TAK" : "NIE"}
+              {/* {turbinesStore.isBatteryController ? "TAK" : "NIE"} */}
+              {turbinesStore.energyStore.price !== 0 ? "TAK" : "NIE"}
             </Text>
           </View>
           <View style={styles.saveRow}>
             <Text style={styles.saveTitle}>LICZNIK DO MAGAZYNU ENERGII</Text>
             <Text style={styles.savePrice}>
-              {turbinesStore.isEnergyMenagerCounter ? "TAK" : "NIE"}
+              {/* {turbinesStore.isEnergyMenagerCounter ? "TAK" : "NIE"} */}
+              {turbinesStore.energyStore.price !== 0 ? "TAK" : "NIE"}
             </Text>
           </View>
           <View style={styles.saveRow}>
@@ -281,12 +283,12 @@ const TurbinesDocument = ({
               {turbinesStore.isMatebox ? "TAK" : "NIE"}
             </Text>
           </View>
-          <View style={styles.saveRow}>
+          {/* <View style={styles.saveRow}>
             <Text style={styles.saveTitle}>TRIPLE T30 BATERY SOLAX</Text>
             <Text style={styles.savePrice}>
               {turbinesStore.batteryCapacity} kWh
             </Text>
-          </View>
+          </View> */}
         </View>
 
         <View style={styles.headerBackground}>

@@ -76,9 +76,6 @@ export const turbinesCalculator = createTRPCRouter({
     .mutation(async ({ input, ctx }) => {
       const officeFeeValue =
         Math.round(input.perKwfee * input.systemPower) + input.constantFee;
-      const consultantFeeValue = Math.round(
-        input.consultantFee * input.systemPower
-      );
 
       const creator = await ctx.prisma.user.findFirst({
         where: { id: input.creatorId },
@@ -95,7 +92,7 @@ export const turbinesCalculator = createTRPCRouter({
       const markupSumValue = Number(
         (
           input.perKwfee * input.systemPower +
-          input.consultantFee * input.systemPower +
+          input.consultantFee +
           input.constantFee +
           officeFeeForBoss
         ).toFixed(2)
@@ -103,7 +100,7 @@ export const turbinesCalculator = createTRPCRouter({
       return {
         officeFeeValue: officeFeeValue,
         officeFeeForBoss: officeFeeForBoss,
-        consultantFeeValue: consultantFeeValue,
+        consultantFeeValue: input.consultantFee,
         markupSumValue: markupSumValue,
       };
     }),
