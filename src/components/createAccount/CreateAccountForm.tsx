@@ -30,6 +30,8 @@ export default function CreateAccountForm({
     api.heatHomeDataFlowRouter.addNewMenager.useMutation();
   const { mutate: addMenagerAirCondition } =
     api.airConditionDataFlowRouter.addNewMenager.useMutation();
+  const { mutate: addMenagerTurbines } =
+    api.turbinesDataFlowRouter.addMenagerCalcData.useMutation();
 
   const { mutate } = api.userDataHandling.createAccount.useMutation({
     onError(error) {
@@ -38,6 +40,10 @@ export default function CreateAccountForm({
     onSuccess(data) {
       if (data.userRole === 2) {
         addMenagerPhotovoltaicData({
+          userId: data.userId,
+          userName: data.userName,
+        });
+        addMenagerTurbines({
           userId: data.userId,
           userName: data.userName,
         });
