@@ -1,10 +1,11 @@
-import { PasswordInput, TextInput } from "@mantine/core";
+import { Loader, Overlay, PasswordInput, TextInput } from "@mantine/core";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
 export default function LoginForm() {
   const [error, setError] = useState<string>();
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
   const [userData, setUserData] = useState({
     login: "",
@@ -12,11 +13,13 @@ export default function LoginForm() {
   });
 
   const onSubmit = async () => {
+    setLoading(true);
     const res = await signIn("credentials", {
       login: userData.login,
       password: userData.password,
       redirect: false,
     });
+    setLoading(false);
     if (res?.error) setError(res.error);
     else if (res?.ok) {
       await router.push("/home");
@@ -90,6 +93,8 @@ export default function LoginForm() {
           ZALOGUJ SIĘ
         </button>
       </div>
+      {loading && <Overlay color="#000" opacity={0.35} />}
+      {loading && <Loader size={"xl"} color="#92d136" className="absolute" />}
     </div>
   );
 }
