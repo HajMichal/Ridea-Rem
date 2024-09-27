@@ -1,10 +1,13 @@
 # RES Calculators 🔢
 
-### This project contains three distinct calcualtors combined under a single domain
+### This project contains few distinct calcualtors combined under a single domain
 - photovoltaic,
-- photovoltaic for Companys,
+- photovoltaic for comapnies,
 - heat pumps,
-- heat home
+- termomodernization,
+- turbines,
+- air condition
+
 
 
 <br/>
@@ -24,14 +27,14 @@ various renewable energy sources.
 <br/>
 
  ### 📖 Tech Stack:
-- T3 stack ( trpc, React, Next-Auth, Prisma, zustand as state menegment, TailwindCSS )
+- T3 stack ( trpc, React, Next-Auth, Prisma, zustand as state menager, TailwindCSS )
 - Vercel,
-- AWS S3 Bucket / Amazon RDS
+- AWS S3 Bucket / PostgresSQL hosted on VM
 
 > [!NOTE] 
 >Data storage was divided into two services:
 > - AWS s3 bucket to store the file with data necessary for calculations and files to  download,
-> - Amazon RDS for user data.
+> - PostgresSQL for user data.
 
 
 <br/>

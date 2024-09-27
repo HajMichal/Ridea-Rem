@@ -43,6 +43,7 @@ model Image {
   title       String
   description String 
   url         String
+  createdAt   DateTime @default(now())
 }
 
 model Photovoltaic {

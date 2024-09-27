@@ -6,17 +6,18 @@ import { useDisclosure } from "@mantine/hooks";
 interface CardDescriptionType {
   title: string;
   description: string;
-  img: string;
+  url: string;
 }
-const CardDescription = ({ description, title, img }: CardDescriptionType) => {
+
+const CardDescription = ({ description, title, url }: CardDescriptionType) => {
   const [opened, { open, close }] = useDisclosure(false);
   return (
     <>
-      <Text size="sm" c="dimmed" className="h-40 overflow-hidden">
+      <Text size="sm" c="dimmed" className="h-auto max-h-32 overflow-hidden">
         {urlify(description)}
       </Text>
 
-      <div className="flex w-full justify-end">
+      <div className="mt-2 flex w-full justify-end">
         <button onClick={() => open()} className="font-orkneyBold text-xs">
           CZYTAJ DALEJ
         </button>
@@ -25,11 +26,11 @@ const CardDescription = ({ description, title, img }: CardDescriptionType) => {
       <Modal
         opened={opened}
         onClose={close}
-        title={title}
+        title={urlify(title)}
         size="50%"
         className="font-orkneyBold"
       >
-        <Image src={img} height={260} alt="image" />
+        <Image src={url} height={260} alt="image" />
         <ScrollArea h={"78%"}>
           <Text className="my-5 mr-5 max-h-96 px-3" c={"dimmed"}>
             {urlify(description)}

@@ -21,3 +21,16 @@
 ::-webkit-scrollbar-thumb:hover {
     background: #555;
 }
+
+.custom-shape {
+    clip-path: path("M381 0L344.2 102.2C307.3 204.3 233.7 408.7 221.3 613.2C209 817.7 258 1022.3 266.3 1226.8C274.7 1431.3 242.3 1635.7 226.2 1737.8L210 1840L0 1840L0 1737.8C0 1635.7 0 1431.3 0 1226.8C0 1022.3 0 817.7 0 613.2C0 408.7 0 204.3 0 102.2L0 0Z");
+}
+
+.hide-scroll-bar::-webkit-scrollbar {
+    display: none;
+}
+
+.hide-scroll-bar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;  
+}
