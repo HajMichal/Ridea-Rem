@@ -5,9 +5,12 @@ export function urlify(text: string) {
   return text.split(urlRegex).map((part, index) => {
     if (part.match(urlRegex)) {
       return (
-        <a key={index} target="_blank" href={part} className="text-blue-500">
-          {part}
-        </a>
+        <>
+          <br />
+          <a key={index} target="_blank" href={part} className="text-blue-500">
+            {part}
+          </a>
+        </>
       );
     }
     return part;

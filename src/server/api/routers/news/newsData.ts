@@ -24,9 +24,11 @@ export const newsDataRouter = createTRPCRouter({
       });
     }),
   getLastPosts: publicProcedure.query(async ({ ctx }) => {
-    const data = await ctx.prisma.image.findMany();
-    console.log(data);
-    return data;
+    return await ctx.prisma.image.findMany({
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
   }),
   updatePost: adminProcedure
     .input(
