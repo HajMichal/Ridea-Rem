@@ -27,8 +27,8 @@ const MyApp: AppType<{ session: Session | null }> = ({
       className={`${orkney.variable} ${orkneyBold.variable} ${orkneyLight.variable} font-sans`}
     >
       <Head>
-        <title>IdeaRem - Kalkulator 🔢</title>
-        <link rel="icon" href="/icons/logo_solo_white.svg" sizes="any" />
+        <title>Przyjazna Natura - Kalkulator</title>
+        <link rel="icon" href="/icons/newLogoGreen.svg" sizes="any" />
       </Head>
       <SessionProvider session={session}>
         <MantineProvider withGlobalStyles withNormalizeCSS>

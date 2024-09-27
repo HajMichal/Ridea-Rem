@@ -41,11 +41,7 @@ export const NewsCard = ({
 }: NewsCardTypes) => {
   const [opened, { open, close }] = useDisclosure(false);
 
-  const { mutate: removePost } = api.newsDataRouter.deletePost.useMutation({
-    onSuccess: () => {
-      window.location.reload();
-    },
-  });
+  const { mutate: removePost } = api.newsDataRouter.deletePost.useMutation();
   const { mutate: updatePost } = api.newsDataRouter.updatePost.useMutation({
     onSuccess: () => {
       window.location.reload();
@@ -113,7 +109,7 @@ export const NewsCard = ({
         )}
       </Group>
 
-      <CardDescription description={description} title={title} img={url} />
+      <CardDescription description={description} title={title} url={url} />
 
       <Modal
         opened={opened}

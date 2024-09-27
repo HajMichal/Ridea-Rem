@@ -1,8 +1,12 @@
 import { z } from "zod";
-import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
+import {
+  adminProcedure,
+  createTRPCRouter,
+  publicProcedure,
+} from "~/server/api/trpc";
 
 export const newsDataRouter = createTRPCRouter({
-  createNewPost: publicProcedure
+  createNewPost: adminProcedure
     .input(
       z.object({
         title: z.string(),
@@ -19,12 +23,12 @@ export const newsDataRouter = createTRPCRouter({
         },
       });
     }),
-  getLastPosts: publicProcedure.query(({ ctx }) => {
-    return ctx.prisma.image.findMany({
-      take: 6,
-    });
+  getLastPosts: publicProcedure.query(async ({ ctx }) => {
+    const data = await ctx.prisma.image.findMany();
+    console.log(data);
+    return data;
   }),
-  updatePost: publicProcedure
+  updatePost: adminProcedure
     .input(
       z.object({
         id: z.string(),
@@ -43,7 +47,7 @@ export const newsDataRouter = createTRPCRouter({
         },
       });
     }),
-  deletePost: publicProcedure
+  deletePost: adminProcedure
     .input(z.string())
     .mutation(async ({ ctx, input }) => {
       await ctx.prisma.image.delete({

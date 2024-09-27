@@ -5,6 +5,8 @@
       .cls-1 {
         fill: #a3c572;
         stroke-width: 0px;
+        width: "auto";
+        height: "auto";
       }
     </style>
   </defs>

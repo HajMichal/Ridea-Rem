@@ -6,9 +6,10 @@ import { useDisclosure } from "@mantine/hooks";
 interface CardDescriptionType {
   title: string;
   description: string;
-  img: string;
+  url: string;
 }
-const CardDescription = ({ description, title, img }: CardDescriptionType) => {
+
+const CardDescription = ({ description, title, url }: CardDescriptionType) => {
   const [opened, { open, close }] = useDisclosure(false);
   return (
     <>
@@ -29,7 +30,7 @@ const CardDescription = ({ description, title, img }: CardDescriptionType) => {
         size="50%"
         className="font-orkneyBold"
       >
-        <Image src={img} height={260} alt="image" />
+        <Image src={url} height={260} alt="image" />
         <ScrollArea h={"78%"}>
           <Text className="my-5 mr-5 max-h-96 px-3" c={"dimmed"}>
             {urlify(description)}
