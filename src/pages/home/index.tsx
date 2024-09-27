@@ -1,15 +1,17 @@
 import { useSession } from "next-auth/react";
-import dynamic from "next/dynamic";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-
-const HomeTile = dynamic(() => import("~/components/home/HomeTile"));
+import { api } from "~/utils/api";
+import { urlify } from "~/components/newsPageComponent/FindUrl";
+import CardDescription from "~/components/newsPageComponent/CardDescription";
 
 export default function Home() {
   const { status, data } = useSession();
   const router = useRouter();
+
+  const { data: posts } = api.newsDataRouter.getLastPosts.useQuery();
 
   useEffect(() => {
     if (status === "unauthenticated") void router.push("/auth/signin");
@@ -60,7 +62,7 @@ export default function Home() {
     //     <div className="h-2/3 w-1/2 self-center rounded-lg border-4 border-brand bg-white"></div>
     //   </div>
     // </div>
-    <div className="flex h-screen w-screen items-center">
+    <div className="flex h-screen w-screen items-center bg-[url('/home/Fotowoltaika2.webp')] bg-cover">
       <div className="custom-shape absolute flex h-screen w-[400px] flex-col items-end gap-10 bg-dark py-10">
         <Image
           src={"/icons/newLogoGreen.svg"}
@@ -113,10 +115,23 @@ export default function Home() {
       <div className="hide-scroll-bar absolute right-10 h-4/5 w-1/2 max-w-2xl overflow-y-scroll rounded-xl border bg-slate-100 p-3 lg:w-1/3">
         <h1 className=" text-center font-orkney text-2xl">AKTUALNOŚCI</h1>
         <div className="h-auto w-full bg-cover p-2">
-          <div className="h-auto w-full rounded-l-lg rounded-tr-lg bg-white bg-opacity-60 p-2">
-            <h1 className="text-xl">Tytuł</h1>
-            <button className="text-sm">Czytaj dalej</button>
-          </div>
+          {posts?.map((post) => {
+            return (
+              <div
+                key={post.id}
+                className="h-auto w-full rounded-l-lg rounded-tr-lg bg-white bg-opacity-60 p-2"
+              >
+                <h1 className="text-xl">{urlify(post.title)}</h1>
+                {post.description !== "" && (
+                  <CardDescription
+                    description={post.description}
+                    title={post.title}
+                    url={post.url}
+                  />
+                )}
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>

@@ -17,6 +17,7 @@ import { useDisclosure } from "@mantine/hooks";
 
 import { type SubmitHandler, useForm } from "react-hook-form";
 import CardDescription from "./CardDescription";
+import { urlify } from "./FindUrl";
 
 interface NewsCardTypes {
   id: string;
@@ -40,14 +41,14 @@ export const NewsCard = ({
   role = 3,
 }: NewsCardTypes) => {
   const [opened, { open, close }] = useDisclosure(false);
+  const utils = api.useContext();
 
-  const { mutate: removePost } = api.newsDataRouter.deletePost.useMutation();
-  const { mutate: updatePost } = api.newsDataRouter.updatePost.useMutation({
-    onSuccess: () => {
-      window.location.reload();
-    },
+  const { mutate: removePost } = api.newsDataRouter.deletePost.useMutation({
+    onSuccess: () => void utils.newsDataRouter.getLastPosts.invalidate(),
   });
-
+  const { mutate: updatePost } = api.newsDataRouter.updatePost.useMutation({
+    onSuccess: () => void utils.newsDataRouter.getLastPosts.invalidate(),
+  });
   const { register, handleSubmit } = useForm<PostData>({
     defaultValues: {
       title: title,
@@ -79,7 +80,7 @@ export const NewsCard = ({
 
       <Group mt="md" mb="xs" className="flex w-full justify-between">
         <Text fw={500} className="max-w-[85%]">
-          {title}
+          {urlify(title)}
         </Text>
         {role === 1 && (
           <Menu shadow="md" width={200}>
@@ -114,7 +115,7 @@ export const NewsCard = ({
       <Modal
         opened={opened}
         onClose={close}
-        title="Tworzysz nowego posta"
+        title="Edytujesz posta"
         size="50%"
         className="font-orkneyBold"
       >

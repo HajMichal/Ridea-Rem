@@ -22,8 +22,10 @@ function getRandomInt(max: number) {
 
 const CreateNewPost = ({ role = 3 }: CreateNewPostType) => {
   const [opened, { open, close }] = useDisclosure(false);
-
-  const { mutate } = api.newsDataRouter.createNewPost.useMutation();
+  const utils = api.useContext();
+  const { mutate } = api.newsDataRouter.createNewPost.useMutation({
+    onSuccess: () => void utils.newsDataRouter.getLastPosts.invalidate(),
+  });
 
   const { register, watch } = useForm<PostData>({
     defaultValues: {

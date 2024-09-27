@@ -13,11 +13,11 @@ const CardDescription = ({ description, title, url }: CardDescriptionType) => {
   const [opened, { open, close }] = useDisclosure(false);
   return (
     <>
-      <Text size="sm" c="dimmed" className="h-40 overflow-hidden">
+      <Text size="sm" c="dimmed" className="h-auto max-h-32 overflow-hidden">
         {urlify(description)}
       </Text>
 
-      <div className="flex w-full justify-end">
+      <div className="mt-2 flex w-full justify-end">
         <button onClick={() => open()} className="font-orkneyBold text-xs">
           CZYTAJ DALEJ
         </button>
@@ -26,7 +26,7 @@ const CardDescription = ({ description, title, url }: CardDescriptionType) => {
       <Modal
         opened={opened}
         onClose={close}
-        title={title}
+        title={urlify(title)}
         size="50%"
         className="font-orkneyBold"
       >
