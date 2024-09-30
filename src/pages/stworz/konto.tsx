@@ -21,20 +21,26 @@ const Account = () => {
   }, [sessionData, router, status]);
 
   return (
-    <div className="h-screen w-screen overflow-hidden bg-[#E8E7E7] font-orkney">
-      <Navbar />
-      <div className="flex h-full w-full justify-center bg-[url(/login.png)] bg-cover">
-        <div className="mt-10 h-full w-5/6 max-w-[700px] rounded-t-[60px] bg-white bg-opacity-90 p-10 shadow-sm ">
-          <Logo
-            isTitle
-            title="DZIEŃ DOBRY!"
-            subTitle="Tutaj stworzysz nowe konto!"
-          />
-          <CreateAccountForm sessionData={sessionData} />
-          <Footer />
+    // <div className="h-screen w-screen overflow-hidden bg-[#E8E7E7] font-orkney">
+    <div className="h-full min-h-screen overflow-hidden">
+      <div className="absolute right-0 w-screen overflow-hidden">
+        <Navbar />
+      </div>
+      <div className="h-full min-h-screen w-screen bg-[url(/login.png)] bg-cover pt-24">
+        <div className="flex h-full w-full justify-center ">
+          <div className="mt-10 h-full w-5/6 max-w-[700px] rounded-[60px] bg-white bg-opacity-90 p-10 shadow-sm">
+            <Logo
+              isTitle
+              title="DZIEŃ DOBRY!"
+              subTitle="Tutaj stworzysz nowe konto!"
+            />
+            <CreateAccountForm sessionData={sessionData} />
+            <Footer />
+          </div>
         </div>
       </div>
     </div>
+    // </div>
   );
 };
 
