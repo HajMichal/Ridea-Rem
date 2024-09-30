@@ -27,12 +27,16 @@ various renewable energy sources.
 <br/>
 
  ### 📖 Tech Stack:
+
 - T3 stack ( trpc, React, Next-Auth, Prisma, zustand as state menager, TailwindCSS )
 - Vercel,
 - AWS S3 Bucket / PostgresSQL hosted on VM
 
 > [!NOTE] 
->Data storage was divided into two services:
+>
+> ~ I'm currently migrating everything from AWS to Postgres
+>
+> Data storage was divided into two services:
 > - AWS s3 bucket to store the file with data necessary for calculations and files to  download,
 > - PostgresSQL for user data.
 
