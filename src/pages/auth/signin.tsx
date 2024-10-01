@@ -3,8 +3,8 @@ import { getProviders } from "next-auth/react";
 import { type GetServerSideProps } from "next";
 import dynamic from "next/dynamic";
 import LoginForm from "~/components/loginPage/LoginForm";
+import Logo from "~/components/Logo";
 
-const Logo = dynamic(() => import("~/components/Logo"));
 const Footer = dynamic(() => import("~/components/Footer"));
 const ImageTile = dynamic(() => import("~/components/loginPage/ImageTile"));
 

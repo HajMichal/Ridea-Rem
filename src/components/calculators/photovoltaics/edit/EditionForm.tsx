@@ -9,7 +9,7 @@ import { AddElement } from "./AddElement";
 import { Button } from "@mantine/core";
 import { MdOutlineAddchart } from "react-icons/md";
 import { RemoveElement } from "./RemoveElement";
-import React from "react";
+import React, { useState } from "react";
 
 interface EditionForm {
   data: PhotovoltaicDataToCalculation;
@@ -18,6 +18,7 @@ interface EditionForm {
 
 export const EditionForm = ({ data, menagers }: EditionForm) => {
   const [opened, { open, close }] = useDisclosure(false);
+  const [dataToChange, setDataToChange] = useState({});
 
   const { mutate } = api.dataFlow.editJSONFile.useMutation({
     onSuccess: () => {
@@ -28,277 +29,98 @@ export const EditionForm = ({ data, menagers }: EditionForm) => {
       toast.error("UWAGA BŁĄD! Dane nie zostały zmienione. Spróbuj ponownie.");
     },
   });
-  const { register, handleSubmit } = useForm<PhotovoltaicDataToCalculation>();
+  const { handleSubmit } = useForm<PhotovoltaicDataToCalculation>();
 
-  const onSubmit: SubmitHandler<PhotovoltaicDataToCalculation> = (formData) => {
-    console.log(menagers, formData);
-    mutate({
-      userId: menagers.length === 0 ? [data.userId] : menagers,
-      schema: { ...formData, userId: data.userId },
-    });
-    close();
-  };
+  // const onSubmit: SubmitHandler<PhotovoltaicDataToCalculation> = (formData) => {
+  //   console.log(menagers, formData);
+  //   mutate({
+  //     userId: menagers.length === 0 ? [data.userId] : menagers,
+  //     schema: { ...formData, userId: data.userId },
+  //   });
+  //   close();
+  // };
 
-  const jsxPanel400Elements = [];
-  const jsxmediumPanelElements = [];
-  const jsxlargestPanelElements = [];
+  function DisplayData(calcData: object, path: string[] = [], depth = 0) {
+    const [editingKey, setEditingKey] = useState<string | null>(null);
+    if (depth === 6) return null;
 
-  for (const panelData in data?.panels_small) {
-    const title = dataNamesMappings[panelData]!;
-    if (data.panels_small.hasOwnProperty(panelData)) {
-      const registerAddonKey = `panels_small.${panelData}` as keyof typeof data;
-      const panelDataPrice =
-        data.panels_small[panelData as keyof typeof data.panels_small];
-      jsxPanel400Elements.push(
-        <ChangeDataInputComponent
-          {...register(registerAddonKey, {
-            valueAsNumber: true,
-          })}
-          title={title}
-          defaultValue={panelDataPrice}
-        />
-      );
-    }
-  }
-  for (const panelData in data?.panels_medium) {
-    const title = dataNamesMappings[panelData]!;
-    if (data.panels_medium.hasOwnProperty(panelData)) {
-      const registerAddonKey =
-        `panels_medium.${panelData}` as keyof typeof data;
-      const panelDataPrice =
-        data.panels_medium[panelData as keyof typeof data.panels_medium];
-      jsxmediumPanelElements.push(
-        <ChangeDataInputComponent
-          {...register(registerAddonKey, {
-            valueAsNumber: true,
-          })}
-          title={title}
-          defaultValue={panelDataPrice}
-        />
-      );
-    }
-  }
-  for (const panelData in data?.panels_large) {
-    const title = dataNamesMappings[panelData]!;
-    if (data.panels_large.hasOwnProperty(panelData)) {
-      const registerAddonKey = `panels_large.${panelData}` as keyof typeof data;
-      const panelDataPrice =
-        data.panels_large[panelData as keyof typeof data.panels_large];
-      jsxlargestPanelElements.push(
-        <ChangeDataInputComponent
-          {...register(registerAddonKey, {
-            valueAsNumber: true,
-          })}
-          title={title}
-          defaultValue={panelDataPrice}
-        />
-      );
-    }
+    return (
+      <>
+        {Object.entries(calcData).map(
+          ([key, value]: [key: string, value: number | object]) => {
+            const isEditing = editingKey === key;
+            if (typeof value !== "number" && typeof value !== "string") {
+              return (
+                <div key={key}>
+                  <h1>{key}</h1>
+                  {DisplayData(value, [...path, key], depth + 1)}
+                </div>
+              );
+            } else {
+              return (
+                <div key={key} className="flex gap-2">
+                  <p>{key}:</p>
+                  {/* <p>{value}</p> */}
+                  {isEditing ? (
+                    <>
+                      <input
+                        type="text"
+                        placeholder={value.toString()}
+                        onChange={(e) =>
+                          setDataToChange({
+                            [key]: Number(e.target.value),
+                          })
+                        }
+                      />
+                      <button
+                        onClick={() => {
+                          setEditingKey(null);
+                          mutate({
+                            dataToChange,
+                            path,
+                            userId:
+                              menagers.length === 0 ? [data.userId] : menagers,
+                          });
+                          console.log(path, dataToChange);
+                        }}
+                      >
+                        Save
+                      </button>
+                      <button
+                        onClick={() => {
+                          setEditingKey(null);
+                          setDataToChange({});
+                        }}
+                      >
+                        Discard
+                      </button>
+                    </>
+                  ) : (
+                    <>
+                      <p>{value}</p>
+                      <button
+                        className="h-6 w-10"
+                        onClick={() => {
+                          setEditingKey(key);
+                        }}
+                      >
+                        edit
+                      </button>
+                    </>
+                  )}
+                </div>
+              );
+            }
+          }
+        )}
+      </>
+    );
   }
 
   return (
     <>
       <h1 className="w-full pt-14 text-center">{data.userName}</h1>
-      <form className="w-full pb-20 pt-3">
-        <h2 className="mt-5 w-full text-center text-3xl">DANE </h2>
-        <div className="flex">
-          <div>
-            <h2 className="mb-2 ml-3 mt-5 w-full text-center font-orkneyLight text-2xl">
-              PANEL 410
-            </h2>
-            {jsxPanel400Elements.map((element, index) => (
-              <div key={index}>{element}</div>
-            ))}
-          </div>
-          <div>
-            <h2 className="mb-2 ml-3 mt-5 w-full text-center font-orkneyLight text-2xl">
-              PANEL 455
-            </h2>
-            {jsxmediumPanelElements.map((element, index) => (
-              <div key={index}>{element}</div>
-            ))}
-          </div>
-          <div>
-            <h2 className="mb-2 ml-3 mt-5 w-full text-center font-orkneyLight text-2xl">
-              PANEL 580
-            </h2>
-            {jsxlargestPanelElements.map((element, index) => (
-              <div key={index}>{element}</div>
-            ))}
-          </div>
-        </div>
-        <h2 className="mt-10 w-full text-center text-2xl">MAGAZYN ENERGII</h2>
-        {data &&
-          Object.entries(data.energyStore).map((key, index) => {
-            return (
-              <div key={index} className="flex items-end justify-center gap-9">
-                <ChangeDataInputComponent
-                  {...register(`energyStore.${key[0]}` as keyof typeof data, {
-                    valueAsNumber: true,
-                  })}
-                  title={key[0]}
-                  defaultValue={key[1]}
-                />
-                <RemoveElement element="energyStore" name={key[0]} />
-              </div>
-            );
-          })}
-
-        <h2 className="mt-10 w-full text-center text-2xl">DOTACJE</h2>
-        <ChangeDataInputComponent
-          {...register("dotations.magazynCiepla", {
-            valueAsNumber: true,
-          })}
-          title="MAGAZYN CIEPŁA"
-          defaultValue={data.dotations.magazynCiepla}
-        />
-        <ChangeDataInputComponent
-          {...register("dotations.menagerEnergii", {
-            valueAsNumber: true,
-          })}
-          title="MENAGER ENERGII"
-          defaultValue={data.dotations.menagerEnergii}
-        />
-        <ChangeDataInputComponent
-          {...register("dotations.mojPrad", {
-            valueAsNumber: true,
-          })}
-          title="MÓJ PRĄD"
-          defaultValue={data.dotations.mojPrad}
-        />
-        <ChangeDataInputComponent
-          {...register("dotations.mp_mc", {
-            valueAsNumber: true,
-          })}
-          title="MÓJ PRĄD + MAGAZYN CIEPŁA"
-          defaultValue={data.dotations.mp_mc}
-        />
-        <h2 className="mt-10 w-full text-center text-2xl">KOSZTY DODATKOWE</h2>
-        <ChangeDataInputComponent
-          {...register("addons.bloczki", {
-            valueAsNumber: true,
-          })}
-          title="BLOCZKI"
-          defaultValue={data.addons.bloczki}
-        />
-        <ChangeDataInputComponent
-          {...register("addons.tigo", {
-            valueAsNumber: true,
-          })}
-          title="TIGO"
-          defaultValue={data.addons.tigo}
-        />
-        <ChangeDataInputComponent
-          {...register("addons.ekierki", {
-            valueAsNumber: true,
-          })}
-          title="STANDARDOWE EKIERKI"
-          defaultValue={data.addons.ekierki}
-        />
-        <ChangeDataInputComponent
-          {...register("addons.certyfikowaneEkierki", {
-            valueAsNumber: true,
-          })}
-          title="CERTYFIKOWANE EKIERKI"
-          defaultValue={data.addons.certyfikowaneEkierki}
-        />
-        <ChangeDataInputComponent
-          {...register("addons.grunt", {
-            valueAsNumber: true,
-          })}
-          title="GRUNT"
-          defaultValue={data.addons.grunt}
-        />
-        <ChangeDataInputComponent
-          {...register("addons.matebox", {
-            valueAsNumber: true,
-          })}
-          title="MATEBOX"
-          defaultValue={data.addons.grunt}
-        />
-        <ChangeDataInputComponent
-          {...register("addons.kableAC", {
-            valueAsNumber: true,
-          })}
-          title="KABLE AC"
-          defaultValue={data.addons.kableAC}
-        />
-        <ChangeDataInputComponent
-          {...register("addons.przekopy", {
-            valueAsNumber: true,
-          })}
-          title="PRZEKOPY"
-          defaultValue={data.addons.przekopy}
-        />
-        <ChangeDataInputComponent
-          {...register("addons.inwerterHybrydowy", {
-            valueAsNumber: true,
-          })}
-          title="INWERTER HYBRYDOWY"
-          defaultValue={data.addons.inwerterHybrydowy}
-        />
-        <ChangeDataInputComponent
-          {...register("addons.magazynCiepla", {
-            valueAsNumber: true,
-          })}
-          title="MAGAZYN CIEPŁA - CENA"
-          defaultValue={data.addons.magazynCiepla}
-        />
-        <ChangeDataInputComponent
-          {...register("addons.ems", {
-            valueAsNumber: true,
-          })}
-          title="EMS"
-          defaultValue={data.addons.ems}
-        />
-        <h2 className="mt-10 w-full text-center text-2xl">CAR PORT</h2>
-        {data &&
-          Object.entries(data.carPort).map((key, index) => {
-            return (
-              <ChangeDataInputComponent
-                {...register(`carPort.${key[0]}` as keyof typeof data, {
-                  valueAsNumber: true,
-                })}
-                title={key[0]}
-                defaultValue={data.carPort[key[0] as keyof typeof data.carPort]}
-                key={index}
-              />
-            );
-          })}
-        <h2 className="mt-10 w-full text-center text-2xl">ZBIORNIKI CWU</h2>
-        {data &&
-          Object.entries(data.boilers).map((key, index) => {
-            return (
-              <div key={index} className="flex items-end justify-center gap-9">
-                <ChangeDataInputComponent
-                  {...register(`boilers.${key[0]}` as keyof typeof data, {
-                    valueAsNumber: true,
-                  })}
-                  title={key[0]}
-                  defaultValue={key[1]}
-                />
-                <RemoveElement element="boilers" name={key[0]} />
-              </div>
-            );
-          })}
-
-        <h2 className="mt-10 w-full text-center text-2xl">POZOSTAŁE</h2>
-
-        <ChangeDataInputComponent
-          {...register("electricityPrice", {
-            valueAsNumber: true,
-          })}
-          title="CENA SKUPU PRĄDU"
-          defaultValue={data.electricityPrice}
-        />
-        <ChangeDataInputComponent
-          {...register("creditPercentage", {
-            valueAsNumber: true,
-          })}
-          title="OPROCENTOWANIE KREDYTU"
-          defaultValue={data.creditPercentage}
-        />
-      </form>
+      <div>{DisplayData(data)}</div>
       <div className="fixed bottom-10 right-56 flex flex-col gap-4">
         <Button
           onClick={open}
@@ -313,14 +135,14 @@ export const EditionForm = ({ data, menagers }: EditionForm) => {
         <AddElement />
       </div>
 
-      <ConfirmationModal
+      {/* <ConfirmationModal
         title="CZY NA PEWNO CHCESZ ZAPISAĆ ZMIENIONE WARTOŚCI ?"
         close={close}
         opened={opened}
         handleFunction={handleSubmit(onSubmit)}
         description="Będzie to skutkowało zmianami w bazie danych, przez co ceny nowych
         wyliczeń za instalację ulegną zmianie."
-      />
+      /> */}
     </>
   );
 };
