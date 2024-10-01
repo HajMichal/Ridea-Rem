@@ -66,7 +66,7 @@ const SideBar = memo(function SideBar() {
         />
         <SideBarButton
           href="/kalkulator/turbiny"
-          href2="/edycja/daneKlimatyzacja"
+          href2="/edycja/daneTurbiny"
           title="TURBINY"
         />
         {/* <SideBarButton

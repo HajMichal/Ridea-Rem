@@ -9,13 +9,14 @@ import { AddElement } from "./AddElement";
 import { Button } from "@mantine/core";
 import { MdOutlineAddchart } from "react-icons/md";
 import { RemoveElement } from "./RemoveElement";
+import React from "react";
 
 interface EditionForm {
   data: PhotovoltaicDataToCalculation;
+  menagers: string[];
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const EditionForm = ({ data }: EditionForm) => {
+export const EditionForm = ({ data, menagers }: EditionForm) => {
   const [opened, { open, close }] = useDisclosure(false);
 
   const { mutate } = api.dataFlow.editJSONFile.useMutation({
@@ -30,7 +31,11 @@ export const EditionForm = ({ data }: EditionForm) => {
   const { register, handleSubmit } = useForm<PhotovoltaicDataToCalculation>();
 
   const onSubmit: SubmitHandler<PhotovoltaicDataToCalculation> = (formData) => {
-    mutate({ ...formData, userId: data.userId });
+    console.log(menagers, formData);
+    mutate({
+      userId: menagers.length === 0 ? [data.userId] : menagers,
+      schema: { ...formData, userId: data.userId },
+    });
     close();
   };
 

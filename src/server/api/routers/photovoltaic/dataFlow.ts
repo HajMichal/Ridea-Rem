@@ -114,16 +114,38 @@ export const dataFlowRouter = createTRPCRouter({
     });
   }),
   getAllPvCalcs: adminProcedure.query(async ({ ctx }) => {
-    return await ctx.prisma.photovoltaic.findMany();
+    return await ctx.prisma.photovoltaic.findMany({
+      orderBy: {
+        userName: "asc",
+      },
+    });
   }),
   editJSONFile: adminProcedure
-    .input(schema)
-    .mutation(async ({ ctx, input }) => {
-      await ctx.prisma.photovoltaic.update({
-        where: {
-          userId: input.userId,
-        },
-        data: input,
+    .input(
+      z.object({
+        schema,
+        userId: z.string().array(),
+      })
+    )
+    .mutation(({ ctx, input }) => {
+      input.userId.map(async (userId) => {
+        await ctx.prisma.photovoltaic.update({
+          where: {
+            userId: userId,
+          },
+          data: {
+            addons: input.schema.addons,
+            boilers: input.schema.boilers,
+            carPort: input.schema.carPort,
+            creditPercentage: input.schema.creditPercentage,
+            dotations: input.schema.dotations,
+            electricityPrice: input.schema.electricityPrice,
+            energyStore: input.schema.energyStore,
+            panels_small: input.schema.panels_small,
+            panels_medium: input.schema.panels_medium,
+            panels_large: input.schema.panels_large,
+          },
+        });
       });
 
       return input;
