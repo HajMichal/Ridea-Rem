@@ -22,10 +22,12 @@ export const RemoveElement = ({ element, name }: RemoveElementProps) => {
   };
 
   return (
-    <div className="mb-1">
+    <div>
       <PiTrashBold
         onClick={open}
-        className="-ml-6 h-6 w-6 duration-100 hover:scale-105 hover:cursor-pointer"
+        size={"25px"}
+        color="red"
+        className="duration-100 hover:scale-105 hover:cursor-pointer"
       />
       <ConfirmationModal
         close={close}

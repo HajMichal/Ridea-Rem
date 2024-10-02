@@ -4,9 +4,8 @@ import { type GetServerSideProps } from "next";
 import dynamic from "next/dynamic";
 import LoginForm from "~/components/loginPage/LoginForm";
 import Logo from "~/components/Logo";
-
-const Footer = dynamic(() => import("~/components/Footer"));
-const ImageTile = dynamic(() => import("~/components/loginPage/ImageTile"));
+import Footer from "~/components/Footer";
+import ImageTile from "~/components/loginPage/ImageTile";
 
 export default function Signin() {
   return (

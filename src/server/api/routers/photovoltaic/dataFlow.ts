@@ -143,9 +143,15 @@ export const dataFlowRouter = createTRPCRouter({
       })
     )
     .mutation(({ ctx, input }) => {
-      console.log(input);
       if (input.path[0] === undefined) {
-        console.log("test");
+        input.userId.map(async (userId) => {
+          await ctx.prisma.photovoltaic.update({
+            where: {
+              userId: userId,
+            },
+            data: input.dataToChange,
+          });
+        });
       } else {
         const photovoltaicKey = input.path[0] as keyof Photovoltaic;
         input.userId.map(async (userId) => {
@@ -155,21 +161,18 @@ export const dataFlowRouter = createTRPCRouter({
             },
           });
           if (currentData == null) throw new Error();
-          console.log(currentData[photovoltaicKey]);
 
           const nestedData = currentData[photovoltaicKey] as object;
-
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           const mergedData = { ...nestedData, ...input.dataToChange };
-          console.log(mergedData);
-          // await ctx.prisma.photovoltaic.update({
-          //   where: {
-          //     userId: userId,
-          //   },
-          //   data: {
-          //     [photovoltaicKey]: {...currentData, ...input.dataToChange},
-          //   },
-          // });
+
+          await ctx.prisma.photovoltaic.update({
+            where: {
+              userId: userId,
+            },
+            data: {
+              [photovoltaicKey]: mergedData,
+            },
+          });
         });
       }
 
