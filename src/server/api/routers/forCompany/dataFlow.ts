@@ -96,7 +96,7 @@ export const forCompanyDataFlowRouter = createTRPCRouter({
         return getObjectById(creator?.name ?? "");
       }
     }),
-  getAllPvCalcs: publicProcedure.query(async () => {
+  getAllPvData: publicProcedure.query(async () => {
     return await getParsedJsonObject();
   }),
   editJSONFile: publicProcedure.input(schema).mutation(async ({ input }) => {

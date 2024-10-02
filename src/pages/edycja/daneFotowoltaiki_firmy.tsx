@@ -12,7 +12,7 @@ const DaneFotowoltaiki_firm = () => {
   const router = useRouter();
 
   const { data: entireJsonData } =
-    api.forCompanyDataFlowRouter.getAllPvCalcs.useQuery();
+    api.forCompanyDataFlowRouter.getAllPvData.useQuery();
 
   useEffect(() => {
     if ((sessionData && sessionData?.user.role !== 1) || sessionData === null) {
