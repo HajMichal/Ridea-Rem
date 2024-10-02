@@ -91,3 +91,19 @@ model Turbines {
 
   @@index([userId])
 }
+
+model AirCondition {
+  id              String    @id @default(cuid())
+  userId          String    @unique
+  userName        String  
+  
+  /// [AirConditionersType]
+  airConditioners Json[]
+
+  /// [AirConditionerAddonsType]
+  addons          Json
+
+  createdAt       DateTime @default(now())
+  editedAt        DateTime @default(now())
+  @@index([userId])
+}

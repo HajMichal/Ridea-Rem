@@ -1,9 +1,4 @@
 import { z } from "zod";
-import { bucket, s3, setFileToBucket } from "~/utils/aws";
-import {
-  type AirConditionCalculatorType,
-  type EachMenagerAirCondition,
-} from "./interfaces";
 import {
   adminProcedure,
   createTRPCRouter,
@@ -40,93 +35,66 @@ const schema = z.record(
   })
 );
 
-const getParsedJsonObject = async () => {
-  const dataFile = await s3
-    .getObject({
-      Bucket: bucket,
-      Key: "airCondition.json",
-    })
-    .promise();
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  const convertedFile: AirConditionCalculatorType = JSON.parse(
-    dataFile?.Body?.toString() ?? "null"
-  );
-  return convertedFile;
-};
+export const airCondMenagerData = createTRPCRouter({
+  getSingle: protectedProcedure.query(async ({ ctx }) => {
+    const user = ctx.session?.user;
+    if (!user) return null;
 
-export const airConditionDataFlowRouter = createTRPCRouter({
-  downloadFile: protectedProcedure
-    .input(z.string().optional())
-    .query(async ({ input, ctx }) => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      const convertedFile = await getParsedJsonObject();
-
-      function getObjectById(id: string) {
-        const object: EachMenagerAirCondition | undefined =
-          convertedFile.kalkulator.find((item) => Object.keys(item)[0] === id);
-        return object ? object[id] : null;
-      }
-
-      const userData = await ctx.prisma.user.findFirst({
-        where: { id: input },
-      });
-      if (userData?.role === 1 || userData?.role === 2) {
-        return getObjectById(userData.name!);
-      } else if (userData?.creatorId && userData.role === 3) {
-        const creator = await ctx.prisma.user.findFirst({
-          where: { id: userData.creatorId },
-        });
-        return getObjectById(creator?.name ?? "");
-      }
-    }),
-  getAllPvData: adminProcedure.query(async () => {
-    return await getParsedJsonObject();
+    return await ctx.prisma.airCondition.findFirst({
+      where: {
+        userId: user.role === 3 ? user.creatorId : user.id,
+      },
+    });
   }),
-  editJSONFile: adminProcedure.input(schema).mutation(async ({ input }) => {
-    const convertedFile = await getParsedJsonObject();
-    const dynamicKey = Object.keys(input)[0];
-
-    const index = convertedFile.kalkulator.findIndex(
-      (obj) => Object.keys(obj)[0] === dynamicKey
-    );
-    if (index !== -1) {
-      convertedFile.kalkulator[index] = input;
-    }
-    const updatedJSONFile = JSON.stringify(convertedFile);
-    setFileToBucket(updatedJSONFile, "airCondition.json");
-    return input;
+  getAll: adminProcedure.query(async ({ ctx }) => {
+    return await ctx.prisma.airCondition.findMany();
+  }),
+  edit: adminProcedure.input(schema).mutation(async ({ input }) => {
+    // const convertedFile = await getParsedJsonObject();
+    // const dynamicKey = Object.keys(input)[0];
+    // const index = convertedFile.kalkulator.findIndex(
+    //   (obj) => Object.keys(obj)[0] === dynamicKey
+    // );
+    // if (index !== -1) {
+    //   convertedFile.kalkulator[index] = input;
+    // }
+    // const updatedJSONFile = JSON.stringify(convertedFile);
+    // setFileToBucket(updatedJSONFile, "airCondition.json");
+    // return input;
   }),
   removeMenagerData: protectedProcedure
     .input(z.string())
-    .mutation(async ({ input }) => {
-      const convertedFile = await getParsedJsonObject();
-      const index = convertedFile.kalkulator.findIndex(
-        (obj) => Object.keys(obj)[0] === input
-      );
-
-      if (index !== -1) {
-        convertedFile.kalkulator.splice(index, 1);
-      }
-
-      const updatedJSONFile = JSON.stringify(convertedFile);
-      setFileToBucket(updatedJSONFile, "airCondition.json");
-      return input;
+    .mutation(async ({ input, ctx }) => {
+      await ctx.prisma.airCondition.delete({
+        where: {
+          userId: input,
+        },
+      });
     }),
   addNewMenager: adminProcedure
-    .input(z.string())
-    .mutation(async ({ input }) => {
-      const convertedFile = await getParsedJsonObject();
+    .input(
+      z.object({
+        userId: z.string(),
+        userName: z.string(),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      const baseData = await ctx.prisma.airCondition.findFirst({
+        where: {
+          userId: "66d4e13565e073fe1f84366d",
+        },
+      });
 
-      if (convertedFile.kalkulator[0]) {
-        const mainCalculationData =
-          convertedFile.kalkulator[0]["Adrian Szymborski"]!;
+      if (baseData) {
+        await ctx.prisma.airCondition.create({
+          data: {
+            userId: input.userId,
+            userName: input.userName,
+            airConditioners: baseData.airConditioners,
+            addons: baseData.addons,
+          },
+        });
 
-        const newMenagerData = {
-          [input]: mainCalculationData,
-        };
-
-        convertedFile.kalkulator.push(newMenagerData);
-        setFileToBucket(JSON.stringify(convertedFile), "airCondition.json");
         return {
           status: 200,
           message:

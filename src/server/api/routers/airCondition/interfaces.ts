@@ -7,7 +7,10 @@ export interface AirConditionData {
   price: number;
 }
 export interface AirConditionDataToCalculation {
-  airConditioner: AirConditionData[];
+  id: string;
+  userId: string;
+  userName: string;
+  airConditioners: AirConditionData[];
   addons: {
     "copperPipe1/4+3/8": number;
     "copperCable1/5": number;
@@ -23,6 +26,8 @@ export interface AirConditionDataToCalculation {
     syfon: number;
     dashPump: number;
   };
+  createdAt: string;
+  editedAt: string;
 }
 /* eslint @typescript-eslint/consistent-indexed-object-style: ["error", "index-signature"] */
 export interface EachMenagerAirCondition {

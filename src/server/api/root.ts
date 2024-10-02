@@ -13,7 +13,7 @@ import { uploadDocumentRouter } from "./routers/documents/upload";
 import { getAllDocumentRouter } from "./routers/documents/getAll";
 import { downloadDocumentRouter } from "./routers/documents/download";
 import { deleteDocumentRouter } from "./routers/documents/remove";
-import { airConditionDataFlowRouter } from "./routers/airCondition/dataFlow";
+import { airCondMenagerData } from "./routers/airCondition/dataFlow";
 import { airConditionCalculator } from "./routers/airCondition/airCondition_calculator";
 import { turbinesDataFlowRouter } from "./routers/turbines/dataFlow";
 import { turbinesCalculator } from "./routers/turbines/turbinesCalculator";
@@ -40,7 +40,7 @@ export const appRouter = createTRPCRouter({
   heatHome: heatHomeCalculator,
   heatHomeDataFlowRouter: heatHomeDataFlowRouter,
   airCondition: airConditionCalculator,
-  airConditionDataFlowRouter: airConditionDataFlowRouter,
+  airCondMenagerData: airCondMenagerData,
   turbinesDataFlowRouter: turbinesDataFlowRouter,
   turbines: turbinesCalculator,
 });
