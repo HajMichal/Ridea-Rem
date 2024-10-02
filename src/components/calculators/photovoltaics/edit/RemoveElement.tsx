@@ -13,7 +13,7 @@ export const RemoveElement = ({ element, name }: RemoveElementProps) => {
 
   const { mutate: removeElement } = api.dataFlow.removeElement.useMutation({
     onSuccess: async () => {
-      await ctx.dataFlow.getAllPvCalcs.invalidate();
+      await ctx.dataFlow.getAllPvData.invalidate();
     },
   });
   const handleRemoveElement = () => {

@@ -19,7 +19,7 @@ export const AddElement = () => {
 
   const { mutate } = api.dataFlow.addNewElement.useMutation({
     onSuccess: async () => {
-      await ctx.dataFlow.getAllPvCalcs.invalidate();
+      await ctx.dataFlow.getAllPvData.invalidate();
       toast.success("Element został dodany");
     },
     onError: () => {

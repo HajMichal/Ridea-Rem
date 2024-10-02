@@ -13,8 +13,8 @@ const DaneFotowoltaiki = () => {
   const { data: sessionData } = useSession();
   const router = useRouter();
 
-  const { data: entireJsonData } =
-    api.dataFlow.getAllPvCalcs.useQuery<PhotovoltaicDataToCalculation[]>();
+  const { data: allMenagersData } =
+    api.dataFlow.getAllPvData.useQuery<PhotovoltaicDataToCalculation[]>();
 
   useEffect(() => {
     if (sessionData === null || (sessionData && sessionData.user.role !== 1)) {
@@ -37,16 +37,16 @@ const DaneFotowoltaiki = () => {
           >
             <Tabs.List className="fixed z-50 w-min bg-backgroundGray">
               <Checkbox.Group value={menagers} onChange={setMenagers}>
-                {entireJsonData?.map((calcData, index) => {
+                {allMenagersData?.map((menagerData, index) => {
                   return (
                     <Tabs.Tab
-                      value={calcData.id}
+                      value={menagerData.id}
                       key={index}
                       className="w-full"
                     >
                       <div className="flex items-center gap-2">
-                        <Checkbox name="menagers" value={calcData.userId} />
-                        <p>{calcData.userName}</p>
+                        <Checkbox name="menagers" value={menagerData.userId} />
+                        <p>{menagerData.userName}</p>
                       </div>
                     </Tabs.Tab>
                   );
@@ -55,11 +55,11 @@ const DaneFotowoltaiki = () => {
             </Tabs.List>
 
             <div className="flex w-full justify-center ">
-              {entireJsonData ? (
-                entireJsonData.map((calcData, index) => {
+              {allMenagersData ? (
+                allMenagersData.map((menagerData, index) => {
                   return (
-                    <Tabs.Panel value={calcData.id} key={index}>
-                      <EditionForm data={calcData} menagers={menagers} />
+                    <Tabs.Panel value={menagerData.id} key={index}>
+                      <EditionForm data={menagerData} menagers={menagers} />
                     </Tabs.Panel>
                   );
                 })

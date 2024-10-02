@@ -127,7 +127,7 @@ export const dataFlowRouter = createTRPCRouter({
       },
     });
   }),
-  getAllPvCalcs: adminProcedure.query(async ({ ctx }) => {
+  getAllPvData: adminProcedure.query(async ({ ctx }) => {
     return await ctx.prisma.photovoltaic.findMany({
       orderBy: {
         userName: "asc",

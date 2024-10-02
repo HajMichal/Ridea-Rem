@@ -124,7 +124,7 @@ export const EditionForm = ({ data, menagers }: EditionForm) => {
 
   return (
     <>
-      <h1 className="-ml-16 w-full pt-14 text-center">{data.userName}</h1>
+      <h1 className="w-full pt-14 text-center">{data.userName}</h1>
       <div className="flex w-full justify-center">{displayData(data)}</div>
       <div className="fixed bottom-10 right-56 flex flex-col gap-4">
         <AddElement />
