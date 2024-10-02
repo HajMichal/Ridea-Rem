@@ -35,7 +35,7 @@ const DaneFotowoltaiki = () => {
             color="lime"
             defaultValue={"cm0o4ylab0000q4dcocvv1heu"}
           >
-            <Tabs.List className="z-50 w-min bg-backgroundGray">
+            <Tabs.List className="fixed z-50 w-min bg-backgroundGray">
               <Checkbox.Group value={menagers} onChange={setMenagers}>
                 {entireJsonData?.map((calcData, index) => {
                   return (

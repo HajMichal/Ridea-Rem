@@ -23,11 +23,8 @@ export const EditionForm = ({ data, menagers }: EditionForm) => {
   const [editingKey, setEditingKey] = useState<string | null>(null);
   const [pathKey, setPathKey] = useState<string | null>(null);
 
-  const utils = api.useContext();
-
   const { mutate } = api.dataFlow.editJSONFile.useMutation({
     onSuccess: () => {
-      void utils.dataFlow.getAllPvCalcs.invalidate();
       toast.success("Dane zostały pomyślnie zmienione.");
     },
     onError: (err) => {

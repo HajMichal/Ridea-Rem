@@ -26,12 +26,12 @@ export const CALCULATORS = [
   //   color: "hover:bg-[#FFE15D]",
   //   iconSrc: "/home/icons/FotowoltaikaIcon.svg",
   // },
-  {
-    href: "/edycja/daneCieploWlasciwe",
-    title: "TERMOMODERNIZACJA",
-    color: "hover:bg-[#00B4D8]",
-    iconSrc: "/home/icons/MagazynEnergiiIcon.svg",
-  },
+  // {
+  //   href: "/edycja/daneCieploWlasciwe",
+  //   title: "TERMOMODERNIZACJA",
+  //   color: "hover:bg-[#00B4D8]",
+  //   iconSrc: "/home/icons/MagazynEnergiiIcon.svg",
+  // },
   {
     href: "/edycja/daneKlimatyzacja",
     title: "KLIMATYZACJA",
