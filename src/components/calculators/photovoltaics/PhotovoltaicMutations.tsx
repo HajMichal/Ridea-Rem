@@ -495,7 +495,7 @@ export function PhotovoltaicMutations({
     if (photovoltaicCalcStore.totalInstallationCosts.total_gross_cost) {
       mutations.set_energyStoreDotationValue({
         gross_instalation_cost:
-          photovoltaicCalcStore.totalInstallationCosts.total_gross_cost,
+          photovoltaicCalcStore.totalInstallationCosts.total_installation_cost,
         isEnergyStoreDotation: photovoltaicStore.isEnergyStoreDotation,
       });
     }
