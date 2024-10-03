@@ -47,7 +47,11 @@ export const airCondMenagerData = createTRPCRouter({
     });
   }),
   getAll: adminProcedure.query(async ({ ctx }) => {
-    return await ctx.prisma.airCondition.findMany();
+    return await ctx.prisma.airCondition.findMany({
+      orderBy: {
+        createdAt: "asc",
+      },
+    });
   }),
   edit: adminProcedure.input(schema).mutation(async ({ input }) => {
     // const convertedFile = await getParsedJsonObject();
@@ -62,16 +66,14 @@ export const airCondMenagerData = createTRPCRouter({
     // setFileToBucket(updatedJSONFile, "airCondition.json");
     // return input;
   }),
-  removeMenagerData: protectedProcedure
-    .input(z.string())
-    .mutation(async ({ input, ctx }) => {
-      await ctx.prisma.airCondition.delete({
-        where: {
-          userId: input,
-        },
-      });
-    }),
-  addNewMenager: adminProcedure
+  remove: adminProcedure.input(z.string()).mutation(async ({ input, ctx }) => {
+    await ctx.prisma.airCondition.delete({
+      where: {
+        userId: input,
+      },
+    });
+  }),
+  addNew: adminProcedure
     .input(
       z.object({
         userId: z.string(),

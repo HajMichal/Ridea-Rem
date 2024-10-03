@@ -8,7 +8,7 @@ declare global {
       area: string;
       energyType: string;
       price: number;
-    }[];
+    };
 
     // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
     type AirConditionerAddonsType = {

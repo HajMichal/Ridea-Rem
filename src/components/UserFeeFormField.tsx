@@ -92,7 +92,7 @@ export const UserFeeFormField = ({
   const { mutate: removeMenagerHeatHomeJson } =
     api.heatHomeDataFlowRouter.removeMenagerData.useMutation();
   const { mutate: removeMenagerAirConditionJson } =
-    api.airConditionDataFlowRouter.removeMenagerData.useMutation();
+    api.airCondMenagerData.remove.useMutation();
   const { mutate: removeMenagerCalcDataTurbines } =
     api.turbinesDataFlowRouter.removeMenagerCalcData.useMutation();
   const { mutate: removeUserFromDb } =

@@ -1,18 +1,18 @@
-import { Loader, Tabs } from "@mantine/core";
+import { Checkbox, Loader, Tabs } from "@mantine/core";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Toaster } from "react-hot-toast";
 import { Navbar, SideBar } from "~/components";
 import { EditionForm } from "~/components/calculators/airCondition/edit/EditionForm";
 import { api } from "~/utils/api";
 
 function DaneKlimatyzacja() {
+  const [menagers, setMenagers] = useState<string[]>([]);
   const { data: sessionData } = useSession();
   const router = useRouter();
 
-  const { data: entireJsonData } =
-    api.airConditionDataFlowRouter.getAllAirConData.useQuery();
+  const { data: allMenagersData } = api.airCondMenagerData.getAll.useQuery();
 
   useEffect(() => {
     if (sessionData === null || (sessionData && sessionData.user.role !== 1)) {
@@ -20,6 +20,7 @@ function DaneKlimatyzacja() {
       void router.push("/");
     }
   }, [sessionData, router]);
+  console.log(allMenagersData);
   return (
     <div className="flex h-full max-h-screen min-h-screen justify-center overflow-hidden bg-[#E8E7E7] font-orkney">
       <Toaster />
@@ -27,25 +28,36 @@ function DaneKlimatyzacja() {
       <div className="flex max-h-screen w-full flex-wrap ">
         <Navbar />
         <div className="max-h-[88%] w-full overflow-y-scroll">
-          <Tabs color="gray" defaultValue="Adrian Szymborski">
-            <Tabs.List className="fixed z-50 w-full bg-backgroundGray">
-              {entireJsonData?.kalkulator.map((eachUserRate, index) => {
-                const dynamicKey = Object.keys(eachUserRate)[0];
-                return (
-                  <Tabs.Tab value={dynamicKey!} key={index}>
-                    {dynamicKey}
-                  </Tabs.Tab>
-                );
-              })}
+          <Tabs
+            orientation="vertical"
+            color="lime"
+            defaultValue={"cm1sg5o1v0000v5a0vkp09znd"}
+          >
+            <Tabs.List className="fixed z-50 w-min bg-backgroundGray">
+              <Checkbox.Group value={menagers} onChange={setMenagers}>
+                {allMenagersData?.map((menagerData, index) => {
+                  return (
+                    <Tabs.Tab
+                      value={menagerData.id}
+                      key={index}
+                      className="w-full"
+                    >
+                      <div className="flex items-center gap-2">
+                        <Checkbox name="menagers" value={menagerData.userId} />
+                        <p>{menagerData.userName}</p>
+                      </div>
+                    </Tabs.Tab>
+                  );
+                })}
+              </Checkbox.Group>
             </Tabs.List>
 
-            <div className="flex w-full justify-center ">
-              {entireJsonData ? (
-                entireJsonData.kalkulator.map((eachUserData, index) => {
-                  const dynamicKey = Object.keys(eachUserData)[0];
+            <div className="flex w-full justify-center">
+              {allMenagersData ? (
+                allMenagersData.map((menagerData, index) => {
                   return (
-                    <Tabs.Panel value={dynamicKey!} key={index}>
-                      <EditionForm data={eachUserData} />
+                    <Tabs.Panel value={menagerData.id} key={index}>
+                      <EditionForm data={menagerData} menagers={menagers} />
                     </Tabs.Panel>
                   );
                 })
