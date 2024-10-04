@@ -6,17 +6,17 @@ import useStore from "~/store";
 
 export const ElasticPipe = () => {
   const store = useStore();
-  const { jsonData, mutations, airConditionStore } = useAirCondition();
+  const { calcData, mutations, airConditionStore } = useAirCondition();
 
   const [debouncedAirCondStore] = useDebouncedValue(airConditionStore, 200);
 
   useEffect(() => {
-    if (jsonData)
+    if (calcData)
       mutations.setElasticPipePrice({
         quantity: debouncedAirCondStore.elasticPipeLen,
-        price: jsonData.addons.elasticPipe,
+        price: calcData.addons.elasticPipe,
       });
-  }, [debouncedAirCondStore.elasticPipeLen, jsonData?.addons.elasticPipe]);
+  }, [debouncedAirCondStore.elasticPipeLen, calcData?.addons.elasticPipe]);
 
   return (
     <InputComponent

@@ -1,22 +1,36 @@
 import React from "react";
 import { SelectComponent } from "~/components";
 import { useAirCondition } from "~/hooks/useAirCondition";
-import { airConditionMapper } from "~/mappers/airCondition";
 import useStore from "~/store";
+import { type AirConditionData } from "~/server/api/routers/airCondition/interfaces";
 
 export const AirConditioner = () => {
-  const { jsonData, airConditionStore } = useAirCondition();
+  const { calcData, airConditionStore } = useAirCondition();
 
   const store = useStore();
 
-  const airConditioners = jsonData?.airConditioner.map((item) => item.type);
+  const airConditioners =
+    calcData?.airConditioners &&
+    Object.entries(calcData.airConditioners).map(([key, value]) => key);
+  // const airConditioners = calcData?.airConditioners.map((item) => item.type);
 
   const updateAirConditioner = (airConditioner: string | null) => {
-    const choosedAirConditioner = jsonData?.airConditioner.find(
-      (item) => item.type === airConditioner && airConditionMapper(item)
+    const availableAirConditioners = calcData?.airConditioners;
+    if (!availableAirConditioners) return;
+
+    const choosedAirConditioner = airConditioners?.find(
+      (item) => item === airConditioner
     );
     if (!choosedAirConditioner) return;
-    store.updateAirCondition("choosedAirConditioner", choosedAirConditioner);
+
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    const airConditionerDetails: AirConditionData =
+      availableAirConditioners[choosedAirConditioner]!;
+
+    store.updateAirCondition("choosedAirConditioner", {
+      ...airConditionerDetails,
+      type: choosedAirConditioner,
+    });
   };
 
   return (

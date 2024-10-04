@@ -5,14 +5,14 @@ import { useAirCondition } from "~/hooks/useAirCondition";
 export function AirConditionMutations() {
   const {
     sessionData,
-    jsonData,
+    calcData,
     mutations,
     airConditionStore,
     airConditionCalcStore,
   } = useAirCondition();
 
   useEffect(() => {
-    if (jsonData?.addons)
+    if (calcData?.addons)
       mutations.setAddonSum({
         copperPipePrice: airConditionCalcStore.copperPipePrice,
         copperCable15Price: airConditionCalcStore.copperCable15Price,
@@ -25,7 +25,7 @@ export function AirConditionMutations() {
         elasticPipePrice: airConditionCalcStore.elasticPipePrice,
         tapePrice: airConditionCalcStore.tapePrice,
         wallPassPrice: airConditionCalcStore.wallPassPrice,
-        montagePrice: jsonData?.addons.montage,
+        montagePrice: calcData?.addons.montage,
         syfonPrice: airConditionCalcStore.syfonPrice,
         dashPumpPrice: airConditionCalcStore.dashPump,
         consultantProvision: airConditionStore.consultantMarkup,

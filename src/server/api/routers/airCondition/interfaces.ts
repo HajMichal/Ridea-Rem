@@ -1,5 +1,4 @@
 export interface AirConditionData {
-  type: string;
   power: number;
   option: string;
   area: string;
@@ -10,7 +9,7 @@ export interface AirConditionDataToCalculation {
   id: string;
   userId: string;
   userName: string;
-  airConditioners: AirConditionData[];
+  airConditioners: Record<string, AirConditionData>;
   addons: {
     "copperPipe1/4+3/8": number;
     "copperCable1/5": number;
@@ -28,11 +27,4 @@ export interface AirConditionDataToCalculation {
   };
   createdAt: string;
   editedAt: string;
-}
-/* eslint @typescript-eslint/consistent-indexed-object-style: ["error", "index-signature"] */
-export interface EachMenagerAirCondition {
-  [key: string]: AirConditionDataToCalculation;
-}
-export interface AirConditionCalculatorType {
-  kalkulator: EachMenagerAirCondition[];
 }

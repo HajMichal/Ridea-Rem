@@ -20,7 +20,7 @@ function DaneKlimatyzacja() {
       void router.push("/");
     }
   }, [sessionData, router]);
-  console.log(allMenagersData);
+
   return (
     <div className="flex h-full max-h-screen min-h-screen justify-center overflow-hidden bg-[#E8E7E7] font-orkney">
       <Toaster />

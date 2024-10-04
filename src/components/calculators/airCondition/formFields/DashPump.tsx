@@ -6,11 +6,11 @@ import useStore from "~/store";
 
 export const DashPump = () => {
   const store = useStore();
-  const { jsonData, airConditionStore } = useAirCondition();
+  const { calcData, airConditionStore } = useAirCondition();
 
   useEffect(() => {
-    if (jsonData && airConditionStore.dashPump)
-      store.updateAirConditionCalculation("dashPump", jsonData.addons.dashPump);
+    if (calcData && airConditionStore.dashPump)
+      store.updateAirConditionCalculation("dashPump", calcData.addons.dashPump);
     else store.updateAirConditionCalculation("dashPump", 0);
   }, [airConditionStore.dashPump]);
 

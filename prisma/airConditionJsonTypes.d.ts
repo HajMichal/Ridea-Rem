@@ -1,14 +1,16 @@
 declare global {
   namespace PrismaJson {
     // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
-    type AirConditionersType = {
-      type: string;
+    type AirConditionerType = {
       power: number;
       option: string;
       area: string;
       energyType: string;
       price: number;
     };
+
+    // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
+    type AirConditionersType = Record<string, AirConditionerType>;
 
     // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
     type AirConditionerAddonsType = {

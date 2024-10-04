@@ -98,7 +98,7 @@ model AirCondition {
   userName        String  
   
   /// [AirConditionersType]
-  airConditioners Json[]
+  airConditioners Json
 
   /// [AirConditionerAddonsType]
   addons          Json

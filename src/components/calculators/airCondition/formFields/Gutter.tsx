@@ -6,17 +6,17 @@ import useStore from "~/store";
 
 export const Gutter = () => {
   const store = useStore();
-  const { jsonData, mutations, airConditionStore } = useAirCondition();
+  const { calcData, mutations, airConditionStore } = useAirCondition();
 
   const [debouncedAirCondStore] = useDebouncedValue(airConditionStore, 200);
 
   useEffect(() => {
-    if (jsonData)
+    if (calcData)
       mutations.setGutterPrice({
         quantity: debouncedAirCondStore.gutterLen,
-        price: jsonData.addons.gutter,
+        price: calcData.addons.gutter,
       });
-  }, [debouncedAirCondStore.gutterLen, jsonData?.addons.gutter]);
+  }, [debouncedAirCondStore.gutterLen, calcData?.addons.gutter]);
 
   return (
     <InputComponent

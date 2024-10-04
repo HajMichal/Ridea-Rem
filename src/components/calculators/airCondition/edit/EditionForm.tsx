@@ -7,7 +7,10 @@ import { BsDatabaseFillCheck } from "react-icons/bs";
 import { GiCancel } from "react-icons/gi";
 import { ConfirmationModal } from "~/components/ConfirmationModal";
 import { ChangeDataInputComponent } from "~/components/changeDataInputComponent";
-import { type AirConditionDataToCalculation } from "~/server/api/routers/airCondition/interfaces";
+import {
+  AirConditionData,
+  type AirConditionDataToCalculation,
+} from "~/server/api/routers/airCondition/interfaces";
 import { api } from "~/utils/api";
 
 /* eslint @typescript-eslint/consistent-indexed-object-style: ["error", "index-signature"] */
@@ -37,17 +40,6 @@ export const EditionForm = ({ data }: EditionForm) => {
       toast.error("UWAGA BŁĄD! Dane nie zostały zmienione. Spróbuj ponownie.");
     },
   });
-
-  // This loop helps set default values of non changable data from json file
-  data?.airConditioners.forEach((airConditioner) =>
-    airConditionersArr.push({
-      type: airConditioner.type,
-      power: airConditioner.power,
-      option: airConditioner.option,
-      area: airConditioner.area,
-      energyType: airConditioner.energyType,
-    })
-  );
 
   const { register, handleSubmit } = useForm<AirConditionDataToCalculation>({
     // defaultValues: {
@@ -122,25 +114,32 @@ export const EditionForm = ({ data }: EditionForm) => {
               key === "userId" ||
               key === "userName" ||
               key === "createdAt" ||
-              key === "updatedAt"
+              key === "editedAt" ||
+              key === "option" ||
+              key === "energyType" ||
+              key === "area"
             )
               return null;
 
             const isEditing =
-              editingKey === key && pathKey === (path[0] ?? null);
+              editingKey === key && pathKey && path.includes(pathKey);
 
             if (typeof value !== "number" && typeof value !== "string") {
               return (
                 <div key={key}>
-                  <h1 className="text-center font-orkneyBold">
-                    {headerNamesMapping[key]}
+                  <h1
+                    className={`text-center font-orkneyBold ${
+                      path.length === 1 && "text-2xl"
+                    }`}
+                  >
+                    {headerNamesMapping[key] ?? key}
                   </h1>
                   {displayData(value, [...path, key], depth + 1)}
                 </div>
               );
             } else {
               return (
-                <div key={key} className="m-1 -ml-40 flex items-center gap-2">
+                <div key={key} className="m-1 -ml-24 flex items-center gap-2">
                   <p className="-mb-2 w-64 text-right text-xl">
                     {dataNamesMappings[key] ?? key.toUpperCase()}:
                   </p>
@@ -174,7 +173,7 @@ export const EditionForm = ({ data }: EditionForm) => {
                     <p
                       onClick={() => {
                         setEditingKey(key);
-                        setPathKey(path[0] ?? null);
+                        setPathKey(path.at(-1) ?? null);
                       }}
                       className="w-24 border border-dark bg-white p-1 px-2 font-sans"
                     >
@@ -217,4 +216,9 @@ const dataNamesMappings: { [key: string]: string } = {
   montage: "MONTAŻ",
   syfon: "SYFON",
   dashPump: "POMPA SKROPLIN",
+  area: "POWIERZCHNIA",
+  power: "MOC",
+  price: "CENA",
+  option: "OPCJE",
+  energyType: "ENERGOOSZCZĘDNOŚĆ",
 };

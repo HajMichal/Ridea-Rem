@@ -6,17 +6,17 @@ import useStore from "~/store";
 
 function DashPipe() {
   const store = useStore();
-  const { jsonData, mutations, airConditionStore } = useAirCondition();
+  const { calcData, mutations, airConditionStore } = useAirCondition();
 
   const [debouncedAirCondStore] = useDebouncedValue(airConditionStore, 200);
 
   useEffect(() => {
-    if (jsonData)
+    if (calcData)
       mutations.setDashPipePrice({
         quantity: debouncedAirCondStore.pipeDashLen,
-        price: jsonData.addons.dashPipe,
+        price: calcData.addons.dashPipe,
       });
-  }, [debouncedAirCondStore.pipeDashLen, jsonData?.addons.dashPipe]);
+  }, [debouncedAirCondStore.pipeDashLen, calcData?.addons.dashPipe]);
 
   return (
     <InputComponent

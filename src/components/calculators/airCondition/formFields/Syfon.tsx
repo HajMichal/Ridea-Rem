@@ -6,11 +6,11 @@ import useStore from "~/store";
 
 export const Syfon = () => {
   const store = useStore();
-  const { jsonData, airConditionStore } = useAirCondition();
+  const { calcData, airConditionStore } = useAirCondition();
 
   useEffect(() => {
-    if (jsonData && airConditionStore.syfon)
-      store.updateAirConditionCalculation("syfonPrice", jsonData.addons.syfon);
+    if (calcData && airConditionStore.syfon)
+      store.updateAirConditionCalculation("syfonPrice", calcData.addons.syfon);
     else store.updateAirConditionCalculation("syfonPrice", 0);
   }, [airConditionStore.syfon]);
 
