@@ -16,24 +16,24 @@ const Installments = () => {
     );
   };
   useEffect(() => {
+    const summedInstallationCost =
+      turbinesCalcStore.turbinesTotalCosts.grossCost +
+      turbinesCalcStore.energyStoreTotalCosts.grossCost;
+
     if (generalData)
       mutations.loanForPurcharse({
         creditPercentage: generalData.creditPercentage,
         finallInstallationCost:
-          turbinesCalcStore.turbinesAfterDotationCost +
-          turbinesCalcStore.energyStoreAfterDotationCost,
-        grossInstalltaionBeforeDotationsCost:
-          turbinesCalcStore.turbinesTotalCosts.grossCost -
-          turbinesCalcStore.energyStoreTotalCosts.grossCost,
+          summedInstallationCost - turbinesStore.estimatedDotationSum,
+        grossInstalltaionBeforeDotationsCost: summedInstallationCost,
         instalmentNumber: turbinesStore.installmentNumber,
       });
   }, [
     generalData,
     turbinesStore.installmentNumber,
-    turbinesCalcStore.turbinesAfterDotationCost,
-    turbinesCalcStore.energyStoreAfterDotationCost,
     turbinesCalcStore.turbinesTotalCosts.grossCost,
     turbinesCalcStore.energyStoreTotalCosts.grossCost,
+    turbinesStore.estimatedDotationSum,
   ]);
 
   return (

@@ -113,18 +113,14 @@ export function Preview() {
                   <h2 className="mt-12 w-full text-center text-2xl underline">
                     FINANSE
                   </h2>
-                  <h2 className="mt-7 w-full text-center text-xl">DOTACJE</h2>
+                  {turbinesStore.estimatedDotationSum !== 0 && (
+                    <h2 className="mt-7 w-full text-center text-xl">DOTACJE</h2>
+                  )}
                 </>
               )}
               <TextComponent
-                title="TURBINY"
-                calculations={turbinesCalcStore.turbinesDotationAmount}
-                color="green"
-                size="xl"
-              />
-              <TextComponent
-                title="MAGAZYN ENERGII"
-                calculations={turbinesCalcStore.energyStoreDotationAmount}
+                title="SZACUNKOWA SUMA DOTACJI"
+                calculations={turbinesStore.estimatedDotationSum}
                 color="green"
                 size="xl"
               />
@@ -141,12 +137,6 @@ export function Preview() {
                 title="KWOTA BRUTTO"
                 calculations={turbinesCalcStore.turbinesTotalCosts.grossCost}
               />
-              <TextComponent
-                title="KWOTA PO DOTACJI"
-                color="green"
-                calculations={turbinesCalcStore.turbinesAfterDotationCost}
-                size="xl"
-              />
 
               {turbinesCalcStore.energyStoreTotalCosts.netCost !== 0 && (
                 <h2 className="mt-10 w-full text-center text-xl">
@@ -160,12 +150,6 @@ export function Preview() {
               <TextComponent
                 title="KWOTA BRUTTO"
                 calculations={turbinesCalcStore.energyStoreTotalCosts.grossCost}
-              />
-              <TextComponent
-                title="KWOTA PO DOTACJI"
-                color="green"
-                calculations={turbinesCalcStore.energyStoreAfterDotationCost}
-                size="xl"
               />
 
               {turbinesCalcStore.loanForPurcharse.finallInstalmentPice !==

@@ -48,10 +48,11 @@ const styles = StyleSheet.create({
     color: "#3F3F3F",
     fontWeight: 600,
     marginTop: 7,
+    fontSize: 14,
   },
   headerBackground: {
     width: "80%",
-    height: 30,
+    height: 24,
     backgroundColor: "#a3c572",
     borderRadius: "50%",
     display: "flex",
@@ -61,14 +62,14 @@ const styles = StyleSheet.create({
   },
   saveRow: {
     width: "100%",
-    height: 25,
+    height: 18,
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
     marginVertical: 1,
   },
-  saveTitle: { fontFamily: "Orkney", fontSize: 10 },
-  savePrice: { fontFamily: "Orkney", fontWeight: 600, fontSize: 10 },
+  saveTitle: { fontFamily: "Orkney", fontSize: 8 },
+  savePrice: { fontFamily: "Orkney", fontWeight: 600, fontSize: 8 },
   estimatedProfit: {
     display: "flex",
     justifyContent: "center",
@@ -98,8 +99,8 @@ const styles = StyleSheet.create({
   },
   brandUnderScore: {
     width: "70%",
-    marginTop: -10,
-    height: 10,
+    marginTop: -6,
+    height: 6,
     backgroundColor: "#a3c572",
     alignSelf: "center",
     zIndex: -200,
@@ -111,6 +112,39 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
+  },
+  subHeaderRow: {
+    width: "100%",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 10,
+    marginBottom: 5,
+  },
+  subHeader: {
+    fontFamily: "Orkney",
+    color: "#3F3F3F",
+    fontWeight: 600,
+    fontSize: 10,
+  },
+  costsSummarySection: {
+    width: "100%",
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 10,
+  },
+  costsSummaryText: {
+    width: "40%",
+    fontFamily: "Orkney",
+    fontSize: 12,
+  },
+  costsSummaryPrice: {
+    width: "30%",
+    fontFamily: "Orkney",
+    fontSize: 12,
+    textAlign: "center",
   },
 });
 
@@ -158,15 +192,19 @@ const TurbinesDocument = ({
           {turbinesCalcStore.officeMarkup.officeFeeForBoss}
         </Text>
         <Image
-          style={{ height: 40, marginTop: 20 }}
+          style={{ height: 40, marginTop: 40 }}
           src={`${process.env.NEXT_PUBLIC_BASE_URL}/static/pdf/logoprzyjazna.png`}
         />
 
         <View style={styles.headerBackground}>
-          <Text style={styles.header}>TURBINY WIATROWE</Text>
+          <Text style={styles.header}>DANE TECHNICZNE</Text>
         </View>
 
-        <View style={{ width: "70%", marginTop: 20 }}>
+        <View style={{ width: "70%", marginTop: 10 }}>
+          {/* - - - - - - - - WIND TURBINES SECTION - - - - - - - -  */}
+          <View style={styles.subHeaderRow}>
+            <Text style={styles.subHeader}>TURBINY WIATROWE</Text>
+          </View>
           <View style={styles.saveRow}>
             <Text style={styles.saveTitle}>ILOŚĆ FAZ U KLIENTA</Text>
             <Text style={styles.savePrice}>
@@ -220,43 +258,12 @@ const TurbinesDocument = ({
               {turbinesStore.turbinesDetails.totalPower * 1000} W
             </Text>
           </View>
-        </View>
-        <View style={styles.headerBackground}>
-          <Text style={styles.header}>FINANSE</Text>
-        </View>
 
-        <View style={{ ...styles.pricingSection, marginTop: -5 }}>
-          <View style={styles.estimatedProfit}>
-            <Text style={{ ...styles.estimatedProfitTitle, fontSize: 12 }}>
-              KWOTA NETTO
-            </Text>
-            <Text style={{ ...styles.estimatedPrice, fontSize: 14 }}>
-              {turbinesCalcStore.turbinesTotalCosts.netCost} ZŁ
-            </Text>
+          {/* - - - - - - - - ENERGY STORE SECTION - - - - - - - -  */}
+          <View style={styles.subHeaderRow}>
+            <Text style={styles.subHeader}>MAGAZYN ENERGII</Text>
           </View>
-          <View style={styles.estimatedProfit}>
-            <Text style={{ ...styles.estimatedProfitTitle, fontSize: 12 }}>
-              PODATEK VAT {tax8 * 100}%
-            </Text>
-            <Text style={{ ...styles.estimatedPrice, fontSize: 14 }}>
-              {turbinesCalcStore.turbinesTotalCosts.taxValue} ZŁ
-            </Text>
-          </View>
-          <View style={styles.estimatedProfit}>
-            <Text style={{ ...styles.estimatedProfitTitle, fontSize: 12 }}>
-              KWOTA BRUTTO
-            </Text>
-            <Text style={{ ...styles.estimatedPrice, fontSize: 14 }}>
-              {turbinesCalcStore.turbinesTotalCosts.grossCost} ZŁ
-            </Text>
-          </View>
-        </View>
 
-        <View style={{ ...styles.headerBackground, marginTop: 10 }}>
-          <Text style={styles.header}>MAGAZYN ENERGII</Text>
-        </View>
-
-        <View style={{ width: "70%", marginTop: 20 }}>
           <View style={styles.saveRow}>
             <Text style={styles.saveTitle}>WYBRANY MAGAZYN ENERGII</Text>
             <Text style={styles.savePrice}>
@@ -292,33 +299,85 @@ const TurbinesDocument = ({
         </View>
 
         <View style={styles.headerBackground}>
-          <Text style={styles.header}>FINANSE</Text>
+          <Text style={styles.header}>PODSUMOWANIE FINANSOWE</Text>
         </View>
 
-        <View style={styles.pricingSection}>
-          <View style={styles.estimatedProfit}>
-            <Text style={{ ...styles.estimatedProfitTitle, fontSize: 12 }}>
-              KWOTA NETTO
+        <View style={{ width: "70%", marginTop: 10 }}>
+          <View style={styles.costsSummarySection}>
+            <Text style={styles.costsSummaryText} />
+            <Text style={{ ...styles.costsSummaryPrice, fontWeight: 600 }}>
+              NETTO
             </Text>
-            <Text style={{ ...styles.estimatedPrice, fontSize: 14 }}>
+            <Text style={{ ...styles.costsSummaryPrice, fontWeight: 600 }}>
+              BRUTTO
+            </Text>
+          </View>
+          <View style={styles.costsSummarySection}>
+            <Text style={styles.costsSummaryText}>TURBINY WIATROWE</Text>
+            <Text style={styles.costsSummaryPrice}>
+              {turbinesCalcStore.turbinesTotalCosts.netCost} ZŁ
+            </Text>
+            <Text style={styles.costsSummaryPrice}>
+              {turbinesCalcStore.turbinesTotalCosts.grossCost} ZŁ
+            </Text>
+          </View>
+
+          <View style={styles.costsSummarySection}>
+            <Text style={styles.costsSummaryText}>MAGAZYN ENERGII</Text>
+            <Text style={styles.costsSummaryPrice}>
               {turbinesCalcStore.energyStoreTotalCosts.netCost} ZŁ
             </Text>
-          </View>
-          <View style={styles.estimatedProfit}>
-            <Text style={{ ...styles.estimatedProfitTitle, fontSize: 12 }}>
-              PODATEK VAT {tax8 * 100}%
-            </Text>
-            <Text style={{ ...styles.estimatedPrice, fontSize: 14 }}>
-              {turbinesCalcStore.energyStoreTotalCosts.taxValue} ZŁ
-            </Text>
-          </View>
-          <View style={styles.estimatedProfit}>
-            <Text style={{ ...styles.estimatedProfitTitle, fontSize: 12 }}>
-              KWOTA BRUTTO
-            </Text>
-            <Text style={{ ...styles.estimatedPrice, fontSize: 14 }}>
+            <Text style={styles.costsSummaryPrice}>
               {turbinesCalcStore.energyStoreTotalCosts.grossCost} ZŁ
             </Text>
+          </View>
+
+          <View style={styles.costsSummarySection}>
+            <Text style={{ ...styles.costsSummaryText, fontWeight: 600 }}>
+              SUMA
+            </Text>
+            <View style={{ width: "30%" }}>
+              <Text style={{ ...styles.costsSummaryPrice, width: "100%" }}>
+                {turbinesCalcStore.turbinesTotalCosts.netCost +
+                  turbinesCalcStore.energyStoreTotalCosts.netCost}{" "}
+                ZŁ
+              </Text>
+              <View style={styles.brandUnderScore} />
+            </View>
+            <View style={{ width: "30%" }}>
+              <Text style={{ ...styles.costsSummaryPrice, width: "100%" }}>
+                {turbinesCalcStore.turbinesTotalCosts.grossCost +
+                  turbinesCalcStore.energyStoreTotalCosts.grossCost}{" "}
+                ZŁ
+              </Text>
+              <View style={styles.brandUnderScore} />
+            </View>
+          </View>
+        </View>
+        <View
+          style={{
+            width: "70%",
+            marginTop: 40,
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "flex-end",
+            alignItems: "flex-end",
+          }}
+        >
+          <Text
+            style={{
+              ...styles.costsSummaryPrice,
+              fontWeight: 600,
+              marginBottom: 5,
+            }}
+          >
+            RATA PRZED DOTACJĄ
+          </Text>
+          <View style={{ width: "30%" }}>
+            <Text style={{ ...styles.costsSummaryPrice, width: "100%" }}>
+              {turbinesCalcStore.loanForPurcharse.instalmentBeforeDotations} ZŁ
+            </Text>
+            <View style={styles.brandUnderScore} />
           </View>
         </View>
       </View>
@@ -344,74 +403,6 @@ const TurbinesDocument = ({
           style={{ height: 40, marginTop: 30 }}
           src={`${process.env.NEXT_PUBLIC_BASE_URL}/static/pdf/logoprzyjazna.png`}
         />
-
-        <View style={styles.headerBackground}>
-          <Text style={styles.header}>DOTACJE I ULGI</Text>
-        </View>
-
-        <View style={{ width: "70%", marginTop: 20 }}>
-          <View style={styles.saveRow}>
-            <Text
-              style={{ ...styles.saveTitle, fontWeight: 600, fontSize: 12 }}
-            >
-              DOTACJA NA TURBINY WIATROWE
-            </Text>
-            <Text style={{ ...styles.savePrice, fontSize: 12 }}>
-              {turbinesCalcStore.turbinesDotationAmount} ZŁ
-            </Text>
-          </View>
-          <View style={styles.saveRow}>
-            <Text
-              style={{ ...styles.saveTitle, fontWeight: 600, fontSize: 12 }}
-            >
-              DOTACJA NA MAGAZYN ENERGII
-            </Text>
-            <Text style={{ ...styles.savePrice, fontSize: 12 }}>
-              {turbinesCalcStore.energyStoreDotationAmount} ZŁ
-            </Text>
-          </View>
-        </View>
-
-        <View style={styles.headerBackground}>
-          <Text style={styles.header}>PODSUMOWANIE</Text>
-        </View>
-
-        <View
-          style={{ ...styles.pricingSection, marginTop: 10, paddingTop: 5 }}
-        >
-          <View style={styles.estimatedProfit}>
-            <Text style={{ ...styles.estimatedProfitTitle, fontSize: 12 }}>
-              RATA PO DOTACJI
-            </Text>
-            <Text style={{ ...styles.estimatedPrice, fontSize: 14 }}>
-              {turbinesCalcStore.loanForPurcharse.finallInstalmentPice} ZŁ
-            </Text>
-          </View>
-
-          <View style={styles.estimatedProfit}>
-            <Text style={{ ...styles.estimatedProfitTitle, fontSize: 12 }}>
-              CENA MAGAZYNU ENERGII
-            </Text>
-            <Text
-              style={{ ...styles.estimatedPrice, fontSize: 20, marginTop: 8 }}
-            >
-              {turbinesCalcStore.energyStoreAfterDotationCost} ZŁ
-            </Text>
-            <View style={styles.brandUnderScore} />
-          </View>
-
-          <View style={styles.estimatedProfit}>
-            <Text style={{ ...styles.estimatedProfitTitle, fontSize: 12 }}>
-              CENA TURBIN WIATROWYCH
-            </Text>
-            <Text
-              style={{ ...styles.estimatedPrice, fontSize: 20, marginTop: 8 }}
-            >
-              {turbinesCalcStore.turbinesAfterDotationCost} ZŁ
-            </Text>
-            <View style={styles.brandUnderScore} />
-          </View>
-        </View>
       </View>
       <Image
         style={{

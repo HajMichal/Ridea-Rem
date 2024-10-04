@@ -16,11 +16,6 @@ export interface TurbinesCalculationSlice {
       taxValue: number;
       grossCost: number;
     };
-    turbinesAfterDotationCost: number;
-
-    // dotations
-    turbinesDotationAmount: number;
-    energyStoreDotationAmount: number;
 
     // addons
     inverterCost: number;
@@ -40,7 +35,6 @@ export interface TurbinesCalculationSlice {
       taxValue: number;
       grossCost: number;
     };
-    energyStoreAfterDotationCost: number;
 
     // General
     loanForPurcharse: {
@@ -78,11 +72,6 @@ export const turbinesCalcSlice: StateCreator<TurbinesCalculationSlice> = (
       taxValue: 0,
       grossCost: 0,
     },
-    turbinesAfterDotationCost: 0,
-
-    // dotations
-    turbinesDotationAmount: 0,
-    energyStoreDotationAmount: 0,
 
     // addons
     inverterCost: 0,
@@ -102,7 +91,6 @@ export const turbinesCalcSlice: StateCreator<TurbinesCalculationSlice> = (
       taxValue: 0,
       grossCost: 0,
     },
-    energyStoreAfterDotationCost: 0,
 
     // General
     loanForPurcharse: {

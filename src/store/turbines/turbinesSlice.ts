@@ -24,6 +24,7 @@ export interface TurbinesSlice {
       price: number;
     };
 
+    estimatedDotationSum: number;
     threePhases: boolean;
     isThreePhasesInverter: boolean;
     isHybridInverter: boolean;
@@ -62,6 +63,7 @@ export const turbinesSlice: StateCreator<TurbinesSlice> = (set) => ({
       price: 0,
     },
 
+    estimatedDotationSum: 0,
     threePhases: false,
     isThreePhasesInverter: false,
     isHybridInverter: false,

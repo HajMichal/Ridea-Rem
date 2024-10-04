@@ -10,6 +10,7 @@ import BatteryController from "./BatteryController";
 import BatteryCapacity from "./BatteryCapacity";
 import Installments from "./Installments";
 import ChooseEnergyStore from "./ChooseEnergyStore";
+import EstimatedDotationSum from "./EstimatedDotationSum";
 
 export {
   Turbines,
@@ -24,4 +25,5 @@ export {
   BatteryCapacity,
   Installments,
   ChooseEnergyStore,
+  EstimatedDotationSum,
 };

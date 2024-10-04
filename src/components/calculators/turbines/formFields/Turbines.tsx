@@ -38,7 +38,11 @@ function Turbines() {
         const storeKey = storeNameMap[key]!;
         const currentVal = turbinesStore[storeKey];
 
-        if (storeKey === "turbine1000Count" || storeKey === "turbine1500Count")
+        if (
+          storeKey === "turbine1000Count" ||
+          storeKey === "turbine1500Count" ||
+          storeKey === "turbine3000Count"
+        )
           return null;
 
         const handleChange = (e: string | null) => {

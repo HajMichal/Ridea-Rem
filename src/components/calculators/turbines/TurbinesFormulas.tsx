@@ -11,6 +11,7 @@ import {
   BatteryCapacity,
   Installments,
   ChooseEnergyStore,
+  EstimatedDotationSum,
 } from "./formFields";
 
 export function TurbinesFormulas() {
@@ -37,6 +38,7 @@ export function TurbinesFormulas() {
           {/* <BatteryCapacity /> */}
           <Matebox />
           <Installments />
+          <EstimatedDotationSum />
         </div>
       </ScrollArea>
     </div>
