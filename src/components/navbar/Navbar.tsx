@@ -14,6 +14,7 @@ import { LinkComponent } from "./LinkComponent";
 import { DropdownMenu } from "../DropdownMenu";
 import { useAirCondition } from "~/hooks/useAirCondition";
 import { useTurbines } from "~/hooks/useTurbines";
+import { InputComponent } from "../InputComponent";
 
 const consultantProvisionsData = [
   "0",
@@ -132,13 +133,17 @@ const Navbar = () => {
         <div className="flex min-w-[350px] items-center gap-10">
           <div>
             {router.pathname === "/kalkulator/fotowoltaika" && (
-              <SelectComponent
+              <InputComponent
                 title="POZIOM"
+                step={100}
+                smallField
                 onChange={(e) => {
-                  store.updatePhotovoltaic("consultantMarkup", Number(e));
+                  let value = e.target.valueAsNumber;
+                  if (Number.isNaN(value)) value = 0;
+
+                  store.updatePhotovoltaic("consultantMarkup", value);
                 }}
                 value={photovoltaicStore.consultantMarkup}
-                data={consultantProvisionsData}
               />
             )}
             {router.pathname === "/kalkulator/pompy_ciepla" && (
@@ -182,13 +187,17 @@ const Navbar = () => {
               />
             )}
             {router.pathname === "/kalkulator/turbiny" && (
-              <SelectComponent
+              <InputComponent
                 title="POZIOM"
+                step={100}
+                smallField
                 onChange={(e) => {
-                  store.updateTurbines("consultantMarkup", Number(e));
+                  let value = e.target.valueAsNumber;
+                  if (Number.isNaN(value)) value = 0;
+
+                  store.updateTurbines("consultantMarkup", value);
                 }}
                 value={turbinesStore.consultantMarkup}
-                data={turbinesProvisionData}
               />
             )}
           </div>
