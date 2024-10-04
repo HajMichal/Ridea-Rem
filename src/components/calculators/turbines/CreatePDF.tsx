@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 /* eslint-disable jsx-a11y/alt-text */
 import React from "react";
 import {
@@ -70,33 +71,6 @@ const styles = StyleSheet.create({
   },
   saveTitle: { fontFamily: "Orkney", fontSize: 8 },
   savePrice: { fontFamily: "Orkney", fontWeight: 600, fontSize: 8 },
-  estimatedProfit: {
-    display: "flex",
-    justifyContent: "center",
-    height: 100,
-    width: "35%",
-  },
-  estimatedProfitTitle: {
-    fontFamily: "Orkney",
-    fontSize: 8,
-    textAlign: "center",
-    width: "100%",
-  },
-  estimatedProfitTitleBold: {
-    fontFamily: "Orkney",
-    fontSize: 12,
-    textAlign: "center",
-    width: "100%",
-    fontWeight: 600,
-  },
-  estimatedPrice: {
-    fontSize: 14,
-    fontFamily: "Orkney",
-    fontWeight: 600,
-    width: "100%",
-    textAlign: "center",
-    marginTop: 15,
-  },
   brandUnderScore: {
     width: "70%",
     marginTop: -6,
@@ -104,14 +78,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#a3c572",
     alignSelf: "center",
     zIndex: -200,
-  },
-  pricingSection: {
-    width: "90%",
-    marginLeft: 12,
-    marginTop: 0,
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-between",
   },
   subHeaderRow: {
     width: "100%",
@@ -146,6 +112,25 @@ const styles = StyleSheet.create({
     fontSize: 12,
     textAlign: "center",
   },
+  columnPriceSection: {
+    width: "70%",
+    marginTop: 40,
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "flex-end",
+    alignItems: "flex-end",
+  },
+  centerContent: {
+    width: "100%",
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-around",
+  },
+  pageAlign: {
+    display: "flex",
+    width: "100%",
+    alignItems: "center",
+  },
 });
 
 interface TurbinesDocumentType {
@@ -170,13 +155,7 @@ const TurbinesDocument = ({
       />
     </Page>
     <Page size="A4" style={styles.page}>
-      <View
-        style={{
-          display: "flex",
-          width: "100%",
-          alignItems: "center",
-        }}
-      >
+      <View style={styles.pageAlign}>
         <Text
           style={{
             right: 0,
@@ -354,16 +333,7 @@ const TurbinesDocument = ({
             </View>
           </View>
         </View>
-        <View
-          style={{
-            width: "70%",
-            marginTop: 40,
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "flex-end",
-            alignItems: "flex-end",
-          }}
-        >
+        <View style={styles.columnPriceSection}>
           <Text
             style={{
               ...styles.costsSummaryPrice,
@@ -392,17 +362,92 @@ const TurbinesDocument = ({
       />
     </Page>
     <Page size="A4" style={styles.page}>
-      <View
-        style={{
-          display: "flex",
-          width: "100%",
-          alignItems: "center",
-        }}
-      >
+      <View style={styles.pageAlign}>
         <Image
           style={{ height: 40, marginTop: 30 }}
           src={`${process.env.NEXT_PUBLIC_BASE_URL}/static/pdf/logoprzyjazna.png`}
         />
+        <View style={{}}>
+          <Text style={styles.header}>
+            INSTALACJA ZOSTANIE OBJĘTA PROGRAMEM "MOJA ELEKTROWNIA WIATROWA"
+          </Text>
+        </View>
+
+        <View style={{ width: "70%", marginTop: 10 }}>
+          <Text style={{ fontSize: 8 }}>
+            Dofinansowanie w formie dotacji do 50% kosztów kwalifikowanych, nie
+            więcej niż 30 tys. zł na jedną współfinansowaną mikroinstalację
+            wiatrową o zainstalowanej mocy elektrycznej nie mniejszej niż 1 kW
+            oraz nie większej niż 20 kW, lecz nie więcej niż 5 tys. zł/1 kW.
+          </Text>
+          <Text style={{ fontSize: 8 }}>
+            Dofinansowanie w formie dotacji do 50% kosztów kwalifikowanych, nie
+            więcej niż 17 tys. zł na jeden magazyn energii elektrycznej –
+            akumulator o pojemności minimalnej 2 kWh, lecz nie więcej niż 6 tys.
+            zł/1 kWh.
+          </Text>
+          <View>
+            <Text>PRZYBLIŻONA KWOTA DOTACJI</Text>
+            <Text>{turbinesStore.estimatedDotationSum}</Text>
+          </View>
+        </View>
+
+        <View style={styles.headerBackground}>
+          <Text style={styles.header}>KWOTY PO ODLICZENIU DOTACJI</Text>
+        </View>
+
+        <View style={styles.centerContent}>
+          <View
+            style={{
+              ...styles.columnPriceSection,
+              alignItems: "center",
+              width: "50%",
+            }}
+          >
+            <Text
+              style={{
+                ...styles.costsSummaryPrice,
+                fontWeight: 600,
+                marginBottom: 5,
+              }}
+            >
+              KWOTA PO DOTACJI
+            </Text>
+            <View style={{ width: "30%" }}>
+              <Text style={{ ...styles.costsSummaryPrice, width: "100%" }}>
+                {turbinesCalcStore.turbinesTotalCosts.grossCost +
+                  turbinesCalcStore.energyStoreTotalCosts.grossCost -
+                  turbinesStore.estimatedDotationSum}{" "}
+                ZŁ
+              </Text>
+              <View style={styles.brandUnderScore} />
+            </View>
+          </View>
+
+          <View
+            style={{
+              ...styles.columnPriceSection,
+              alignItems: "center",
+              width: "50%",
+            }}
+          >
+            <Text
+              style={{
+                ...styles.costsSummaryPrice,
+                fontWeight: 600,
+                marginBottom: 5,
+              }}
+            >
+              RATA PO DOTACJI
+            </Text>
+            <View style={{ width: "30%" }}>
+              <Text style={{ ...styles.costsSummaryPrice, width: "100%" }}>
+                {turbinesCalcStore.loanForPurcharse.finallInstalmentPice} ZŁ
+              </Text>
+              <View style={styles.brandUnderScore} />
+            </View>
+          </View>
+        </View>
       </View>
       <Image
         style={{
