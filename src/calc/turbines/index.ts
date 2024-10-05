@@ -1,4 +1,4 @@
-import { tax8 } from "~/constans/taxPercentage";
+import { tax23, tax8 } from "~/constans/taxPercentage";
 
 interface InverterType {
   isThreePhasesInverter: boolean;
@@ -25,12 +25,14 @@ interface EnergyStoreTotalCostType {
     energyCounterCost: number;
     mateboxCost: number;
     batteryCost: number;
+
+    isVat23: boolean;
   };
 }
 export function setEnergyStoreTotalCost({ input }: EnergyStoreTotalCostType) {
-  const values = Object.values(input);
+  const values = Object.values(input).filter((val) => typeof val === "number");
   const netCost = values.reduce((acc, value) => acc + value, 0);
-  const taxValue = netCost * tax8;
+  const taxValue = netCost * (input.isVat23 ? tax23 : tax8);
   const grossCost = netCost + taxValue;
 
   return {
@@ -81,12 +83,14 @@ interface TurbinesTotalCost {
     greaterPowerFee: number;
     inverterBase: number;
     feesAmount: number;
+
+    isVat23: boolean;
   };
 }
 export function setTurbinesTotalCost({ input }: TurbinesTotalCost) {
-  const values = Object.values(input);
+  const values = Object.values(input).filter((val) => typeof val === "number");
   const netCost = values.reduce((acc, value) => acc + value, 0);
-  const taxValue = netCost * tax8;
+  const taxValue = netCost * (input.isVat23 ? tax23 : tax8);
   const grossCost = netCost + taxValue;
 
   return {

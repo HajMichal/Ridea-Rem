@@ -7,8 +7,7 @@ import { useTurbines } from "~/hooks/useTurbines";
 export function Preview() {
   const [parent] = useAutoAnimate();
   const { turbinesStore, turbinesCalcStore } = useTurbines();
-  console.log(turbinesStore);
-  console.log(turbinesCalcStore);
+
   return (
     <div
       id="CALCULATIONS"
@@ -29,6 +28,10 @@ export function Preview() {
               <TextComponent
                 title="ILOŚĆ FAZ U KLIENTA"
                 calculations={turbinesStore.threePhases ? "3" : "1"}
+              />
+              <TextComponent
+                title="MONTAŻ NA FIRMĘ"
+                calculations={turbinesStore.isVat23}
               />
               <TextComponent
                 title="TURBINA 500"

@@ -11,6 +11,7 @@ import BatteryCapacity from "./BatteryCapacity";
 import Installments from "./Installments";
 import ChooseEnergyStore from "./ChooseEnergyStore";
 import EstimatedDotationSum from "./EstimatedDotationSum";
+import IsVat from "./IsVat";
 
 export {
   Turbines,
@@ -26,4 +27,5 @@ export {
   Installments,
   ChooseEnergyStore,
   EstimatedDotationSum,
+  IsVat,
 };

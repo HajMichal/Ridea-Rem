@@ -21,6 +21,7 @@ export const turbinesCalculator = createTRPCRouter({
         energyCounterCost: z.number(),
         mateboxCost: z.number(),
         batteryCost: z.number(),
+        isVat23: z.boolean(),
       })
     )
     .mutation(calc.setEnergyStoreTotalCost),
@@ -50,6 +51,8 @@ export const turbinesCalculator = createTRPCRouter({
         greaterPowerFee: z.number(),
         inverterBase: z.number(),
         feesAmount: z.number(),
+
+        isVat23: z.boolean(),
       })
     )
     .mutation(calc.setTurbinesTotalCost),

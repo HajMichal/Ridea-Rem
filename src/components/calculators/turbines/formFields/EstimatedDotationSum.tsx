@@ -1,10 +1,10 @@
+import React from "react";
 import { type ChangeEvent, memo } from "react";
 import { InputComponent } from "~/components";
 import { useTurbines } from "~/hooks/useTurbines";
 
 const EstimatedDotationSum = () => {
-  const { turbinesStore, updateTurbinesStore, updateTurbinesCalcStore } =
-    useTurbines();
+  const { turbinesStore, updateTurbinesStore } = useTurbines();
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     let value = e.target.valueAsNumber;
@@ -13,12 +13,16 @@ const EstimatedDotationSum = () => {
   };
 
   return (
-    <InputComponent
-      title="SZACUNKOWA SUMA DOTACJI"
-      value={turbinesStore.estimatedDotationSum}
-      step={1000}
-      onChange={handleChange}
-    />
+    <>
+      {!turbinesStore.isVat23 && (
+        <InputComponent
+          title="SZACUNKOWA SUMA DOTACJI"
+          value={turbinesStore.estimatedDotationSum}
+          step={1000}
+          onChange={handleChange}
+        />
+      )}
+    </>
   );
 };
 export default memo(EstimatedDotationSum);

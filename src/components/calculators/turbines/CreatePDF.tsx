@@ -361,112 +361,115 @@ const TurbinesDocument = ({
         src={`${process.env.NEXT_PUBLIC_BASE_URL}/static/pdf/background.png`}
       />
     </Page>
-    <Page size="A4" style={styles.page}>
-      <View style={styles.pageAlign}>
+    {!turbinesStore.isVat23 && (
+      <Page size="A4" style={styles.page}>
+        <View style={styles.pageAlign}>
+          <Image
+            style={{ height: 40, marginTop: 40 }}
+            src={`${process.env.NEXT_PUBLIC_BASE_URL}/static/pdf/logoprzyjazna.png`}
+          />
+          <View style={{ width: "55%", marginTop: 30, textAlign: "center" }}>
+            <Text style={styles.header}>
+              INSTALACJA ZOSTANIE OBJĘTA PROGRAMEM "MOJA ELEKTROWNIA WIATROWA"
+            </Text>
+          </View>
+
+          <View style={{ width: "70%", marginTop: 10 }}>
+            <Text style={{ fontSize: 8 }}>
+              Dofinansowanie w formie dotacji do 50% kosztów kwalifikowanych,
+              nie więcej niż 30 tys. zł na jedną współfinansowaną
+              mikroinstalację wiatrową o zainstalowanej mocy elektrycznej nie
+              mniejszej niż 1 kW oraz nie większej niż 20 kW, lecz nie więcej
+              niż 5 tys. zł/1 kW.
+            </Text>
+            <Text style={{ fontSize: 8 }}>
+              Dofinansowanie w formie dotacji do 50% kosztów kwalifikowanych,
+              nie więcej niż 17 tys. zł na jeden magazyn energii elektrycznej –
+              akumulator o pojemności minimalnej 2 kWh, lecz nie więcej niż 6
+              tys. zł/1 kWh.
+            </Text>
+            <View
+              style={{
+                ...styles.centerContent,
+                marginTop: 30,
+                justifyContent: "center",
+              }}
+            >
+              <Text style={{ fontSize: 12 }}>PRZYBLIŻONA KWOTA DOTACJI: </Text>
+              <Text style={{ fontSize: 12 }}>
+                {turbinesStore.estimatedDotationSum} ZŁ
+              </Text>
+            </View>
+          </View>
+
+          <View style={styles.headerBackground}>
+            <Text style={styles.header}>KWOTY PO ODLICZENIU DOTACJI</Text>
+          </View>
+
+          <View style={styles.centerContent}>
+            <View
+              style={{
+                ...styles.columnPriceSection,
+                alignItems: "center",
+                width: "50%",
+              }}
+            >
+              <Text
+                style={{
+                  ...styles.costsSummaryPrice,
+                  fontWeight: 600,
+                  marginBottom: 5,
+                }}
+              >
+                KWOTA PO DOTACJI
+              </Text>
+              <View style={{ width: "30%" }}>
+                <Text style={{ ...styles.costsSummaryPrice, width: "100%" }}>
+                  {turbinesCalcStore.turbinesTotalCosts.grossCost +
+                    turbinesCalcStore.energyStoreTotalCosts.grossCost -
+                    turbinesStore.estimatedDotationSum}{" "}
+                  ZŁ
+                </Text>
+                <View style={styles.brandUnderScore} />
+              </View>
+            </View>
+
+            <View
+              style={{
+                ...styles.columnPriceSection,
+                alignItems: "center",
+                width: "50%",
+              }}
+            >
+              <Text
+                style={{
+                  ...styles.costsSummaryPrice,
+                  fontWeight: 600,
+                  marginBottom: 5,
+                }}
+              >
+                RATA PO DOTACJI
+              </Text>
+              <View style={{ width: "30%" }}>
+                <Text style={{ ...styles.costsSummaryPrice, width: "100%" }}>
+                  {turbinesCalcStore.loanForPurcharse.finallInstalmentPice} ZŁ
+                </Text>
+                <View style={styles.brandUnderScore} />
+              </View>
+            </View>
+          </View>
+        </View>
         <Image
-          style={{ height: 40, marginTop: 40 }}
-          src={`${process.env.NEXT_PUBLIC_BASE_URL}/static/pdf/logoprzyjazna.png`}
+          style={{
+            width: "100%",
+            height: "100%",
+            position: "absolute",
+            zIndex: -500,
+          }}
+          src={`${process.env.NEXT_PUBLIC_BASE_URL}/static/pdf/background.png`}
         />
-        <View style={{ width: "55%", marginTop: 30, textAlign: "center" }}>
-          <Text style={styles.header}>
-            INSTALACJA ZOSTANIE OBJĘTA PROGRAMEM "MOJA ELEKTROWNIA WIATROWA"
-          </Text>
-        </View>
-
-        <View style={{ width: "70%", marginTop: 10 }}>
-          <Text style={{ fontSize: 8 }}>
-            Dofinansowanie w formie dotacji do 50% kosztów kwalifikowanych, nie
-            więcej niż 30 tys. zł na jedną współfinansowaną mikroinstalację
-            wiatrową o zainstalowanej mocy elektrycznej nie mniejszej niż 1 kW
-            oraz nie większej niż 20 kW, lecz nie więcej niż 5 tys. zł/1 kW.
-          </Text>
-          <Text style={{ fontSize: 8 }}>
-            Dofinansowanie w formie dotacji do 50% kosztów kwalifikowanych, nie
-            więcej niż 17 tys. zł na jeden magazyn energii elektrycznej –
-            akumulator o pojemności minimalnej 2 kWh, lecz nie więcej niż 6 tys.
-            zł/1 kWh.
-          </Text>
-          <View
-            style={{
-              ...styles.centerContent,
-              marginTop: 30,
-              justifyContent: "center",
-            }}
-          >
-            <Text style={{ fontSize: 12 }}>PRZYBLIŻONA KWOTA DOTACJI: </Text>
-            <Text style={{ fontSize: 12 }}>
-              {turbinesStore.estimatedDotationSum} ZŁ
-            </Text>
-          </View>
-        </View>
-
-        <View style={styles.headerBackground}>
-          <Text style={styles.header}>KWOTY PO ODLICZENIU DOTACJI</Text>
-        </View>
-
-        <View style={styles.centerContent}>
-          <View
-            style={{
-              ...styles.columnPriceSection,
-              alignItems: "center",
-              width: "50%",
-            }}
-          >
-            <Text
-              style={{
-                ...styles.costsSummaryPrice,
-                fontWeight: 600,
-                marginBottom: 5,
-              }}
-            >
-              KWOTA PO DOTACJI
-            </Text>
-            <View style={{ width: "30%" }}>
-              <Text style={{ ...styles.costsSummaryPrice, width: "100%" }}>
-                {turbinesCalcStore.turbinesTotalCosts.grossCost +
-                  turbinesCalcStore.energyStoreTotalCosts.grossCost -
-                  turbinesStore.estimatedDotationSum}{" "}
-                ZŁ
-              </Text>
-              <View style={styles.brandUnderScore} />
-            </View>
-          </View>
-
-          <View
-            style={{
-              ...styles.columnPriceSection,
-              alignItems: "center",
-              width: "50%",
-            }}
-          >
-            <Text
-              style={{
-                ...styles.costsSummaryPrice,
-                fontWeight: 600,
-                marginBottom: 5,
-              }}
-            >
-              RATA PO DOTACJI
-            </Text>
-            <View style={{ width: "30%" }}>
-              <Text style={{ ...styles.costsSummaryPrice, width: "100%" }}>
-                {turbinesCalcStore.loanForPurcharse.finallInstalmentPice} ZŁ
-              </Text>
-              <View style={styles.brandUnderScore} />
-            </View>
-          </View>
-        </View>
-      </View>
-      <Image
-        style={{
-          width: "100%",
-          height: "100%",
-          position: "absolute",
-          zIndex: -500,
-        }}
-        src={`${process.env.NEXT_PUBLIC_BASE_URL}/static/pdf/background.png`}
-      />
-    </Page>
+      </Page>
+    )}
     <Page size="A4" style={styles.page}>
       <Image
         style={styles.image}

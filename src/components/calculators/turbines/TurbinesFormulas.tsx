@@ -12,6 +12,7 @@ import {
   Installments,
   ChooseEnergyStore,
   EstimatedDotationSum,
+  IsVat,
 } from "./formFields";
 
 export function TurbinesFormulas() {
@@ -39,6 +40,7 @@ export function TurbinesFormulas() {
           <Matebox />
           <Installments />
           <EstimatedDotationSum />
+          <IsVat />
         </div>
       </ScrollArea>
     </div>
