@@ -30,8 +30,9 @@ interface EnergyStoreTotalCostType {
   };
 }
 export function setEnergyStoreTotalCost({ input }: EnergyStoreTotalCostType) {
-  const values: number[] = Object.values(input).filter(
-    (val) => typeof val === "number"
+  // const values = Object.values(input).filter((val) => typeof val === "number");
+  const values = Object.values(input).filter(
+    (val): val is number => typeof val === "number"
   );
   const netCost = values.reduce((acc, value) => acc + value, 0);
   const taxValue = netCost * (input.isVat23 ? tax23 : tax8);
@@ -90,8 +91,9 @@ interface TurbinesTotalCost {
   };
 }
 export function setTurbinesTotalCost({ input }: TurbinesTotalCost) {
-  const values: number[] = Object.values(input).filter(
-    (val) => typeof val === "number"
+  // const values = Object.values(input).filter((val) => typeof val === "number");
+  const values = Object.values(input).filter(
+    (val): val is number => typeof val === "number"
   );
   const netCost = values.reduce((acc, value) => acc + value, 0);
   const taxValue = netCost * (input.isVat23 ? tax23 : tax8);
