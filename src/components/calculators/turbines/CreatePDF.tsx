@@ -364,10 +364,10 @@ const TurbinesDocument = ({
     <Page size="A4" style={styles.page}>
       <View style={styles.pageAlign}>
         <Image
-          style={{ height: 40, marginTop: 30 }}
+          style={{ height: 40, marginTop: 40 }}
           src={`${process.env.NEXT_PUBLIC_BASE_URL}/static/pdf/logoprzyjazna.png`}
         />
-        <View style={{}}>
+        <View style={{ width: "55%", marginTop: 30, textAlign: "center" }}>
           <Text style={styles.header}>
             INSTALACJA ZOSTANIE OBJĘTA PROGRAMEM "MOJA ELEKTROWNIA WIATROWA"
           </Text>
@@ -386,9 +386,17 @@ const TurbinesDocument = ({
             akumulator o pojemności minimalnej 2 kWh, lecz nie więcej niż 6 tys.
             zł/1 kWh.
           </Text>
-          <View>
-            <Text>PRZYBLIŻONA KWOTA DOTACJI</Text>
-            <Text>{turbinesStore.estimatedDotationSum}</Text>
+          <View
+            style={{
+              ...styles.centerContent,
+              marginTop: 30,
+              justifyContent: "center",
+            }}
+          >
+            <Text style={{ fontSize: 12 }}>PRZYBLIŻONA KWOTA DOTACJI: </Text>
+            <Text style={{ fontSize: 12 }}>
+              {turbinesStore.estimatedDotationSum} ZŁ
+            </Text>
           </View>
         </View>
 
