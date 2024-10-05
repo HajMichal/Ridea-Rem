@@ -76,7 +76,7 @@ export const photovoltaics_calculator = createTRPCRouter({
     .input(
       z.object({
         energyPriceInLimit: z.number(),
-        energyPriceOutOfLimit: z.number(),
+        energyPrice: z.number(),
         recentYearTrendUsage: z.number(),
         usageLimit: z.number(),
       })
@@ -227,6 +227,7 @@ export const photovoltaics_calculator = createTRPCRouter({
         photovoltaicDotation_czpowietrze: z.number(),
         energyMenagerDotation: z.number(),
         energyStoreDotationValue: z.number(),
+        heatStoreDotation: z.number(),
         isVat23: z.boolean(),
       })
     )
@@ -243,7 +244,7 @@ export const photovoltaics_calculator = createTRPCRouter({
     .input(
       z.object({
         heatStoreCost: z.number(),
-        isHeatStoreSystem: z.boolean(),
+        isHeatStore: z.boolean(),
       })
     )
     .mutation(calc.heatStoreWithEnergyManagerCost),
@@ -335,7 +336,7 @@ export const photovoltaics_calculator = createTRPCRouter({
     .input(
       z.object({
         emsDotation: z.boolean(),
-        heatStoreDotation: z.boolean(),
+        isHeatStore: z.boolean(),
         isEnergyStoreDotation: z.boolean(),
         energyMenager: z.number(),
       })

@@ -9,13 +9,13 @@ const IsHeatStore = () => {
   const store = useStore();
 
   const handleChange = (e: string | null) =>
-    store.updatePhotovoltaic("heatStoreDotation", e == "true");
+    store.updatePhotovoltaic("isHeatStore", e == "true");
 
   return (
     <SelectComponent
       title="MAGAZYN CIEPŁA"
       onChange={handleChange}
-      value={photovoltaicStore.heatStoreDotation}
+      value={photovoltaicStore.isHeatStore}
       data={YESNO}
     />
   );

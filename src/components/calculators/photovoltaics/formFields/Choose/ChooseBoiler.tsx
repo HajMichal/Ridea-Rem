@@ -1,3 +1,4 @@
+import React from "react";
 import { memo } from "react";
 import { SelectComponent } from "~/components";
 import { usePhotovoltaic } from "~/hooks/usePhotovoltaic";
@@ -28,7 +29,7 @@ const ChooseBoiler = () => {
 
   return (
     <>
-      {photovoltaicStore.heatStoreDotation && (
+      {photovoltaicStore.isHeatStore && (
         <SelectComponent
           title={"WIELKOŚĆ ZBIORNIKA CWU"}
           onChange={handleChange}

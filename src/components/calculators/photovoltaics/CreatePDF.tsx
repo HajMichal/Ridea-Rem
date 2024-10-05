@@ -527,13 +527,13 @@ const PhotovoltaicDocument = ({
           <View style={styles.saveRow}>
             <Text style={styles.savePrice}>MAGAZYN CIEPŁA</Text>
             <Text style={styles.savePrice}>
-              {photovoltaicStore.heatStoreDotation ? "TAK" : "NIE"}
+              {photovoltaicStore.isHeatStore ? "TAK" : "NIE"}
             </Text>
           </View>
           <View style={styles.saveRow}>
             <Text style={styles.savePrice}>POJEMNOŚĆ ZBIORNIKA CWU</Text>
             <Text style={styles.savePrice}>
-              {photovoltaicStore.heatStoreDotation
+              {photovoltaicStore.isHeatStore
                 ? photovoltaicStore.cwuTank.name
                 : "BRAK"}
             </Text>

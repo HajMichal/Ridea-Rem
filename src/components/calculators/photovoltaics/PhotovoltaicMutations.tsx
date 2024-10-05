@@ -55,13 +55,13 @@ export function PhotovoltaicMutations({
     if (
       photovoltaicCalcStore.autoconsumption &&
       photovoltaicStore.energyPriceInLimit &&
-      photovoltaicStore.energyPriceOutOfLimit &&
+      photovoltaicStore.energyPrice &&
       photovoltaicStore.recentYearTrendUsage
     )
       mutations.set_total_payment_energy_transfer({
         autoconsumption: photovoltaicCalcStore.autoconsumption,
         priceInLimit: photovoltaicStore.energyPriceInLimit,
-        priceOutOfLimit: photovoltaicStore.energyPriceOutOfLimit,
+        priceOutOfLimit: photovoltaicStore.energyPrice,
         recentYearTrendUsage: photovoltaicStore.recentYearTrendUsage,
         usageLimit: photovoltaicStore.usageLimit,
       });
@@ -69,7 +69,7 @@ export function PhotovoltaicMutations({
     photovoltaicCalcStore.autoconsumption,
     debouncedPhotovStore.energyPriceInLimit,
     debouncedPhotovStore.usageLimit,
-    debouncedPhotovStore.energyPriceOutOfLimit,
+    debouncedPhotovStore.energyPrice,
     debouncedPhotovStore.recentYearTrendUsage,
     mutations.set_total_payment_energy_transfer,
   ]);
@@ -105,7 +105,7 @@ export function PhotovoltaicMutations({
       photovoltaicCalcStore.accumulated_funds_on_account &&
       photovoltaicCalcStore.autoconsumption &&
       photovoltaicStore.energyPriceInLimit &&
-      photovoltaicStore.energyPriceOutOfLimit &&
+      photovoltaicStore.energyPrice &&
       photovoltaicStore.recentYearTrendUsage
     ) {
       mutations.set_total_energy_trend_fee({
@@ -113,7 +113,7 @@ export function PhotovoltaicMutations({
           photovoltaicCalcStore.accumulated_funds_on_account,
         autoconsumption: photovoltaicCalcStore.autoconsumption,
         priceInLimit: photovoltaicStore.energyPriceInLimit,
-        priceOutOfLimit: photovoltaicStore.energyPriceOutOfLimit,
+        priceOutOfLimit: photovoltaicStore.energyPrice,
         usageLimit: photovoltaicStore.usageLimit,
         recentYearTrendUsage: photovoltaicStore.recentYearTrendUsage,
       });
@@ -122,7 +122,7 @@ export function PhotovoltaicMutations({
     photovoltaicCalcStore.accumulated_funds_on_account,
     photovoltaicCalcStore.autoconsumption,
     debouncedPhotovStore.energyPriceInLimit,
-    debouncedPhotovStore.energyPriceOutOfLimit,
+    debouncedPhotovStore.energyPrice,
     debouncedPhotovStore.usageLimit,
     debouncedPhotovStore.recentYearTrendUsage,
     mutations.set_total_energy_trend_fee,
@@ -149,12 +149,12 @@ export function PhotovoltaicMutations({
   useEffect(() => {
     if (
       photovoltaicStore.energyPriceInLimit &&
-      photovoltaicStore.energyPriceOutOfLimit &&
+      photovoltaicStore.energyPrice &&
       photovoltaicStore.recentYearTrendUsage
     )
       mutations.set_yearly_total_fees({
         energyPriceInLimit: photovoltaicStore.energyPriceInLimit,
-        energyPriceOutOfLimit: photovoltaicStore.energyPriceOutOfLimit,
+        energyPrice: photovoltaicStore.energyPrice,
         recentYearTrendUsage: photovoltaicStore.recentYearTrendUsage,
         usageLimit: photovoltaicStore.usageLimit,
       });
@@ -162,7 +162,7 @@ export function PhotovoltaicMutations({
     debouncedPhotovStore.usageLimit,
     debouncedPhotovStore.recentYearTrendUsage,
     debouncedPhotovStore.energyPriceInLimit,
-    debouncedPhotovStore.energyPriceOutOfLimit,
+    debouncedPhotovStore.energyPrice,
     mutations.set_yearly_total_fees,
   ]);
   useEffect(() => {
@@ -346,6 +346,9 @@ export function PhotovoltaicMutations({
       photovoltaicDotation_mojprad:
         photovoltaicCalcStore.photovoltaicDotation_mojprad,
       energyStoreDotationValue: photovoltaicCalcStore.energyStoreDotationValue,
+      heatStoreDotation: photovoltaicStore.isHeatStore
+        ? data?.dotations["magazynCiepla"] ?? 0
+        : 0,
       isVat23: photovoltaicStore.vat23,
     });
   }, [
@@ -355,6 +358,8 @@ export function PhotovoltaicMutations({
     photovoltaicCalcStore.energyStoreDotationValue,
     photovoltaicCalcStore.energyMenagerDotationValue,
     photovoltaicStore.vat23,
+    photovoltaicStore.isHeatStore,
+    data?.dotations,
   ]);
 
   useEffect(() => {
@@ -373,11 +378,11 @@ export function PhotovoltaicMutations({
     if (data)
       mutations.set_heatStore_energyManager_costs({
         heatStoreCost: photovoltaicCalcStore.heatStoreCost ?? 0,
-        isHeatStoreSystem: photovoltaicStore.heatStoreDotation,
+        isHeatStore: photovoltaicStore.isHeatStore,
       });
   }, [
     photovoltaicCalcStore.heatStoreCost,
-    photovoltaicStore.heatStoreDotation,
+    photovoltaicStore.isHeatStore,
     mutations.set_heatStore_energyManager_costs,
   ]);
   useEffect(() => {
@@ -412,13 +417,13 @@ export function PhotovoltaicMutations({
         emsDotation: photovoltaicStore.emsDotation,
         energyMenager: data.dotations.menagerEnergii,
         isEnergyStoreDotation: photovoltaicStore.isEnergyStoreDotation,
-        heatStoreDotation: photovoltaicStore.heatStoreDotation,
+        isHeatStore: photovoltaicStore.isHeatStore,
       });
   }, [
     photovoltaicStore.emsDotation,
     data?.dotations.menagerEnergii,
     photovoltaicStore.isEnergyStoreDotation,
-    photovoltaicStore.heatStoreDotation,
+    photovoltaicStore.isHeatStore,
   ]);
   useEffect(() => {
     if (data)

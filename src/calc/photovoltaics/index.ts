@@ -149,7 +149,7 @@ export function yearlyBillWithoutPhotovolatics({
 }
 
 interface YearlyTotalFeesType {
-  energyPriceOutOfLimit: number;
+  energyPrice: number;
   recentYearTrendUsage: number;
   energyPriceInLimit: number;
   usageLimit: number;
@@ -160,8 +160,7 @@ export function yearlyTotalFees({ input }: { input: YearlyTotalFeesType }) {
       yearly_total_trend_fee: Number(
         (
           input.energyPriceInLimit * input.usageLimit +
-          input.energyPriceOutOfLimit *
-            (input.recentYearTrendUsage - input.usageLimit)
+          input.energyPrice * (input.recentYearTrendUsage - input.usageLimit)
         ).toFixed(2)
       ),
       yearly_total_fee_for_energy_transfer: Number(
@@ -169,7 +168,7 @@ export function yearlyTotalFees({ input }: { input: YearlyTotalFeesType }) {
           input.energyPriceInLimit *
             staticData.ENERGY_LIMIT_PERCENT *
             input.usageLimit +
-          input.energyPriceOutOfLimit *
+          input.energyPrice *
             staticData.ENERGY_LIMIT_PERCENT *
             (input.recentYearTrendUsage - input.usageLimit)
         ).toFixed(2)
@@ -374,6 +373,7 @@ interface DotationsSumType {
   photovoltaicDotation_czpowietrze: number;
   energyMenagerDotation: number;
   energyStoreDotationValue: number;
+  heatStoreDotation: number;
   isVat23: boolean;
 }
 export function dotationsSum({ input }: { input: DotationsSumType }) {
@@ -382,7 +382,8 @@ export function dotationsSum({ input }: { input: DotationsSumType }) {
     input.photovoltaicDotation_mojprad +
     input.photovoltaicDotation_czpowietrze +
     input.energyMenagerDotation +
-    input.energyStoreDotationValue
+    input.energyStoreDotationValue +
+    input.heatStoreDotation
   );
 }
 
@@ -399,7 +400,7 @@ export function amountAfterDotation({
 }
 
 interface HeatStoreWithEnergyManagerCostType {
-  isHeatStoreSystem: boolean;
+  isHeatStore: boolean;
   heatStoreCost: number;
 }
 export function heatStoreWithEnergyManagerCost({
@@ -407,7 +408,7 @@ export function heatStoreWithEnergyManagerCost({
 }: {
   input: HeatStoreWithEnergyManagerCostType;
 }) {
-  return input.isHeatStoreSystem ? input.heatStoreCost : 0;
+  return input.isHeatStore ? input.heatStoreCost : 0;
 }
 interface EnergyManagerCostType {
   isEnergyMenagerSystem: boolean;
@@ -528,7 +529,7 @@ export function dotation_czpowietrze({ input }: { input: DotationValueType }) {
 
 interface EnergyMenagerDotationType {
   emsDotation: boolean;
-  heatStoreDotation: boolean;
+  isHeatStore: boolean;
   isEnergyStoreDotation: boolean;
   energyMenager: number;
 }
@@ -539,7 +540,7 @@ export function energyMenagerDotation({
   input: EnergyMenagerDotationType;
 }) {
   if (
-    (input.emsDotation && input.heatStoreDotation) ||
+    (input.emsDotation && input.isHeatStore) ||
     (input.emsDotation && input.isEnergyStoreDotation)
   ) {
     return input.energyMenager;
