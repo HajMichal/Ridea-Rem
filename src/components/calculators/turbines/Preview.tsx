@@ -1,6 +1,6 @@
 import React from "react";
 import { TextComponent, PdfGeneratorButton } from "../../";
-import { Loader } from "@mantine/core";
+import { Badge, Loader } from "@mantine/core";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { useTurbines } from "~/hooks/useTurbines";
 
@@ -25,9 +25,31 @@ export function Preview() {
               ref={parent}
               className="mt-3 h-[75%] w-full overflow-y-auto px-10"
             >
+              {turbinesStore.roofPitch > 30 && turbinesStore.roofPitch < 46 && (
+                <h2 className="w-full text-center text-2xl text-[#ffcc00]">
+                  WYMAGANA WERYFIKACJA PRZEZ DZIAŁ TECHNICZNY
+                </h2>
+              )}
+              {turbinesStore.roofPitch > 45 && (
+                <h2 className="w-full text-center text-2xl text-red">
+                  BRAK MOŻLIWOŚCI MONTAŻU
+                </h2>
+              )}
               <TextComponent
                 title="ILOŚĆ FAZ U KLIENTA"
                 calculations={turbinesStore.threePhases ? "3" : "1"}
+              />
+              <TextComponent
+                title="KONSTRUKCJA DACHOWA"
+                calculations={turbinesStore.roofConstruction}
+              />
+              <TextComponent
+                title="POKRYCIE DACHOWE"
+                calculations={turbinesStore.roofCoverage}
+              />
+              <TextComponent
+                title="KĄT NACHYLENIA DACHU"
+                calculations={turbinesStore.roofPitch}
               />
               <TextComponent
                 title="MONTAŻ NA FIRMĘ"
@@ -171,7 +193,14 @@ export function Preview() {
 
               <div className="mt-20 text-center"></div>
             </div>
-            <PdfGeneratorButton />
+            {turbinesStore.turbinesDetails.turbinesCount === 0 ||
+            (turbinesStore.roofConstruction && turbinesStore.roofCoverage) ? (
+              <PdfGeneratorButton />
+            ) : (
+              <Badge color="red" size="xl" className="w-full text-center">
+                WYPEŁNIJ ANKIETĘ ABY POBRAĆ WYCENĘ
+              </Badge>
+            )}
           </div>
         )}
       </div>

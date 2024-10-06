@@ -185,12 +185,6 @@ const TurbinesDocument = ({
             <Text style={styles.subHeader}>TURBINY WIATROWE</Text>
           </View>
           <View style={styles.saveRow}>
-            <Text style={styles.saveTitle}>ILOŚĆ FAZ U KLIENTA</Text>
-            <Text style={styles.savePrice}>
-              {turbinesStore.threePhases ? 3 : 1}
-            </Text>
-          </View>
-          <View style={styles.saveRow}>
             <Text style={styles.saveTitle}>DOSPEL DRAGON 500+</Text>
             <Text style={styles.savePrice}>
               {turbinesStore.turbine500Count} szt.
@@ -213,6 +207,29 @@ const TurbinesDocument = ({
             <Text style={styles.savePrice}>
               {turbinesStore.turbine3000Count} szt.
             </Text>
+          </View>
+
+          <View style={styles.saveRow}>
+            <Text style={styles.saveTitle}>ILOŚĆ FAZ U KLIENTA</Text>
+            <Text style={styles.savePrice}>
+              {turbinesStore.threePhases ? 3 : 1}
+            </Text>
+          </View>
+          <View style={styles.saveRow}>
+            <Text style={styles.saveTitle}>KONSTRUKCJA DACHU</Text>
+            <Text style={styles.savePrice}>
+              {turbinesStore.roofConstruction.toUpperCase()}
+            </Text>
+          </View>
+          <View style={styles.saveRow}>
+            <Text style={styles.saveTitle}>POKRYCIE DACHOWE</Text>
+            <Text style={styles.savePrice}>
+              {turbinesStore.roofCoverage.toUpperCase()}
+            </Text>
+          </View>
+          <View style={styles.saveRow}>
+            <Text style={styles.saveTitle}>KĄT NACHYLENIA DACHU</Text>
+            <Text style={styles.savePrice}>{turbinesStore.roofPitch}°</Text>
           </View>
 
           <View style={styles.saveRow}>

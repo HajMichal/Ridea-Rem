@@ -13,7 +13,11 @@ import {
   ChooseEnergyStore,
   EstimatedDotationSum,
   IsVat,
+  ConstructionType,
+  RoofCoverage,
+  RoofPitch,
 } from "./formFields";
+import TechDataPoll from "./TechDataPoll";
 
 export function TurbinesFormulas() {
   return (
@@ -41,6 +45,7 @@ export function TurbinesFormulas() {
           <Installments />
           <EstimatedDotationSum />
           <IsVat />
+          <TechDataPoll />
         </div>
       </ScrollArea>
     </div>

@@ -12,6 +12,9 @@ import Installments from "./Installments";
 import ChooseEnergyStore from "./ChooseEnergyStore";
 import EstimatedDotationSum from "./EstimatedDotationSum";
 import IsVat from "./IsVat";
+import ConstructionType from "./ConstructionType";
+import RoofCoverage from "./RoofCoverage";
+import RoofPitch from "./RoofPitch";
 
 export {
   Turbines,
@@ -28,4 +31,7 @@ export {
   ChooseEnergyStore,
   EstimatedDotationSum,
   IsVat,
+  ConstructionType,
+  RoofCoverage,
+  RoofPitch,
 };
