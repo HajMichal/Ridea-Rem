@@ -5,8 +5,7 @@ import { useAirCondition } from "~/hooks/useAirCondition";
 import { airConditionCalculationSlice } from "~/store/airCondition/airConditionCalculationSlice";
 
 export const Preview = () => {
-  const { jsonData, airConditionStore, airConditionCalcStore } =
-    useAirCondition();
+  const { airConditionStore, airConditionCalcStore } = useAirCondition();
   const [parent] = useAutoAnimate();
 
   return (

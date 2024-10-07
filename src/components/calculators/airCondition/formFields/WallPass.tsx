@@ -6,17 +6,17 @@ import useStore from "~/store";
 
 export const WallPass = () => {
   const store = useStore();
-  const { jsonData, mutations, airConditionStore } = useAirCondition();
+  const { calcData, mutations, airConditionStore } = useAirCondition();
 
   const [debouncedAirCondStore] = useDebouncedValue(airConditionStore, 200);
 
   useEffect(() => {
-    if (jsonData)
+    if (calcData)
       mutations.setWallPassPrice({
         quantity: debouncedAirCondStore.wallPass,
-        price: jsonData.addons.wallHole,
+        price: calcData.addons.wallHole,
       });
-  }, [debouncedAirCondStore.wallPass, jsonData?.addons.wallHole]);
+  }, [debouncedAirCondStore.wallPass, calcData?.addons.wallHole]);
 
   return (
     <InputComponent

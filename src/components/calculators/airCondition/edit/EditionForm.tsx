@@ -1,17 +1,14 @@
-import { useDisclosure } from "@mantine/hooks";
-import { useForm, type SubmitHandler } from "react-hook-form";
+import { type AirCondition } from "@prisma/client";
+import React, { useState } from "react";
 import toast from "react-hot-toast";
-import { ConfirmationModal } from "~/components/ConfirmationModal";
-import { ChangeDataInputComponent } from "~/components/changeDataInputComponent";
-import {
-  AirConditionData,
-  type AirConditionDataToCalculation,
-} from "~/server/api/routers/airCondition/interfaces";
+import { BsDatabaseFillCheck } from "react-icons/bs";
+import { GiCancel } from "react-icons/gi";
 import { api } from "~/utils/api";
 
 /* eslint @typescript-eslint/consistent-indexed-object-style: ["error", "index-signature"] */
 interface EditionForm {
-  [key: string]: { [key: string]: AirConditionDataToCalculation };
+  data: AirCondition;
+  menagers: string[];
 }
 interface AirConditionerArr {
   type: string;
@@ -21,108 +18,132 @@ interface AirConditionerArr {
   energyType: string;
 }
 
-export const EditionForm = ({ data }: EditionForm) => {
-  const [opened, { open, close }] = useDisclosure(false);
+export const EditionForm = ({ data, menagers }: EditionForm) => {
+  const [dataToChange, setDataToChange] = useState({});
+  const [editingKey, setEditingKey] = useState<string | null>(null);
+  const [pathKey, setPathKey] = useState<string | null>(null);
   const airConditionersArr: AirConditionerArr[] = [];
 
-  const { mutate } = api.airConditionDataFlowRouter.editJSONFile.useMutation({
+  const utils = api.useContext();
+
+  const { mutate } = api.airCondMenagerData.edit.useMutation({
     onSuccess: () => {
       toast.success("Dane zostały pomyślnie zmienione.");
+      void utils.airCondMenagerData.invalidate();
     },
     onError: () => {
       toast.error("UWAGA BŁĄD! Dane nie zostały zmienione. Spróbuj ponownie.");
     },
   });
-  const dynamicKey = Object.keys(data!)[0];
-  const dynamicValues = data![dynamicKey!];
 
-  // This loop helps set default values of non changable data from json file
-  dynamicValues?.airConditioner.forEach((airConditioner) =>
-    airConditionersArr.push({
-      type: airConditioner.type,
-      power: airConditioner.power,
-      option: airConditioner.option,
-      area: airConditioner.area,
-      energyType: airConditioner.energyType,
-    })
-  );
+  function displayData(calcData: object, path: string[] = [], depth = 0) {
+    if (depth === 6) return null;
 
-  const { register, handleSubmit } = useForm<AirConditionDataToCalculation>({
-    defaultValues: {
-      airConditioner: airConditionersArr,
-    },
-  });
-
-  const onSubmit: SubmitHandler<AirConditionDataToCalculation> = (data) => {
-    mutate({ [dynamicKey!]: data });
-    close();
-  };
-
-  //  I could merge those 2 function into 1 bigger recursive
-  //  function but imho its more readable now
-  function displayAirConditionersForms() {
-    if (dynamicValues) {
-      return dynamicValues.airConditioner.map(
-        ({ type, price }: AirConditionData, index) => {
-          return (
-            <ChangeDataInputComponent
-              {...register(
-                `airConditioner[${index}].price` as keyof typeof dynamicValues,
-                {
-                  valueAsNumber: true,
-                }
-              )}
-              title={type}
-              defaultValue={price}
-              key={type}
-            />
-          );
-        }
-      );
-    }
-  }
-  function displayAddonsForms() {
-    if (dynamicValues) {
-      const addonsEntries = Object.entries(dynamicValues.addons);
-      return addonsEntries.map(([key, value]: [key: string, value: number]) => {
-        return (
-          <ChangeDataInputComponent
-            {...register(`addons.${key}` as keyof typeof dynamicValues, {
-              valueAsNumber: true,
-            })}
-            title={dataNamesMappings[key] ?? key}
-            defaultValue={value}
-            key={key}
-          />
-        );
+    const saveChanges = () => {
+      setEditingKey(null);
+      setPathKey(null);
+      mutate({
+        dataToChange,
+        path,
+        usersId: menagers.length === 0 ? [data.userId] : menagers,
       });
-    }
+    };
+    return (
+      <div className="pb-16">
+        {Object.entries(calcData).map(
+          ([key, value]: [key: string, value: number | object]) => {
+            if (
+              key === "id" ||
+              key === "userId" ||
+              key === "userName" ||
+              key === "createdAt" ||
+              key === "editedAt" ||
+              key === "option" ||
+              key === "energyType" ||
+              key === "area" ||
+              key === "power"
+            )
+              return null;
+
+            const isEditing =
+              editingKey === key && pathKey && path.includes(pathKey);
+
+            if (typeof value !== "number" && typeof value !== "string") {
+              return (
+                <div key={key}>
+                  <h1
+                    className={`text-center font-orkneyBold ${
+                      path.length === 1 && "text-2xl"
+                    }`}
+                  >
+                    {headerNamesMapping[key] ?? key}
+                  </h1>
+                  {displayData(value, [...path, key], depth + 1)}
+                </div>
+              );
+            } else {
+              return (
+                <div key={key} className="m-1 -ml-24 flex items-center gap-2">
+                  <p className="-mb-2 w-64 text-right text-xl">
+                    {dataNamesMappings[key] ?? key.toUpperCase()}:
+                  </p>
+                  {isEditing ? (
+                    <>
+                      <input
+                        type="text"
+                        placeholder={value.toString()}
+                        onChange={(e) =>
+                          setDataToChange({
+                            [key]: Number(e.target.value),
+                          })
+                        }
+                        autoFocus
+                        className="h-[34.8px] w-24 border border-dark p-2 px-2 focus:outline-brand"
+                      />
+                      <button onClick={saveChanges} className="mr-2">
+                        <BsDatabaseFillCheck size={"25px"} color="green" />
+                      </button>
+                      <button
+                        onClick={() => {
+                          setEditingKey(null);
+                          setPathKey(null);
+                          setDataToChange({});
+                        }}
+                      >
+                        <GiCancel size={"25px"} color="red" />
+                      </button>
+                    </>
+                  ) : (
+                    <p
+                      onClick={() => {
+                        setEditingKey(key);
+                        setPathKey(path.at(-1) ?? null);
+                      }}
+                      className="w-24 border border-dark bg-white p-1 px-2 font-sans"
+                    >
+                      {value}
+                    </p>
+                  )}
+                </div>
+              );
+            }
+          }
+        )}
+      </div>
+    );
   }
+
   return (
     <>
-      <h1 className="w-full pt-14 text-center">{dynamicKey}</h1>
-      <form className="w-full pb-20 pt-3">
-        <h2 className="mt-5 w-full text-center text-3xl">DANE </h2>
-        {displayAirConditionersForms()}
-        <h2 className="mt-10 w-full text-center text-2xl">KOSZTY DODATKOWE</h2>
-        {displayAddonsForms()}
-      </form>
-      <button
-        onClick={open}
-        className="fixed bottom-20 right-56 mx-5 h-12 self-center rounded-xl bg-dark px-10 py-2 font-semibold text-white duration-300 hover:bg-brand hover:text-dark"
-      >
-        Zatwierdź
-      </button>
-      <ConfirmationModal
-        title="CZY NA PEWNO CHCESZ ZAPISAĆ ZMIENIONE WARTOŚCI ?"
-        close={close}
-        opened={opened}
-        handleFunction={handleSubmit(onSubmit)}
-        description=" Będzie to skutkowało zmianami w bazie danych, przez co ceny nowych
-        wyliczeń za instalację ulegną zmianie."
-      />
+      <h1 className="w-full pt-14 text-center">{data.userName}</h1>
+      <div className="flex w-full justify-center">{displayData(data)}</div>
     </>
   );
+};
+
+const headerNamesMapping: { [key: string]: string } = {
+  airConditioners: "KLIMATYZATORY",
+  addons: "KOSZTY DODATKOWE",
 };
 
 const dataNamesMappings: { [key: string]: string } = {
@@ -139,4 +160,9 @@ const dataNamesMappings: { [key: string]: string } = {
   montage: "MONTAŻ",
   syfon: "SYFON",
   dashPump: "POMPA SKROPLIN",
+  area: "POWIERZCHNIA",
+  power: "MOC",
+  price: "CENA",
+  option: "OPCJE",
+  energyType: "ENERGOOSZCZĘDNOŚĆ",
 };

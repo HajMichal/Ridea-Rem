@@ -6,17 +6,17 @@ import useStore from "~/store";
 
 export const Tape = () => {
   const store = useStore();
-  const { jsonData, mutations, airConditionStore } = useAirCondition();
+  const { calcData, mutations, airConditionStore } = useAirCondition();
 
   const [debouncedAirCondStore] = useDebouncedValue(airConditionStore, 200);
 
   useEffect(() => {
-    if (jsonData)
+    if (calcData)
       mutations.setTapePrice({
         quantity: debouncedAirCondStore.tape,
-        price: jsonData.addons.installationTape,
+        price: calcData.addons.installationTape,
       });
-  }, [debouncedAirCondStore.tape, jsonData?.addons.installationTape]);
+  }, [debouncedAirCondStore.tape, calcData?.addons.installationTape]);
 
   return (
     <InputComponent

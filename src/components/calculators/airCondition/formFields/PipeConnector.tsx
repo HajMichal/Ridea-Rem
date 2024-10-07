@@ -6,17 +6,17 @@ import useStore from "~/store";
 
 export const PipeConnector = () => {
   const store = useStore();
-  const { jsonData, mutations, airConditionStore } = useAirCondition();
+  const { calcData, mutations, airConditionStore } = useAirCondition();
 
   const [debouncedAirCondStore] = useDebouncedValue(airConditionStore, 200);
 
   useEffect(() => {
-    if (jsonData)
+    if (calcData)
       mutations.setPipeConnectorPrice({
         quantity: debouncedAirCondStore.pipeConnector,
-        price: jsonData.addons.connector,
+        price: calcData.addons.connector,
       });
-  }, [debouncedAirCondStore.pipeConnector, jsonData?.addons.connector]);
+  }, [debouncedAirCondStore.pipeConnector, calcData?.addons.connector]);
 
   return (
     <InputComponent

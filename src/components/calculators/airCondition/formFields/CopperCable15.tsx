@@ -6,18 +6,18 @@ import useStore from "~/store";
 
 export const CopperCable15 = () => {
   const store = useStore();
-  const { jsonData, mutations, airConditionStore } = useAirCondition();
+  const { calcData, mutations, airConditionStore } = useAirCondition();
 
   const [debouncedAirCondStore] = useDebouncedValue(airConditionStore, 200);
 
   useEffect(() => {
-    if (jsonData)
+    if (calcData)
       mutations.setCopperCable15Price({
         quantity: debouncedAirCondStore.copperCableLen15,
-        price: jsonData.addons["copperCable1/5"],
+        price: calcData.addons["copperCable1/5"],
       });
   }, [
-    jsonData?.addons["copperCable1/5"],
+    calcData?.addons["copperCable1/5"],
     debouncedAirCondStore.copperCableLen15,
   ]);
 

@@ -5,6 +5,7 @@ import { api } from "~/utils/api";
 import { Button, Input, Modal } from "@mantine/core";
 import { CALCUALTOR_TYPES } from "~/constans/calculatorTypes";
 import { FeesTable } from ".";
+import React from "react";
 
 interface UserFormFieldType {
   user: MenagerType | User;
@@ -91,7 +92,7 @@ export const UserFeeFormField = ({
   const { mutate: removeMenagerHeatHomeJson } =
     api.heatHomeDataFlowRouter.removeMenagerData.useMutation();
   const { mutate: removeMenagerAirConditionJson } =
-    api.airConditionDataFlowRouter.removeMenagerData.useMutation();
+    api.airCondMenagerData.remove.useMutation();
   const { mutate: removeMenagerCalcDataTurbines } =
     api.turbinesDataFlowRouter.removeMenagerCalcData.useMutation();
   const { mutate: removeUserFromDb } =
@@ -102,10 +103,10 @@ export const UserFeeFormField = ({
     if (user.role === 2 && user.name) {
       removeMenagerCalcDataPhotovoltaic(user.id);
       removeMenagerCalcDataTurbines(user.id);
+      removeMenagerAirConditionJson(user.id);
       removeMenagerHeatPumpJson(user.name);
       removeMenagerForCompanyJson(user.name);
       removeMenagerHeatHomeJson(user.name);
-      removeMenagerAirConditionJson(user.name);
     }
     setRemoveUserModal(false);
   };

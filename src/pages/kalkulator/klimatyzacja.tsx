@@ -1,4 +1,5 @@
 import { Overlay } from "@mantine/core";
+import React from "react";
 import { Loading, Navbar, SideBar } from "~/components";
 import { Preview } from "~/components/calculators/airCondition";
 import AirConditionFormulas from "~/components/calculators/airCondition/AirConditionFormulas";
@@ -6,12 +7,12 @@ import { AirConditionMutations } from "~/components/calculators/airCondition/Air
 import { useAirCondition } from "~/hooks/useAirCondition";
 
 function Klimatyzacja() {
-  const { jsonData } = useAirCondition();
+  const { calcData } = useAirCondition();
 
   AirConditionMutations();
   return (
     <main className="flex h-full max-h-screen overflow-hidden bg-backgroundGray font-orkney font-normal laptop:justify-center">
-      {!jsonData && (
+      {!calcData && (
         <>
           <Overlay color="#000" opacity={0.85} />
           <Loading />

@@ -1,5 +1,6 @@
 import { PasswordInput, Radio, TextInput } from "@mantine/core";
 import { type Session } from "next-auth";
+import React from "react";
 import { type SubmitHandler, useForm } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
 import { api } from "~/utils/api";
@@ -29,7 +30,7 @@ export default function CreateAccountForm({
   const { mutate: addMenagerHeatHome } =
     api.heatHomeDataFlowRouter.addNewMenager.useMutation();
   const { mutate: addMenagerAirCondition } =
-    api.airConditionDataFlowRouter.addNewMenager.useMutation();
+    api.airCondMenagerData.addNew.useMutation();
   const { mutate: addMenagerTurbines } =
     api.turbinesDataFlowRouter.addMenagerCalcData.useMutation();
 
@@ -47,10 +48,13 @@ export default function CreateAccountForm({
           userId: data.userId,
           userName: data.userName,
         });
+        addMenagerAirCondition({
+          userId: data.userId,
+          userName: data.userName,
+        });
         addMenagerHeatPumpData(data.userName);
         addMenagerForCompany(data.userName);
         addMenagerHeatHome(data.userName);
-        addMenagerAirCondition(data.userName);
       }
       toast.success(`Konto zostało utworzone dla ${data.userName}`);
       reset();

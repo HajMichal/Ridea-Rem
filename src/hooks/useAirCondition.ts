@@ -12,10 +12,7 @@ export const useAirCondition = () => {
     airConditionCalcStore,
     updateAirConditionCalculation,
   } = store;
-  const { data: jsonData } =
-    api.airConditionDataFlowRouter.downloadFile.useQuery<AirConditionDataToCalculation>(
-      sessionData?.user.id
-    );
+  const { data: calcData } = api.airCondMenagerData.getSingle.useQuery();
 
   const { mutate: setCopperPipePrice } =
     api.airCondition.setCopperPipePrice.useMutation({
@@ -96,7 +93,7 @@ export const useAirCondition = () => {
 
   return {
     sessionData: sessionData,
-    jsonData: jsonData,
+    calcData: calcData,
     airConditionStore: airConditionStore,
     airConditionCalcStore: airConditionCalcStore,
     mutations: {

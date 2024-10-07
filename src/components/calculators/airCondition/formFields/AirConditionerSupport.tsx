@@ -6,19 +6,19 @@ import useStore from "~/store";
 
 export const AirConditionerSupport = () => {
   const store = useStore();
-  const { jsonData, mutations, airConditionStore } = useAirCondition();
+  const { calcData, mutations, airConditionStore } = useAirCondition();
 
   const [debouncedAirCondStore] = useDebouncedValue(airConditionStore, 200);
 
   useEffect(() => {
-    if (jsonData)
+    if (calcData)
       mutations.setAirConditionerSupportPrice({
         quantity: debouncedAirCondStore.airConditionerSupport,
-        price: jsonData.addons.airConditionerSupport,
+        price: calcData.addons.airConditionerSupport,
       });
   }, [
     debouncedAirCondStore.airConditionerSupport,
-    jsonData?.addons.airConditionerSupport,
+    calcData?.addons.airConditionerSupport,
   ]);
 
   return (
