@@ -1,16 +1,8 @@
-import { useDisclosure } from "@mantine/hooks";
-import { AirCondition } from "@prisma/client";
+import { type AirCondition } from "@prisma/client";
 import React, { useState } from "react";
-import { useForm, type SubmitHandler } from "react-hook-form";
 import toast from "react-hot-toast";
 import { BsDatabaseFillCheck } from "react-icons/bs";
 import { GiCancel } from "react-icons/gi";
-import { ConfirmationModal } from "~/components/ConfirmationModal";
-import { ChangeDataInputComponent } from "~/components/changeDataInputComponent";
-import {
-  AirConditionData,
-  type AirConditionDataToCalculation,
-} from "~/server/api/routers/airCondition/interfaces";
 import { api } from "~/utils/api";
 
 /* eslint @typescript-eslint/consistent-indexed-object-style: ["error", "index-signature"] */
@@ -26,72 +18,23 @@ interface AirConditionerArr {
   energyType: string;
 }
 
-export const EditionForm = ({ data }: EditionForm) => {
+export const EditionForm = ({ data, menagers }: EditionForm) => {
   const [dataToChange, setDataToChange] = useState({});
   const [editingKey, setEditingKey] = useState<string | null>(null);
   const [pathKey, setPathKey] = useState<string | null>(null);
   const airConditionersArr: AirConditionerArr[] = [];
 
+  const utils = api.useContext();
+
   const { mutate } = api.airCondMenagerData.edit.useMutation({
     onSuccess: () => {
       toast.success("Dane zostały pomyślnie zmienione.");
+      void utils.airCondMenagerData.invalidate();
     },
     onError: () => {
       toast.error("UWAGA BŁĄD! Dane nie zostały zmienione. Spróbuj ponownie.");
     },
   });
-
-  const { register, handleSubmit } = useForm<AirConditionDataToCalculation>({
-    // defaultValues: {
-    //   airConditioner: airConditionersArr,
-    // },
-  });
-
-  const onSubmit: SubmitHandler<AirConditionDataToCalculation> = (data) => {
-    // mutate({ [dynamicKey!]: data });
-    close();
-  };
-
-  // //  I could merge those 2 function into 1 bigger recursive
-  // //  function but imho its more readable now
-  // function displayAirConditionersForms() {
-  //   if (dynamicValues) {
-  //     return dynamicValues.airConditioners.map(
-  //       ({ type, price }: AirConditionData, index) => {
-  //         return (
-  //           <ChangeDataInputComponent
-  //             {...register(
-  //               `airConditioner[${index}].price` as keyof typeof dynamicValues,
-  //               {
-  //                 valueAsNumber: true,
-  //               }
-  //             )}
-  //             title={type}
-  //             defaultValue={price}
-  //             key={type}
-  //           />
-  //         );
-  //       }
-  //     );
-  //   }
-  // }
-  // function displayAddonsForms() {
-  //   if (dynamicValues) {
-  //     const addonsEntries = Object.entries(dynamicValues.addons);
-  //     return addonsEntries.map(([key, value]: [key: string, value: number]) => {
-  //       return (
-  //         <ChangeDataInputComponent
-  //           {...register(`addons.${key}` as keyof typeof dynamicValues, {
-  //             valueAsNumber: true,
-  //           })}
-  //           title={dataNamesMappings[key] ?? key}
-  //           defaultValue={value}
-  //           key={key}
-  //         />
-  //       );
-  //     });
-  //   }
-  // }
 
   function displayData(calcData: object, path: string[] = [], depth = 0) {
     if (depth === 6) return null;
@@ -99,11 +42,11 @@ export const EditionForm = ({ data }: EditionForm) => {
     const saveChanges = () => {
       setEditingKey(null);
       setPathKey(null);
-      // mutate({
-      //   dataToChange,
-      //   path,
-      //   userId: menagers.length === 0 ? [data.userId] : menagers,
-      // });
+      mutate({
+        dataToChange,
+        path,
+        usersId: menagers.length === 0 ? [data.userId] : menagers,
+      });
     };
     return (
       <div className="pb-16">
@@ -117,7 +60,8 @@ export const EditionForm = ({ data }: EditionForm) => {
               key === "editedAt" ||
               key === "option" ||
               key === "energyType" ||
-              key === "area"
+              key === "area" ||
+              key === "power"
             )
               return null;
 

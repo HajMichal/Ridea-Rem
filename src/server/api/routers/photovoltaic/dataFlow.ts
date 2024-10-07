@@ -8,88 +8,6 @@ import {
 import { z } from "zod";
 import { type Photovoltaic } from "@prisma/client";
 
-import { type PhotovoltaicDataToCalculation } from "./interfaces";
-
-const schema = z.object({
-  id: z.string().optional(),
-  userId: z.string(),
-  userName: z.string().optional(),
-  panels_small: z
-    .object({
-      dwa: z.number(),
-      cztery: z.number(),
-      szesc: z.number(),
-      osiem: z.number(),
-      dwanascie: z.number(),
-      dwadziescia: z.number(),
-      trzydziesci: z.number(),
-      piecdziesiat: z.number(),
-    })
-    .optional(),
-  panels_medium: z
-    .object({
-      dwa: z.number(),
-      cztery: z.number(),
-      szesc: z.number(),
-      osiem: z.number(),
-      dwanascie: z.number(),
-      dwadziescia: z.number(),
-      trzydziesci: z.number(),
-      piecdziesiat: z.number(),
-    })
-    .optional(),
-  panels_large: z
-    .object({
-      dwa: z.number(),
-      cztery: z.number(),
-      szesc: z.number(),
-      osiem: z.number(),
-      dwanascie: z.number(),
-      dwadziescia: z.number(),
-      trzydziesci: z.number(),
-      piecdziesiat: z.number(),
-    })
-    .optional(),
-  dotations: z
-    .object({
-      magazynCiepla: z.number(),
-      menagerEnergii: z.number(),
-      mojPrad: z.number(),
-      mp_mc: z.number(),
-    })
-    .optional(),
-  addons: z
-    .object({
-      bloczki: z.number(),
-      tigo: z.number(),
-      ekierki: z.number(),
-      certyfikowaneEkierki: z.number(),
-      grunt: z.number(),
-      inwerterHybrydowy: z.number(),
-      magazynCiepla: z.number(),
-      ems: z.number(),
-      matebox: z.number(),
-      kableAC: z.number(),
-      przekopy: z.number(),
-    })
-    .optional(),
-  boilers: z.record(z.number()),
-  energyStore: z.record(z.number()),
-  carPort: z
-    .object({
-      stan1: z.number(),
-      stan2: z.number(),
-      stan4: z.number(),
-      stan6: z.number(),
-      stan8: z.number(),
-      stan10: z.number(),
-      stan12: z.number(),
-    })
-    .optional(),
-  electricityPrice: z.number().optional(),
-  creditPercentage: z.number().optional(),
-});
-
 export const dataFlowRouter = createTRPCRouter({
   downloadFile: protectedProcedure.query(async ({ ctx }) => {
     const user = ctx.session?.user;
@@ -160,7 +78,7 @@ export const dataFlowRouter = createTRPCRouter({
               userId,
             },
           });
-          if (currentData == null) throw new Error();
+          if (currentData == null) return;
 
           const nestedData = currentData[photovoltaicKey] as object;
           const mergedData = { ...nestedData, ...input.dataToChange };
