@@ -14,6 +14,7 @@ export function TurbinesMutations() {
       energyCounterCost: turbinesCalcStore.energyCounterCost,
       mateboxCost: turbinesCalcStore.mateboxCost,
       t30ControllerCost: turbinesCalcStore.t30ControllerCost,
+      isVat23: turbinesStore.isVat23,
     });
   }, [
     turbinesStore.energyStore,
@@ -21,6 +22,7 @@ export function TurbinesMutations() {
     turbinesCalcStore.energyCounterCost,
     turbinesCalcStore.mateboxCost,
     turbinesCalcStore.t30ControllerCost,
+    turbinesStore.isVat23,
   ]);
 
   useEffect(() => {
@@ -39,6 +41,7 @@ export function TurbinesMutations() {
         inverterBase: turbinesCalcStore.inverterBaseCost,
         greaterPowerFee: turbinesCalcStore.greaterPowerFee,
         feesAmount: turbinesCalcStore.officeMarkup.markupSumValue,
+        isVat23: turbinesStore.isVat23,
       });
   }, [
     turbinesCalcStore.turbine500Cost,
@@ -53,6 +56,7 @@ export function TurbinesMutations() {
     turbinesCalcStore.transportCost,
     turbinesCalcStore.inverterBaseCost,
     turbinesCalcStore.greaterPowerFee,
+    turbinesStore.isVat23,
   ]);
 
   useEffect(() => {

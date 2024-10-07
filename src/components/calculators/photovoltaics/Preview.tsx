@@ -5,8 +5,12 @@ import { Loader } from "@mantine/core";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 
 export function Preview() {
-  const { photovoltaicCalcStore, photovoltaicStore, loading } =
-    usePhotovoltaic();
+  const {
+    photovoltaicData,
+    photovoltaicCalcStore,
+    photovoltaicStore,
+    loading,
+  } = usePhotovoltaic();
   const [parent] = useAutoAnimate();
 
   return (
@@ -18,8 +22,7 @@ export function Preview() {
         PODGLĄD
       </h2>
       <div className="flex h-full ">
-        {loading.limit_price_trend_loading ||
-        loading.outOfLimit_price_trend_loading ||
+        {loading.outOfLimit_price_trend_loading ||
         loading.yearly_bill_without_photovolatics_loading ||
         loading.yearly_costs_with_photovoltaics_loading ||
         loading.yearly_total_fees_loading ? (
@@ -136,7 +139,7 @@ export function Preview() {
               />
               <TextComponent
                 title="MAGAZYN CIEPŁA"
-                calculations={photovoltaicStore.heatStoreDotation}
+                calculations={photovoltaicStore.isHeatStore}
               />
               <TextComponent
                 title="EMS"
@@ -201,7 +204,7 @@ export function Preview() {
               (photovoltaicCalcStore.energyMenagerDotationValue ||
                 photovoltaicCalcStore.photovoltaicDotation_mojprad ||
                 photovoltaicCalcStore.photovoltaicDotation_czpowietrze ||
-                photovoltaicCalcStore.heatStoreCalcDotation) ? (
+                photovoltaicStore.isHeatStore) ? (
                 <div>
                   <h2 className="mt-10 w-full text-center text-xl">DOTACJE</h2>
                   <TextComponent
@@ -227,6 +230,13 @@ export function Preview() {
                     calculations={
                       photovoltaicStore.isEnergyStoreDotation &&
                       photovoltaicCalcStore.energyStoreDotationValue
+                    }
+                  />
+                  <TextComponent
+                    title="MAGAZYN CIEPŁA"
+                    calculations={
+                      photovoltaicStore.isHeatStore &&
+                      photovoltaicData?.dotations["magazynCiepla"]
                     }
                   />
                 </div>

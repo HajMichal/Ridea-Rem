@@ -10,6 +10,11 @@ import BatteryController from "./BatteryController";
 import BatteryCapacity from "./BatteryCapacity";
 import Installments from "./Installments";
 import ChooseEnergyStore from "./ChooseEnergyStore";
+import EstimatedDotationSum from "./EstimatedDotationSum";
+import IsVat from "./IsVat";
+import ConstructionType from "./ConstructionType";
+import RoofCoverage from "./RoofCoverage";
+import RoofPitch from "./RoofPitch";
 
 export {
   Turbines,
@@ -24,4 +29,9 @@ export {
   BatteryCapacity,
   Installments,
   ChooseEnergyStore,
+  EstimatedDotationSum,
+  IsVat,
+  ConstructionType,
+  RoofCoverage,
+  RoofPitch,
 };

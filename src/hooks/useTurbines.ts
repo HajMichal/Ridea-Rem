@@ -13,17 +13,8 @@ export const useTurbines = () => {
 
   const { mutate: setEnergyStoreTotalCost } =
     api.turbines.setEnergyStoreTotalCost.useMutation({
-      onSuccess: (data) => {
-        const halfPrice = data.netCost * 0.5;
-        const dotationAmount = halfPrice > 17000 ? 17000 : halfPrice;
-
-        store.updateTurbinesCalc("energyStoreTotalCosts", data);
-        store.updateTurbinesCalc("energyStoreDotationAmount", dotationAmount);
-        store.updateTurbinesCalc(
-          "energyStoreAfterDotationCost",
-          Number((data.grossCost - dotationAmount).toFixed(2))
-        );
-      },
+      onSuccess: (data) =>
+        store.updateTurbinesCalc("energyStoreTotalCosts", data),
     });
 
   const { mutate: setTurbinesDetails } =
@@ -43,12 +34,6 @@ export const useTurbines = () => {
               : 0;
           store.updateTurbinesCalc("turbinesMontageCost", montageCost);
 
-          const dotationAmount = data.roundedTotalPower * 5000;
-          store.updateTurbinesCalc(
-            "turbinesDotationAmount",
-            dotationAmount > 30000 ? 30000 : dotationAmount
-          );
-
           const transportCost =
             data.turbinesCount !== 0 ? calcData.addons.wysylka : 0;
           store.updateTurbinesCalc("transportCost", transportCost);
@@ -64,14 +49,6 @@ export const useTurbines = () => {
     api.turbines.setTurbinesTotalCost.useMutation({
       onSuccess: (data) => {
         store.updateTurbinesCalc("turbinesTotalCosts", data);
-        store.updateTurbinesCalc(
-          "turbinesAfterDotationCost",
-          Number(
-            (
-              data.grossCost - store.turbinesCalcStore.turbinesDotationAmount
-            ).toFixed(2)
-          )
-        );
       },
     });
 

@@ -1,8 +1,7 @@
-import { memo, useEffect } from "react";
-import { SelectComponent } from "~/components";
+import { type ChangeEvent, memo, useEffect } from "react";
+import { InputComponent } from "~/components";
 import { useTurbines } from "~/hooks/useTurbines";
 
-const data = ["0", "1", "2", "3", "4", "5", "6"];
 type turbinesType =
   | "turbine500Count"
   | "turbine1000Count"
@@ -38,20 +37,28 @@ function Turbines() {
         const storeKey = storeNameMap[key]!;
         const currentVal = turbinesStore[storeKey];
 
-        if (storeKey === "turbine1000Count" || storeKey === "turbine1500Count")
+        if (
+          storeKey === "turbine1000Count" ||
+          storeKey === "turbine1500Count" ||
+          storeKey === "turbine3000Count"
+        )
           return null;
 
-        const handleChange = (e: string | null) => {
-          updateTurbinesStore(storeKey, Number(e));
-          updateTurbinesCalcStore(calcStoreNameMap[key]!, Number(e) * value);
+        const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+          let inputVal = e.target.valueAsNumber;
+          if (Number.isNaN(inputVal) || inputVal < 0) inputVal = 0;
+
+          updateTurbinesStore(storeKey, inputVal);
+          updateTurbinesCalcStore(calcStoreNameMap[key]!, inputVal * value);
         };
+
         return (
-          <SelectComponent
+          <InputComponent
             key={key}
             title={key}
+            step={1}
             onChange={handleChange}
             value={currentVal}
-            data={data}
           />
         );
       })}

@@ -11,7 +11,7 @@ export interface PhotovoltaicsSlice {
     southRoof: boolean;
     isGroundMontage: boolean;
     isRoofWeightSystem: boolean;
-    heatStoreDotation: boolean;
+    isHeatStore: boolean;
     emsDotation: boolean;
     isEnergyStoreDotation: boolean;
     eccentrics: EccentricsType;
@@ -31,7 +31,7 @@ export interface PhotovoltaicsSlice {
     consultantMarkup: number;
     autoconsumptionInPercent: number;
     energyPriceInLimit: number;
-    energyPriceOutOfLimit: number;
+    energyPrice: number;
     recentYearTrendUsage: number;
     energyStore: {
       name: string;
@@ -68,7 +68,7 @@ export const photovoltaicsSlice: StateCreator<PhotovoltaicsSlice> = (set) => ({
     southRoof: false,
     isGroundMontage: false,
     isRoofWeightSystem: false,
-    heatStoreDotation: false,
+    isHeatStore: false,
     isInwerterChoosed: false,
     emsDotation: false,
     isEnergyStoreDotation: false,
@@ -88,7 +88,7 @@ export const photovoltaicsSlice: StateCreator<PhotovoltaicsSlice> = (set) => ({
     consultantMarkup: 0,
     autoconsumptionInPercent: 0.1,
     energyPriceInLimit: 0,
-    energyPriceOutOfLimit: 0,
+    energyPrice: 0,
     recentYearTrendUsage: 0,
     tigoCount: 0,
     cableAC: 0,

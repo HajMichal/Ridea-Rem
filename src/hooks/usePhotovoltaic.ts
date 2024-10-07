@@ -22,14 +22,6 @@ export const usePhotovoltaic = () => {
   }, [data?.creditPercentage]);
 
   const {
-    mutate: set_limit_price_trend,
-    isLoading: limit_price_trend_loading,
-  } = api.photovoltaics.price_trend.useMutation({
-    onSuccess: (data) => {
-      store.updatePhotovoltaicCalcs("limit_price_trend", data);
-    },
-  }); // D3
-  const {
     mutate: set_outOfLimit_price_trend,
     isLoading: outOfLimit_price_trend_loading,
   } = api.photovoltaics.price_trend.useMutation({
@@ -265,13 +257,6 @@ export const usePhotovoltaic = () => {
       },
     });
 
-  const handleInLimitOnChange = (e: { target: { valueAsNumber: number } }) => {
-    if (e.target.valueAsNumber) {
-      set_limit_price_trend(e.target.valueAsNumber);
-    }
-    store.updatePhotovoltaic("energyPriceInLimit", e.target.valueAsNumber);
-  };
-
   const handleTigoinput = (e: { target: { valueAsNumber: number } }) => {
     if (data)
       set_tigo_price({
@@ -294,7 +279,6 @@ export const usePhotovoltaic = () => {
     photovoltaicStore: store.photovoltaicStore,
     photovoltaicCalcStore: store.photovoltaicCalculations,
     loading: {
-      limit_price_trend_loading,
       outOfLimit_price_trend_loading,
       yearly_bill_without_photovolatics_loading,
       yearly_total_fees_loading,
@@ -303,7 +287,6 @@ export const usePhotovoltaic = () => {
     mutations: {
       getDataDependsOnPanelPower,
       handleTigoinput,
-      handleInLimitOnChange,
       set_outOfLimit_price_trend,
       set_system_power,
       set_estimated_kWh_prod,

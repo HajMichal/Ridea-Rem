@@ -11,6 +11,11 @@ import {
   BatteryCapacity,
   Installments,
   ChooseEnergyStore,
+  EstimatedDotationSum,
+  IsVat,
+  ConstructionType,
+  RoofCoverage,
+  RoofPitch,
 } from "./formFields";
 
 export function TurbinesFormulas() {
@@ -37,6 +42,12 @@ export function TurbinesFormulas() {
           {/* <BatteryCapacity /> */}
           <Matebox />
           <Installments />
+          <EstimatedDotationSum />
+          <IsVat />
+          <h2 className="mt-8 font-orkneyBold">DANE TECHNICZNE - ANKIETA</h2>
+          <ConstructionType />
+          <RoofCoverage />
+          <RoofPitch />
         </div>
       </ScrollArea>
     </div>
