@@ -197,9 +197,11 @@ export function Preview() {
             (turbinesStore.roofConstruction && turbinesStore.roofCoverage) ? (
               <PdfGeneratorButton />
             ) : (
-              <Badge color="red" size="xl" className="w-full text-center">
-                WYPEŁNIJ ANKIETĘ ABY POBRAĆ WYCENĘ
-              </Badge>
+              <div className="flex w-full justify-center">
+                <Badge color="red" size="xl">
+                  WYPEŁNIJ ANKIETĘ ABY POBRAĆ WYCENĘ
+                </Badge>
+              </div>
             )}
           </div>
         )}

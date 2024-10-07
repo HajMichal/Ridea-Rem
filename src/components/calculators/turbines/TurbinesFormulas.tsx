@@ -17,7 +17,6 @@ import {
   RoofCoverage,
   RoofPitch,
 } from "./formFields";
-import TechDataPoll from "./TechDataPoll";
 
 export function TurbinesFormulas() {
   return (
@@ -45,7 +44,10 @@ export function TurbinesFormulas() {
           <Installments />
           <EstimatedDotationSum />
           <IsVat />
-          <TechDataPoll />
+          <h2 className="mt-8 font-orkneyBold">DANE TECHNICZNE - ANKIETA</h2>
+          <ConstructionType />
+          <RoofCoverage />
+          <RoofPitch />
         </div>
       </ScrollArea>
     </div>
