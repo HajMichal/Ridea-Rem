@@ -4,7 +4,8 @@ import { useTurbines } from "~/hooks/useTurbines";
 import { api } from "~/utils/api";
 
 const Installments = () => {
-  const { data: generalData } = api.dataFlow.getCreditPercentage.useQuery();
+  const { data: generalData } =
+    api.pvMenagerRouter.getCreditPercentage.useQuery();
   const { turbinesStore, turbinesCalcStore, mutations, updateTurbinesStore } =
     useTurbines();
 

@@ -12,7 +12,7 @@ export const usePhotovoltaic = () => {
   const store = useStore();
 
   const { data } =
-    api.dataFlow.downloadFile.useQuery<PhotovoltaicDataToCalculation | null>();
+    api.pvMenagerRouter.getSingle.useQuery<PhotovoltaicDataToCalculation | null>();
 
   useEffect(() => {
     sessionStorage.setItem(

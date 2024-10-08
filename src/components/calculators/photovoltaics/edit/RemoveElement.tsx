@@ -11,11 +11,12 @@ export const RemoveElement = ({ element, name }: RemoveElementProps) => {
   const [opened, { open, close }] = useDisclosure(false);
   const ctx = api.useContext();
 
-  const { mutate: removeElement } = api.dataFlow.removeElement.useMutation({
-    onSuccess: async () => {
-      await ctx.dataFlow.getAllPvData.invalidate();
-    },
-  });
+  const { mutate: removeElement } =
+    api.pvMenagerRouter.removeElement.useMutation({
+      onSuccess: async () => {
+        await ctx.pvMenagerRouter.getAll.invalidate();
+      },
+    });
   const handleRemoveElement = () => {
     removeElement({ element, name });
     close();

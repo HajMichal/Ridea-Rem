@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/consistent-indexed-object-style */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
 import {
   adminProcedure,
   createTRPCRouter,
@@ -8,8 +6,8 @@ import {
 import { z } from "zod";
 import { type Photovoltaic } from "@prisma/client";
 
-export const dataFlowRouter = createTRPCRouter({
-  downloadFile: protectedProcedure.query(async ({ ctx }) => {
+export const pvMenagerRouter = createTRPCRouter({
+  getSingle: protectedProcedure.query(async ({ ctx }) => {
     const user = ctx.session?.user;
     if (!user) return null;
 
@@ -45,7 +43,7 @@ export const dataFlowRouter = createTRPCRouter({
       },
     });
   }),
-  getAllPvData: adminProcedure.query(async ({ ctx }) => {
+  getAll: adminProcedure.query(async ({ ctx }) => {
     return await ctx.prisma.photovoltaic.findMany({
       orderBy: {
         userName: "asc",
@@ -102,16 +100,14 @@ export const dataFlowRouter = createTRPCRouter({
         return error;
       }
     }),
-  removeMenagerData: adminProcedure
-    .input(z.string())
-    .mutation(async ({ ctx, input }) => {
-      await ctx.prisma.photovoltaic.delete({
-        where: {
-          userId: input,
-        },
-      });
-    }),
-  addNewMenager: adminProcedure
+  remove: adminProcedure.input(z.string()).mutation(async ({ ctx, input }) => {
+    await ctx.prisma.photovoltaic.delete({
+      where: {
+        userId: input,
+      },
+    });
+  }),
+  create: adminProcedure
     .input(
       z.object({
         userId: z.string(),
@@ -220,7 +216,7 @@ export const dataFlowRouter = createTRPCRouter({
           try {
             const elementFromRemove = calc[
               input.element as keyof Photovoltaic
-            ] as { [key: string]: number };
+            ] as Record<string, number>;
 
             // Check if the element exists before attempting to delete
             if (elementFromRemove[input.name as keyof Photovoltaic]) {

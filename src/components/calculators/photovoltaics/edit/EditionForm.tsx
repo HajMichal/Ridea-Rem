@@ -25,9 +25,9 @@ export const EditionForm = ({ data, menagers }: EditionForm) => {
 
   const utils = api.useContext();
 
-  const { mutate } = api.dataFlow.edit.useMutation({
+  const { mutate } = api.pvMenagerRouter.edit.useMutation({
     onSuccess: () => {
-      void utils.dataFlow.getAllPvData.invalidate();
+      void utils.pvMenagerRouter.getAll.invalidate();
       toast.success("Dane zostały pomyślnie zmienione.");
     },
     onError: (err) => {

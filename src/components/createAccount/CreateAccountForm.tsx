@@ -18,7 +18,7 @@ export default function CreateAccountForm({
   sessionData: Session | null;
 }) {
   const { mutate: addMenagerPhotovoltaicData } =
-    api.dataFlow.addNewMenager.useMutation({
+    api.pvMenagerRouter.create.useMutation({
       onSuccess(data) {
         toast.success(data.message, { duration: 4000 });
       },

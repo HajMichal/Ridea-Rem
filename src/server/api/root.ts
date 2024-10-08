@@ -1,5 +1,5 @@
 import { createTRPCRouter } from "~/server/api/trpc";
-import { dataFlowRouter } from "./routers/photovoltaic/dataFlow";
+import { pvMenagerRouter } from "./routers/photovoltaic/dataFlow";
 import { loginRouter } from "./routers/users/userDataHandling";
 import { photovoltaics_calculator } from "./routers/photovoltaic/photovoltaics_calculator";
 import { heatPump_calculator } from "./routers/heatpump/heatPumps_calculator";
@@ -31,7 +31,7 @@ export const appRouter = createTRPCRouter({
   downloadDocumentRouter: downloadDocumentRouter,
   deleteDocumentRouter: deleteDocumentRouter,
 
-  dataFlow: dataFlowRouter,
+  pvMenagerRouter: pvMenagerRouter,
   photovoltaics: photovoltaics_calculator,
   heatPump: heatPump_calculator,
   heatPumpDataFlowRouter: heatPumpDataFlowRouter,

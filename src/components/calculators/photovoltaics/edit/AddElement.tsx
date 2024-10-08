@@ -17,9 +17,9 @@ export const AddElement = () => {
   const [opened, { open, close }] = useDisclosure(false);
   const { register, handleSubmit, reset } = useForm<AddElementType>();
 
-  const { mutate } = api.dataFlow.addNewElement.useMutation({
+  const { mutate } = api.pvMenagerRouter.addNewElement.useMutation({
     onSuccess: async () => {
-      await ctx.dataFlow.getAllPvData.invalidate();
+      await ctx.pvMenagerRouter.getAll.invalidate();
       toast.success("Element został dodany");
     },
     onError: () => {

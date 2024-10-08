@@ -6,7 +6,7 @@ import { api } from "~/utils/api";
 const ChooseEnergyStore = () => {
   const { updateTurbinesStore, turbinesStore } = useTurbines();
   const { data: avaivableEnergyStores } =
-    api.dataFlow.getEnergyStoreData.useQuery();
+    api.pvMenagerRouter.getEnergyStoreData.useQuery();
 
   const handleChange = (e: string | null) => {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
