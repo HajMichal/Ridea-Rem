@@ -15,9 +15,9 @@ const EditionForm = ({ data, menagers }: Props) => {
   const [pathKey, setPathKey] = useState<string | null>(null);
 
   const utils = api.useContext();
-  const { mutate } = api.turbinesDataFlowRouter.edit.useMutation({
+  const { mutate } = api.turbinesMenagerRouter.edit.useMutation({
     onSuccess: () => {
-      void utils.turbinesDataFlowRouter.getAllCalcsData.invalidate();
+      void utils.turbinesMenagerRouter.getAll.invalidate();
       toast.success("Dane zostały pomyślnie zmienione.");
     },
     onError: () => {

@@ -14,8 +14,7 @@ import { api } from "~/utils/api";
 const Turbiny = () => {
   const { status } = useSession();
   const router = useRouter();
-  const { data: turbinesData } =
-    api.turbinesDataFlowRouter.getCalcData.useQuery();
+  const { data: turbinesData } = api.turbinesMenagerRouter.getSingle.useQuery();
 
   useEffect(() => {
     if (status === "unauthenticated") void router.push("/auth/signin");

@@ -14,14 +14,13 @@ const DaneTurbiny = () => {
   const router = useRouter();
 
   const { data: allMenagersData } =
-    api.turbinesDataFlowRouter.getAllCalcsData.useQuery<TurbineCalcData[]>();
+    api.turbinesMenagerRouter.getAll.useQuery<TurbineCalcData[]>();
 
   useEffect(() => {
     if (
       status === "unauthenticated" ||
       (sessionData && sessionData.user.role !== 1)
     ) {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
       void router.push("/auth/signin");
     }
   }, [sessionData, router]);

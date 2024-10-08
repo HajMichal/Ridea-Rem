@@ -93,7 +93,7 @@ export const airCondMenagerData = createTRPCRouter({
       },
     });
   }),
-  addNew: adminProcedure
+  create: adminProcedure
     .input(
       z.object({
         userId: z.string(),

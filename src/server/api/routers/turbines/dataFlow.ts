@@ -4,52 +4,9 @@ import {
   createTRPCRouter,
   protectedProcedure,
 } from "../../trpc";
-import { Turbines } from "@prisma/client";
 
-export const TurbinesCalcSchema = z.object({
-  id: z.string().optional(),
-  userId: z.string(),
-  userName: z.string().optional(),
-  turbines: z.object({
-    "turbina 500": z.number(),
-    "turbina 1000": z.number(),
-    "turbina 1500": z.number(),
-    "turbina 3000": z.number(),
-  }),
-  addons: z.object({
-    "podstawa dachowa": z.number(),
-    "podstawa dachowa3000": z.number(),
-    strunobeton: z.number(),
-    stalowy: z.object({
-      trzy: z.number(),
-      szesc: z.number(),
-      dziewiec: z.number(),
-      dwanascie: z.number(),
-    }),
-    maszt: z.number(),
-    "inwerter 3fazowy": z.number(),
-    "inwerter hybrydowy": z.number(),
-    "montaż bazowo": z.number(),
-    "montaż dodatkowo": z.number(),
-    wysylka: z.number(),
-    "podstawa inwertera": z.number(),
-    "instalacja powyzej 3kw": z.number(),
-  }),
-  energyStore: z.object({
-    "T30 controller": z.number(),
-    licznik: z.number(),
-    battery: z.object({
-      trzy: z.number(),
-      szesc: z.number(),
-      dziewiec: z.number(),
-      dwanascie: z.number(),
-    }),
-    matebox: z.number(),
-  }),
-});
-
-export const turbinesDataFlowRouter = createTRPCRouter({
-  getCalcData: protectedProcedure.query(async ({ ctx }) => {
+export const turbinesMenagerRouter = createTRPCRouter({
+  getSingle: protectedProcedure.query(async ({ ctx }) => {
     const user = ctx.session?.user;
     if (!user) return null;
 
@@ -59,8 +16,12 @@ export const turbinesDataFlowRouter = createTRPCRouter({
       },
     });
   }),
-  getAllCalcsData: adminProcedure.query(async ({ ctx }) => {
-    return await ctx.prisma.turbines.findMany();
+  getAll: adminProcedure.query(async ({ ctx }) => {
+    return await ctx.prisma.turbines.findMany({
+      orderBy: {
+        userName: "asc",
+      },
+    });
   }),
   edit: adminProcedure
     .input(
@@ -105,18 +66,6 @@ export const turbinesDataFlowRouter = createTRPCRouter({
               mergedData = { ...currentCalcData, ...input.dataToChange };
             }
 
-            console.log(
-              secondKey
-                ? {
-                    [firstKey]: {
-                      [secondKey]: mergedData,
-                    },
-                  }
-                : {
-                    [firstKey]: mergedData,
-                  }
-            );
-
             await ctx.prisma.turbines.update({
               where: {
                 userId: userId,
@@ -138,16 +87,14 @@ export const turbinesDataFlowRouter = createTRPCRouter({
         return error;
       }
     }),
-  removeMenagerCalcData: adminProcedure
-    .input(z.string())
-    .mutation(async ({ ctx, input }) => {
-      await ctx.prisma.turbines.delete({
-        where: {
-          userId: input,
-        },
-      });
-    }),
-  addMenagerCalcData: adminProcedure
+  remove: adminProcedure.input(z.string()).mutation(async ({ ctx, input }) => {
+    await ctx.prisma.turbines.delete({
+      where: {
+        userId: input,
+      },
+    });
+  }),
+  create: adminProcedure
     .input(
       z.object({
         userId: z.string(),
