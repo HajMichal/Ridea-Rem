@@ -23,8 +23,11 @@ export const EditionForm = ({ data, menagers }: EditionForm) => {
   const [editingKey, setEditingKey] = useState<string | null>(null);
   const [pathKey, setPathKey] = useState<string | null>(null);
 
-  const { mutate } = api.dataFlow.editJSONFile.useMutation({
+  const utils = api.useContext();
+
+  const { mutate } = api.dataFlow.edit.useMutation({
     onSuccess: () => {
+      void utils.dataFlow.getAllPvData.invalidate();
       toast.success("Dane zostały pomyślnie zmienione.");
     },
     onError: (err) => {
@@ -42,7 +45,7 @@ export const EditionForm = ({ data, menagers }: EditionForm) => {
       mutate({
         dataToChange,
         path,
-        userId: menagers.length === 0 ? [data.userId] : menagers,
+        usersId: menagers.length === 0 ? [data.userId] : menagers,
       });
     };
 
