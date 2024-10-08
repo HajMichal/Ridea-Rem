@@ -48,12 +48,13 @@ export const airCondMenagerData = createTRPCRouter({
       ) as keyof AirCondition;
 
       try {
-        // Fetch current data for all users
-        const currentDataArray = await Promise.all(
-          userIds.map((userId) =>
-            ctx.prisma.airCondition.findFirst({ where: { userId } })
-          )
-        );
+        const currentDataArray = await ctx.prisma.airCondition.findMany({
+          where: {
+            userId: {
+              in: input.usersId,
+            },
+          },
+        });
 
         // Process each user's data
         await Promise.all(
