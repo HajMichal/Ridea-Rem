@@ -1,5 +1,5 @@
-import { useEffect } from "react";
-import { Loader, Tabs } from "@mantine/core";
+import { useEffect, useState } from "react";
+import { Checkbox, Loader, Tabs } from "@mantine/core";
 import { useSession } from "next-auth/react";
 import { Toaster } from "react-hot-toast";
 import { useRouter } from "next/router";
@@ -9,10 +9,11 @@ import { type TurbineCalcData } from "~/server/api/routers/turbines/interfaces";
 import EditionForm from "~/components/calculators/turbines/edit/EditionForm";
 
 const DaneTurbiny = () => {
+  const [menagers, setMenagers] = useState<string[]>([]);
   const { data: sessionData, status } = useSession();
   const router = useRouter();
 
-  const { data: allMenagerCalcs } =
+  const { data: allMenagersData } =
     api.turbinesDataFlowRouter.getAllCalcsData.useQuery<TurbineCalcData[]>();
 
   useEffect(() => {
@@ -32,23 +33,39 @@ const DaneTurbiny = () => {
       <div className="flex max-h-screen w-full flex-wrap ">
         <Navbar />
         <div className="max-h-[88%] w-full overflow-y-scroll">
-          <Tabs color="gray" defaultValue={"cm0o4ylab0000q4dcocvv1heu"}>
-            <Tabs.List className="fixed z-50 w-full bg-backgroundGray">
-              {allMenagerCalcs?.map((calcData, index) => {
-                return (
-                  <Tabs.Tab value={calcData.id} key={index}>
-                    {calcData.userName}
-                  </Tabs.Tab>
-                );
-              })}
+          <Tabs
+            orientation="vertical"
+            color="lime"
+            defaultValue={"cm0o4ylab0000q4dcocvv1heu"}
+          >
+            <Tabs.List className="fixed z-50 w-min bg-backgroundGray">
+              <Checkbox.Group value={menagers} onChange={setMenagers}>
+                {allMenagersData?.map((menagerCalcData, index) => {
+                  return (
+                    <Tabs.Tab
+                      value={menagerCalcData.id}
+                      key={index}
+                      className="w-full"
+                    >
+                      <div className="flex items-center gap-2">
+                        <Checkbox
+                          name="menagers"
+                          value={menagerCalcData.userId}
+                        />
+                        <p>{menagerCalcData.userName}</p>
+                      </div>
+                    </Tabs.Tab>
+                  );
+                })}
+              </Checkbox.Group>
             </Tabs.List>
 
             <div className="flex w-full justify-center ">
-              {allMenagerCalcs ? (
-                allMenagerCalcs.map((calcData, index) => {
+              {allMenagersData ? (
+                allMenagersData.map((menagerCalcData, index) => {
                   return (
-                    <Tabs.Panel value={calcData.id} key={index}>
-                      <EditionForm data={calcData} />
+                    <Tabs.Panel value={menagerCalcData.id} key={index}>
+                      <EditionForm data={menagerCalcData} menagers={menagers} />
                     </Tabs.Panel>
                   );
                 })
