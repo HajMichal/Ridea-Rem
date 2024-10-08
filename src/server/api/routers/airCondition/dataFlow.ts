@@ -4,15 +4,8 @@ import {
   createTRPCRouter,
   protectedProcedure,
 } from "../../trpc";
-import { AirCondition } from "@prisma/client";
-
-interface AirConditionerType {
-  power: number;
-  option: string;
-  area: string;
-  energyType: string;
-  price: number;
-}
+import { type AirCondition } from "@prisma/client";
+import { type AirConditionData } from "./interfaces";
 
 export const airCondMenagerData = createTRPCRouter({
   getSingle: protectedProcedure.query(async ({ ctx }) => {
@@ -41,7 +34,6 @@ export const airCondMenagerData = createTRPCRouter({
       })
     )
     .mutation(async ({ ctx, input }) => {
-      const userIds = input.usersId;
       const isPathLengthTwo = input.path.length === 2;
       const airConditionKey = (
         isPathLengthTwo ? input.path[1]! : input.path[0]
@@ -61,13 +53,13 @@ export const airCondMenagerData = createTRPCRouter({
           currentDataArray.map(async (currentData, index) => {
             if (currentData == null) throw new Error("NIE ZNALEZIONO DANYCH");
 
-            const userId = userIds[index];
+            const userId = input.usersId[index];
             let mergedData;
 
             if (isPathLengthTwo) {
               const currentCalcData = currentData.airConditioners[
                 airConditionKey
-              ] as AirConditionerType;
+              ] as AirConditionData;
               currentCalcData.price = Object.values(input.dataToChange)[0]!;
               mergedData = {
                 ...currentData.airConditioners,

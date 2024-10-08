@@ -52,46 +52,54 @@ export const dataFlowRouter = createTRPCRouter({
       },
     });
   }),
-  editJSONFile: adminProcedure
+  edit: adminProcedure
     .input(
       z.object({
         dataToChange: z.record(z.number()),
-        userId: z.string().array(),
+        usersId: z.string().array(),
         path: z.string().array(),
       })
     )
-    .mutation(({ ctx, input }) => {
-      if (input.path[0] === undefined) {
-        input.userId.map(async (userId) => {
-          await ctx.prisma.photovoltaic.update({
-            where: {
-              userId: userId,
-            },
-            data: input.dataToChange,
-          });
-        });
-      } else {
-        const photovoltaicKey = input.path[0] as keyof Photovoltaic;
-        input.userId.map(async (userId) => {
-          const currentData = await ctx.prisma.photovoltaic.findFirst({
-            where: {
-              userId,
-            },
-          });
-          if (currentData == null) return;
+    .mutation(async ({ ctx, input }) => {
+      const isPathLengthOne = input.path.length === 1;
 
-          const nestedData = currentData[photovoltaicKey] as object;
-          const mergedData = { ...nestedData, ...input.dataToChange };
-
-          await ctx.prisma.photovoltaic.update({
-            where: {
-              userId: userId,
+      try {
+        const currentDataArray = await ctx.prisma.photovoltaic.findMany({
+          where: {
+            userId: {
+              in: input.usersId,
             },
-            data: {
-              [photovoltaicKey]: mergedData,
-            },
-          });
+          },
         });
+
+        await Promise.all(
+          currentDataArray.map(async (currentData, index) => {
+            if (currentData == null) throw new Error("NIE ZNALEZIONO DANYCH");
+
+            const userId = input.usersId[index];
+            let mergedData;
+
+            if (isPathLengthOne) {
+              const photovoltaicKey = input.path[0] as keyof Photovoltaic;
+              const currentCalcData = currentData[photovoltaicKey] as object;
+              mergedData = { ...currentCalcData, ...input.dataToChange };
+            } else {
+              mergedData = input.dataToChange;
+            }
+
+            await ctx.prisma.photovoltaic.update({
+              where: {
+                userId: userId,
+              },
+              data: isPathLengthOne
+                ? { [input.path[0]!]: mergedData }
+                : mergedData,
+            });
+          })
+        );
+      } catch (error) {
+        console.error("Error updating air conditioners:", error);
+        return error;
       }
 
       return input;
