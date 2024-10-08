@@ -1,141 +1,136 @@
-import { Button } from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
-import { type SubmitHandler, useForm } from "react-hook-form";
+import { useState } from "react";
 import toast from "react-hot-toast";
-import { MdOutlineAddchart } from "react-icons/md";
-import { ChangeDataInputComponent } from "~/components";
-import { ConfirmationModal } from "~/components/ConfirmationModal";
+import { BsDatabaseFillCheck } from "react-icons/bs";
+import { GiCancel } from "react-icons/gi";
 import { type TurbineCalcData } from "~/server/api/routers/turbines/interfaces";
 import { api } from "~/utils/api";
 
 interface Props {
   data: TurbineCalcData;
+  menagers: string[];
 }
-const EditionForm = ({ data }: Props) => {
-  const [opened, { open, close }] = useDisclosure(false);
+const EditionForm = ({ data, menagers }: Props) => {
+  const [dataToChange, setDataToChange] = useState({});
+  const [editingKey, setEditingKey] = useState<string | null>(null);
+  const [pathKey, setPathKey] = useState<string | null>(null);
 
-  const { mutate } = api.turbinesDataFlowRouter.editCalcData.useMutation({
+  const utils = api.useContext();
+  const { mutate } = api.turbinesMenagerRouter.edit.useMutation({
     onSuccess: () => {
+      void utils.turbinesMenagerRouter.getAll.invalidate();
       toast.success("Dane zostały pomyślnie zmienione.");
     },
-    onError: (err) => {
-      console.log(err);
+    onError: () => {
       toast.error("UWAGA BŁĄD! Dane nie zostały zmienione. Spróbuj ponownie.");
     },
   });
 
-  const { register, handleSubmit } = useForm<TurbineCalcData>();
+  function displayData(calcData: object, path: string[] = [], depth = 0) {
+    if (depth === 6) return null;
 
-  const onSubmit: SubmitHandler<TurbineCalcData> = (formData) => {
-    mutate({ ...formData, userId: data.userId });
-    close();
-  };
+    const saveChanges = () => {
+      setEditingKey(null);
+      setPathKey(null);
+      mutate({
+        dataToChange,
+        path,
+        usersId: menagers.length === 0 ? [data.userId] : menagers,
+      });
+    };
+
+    return (
+      <div className={`${path.length === 2 ? "pb-5" : "pb-10"}`}>
+        {Object.entries(calcData).map(
+          ([key, value]: [key: string, value: number | object]) => {
+            if (key === "id" || key === "userId" || key === "userName")
+              return null;
+
+            const isEditing =
+              editingKey === key && pathKey === (path[0] ?? null);
+
+            if (typeof value !== "number" && typeof value !== "string") {
+              return (
+                <div key={key}>
+                  <h1
+                    className={`text-center font-orkneyBold ${
+                      path.length === 1 && "text-xl"
+                    }`}
+                  >
+                    {headerNamesMapping[key]}
+                  </h1>
+                  {displayData(value, [...path, key], depth + 1)}
+                </div>
+              );
+            } else {
+              return (
+                <div key={key} className="m-1 -ml-28 flex items-center gap-2">
+                  <p className="w-64 self-center text-right text-xl">
+                    {dataNamesMappings[key] ?? key.toUpperCase()}:
+                  </p>
+                  {isEditing ? (
+                    <article className="flex items-center gap-1">
+                      <input
+                        type="text"
+                        placeholder={value.toString()}
+                        onChange={(e) =>
+                          setDataToChange({
+                            [key]: Number(e.target.value),
+                          })
+                        }
+                        autoFocus
+                        className="h-[34.8px] w-24 border border-dark p-2 px-2 focus:outline-brand"
+                      />
+                      <button onClick={saveChanges} className="mr-2">
+                        <BsDatabaseFillCheck size={"25px"} color="green" />
+                      </button>
+                      <button
+                        onClick={() => {
+                          setEditingKey(null);
+                          setPathKey(null);
+                          setDataToChange({});
+                        }}
+                      >
+                        <GiCancel size={"25px"} color="red" />
+                      </button>
+                    </article>
+                  ) : (
+                    <p
+                      onClick={() => {
+                        setEditingKey(key);
+                        setPathKey(path[0] ?? null);
+                      }}
+                      className="flex w-24 items-center border border-dark bg-white p-1 px-2 font-sans"
+                    >
+                      {value}
+                    </p>
+                  )}
+                </div>
+              );
+            }
+          }
+        )}
+      </div>
+    );
+  }
 
   return (
     <>
       <h1 className="w-full pt-14 text-center">{data.userName}</h1>
-      <form className="flex w-full flex-col gap-10 pb-20 pt-3">
-        <article>
-          <h2 className="mt-5 w-full text-center text-3xl">TURBINY</h2>
-          {Object.entries(data.turbines).map(([key, value]) => {
-            return (
-              <ChangeDataInputComponent
-                key={key}
-                {...register(`turbines[${key}]` as keyof typeof data, {
-                  valueAsNumber: true,
-                })}
-                title={key}
-                defaultValue={value}
-              />
-            );
-          })}
-        </article>
-        <article>
-          <h2 className="mt-5 w-full text-center text-3xl">KOSZTY DODATKOWE</h2>
-          {Object.entries(data.addons).map(([key, value]) => {
-            if (typeof value === "object") return null;
-            return (
-              <ChangeDataInputComponent
-                key={key}
-                {...register(`addons[${key}]` as keyof typeof data, {
-                  valueAsNumber: true,
-                })}
-                title={key}
-                defaultValue={value}
-              />
-            );
-          })}
-        </article>
-        <article>
-          <h2 className="mt-5 w-full text-center text-3xl">MASZT STALOWY</h2>
-          {Object.entries(data.addons.stalowy).map(([key, value]) => {
-            return (
-              <ChangeDataInputComponent
-                key={key}
-                {...register(`addons.stalowy[${key}]` as keyof typeof data, {
-                  valueAsNumber: true,
-                })}
-                title={key + " " + "metry/ów"}
-                defaultValue={value}
-              />
-            );
-          })}
-        </article>
-        <article>
-          <h2 className="mt-5 w-full text-center text-3xl">MAGAZYN ENERGII</h2>
-          {Object.entries(data.energyStore).map(([key, value]) => {
-            if (typeof value === "object") return null;
-            return (
-              <ChangeDataInputComponent
-                key={key}
-                {...register(`energyStore[${key}]` as keyof typeof data, {
-                  valueAsNumber: true,
-                })}
-                title={key}
-                defaultValue={value}
-              />
-            );
-          })}
-        </article>
-        <article>
-          <h2 className="mt-5 w-full text-center text-xl">POJEMNOŚĆ BATERII</h2>
-          {Object.entries(data.energyStore.battery).map(([key, value]) => {
-            return (
-              <ChangeDataInputComponent
-                key={key}
-                {...register(
-                  `energyStore.battery[${key}]` as keyof typeof data,
-                  {
-                    valueAsNumber: true,
-                  }
-                )}
-                title={key}
-                defaultValue={value}
-              />
-            );
-          })}
-        </article>
-      </form>
-      <div className="fixed bottom-10 right-56 flex flex-col gap-4">
-        <Button
-          onClick={open}
-          size="md"
-          radius="md"
-          leftIcon={<MdOutlineAddchart size={18} />}
-          className="bg-gradient-to-br from-dark to-blue-900 tracking-wider text-white duration-150 hover:bg-blend-hard-light hover:shadow-xl"
-        >
-          Zatwierdź
-        </Button>
-      </div>
-      <ConfirmationModal
-        title="CZY NA PEWNO CHCESZ ZAPISAĆ ZMIENIONE WARTOŚCI?"
-        close={close}
-        opened={opened}
-        handleFunction={handleSubmit(onSubmit)}
-        description="Będzie to skutkowało zmianami w bazie danych, przez co ceny nowych
-        wyliczeń za instalację ulegną zmianie."
-      />
+      <div className="flex w-full justify-center">{displayData(data)}</div>
     </>
   );
 };
 export default EditionForm;
+
+const headerNamesMapping: Record<string, string> = {
+  turbines: "TURBINY WIATROWE",
+  addons: "DODATKI",
+  energyStore: "MAGAZYN ENERGII",
+  battery: "POJEMNOŚĆ BATERII",
+  stalowy: "MASZT STALOWY",
+};
+
+const dataNamesMappings: Record<string, string> = {
+  "podstawa dachowa": "PODSTAWA DACHOWA TURBIN DO 1500W",
+  "podstawa dachowa3000": "PODSTAWA DACHOWA TURBIN 3000W",
+};

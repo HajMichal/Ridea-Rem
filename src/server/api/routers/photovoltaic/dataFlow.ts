@@ -101,8 +101,6 @@ export const dataFlowRouter = createTRPCRouter({
         console.error("Error updating air conditioners:", error);
         return error;
       }
-
-      return input;
     }),
   removeMenagerData: adminProcedure
     .input(z.string())

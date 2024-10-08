@@ -15,7 +15,7 @@ import { downloadDocumentRouter } from "./routers/documents/download";
 import { deleteDocumentRouter } from "./routers/documents/remove";
 import { airCondMenagerData } from "./routers/airCondition/dataFlow";
 import { airConditionCalculator } from "./routers/airCondition/airCondition_calculator";
-import { turbinesDataFlowRouter } from "./routers/turbines/dataFlow";
+import { turbinesMenagerRouter } from "./routers/turbines/dataFlow";
 import { turbinesCalculator } from "./routers/turbines/turbinesCalculator";
 /**
  * This is the primary router for your server.
@@ -41,7 +41,7 @@ export const appRouter = createTRPCRouter({
   heatHomeDataFlowRouter: heatHomeDataFlowRouter,
   airCondition: airConditionCalculator,
   airCondMenagerData: airCondMenagerData,
-  turbinesDataFlowRouter: turbinesDataFlowRouter,
+  turbinesMenagerRouter: turbinesMenagerRouter,
   turbines: turbinesCalculator,
 });
 

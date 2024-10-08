@@ -30,9 +30,9 @@ export default function CreateAccountForm({
   const { mutate: addMenagerHeatHome } =
     api.heatHomeDataFlowRouter.addNewMenager.useMutation();
   const { mutate: addMenagerAirCondition } =
-    api.airCondMenagerData.addNew.useMutation();
+    api.airCondMenagerData.create.useMutation();
   const { mutate: addMenagerTurbines } =
-    api.turbinesDataFlowRouter.addMenagerCalcData.useMutation();
+    api.turbinesMenagerRouter.create.useMutation();
 
   const { mutate } = api.userDataHandling.createAccount.useMutation({
     onError(error) {

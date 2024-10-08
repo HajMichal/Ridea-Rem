@@ -3,7 +3,7 @@ import { api } from "~/utils/api";
 
 export const useTurbines = () => {
   const store = useStore();
-  const { data: calcData } = api.turbinesDataFlowRouter.getCalcData.useQuery();
+  const { data: calcData } = api.turbinesMenagerRouter.getSingle.useQuery();
 
   const { mutate: setInverterCost } = api.turbines.setInverterCost.useMutation({
     onSuccess: (data) => {

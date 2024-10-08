@@ -71,7 +71,7 @@ export const EditionForm = ({ data, menagers }: EditionForm) => {
             } else {
               return (
                 <div key={key} className="m-1 -ml-40 flex items-center gap-2">
-                  <p className="-mb-2 w-64 text-right text-xl">
+                  <p className="w-64 self-center text-right text-xl">
                     {dataNamesMappings[key] ?? key.toUpperCase()}:
                   </p>
                   {isEditing ? (
