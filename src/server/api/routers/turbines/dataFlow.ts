@@ -4,6 +4,7 @@ import {
   createTRPCRouter,
   protectedProcedure,
 } from "../../trpc";
+import { Turbines } from "@prisma/client";
 
 export const TurbinesCalcSchema = z.object({
   id: z.string().optional(),
@@ -61,17 +62,81 @@ export const turbinesDataFlowRouter = createTRPCRouter({
   getAllCalcsData: adminProcedure.query(async ({ ctx }) => {
     return await ctx.prisma.turbines.findMany();
   }),
-  editCalcData: adminProcedure
-    .input(TurbinesCalcSchema)
+  edit: adminProcedure
+    .input(
+      z.object({
+        dataToChange: z.record(z.number()),
+        path: z.string().array(),
+        usersId: z.string().array(),
+      })
+    )
     .mutation(async ({ ctx, input }) => {
-      await ctx.prisma.turbines.update({
-        where: {
-          userId: input.userId,
-        },
-        data: input,
-      });
+      const isPathLengthTwo = input.path.length === 2;
+      const firstKey = input.path[0]! as "turbines" | "addons" | "energyStore";
+      const secondKey = input.path[1] as "stalowy" | "battery" | undefined;
 
-      return input;
+      try {
+        const currentDataArray = await ctx.prisma.turbines.findMany({
+          where: {
+            userId: {
+              in: input.usersId,
+            },
+          },
+        });
+
+        await Promise.all(
+          currentDataArray.map(async (currentData, index) => {
+            const userId = input.usersId[index];
+            let mergedData;
+
+            if (isPathLengthTwo) {
+              if (firstKey === "addons" && secondKey === "stalowy") {
+                const currentCalcData = currentData[firstKey][secondKey];
+                mergedData = { ...currentCalcData, ...input.dataToChange };
+              } else if (
+                firstKey === "energyStore" &&
+                secondKey === "battery"
+              ) {
+                const currentCalcData = currentData[firstKey][secondKey];
+                mergedData = { ...currentCalcData, ...input.dataToChange };
+              }
+            } else {
+              const currentCalcData = currentData[firstKey];
+              mergedData = { ...currentCalcData, ...input.dataToChange };
+            }
+
+            console.log(
+              secondKey
+                ? {
+                    [firstKey]: {
+                      [secondKey]: mergedData,
+                    },
+                  }
+                : {
+                    [firstKey]: mergedData,
+                  }
+            );
+
+            await ctx.prisma.turbines.update({
+              where: {
+                userId: userId,
+              },
+              data: secondKey
+                ? {
+                    [firstKey]: {
+                      [secondKey]: mergedData,
+                    },
+                  }
+                : {
+                    [firstKey]: mergedData,
+                  },
+            });
+          })
+        );
+      } catch (error) {
+        console.error("Error updating air conditioners:", error);
+        return error;
+      }
     }),
   removeMenagerCalcData: adminProcedure
     .input(z.string())
