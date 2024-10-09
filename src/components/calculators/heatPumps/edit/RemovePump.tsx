@@ -10,14 +10,14 @@ export const RemovePump = ({ pumpName }: { pumpName: string }) => {
   const ctx = api.useContext();
 
   const { mutate: removePump } =
-    api.heatPumpDataFlowRouter.removeHeatPump.useMutation({
+    api.heatPumpDataFlowRouter.removeElement.useMutation({
       onSuccess: async () => {
-        await ctx.heatPumpDataFlowRouter.downloadEntireJsonFile.invalidate();
+        await ctx.heatPumpDataFlowRouter.getAll.invalidate();
       },
     });
 
   const handleRemovePump = () => {
-    removePump(pumpName);
+    // removePump(pumpName);
     close();
   };
 

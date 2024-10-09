@@ -1,18 +1,9 @@
 interface BufforCostType {
   bufforType: string;
-  buffors: {
-    bufory100l: {
-      przylaczeSchemat24: number;
-      przylaczeSchemat34: number;
-    };
-  };
+  buffors: Record<string, number>;
 }
 export function bufforCost({ input }: { input: BufforCostType }) {
-  if (input.bufforType === "SMART TOWER 1 OBIEG GRZEWCZY") {
-    return input.buffors.bufory100l.przylaczeSchemat24;
-  } else if (input.bufforType === "SMART TOWER 2 OBIEGI GRZEWCZE") {
-    return input.buffors.bufory100l.przylaczeSchemat34;
-  }
+  return input.buffors[input.bufforType];
 }
 
 interface SetAddonCostWithLengthType {

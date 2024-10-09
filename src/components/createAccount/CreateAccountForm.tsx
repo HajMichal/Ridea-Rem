@@ -24,7 +24,7 @@ export default function CreateAccountForm({
       },
     });
   const { mutate: addMenagerHeatPumpData } =
-    api.heatPumpDataFlowRouter.addNewMenager.useMutation();
+    api.heatPumpDataFlowRouter.create.useMutation();
   const { mutate: addMenagerForCompany } =
     api.forCompanyDataFlowRouter.addNewMenager.useMutation();
   const { mutate: addMenagerHeatHome } =
@@ -52,7 +52,10 @@ export default function CreateAccountForm({
           userId: data.userId,
           userName: data.userName,
         });
-        addMenagerHeatPumpData(data.userName);
+        addMenagerHeatPumpData({
+          userId: data.userId,
+          userName: data.userName,
+        });
         addMenagerForCompany(data.userName);
         addMenagerHeatHome(data.userName);
       }

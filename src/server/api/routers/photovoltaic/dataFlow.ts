@@ -163,7 +163,6 @@ export const pvMenagerRouter = createTRPCRouter({
       try {
         const allCalcs = await ctx.prisma.photovoltaic.findMany();
 
-        // Loop through all calcs
         for (const calc of allCalcs) {
           try {
             // Add new element object to previous
@@ -185,7 +184,7 @@ export const pvMenagerRouter = createTRPCRouter({
               `Error adding element to calculator ${calc.userId}: `,
               error
             );
-            throw error; // Rethrow the error to break out of the loop
+            throw error;
           }
         }
 
@@ -211,7 +210,6 @@ export const pvMenagerRouter = createTRPCRouter({
       try {
         const allCalcs = await ctx.prisma.photovoltaic.findMany();
 
-        // Loop through all calcs
         for (const calc of allCalcs) {
           try {
             const elementFromRemove = calc[
@@ -240,13 +238,13 @@ export const pvMenagerRouter = createTRPCRouter({
               `Error removing element from calculator ${calc.id}: `,
               error
             );
-            throw error; // Rethrow the error to break out of the loop
+            throw error;
           }
         }
       } catch (error) {
         return {
           status: 404,
-          message: "Element nie został dodany 📝",
+          message: "Element nie został usunięty 📝",
         };
       }
     }),

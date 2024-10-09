@@ -1,18 +1,17 @@
-/* eslint-disable @typescript-eslint/consistent-indexed-object-style */
-export interface HeatPumpDataToCalculationType {
-  bufory: {
-    bufory100l: {
-      przylaczeSchemat24: number;
-      przylaczeSchemat34: number;
-    };
-  };
-  pompy_ciepla: {
-    [serieName: string]: {
+export interface HeatPumpCalcType {
+  id: string;
+  userId: string;
+  userName: string;
+
+  bufory: Record<string, number>;
+  heatPumps: Record<
+    string,
+    {
       cena: number;
-      mnozik_prowizji: number;
-    };
-  };
-  dodatki: {
+      fee: number;
+    }
+  >;
+  addons: {
     kolejna_kaskada: number;
     przewierty: number;
     poprowadzenie_instalacji_wierzchu: number;
@@ -27,7 +26,7 @@ export interface HeatPumpDataToCalculationType {
     zamkniecie_ukladu_otwartego: number;
     audyt: number;
   };
-  dotacje: {
+  dotations: {
     modernizacja_CO_CWU: {
       prog1: number;
       prog2: number;
@@ -41,14 +40,9 @@ export interface HeatPumpDataToCalculationType {
       mojPrad: number;
     };
   };
-  oprocentowanie_kredytu: number;
-  cena1kWh: number;
+  electricityPrice: number;
   cop: number;
-}
 
-export interface EachMenagerHeatPump {
-  [key: string]: HeatPumpDataToCalculationType;
-}
-export interface HeatPumpCalculatorType {
-  kalkulator: EachMenagerHeatPump[];
+  createdAt: Date;
+  editedAt: Date;
 }

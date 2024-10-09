@@ -3,13 +3,13 @@ import React from "react";
 import { InputComponent, SelectComponent } from "~/components";
 import { YESNO } from "~/constans/formsData";
 import { useHeatPump } from "~/hooks/useHeatPump";
-import { type HeatPumpDataToCalculationType } from "~/server/api/routers/heatpump/interfaces";
+import { type HeatPumpCalcType } from "~/server/api/routers/heatpump/interfaces";
 import useStore from "~/store";
 
 export const HeatPumpFormulas = ({
   data,
 }: {
-  data: HeatPumpDataToCalculationType | undefined;
+  data: HeatPumpCalcType | undefined;
 }) => {
   const store = useStore();
 
@@ -76,7 +76,7 @@ export const HeatPumpFormulas = ({
               store.updateHeatPump("suggestedPump", String(e));
             }}
             value={heatPumpStore.suggestedPump}
-            data={data ? Object.keys(data.pompy_ciepla) : []}
+            data={data ? Object.keys(data.heatPumps) : []}
           />
           <SelectComponent
             title="PUNKT BIWALENTYN POMPY CIEPŁA"
@@ -108,10 +108,7 @@ export const HeatPumpFormulas = ({
                 store.updateHeatPump("buforType", String(e));
               }}
               value={heatPumpStore.buforType}
-              data={[
-                "SMART TOWER 1 OBIEG GRZEWCZY",
-                "SMART TOWER 2 OBIEGI GRZEWCZE",
-              ]}
+              data={(data && Object.keys(data.bufory)) ?? []}
             />
           )}
           <SelectComponent

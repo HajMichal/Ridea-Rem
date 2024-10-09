@@ -7,12 +7,7 @@ export const heatPump_calculator = createTRPCRouter({
     .input(
       z.object({
         bufforType: z.string(),
-        buffors: z.object({
-          bufory100l: z.object({
-            przylaczeSchemat24: z.number(),
-            przylaczeSchemat34: z.number(),
-          }),
-        }),
+        buffors: z.record(z.number()),
       })
     )
     .mutation(calc.bufforCost),

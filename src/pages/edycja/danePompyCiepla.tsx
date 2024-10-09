@@ -1,5 +1,5 @@
-import { useEffect } from "react";
-import { Loader, Tabs } from "@mantine/core";
+import { useEffect, useState } from "react";
+import { Checkbox, Loader, Tabs } from "@mantine/core";
 import { useSession } from "next-auth/react";
 import { Toaster } from "react-hot-toast";
 import { useRouter } from "next/router";
@@ -8,11 +8,12 @@ import { api } from "~/utils/api";
 import { Navbar, SideBar } from "~/components";
 
 const DanePompyCiepla = () => {
+  const [menagers, setMenagers] = useState<string[]>([]);
   const { data: sessionData } = useSession();
   const router = useRouter();
 
-  const { data: entireJsonData } =
-    api.heatPumpDataFlowRouter.downloadEntireJsonFile.useQuery();
+  const { data: allMenagersData } =
+    api.heatPumpDataFlowRouter.getAll.useQuery();
   useEffect(() => {
     if ((sessionData && sessionData?.user.role !== 1) || sessionData === null) {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call
@@ -27,26 +28,39 @@ const DanePompyCiepla = () => {
       <div className="flex max-h-screen w-full flex-wrap ">
         <Navbar />
         <div className="max-h-[88%] w-full overflow-y-scroll">
-          <Tabs color="gray" defaultValue="Adrian Szymborski">
-            {/* Menagers tab list */}
-            <Tabs.List className="fixed z-50 w-full bg-backgroundGray">
-              {entireJsonData?.kalkulator.map((eachUserRate, index) => {
-                const dynamicKey = Object.keys(eachUserRate)[0];
-                return (
-                  <Tabs.Tab value={dynamicKey!} key={index}>
-                    {dynamicKey}
-                  </Tabs.Tab>
-                );
-              })}
-            </Tabs.List>
-            {/* Data to calculations */}
-            <div className="flex w-full justify-center ">
-              {entireJsonData ? (
-                entireJsonData.kalkulator.map((eachUserData, index) => {
-                  const dynamicKey = Object.keys(eachUserData)[0];
+          {/* <Tabs
+            orientation="vertical"
+            color="lime"
+            defaultValue={"cm0o4ylab0000q4dcocvv1heu"}
+          >
+            <Tabs.List className="fixed z-50 w-min bg-backgroundGray">
+              <Checkbox.Group value={menagers} onChange={setMenagers}>
+                {allMenagersData?.map((menagerCalcData, index) => {
                   return (
-                    <Tabs.Panel value={dynamicKey!} key={index}>
-                      <EditionForm data={eachUserData} />
+                    <Tabs.Tab
+                      value={menagerCalcData.id}
+                      key={index}
+                      className="w-full"
+                    >
+                      <div className="flex items-center gap-2">
+                        <Checkbox
+                          name="menagers"
+                          value={menagerCalcData.userId}
+                        />
+                        <p>{menagerCalcData.userName}</p>
+                      </div>
+                    </Tabs.Tab>
+                  );
+                })}
+              </Checkbox.Group>
+            </Tabs.List>
+
+            <div className="flex w-full justify-center ">
+              {allMenagersData ? (
+                allMenagersData.map((menagerCalcData, index) => {
+                  return (
+                    <Tabs.Panel value={menagerCalcData.id} key={index}>
+                      <EditionForm data={menagerCalcData} menagers={menagers} />
                     </Tabs.Panel>
                   );
                 })
@@ -59,7 +73,7 @@ const DanePompyCiepla = () => {
                 />
               )}
             </div>
-          </Tabs>
+          </Tabs> */}
         </div>
       </div>
     </div>

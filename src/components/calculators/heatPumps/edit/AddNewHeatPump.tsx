@@ -15,10 +15,10 @@ export const AddNewHeatPump = (): JSX.Element => {
   const { register, handleSubmit, reset } = useForm<AddPumpType>();
   const ctx = api.useContext();
 
-  const { mutate } = api.heatPumpDataFlowRouter.addNewHeatPump.useMutation({
+  const { mutate } = api.heatPumpDataFlowRouter.addNewElement.useMutation({
     onSuccess: async () => {
       toast.success("Pompa została pomyślnie dodana");
-      await ctx.heatPumpDataFlowRouter.downloadEntireJsonFile.invalidate();
+      await ctx.heatPumpDataFlowRouter.getAll.invalidate();
     },
     onError: () => {
       toast.error(
@@ -28,7 +28,7 @@ export const AddNewHeatPump = (): JSX.Element => {
   });
 
   const onSubmit: SubmitHandler<AddPumpType> = (data) => {
-    mutate(data);
+    // mutate(data);
     reset();
     close();
   };

@@ -1,6 +1,5 @@
 declare global {
   namespace PrismaJson {
-    // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
     type Turbines = {
       "turbina 500": number;
       "turbina 1000": number;
@@ -8,7 +7,6 @@ declare global {
       "turbina 3000": number;
     };
 
-    // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
     type TurbinesAddons = {
       "podstawa dachowa": number;
       "podstawa dachowa3000": number;
@@ -29,7 +27,6 @@ declare global {
       "instalacja powyzej 3kw": number;
     };
 
-    // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
     type EnergyStore = {
       "T30 controller": number;
       licznik: number;

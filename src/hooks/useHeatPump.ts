@@ -1,16 +1,12 @@
-import { useSession } from "next-auth/react";
-import { type HeatPumpDataToCalculationType } from "~/server/api/routers/heatpump/interfaces";
+import { type HeatPumpCalcType } from "~/server/api/routers/heatpump/interfaces";
 import useStore from "~/store";
 import { api } from "~/utils/api";
 
 export const useHeatPump = () => {
   const store = useStore();
-  const { data: sessionData } = useSession();
 
   const { data } =
-    api.heatPumpDataFlowRouter.downloadFile.useQuery<HeatPumpDataToCalculationType>(
-      sessionData?.user.id
-    );
+    api.heatPumpDataFlowRouter.getSingle.useQuery<HeatPumpCalcType>();
 
   const { mutate: setBufforCost } = api.heatPump.bufforCost.useMutation({
     onSuccess: (data) => {

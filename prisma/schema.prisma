@@ -107,3 +107,29 @@ model AirCondition {
   editedAt        DateTime @default(now())
   @@index([userId])
 }
+
+model HeatPump {
+  id                String    @id @default(cuid())
+  userId            String    @unique
+  userName          String  
+  
+  /// [HeatPumps]
+  heatPumps         Json
+
+  /// [Buffors]
+  bufory            Json
+
+  /// [Addons]
+  addons            Json
+
+  /// [Dotations]
+  dotations         Json
+
+  electricityPrice  Float  
+  cop               Float
+
+  createdAt         DateTime @default(now())
+  editedAt          DateTime @default(now())
+
+  @@index([userId])
+}
