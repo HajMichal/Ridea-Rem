@@ -21,7 +21,7 @@ const DaneCieploWlasciwe = () => {
 
   useEffect(() => {
     if ((sessionData && sessionData?.user.role !== 1) || sessionData === null) {
-      void router.push("/");
+      void router.push("/auth/signin");
     }
   }, [sessionData, router]);
 

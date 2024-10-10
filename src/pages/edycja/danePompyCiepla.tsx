@@ -17,7 +17,7 @@ const DanePompyCiepla = () => {
   useEffect(() => {
     if ((sessionData && sessionData?.user.role !== 1) || sessionData === null) {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-      void router.push("/");
+      void router.push("/auth/signin");
     }
   }, [sessionData, router]);
 
@@ -28,10 +28,10 @@ const DanePompyCiepla = () => {
       <div className="flex max-h-screen w-full flex-wrap ">
         <Navbar />
         <div className="max-h-[88%] w-full overflow-y-scroll">
-          {/* <Tabs
+          <Tabs
             orientation="vertical"
             color="lime"
-            defaultValue={"cm0o4ylab0000q4dcocvv1heu"}
+            defaultValue={"cm21oh0ku0000k8pjfxlk54pa"}
           >
             <Tabs.List className="fixed z-50 w-min bg-backgroundGray">
               <Checkbox.Group value={menagers} onChange={setMenagers}>
@@ -73,7 +73,7 @@ const DanePompyCiepla = () => {
                 />
               )}
             </div>
-          </Tabs> */}
+          </Tabs>
         </div>
       </div>
     </div>

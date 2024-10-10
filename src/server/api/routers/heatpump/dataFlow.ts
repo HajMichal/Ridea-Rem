@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import {
   adminProcedure,
   createTRPCRouter,
@@ -33,18 +35,66 @@ export const heatPumpDataFlowRouter = createTRPCRouter({
         path: z.string().array(),
       })
     )
-    .mutation(async ({ input }) => {
-      // const convertedFile: HeatPumpCalculatorType = await getParsedJsonObject();
-      // const dynamicKey = Object.keys(input)[0];
-      // const index = convertedFile.kalkulator.findIndex(
-      //   (obj) => Object.keys(obj)[0] === dynamicKey
-      // );
-      // if (index !== -1 && dynamicKey) {
-      //   convertedFile.kalkulator[index] = input;
-      // }
-      // const updatedJSONFile = JSON.stringify(convertedFile);
-      // setFileToBucket(updatedJSONFile, "heatpump.json");
-      // return input;
+    .mutation(async ({ ctx, input }) => {
+      const isPathLengthTwo = input.path.length === 2;
+      try {
+        const currentDataArray = await ctx.prisma.heatPump.findMany({
+          where: {
+            userId: {
+              in: input.usersId,
+            },
+          },
+        });
+
+        await Promise.all(
+          currentDataArray.map(async (currentData, index) => {
+            if (currentData == null) throw new Error("NIE ZNALEZIONO DANYCH");
+
+            const userId = input.usersId[index];
+            let mergedData;
+            if (isPathLengthTwo) {
+              const isHeatPump = input.path[0] === "heatPumps";
+
+              if (isHeatPump) {
+                const eleToChange = Object.keys(input.dataToChange)[0]!;
+                const eleValue = Object.values(input.dataToChange)[0]!;
+
+                if (!eleToChange || !eleValue) throw new Error("ZŁE DANE");
+
+                currentData.heatPumps[input.path[1]][eleToChange] = eleValue;
+                mergedData = currentData.heatPumps;
+              } else {
+                const currentDotationData =
+                  currentData.dotations[input.path[1]];
+
+                mergedData = {
+                  ...currentData.dotations,
+                  [input.path[1]!]: {
+                    ...currentDotationData,
+                    ...input.dataToChange,
+                  },
+                };
+              }
+            } else {
+              const heatPumpKey = input.path[0] as keyof HeatPump;
+              const currentCalcData = currentData[heatPumpKey] as object;
+              mergedData = { ...currentCalcData, ...input.dataToChange };
+            }
+
+            await ctx.prisma.heatPump.update({
+              where: {
+                userId: userId,
+              },
+              data: input.path[0]
+                ? { [input.path[0]]: mergedData }
+                : mergedData,
+            });
+          })
+        );
+      } catch (error) {
+        console.error("Error updating air conditioners:", error);
+        return error;
+      }
     }),
   remove: adminProcedure.input(z.string()).mutation(async ({ ctx, input }) => {
     await ctx.prisma.photovoltaic.delete({
@@ -104,7 +154,6 @@ export const heatPumpDataFlowRouter = createTRPCRouter({
         element: z.string(),
         name: z.string(),
         price: z.number(),
-        fee: z.number(),
       })
     )
     .mutation(async ({ ctx, input }) => {
@@ -113,10 +162,12 @@ export const heatPumpDataFlowRouter = createTRPCRouter({
 
         for (const calc of allCalcs) {
           try {
-            // Add new element object to previous
             const addElement = {
               ...(calc[input.element as keyof HeatPump] as object),
-              ...{ [input.name]: input.price },
+              [input.name]:
+                input.element === "heatPumps"
+                  ? { price: input.price, fee: 0 }
+                  : input.price,
             };
 
             await ctx.prisma.heatPump.update({
@@ -156,28 +207,27 @@ export const heatPumpDataFlowRouter = createTRPCRouter({
     .mutation(async ({ ctx, input }) => {
       try {
         const allCalcs = await ctx.prisma.heatPump.findMany();
-
-        for (const calc of allCalcs) {
+        allCalcs.map(async (calc) => {
           try {
-            const elementFromRemove = calc[
-              input.element as keyof HeatPump
-            ] as Record<string, number>;
+            const currentData = calc[input.element as keyof HeatPump] as Record<
+              string,
+              number | object
+            >;
 
             // Check if the element exists before attempting to delete
-            if (elementFromRemove[input.name as keyof HeatPump]) {
-              delete elementFromRemove[input.name];
+            if (currentData[input.name as keyof HeatPump]) {
+              delete currentData[input.name];
             } else {
               throw new Error(
                 `Element ${input.name} nie został odnleziony w ${calc.userName}`
               );
             }
-
             await ctx.prisma.heatPump.update({
               where: {
                 id: calc.id,
               },
               data: {
-                [input.element]: elementFromRemove,
+                [input.element]: currentData,
               },
             });
           } catch (error) {
@@ -191,7 +241,7 @@ export const heatPumpDataFlowRouter = createTRPCRouter({
             status: 200,
             message: "Element został usunięty 📝",
           };
-        }
+        });
       } catch (error) {
         return {
           status: 404,

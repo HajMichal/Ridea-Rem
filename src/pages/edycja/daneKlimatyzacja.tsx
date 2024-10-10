@@ -17,7 +17,7 @@ function DaneKlimatyzacja() {
   useEffect(() => {
     if (sessionData === null || (sessionData && sessionData.user.role !== 1)) {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-      void router.push("/");
+      void router.push("/auth/signin");
     }
   }, [sessionData, router]);
 
