@@ -1,10 +1,11 @@
 import { useEffect } from "react";
 import { type Session } from "next-auth";
-import { type HeatPumpDataToCalculationType } from "~/server/api/routers/heatpump/interfaces";
+import { type HeatPumpCalcType } from "~/server/api/routers/heatpump/interfaces";
 import { useHeatPump } from "~/hooks/useHeatPump";
+import { api } from "~/utils/api";
 
 interface HeatPumpMutationType {
-  data?: HeatPumpDataToCalculationType;
+  data?: HeatPumpCalcType;
   sessionData: Session | null;
 }
 
@@ -13,12 +14,14 @@ export const HeatPumpMutations = ({
   sessionData,
 }: HeatPumpMutationType) => {
   const { heatPumpStore, heatPumpCalcStore, mutations } = useHeatPump();
+  const { data: generalData } =
+    api.pvMenagerRouter.getCreditPercentage.useQuery();
 
   useEffect(() => {
     if (data && heatPumpStore.buforType !== "")
       mutations.setBufforCost({
         bufforType: heatPumpStore.buforType,
-        buffors: data?.bufory,
+        buffors: data.bufory,
       });
   }, [data, heatPumpStore.buforType]);
 
@@ -26,7 +29,7 @@ export const HeatPumpMutations = ({
     if (data) {
       mutations.setMontageInCascadeCost({
         isChoosed: heatPumpStore.isAnotherHeatPumpInCascade,
-        elementCost: data.dodatki.kolejna_kaskada,
+        elementCost: data.addons.kolejna_kaskada,
       });
     }
   }, [heatPumpStore.isAnotherHeatPumpInCascade, data]);
@@ -35,7 +38,7 @@ export const HeatPumpMutations = ({
     if (data) {
       mutations.setNewDrillings({
         isChoosed: heatPumpStore.newDrillings,
-        elementCost: data.dodatki.przewierty,
+        elementCost: data.addons.przewierty,
       });
     }
   }, [heatPumpStore.newDrillings, data]);
@@ -43,7 +46,7 @@ export const HeatPumpMutations = ({
     if (data) {
       mutations.setLongerIsolationFromMineralWoolCost({
         length: heatPumpStore.longerIsolationFromMineralWool,
-        elementCost: data.dodatki.poprowadzenie_instalacji_wierzchu,
+        elementCost: data.addons.poprowadzenie_instalacji_wierzchu,
       });
     }
   }, [heatPumpStore.longerIsolationFromMineralWool, data]);
@@ -51,7 +54,7 @@ export const HeatPumpMutations = ({
     if (data) {
       mutations.setpreisolatedPipeCost({
         isChoosed: heatPumpStore.isPreIsolatedPipe,
-        elementCost: data.dodatki.rura_preizolowana,
+        elementCost: data.addons.rura_preizolowana,
       });
     }
   }, [heatPumpStore.isPreIsolatedPipe, data]);
@@ -59,7 +62,7 @@ export const HeatPumpMutations = ({
     if (data) {
       mutations.setLongerPreIsolatedPipeCost({
         length: heatPumpStore.longerPreIsolatedPipe,
-        elementCost: data.dodatki.dodatkowe_rury_preizolowane,
+        elementCost: data.addons.dodatkowe_rury_preizolowane,
       });
     }
   }, [heatPumpStore.longerPreIsolatedPipe, data]);
@@ -67,7 +70,7 @@ export const HeatPumpMutations = ({
     if (data) {
       mutations.setCirculationMontageCost({
         isChoosed: heatPumpStore.isMontageCirculationCWU,
-        elementCost: data.dodatki.cyrkulacja_cwu,
+        elementCost: data.addons.cyrkulacja_cwu,
       });
     }
   }, [heatPumpStore.isMontageCirculationCWU, data]);
@@ -75,7 +78,7 @@ export const HeatPumpMutations = ({
     if (data) {
       mutations.setDemontageOldBoilerCost({
         isChoosed: heatPumpStore.demontageOldBoiler,
-        elementCost: data.dodatki.demontaz_kotla,
+        elementCost: data.addons.demontaz_kotla,
       });
     }
   }, [heatPumpStore.demontageOldBoiler, data]);
@@ -83,7 +86,7 @@ export const HeatPumpMutations = ({
     if (data) {
       mutations.setCleaningPlacementCost({
         isChoosed: heatPumpStore.cleanMontagePlacement,
-        elementCost: data.dodatki.posprzatanie,
+        elementCost: data.addons.posprzatanie,
       });
     }
   }, [heatPumpStore.cleanMontagePlacement, data]);
@@ -91,7 +94,7 @@ export const HeatPumpMutations = ({
     if (data) {
       mutations.setMoveCwuCost({
         isChoosed: heatPumpStore.moveCwu,
-        elementCost: data.dodatki.cyrkulacja_cwu,
+        elementCost: data.addons.cyrkulacja_cwu,
       });
     }
   }, [heatPumpStore.moveCwu, data]);
@@ -99,7 +102,7 @@ export const HeatPumpMutations = ({
     if (data) {
       mutations.setEnergeticConnectionCost({
         isChoosed: heatPumpStore.makeEnergeticConnection,
-        elementCost: data.dodatki.cyrkulacja_cwu,
+        elementCost: data.addons.cyrkulacja_cwu,
       });
     }
   }, [heatPumpStore.makeEnergeticConnection, data]);
@@ -107,7 +110,7 @@ export const HeatPumpMutations = ({
     if (data) {
       mutations.setBuforWithSupportCost({
         isChoosed: heatPumpStore.mergeNewBufforWithOld,
-        elementCost: data.dodatki.spiecie_bufora,
+        elementCost: data.addons.spiecie_bufora,
       });
     }
   }, [heatPumpStore.mergeNewBufforWithOld, data]);
@@ -115,7 +118,7 @@ export const HeatPumpMutations = ({
     if (data) {
       mutations.setCloseOpenedSystemCost({
         isChoosed: heatPumpStore.closingOpenSytem,
-        elementCost: data.dodatki.zamkniecie_ukladu_otwartego,
+        elementCost: data.addons.zamkniecie_ukladu_otwartego,
       });
     }
   }, [heatPumpStore.closingOpenSytem, data]);
@@ -123,14 +126,14 @@ export const HeatPumpMutations = ({
     if (data) {
       mutations.setAuditCost({
         isChoosed: heatPumpStore.isEnergeticAudit,
-        elementCost: data.dodatki.audyt,
+        elementCost: data.addons.audyt,
       });
     }
   }, [heatPumpStore.isEnergeticAudit, data]);
   useEffect(() => {
     if (data && heatPumpStore.suggestedPump) {
       mutations.setHeatPumpCost({
-        heatPumpCost: data.pompy_ciepla[heatPumpStore.suggestedPump]!.cena,
+        heatPumpCost: data.heatPumps[heatPumpStore.suggestedPump]!.cena,
       });
     }
   }, [heatPumpStore.suggestedPump, data]);
@@ -138,8 +141,7 @@ export const HeatPumpMutations = ({
   useEffect(() => {
     if (data && sessionData?.user && heatPumpStore.suggestedPump) {
       mutations.setMarkupCosts({
-        system_power:
-          data.pompy_ciepla[heatPumpStore.suggestedPump]!.mnozik_prowizji,
+        system_power: data.heatPumps[heatPumpStore.suggestedPump]!.fee,
         officeFee: sessionData.user.feePerkwHeatPump,
         constantFee: sessionData.user.imposedFeeHeatPump,
         consultantFee: heatPumpStore.consultantMarkup,
@@ -151,7 +153,7 @@ export const HeatPumpMutations = ({
     heatPumpStore.consultantMarkup,
     sessionData?.user,
     heatPumpStore.suggestedPump,
-    data?.pompy_ciepla,
+    data?.heatPumps,
   ]);
   useEffect(() => {
     mutations.setAddonsSumCost({
@@ -204,20 +206,20 @@ export const HeatPumpMutations = ({
     if (data) {
       mutations.setHeatStoreDotationValue({
         modernizationDotation:
-          data.dotacje.modernizacja_CO_CWU[
+          data.dotations.modernizacja_CO_CWU[
             heatPumpStore.choosedHeatPumpDotation
           ],
         heatStoreDotation:
-          data.dotacje.pc[heatPumpStore.choosedHeatPumpDotation],
+          data.dotations.pc[heatPumpStore.choosedHeatPumpDotation],
       });
     }
-  }, [data?.dotacje, heatPumpStore.choosedHeatPumpDotation]);
+  }, [data?.dotations, heatPumpStore.choosedHeatPumpDotation]);
 
   useEffect(() => {
     if (data) {
       mutations.setFinallGrossInstalationCost({
         dotationModernizationCoCwu:
-          data.dotacje.modernizacja_CO_CWU[
+          data.dotations.modernizacja_CO_CWU[
             heatPumpStore.choosedHeatPumpDotation
           ],
         grossSystemValue:
@@ -229,15 +231,15 @@ export const HeatPumpMutations = ({
       });
     }
   }, [
-    data?.dotacje.modernizacja_CO_CWU,
+    data?.dotations.modernizacja_CO_CWU,
     heatPumpCalcStore.heatStoreDotations,
     heatPumpCalcStore.heatPumpPricingBeforeDotations.grossSystemValue,
     heatPumpCalcStore.termoModernizationRelif,
   ]);
   useEffect(() => {
-    if (data) {
+    if (generalData) {
       mutations.setLoanForPurcharse({
-        creditPercentage: data.oprocentowanie_kredytu,
+        creditPercentage: generalData.creditPercentage,
         finall_installation_cost: heatPumpCalcStore.finallGrossInstalationCost,
         grossInstalltaionBeforeDotationsCost:
           heatPumpCalcStore.heatPumpPricingBeforeDotations.grossSystemValue,
@@ -248,7 +250,7 @@ export const HeatPumpMutations = ({
     heatPumpStore.installmentNumber,
     heatPumpCalcStore.heatPumpPricingBeforeDotations,
     heatPumpCalcStore.finallGrossInstalationCost,
-    data?.oprocentowanie_kredytu,
+    generalData,
   ]);
   useEffect(() => {
     mutations.setTermoModernizationRelif({

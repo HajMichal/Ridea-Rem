@@ -1,40 +1,42 @@
-import { Modal } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import React from "react";
 import { PiTrashBold } from "react-icons/pi";
 import { ConfirmationModal } from "~/components/ConfirmationModal";
 import { api } from "~/utils/api";
 
-export const RemovePump = ({ pumpName }: { pumpName: string }) => {
+interface RemoveElementProps {
+  element: string;
+  name: string;
+}
+export const RemoveElement = ({ element, name }: RemoveElementProps) => {
   const [opened, { open, close }] = useDisclosure(false);
   const ctx = api.useContext();
 
-  const { mutate: removePump } =
+  const { mutate: removeElement } =
     api.heatPumpDataFlowRouter.removeElement.useMutation({
       onSuccess: async () => {
         await ctx.heatPumpDataFlowRouter.getAll.invalidate();
       },
     });
-
-  const handleRemovePump = () => {
-    // removePump(pumpName);
+  const handleRemoveElement = () => {
+    removeElement({ element, name });
     close();
   };
 
   return (
-    <>
+    <div>
       <PiTrashBold
         onClick={open}
-        className="-ml-6 h-6 w-6 duration-100 hover:scale-105 hover:cursor-pointer"
+        size={"25px"}
+        color="red"
+        className="duration-100 hover:scale-105 hover:cursor-pointer"
       />
       <ConfirmationModal
         close={close}
-        description="Będzie to skutkowało zmianami w bazie danych, przez co tej pompy nie
-          będzie można użyc podczas tworzenia wyceny."
-        handleFunction={handleRemovePump}
+        description="Będzie to skutkowało zmianami w bazie danych, przez co tego elementu nie będzie można już użyć."
+        handleFunction={handleRemoveElement}
         opened={opened}
-        title={`CZY NA PEWNO USUNĄĆ ${pumpName} ?`}
+        title={`Czy na pewno chcesz usunąć: ${name} ?`}
       />
-    </>
+    </div>
   );
 };

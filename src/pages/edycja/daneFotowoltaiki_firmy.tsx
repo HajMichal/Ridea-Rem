@@ -17,7 +17,7 @@ const DaneFotowoltaiki_firm = () => {
   useEffect(() => {
     if ((sessionData && sessionData?.user.role !== 1) || sessionData === null) {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-      void router.push("/");
+      void router.push("/auth/signin");
     }
   }, [sessionData, router]);
 

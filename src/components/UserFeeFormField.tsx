@@ -86,7 +86,7 @@ export const UserFeeFormField = ({
   const { mutate: removeMenagerCalcDataPhotovoltaic } =
     api.pvMenagerRouter.remove.useMutation();
   const { mutate: removeMenagerHeatPumpJson } =
-    api.heatPumpDataFlowRouter.removeMenagerData.useMutation();
+    api.heatPumpDataFlowRouter.remove.useMutation();
   const { mutate: removeMenagerForCompanyJson } =
     api.forCompanyDataFlowRouter.removeMenagerData.useMutation();
   const { mutate: removeMenagerHeatHomeJson } =

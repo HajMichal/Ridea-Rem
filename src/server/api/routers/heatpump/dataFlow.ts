@@ -1,201 +1,252 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import {
   adminProcedure,
   createTRPCRouter,
-  publicProcedure,
+  protectedProcedure,
 } from "~/server/api/trpc";
 import { z } from "zod";
-import { bucket, s3, setFileToBucket } from "~/utils/aws";
-import {
-  type EachMenagerHeatPump,
-  type HeatPumpCalculatorType,
-} from "./interfaces";
 
-const heatpumpValidator = z.object({
-  cena: z.number(),
-  mnozik_prowizji: z.number(),
-});
-
-const schema = z.record(
-  z.object({
-    bufory: z.object({
-      bufory100l: z.object({
-        przylaczeSchemat24: z.number(),
-        przylaczeSchemat34: z.number(),
-      }),
-    }),
-    pompy_ciepla: z.record(heatpumpValidator),
-    dodatki: z.object({
-      kolejna_kaskada: z.number(),
-      przewierty: z.number(),
-      poprowadzenie_instalacji_wierzchu: z.number(),
-      rura_preizolowana: z.number(),
-      dodatkowe_rury_preizolowane: z.number(),
-      cyrkulacja_cwu: z.number(),
-      demontaz_kotla: z.number(),
-      posprzatanie: z.number(),
-      przeniesienie_zasobnika: z.number(),
-      wykonanie_przylacza: z.number(),
-      spiecie_bufora: z.number(),
-      zamkniecie_ukladu_otwartego: z.number(),
-      audyt: z.number(),
-    }),
-    dotacje: z.object({
-      modernizacja_CO_CWU: z.object({
-        prog1: z.number(),
-        prog2: z.number(),
-        prog3: z.number(),
-        mojPrad: z.number(),
-      }),
-      pc: z.object({
-        prog1: z.number(),
-        prog2: z.number(),
-        prog3: z.number(),
-        mojPrad: z.number(),
-      }),
-    }),
-    oprocentowanie_kredytu: z.number(),
-    cena1kWh: z.number(),
-    cop: z.number(),
-  })
-);
-
-const getParsedJsonObject = async () => {
-  const dataFile = await s3
-    .getObject({
-      Bucket: bucket,
-      Key: "heatpump.json",
-    })
-    .promise();
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  const convertedFile: HeatPumpCalculatorType = JSON.parse(
-    dataFile?.Body?.toString() ?? "null"
-  );
-  return convertedFile;
-};
+import { type HeatPump } from "@prisma/client";
 
 export const heatPumpDataFlowRouter = createTRPCRouter({
-  downloadFile: publicProcedure
-    .input(z.string().optional())
-    .query(async ({ input, ctx }) => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      const convertedFile = await getParsedJsonObject();
-      function getObjectById(id: string) {
-        const object: EachMenagerHeatPump | undefined =
-          convertedFile.kalkulator.find((item) => Object.keys(item)[0] === id);
-        return object ? object[id] : null;
-      }
+  getSingle: protectedProcedure.query(async ({ ctx }) => {
+    const user = ctx.session?.user;
+    if (!user) return null;
 
-      const userData = await ctx.prisma.user.findFirst({
-        where: { id: input },
+    return await ctx.prisma.heatPump.findFirst({
+      where: {
+        userId: user.role === 3 ? user.creatorId : user.id,
+      },
+    });
+  }),
+  getAll: adminProcedure.query(async ({ ctx }) => {
+    return await ctx.prisma.heatPump.findMany({
+      orderBy: {
+        userName: "asc",
+      },
+    });
+  }),
+  edit: adminProcedure
+    .input(
+      z.object({
+        dataToChange: z.record(z.number()),
+        usersId: z.string().array(),
+        path: z.string().array(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const isPathLengthTwo = input.path.length === 2;
+      try {
+        const currentDataArray = await ctx.prisma.heatPump.findMany({
+          where: {
+            userId: {
+              in: input.usersId,
+            },
+          },
+        });
+
+        await Promise.all(
+          currentDataArray.map(async (currentData, index) => {
+            if (currentData == null) throw new Error("NIE ZNALEZIONO DANYCH");
+
+            const userId = input.usersId[index];
+            let mergedData;
+            if (isPathLengthTwo) {
+              const isHeatPump = input.path[0] === "heatPumps";
+
+              if (isHeatPump) {
+                const eleToChange = Object.keys(input.dataToChange)[0]!;
+                const eleValue = Object.values(input.dataToChange)[0]!;
+
+                if (!eleToChange || !eleValue) throw new Error("ZŁE DANE");
+
+                currentData.heatPumps[input.path[1]][eleToChange] = eleValue;
+                mergedData = currentData.heatPumps;
+              } else {
+                const currentDotationData =
+                  currentData.dotations[input.path[1]];
+
+                mergedData = {
+                  ...currentData.dotations,
+                  [input.path[1]!]: {
+                    ...currentDotationData,
+                    ...input.dataToChange,
+                  },
+                };
+              }
+            } else {
+              const heatPumpKey = input.path[0] as keyof HeatPump;
+              const currentCalcData = currentData[heatPumpKey] as object;
+              mergedData = { ...currentCalcData, ...input.dataToChange };
+            }
+
+            await ctx.prisma.heatPump.update({
+              where: {
+                userId: userId,
+              },
+              data: input.path[0]
+                ? { [input.path[0]]: mergedData }
+                : mergedData,
+            });
+          })
+        );
+      } catch (error) {
+        console.error("Error updating air conditioners:", error);
+        return error;
+      }
+    }),
+  remove: adminProcedure.input(z.string()).mutation(async ({ ctx, input }) => {
+    await ctx.prisma.photovoltaic.delete({
+      where: {
+        userId: input,
+      },
+    });
+  }),
+  create: adminProcedure
+    .input(
+      z.object({
+        userId: z.string(),
+        userName: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const baseCalc = await ctx.prisma.heatPump.findFirst({
+        where: {
+          userId: "66d4e13565e073fe1f84366d",
+        },
       });
 
-      if (userData?.role === 1) {
-        return getObjectById(userData.name!);
-      } else if (userData?.role === 2) {
-        return getObjectById(userData.name!);
-      } else if (userData?.creatorId && userData.role === 3) {
-        const creator = await ctx.prisma.user.findFirst({
-          where: { id: userData.creatorId },
+      if (baseCalc) {
+        await ctx.prisma.heatPump.create({
+          data: {
+            userId: input.userId,
+            userName: input.userName,
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+            heatPumps: baseCalc.heatPumps,
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+            bufory: baseCalc.bufory,
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+            addons: baseCalc.addons,
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+            dotations: baseCalc.dotations,
+
+            electricityPrice: baseCalc.electricityPrice,
+            cop: baseCalc.cop,
+          },
         });
-        return getObjectById(creator?.name ?? "");
-      }
-    }),
-  downloadEntireJsonFile: publicProcedure.query(async () => {
-    return await getParsedJsonObject();
-  }),
-  editJSONFile: adminProcedure.input(schema).mutation(async ({ input }) => {
-    const convertedFile: HeatPumpCalculatorType = await getParsedJsonObject();
-    const dynamicKey = Object.keys(input)[0];
 
-    const index = convertedFile.kalkulator.findIndex(
-      (obj) => Object.keys(obj)[0] === dynamicKey
-    );
-
-    if (index !== -1 && dynamicKey) {
-      convertedFile.kalkulator[index] = input;
-    }
-
-    const updatedJSONFile = JSON.stringify(convertedFile);
-    setFileToBucket(updatedJSONFile, "heatpump.json");
-    return input;
-  }),
-  removeMenagerData: publicProcedure
-    .input(z.string())
-    .mutation(async ({ input }) => {
-      const convertedFile = await getParsedJsonObject();
-      const index = convertedFile.kalkulator.findIndex(
-        (obj) => Object.keys(obj)[0] === input
-      );
-
-      if (index !== -1) {
-        convertedFile.kalkulator.splice(index, 1);
-      }
-
-      const updatedJSONFile = JSON.stringify(convertedFile);
-      setFileToBucket(updatedJSONFile, "heatpump.json");
-      return input;
-    }),
-  addNewMenager: adminProcedure
-    .input(z.string())
-    .mutation(async ({ input }) => {
-      const convertedFile = await getParsedJsonObject();
-      if (convertedFile.kalkulator[0]) {
-        const mainCalculationData =
-          convertedFile.kalkulator[0]["Adrian Szymborski"]!;
-
-        const newMenagerData = {
-          [input]: mainCalculationData,
-        };
-
-        convertedFile.kalkulator.push(newMenagerData);
-        setFileToBucket(JSON.stringify(convertedFile), "heatpump.json");
         return {
           status: 200,
           message:
-            "Menager z bazowymi danymi został stworzony. Aby zmienić jego dane, przejdź do zakładki prowizje 📝",
+            "Menager z bazowymi danymi został stworzony. Aby zmienić jego dane, przejdź do zakładki PROWIZJE 📝",
+        };
+      } else {
+        return {
+          status: 404,
+          message: "Wystąpił błąd spróbuj ponownie 📝",
         };
       }
     }),
-  addNewHeatPump: adminProcedure
+  addNewElement: adminProcedure
     .input(
       z.object({
+        element: z.string(),
         name: z.string(),
         price: z.number(),
-        fee: z.number(),
       })
     )
-    .mutation(async ({ input }) => {
-      const convertedFile = await getParsedJsonObject();
+    .mutation(async ({ ctx, input }) => {
+      try {
+        const allCalcs = await ctx.prisma.heatPump.findMany();
 
-      convertedFile.kalkulator.forEach((calculator) => {
-        const menager = Object.keys(calculator)[0];
-        const newPump = {
-          [input.name]: { cena: input.price, mnozik_prowizji: input.fee },
+        for (const calc of allCalcs) {
+          try {
+            const addElement = {
+              ...(calc[input.element as keyof HeatPump] as object),
+              [input.name]:
+                input.element === "heatPumps"
+                  ? { price: input.price, fee: 0 }
+                  : input.price,
+            };
+
+            await ctx.prisma.heatPump.update({
+              where: {
+                userId: calc.userId,
+              },
+              data: {
+                [input.element]: addElement,
+              },
+            });
+          } catch (error) {
+            console.error(
+              `Error adding element to calculator ${calc.userId}: `,
+              error
+            );
+            throw error;
+          }
+        }
+        return {
+          status: 200,
+          message: "Element został dodany 📝",
         };
-        calculator[menager as keyof typeof convertedFile]!.pompy_ciepla = {
-          ...calculator[menager as keyof typeof convertedFile]?.pompy_ciepla,
-          ...newPump,
+      } catch (error) {
+        return {
+          status: 404,
+          message: "Element nie został dodany 📝",
         };
-      });
-      setFileToBucket(JSON.stringify(convertedFile), "heatpump.json");
-      return {
-        status: 200,
-        message: "Pompa ciepła została dodana do każdego menagera 📝",
-      };
+      }
     }),
-  removeHeatPump: adminProcedure
-    .input(z.string())
-    .mutation(async ({ input }) => {
-      const convertedFile = await getParsedJsonObject();
+  removeElement: adminProcedure
+    .input(
+      z.object({
+        element: z.string(), // Existing Json record in Photovoltaic table
+        name: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      try {
+        const allCalcs = await ctx.prisma.heatPump.findMany();
+        allCalcs.map(async (calc) => {
+          try {
+            const currentData = calc[input.element as keyof HeatPump] as Record<
+              string,
+              number | object
+            >;
 
-      convertedFile.kalkulator.forEach((calculator) => {
-        const menager = Object.keys(calculator)[0];
-        delete calculator[menager!]!.pompy_ciepla[input];
-      });
-      setFileToBucket(JSON.stringify(convertedFile), "heatpump.json");
-      return {
-        status: 200,
-        message: "Pompa ciepła została usunięta📝",
-      };
+            // Check if the element exists before attempting to delete
+            if (currentData[input.name as keyof HeatPump]) {
+              delete currentData[input.name];
+            } else {
+              throw new Error(
+                `Element ${input.name} nie został odnleziony w ${calc.userName}`
+              );
+            }
+            await ctx.prisma.heatPump.update({
+              where: {
+                id: calc.id,
+              },
+              data: {
+                [input.element]: currentData,
+              },
+            });
+          } catch (error) {
+            console.error(
+              `Error removing element from calculator ${calc.id}: `,
+              error
+            );
+            throw error;
+          }
+          return {
+            status: 200,
+            message: "Element został usunięty 📝",
+          };
+        });
+      } catch (error) {
+        return {
+          status: 404,
+          message: "Element nie został usunięty 📝",
+        };
+      }
     }),
 });

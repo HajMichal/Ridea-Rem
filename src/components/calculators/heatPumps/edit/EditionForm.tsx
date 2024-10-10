@@ -1,225 +1,163 @@
-import { useDisclosure } from "@mantine/hooks";
-import { useForm, type SubmitHandler } from "react-hook-form";
+import { useState } from "react";
 import toast from "react-hot-toast";
-import { ChangeDataInputComponent } from "~/components/changeDataInputComponent";
-import {
-  type EachMenagerHeatPump,
-  type HeatPumpDataToCalculationType,
-} from "~/server/api/routers/heatpump/interfaces";
+import { BsDatabaseFillCheck } from "react-icons/bs";
+import { GiCancel } from "react-icons/gi";
+import { type HeatPumpCalcType } from "~/server/api/routers/heatpump/interfaces";
 import { api } from "~/utils/api";
-import { AddNewHeatPump } from "./AddNewHeatPump";
-import { RemovePump } from "./RemovePump";
-import { ConfirmationModal } from "~/components/ConfirmationModal";
+import { AddElement } from "./AddElement";
+import { RemoveElement } from "./RemoveElement";
 
-/* eslint @typescript-eslint/consistent-indexed-object-style: ["error", "index-signature"] */
 interface EditionFormType {
-  [key: string]: EachMenagerHeatPump;
+  data: HeatPumpCalcType;
+  menagers: string[];
 }
 
-export const EditionForm = ({ data }: EditionFormType) => {
-  const [opened, { open, close }] = useDisclosure(false);
+export const EditionForm = ({ data, menagers }: EditionFormType) => {
+  const [dataToChange, setDataToChange] = useState({});
+  const [editingKey, setEditingKey] = useState<string | null>(null);
+  const [pathKey, setPathKey] = useState<string | null>(null);
+  const ctx = api.useContext();
 
-  const { mutate } = api.heatPumpDataFlowRouter.editJSONFile.useMutation({
+  const { mutate } = api.heatPumpDataFlowRouter.edit.useMutation({
     onSuccess: () => {
       toast.success("Dane zostały pomyślnie zmienione.");
+      void ctx.heatPumpDataFlowRouter.getAll.invalidate();
     },
     onError: () => {
       toast.error("UWAGA BŁĄD! Dane nie zostały zmienione. Spróbuj ponownie.");
     },
   });
 
-  const dynamicKey = Object.keys(data!)[0];
-  const dynamicPropValues = data![dynamicKey!];
+  function displayData(calcData: object, path: string[] = [], depth = 0) {
+    if (depth === 6) return null;
 
-  const { register, handleSubmit } = useForm<HeatPumpDataToCalculationType>();
+    const saveChanges = () => {
+      setEditingKey(null);
+      setPathKey(null);
+      mutate({
+        dataToChange,
+        path,
+        usersId: menagers.length === 0 ? [data.userId] : menagers,
+      });
+    };
 
-  const onSubmit: SubmitHandler<HeatPumpDataToCalculationType> = (data) => {
-    mutate({ [dynamicKey!]: data });
+    return (
+      <div className="flex w-full flex-col items-center pb-8">
+        {Object.entries(calcData).map(
+          ([key, value]: [key: string, value: number | object]) => {
+            if (
+              key === "id" ||
+              key === "userId" ||
+              key === "userName" ||
+              key === "createdAt" ||
+              key === "editedAt"
+            )
+              return null;
 
-    close();
-  };
+            const isEditing =
+              editingKey === key && pathKey === (path[1] ?? null);
+
+            if (typeof value !== "number" && typeof value !== "string") {
+              return (
+                <div key={key} className="flex w-full flex-col items-center">
+                  <div className="flex gap-2">
+                    <h1
+                      className={`text-center font-orkneyBold ${
+                        path.length === 1 && "text-xl"
+                      }`}
+                    >
+                      {headerNamesMapping[key] ?? key.toUpperCase()}
+                    </h1>
+                    {path[0] === "heatPumps" && (
+                      <RemoveElement element={path[0]} name={key} />
+                    )}
+                  </div>
+                  {displayData(value, [...path, key], depth + 1)}
+                </div>
+              );
+            } else {
+              return (
+                <div
+                  key={key}
+                  className="m-1 grid w-full grid-cols-12 items-center gap-2 xl:w-3/4"
+                >
+                  <div className="col-start-3 col-end-7 flex h-full items-center justify-end">
+                    <p className="text-md mt-1 text-right">
+                      {dataNamesMappings[key] ?? key.toUpperCase()}:
+                    </p>
+                  </div>
+                  {isEditing ? (
+                    <>
+                      <input
+                        type="text"
+                        placeholder={value.toString()}
+                        onChange={(e) =>
+                          setDataToChange({
+                            [key]: Number(e.target.value),
+                          })
+                        }
+                        autoFocus
+                        className="col-start-7 col-end-8 h-[34.8px] grid-cols-[repeat(6,_1fr)_minmax(96px,_96px)] border border-dark p-2 px-2 focus:outline-brand"
+                      />
+                      <div className="col-start-8 col-end-9 flex w-full gap-2">
+                        <button onClick={saveChanges} className="mr-2">
+                          <BsDatabaseFillCheck size={"25px"} color="green" />
+                        </button>
+                        <button
+                          onClick={() => {
+                            setEditingKey(null);
+                            setPathKey(null);
+                            setDataToChange({});
+                          }}
+                        >
+                          <GiCancel size={"25px"} color="red" />
+                        </button>
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <p
+                        onClick={() => {
+                          setEditingKey(key);
+                          setPathKey(path[1] ?? null);
+                        }}
+                        className="border border-dark bg-white p-1 px-2 font-sans"
+                      >
+                        {value}
+                      </p>
+                      {path[0] === "bufory" && (
+                        <RemoveElement element={path[0]} name={key} />
+                      )}
+                    </>
+                  )}
+                </div>
+              );
+            }
+          }
+        )}
+      </div>
+    );
+  }
 
   return (
     <>
-      <h1 className="w-full pt-14 text-center">{dynamicKey}</h1>
-      <form className="w-full pb-20 pt-3">
-        <span className="flex w-full items-center justify-center gap-5">
-          <h2 className="mt-5 text-center text-3xl ">POMPY CIEPŁA</h2>
-          <AddNewHeatPump />
-        </span>
-        {dynamicPropValues &&
-          Object.entries(dynamicPropValues.pompy_ciepla).map((key, index) => {
-            return (
-              <div className="my-7 flex flex-col items-center" key={index}>
-                <div className="flex items-end">
-                  <RemovePump pumpName={key[0]} />
-                  <ChangeDataInputComponent
-                    {...register(
-                      `pompy_ciepla.${key[0]}.cena` as keyof typeof dynamicPropValues,
-                      {
-                        valueAsNumber: true,
-                      }
-                    )}
-                    title={key[0]}
-                    defaultValue={key[1].cena}
-                  />
-                </div>
-                <ChangeDataInputComponent
-                  {...register(
-                    `pompy_ciepla.${key[0]}.mnozik_prowizji` as keyof typeof dynamicPropValues,
-                    {
-                      valueAsNumber: true,
-                    }
-                  )}
-                  title="MNOŻNIK PROWIZJI"
-                  defaultValue={key[1].mnozik_prowizji}
-                />
-              </div>
-            );
-          })}
-        <h2 className="mt-5 w-full text-center text-3xl">BUFORY</h2>
-        <h2 className="mt-5 w-full text-center text-xl">BUFORY 100L</h2>
-
-        <ChangeDataInputComponent
-          {...register("bufory.bufory100l.przylaczeSchemat24", {
-            valueAsNumber: true,
-          })}
-          title="SMART TOWER 1 OBIEG GRZEWCZY"
-          defaultValue={dynamicPropValues!.bufory.bufory100l.przylaczeSchemat24}
-        />
-        <ChangeDataInputComponent
-          {...register("bufory.bufory100l.przylaczeSchemat34", {
-            valueAsNumber: true,
-          })}
-          title="SMART TOWER 2 OBIEGI GRZEWCZE"
-          defaultValue={dynamicPropValues!.bufory.bufory100l.przylaczeSchemat34}
-        />
-
-        {/* {jsxAddonsElements.map((element, index) => (
-            <div key={index}>{element}</div>
-          ))} */}
-        <h2 className="mt-5 w-full text-center text-3xl">DODATKI</h2>
-
-        {dynamicPropValues &&
-          Object.entries(dynamicPropValues.dodatki).map((key, index) => {
-            return (
-              <ChangeDataInputComponent
-                {...register(
-                  `dodatki.${key[0]}` as keyof typeof dynamicPropValues,
-                  {
-                    valueAsNumber: true,
-                  }
-                )}
-                title={addonNamesMappings[key[0]]!}
-                defaultValue={
-                  dynamicPropValues.dodatki[
-                    key[0] as keyof typeof dynamicPropValues.dodatki
-                  ]
-                }
-                key={index}
-              />
-            );
-          })}
-        <h2 className="mt-5 w-full text-center text-3xl">
-          DOTACJE I OPROCENTOWANIA
-        </h2>
-        <ChangeDataInputComponent
-          {...register("dotacje.modernizacja_CO_CWU.prog1", {
-            valueAsNumber: true,
-          })}
-          title="MODERNIZACJA CO ORAZ CWU PRÓG 1"
-          defaultValue={dynamicPropValues!.dotacje.modernizacja_CO_CWU.prog1}
-        />
-        <ChangeDataInputComponent
-          {...register("dotacje.modernizacja_CO_CWU.prog2", {
-            valueAsNumber: true,
-          })}
-          title="MODERNIZACJA CO ORAZ CWU PRÓG 2"
-          defaultValue={dynamicPropValues!.dotacje.modernizacja_CO_CWU.prog2}
-        />
-        <ChangeDataInputComponent
-          {...register("dotacje.modernizacja_CO_CWU.prog3", {
-            valueAsNumber: true,
-          })}
-          title="MODERNIZACJA CO ORAZ CWU PRÓG 3"
-          defaultValue={dynamicPropValues!.dotacje.modernizacja_CO_CWU.prog3}
-        />
-        <ChangeDataInputComponent
-          {...register("dotacje.modernizacja_CO_CWU.mojPrad", {
-            valueAsNumber: true,
-          })}
-          title="MODERNIZACJA CO ORAZ CWU MÓJ PRĄD"
-          defaultValue={dynamicPropValues!.dotacje.modernizacja_CO_CWU.mojPrad}
-        />
-        <ChangeDataInputComponent
-          {...register("dotacje.pc.prog1", {
-            valueAsNumber: true,
-          })}
-          title="DOTACJA PC PRÓG 1"
-          defaultValue={dynamicPropValues!.dotacje.pc.prog1}
-        />
-        <ChangeDataInputComponent
-          {...register("dotacje.pc.prog2", {
-            valueAsNumber: true,
-          })}
-          title="DOTACJA PC PRÓG 2"
-          defaultValue={dynamicPropValues!.dotacje.pc.prog2}
-        />
-        <ChangeDataInputComponent
-          {...register("dotacje.pc.prog3", {
-            valueAsNumber: true,
-          })}
-          title="DOTACJA PC PRÓG 3"
-          defaultValue={dynamicPropValues!.dotacje.pc.prog3}
-        />
-        <ChangeDataInputComponent
-          {...register("dotacje.pc.mojPrad", {
-            valueAsNumber: true,
-          })}
-          title="DOTACJA PC MÓJ PRĄD"
-          defaultValue={dynamicPropValues!.dotacje.pc.mojPrad}
-        />
-        <ChangeDataInputComponent
-          {...register("oprocentowanie_kredytu", {
-            valueAsNumber: true,
-          })}
-          title="OPROCENTOWANIE KREDYTU"
-          defaultValue={dynamicPropValues!.oprocentowanie_kredytu}
-        />
-        <ChangeDataInputComponent
-          {...register("cena1kWh", {
-            valueAsNumber: true,
-          })}
-          title="CENA ZA 1 kWh"
-          defaultValue={dynamicPropValues!.cena1kWh}
-        />
-        <ChangeDataInputComponent
-          {...register("cop", {
-            valueAsNumber: true,
-          })}
-          title="WSPÓŁCZYNNIK COP"
-          defaultValue={dynamicPropValues!.cop}
-        />
-      </form>
-      <button
-        onClick={open}
-        className="fixed bottom-20 right-56 mx-5 h-12 self-center rounded-xl bg-dark px-10 py-2 font-semibold text-white duration-300 hover:bg-brand hover:text-dark"
-      >
-        Zatwierdź
-      </button>
-      <ConfirmationModal
-        title="CZY NA PEWNO CHCESZ ZAPISAĆ ZMIENIONE WARTOŚCI ?"
-        close={close}
-        opened={opened}
-        handleFunction={handleSubmit(onSubmit)}
-        description=" Będzie to skutkowało zmianami w bazie danych, przez co ceny nowych
-        wyliczeń za instalację ulegną zmianie."
-      />
+      <h1 className="w-full pt-14 text-center">{data.userName}</h1>
+      <div className="flex w-full justify-center">{displayData(data)}</div>
+      <div className="fixed bottom-10 right-56 flex flex-col gap-4">
+        <AddElement />
+      </div>
     </>
   );
 };
 
-const addonNamesMappings: { [key: string]: string } = {
+const headerNamesMapping: Record<string, string> = {
+  heatPumps: "POMPY CIEPŁA",
+  addons: "DODATKI",
+  dotations: "DOTACJE",
+  modernizacja_CO_CWU: "MODERNIZACJA CWU",
+};
+
+const dataNamesMappings: Record<string, string> = {
   kolejna_kaskada: "KOLEJNA POMPA CIEPŁA W KASKADZIE",
   przewierty: "DODATKOWE PRZEWIERTY",
   poprowadzenie_instalacji_wierzchu:
@@ -234,4 +172,6 @@ const addonNamesMappings: { [key: string]: string } = {
   spiecie_bufora: "SPIĘCIE BUFOR CO Z DODATKOOWYM ŹRÓDŁEM GRZEWCZYM",
   zamkniecie_ukladu_otwartego: "ZAMKNIĘCIE UKŁADU OTWARTEGO",
   audyt: "AUDYT ENERGETYCZNY",
+  fee: "MNOŻNIK PROWIZJI",
+  electricityPrice: "CENA 1kW",
 };

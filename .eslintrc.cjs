@@ -11,6 +11,7 @@ const config = {
     "plugin:@typescript-eslint/stylistic-type-checked",
   ],
   rules: {
+    '@typescript-eslint/consistent-type-definitions': ['off'],
     '@typescript-eslint/no-unused-vars': 'off',
     'react-hooks/exhaustive-deps': 'off',
     "@typescript-eslint/no-misused-promises": [
