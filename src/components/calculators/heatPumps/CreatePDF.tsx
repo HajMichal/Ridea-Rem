@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/alt-text */
 import {
   Document,
   Font,
@@ -232,6 +233,15 @@ const HeatPumpDocument = ({
           src={`${process.env.NEXT_PUBLIC_BASE_URL}/static/pdf/signatureIdeaRem.png`}
         /> */}
       </View>
+      <Image
+        style={{
+          width: "100%",
+          height: "100%",
+          position: "absolute",
+          zIndex: -500,
+        }}
+        src={`${process.env.NEXT_PUBLIC_BASE_URL}/static/pdf/background.png`}
+      />
     </Page>
     <Page size="A4" style={styles.page}>
       <View style={styles.pricingSection}>
@@ -344,6 +354,15 @@ const HeatPumpDocument = ({
           src={`${process.env.NEXT_PUBLIC_BASE_URL}/static/pdf/signatureIdeaRem.png`}
         /> */}
       </View>
+      <Image
+        style={{
+          width: "100%",
+          height: "100%",
+          position: "absolute",
+          zIndex: -500,
+        }}
+        src={`${process.env.NEXT_PUBLIC_BASE_URL}/static/pdf/background.png`}
+      />
     </Page>
     <Page size="A4" style={styles.page}>
       <View style={styles.pricingSection}>
@@ -457,6 +476,15 @@ const HeatPumpDocument = ({
           src={`${process.env.NEXT_PUBLIC_BASE_URL}/static/pdf/signatureIdeaRem.png`}
         /> */}
       </View>
+      <Image
+        style={{
+          width: "100%",
+          height: "100%",
+          position: "absolute",
+          zIndex: -500,
+        }}
+        src={`${process.env.NEXT_PUBLIC_BASE_URL}/static/pdf/background.png`}
+      />
     </Page>
   </Document>
 );
