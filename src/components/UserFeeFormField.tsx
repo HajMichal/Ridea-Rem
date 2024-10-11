@@ -74,7 +74,7 @@ export const UserFeeFormField = ({
   const [changeDataModal, setChangeDataModal] = useState(false);
 
   const { mutate: setImposedFeeAmount } =
-    api.userDataHandling.imposeTheFee.useMutation({
+    api.userDataHandling.imposeFee.useMutation({
       onSuccess: () => window.location.reload(),
     });
 

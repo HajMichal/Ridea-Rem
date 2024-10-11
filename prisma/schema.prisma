@@ -21,6 +21,7 @@ model User {
   password               String
   image                  String?
   creatorId              String?
+  city                   String    @default("")
   feePerkwForCompany     Int       @default(0)
   feePerkwHeatPump       Int       @default(0)
   feePerkwPhotovoltaic   Int       @default(0)

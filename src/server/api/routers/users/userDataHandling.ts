@@ -1,4 +1,8 @@
-import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
+import {
+  createTRPCRouter,
+  protectedProcedure,
+  publicProcedure,
+} from "~/server/api/trpc";
 import bcrypt from "bcrypt";
 import { z } from "zod";
 
@@ -46,36 +50,46 @@ export const loginRouter = createTRPCRouter({
         userRole: userData.role,
       };
     }),
-  getUsers: publicProcedure
+  getUsers: protectedProcedure
     .input(
       z.object({
-        role: z.number().optional(),
-        userId: z.string().optional(),
+        userId: z.string(),
       })
     )
     .query(async ({ ctx, input }) => {
-      const getWorkers = await ctx.prisma.user.findMany({
-        where: { creatorId: input.userId, role: 3 },
-        orderBy: {
-          name: "asc",
-        },
-      });
-      if (input.role === 1) {
-        const getMenagerWithWorkers = await ctx.prisma.user.findMany({
-          where: { role: 2 },
-          include: {
-            workers: true,
+      return await ctx.prisma.user.findMany({
+        where: { creatorId: input.userId },
+        orderBy: [
+          {
+            role: "asc",
           },
-          orderBy: {
+          {
             name: "asc",
           },
-        });
+        ],
+        select: {
+          role: true,
+          name: true,
+          id: true,
+          city: true,
+          feePerkwForCompany: true,
+          feePerkwHeatHome: true,
+          feePerkwHeatPump: true,
+          feePerkwPhotovoltaic: true,
+          feePerkwTurbines: true,
+          imposedFeeAirCondition: true,
+          imposedFeeForCompany: true,
+          imposedFeeHeatHome: true,
+          imposedFeeHeatPump: true,
+          imposedFeePhotovoltaic: true,
+          imposedFeeTurbines: true,
 
-        return { getMenagerWithWorkers, getWorkers };
-      }
-      return { getWorkers };
+          workers: true,
+        },
+      });
     }),
-  imposeTheFee: publicProcedure
+
+  imposeFee: publicProcedure
     .input(
       z.object({
         userId: z.string(),
