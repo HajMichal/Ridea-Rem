@@ -97,7 +97,7 @@ export const EditionForm = ({ data, menagers }: EditionFormType) => {
                           })
                         }
                         autoFocus
-                        className="col-start-7 col-end-8 h-[34.8px] grid-cols-[repeat(6,_1fr)_minmax(96px,_96px)] border border-dark p-2 px-2 focus:outline-brand"
+                        className="col-start-7 col-end-8 h-[34.8px] border border-dark p-2 px-2 focus:outline-brand"
                       />
                       <div className="col-start-8 col-end-9 flex w-full gap-2">
                         <button onClick={saveChanges} className="mr-2">
@@ -141,7 +141,7 @@ export const EditionForm = ({ data, menagers }: EditionFormType) => {
 
   return (
     <>
-      <h1 className="w-full pt-14 text-center">{data.userName}</h1>
+      <h1 className="mb-10 w-full pt-14 text-center">{data.userName}</h1>
       <div className="flex w-full justify-center">{displayData(data)}</div>
       <div className="fixed bottom-10 right-56 flex flex-col gap-4">
         <AddElement />

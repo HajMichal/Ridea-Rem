@@ -49,7 +49,7 @@ export const EditionForm = ({ data, menagers }: EditionForm) => {
       });
     };
     return (
-      <div className="pb-16">
+      <div className="flex w-full flex-col items-center pb-8">
         {Object.entries(calcData).map(
           ([key, value]: [key: string, value: number | object]) => {
             if (
@@ -70,7 +70,7 @@ export const EditionForm = ({ data, menagers }: EditionForm) => {
 
             if (typeof value !== "number" && typeof value !== "string") {
               return (
-                <div key={key}>
+                <div key={key} className="flex w-full flex-col items-center">
                   <h1
                     className={`text-center font-orkneyBold ${
                       path.length === 1 && "text-2xl"
@@ -83,10 +83,15 @@ export const EditionForm = ({ data, menagers }: EditionForm) => {
               );
             } else {
               return (
-                <div key={key} className="m-1 -ml-24 flex items-center gap-2">
-                  <p className="-mb-2 w-64 text-right text-xl">
-                    {dataNamesMappings[key] ?? key.toUpperCase()}:
-                  </p>
+                <div
+                  key={key}
+                  className="m-1 grid w-full grid-cols-12 items-center gap-2 xl:w-3/4"
+                >
+                  <div className="col-start-3 col-end-7 flex h-full items-center justify-end">
+                    <p className="text-md mt-1 text-right">
+                      {dataNamesMappings[key] ?? key.toUpperCase()}:
+                    </p>
+                  </div>
                   {isEditing ? (
                     <>
                       <input
@@ -98,20 +103,22 @@ export const EditionForm = ({ data, menagers }: EditionForm) => {
                           })
                         }
                         autoFocus
-                        className="h-[34.8px] w-24 border border-dark p-2 px-2 focus:outline-brand"
+                        className="col-start-7 col-end-8 h-[34.8px] border border-dark p-2 px-2 focus:outline-brand"
                       />
-                      <button onClick={saveChanges} className="mr-2">
-                        <BsDatabaseFillCheck size={"25px"} color="green" />
-                      </button>
-                      <button
-                        onClick={() => {
-                          setEditingKey(null);
-                          setPathKey(null);
-                          setDataToChange({});
-                        }}
-                      >
-                        <GiCancel size={"25px"} color="red" />
-                      </button>
+                      <div className="col-start-8 col-end-9 flex w-full gap-2">
+                        <button onClick={saveChanges} className="mr-2">
+                          <BsDatabaseFillCheck size={"25px"} color="green" />
+                        </button>
+                        <button
+                          onClick={() => {
+                            setEditingKey(null);
+                            setPathKey(null);
+                            setDataToChange({});
+                          }}
+                        >
+                          <GiCancel size={"25px"} color="red" />
+                        </button>
+                      </div>
                     </>
                   ) : (
                     <p
@@ -119,7 +126,7 @@ export const EditionForm = ({ data, menagers }: EditionForm) => {
                         setEditingKey(key);
                         setPathKey(path.at(-1) ?? null);
                       }}
-                      className="w-24 border border-dark bg-white p-1 px-2 font-sans"
+                      className="border border-dark bg-white p-1 px-2 font-sans"
                     >
                       {value}
                     </p>
@@ -135,7 +142,7 @@ export const EditionForm = ({ data, menagers }: EditionForm) => {
 
   return (
     <>
-      <h1 className="w-full pt-14 text-center">{data.userName}</h1>
+      <h1 className="mb-10 w-full pt-14 text-center">{data.userName}</h1>
       <div className="flex w-full justify-center">{displayData(data)}</div>
     </>
   );

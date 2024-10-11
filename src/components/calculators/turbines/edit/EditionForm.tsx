@@ -39,7 +39,11 @@ const EditionForm = ({ data, menagers }: Props) => {
     };
 
     return (
-      <div className={`${path.length === 2 ? "pb-5" : "pb-10"}`}>
+      <div
+        className={`flex w-full flex-col items-center ${
+          path.length === 2 ? "pb-5" : "pb-10"
+        }`}
+      >
         {Object.entries(calcData).map(
           ([key, value]: [key: string, value: number | object]) => {
             if (key === "id" || key === "userId" || key === "userName")
@@ -50,7 +54,7 @@ const EditionForm = ({ data, menagers }: Props) => {
 
             if (typeof value !== "number" && typeof value !== "string") {
               return (
-                <div key={key}>
+                <div key={key} className="flex w-full flex-col items-center">
                   <h1
                     className={`text-center font-orkneyBold ${
                       path.length === 1 && "text-xl"
@@ -63,12 +67,17 @@ const EditionForm = ({ data, menagers }: Props) => {
               );
             } else {
               return (
-                <div key={key} className="m-1 -ml-28 flex items-center gap-2">
-                  <p className="w-64 self-center text-right text-xl">
-                    {dataNamesMappings[key] ?? key.toUpperCase()}:
-                  </p>
+                <div
+                  key={key}
+                  className="m-1 grid w-full grid-cols-12 items-center gap-2 xl:w-3/4"
+                >
+                  <div className="col-start-3 col-end-7 flex h-full items-center justify-end">
+                    <p className="text-md mt-1 text-right">
+                      {dataNamesMappings[key] ?? key.toUpperCase()}:
+                    </p>
+                  </div>
                   {isEditing ? (
-                    <article className="flex items-center gap-1">
+                    <>
                       <input
                         type="text"
                         placeholder={value.toString()}
@@ -78,28 +87,30 @@ const EditionForm = ({ data, menagers }: Props) => {
                           })
                         }
                         autoFocus
-                        className="h-[34.8px] w-24 border border-dark p-2 px-2 focus:outline-brand"
+                        className="col-start-7 col-end-8 h-[34.8px] border border-dark p-2 px-2 focus:outline-brand"
                       />
-                      <button onClick={saveChanges} className="mr-2">
-                        <BsDatabaseFillCheck size={"25px"} color="green" />
-                      </button>
-                      <button
-                        onClick={() => {
-                          setEditingKey(null);
-                          setPathKey(null);
-                          setDataToChange({});
-                        }}
-                      >
-                        <GiCancel size={"25px"} color="red" />
-                      </button>
-                    </article>
+                      <div className="col-start-8 col-end-9 flex w-full gap-2">
+                        <button onClick={saveChanges} className="mr-2">
+                          <BsDatabaseFillCheck size={"25px"} color="green" />
+                        </button>
+                        <button
+                          onClick={() => {
+                            setEditingKey(null);
+                            setPathKey(null);
+                            setDataToChange({});
+                          }}
+                        >
+                          <GiCancel size={"25px"} color="red" />
+                        </button>
+                      </div>
+                    </>
                   ) : (
                     <p
                       onClick={() => {
                         setEditingKey(key);
                         setPathKey(path[0] ?? null);
                       }}
-                      className="flex w-24 items-center border border-dark bg-white p-1 px-2 font-sans"
+                      className="border border-dark bg-white p-1 px-2 font-sans"
                     >
                       {value}
                     </p>
@@ -115,7 +126,7 @@ const EditionForm = ({ data, menagers }: Props) => {
 
   return (
     <>
-      <h1 className="w-full pt-14 text-center">{data.userName}</h1>
+      <h1 className="mb-10 w-full pt-14 text-center">{data.userName}</h1>
       <div className="flex w-full justify-center">{displayData(data)}</div>
     </>
   );
