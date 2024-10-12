@@ -84,7 +84,7 @@ export const loginRouter = createTRPCRouter({
           imposedFeePhotovoltaic: true,
           imposedFeeTurbines: true,
 
-          workers: true,
+          // workers: true,
         },
       });
     }),

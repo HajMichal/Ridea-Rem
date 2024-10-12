@@ -1,5 +1,3 @@
-import { type User } from "@prisma/client";
-
 export type FeesNames =
   | "imposedFeePhotovoltaic"
   | "feePerkwPhotovoltaic"
@@ -29,7 +27,7 @@ export interface UserProvisionType {
   imposedFeeHeatPump: number;
   imposedFeePhotovoltaic: number;
   imposedFeeTurbines: number;
-  workers: User[];
+  // workers?: UserProvisionType[];
 }
 
 export interface DataToProvisionEdit {

@@ -35,7 +35,7 @@ export const CardBody = ({ user }: CardBodyType) => {
     btnRef.current.onclick = () =>
       editProvision({ ...editData, userId: user.id });
   return (
-    // HERE two layers of <div />'s are necessary because above is <Collapse />
+    // THIS two layers of <div />'s are necessary because above is <Collapse />
     // component from mantine and it's complicated to edit built in styles
     <div className="flex w-full justify-center">
       <div className="flex w-[90%] justify-between rounded-3xl bg-[#d6d6d6] p-6">

@@ -1,7 +1,7 @@
 import { Collapse } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { MENAGER, SALESMAN, PARTNER, OWNER } from "~/constans/roles";
-import { CardBody, CardHeader } from ".";
+import { CardBody, CardHeader, UserEmployees } from ".";
 import type { UserProvisionType } from "./types";
 
 interface UserCard {
@@ -20,6 +20,7 @@ export const UserCard = ({ user }: UserCard) => {
         transitionTimingFunction="linear"
       >
         <CardBody user={user} />
+        <UserEmployees user={user} />
       </Collapse>
     </>
   );

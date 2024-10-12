@@ -39,6 +39,7 @@
     "aws-sdk": "^2.1424.0",
     "axios": "^1.6.2",
     "bcrypt": "^5.1.0",
+    "embla-carousel-react": "^7.1.0",
     "file-saver": "^2.0.5",
     "next": "^13.4.2",
     "next-auth": "^4.22.1",
