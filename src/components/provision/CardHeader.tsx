@@ -1,23 +1,24 @@
-import { type MenagerType, roleNameMapping } from "./UserCard";
+import type { UserProvisionType } from "./types";
+import { roleNameMapping } from "./UserCard";
 import { RiArrowLeftSLine } from "react-icons/ri";
 
 interface CardHeaderType {
-  menager: MenagerType;
+  user: UserProvisionType;
   opened: boolean;
   toggle: () => void;
 }
-export const CardHeader = ({ menager, opened, toggle }: CardHeaderType) => {
+export const CardHeader = ({ user, opened, toggle }: CardHeaderType) => {
   return (
     <div
-      className="my-2 flex w-full justify-between rounded-full bg-[#d6d6d6] p-2 px-6 xl:px-10"
+      className="my-2 flex w-full justify-between rounded-full bg-[#d6d6d6] p-2 px-6 hover:cursor-pointer xl:px-10"
       onClick={toggle}
     >
       <h2 className="font-orkneyBold xl:text-xl">
-        {roleNameMapping[menager.role]}
+        {roleNameMapping[user.role]}
       </h2>
-      <h3 className="xl:text-xl">{menager.name}</h3>
+      <h3 className="xl:text-xl">{user.name}</h3>
       <div className="flex gap-5 xl:gap-10">
-        <h4 className="xl:text-xl">{menager.city || "NIE PODANO"}</h4>
+        <h4 className="xl:text-xl">{user.city || "NIE PODANO"}</h4>
         <button>
           <RiArrowLeftSLine
             size={"28px"}

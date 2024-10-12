@@ -18,17 +18,17 @@ const Prowizje = () => {
     }
   }, [sessionData, router]);
 
-  if (!sessionData?.user.id) {
-    return <Loading />;
-  }
-
   return (
     <div className="flex h-full max-h-screen min-h-screen justify-center overflow-hidden bg-backgroundGray font-orkney">
       <SideBar />
       <div className="flex h-screen max-h-screen w-full flex-wrap">
         <Navbar />
         <div className="flex h-full max-h-[88%] w-full flex-wrap justify-center overflow-y-scroll">
-          <UsersSection userId={sessionData.user.id} />
+          {status === "loading" ? (
+            <Loading />
+          ) : (
+            <UsersSection userId={sessionData?.user.id} />
+          )}
         </div>
       </div>
     </div>
