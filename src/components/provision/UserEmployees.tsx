@@ -1,8 +1,12 @@
 import { api } from "~/utils/api";
-import type { UserProvisionType } from "./types";
+import type { FeesNames, UserProvisionType } from "./types";
 import { useRef } from "react";
 import useEmblaCarousel from "embla-carousel-react";
-
+import { SlArrowLeft, SlArrowRight } from "react-icons/sl";
+import { roleNameMapping } from "./UserCard";
+import { ProvisionTableRow } from "./ProvisionTableRow";
+import { avivableProvision } from "./CardBody";
+import { Loading } from "../Loading";
 interface UserEmployeesType {
   user: UserProvisionType;
 }
@@ -17,23 +21,56 @@ export const UserEmployees = ({ user }: UserEmployeesType) => {
     }
   );
 
-  const [emblaRef] = useEmblaCarousel({ draggable: true });
+  const [emblaRef, emblaApi] = useEmblaCarousel({ draggable: true });
 
   return (
-    <div ref={ref} className="mt-2 flex w-full items-center justify-center">
-      <div className="flex w-[90%] justify-between">
-        {/* <div className="flex h-64 w-[30%] rounded-3xl bg-[#d6d6d6] p-6"></div>
-        <div className="flex h-64 w-[30%] rounded-3xl bg-[#d6d6d6] p-6"></div>
-        <div className="flex h-64 w-[30%] rounded-3xl bg-[#d6d6d6] p-6"></div> */}
-
-        <div className="w-full overflow-hidden" ref={emblaRef}>
-          <div className="flex w-full">
-            <div className="min-w-0 flex-[0_0_33%]">Slide 1</div>
-            <div className="min-w-0 flex-[0_0_33%]">Slide 2</div>
-            <div className="min-w-0 flex-[0_0_33%]">Slide 3</div>
+    <div
+      ref={ref}
+      className="mb-10 mt-2 flex w-full items-center justify-between"
+    >
+      <>
+        {data && data.length > 2 && (
+          <button onClick={() => emblaApi?.scrollPrev()}>
+            <SlArrowLeft size={"40px"} className="text-dark" />
+          </button>
+        )}
+        <div className="w-[90%] flex justify-between">
+          <div className="w-full overflow-hidden" ref={emblaRef}>
+            <div className="flex w-full gap-10">
+              {data?.map((user, index) => {
+                return (
+                  <div
+                    key={index}
+                    className="flex-[0_0_33%] bg-[#d6d6d6] flex min-w-0 flex-col items-center justify-center rounded-2xl py-5"
+                  >
+                    <h3 className="font-orkneyBold">
+                      {roleNameMapping[user.role]}
+                    </h3>
+                    <h2 className="text-2xl">{user.name}</h2>
+                    <div>
+                      {Object.keys(avivableProvision).map((provision) => {
+                        return (
+                          <div key={provision} className="flex gap-2">
+                            <h3>{avivableProvision[provision]}:</h3>
+                            <h3 className="font-semibold">
+                              {user[provision as FeesNames]}
+                            </h3>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </div>
-      </div>
+        {data && data.length > 2 && (
+          <button onClick={() => emblaApi?.scrollNext()}>
+            <SlArrowRight size={"40px"} className="text-dark" />
+          </button>
+        )}
+      </>
     </div>
   );
 };
