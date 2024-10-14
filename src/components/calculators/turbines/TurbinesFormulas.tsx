@@ -33,7 +33,7 @@ export function TurbinesFormulas() {
           <Turbines />
           <Phases />
           <Inverters />
-          <MastFoundation />
+          {/* <MastFoundation /> */}
           <MastType />
           <h2 className="mt-8 font-orkneyBold">MAGAZYN ENERGII</h2>
           <ChooseEnergyStore />
