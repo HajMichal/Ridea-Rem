@@ -1,17 +1,19 @@
-import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
+import {
+  createTRPCRouter,
+  protectedProcedure,
+  publicProcedure,
+} from "~/server/api/trpc";
 import bcrypt from "bcrypt";
 import { z } from "zod";
 
 export const loginRouter = createTRPCRouter({
-  getAllUsers: publicProcedure.query(async ({ ctx }) => {
-    return await ctx.prisma.user.findMany();
-  }),
-  createAccount: publicProcedure
+  createAccount: protectedProcedure
     .input(
       z.object({
         name: z.string(),
         login: z.string(),
         password: z.string(),
+        city: z.string(),
         parentId: z.string(),
         role: z.number().optional(),
       })
@@ -34,6 +36,7 @@ export const loginRouter = createTRPCRouter({
           login: input.login,
           password: hash,
           role: input.role,
+          city: input.city,
           creator: {
             connect: { id: input.parentId },
           },
@@ -46,145 +49,72 @@ export const loginRouter = createTRPCRouter({
         userRole: userData.role,
       };
     }),
-  getUsers: publicProcedure
+  getUsers: protectedProcedure
     .input(
       z.object({
-        role: z.number().optional(),
-        userId: z.string().optional(),
+        userId: z.string(),
       })
     )
     .query(async ({ ctx, input }) => {
-      const getWorkers = await ctx.prisma.user.findMany({
-        where: { creatorId: input.userId, role: 3 },
-        orderBy: {
-          name: "asc",
-        },
-      });
-      if (input.role === 1) {
-        const getMenagerWithWorkers = await ctx.prisma.user.findMany({
-          where: { role: 2 },
-          include: {
-            workers: true,
+      return await ctx.prisma.user.findMany({
+        where: { creatorId: input.userId },
+        orderBy: [
+          {
+            role: "asc",
           },
-          orderBy: {
+          {
             name: "asc",
           },
-        });
+        ],
+        select: {
+          role: true,
+          name: true,
+          id: true,
+          city: true,
+          feePerkwForCompany: true,
+          feePerkwHeatHome: true,
+          feePerkwHeatPump: true,
+          feePerkwPhotovoltaic: true,
+          feePerkwTurbines: true,
+          imposedFeeAirCondition: true,
+          imposedFeeForCompany: true,
+          imposedFeeHeatHome: true,
+          imposedFeeHeatPump: true,
+          imposedFeePhotovoltaic: true,
+          imposedFeeTurbines: true,
 
-        return { getMenagerWithWorkers, getWorkers };
-      }
-      return { getWorkers };
+          // workers: true,
+        },
+      });
     }),
-  imposeTheFee: publicProcedure
+  editProvision: protectedProcedure
     .input(
       z.object({
+        provisionName: z.string(),
+        provisionAmount: z.number(),
         userId: z.string(),
-        feeAmount: z.number(),
-        whichCalcualtor: z.string(),
       })
     )
     .mutation(async ({ ctx, input }) => {
-      if (input.whichCalcualtor === "Photovoltaic") {
+      try {
         await ctx.prisma.user.update({
-          where: { id: input.userId },
+          where: {
+            id: input.userId,
+          },
           data: {
-            imposedFeePhotovoltaic: input.feeAmount,
+            [input.provisionName]: input.provisionAmount,
           },
         });
-        return { status: 200, message: "Prowizja została nałożona na konto" };
-      } else if (input.whichCalcualtor === "ForCompany") {
-        await ctx.prisma.user.update({
-          where: { id: input.userId },
-          data: {
-            imposedFeeForCompany: input.feeAmount,
-          },
-        });
-        return { status: 200, message: "Prowizja została nałożona na konto" };
-      } else if (input.whichCalcualtor === "HeatPump") {
-        await ctx.prisma.user.update({
-          where: { id: input.userId },
-          data: {
-            imposedFeeHeatPump: input.feeAmount,
-          },
-        });
-        return { status: 200, message: "Prowizja została nałożona na konto" };
-      } else if (input.whichCalcualtor === "HeatHome") {
-        await ctx.prisma.user.update({
-          where: { id: input.userId },
-          data: {
-            imposedFeeHeatHome: input.feeAmount,
-          },
-        });
-        return { status: 200, message: "Prowizja została nałożona na konto" };
-      } else if (input.whichCalcualtor === "AirCondition") {
-        await ctx.prisma.user.update({
-          where: { id: input.userId },
-          data: {
-            imposedFeeAirCondition: input.feeAmount,
-          },
-        });
-        return { status: 200, message: "Prowizja została nałożona na konto" };
-      } else if (input.whichCalcualtor === "Turbines") {
-        await ctx.prisma.user.update({
-          where: { id: input.userId },
-          data: {
-            imposedFeeTurbines: input.feeAmount,
-          },
-        });
-        return { status: 200, message: "Prowizja została nałożona na konto" };
+        return { message: "PROWIZJA ZOSTAŁA NAŁOŻONA NA KONTO" };
+      } catch (error) {
+        console.log(error);
+        return {
+          message: "PROWIZJA NIE ZOSTAŁA NAŁOŻONA NA KONTO",
+          error: error,
+        };
       }
     }),
-  feePerKwChange: publicProcedure
-    .input(
-      z.object({
-        userId: z.string(),
-        feeAmount: z.number(),
-        whichCalcualtor: z.string(),
-      })
-    )
-    .mutation(async ({ ctx, input }) => {
-      if (input.whichCalcualtor === "Photovoltaic") {
-        await ctx.prisma.user.update({
-          where: { id: input.userId },
-          data: {
-            feePerkwPhotovoltaic: input.feeAmount,
-          },
-        });
-        return { status: 200, message: "Prowizja została nałożona na konto" };
-      } else if (input.whichCalcualtor === "ForCompany") {
-        await ctx.prisma.user.update({
-          where: { id: input.userId },
-          data: {
-            feePerkwForCompany: input.feeAmount,
-          },
-        });
-        return { status: 200, message: "Prowizja została nałożona na konto" };
-      } else if (input.whichCalcualtor === "HeatPump") {
-        await ctx.prisma.user.update({
-          where: { id: input.userId },
-          data: {
-            feePerkwHeatPump: input.feeAmount,
-          },
-        });
-        return { status: 200, message: "Prowizja została nałożona na konto" };
-      } else if (input.whichCalcualtor === "HeatHome") {
-        await ctx.prisma.user.update({
-          where: { id: input.userId },
-          data: {
-            feePerkwHeatHome: input.feeAmount,
-          },
-        });
-        return { status: 200, message: "Prowizja została nałożona na konto" };
-      } else if (input.whichCalcualtor === "Turbines") {
-        await ctx.prisma.user.update({
-          where: { id: input.userId },
-          data: {
-            feePerkwTurbines: input.feeAmount,
-          },
-        });
-        return { status: 200, message: "Prowizja została nałożona na konto" };
-      }
-    }),
+
   removeUser: publicProcedure
     .input(z.string())
     .mutation(async ({ ctx, input }) => {

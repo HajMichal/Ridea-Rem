@@ -23,7 +23,7 @@ export const EditionForm = ({ data, menagers }: EditionForm) => {
   const [editingKey, setEditingKey] = useState<string | null>(null);
   const [pathKey, setPathKey] = useState<string | null>(null);
 
-  const utils = api.useContext();
+  const utils = api.useUtils();
 
   const { mutate } = api.pvMenagerRouter.edit.useMutation({
     onSuccess: () => {

@@ -25,7 +25,7 @@ const SideBarButton = ({ href, href2, title }: LinkComponentType) => {
   );
 };
 
-const SideBar = memo(function SideBar() {
+export const SideBar = memo(function SideBar() {
   return (
     <div className="flex h-full max-h-screen min-h-screen w-auto flex-col justify-between gap-3 bg-[#191918] font-orkney">
       <Link className="mt-[30px] flex w-full justify-center" href={"/home"}>
@@ -87,5 +87,3 @@ const SideBar = memo(function SideBar() {
     </div>
   );
 });
-
-export default SideBar;

@@ -9,6 +9,7 @@ interface FormTypes {
   name: string;
   login: string;
   password: string;
+  city: string;
   role: number;
 }
 
@@ -69,6 +70,7 @@ export default function CreateAccountForm({
       login: "",
       name: "",
       password: "",
+      city: "",
       role: 3,
     },
   });
@@ -80,6 +82,7 @@ export default function CreateAccountForm({
         name: data.name,
         password: data.password,
         role: Number(data.role),
+        city: data.city,
         parentId: sessionData.user.id,
       });
     }
@@ -114,10 +117,22 @@ export default function CreateAccountForm({
             },
           }}
         />
+        <TextInput
+          {...register("city")}
+          autoComplete={"off"}
+          placeholder="Wpisz tutaj..."
+          className="p-1"
+          label="Miasto / Rejon"
+          maw={620}
+          styles={{
+            label: {
+              font: "inherit",
+            },
+          }}
+        />
         <PasswordInput
           {...register("password", { required: true })}
           autoComplete={"off"}
-          type="password"
           placeholder="Wpisz tutaj..."
           className="p-1"
           label="Hasło"

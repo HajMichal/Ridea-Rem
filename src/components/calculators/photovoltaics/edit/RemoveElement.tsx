@@ -9,12 +9,12 @@ interface RemoveElementProps {
 }
 export const RemoveElement = ({ element, name }: RemoveElementProps) => {
   const [opened, { open, close }] = useDisclosure(false);
-  const ctx = api.useContext();
+  const utils = api.useUtils();
 
   const { mutate: removeElement } =
     api.pvMenagerRouter.removeElement.useMutation({
       onSuccess: async () => {
-        await ctx.pvMenagerRouter.getAll.invalidate();
+        await utils.pvMenagerRouter.getAll.invalidate();
       },
     });
   const handleRemoveElement = () => {

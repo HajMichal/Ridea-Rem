@@ -16,7 +16,7 @@ export const EachFileCard = ({
   fileName,
   userRole,
 }: EachFileCardType): React.ReactNode => {
-  const ctx = api.useContext();
+  const utils = api.useUtils();
   const router = useRouter();
 
   const outsideClickRef = useClickOutside(() =>
@@ -40,7 +40,7 @@ export const EachFileCard = ({
   const { mutate: removeFile } =
     api.deleteDocumentRouter.deleteFile.useMutation({
       onSuccess: async () => {
-        await ctx.getAllDocumentRouter.getAllFiles.invalidate();
+        await utils.getAllDocumentRouter.getAllFiles.invalidate();
         toast.success("Plik został usunięty");
         setContextMenu({
           ...contextMenu,

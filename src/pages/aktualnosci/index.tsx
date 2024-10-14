@@ -4,9 +4,8 @@ import { useSession } from "next-auth/react";
 import { api } from "~/utils/api";
 import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
+import { Navbar, SideBar } from "~/components";
 
-const SideBar = dynamic(() => import("~/components/SideBar"));
-const Navbar = dynamic(() => import("~/components/navbar/Navbar"));
 const CreateNewPost = dynamic(
   () => import("~/components/newsPageComponent/CreateNewPost")
 );

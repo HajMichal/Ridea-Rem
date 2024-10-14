@@ -4,10 +4,9 @@ import { useSession } from "next-auth/react";
 import { Toaster } from "react-hot-toast";
 import { useRouter } from "next/router";
 import { api } from "~/utils/api";
-import { Navbar } from "~/components";
+import { Navbar, SideBar } from "~/components";
 import dynamic from "next/dynamic";
 
-const SideBar = dynamic(() => import("~/components/SideBar"));
 const EditionForm = dynamic(
   () => import("~/components/calculators/heatHome/edit/EditingForm")
 );

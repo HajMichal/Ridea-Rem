@@ -3,9 +3,8 @@ import { useRouter } from "next/router";
 import React, { useEffect } from "react";
 import dynamic from "next/dynamic";
 import FileSection from "~/components/documents/FileSection";
+import { Navbar, SideBar } from "~/components";
 
-const SideBar = dynamic(() => import("~/components/SideBar"));
-const Navbar = dynamic(() => import("~/components/navbar/Navbar"));
 const FileUploader = dynamic(
   () => import("~/components/documents/FileUploader")
 );

@@ -41,7 +41,7 @@ export const NewsCard = ({
   role = 3,
 }: NewsCardTypes) => {
   const [opened, { open, close }] = useDisclosure(false);
-  const utils = api.useContext();
+  const utils = api.useUtils();
 
   const { mutate: removePost } = api.newsDataRouter.deletePost.useMutation({
     onSuccess: () => void utils.newsDataRouter.getLastPosts.invalidate(),

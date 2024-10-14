@@ -13,13 +13,13 @@ interface AddElementType {
 
 export const AddElement = () => {
   const [element, setElement] = useState("boilers");
-  const ctx = api.useContext();
+  const utils = api.useUtils();
   const [opened, { open, close }] = useDisclosure(false);
   const { register, handleSubmit, reset } = useForm<AddElementType>();
 
   const { mutate } = api.heatPumpDataFlowRouter.addNewElement.useMutation({
     onSuccess: async () => {
-      await ctx.pvMenagerRouter.getAll.invalidate();
+      await utils.pvMenagerRouter.getAll.invalidate();
       toast.success("Element został dodany");
     },
     onError: () => {
