@@ -15,6 +15,7 @@ import { DropdownMenu } from "../DropdownMenu";
 import { useAirCondition } from "~/hooks/useAirCondition";
 import { useTurbines } from "~/hooks/useTurbines";
 import { InputComponent } from "../InputComponent";
+import { Switch } from "@mantine/core";
 
 const consultantProvisionsData = [
   "0",
@@ -62,12 +63,7 @@ export const Navbar = memo(function Navbar() {
   const userRole = sessionData?.user.role;
 
   const dropDownComponents = [
-    <LinkComponent
-      key={1}
-      href="/aktualnosci"
-      title="AKTUALNOŚCI"
-      notification
-    />,
+    <LinkComponent key={1} href="/aktualnosci" title="AKTUALNOŚCI" />,
     <LinkComponent key={2} href="/pliki" title="PLIKI" />,
     <LinkComponent
       key={3}
@@ -119,7 +115,16 @@ export const Navbar = memo(function Navbar() {
           <DropdownMenu mainButtonTitle="EDYCJA" contextData={CALCULATORS} />
         )}
         <div className="flex min-w-[350px] items-center gap-10">
-          <div>
+          <div className="flex flex-col items-center justify-center">
+            <Switch
+              size="lg"
+              onLabel="UoZ"
+              offLabel="B2B"
+              className="font-orkneyBold"
+              checked={store.hasContract}
+              onChange={(e) => store.setHasContract(e.currentTarget.checked)}
+            />
+
             {router.pathname === "/kalkulator/fotowoltaika" && (
               <InputComponent
                 title="POZIOM"

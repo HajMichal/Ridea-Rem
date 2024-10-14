@@ -17,6 +17,7 @@ export interface AirConditionCalculationStore {
   officeProvision: {
     officeProvision: number;
     bossProvision: number;
+    consultantMarkup: number;
   };
   installationPricing: {
     netInstallationPrice: number;
@@ -53,6 +54,7 @@ export const airConditionCalculationSlice: StateCreator<
     officeProvision: {
       officeProvision: 0,
       bossProvision: 0,
+      consultantMarkup: 0,
     },
     installationPricing: {
       netInstallationPrice: 0,

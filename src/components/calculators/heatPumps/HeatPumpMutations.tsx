@@ -3,6 +3,7 @@ import { type Session } from "next-auth";
 import { type HeatPumpCalcType } from "~/server/api/routers/heatpump/interfaces";
 import { useHeatPump } from "~/hooks/useHeatPump";
 import { api } from "~/utils/api";
+import useStore from "~/store";
 
 interface HeatPumpMutationType {
   data?: HeatPumpCalcType;
@@ -14,6 +15,7 @@ export const HeatPumpMutations = ({
   sessionData,
 }: HeatPumpMutationType) => {
   const { heatPumpStore, heatPumpCalcStore, mutations } = useHeatPump();
+  const store = useStore();
   const { data: generalData } =
     api.pvMenagerRouter.getCreditPercentage.useQuery();
 
@@ -145,11 +147,13 @@ export const HeatPumpMutations = ({
         officeFee: sessionData.user.feePerkwHeatPump,
         constantFee: sessionData.user.imposedFeeHeatPump,
         consultantFee: heatPumpStore.consultantMarkup,
+        hasUserContract: store.hasContract,
         creatorId:
           sessionData.user.role === 3 ? sessionData.user.creatorId : "",
       });
     }
   }, [
+    store.hasContract,
     heatPumpStore.consultantMarkup,
     sessionData?.user,
     heatPumpStore.suggestedPump,

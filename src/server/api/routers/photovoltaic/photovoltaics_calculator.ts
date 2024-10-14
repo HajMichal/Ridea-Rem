@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { createTRPCRouter, protectedProcedure } from "../../trpc";
 import calc from "../../../../calc/photovoltaics";
+import { tax32 } from "~/constans/taxPercentage";
 
 export const photovoltaics_calculator = createTRPCRouter({
   price_trend: protectedProcedure.input(z.number()).mutation(calc.priceTrend),
@@ -176,14 +177,18 @@ export const photovoltaics_calculator = createTRPCRouter({
         system_power: z.number(),
         consultantFee: z.number(),
         constantFee: z.number(),
+        hasUserContract: z.boolean(),
         creatorId: z.string().optional(),
       })
     )
     .mutation(async ({ input, ctx }) => {
+      const consultantMarkup = input.hasUserContract
+        ? input.consultantFee + input.consultantFee * tax32
+        : input.consultantFee;
       const officeFeeValue =
         Math.round(input.officeFee * input.system_power) + input.constantFee;
       const consultantFeeValue = Math.round(
-        input.consultantFee * input.system_power
+        consultantMarkup * input.system_power
       );
 
       const creator = await ctx.prisma.user.findFirst({
@@ -197,7 +202,7 @@ export const photovoltaics_calculator = createTRPCRouter({
       const markupSumValue = Number(
         (
           input.officeFee * input.system_power +
-          input.consultantFee * input.system_power +
+          consultantMarkup * input.system_power +
           input.constantFee +
           officeFeeForBoss
         ).toFixed(2)

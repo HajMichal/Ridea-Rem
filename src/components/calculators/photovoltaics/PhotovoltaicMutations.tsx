@@ -3,6 +3,7 @@ import { usePhotovoltaic } from "~/hooks/usePhotovoltaic";
 import { type PhotovoltaicDataToCalculation } from "~/server/api/routers/photovoltaic/interfaces";
 import { type Session } from "next-auth";
 import { useDebouncedValue } from "@mantine/hooks";
+import useStore from "~/store";
 
 interface PhotovoltaicMutationsType {
   data?: PhotovoltaicDataToCalculation | null;
@@ -13,6 +14,7 @@ export function PhotovoltaicMutations({
   data,
   sessionData,
 }: PhotovoltaicMutationsType) {
+  const store = useStore();
   const { photovoltaicStore, photovoltaicCalcStore, mutations } =
     usePhotovoltaic();
 
@@ -265,8 +267,8 @@ export function PhotovoltaicMutations({
         officeFee: sessionData.user.feePerkwPhotovoltaic,
         constantFee: sessionData.user.imposedFeePhotovoltaic,
         consultantFee: photovoltaicStore.consultantMarkup,
-        creatorId:
-          sessionData.user.role === 3 ? sessionData.user.creatorId : "",
+        hasUserContract: store.hasContract,
+        creatorId: sessionData.user.creatorId ?? undefined,
       });
   }, [
     photovoltaicCalcStore.system_power,
@@ -274,6 +276,7 @@ export function PhotovoltaicMutations({
     photovoltaicStore.consultantMarkup,
     mutations.set_markup_costs,
     data,
+    store.hasContract,
   ]);
 
   useEffect(() => {

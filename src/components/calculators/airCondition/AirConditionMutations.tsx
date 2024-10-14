@@ -1,6 +1,6 @@
-import { useDebouncedValue } from "@mantine/hooks";
 import { useEffect } from "react";
 import { useAirCondition } from "~/hooks/useAirCondition";
+import useStore from "~/store";
 
 export function AirConditionMutations() {
   const {
@@ -10,6 +10,7 @@ export function AirConditionMutations() {
     airConditionStore,
     airConditionCalcStore,
   } = useAirCondition();
+  const store = useStore();
 
   useEffect(() => {
     if (calcData?.addons)
@@ -28,7 +29,6 @@ export function AirConditionMutations() {
         montagePrice: calcData?.addons.montage,
         syfonPrice: airConditionCalcStore.syfonPrice,
         dashPumpPrice: airConditionCalcStore.dashPump,
-        consultantProvision: airConditionStore.consultantMarkup,
         officeProvision: airConditionCalcStore.officeProvision.officeProvision,
       });
   }, [
@@ -44,18 +44,23 @@ export function AirConditionMutations() {
     airConditionCalcStore.wallPassPrice,
     airConditionCalcStore.syfonPrice,
     airConditionCalcStore.dashPump,
-    airConditionStore.consultantMarkup,
     airConditionCalcStore.officeProvision,
+    airConditionStore.consultantMarkup,
   ]);
-
   useEffect(() => {
-    if (sessionData?.user.creatorId) {
+    if (sessionData?.user) {
       mutations.setOfficeProvision({
         officeFee: sessionData.user.imposedFeeAirCondition,
-        creatorId: sessionData.user.creatorId,
+        creatorId: sessionData.user.creatorId ?? undefined,
+        consultantMarkup: airConditionStore.consultantMarkup,
+        hasUserContract: store.hasContract,
       });
     }
-  }, [sessionData?.user]);
+  }, [
+    sessionData?.user,
+    airConditionStore.consultantMarkup,
+    store.hasContract,
+  ]);
 
   useEffect(() => {
     if (airConditionStore.choosedAirConditioner) {

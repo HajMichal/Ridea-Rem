@@ -1,11 +1,13 @@
 import { useSession } from "next-auth/react";
 import { useEffect } from "react";
 import { useTurbines } from "~/hooks/useTurbines";
+import useStore from "~/store";
 
 export function TurbinesMutations() {
   const { mutations, turbinesStore, turbinesData, turbinesCalcStore } =
     useTurbines();
   const { data: sessionData } = useSession();
+  const store = useStore();
 
   useEffect(() => {
     mutations.setEnergyStoreTotalCost({
@@ -67,10 +69,12 @@ export function TurbinesMutations() {
         perKwfee: sessionData.user.feePerkwTurbines,
         systemPower: turbinesStore.turbinesDetails.roundedTotalPower,
         consultantFee: turbinesStore.consultantMarkup,
+        hasUserContract: store.hasContract,
       });
   }, [
     sessionData?.user,
     turbinesStore.turbinesDetails.roundedTotalPower,
     turbinesStore.consultantMarkup,
+    store.hasContract,
   ]);
 }

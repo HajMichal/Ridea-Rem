@@ -6,6 +6,7 @@ import {
   addonsSum,
   installationPrice,
 } from "../../../../calc/airCondition";
+import { tax32 } from "~/constans/taxPercentage";
 
 export const airConditionCalculator = createTRPCRouter({
   setCopperPipePrice: protectedProcedure
@@ -104,7 +105,6 @@ export const airConditionCalculator = createTRPCRouter({
         montagePrice: z.number(),
         syfonPrice: z.number(),
         dashPumpPrice: z.number(),
-        consultantProvision: z.number(),
         officeProvision: z.number(),
       })
     )
@@ -119,17 +119,28 @@ export const airConditionCalculator = createTRPCRouter({
     .mutation(installationPrice),
   officeMarkup: protectedProcedure
     .input(
-      z.object({ officeFee: z.number(), creatorId: z.string().optional() })
+      z.object({
+        officeFee: z.number(),
+        consultantMarkup: z.number(),
+        hasUserContract: z.boolean(),
+        creatorId: z.string().optional(),
+      })
     )
     .mutation(async ({ ctx, input }) => {
+      console.log(input);
+      const consultantMarkup = input.hasUserContract
+        ? input.consultantMarkup + input.consultantMarkup * tax32
+        : input.consultantMarkup;
+
       const creator = await ctx.prisma.user.findFirst({
         where: { id: input.creatorId },
       });
 
       const officeFeeForBoss = creator ? creator.imposedFeeAirCondition : 0;
       return {
-        officeProvision: officeFeeForBoss + input.officeFee,
+        officeProvision: officeFeeForBoss + consultantMarkup + input.officeFee,
         bossProvision: officeFeeForBoss,
+        consultantMarkup: consultantMarkup,
       };
     }),
 });

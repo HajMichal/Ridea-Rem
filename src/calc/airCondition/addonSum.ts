@@ -13,7 +13,6 @@ interface AddonsSum {
     montagePrice: number;
     syfonPrice: number;
     dashPumpPrice: number;
-    consultantProvision: number;
     officeProvision: number;
   };
 }

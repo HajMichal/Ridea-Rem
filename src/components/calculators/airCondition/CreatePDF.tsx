@@ -324,7 +324,8 @@ const AirConditionDocument = ({
           textAlign: "right",
         }}
       >
-        /nr.zam/ model INW/Z {airConditionStore.consultantMarkup / 100} /{" "}
+        /nr.zam/ model INW/Z{" "}
+        {airConditionCalcStore.officeProvision.consultantMarkup / 100} /{" "}
         {airConditionCalcStore.officeProvision.officeProvision} /{" "}
         {airConditionCalcStore.officeProvision.bossProvision}
       </Text>

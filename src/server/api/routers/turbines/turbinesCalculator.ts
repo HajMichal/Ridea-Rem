@@ -1,3 +1,4 @@
+import { tax32 } from "~/constans/taxPercentage";
 import calc from "../../../../calc/turbines";
 import { createTRPCRouter, protectedProcedure } from "../../trpc";
 import { z } from "zod";
@@ -73,10 +74,14 @@ export const turbinesCalculator = createTRPCRouter({
         systemPower: z.number(),
         consultantFee: z.number(),
         constantFee: z.number(),
+        hasUserContract: z.boolean(),
         creatorId: z.string().optional(),
       })
     )
     .mutation(async ({ input, ctx }) => {
+      const consultantFee = input.hasUserContract
+        ? input.consultantFee + input.consultantFee * tax32
+        : input.consultantFee;
       const officeFeeValue =
         Math.round(input.perKwfee * input.systemPower) + input.constantFee;
 
@@ -95,7 +100,7 @@ export const turbinesCalculator = createTRPCRouter({
       const markupSumValue = Number(
         (
           input.perKwfee * input.systemPower +
-          input.consultantFee +
+          consultantFee +
           input.constantFee +
           officeFeeForBoss
         ).toFixed(2)
@@ -103,7 +108,7 @@ export const turbinesCalculator = createTRPCRouter({
       return {
         officeFeeValue: officeFeeValue,
         officeFeeForBoss: officeFeeForBoss,
-        consultantFeeValue: input.consultantFee,
+        consultantFeeValue: consultantFee,
         markupSumValue: markupSumValue,
       };
     }),
