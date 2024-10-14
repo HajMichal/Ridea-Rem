@@ -1,23 +1,11 @@
-import { InputComponent } from "./InputComponent";
-import { InputString } from "./InputString";
-import { SelectComponent } from "./SelectComponent";
-import Navbar from "./navbar/Navbar";
-import SideBar from "./SideBar";
-import { TextComponent } from "./TextComponent";
-import { Loading } from "./Loading";
-import { ChangeDataInputComponent } from "./changeDataInputComponent";
-import { NewsCard } from "./newsPageComponent/NewsCard";
-import { PdfGeneratorButton } from "./PdfGeneratorButton";
-
-export {
-  SideBar,
-  Navbar,
-  SelectComponent,
-  InputComponent,
-  TextComponent,
-  Loading,
-  ChangeDataInputComponent,
-  NewsCard,
-  PdfGeneratorButton,
-  InputString,
-};
+export { InputComponent } from "./InputComponent";
+export { InputString } from "./InputString";
+export { SelectComponent } from "./SelectComponent";
+export { Navbar } from "./navbar/Navbar";
+export { SideBar } from "./SideBar";
+export { TextComponent } from "./TextComponent";
+export { Loading } from "./Loading";
+export { ChangeDataInputComponent } from "./changeDataInputComponent";
+export { NewsCard } from "./newsPageComponent/NewsCard";
+export { PdfGeneratorButton } from "./PdfGeneratorButton";
+export { LastPosts } from "./home/LastPosts";

@@ -2,8 +2,8 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import React, { useEffect } from "react";
 import dynamic from "next/dynamic";
+import { Navbar } from "~/components";
 
-const Navbar = dynamic(() => import("~/components/navbar/Navbar"));
 const Logo = dynamic(() => import("~/components/Logo"));
 const Footer = dynamic(() => import("~/components/Footer"));
 const CreateAccountForm = dynamic(
