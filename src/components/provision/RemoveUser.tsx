@@ -2,6 +2,7 @@ import { Modal } from "@mantine/core";
 import { useState } from "react";
 import { api } from "~/utils/api";
 import type { UserProvisionType } from "./types";
+import toast from "react-hot-toast";
 
 interface RemoveUserType {
   user: UserProvisionType;
@@ -9,6 +10,17 @@ interface RemoveUserType {
 export const RemoveUser = ({ user }: RemoveUserType) => {
   const [removeUserModal, setRemoveUserModal] = useState(false);
   const handleRemoveUserModal = () => setRemoveUserModal(!removeUserModal);
+
+  const utils = api.useUtils();
+
+  const { mutate: removeUserFromDb } =
+    api.userDataHandling.removeUser.useMutation({
+      onSuccess: () => {
+        toast.success("UŻYTKOWNIK ZOSTAŁ USUNIĘTY ✅");
+        void utils.userDataHandling.getUsers.invalidate();
+        setRemoveUserModal(false);
+      },
+    });
 
   const { mutate: removeMenagerCalcDataPhotovoltaic } =
     api.pvMenagerRouter.remove.useMutation();
@@ -22,8 +34,6 @@ export const RemoveUser = ({ user }: RemoveUserType) => {
     api.airCondMenagerData.remove.useMutation();
   const { mutate: removeMenagerCalcDataTurbines } =
     api.turbinesMenagerRouter.remove.useMutation();
-  const { mutate: removeUserFromDb } =
-    api.userDataHandling.removeUser.useMutation();
 
   const removeUser = () => {
     removeUserFromDb(user.id);

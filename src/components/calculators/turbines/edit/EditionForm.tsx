@@ -14,7 +14,7 @@ const EditionForm = ({ data, menagers }: Props) => {
   const [editingKey, setEditingKey] = useState<string | null>(null);
   const [pathKey, setPathKey] = useState<string | null>(null);
 
-  const utils = api.useContext();
+  const utils = api.useUtils();
   const { mutate } = api.turbinesMenagerRouter.edit.useMutation({
     onSuccess: () => {
       void utils.turbinesMenagerRouter.getAll.invalidate();

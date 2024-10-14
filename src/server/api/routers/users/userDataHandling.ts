@@ -7,15 +7,13 @@ import bcrypt from "bcrypt";
 import { z } from "zod";
 
 export const loginRouter = createTRPCRouter({
-  getAllUsers: publicProcedure.query(async ({ ctx }) => {
-    return await ctx.prisma.user.findMany();
-  }),
-  createAccount: publicProcedure
+  createAccount: protectedProcedure
     .input(
       z.object({
         name: z.string(),
         login: z.string(),
         password: z.string(),
+        city: z.string(),
         parentId: z.string(),
         role: z.number().optional(),
       })
@@ -38,6 +36,7 @@ export const loginRouter = createTRPCRouter({
           login: input.login,
           password: hash,
           role: input.role,
+          city: input.city,
           creator: {
             connect: { id: input.parentId },
           },

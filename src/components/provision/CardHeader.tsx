@@ -18,7 +18,9 @@ export const CardHeader = ({ user, opened, toggle }: CardHeaderType) => {
       </h2>
       <h3 className="xl:text-xl">{user.name}</h3>
       <div className="flex gap-5 xl:gap-10">
-        <h4 className="xl:text-xl">{user.city || "NIE PODANO"}</h4>
+        <h4 className="min-w-[125px] text-right xl:text-xl">
+          {user.city || "NIE PODANO"}
+        </h4>
         <button>
           <RiArrowLeftSLine
             size={"28px"}

@@ -35,9 +35,9 @@ export const UserEmployees = ({ user }: UserEmployeesType) => {
   return (
     <div
       ref={ref}
-      className={`mb-10 mt-2 flex w-full items-center justify-center ${
+      className={`mb-10 mt-2 flex w-full items-center justify-between ${
         data?.length !== 0 && data !== undefined && "h-[270.38px]"
-      } ${isOverTwoUsers && "justify-between"}`}
+      }`}
     >
       {!isLoading && (
         <>
@@ -48,7 +48,11 @@ export const UserEmployees = ({ user }: UserEmployeesType) => {
           </button>
           <div className="flex w-[90%] justify-between">
             <div className="w-full overflow-hidden" ref={emblaRef}>
-              <div className="flex w-full max-w-[600px] gap-10 xl:max-w-[960px]">
+              <div
+                className={`flex w-full gap-10 ${
+                  isOverTwoUsers && "max-w-[600px] xl:max-w-[960px]"
+                }`}
+              >
                 {data?.map((user, index) => {
                   return (
                     <div

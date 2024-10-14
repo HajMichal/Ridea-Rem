@@ -9,7 +9,7 @@ export default function FileUploader() {
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
   const [file, setFile] = useState<File | null>();
   const [fileFolder, setFileFolder] = useState("documents");
-  const ctx = api.useContext();
+  const utils = api.useUtils();
 
   const { mutate } = api.uploadDocumentRouter.uploadFile.useMutation({
     onSuccess: () => {
@@ -29,7 +29,7 @@ export default function FileUploader() {
   };
 
   useEffect(() => {
-    void ctx.getAllDocumentRouter.getAllFiles.invalidate();
+    void utils.getAllDocumentRouter.getAllFiles.invalidate();
   }, []);
 
   return (

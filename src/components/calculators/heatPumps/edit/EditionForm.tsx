@@ -16,12 +16,12 @@ export const EditionForm = ({ data, menagers }: EditionFormType) => {
   const [dataToChange, setDataToChange] = useState({});
   const [editingKey, setEditingKey] = useState<string | null>(null);
   const [pathKey, setPathKey] = useState<string | null>(null);
-  const ctx = api.useContext();
+  const utils = api.useUtils();
 
   const { mutate } = api.heatPumpDataFlowRouter.edit.useMutation({
     onSuccess: () => {
       toast.success("Dane zostały pomyślnie zmienione.");
-      void ctx.heatPumpDataFlowRouter.getAll.invalidate();
+      void utils.heatPumpDataFlowRouter.getAll.invalidate();
     },
     onError: () => {
       toast.error("UWAGA BŁĄD! Dane nie zostały zmienione. Spróbuj ponownie.");

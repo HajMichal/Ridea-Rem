@@ -24,7 +24,7 @@ export const EditionForm = ({ data, menagers }: EditionForm) => {
   const [pathKey, setPathKey] = useState<string | null>(null);
   const airConditionersArr: AirConditionerArr[] = [];
 
-  const utils = api.useContext();
+  const utils = api.useUtils();
 
   const { mutate } = api.airCondMenagerData.edit.useMutation({
     onSuccess: () => {

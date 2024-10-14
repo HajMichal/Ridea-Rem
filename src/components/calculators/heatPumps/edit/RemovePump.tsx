@@ -7,12 +7,12 @@ import { api } from "~/utils/api";
 
 export const RemovePump = ({ pumpName }: { pumpName: string }) => {
   const [opened, { open, close }] = useDisclosure(false);
-  const ctx = api.useContext();
+  const utils = api.useUtils();
 
   const { mutate: removePump } =
     api.heatPumpDataFlowRouter.removeElement.useMutation({
       onSuccess: async () => {
-        await ctx.heatPumpDataFlowRouter.getAll.invalidate();
+        await utils.heatPumpDataFlowRouter.getAll.invalidate();
       },
     });
 

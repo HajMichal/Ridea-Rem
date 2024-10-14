@@ -21,13 +21,13 @@ export const CardBody = ({ user }: CardBodyType) => {
   });
 
   const btnRef = useRef<HTMLButtonElement>(null);
-  const ctx = api.useContext();
+  const utils = api.useUtils();
 
   const { mutate: editProvision } =
     api.userDataHandling.editProvision.useMutation({
       onSuccess: () => {
         toast.success("PROWIZJA ZOSTAŁA ZMIENIONA");
-        void ctx.userDataHandling.getUsers.invalidate();
+        void utils.userDataHandling.getUsers.invalidate();
       },
     });
 

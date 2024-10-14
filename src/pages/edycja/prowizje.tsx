@@ -4,6 +4,7 @@ import { useSession } from "next-auth/react";
 
 import { Loading, Navbar, SideBar } from "~/components";
 import { UsersSection } from "~/components/provision";
+import { Toaster } from "react-hot-toast";
 
 const Prowizje = () => {
   const router = useRouter();
@@ -31,6 +32,7 @@ const Prowizje = () => {
           )}
         </div>
       </div>
+      <Toaster />
     </div>
   );
 };
