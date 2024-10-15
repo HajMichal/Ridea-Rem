@@ -2,14 +2,12 @@ import { memo } from "react";
 import { SelectComponent } from "~/components";
 import { YESNO } from "~/constans/formsData";
 import { usePhotovoltaic } from "~/hooks/usePhotovoltaic";
-import useStore from "~/store";
 
 const IsEms = () => {
-  const { photovoltaicStore } = usePhotovoltaic();
-  const store = useStore();
+  const { photovoltaicStore, updatePhotovoltaic } = usePhotovoltaic();
 
   const handleChange = (e: string | null) =>
-    store.updatePhotovoltaic("emsDotation", e == "true");
+    updatePhotovoltaic("emsDotation", e == "true");
   return (
     <SelectComponent
       title="EMS"

@@ -1,15 +1,13 @@
 import { type ChangeEvent, memo } from "react";
 import { InputComponent } from "~/components";
 import { usePhotovoltaic } from "~/hooks/usePhotovoltaic";
-import useStore from "~/store";
 
 const ModulesCount = () => {
-  const { photovoltaicStore: pvStore } = usePhotovoltaic();
-  const store = useStore();
+  const { photovoltaicStore: pvStore, updatePhotovoltaic } = usePhotovoltaic();
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.valueAsNumber;
-    store.updatePhotovoltaic(
+    updatePhotovoltaic(
       "modulesCount",
       value <= 0 || Number.isNaN(value) ? 0 : value
     );

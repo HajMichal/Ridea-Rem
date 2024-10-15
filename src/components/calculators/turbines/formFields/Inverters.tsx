@@ -3,29 +3,32 @@ import { memo, useEffect } from "react";
 import { SelectComponent } from "~/components";
 import { YESNO } from "~/constans/formsData";
 import { useTurbines } from "~/hooks/useTurbines";
+import { type Addons } from "~/server/api/routers/turbines/interfaces";
 
-const Inverters = () => {
+interface InvertersType {
+  addons?: Addons;
+}
+const Inverters = ({ addons }: InvertersType) => {
   const {
     turbinesStore,
-    turbinesData,
     updateTurbinesStore,
     updateTurbinesCalcStore,
     mutations,
   } = useTurbines();
 
   useEffect(() => {
-    if (turbinesData?.addons)
+    if (addons)
       mutations.setInverterCost({
         isThreePhasesInverter: turbinesStore.isThreePhasesInverter,
         isHybridInverter: turbinesStore.isHybridInverter,
-        threePhaseInvCost: turbinesData.addons["inwerter 3fazowy"],
-        hybridInvCost: turbinesData.addons["inwerter hybrydowy"],
+        threePhaseInvCost: addons["inwerter 3fazowy"],
+        hybridInvCost: addons["inwerter hybrydowy"],
       });
   }, [turbinesStore.isThreePhasesInverter, turbinesStore.isHybridInverter]);
 
   useEffect(() => {
-    if (turbinesData?.addons) {
-      const invBase = turbinesData.addons["podstawa inwertera"];
+    if (addons) {
+      const invBase = addons["podstawa inwertera"];
       const invBaseCost =
         turbinesStore.turbinesDetails.totalPower !== 0
           ? invBase + invBase * turbinesStore.turbinesDetails.totalPower

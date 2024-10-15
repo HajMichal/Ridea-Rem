@@ -1,6 +1,7 @@
 import { createTRPCRouter, publicProcedure } from "../../trpc";
 import { z } from "zod";
 import calc from "../../../../calc/heatHome";
+import { tax32 } from "~/constans/taxPercentage";
 
 export const heatHomeCalculator = createTRPCRouter({
   addonCostCounter: publicProcedure
@@ -19,15 +20,17 @@ export const heatHomeCalculator = createTRPCRouter({
         heatingArea: z.number(),
         consultantFee: z.number(),
         constantFee: z.number(),
+        hasUserContract: z.boolean(),
         creatorId: z.string().optional(),
       })
     )
     .mutation(async ({ input, ctx }) => {
+      const consultantFee = input.hasUserContract
+        ? input.consultantFee + input.consultantFee * tax32
+        : input.consultantFee;
       const officeFeeValue =
         Math.round(input.officeFee * input.heatingArea) + input.constantFee;
-      const consultantFeeValue = Math.round(
-        input.consultantFee * input.heatingArea
-      );
+      const consultantFeeValue = Math.round(consultantFee * input.heatingArea);
 
       const creator = await ctx.prisma.user.findFirst({
         where: { id: input.creatorId },
@@ -40,7 +43,7 @@ export const heatHomeCalculator = createTRPCRouter({
       const markupSumValue = Number(
         (
           input.officeFee * input.heatingArea +
-          input.consultantFee * input.heatingArea +
+          consultantFee +
           input.constantFee +
           officeFeeForBoss
         ).toFixed(2)

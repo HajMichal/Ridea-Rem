@@ -2,11 +2,13 @@ import React from "react";
 import { memo } from "react";
 import { SelectComponent } from "~/components";
 import { usePhotovoltaic } from "~/hooks/usePhotovoltaic";
-import useStore from "~/store";
 
-const ChooseBoiler = () => {
-  const { photovoltaicStore, photovoltaicData } = usePhotovoltaic();
-  const store = useStore();
+interface BoilersType {
+  boilersData?: Record<string, number>;
+}
+const ChooseBoiler = ({ boilersData }: BoilersType) => {
+  const { photovoltaicStore, updatePhotovoltaic, updatePhotovoltaicCalcs } =
+    usePhotovoltaic();
 
   const handleChange = (e: string | null) => {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
@@ -14,12 +16,12 @@ const ChooseBoiler = () => {
       ? JSON.parse(e)
       : null;
 
-    store.updatePhotovoltaic("cwuTank", choosedBoiler);
-    store.updatePhotovoltaicCalcs("heatStoreCost", choosedBoiler?.price);
+    updatePhotovoltaic("cwuTank", choosedBoiler);
+    updatePhotovoltaicCalcs("heatStoreCost", choosedBoiler?.price);
   };
 
-  const boilers = photovoltaicData?.boilers
-    ? Object.entries(photovoltaicData.boilers).map(([key, value]) => {
+  const boilers = boilersData
+    ? Object.entries(boilersData).map(([key, value]) => {
         return {
           label: key,
           value: JSON.stringify({ name: key, price: value }),

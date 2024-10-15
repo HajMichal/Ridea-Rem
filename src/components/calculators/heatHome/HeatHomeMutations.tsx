@@ -2,57 +2,64 @@ import { useEffect } from "react";
 import { useHeatHome } from "~/hooks/useHeatHome";
 import { type Session } from "next-auth";
 import { AUDIT_DOTATION } from "~/constans/heatHome/dotations";
+import useStore from "~/store";
+import { type HeatHomeDataCalculationType } from "~/server/api/routers/heatHome/interfaces";
 
 interface HeatHomeMutationsType {
   sessionData: Session | null;
+  heatHomeData?: HeatHomeDataCalculationType;
 }
 
-export const HeatHomeMutations = ({ sessionData }: HeatHomeMutationsType) => {
-  const { jsonData, mutations, heatHomeStore, heatHomeCalcStore } =
-    useHeatHome();
+export const HeatHomeMutations = ({
+  sessionData,
+  heatHomeData,
+}: HeatHomeMutationsType) => {
+  const store = useStore();
+  const { mutations, heatHomeStore, heatHomeCalcStore } = useHeatHome();
 
   useEffect(() => {
-    if (jsonData)
+    if (heatHomeData)
       mutations.setHeatedAreaCost({
         area: heatHomeStore.areaToHeat,
-        cost: jsonData.m2_ocieplenia,
+        cost: heatHomeData.m2_ocieplenia,
         markup: heatHomeCalcStore.markupCosts.markupSumValue,
       });
   }, [
     heatHomeStore.areaToHeat,
-    jsonData?.m2_ocieplenia,
+    heatHomeData?.m2_ocieplenia,
     heatHomeCalcStore.markupCosts.markupSumValue,
   ]);
   useEffect(() => {
-    if (jsonData)
+    if (heatHomeData)
       mutations.setWindowSillCost({
         area: heatHomeStore.windowSillCount,
-        cost: jsonData.parapety,
+        cost: heatHomeData.parapety,
       });
-  }, [heatHomeStore.windowSillCount, jsonData?.parapety]);
+  }, [heatHomeStore.windowSillCount, heatHomeData?.parapety]);
 
   useEffect(() => {
-    if (jsonData)
+    if (heatHomeData)
       mutations.setPlasterAreaCost({
         area: heatHomeStore.plasterArea,
-        cost: jsonData.tynk,
+        cost: heatHomeData.tynk,
       });
-  }, [heatHomeStore.plasterArea, jsonData?.tynk]);
+  }, [heatHomeStore.plasterArea, heatHomeData?.tynk]);
 
   useEffect(() => {
-    if (jsonData)
+    if (heatHomeData)
       mutations.setTopFinishCost({
         area: heatHomeStore.topFinish,
-        cost: jsonData.wykonczenie,
+        cost: heatHomeData.wykonczenie,
       });
-  }, [heatHomeStore.topFinish, jsonData?.wykonczenie]);
+  }, [heatHomeStore.topFinish, heatHomeData?.wykonczenie]);
 
   useEffect(() => {
     if (sessionData?.user) {
       mutations.setMarkupCosts({
         officeFee: sessionData?.user.feePerkwHeatHome,
         constantFee: sessionData.user.imposedFeeHeatHome,
-        consultantFee: heatHomeStore.consultantMarkup,
+        consultantFee: store.markupAmount,
+        hasUserContract: store.hasContract,
         heatingArea: heatHomeStore.areaToHeat,
         creatorId: sessionData.user.creatorId ?? "",
       });
@@ -60,12 +67,13 @@ export const HeatHomeMutations = ({ sessionData }: HeatHomeMutationsType) => {
   }, [
     sessionData?.user.imposedFeeHeatHome,
     sessionData?.user.feePerkwHeatHome,
-    heatHomeStore.consultantMarkup,
+    store.markupAmount,
+    store.hasContract,
     heatHomeStore.areaToHeat,
   ]);
 
   useEffect(() => {
-    if (jsonData)
+    if (heatHomeData)
       mutations.setTotalCost({
         heatingThickness: heatHomeCalcStore.heatingThicknessCost,
         heatingArea: heatHomeCalcStore.heatedAreaCost,
@@ -114,7 +122,7 @@ export const HeatHomeMutations = ({ sessionData }: HeatHomeMutationsType) => {
   useEffect(() => {
     const creditPercentage = sessionStorage.getItem("creditPercentage");
 
-    if (jsonData && creditPercentage)
+    if (heatHomeData && creditPercentage)
       mutations.setLoanForpurcharse({
         creditPercentage: Number(JSON.parse(creditPercentage)),
         instalmentNumber: heatHomeStore.installmentNumber,
@@ -128,11 +136,11 @@ export const HeatHomeMutations = ({ sessionData }: HeatHomeMutationsType) => {
   ]);
 
   useEffect(() => {
-    if (jsonData) {
+    if (heatHomeData) {
       mutations.setEneregeticAuditCost({
         isAudit: heatHomeStore.isEnergeticAudit,
-        auditCost: jsonData.audytEnergetyczny,
+        auditCost: heatHomeData.audytEnergetyczny,
       });
     }
-  }, [jsonData?.audytEnergetyczny, heatHomeStore.isEnergeticAudit]);
+  }, [heatHomeData?.audytEnergetyczny, heatHomeStore.isEnergeticAudit]);
 };

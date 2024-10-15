@@ -1,22 +1,24 @@
 import { type ChangeEvent, memo } from "react";
 import { InputComponent } from "~/components";
 import { usePhotovoltaic } from "~/hooks/usePhotovoltaic";
-import useStore from "~/store";
 
-const DitchLength = () => {
-  const { photovoltaicStore, photovoltaicData } = usePhotovoltaic();
-  const store = useStore();
+interface DitchLengthType {
+  price?: number;
+}
+const DitchLength = ({ price }: DitchLengthType) => {
+  const { photovoltaicStore, updatePhotovoltaic, updatePhotovoltaicCalcs } =
+    usePhotovoltaic();
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.valueAsNumber;
     if (value <= 0 || Number.isNaN(value)) {
-      store.updatePhotovoltaic("ditchLength", 0);
-      store.updatePhotovoltaicCalcs("ditchCost", 0);
-    } else if (photovoltaicData?.addons) {
-      const cost = e.target.valueAsNumber * photovoltaicData?.addons.przekopy;
+      updatePhotovoltaic("ditchLength", 0);
+      updatePhotovoltaicCalcs("ditchCost", 0);
+    } else if (price) {
+      const cost = e.target.valueAsNumber * price;
 
-      store.updatePhotovoltaic("ditchLength", e.target.valueAsNumber);
-      store.updatePhotovoltaicCalcs("ditchCost", cost);
+      updatePhotovoltaic("ditchLength", e.target.valueAsNumber);
+      updatePhotovoltaicCalcs("ditchCost", cost);
     }
   };
 

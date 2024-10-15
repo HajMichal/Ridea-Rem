@@ -1,15 +1,13 @@
 import { useEffect } from "react";
 import { useAirCondition } from "~/hooks/useAirCondition";
 import useStore from "~/store";
+import { api } from "~/utils/api";
 
 export function AirConditionMutations() {
-  const {
-    sessionData,
-    calcData,
-    mutations,
-    airConditionStore,
-    airConditionCalcStore,
-  } = useAirCondition();
+  const { data: calcData } = api.airCondMenagerData.getSingle.useQuery();
+
+  const { sessionData, mutations, airConditionStore, airConditionCalcStore } =
+    useAirCondition();
   const store = useStore();
 
   useEffect(() => {
@@ -45,22 +43,17 @@ export function AirConditionMutations() {
     airConditionCalcStore.syfonPrice,
     airConditionCalcStore.dashPump,
     airConditionCalcStore.officeProvision,
-    airConditionStore.consultantMarkup,
   ]);
   useEffect(() => {
     if (sessionData?.user) {
       mutations.setOfficeProvision({
         officeFee: sessionData.user.imposedFeeAirCondition,
         creatorId: sessionData.user.creatorId ?? undefined,
-        consultantMarkup: airConditionStore.consultantMarkup,
+        consultantMarkup: store.markupAmount,
         hasUserContract: store.hasContract,
       });
     }
-  }, [
-    sessionData?.user,
-    airConditionStore.consultantMarkup,
-    store.hasContract,
-  ]);
+  }, [sessionData?.user, store.markupAmount, store.hasContract]);
 
   useEffect(() => {
     if (airConditionStore.choosedAirConditioner) {

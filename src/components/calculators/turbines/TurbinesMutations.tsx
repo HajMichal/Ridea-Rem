@@ -1,11 +1,14 @@
 import { useSession } from "next-auth/react";
 import { useEffect } from "react";
 import { useTurbines } from "~/hooks/useTurbines";
+import type { TurbineCalcData } from "~/server/api/routers/turbines/interfaces";
 import useStore from "~/store";
 
-export function TurbinesMutations() {
-  const { mutations, turbinesStore, turbinesData, turbinesCalcStore } =
-    useTurbines();
+interface TurbinesMutationsType {
+  turbinesData?: TurbineCalcData;
+}
+export function TurbinesMutations({ turbinesData }: TurbinesMutationsType) {
+  const { mutations, turbinesStore, turbinesCalcStore } = useTurbines();
   const { data: sessionData } = useSession();
   const store = useStore();
 
@@ -68,13 +71,49 @@ export function TurbinesMutations() {
         constantFee: sessionData.user.imposedFeeTurbines,
         perKwfee: sessionData.user.feePerkwTurbines,
         systemPower: turbinesStore.turbinesDetails.roundedTotalPower,
-        consultantFee: turbinesStore.consultantMarkup,
+        consultantFee: store.markupAmount,
         hasUserContract: store.hasContract,
       });
   }, [
     sessionData?.user,
     turbinesStore.turbinesDetails.roundedTotalPower,
-    turbinesStore.consultantMarkup,
+    store.markupAmount,
     store.hasContract,
+  ]);
+
+  useEffect(() => {
+    if (turbinesData?.addons) {
+      const basesCost =
+        turbinesStore.turbinesDetails.smallBaseCount *
+          turbinesData.addons["podstawa dachowa"] +
+        turbinesStore.turbinesDetails.biggerBaseCount *
+          turbinesData.addons["podstawa dachowa3000"];
+      store.updateTurbinesCalc("turbinesBasesCost", basesCost);
+
+      const montageCost =
+        turbinesStore.turbinesDetails.turbinesCount !== 0
+          ? turbinesData.addons["montaż bazowo"] +
+            turbinesData.addons["montaż dodatkowo"] *
+              (turbinesStore.turbinesDetails.turbinesCount - 2)
+          : 0;
+      store.updateTurbinesCalc("turbinesMontageCost", montageCost);
+
+      const transportCost =
+        turbinesStore.turbinesDetails.turbinesCount !== 0
+          ? turbinesData.addons.wysylka
+          : 0;
+      store.updateTurbinesCalc("transportCost", transportCost);
+
+      const greaterPowerFee =
+        turbinesStore.turbinesDetails.totalPower > 3
+          ? turbinesData.addons["instalacja powyzej 3kw"]
+          : 0;
+      store.updateTurbinesCalc("greaterPowerFee", greaterPowerFee);
+    }
+  }, [
+    turbinesData?.addons,
+    turbinesStore.turbinesDetails.smallBaseCount,
+    turbinesStore.turbinesDetails.biggerBaseCount,
+    turbinesStore.turbinesDetails.turbinesCount,
   ]);
 }

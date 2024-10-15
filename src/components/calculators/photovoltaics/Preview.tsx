@@ -4,13 +4,12 @@ import { usePhotovoltaic } from "~/hooks/usePhotovoltaic";
 import { Loader } from "@mantine/core";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 
-export function Preview() {
-  const {
-    photovoltaicData,
-    photovoltaicCalcStore,
-    photovoltaicStore,
-    loading,
-  } = usePhotovoltaic();
+interface PreviewType {
+  heatStorePrice?: number;
+}
+export function Preview({ heatStorePrice }: PreviewType) {
+  const { photovoltaicCalcStore, photovoltaicStore, loading } =
+    usePhotovoltaic();
   const [parent] = useAutoAnimate();
 
   return (
@@ -201,48 +200,47 @@ export function Preview() {
                 </div>
               )}
               {!photovoltaicStore.vat23 &&
-              (photovoltaicCalcStore.energyMenagerDotationValue ||
-                photovoltaicCalcStore.photovoltaicDotation_mojprad ||
-                photovoltaicCalcStore.photovoltaicDotation_czpowietrze ||
-                photovoltaicStore.isHeatStore) ? (
-                <div>
-                  <h2 className="mt-10 w-full text-center text-xl">DOTACJE</h2>
-                  <TextComponent
-                    title="MENAGER ENERGII"
-                    calculations={
-                      photovoltaicCalcStore.energyMenagerDotationValue
-                    }
-                  />
-                  <TextComponent
-                    title="MÓJ PRĄD FOTOWOLTAIKA"
-                    calculations={
-                      photovoltaicCalcStore.photovoltaicDotation_mojprad
-                    }
-                  />
-                  <TextComponent
-                    title="CZYSTE POWIETRZE FOTOWOLTAIKA - KWOTA"
-                    calculations={
-                      photovoltaicCalcStore.photovoltaicDotation_czpowietrze
-                    }
-                  />
-                  <TextComponent
-                    title="MAGAZYN ENERGII"
-                    calculations={
-                      photovoltaicStore.isEnergyStoreDotation &&
-                      photovoltaicCalcStore.energyStoreDotationValue
-                    }
-                  />
-                  <TextComponent
-                    title="MAGAZYN CIEPŁA"
-                    calculations={
-                      photovoltaicStore.isHeatStore &&
-                      photovoltaicData?.dotations["magazynCiepla"]
-                    }
-                  />
-                </div>
-              ) : (
-                ""
-              )}
+                (photovoltaicCalcStore.energyMenagerDotationValue ||
+                  photovoltaicCalcStore.photovoltaicDotation_mojprad ||
+                  photovoltaicCalcStore.photovoltaicDotation_czpowietrze ||
+                  photovoltaicStore.isHeatStore) && (
+                  <div>
+                    <h2 className="mt-10 w-full text-center text-xl">
+                      DOTACJE
+                    </h2>
+                    <TextComponent
+                      title="MENAGER ENERGII"
+                      calculations={
+                        photovoltaicCalcStore.energyMenagerDotationValue
+                      }
+                    />
+                    <TextComponent
+                      title="MÓJ PRĄD FOTOWOLTAIKA"
+                      calculations={
+                        photovoltaicCalcStore.photovoltaicDotation_mojprad
+                      }
+                    />
+                    <TextComponent
+                      title="CZYSTE POWIETRZE FOTOWOLTAIKA - KWOTA"
+                      calculations={
+                        photovoltaicCalcStore.photovoltaicDotation_czpowietrze
+                      }
+                    />
+                    <TextComponent
+                      title="MAGAZYN ENERGII"
+                      calculations={
+                        photovoltaicStore.isEnergyStoreDotation &&
+                        photovoltaicCalcStore.energyStoreDotationValue
+                      }
+                    />
+                    <TextComponent
+                      title="MAGAZYN CIEPŁA"
+                      calculations={
+                        photovoltaicStore.isHeatStore && heatStorePrice
+                      }
+                    />
+                  </div>
+                )}
               <div className="mt-20 text-center">
                 <TextComponent
                   title="KWOTA PO DOTACJACH"

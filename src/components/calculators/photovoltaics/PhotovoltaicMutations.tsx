@@ -4,9 +4,14 @@ import { type PhotovoltaicDataToCalculation } from "~/server/api/routers/photovo
 import { type Session } from "next-auth";
 import { useDebouncedValue } from "@mantine/hooks";
 import useStore from "~/store";
+import {
+  largestPanel,
+  mediumPanel,
+  smallestPanel,
+} from "~/constans/panelPowers";
 
 interface PhotovoltaicMutationsType {
-  data?: PhotovoltaicDataToCalculation | null;
+  data?: PhotovoltaicDataToCalculation;
   sessionData: Session | null;
 }
 
@@ -19,6 +24,13 @@ export function PhotovoltaicMutations({
     usePhotovoltaic();
 
   const [debouncedPhotovStore] = useDebouncedValue(photovoltaicStore, 200);
+
+  useEffect(() => {
+    sessionStorage.setItem(
+      "creditPercentage",
+      JSON.stringify(data?.creditPercentage)
+    );
+  }, [data?.creditPercentage]);
 
   useEffect(() => {
     mutations.set_system_power({
@@ -203,11 +215,20 @@ export function PhotovoltaicMutations({
     mutations.set_total_save,
   ]);
 
+  const getDataDependsOnPanelPower = () => {
+    if (photovoltaicStore.panelPower === smallestPanel)
+      return data?.panels_small;
+    else if (photovoltaicStore.panelPower === mediumPanel)
+      return data?.panels_medium;
+    else if (photovoltaicStore.panelPower === largestPanel)
+      return data?.panels_large;
+  };
+
   useEffect(() => {
     if (photovoltaicCalcStore.system_power && data) {
       mutations.set_installationAndPer1KW_price({
         system_power: photovoltaicCalcStore.system_power,
-        dane: mutations.getDataDependsOnPanelPower()!,
+        dane: getDataDependsOnPanelPower()!,
       });
     }
   }, [
@@ -266,17 +287,17 @@ export function PhotovoltaicMutations({
         system_power: photovoltaicCalcStore.system_power,
         officeFee: sessionData.user.feePerkwPhotovoltaic,
         constantFee: sessionData.user.imposedFeePhotovoltaic,
-        consultantFee: photovoltaicStore.consultantMarkup,
+        consultantFee: store.markupAmount,
         hasUserContract: store.hasContract,
         creatorId: sessionData.user.creatorId ?? undefined,
       });
   }, [
     photovoltaicCalcStore.system_power,
     sessionData,
-    photovoltaicStore.consultantMarkup,
     mutations.set_markup_costs,
     data,
     store.hasContract,
+    store.markupAmount,
   ]);
 
   useEffect(() => {

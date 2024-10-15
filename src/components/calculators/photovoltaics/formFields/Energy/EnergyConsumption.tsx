@@ -1,13 +1,13 @@
 import { type ChangeEvent, memo } from "react";
 import { InputComponent } from "~/components";
-import useStore from "~/store";
+import { usePhotovoltaic } from "~/hooks/usePhotovoltaic";
 
 const EnergyConsumption = () => {
-  const store = useStore();
+  const { updatePhotovoltaic, photovoltaicStore } = usePhotovoltaic();
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.valueAsNumber;
-    store.updatePhotovoltaic(
+    updatePhotovoltaic(
       "recentYearTrendUsage",
       value <= 0 || Number.isNaN(value) ? 0 : value
     );
@@ -19,9 +19,9 @@ const EnergyConsumption = () => {
       onChange={handleChange}
       step={500}
       value={
-        store.photovoltaicStore.recentYearTrendUsage === 0
+        photovoltaicStore.recentYearTrendUsage === 0
           ? ""
-          : store.photovoltaicStore.recentYearTrendUsage
+          : photovoltaicStore.recentYearTrendUsage
       }
     />
   );

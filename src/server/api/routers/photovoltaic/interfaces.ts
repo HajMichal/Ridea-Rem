@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/consistent-indexed-object-style */
 import { type Photovoltaic } from "@prisma/client";
 
 export interface PhotovoltaicDataToCalculation extends Photovoltaic {
@@ -54,21 +53,18 @@ export interface PhotovoltaicDataToCalculation extends Photovoltaic {
     kableAC: number;
     przekopy: number;
   };
-  boilers: {
-    [boiler: string]: number;
-  };
-  energyStore: {
-    [energyStoreElement: string]: number;
-  };
-  carPort: {
-    stan1: number;
-    stan2: number;
-    stan4: number;
-    stan6: number;
-    stan8: number;
-    stan10: number;
-    stan12: number;
-  };
+  boilers: Record<string, number>;
+  energyStore: Record<string, number>;
+  carPort: CarPort;
   creditPercentage: number;
   electricityPrice: number;
+}
+export interface CarPort {
+  stan1: number;
+  stan2: number;
+  stan4: number;
+  stan6: number;
+  stan8: number;
+  stan10: number;
+  stan12: number;
 }

@@ -1,25 +1,8 @@
-import { useEffect } from "react";
-import {
-  smallestPanel,
-  mediumPanel,
-  largestPanel,
-} from "~/constans/panelPowers";
-import { type PhotovoltaicDataToCalculation } from "~/server/api/routers/photovoltaic/interfaces";
 import useStore from "~/store";
 import { api } from "~/utils/api";
 
 export const usePhotovoltaic = () => {
   const store = useStore();
-
-  const { data } =
-    api.pvMenagerRouter.getSingle.useQuery<PhotovoltaicDataToCalculation | null>();
-
-  useEffect(() => {
-    sessionStorage.setItem(
-      "creditPercentage",
-      JSON.stringify(data?.creditPercentage)
-    );
-  }, [data?.creditPercentage]);
 
   const {
     mutate: set_outOfLimit_price_trend,
@@ -257,27 +240,11 @@ export const usePhotovoltaic = () => {
       },
     });
 
-  const handleTigoinput = (e: { target: { valueAsNumber: number } }) => {
-    if (data)
-      set_tigo_price({
-        tigo_price: data?.addons.tigo,
-        tigo_count: e.target.valueAsNumber,
-      });
-  };
-
-  const getDataDependsOnPanelPower = () => {
-    if (store.photovoltaicStore.panelPower === smallestPanel)
-      return data?.panels_small;
-    else if (store.photovoltaicStore.panelPower === mediumPanel)
-      return data?.panels_medium;
-    else if (store.photovoltaicStore.panelPower === largestPanel)
-      return data?.panels_large;
-  };
-
   return {
-    photovoltaicData: data,
     photovoltaicStore: store.photovoltaicStore,
     photovoltaicCalcStore: store.photovoltaicCalculations,
+    updatePhotovoltaic: store.updatePhotovoltaic,
+    updatePhotovoltaicCalcs: store.updatePhotovoltaicCalcs,
     loading: {
       outOfLimit_price_trend_loading,
       yearly_bill_without_photovolatics_loading,
@@ -285,8 +252,6 @@ export const usePhotovoltaic = () => {
       yearly_costs_with_photovoltaics_loading,
     },
     mutations: {
-      getDataDependsOnPanelPower,
-      handleTigoinput,
       set_outOfLimit_price_trend,
       set_system_power,
       set_estimated_kWh_prod,

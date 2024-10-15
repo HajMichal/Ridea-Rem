@@ -2,7 +2,6 @@ import { useAutoAnimate } from "@formkit/auto-animate/react";
 import React from "react";
 import { PdfGeneratorButton, TextComponent } from "~/components";
 import { useAirCondition } from "~/hooks/useAirCondition";
-import { airConditionCalculationSlice } from "~/store/airCondition/airConditionCalculationSlice";
 
 export const Preview = () => {
   const { airConditionStore, airConditionCalcStore } = useAirCondition();

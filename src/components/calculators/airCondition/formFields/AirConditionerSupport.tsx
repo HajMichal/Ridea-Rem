@@ -4,28 +4,28 @@ import { InputComponent } from "~/components";
 import { useAirCondition } from "~/hooks/useAirCondition";
 import useStore from "~/store";
 
-export const AirConditionerSupport = () => {
-  const store = useStore();
-  const { calcData, mutations, airConditionStore } = useAirCondition();
+interface AirConditionerSupportType {
+  price?: number;
+}
+export const AirConditionerSupport = ({ price }: AirConditionerSupportType) => {
+  const { mutations, airConditionStore, updateAirCondition } =
+    useAirCondition();
 
   const [debouncedAirCondStore] = useDebouncedValue(airConditionStore, 200);
 
   useEffect(() => {
-    if (calcData)
+    if (price)
       mutations.setAirConditionerSupportPrice({
         quantity: debouncedAirCondStore.airConditionerSupport,
-        price: calcData.addons.airConditionerSupport,
+        price: price,
       });
-  }, [
-    debouncedAirCondStore.airConditionerSupport,
-    calcData?.addons.airConditionerSupport,
-  ]);
+  }, [debouncedAirCondStore.airConditionerSupport, price]);
 
   return (
     <InputComponent
       title="WSPORNIK KLIMATYZATORA"
       onChange={({ target }) =>
-        store.updateAirCondition("airConditionerSupport", target.valueAsNumber)
+        updateAirCondition("airConditionerSupport", target.valueAsNumber)
       }
       step={1}
       value={airConditionStore.airConditionerSupport}

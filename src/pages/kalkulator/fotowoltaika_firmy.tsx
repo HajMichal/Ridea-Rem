@@ -9,17 +9,21 @@ import {
   ForCompanyMutation,
   Preview,
 } from "~/components/calculators/forCompany";
-import { useForCompany } from "~/hooks/useForCompany";
+import { api } from "~/utils/api";
+import { type ForCompanyDataToCalcualtionType } from "~/server/api/routers/forCompany/interfaces";
 
 const Fotowoltaika_firmy = () => {
   const router = useRouter();
   const { data: sessionData, status } = useSession();
 
-  const { forCompanyData } = useForCompany();
-
   useEffect(() => {
     if (status === "unauthenticated") void router.push("/auth/signin");
   }, [router, status]);
+
+  const { data: forCompanyData } =
+    api.forCompanyDataFlowRouter.downloadFile.useQuery<ForCompanyDataToCalcualtionType>(
+      sessionData?.user.id
+    );
 
   ForCompanyMutation({ data: forCompanyData, sessionData: sessionData });
 

@@ -1,21 +1,8 @@
-import { useSession } from "next-auth/react";
-import {
-  smallestPanel,
-  mediumPanel,
-  largestPanel,
-} from "~/constans/panelPowers";
-import { type ForCompanyDataToCalcualtionType } from "~/server/api/routers/forCompany/interfaces";
 import useStore from "~/store";
 import { api } from "~/utils/api";
 
 export const useForCompany = () => {
   const store = useStore();
-  const { data: sessionData } = useSession();
-
-  const { data } =
-    api.forCompanyDataFlowRouter.downloadFile.useQuery<ForCompanyDataToCalcualtionType>(
-      sessionData?.user.id
-    );
 
   const { mutate: setCalculateModuleCount } =
     api.forCompany.calculateModuleCount.useMutation({
@@ -100,16 +87,7 @@ export const useForCompany = () => {
       },
     });
 
-  const getDataDependsOnPanelPower = () => {
-    if (store.photovoltaicStore.panelPower === smallestPanel)
-      return data?.dane.czterysta;
-    else if (store.photovoltaicStore.panelPower === mediumPanel)
-      return data?.dane.czterysta_piecdziesiat;
-    else if (store.photovoltaicStore.panelPower === largestPanel)
-      return data?.dane.piecset;
-  };
   return {
-    forCompanyData: data,
     forCompanyStore: store.forCompanyStore,
     forCompanyCalcStore: store.forCompanyCalculationStore,
     mutations: {
@@ -128,7 +106,6 @@ export const useForCompany = () => {
 
       setCalculateModuleCount,
       setAllSystemPowers,
-      getDataDependsOnPanelPower,
     },
   };
 };

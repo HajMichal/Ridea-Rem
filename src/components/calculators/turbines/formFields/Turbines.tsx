@@ -1,16 +1,19 @@
 import { type ChangeEvent, memo, useEffect } from "react";
 import { InputComponent } from "~/components";
 import { useTurbines } from "~/hooks/useTurbines";
+import { type TurbinesData } from "~/server/api/routers/turbines/interfaces";
 
 type turbinesType =
   | "turbine500Count"
   | "turbine1000Count"
   | "turbine1500Count"
   | "turbine3000Count";
-function Turbines() {
+interface Turbines {
+  turbines?: TurbinesData;
+}
+function Turbines({ turbines }: Turbines) {
   const {
     mutations,
-    turbinesData,
     turbinesStore,
     updateTurbinesStore,
     updateTurbinesCalcStore,
@@ -30,10 +33,10 @@ function Turbines() {
     turbinesStore.turbine3000Count,
   ]);
 
-  if (!turbinesData?.turbines) return null;
+  if (!turbines) return null;
   return (
     <div>
-      {Object.entries(turbinesData.turbines).map(([key, value]) => {
+      {Object.entries(turbines).map(([key, value]) => {
         const storeKey = storeNameMap[key]!;
         const currentVal = turbinesStore[storeKey];
 

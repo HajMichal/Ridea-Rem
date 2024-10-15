@@ -3,22 +3,18 @@ import { SelectComponent } from "~/components";
 import { YESNO } from "~/constans/formsData";
 import { useTurbines } from "~/hooks/useTurbines";
 
-const Matebox = () => {
-  const {
-    turbinesStore,
-    turbinesData,
-    updateTurbinesStore,
-    updateTurbinesCalcStore,
-  } = useTurbines();
+interface MateboxType {
+  mateboxPrice?: number;
+}
+const Matebox = ({ mateboxPrice }: MateboxType) => {
+  const { turbinesStore, updateTurbinesStore, updateTurbinesCalcStore } =
+    useTurbines();
 
   const handleChange = (e: string | null) => {
     updateTurbinesStore("isMatebox", e == "true");
 
-    if (e == "true" && turbinesData?.energyStore) {
-      updateTurbinesCalcStore(
-        "mateboxCost",
-        turbinesData.energyStore["matebox"]
-      );
+    if (e == "true" && mateboxPrice) {
+      updateTurbinesCalcStore("mateboxCost", mateboxPrice);
     } else {
       updateTurbinesCalcStore("mateboxCost", 0);
     }

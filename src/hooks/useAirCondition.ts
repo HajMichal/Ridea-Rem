@@ -1,5 +1,4 @@
 import { useSession } from "next-auth/react";
-import { type AirConditionDataToCalculation } from "~/server/api/routers/airCondition/interfaces";
 import useStore from "~/store";
 import { api } from "~/utils/api";
 
@@ -11,8 +10,8 @@ export const useAirCondition = () => {
     airConditionStore,
     airConditionCalcStore,
     updateAirConditionCalculation,
+    updateAirCondition,
   } = store;
-  const { data: calcData } = api.airCondMenagerData.getSingle.useQuery();
 
   const { mutate: setCopperPipePrice } =
     api.airCondition.setCopperPipePrice.useMutation({
@@ -93,9 +92,10 @@ export const useAirCondition = () => {
 
   return {
     sessionData: sessionData,
-    calcData: calcData,
     airConditionStore: airConditionStore,
     airConditionCalcStore: airConditionCalcStore,
+    updateAirCondition,
+    updateAirConditionCalculation,
     mutations: {
       setCopperPipePrice,
       setCopperCable15Price,

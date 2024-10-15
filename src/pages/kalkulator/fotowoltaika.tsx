@@ -8,7 +8,8 @@ import {
 } from "~/components/calculators/photovoltaics";
 import { useRouter } from "next/router";
 import { Loading, Navbar, SideBar } from "~/components";
-import { usePhotovoltaic } from "~/hooks/usePhotovoltaic";
+import { api } from "~/utils/api";
+import type { PhotovoltaicDataToCalculation } from "~/server/api/routers/photovoltaic/interfaces";
 
 const Fotowoltaika = () => {
   const { data: sessionData, status } = useSession();
@@ -18,7 +19,8 @@ const Fotowoltaika = () => {
     if (status === "unauthenticated") void router.push("/auth/signin");
   }, [router, status]);
 
-  const { photovoltaicData } = usePhotovoltaic();
+  const { data: photovoltaicData } =
+    api.pvMenagerRouter.getSingle.useQuery<PhotovoltaicDataToCalculation>();
 
   PhotovoltaicMutations({ data: photovoltaicData, sessionData: sessionData });
 
@@ -34,8 +36,10 @@ const Fotowoltaika = () => {
       <div className="w-full">
         <Navbar />
         <div className="flex h-full max-h-[90vw] flex-wrap overflow-scroll p-4 laptop:overflow-hidden">
-          <PhotovoltaicFormulas />
-          <Preview />
+          <PhotovoltaicFormulas photovoltaicData={photovoltaicData} />
+          <Preview
+            heatStorePrice={photovoltaicData?.dotations["magazynCiepla"]}
+          />
         </div>
       </div>
     </main>

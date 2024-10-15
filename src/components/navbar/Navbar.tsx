@@ -1,64 +1,17 @@
 import { useSession } from "next-auth/react";
 import { IoIosMenu } from "react-icons/io";
 import React, { memo } from "react";
-import { SelectComponent } from "../SelectComponent";
 import useStore from "~/store";
-import { usePhotovoltaic } from "~/hooks/usePhotovoltaic";
-import { useRouter } from "next/router";
-import { useHeatPump } from "~/hooks/useHeatPump";
-import { useForCompany } from "~/hooks/useForCompany";
-import { useHeatHome } from "~/hooks/useHeatHome";
 import AuthShowcase from "../AuthShowcase";
 import { CALCULATORS } from "~/constans/calculatorTypes";
 import { LinkComponent } from "./LinkComponent";
 import { DropdownMenu } from "../DropdownMenu";
-import { useAirCondition } from "~/hooks/useAirCondition";
-import { useTurbines } from "~/hooks/useTurbines";
 import { InputComponent } from "../InputComponent";
 import { Switch } from "@mantine/core";
 
-const consultantProvisionsData = [
-  "0",
-  "100",
-  "200",
-  "300",
-  "400",
-  "500",
-  "550",
-  "600",
-  "650",
-  "700",
-  "750",
-  "800",
-  "850",
-  "900",
-  "950",
-  "1000",
-];
-const heatHomeProvisionData = [
-  "0",
-  "10",
-  "15",
-  "20",
-  "25",
-  "30",
-  "35",
-  "40",
-  "45",
-  "50",
-];
-const airCondtitionProvisionData = ["0", "500", "1000", "1500", "2000"];
-
 export const Navbar = memo(function Navbar() {
   const { data: sessionData } = useSession();
-  const router = useRouter();
   const store = useStore();
-  const { photovoltaicStore } = usePhotovoltaic();
-  const { heatPumpStore } = useHeatPump();
-  const { forCompanyStore } = useForCompany();
-  const { heatHomeStore } = useHeatHome();
-  const { airConditionStore } = useAirCondition();
-  const { turbinesStore } = useTurbines();
 
   const userRole = sessionData?.user.role;
 
@@ -125,74 +78,18 @@ export const Navbar = memo(function Navbar() {
               onChange={(e) => store.setHasContract(e.currentTarget.checked)}
             />
 
-            {router.pathname === "/kalkulator/fotowoltaika" && (
-              <InputComponent
-                title="POZIOM"
-                step={100}
-                smallField
-                onChange={(e) => {
-                  let value = e.target.valueAsNumber;
-                  if (Number.isNaN(value)) value = 0;
+            <InputComponent
+              title="POZIOM"
+              step={100}
+              smallField
+              onChange={(e) => {
+                let value = e.target.valueAsNumber;
+                if (Number.isNaN(value)) value = 0;
 
-                  store.updatePhotovoltaic("consultantMarkup", value);
-                }}
-                value={photovoltaicStore.consultantMarkup}
-              />
-            )}
-            {router.pathname === "/kalkulator/pompy_ciepla" && (
-              <SelectComponent
-                title="POZIOM"
-                onChange={(e) => {
-                  store.updateHeatPump("consultantMarkup", Number(e));
-                }}
-                value={heatPumpStore.consultantMarkup}
-                data={consultantProvisionsData.slice(0, 6)}
-              />
-            )}
-            {router.pathname === "/kalkulator/fotowoltaika_firmy" && (
-              <SelectComponent
-                title="POZIOM"
-                onChange={(e) => {
-                  store.updateForCompany("consultantMarkup", Number(e));
-                }}
-                value={forCompanyStore.consultantMarkup}
-                data={consultantProvisionsData}
-              />
-            )}
-            {router.pathname === "/kalkulator/cieplo_wlasciwe" && (
-              <SelectComponent
-                title="POZIOM"
-                onChange={(e) => {
-                  store.updateHeatHome("consultantMarkup", Number(e));
-                }}
-                value={heatHomeStore.consultantMarkup}
-                data={heatHomeProvisionData}
-              />
-            )}
-            {router.pathname === "/kalkulator/klimatyzacja" && (
-              <SelectComponent
-                title="POZIOM"
-                onChange={(e) => {
-                  store.updateAirCondition("consultantMarkup", Number(e));
-                }}
-                value={airConditionStore.consultantMarkup}
-                data={airCondtitionProvisionData}
-              />
-            )}
-            {router.pathname === "/kalkulator/turbiny" && (
-              <InputComponent
-                title="POZIOM"
-                step={100}
-                smallField
-                onChange={(e) => {
-                  let value = e.target.valueAsNumber;
-                  if (Number.isNaN(value)) value = 0;
-
-                  store.updateTurbines("consultantMarkup", value);
-                }}
-                value={turbinesStore.consultantMarkup}
-              />
-            )}
+                store.setMarkup(value);
+              }}
+              value={store.markupAmount}
+            />
           </div>
           <AuthShowcase />
         </div>

@@ -2,27 +2,29 @@ import { useDebouncedValue } from "@mantine/hooks";
 import React, { useEffect } from "react";
 import { InputComponent } from "~/components";
 import { useAirCondition } from "~/hooks/useAirCondition";
-import useStore from "~/store";
 
-export const Gutter = () => {
-  const store = useStore();
-  const { calcData, mutations, airConditionStore } = useAirCondition();
+interface GutterType {
+  price?: number;
+}
+export const Gutter = ({ price }: GutterType) => {
+  const { updateAirCondition, mutations, airConditionStore } =
+    useAirCondition();
 
   const [debouncedAirCondStore] = useDebouncedValue(airConditionStore, 200);
 
   useEffect(() => {
-    if (calcData)
+    if (price)
       mutations.setGutterPrice({
         quantity: debouncedAirCondStore.gutterLen,
-        price: calcData.addons.gutter,
+        price: price,
       });
-  }, [debouncedAirCondStore.gutterLen, calcData?.addons.gutter]);
+  }, [debouncedAirCondStore.gutterLen, price]);
 
   return (
     <InputComponent
       title="KORYTO 8x6 mm"
       onChange={({ target }) =>
-        store.updateAirCondition("gutterLen", target.valueAsNumber)
+        updateAirCondition("gutterLen", target.valueAsNumber)
       }
       step={1}
       value={airConditionStore.gutterLen}

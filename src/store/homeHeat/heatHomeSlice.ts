@@ -5,7 +5,6 @@ export interface HeatHomeType {
   windowSillCount: number;
   plasterArea: number;
   topFinish: number;
-  consultantMarkup: number;
   additionalAmount: number;
   dotationStep: string;
   installmentNumber: number;
@@ -26,7 +25,6 @@ export const heatHomeSlice: StateCreator<HeatHomeSlice> = (set) => ({
     windowSillCount: 0,
     plasterArea: 0,
     topFinish: 0,
-    consultantMarkup: 0,
     additionalAmount: 0,
     installmentNumber: 120,
     dotationStep: "prog0",

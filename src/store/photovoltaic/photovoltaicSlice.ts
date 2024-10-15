@@ -28,7 +28,6 @@ export interface PhotovoltaicsSlice {
     taxCredit: number;
     usageLimit: number;
     modulesCount: number;
-    consultantMarkup: number;
     autoconsumptionInPercent: number;
     energyPriceInLimit: number;
     energyPrice: number;
@@ -85,7 +84,6 @@ export const photovoltaicsSlice: StateCreator<PhotovoltaicsSlice> = (set) => ({
     taxCredit: 0.12,
     usageLimit: 0,
     modulesCount: 0,
-    consultantMarkup: 0,
     autoconsumptionInPercent: 0.1,
     energyPriceInLimit: 0,
     energyPrice: 0,

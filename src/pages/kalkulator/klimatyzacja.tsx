@@ -4,10 +4,10 @@ import { Loading, Navbar, SideBar } from "~/components";
 import { Preview } from "~/components/calculators/airCondition";
 import AirConditionFormulas from "~/components/calculators/airCondition/AirConditionFormulas";
 import { AirConditionMutations } from "~/components/calculators/airCondition/AirConditionMutations";
-import { useAirCondition } from "~/hooks/useAirCondition";
+import { api } from "~/utils/api";
 
 function Klimatyzacja() {
-  const { calcData } = useAirCondition();
+  const { data: calcData } = api.airCondMenagerData.getSingle.useQuery();
 
   AirConditionMutations();
   return (

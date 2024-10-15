@@ -17,8 +17,12 @@ import {
   RoofCoverage,
   RoofPitch,
 } from "./formFields";
+import { type TurbineCalcData } from "~/server/api/routers/turbines/interfaces";
 
-export function TurbinesFormulas() {
+interface TurbinesFormulasType {
+  turbinesData?: TurbineCalcData;
+}
+export function TurbinesFormulas({ turbinesData }: TurbinesFormulasType) {
   return (
     <div id="FORM" className="h-full p-3 laptop:w-[55%] laptop:min-w-[500px] ">
       <h1
@@ -30,17 +34,20 @@ export function TurbinesFormulas() {
       <ScrollArea h={"78%"}>
         <div className="laptop:mr-4">
           <h2 className="font-orkneyBold">TURBINY</h2>
-          <Turbines />
+          <Turbines turbines={turbinesData?.turbines} />
           <Phases />
-          <Inverters />
+          <Inverters addons={turbinesData?.addons} />
           {/* <MastFoundation /> */}
-          <MastType />
+          <MastType
+            steelMasts={turbinesData?.addons.stalowy}
+            strunobeton={turbinesData?.addons.strunobeton}
+          />
           <h2 className="mt-8 font-orkneyBold">MAGAZYN ENERGII</h2>
           <ChooseEnergyStore />
-          {/* <BatteryController /> */}
-          {/* <EnergyMenagerCounter /> */}
-          {/* <BatteryCapacity /> */}
-          <Matebox />
+          {/* <BatteryController controller={turbinesData?.energyStore["T30 controller"]} /> */}
+          {/* <EnergyMenagerCounter energyStoreCounter={turbinesData?.energyStore.licznik} /> */}
+          {/* <BatteryCapacity batteries={turbinesData?.energyStore.battery} /> */}
+          <Matebox mateboxPrice={turbinesData?.energyStore.matebox} />
           <Installments />
           <EstimatedDotationSum />
           <IsVat />

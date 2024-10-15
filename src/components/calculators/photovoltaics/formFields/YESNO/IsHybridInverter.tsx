@@ -2,19 +2,18 @@ import { memo } from "react";
 import { SelectComponent } from "~/components";
 import { YESNO } from "~/constans/formsData";
 import { usePhotovoltaic } from "~/hooks/usePhotovoltaic";
-import useStore from "~/store";
 
-const IsHybridInverter = () => {
-  const { photovoltaicStore, photovoltaicData } = usePhotovoltaic();
-  const store = useStore();
+interface HybridInverterType {
+  price?: number;
+}
+const IsHybridInverter = ({ price }: HybridInverterType) => {
+  const { photovoltaicStore, updatePhotovoltaic, updatePhotovoltaicCalcs } =
+    usePhotovoltaic();
 
   const handleChange = (e: string | null) => {
-    store.updatePhotovoltaic("isInwerterChoosed", e == "true");
-    if (photovoltaicData?.addons) {
-      store.updatePhotovoltaicCalcs(
-        "hybridInwerter_price",
-        e == "true" ? photovoltaicData.addons.inwerterHybrydowy : 0
-      );
+    updatePhotovoltaic("isInwerterChoosed", e == "true");
+    if (price) {
+      updatePhotovoltaicCalcs("hybridInwerter_price", e == "true" ? price : 0);
     }
   };
 

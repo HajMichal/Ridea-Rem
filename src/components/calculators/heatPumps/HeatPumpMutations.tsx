@@ -146,7 +146,7 @@ export const HeatPumpMutations = ({
         system_power: data.heatPumps[heatPumpStore.suggestedPump]!.fee,
         officeFee: sessionData.user.feePerkwHeatPump,
         constantFee: sessionData.user.imposedFeeHeatPump,
-        consultantFee: heatPumpStore.consultantMarkup,
+        consultantFee: store.markupAmount,
         hasUserContract: store.hasContract,
         creatorId:
           sessionData.user.role === 3 ? sessionData.user.creatorId : "",
@@ -154,7 +154,7 @@ export const HeatPumpMutations = ({
     }
   }, [
     store.hasContract,
-    heatPumpStore.consultantMarkup,
+    store.markupAmount,
     sessionData?.user,
     heatPumpStore.suggestedPump,
     data?.heatPumps,

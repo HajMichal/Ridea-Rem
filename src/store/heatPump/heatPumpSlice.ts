@@ -64,7 +64,6 @@ export interface HeatPumpSlice {
     oneTonneOfResourceCost: number;
     minimalWorkingTemp: number;
     yearlyHeatingHomeCost: number;
-    consultantMarkup: number;
     installmentNumber: number;
 
     suggestedPump: PumpsOffer | "";
@@ -102,7 +101,6 @@ export const heatPumpSlice: StateCreator<HeatPumpSlice> = (set) => ({
     oneTonneOfResourceCost: 0,
     longerIsolationFromMineralWool: 0,
     minimalWorkingTemp: -7,
-    consultantMarkup: 0,
 
     installmentNumber: 120,
 

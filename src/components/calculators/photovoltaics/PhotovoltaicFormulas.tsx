@@ -35,8 +35,12 @@ import {
   Installments,
   Promotion,
 } from "./formFields";
+import { type PhotovoltaicDataToCalculation } from "~/server/api/routers/photovoltaic/interfaces";
 
-function PhotovoltaicFormulas() {
+interface PhotovoltaicFormulasType {
+  photovoltaicData?: PhotovoltaicDataToCalculation;
+}
+function PhotovoltaicFormulas({ photovoltaicData }: PhotovoltaicFormulasType) {
   return (
     <div id="FORM" className="h-full p-3 laptop:w-[55%] laptop:min-w-[500px] ">
       <h1
@@ -57,23 +61,25 @@ function PhotovoltaicFormulas() {
           <ChooseSolar />
           <ModulesCount />
           <Autoconsumption />
-          <CablesAC />
+          <CablesAC price={photovoltaicData?.addons.kableAC} />
           <IsGroundMontage />
           <IsDitching />
-          <DitchLength />
+          <DitchLength price={photovoltaicData?.addons.przekopy} />
           <IsSouthRoof />
           <ChooseEccentrics />
           <IsRoofSystem />
           <TigoCount />
-          <IsHybridInverter />
+          <IsHybridInverter
+            price={photovoltaicData?.addons.inwerterHybrydowy}
+          />
           <IsHeatStore />
-          <ChooseBoiler />
+          <ChooseBoiler boilersData={photovoltaicData?.boilers} />
           <IsEms />
           <IsEnergyStore />
-          <ChooseEnergyStore />
-          <IsMatebox />
+          <ChooseEnergyStore energyStoreData={photovoltaicData?.energyStore} />
+          <IsMatebox price={photovoltaicData?.addons.matebox} />
           <IsCarPort />
-          <ChooseCarPort />
+          <ChooseCarPort carPort={photovoltaicData?.carPort} />
           <ChooseTaxRelif />
           <DotationMojPrad />
           <DotationCzystePowietrze />

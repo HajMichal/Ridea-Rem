@@ -2,27 +2,29 @@ import { useDebouncedValue } from "@mantine/hooks";
 import React, { useEffect } from "react";
 import { InputComponent } from "~/components";
 import { useAirCondition } from "~/hooks/useAirCondition";
-import useStore from "~/store";
 
-export const PipeConnector = () => {
-  const store = useStore();
-  const { calcData, mutations, airConditionStore } = useAirCondition();
+interface PipeConnectorType {
+  price?: number;
+}
+export const PipeConnector = ({ price }: PipeConnectorType) => {
+  const { updateAirCondition, mutations, airConditionStore } =
+    useAirCondition();
 
   const [debouncedAirCondStore] = useDebouncedValue(airConditionStore, 200);
 
   useEffect(() => {
-    if (calcData)
+    if (price)
       mutations.setPipeConnectorPrice({
         quantity: debouncedAirCondStore.pipeConnector,
-        price: calcData.addons.connector,
+        price: price,
       });
-  }, [debouncedAirCondStore.pipeConnector, calcData?.addons.connector]);
+  }, [debouncedAirCondStore.pipeConnector, price]);
 
   return (
     <InputComponent
       title="ŁĄCZNIK / KOLANO / ZAKOŃCZENIE"
       onChange={({ target }) =>
-        store.updateAirCondition("pipeConnector", target.valueAsNumber)
+        updateAirCondition("pipeConnector", target.valueAsNumber)
       }
       step={1}
       value={airConditionStore.pipeConnector}

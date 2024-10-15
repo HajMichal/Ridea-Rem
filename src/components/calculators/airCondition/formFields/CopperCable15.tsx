@@ -4,22 +4,22 @@ import { InputComponent } from "~/components";
 import { useAirCondition } from "~/hooks/useAirCondition";
 import useStore from "~/store";
 
-export const CopperCable15 = () => {
+interface CopperCable15Type {
+  price?: number;
+}
+export const CopperCable15 = ({ price }: CopperCable15Type) => {
   const store = useStore();
-  const { calcData, mutations, airConditionStore } = useAirCondition();
+  const { mutations, airConditionStore } = useAirCondition();
 
   const [debouncedAirCondStore] = useDebouncedValue(airConditionStore, 200);
 
   useEffect(() => {
-    if (calcData)
+    if (price)
       mutations.setCopperCable15Price({
         quantity: debouncedAirCondStore.copperCableLen15,
-        price: calcData.addons["copperCable1/5"],
+        price: price,
       });
-  }, [
-    calcData?.addons["copperCable1/5"],
-    debouncedAirCondStore.copperCableLen15,
-  ]);
+  }, [price, debouncedAirCondStore.copperCableLen15]);
 
   return (
     <InputComponent

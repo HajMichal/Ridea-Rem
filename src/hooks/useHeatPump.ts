@@ -5,9 +5,6 @@ import { api } from "~/utils/api";
 export const useHeatPump = () => {
   const store = useStore();
 
-  const { data } =
-    api.heatPumpDataFlowRouter.getSingle.useQuery<HeatPumpCalcType>();
-
   const { mutate: setBufforCost } = api.heatPump.bufforCost.useMutation({
     onSuccess: (data) => {
       store.updateHeatPumpCalcs("bufforCost", data);
@@ -141,9 +138,10 @@ export const useHeatPump = () => {
   });
 
   return {
-    heatPumpData: data,
     heatPumpStore: store.heatPumpStore,
     heatPumpCalcStore: store.heatPumpCalculationStore,
+    updateHeatPump: store.updateHeatPump,
+    updateHeatPumpCalcs: store.updateHeatPumpCalcs,
     mutations: {
       setMarkupCosts,
       setBufforCost,

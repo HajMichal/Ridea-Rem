@@ -1,7 +1,7 @@
 import { memo } from "react";
 import { SelectComponent } from "~/components";
 import { usePhotovoltaic } from "~/hooks/usePhotovoltaic";
-import useStore from "~/store";
+import { type CarPort } from "~/server/api/routers/photovoltaic/interfaces";
 
 const data = [
   { value: "0_stan", label: "BRAK" },
@@ -14,18 +14,21 @@ const data = [
   { value: "stan12", label: "12 STAN. 90 MODUŁÓW" },
 ];
 
-const ChooseCarPort = () => {
-  const { photovoltaicStore, photovoltaicData } = usePhotovoltaic();
-  const store = useStore();
+interface CarPortType {
+  carPort?: CarPort;
+}
+const ChooseCarPort = ({ carPort }: CarPortType) => {
+  const { photovoltaicStore, updatePhotovoltaic, updatePhotovoltaicCalcs } =
+    usePhotovoltaic();
 
   const handleChange = (e: string | null) => {
-    store.updatePhotovoltaic("choosedCarPort", String(e));
-    if (photovoltaicData?.carPort) {
+    updatePhotovoltaic("choosedCarPort", String(e));
+    if (carPort) {
       const carPortCost =
         photovoltaicStore.choosedCarPort !== "0_stan"
-          ? photovoltaicData.carPort[photovoltaicStore.choosedCarPort]
+          ? carPort[photovoltaicStore.choosedCarPort]
           : 0;
-      store.updatePhotovoltaicCalcs("carPortCost", carPortCost);
+      updatePhotovoltaicCalcs("carPortCost", carPortCost);
     }
   };
 

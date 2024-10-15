@@ -3,7 +3,6 @@ import { api } from "~/utils/api";
 
 export const useTurbines = () => {
   const store = useStore();
-  const { data: calcData } = api.turbinesMenagerRouter.getSingle.useQuery();
 
   const { mutate: setInverterCost } = api.turbines.setInverterCost.useMutation({
     onSuccess: (data) => {
@@ -21,27 +20,6 @@ export const useTurbines = () => {
     api.turbines.setTurbinesDetails.useMutation({
       onSuccess: (data) => {
         store.updateTurbines("turbinesDetails", data);
-        if (calcData?.addons) {
-          const basesCost =
-            data.smallBaseCount * calcData.addons["podstawa dachowa"] +
-            data.biggerBaseCount * calcData.addons["podstawa dachowa3000"];
-          store.updateTurbinesCalc("turbinesBasesCost", basesCost);
-
-          const montageCost =
-            data.turbinesCount !== 0
-              ? calcData.addons["montaż bazowo"] +
-                calcData.addons["montaż dodatkowo"] * (data.turbinesCount - 2)
-              : 0;
-          store.updateTurbinesCalc("turbinesMontageCost", montageCost);
-
-          const transportCost =
-            data.turbinesCount !== 0 ? calcData.addons.wysylka : 0;
-          store.updateTurbinesCalc("transportCost", transportCost);
-
-          const greaterPowerFee =
-            data.totalPower > 3 ? calcData.addons["instalacja powyzej 3kw"] : 0;
-          store.updateTurbinesCalc("greaterPowerFee", greaterPowerFee);
-        }
       },
     });
 
@@ -66,7 +44,6 @@ export const useTurbines = () => {
   });
 
   return {
-    turbinesData: calcData,
     turbinesStore: store.turbinesStore,
     turbinesCalcStore: store.turbinesCalcStore,
     updateTurbinesStore: store.updateTurbines,

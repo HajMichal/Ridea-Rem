@@ -3,21 +3,17 @@ import { SelectComponent } from "~/components";
 import { YESNO } from "~/constans/formsData";
 import { useTurbines } from "~/hooks/useTurbines";
 
-const BatteryController = () => {
-  const {
-    turbinesStore,
-    turbinesData,
-    updateTurbinesStore,
-    updateTurbinesCalcStore,
-  } = useTurbines();
+interface BatteryControllerType {
+  controller?: number;
+}
+const BatteryController = ({ controller }: BatteryControllerType) => {
+  const { turbinesStore, updateTurbinesStore, updateTurbinesCalcStore } =
+    useTurbines();
 
   const handleChange = (e: string | null) => {
     updateTurbinesStore("isBatteryController", e == "true");
-    if (e == "true" && turbinesData?.energyStore) {
-      updateTurbinesCalcStore(
-        "t30ControllerCost",
-        turbinesData.energyStore["T30 controller"]
-      );
+    if (e == "true" && controller) {
+      updateTurbinesCalcStore("t30ControllerCost", controller);
     } else {
       updateTurbinesCalcStore("t30ControllerCost", 0);
       updateTurbinesStore("batteryCapacity", 0);

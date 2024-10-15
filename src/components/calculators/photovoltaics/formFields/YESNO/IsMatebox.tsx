@@ -2,18 +2,17 @@ import { memo } from "react";
 import { SelectComponent } from "~/components";
 import { YESNO } from "~/constans/formsData";
 import { usePhotovoltaic } from "~/hooks/usePhotovoltaic";
-import useStore from "~/store";
 
-const IsMatebox = () => {
-  const { photovoltaicStore, photovoltaicData } = usePhotovoltaic();
-  const store = useStore();
+interface MateboxType {
+  price?: number;
+}
+const IsMatebox = ({ price }: MateboxType) => {
+  const { photovoltaicStore, updatePhotovoltaic, updatePhotovoltaicCalcs } =
+    usePhotovoltaic();
 
   const handleChange = (e: string | null) => {
-    store.updatePhotovoltaic("isMatebox", e == "true");
-    store.updatePhotovoltaicCalcs(
-      "mateboxCost",
-      e == "true" ? photovoltaicData?.addons.matebox : 0
-    );
+    updatePhotovoltaic("isMatebox", e == "true");
+    updatePhotovoltaicCalcs("mateboxCost", e == "true" ? price : 0);
   };
 
   return (

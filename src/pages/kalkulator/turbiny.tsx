@@ -20,7 +20,7 @@ const Turbiny = () => {
     if (status === "unauthenticated") void router.push("/auth/signin");
   }, [router, status]);
 
-  TurbinesMutations();
+  TurbinesMutations({ turbinesData: turbinesData ?? undefined });
   return (
     <main className="flex h-full max-h-screen overflow-hidden bg-backgroundGray font-orkney laptop:justify-center">
       {!turbinesData && (
@@ -34,7 +34,7 @@ const Turbiny = () => {
         <Navbar />
         {turbinesData && (
           <div className="flex h-full flex-wrap justify-center overflow-scroll p-4 laptop:overflow-hidden">
-            <TurbinesFormulas />
+            <TurbinesFormulas turbinesData={turbinesData} />
             <Preview />
           </div>
         )}

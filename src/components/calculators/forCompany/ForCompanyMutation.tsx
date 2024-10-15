@@ -2,6 +2,12 @@ import { useEffect, useRef } from "react";
 import { useForCompany } from "~/hooks/useForCompany";
 import { type ForCompanyDataToCalcualtionType } from "~/server/api/routers/forCompany/interfaces";
 import { type Session } from "next-auth";
+import {
+  largestPanel,
+  mediumPanel,
+  smallestPanel,
+} from "~/constans/panelPowers";
+import useStore from "~/store";
 
 interface ForCompanyMutationType {
   data?: ForCompanyDataToCalcualtionType;
@@ -14,6 +20,15 @@ export const ForCompanyMutation = ({
 }: ForCompanyMutationType) => {
   const isInitialRenderRef = useRef(true);
   const { mutations, forCompanyStore, forCompanyCalcStore } = useForCompany();
+
+  const getDataDependsOnPanelPower = () => {
+    if (forCompanyStore.panelPower === smallestPanel)
+      return data?.dane.czterysta;
+    else if (forCompanyStore.panelPower === mediumPanel)
+      return data?.dane.czterysta_piecdziesiat;
+    else if (forCompanyStore.panelPower === largestPanel)
+      return data?.dane.piecset;
+  };
 
   useEffect(() => {
     if (forCompanyStore.wantedInstalationPower > 0)
@@ -65,7 +80,7 @@ export const ForCompanyMutation = ({
   useEffect(() => {
     if (data)
       mutations.setFor1KwAndBaseInstallationPrice({
-        dane: mutations.getDataDependsOnPanelPower()!,
+        dane: getDataDependsOnPanelPower()!,
         system_power: forCompanyCalcStore.sysPower ?? 0,
       });
   }, [forCompanyStore.panelPower, forCompanyCalcStore.sysPower, data]);

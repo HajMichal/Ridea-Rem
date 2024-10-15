@@ -2,13 +2,14 @@ import React, { useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { Overlay } from "@mantine/core";
 import { useRouter } from "next/router";
-import { useHeatPump } from "~/hooks/useHeatPump";
 import { SideBar, Navbar, Loading } from "~/components";
 import {
   HeatPumpMutations,
   HeatPumpFormulas,
   Preview,
 } from "~/components/calculators/heatPumps";
+import { api } from "~/utils/api";
+import { type HeatPumpCalcType } from "~/server/api/routers/heatpump/interfaces";
 
 const Pompy_ciepla = () => {
   const router = useRouter();
@@ -18,7 +19,8 @@ const Pompy_ciepla = () => {
     if (status === "unauthenticated") void router.push("/auth/signin");
   }, [router, status]);
 
-  const { heatPumpData } = useHeatPump();
+  const { data: heatPumpData } =
+    api.heatPumpDataFlowRouter.getSingle.useQuery<HeatPumpCalcType>();
 
   HeatPumpMutations({ data: heatPumpData, sessionData: sessionData });
 

@@ -2,15 +2,19 @@ import { memo, useEffect } from "react";
 import { SelectComponent } from "~/components";
 import { useTurbines } from "~/hooks/useTurbines";
 
-const MastType = () => {
-  const {
-    turbinesStore,
-    turbinesData,
-    updateTurbinesStore,
-    updateTurbinesCalcStore,
-  } = useTurbines();
+interface MastTypeType {
+  steelMasts?: {
+    trzy: number;
+    szesc: number;
+    dziewiec: number;
+    dwanascie: number;
+  };
+  strunobeton?: number;
+}
+const MastType = ({ steelMasts, strunobeton }: MastTypeType) => {
+  const { turbinesStore, updateTurbinesStore, updateTurbinesCalcStore } =
+    useTurbines();
 
-  const steelMasts = turbinesData?.addons.stalowy;
   const steelMastsNameMapper = steelMasts && {
     "0": 0,
     "3": steelMasts.trzy,
@@ -22,10 +26,10 @@ const MastType = () => {
   const handleChange = (e: string | null) => {
     updateTurbinesStore("mastType", e);
 
-    if (turbinesData?.addons) {
+    if (strunobeton) {
       if (e === "strunobetonowy") {
         updateTurbinesStore("steelMast", 0);
-        updateTurbinesCalcStore("mastCost", turbinesData.addons.strunobeton);
+        updateTurbinesCalcStore("mastCost", strunobeton);
       } else {
         updateTurbinesCalcStore("mastCost", 0);
       }
