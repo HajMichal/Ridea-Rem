@@ -67,7 +67,7 @@ export const Navbar = memo(function Navbar() {
         {userRole === 1 && (
           <DropdownMenu mainButtonTitle="EDYCJA" contextData={CALCULATORS} />
         )}
-        <div className="flex min-w-[350px] items-center gap-10">
+        <div className="flex items-center gap-10">
           <div className="flex flex-col items-center justify-center">
             <Switch
               size="lg"
@@ -89,6 +89,7 @@ export const Navbar = memo(function Navbar() {
                 store.setMarkup(value);
               }}
               value={store.markupAmount}
+              extraSmallField
             />
           </div>
           <AuthShowcase />

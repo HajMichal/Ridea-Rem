@@ -27,12 +27,11 @@ const Inverters = ({ addons }: InvertersType) => {
   }, [turbinesStore.isThreePhasesInverter, turbinesStore.isHybridInverter]);
 
   useEffect(() => {
+    // Usunac to pole i wymienic na formułe (kwota z bazy danych) * moc instalacji w Watach
     if (addons) {
       const invBase = addons["podstawa inwertera"];
       const invBaseCost =
-        turbinesStore.turbinesDetails.totalPower !== 0
-          ? invBase + invBase * turbinesStore.turbinesDetails.totalPower
-          : 0;
+        turbinesStore.turbinesDetails.totalPower !== 0 ? invBase : 0;
       updateTurbinesCalcStore("inverterBaseCost", invBaseCost);
     }
   }, [turbinesStore.turbinesDetails.totalPower]);

@@ -6,6 +6,7 @@ interface InputType {
   value: number | string;
   step: number;
   smallField?: boolean;
+  extraSmallField?: boolean;
   disable?: boolean;
 }
 
@@ -15,6 +16,7 @@ export const InputComponent = ({
   value,
   step,
   smallField = false,
+  extraSmallField = false,
   disable = false,
 }: InputType) => {
   return (
@@ -28,7 +30,7 @@ export const InputComponent = ({
         disabled={disable}
         className={`border-b-[1.5px] border-dark bg-inherit p-1 pl-2 focus:border-brand focus:outline-none ${
           smallField && "max-w-[120px]"
-        }`}
+        } ${extraSmallField && "w-[60px]"}`}
       />
       <div>{title}</div>
     </div>
