@@ -76,6 +76,6 @@ export const avivableProvision: Record<string, string> = {
   //   imposedFeeHeatHome: "Stała prowizja ciepło właściwe",
   //   feePerkwHeatHome: "Prowizja od M² ciepło właściwe",
   imposedFeeAirCondition: "Stała prowizja klimatyzacja",
-  feePerkwTurbines: "Prowizja od kW turbiny",
+  feePerkwTurbines: "Prowizja od szt turbiny",
   imposedFeeTurbines: "Stała prowizja turbiny",
 };

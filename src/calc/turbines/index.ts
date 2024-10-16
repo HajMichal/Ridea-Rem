@@ -3,6 +3,7 @@ import { tax23, tax8 } from "~/constans/taxPercentage";
 interface InverterType {
   isThreePhasesInverter: boolean;
   isHybridInverter: boolean;
+  singlePhaseInvCost: number;
   threePhaseInvCost: number;
   hybridInvCost: number;
 }
@@ -14,7 +15,7 @@ export function setInverterCost({ input }: { input: InverterType }) {
   } else if (input.isThreePhasesInverter && input.isHybridInverter) {
     return input.threePhaseInvCost + input.hybridInvCost;
   } else {
-    return 0;
+    return input.singlePhaseInvCost;
   }
 }
 
@@ -60,13 +61,15 @@ export function setTurbinesDetails({ input }: TurbinesDetailsType) {
   const power3000 = input.turbine3000Count * 3000;
 
   const totalPower = (power500 + power1000 + power1500 + power3000) / 1000;
-  const smallBaseCount =
-    input.turbine500Count + input.turbine1000Count + input.turbine1500Count;
+  const mediumBaseCount = input.turbine1000Count + input.turbine1500Count;
+
   return {
     totalPower,
     roundedTotalPower: Math.floor(totalPower * 2) / 2,
-    turbinesCount: smallBaseCount + input.turbine3000Count,
-    smallBaseCount,
+    turbinesCount:
+      input.turbine500Count + mediumBaseCount + input.turbine3000Count,
+    smallBaseCount: input.turbine500Count,
+    mediumBaseCount,
     biggerBaseCount: input.turbine3000Count,
   };
 }
@@ -86,11 +89,14 @@ interface TurbinesTotalCost {
     greaterPowerFee: number;
     inverterBase: number;
     feesAmount: number;
+    cableCost: number;
+    zwyzka: number;
 
     isVat23: boolean;
   };
 }
 export function setTurbinesTotalCost({ input }: TurbinesTotalCost) {
+  console.log(input);
   // const values = Object.values(input).filter((val) => typeof val === "number");
   const values = Object.values(input).filter(
     (val): val is number => typeof val === "number"

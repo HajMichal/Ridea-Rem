@@ -46,6 +46,15 @@ export function TurbinesMutations({ turbinesData }: TurbinesMutationsType) {
         inverterBase: turbinesCalcStore.inverterBaseCost,
         greaterPowerFee: turbinesCalcStore.greaterPowerFee,
         feesAmount: turbinesCalcStore.officeMarkup.markupSumValue,
+        cableCost:
+          turbinesStore.turbinesDetails.turbinesCount !== 0
+            ? turbinesData.addons.kable
+            : 0,
+        zwyzka:
+          turbinesStore.turbinesDetails.turbinesCount !== 0
+            ? turbinesData.addons.zwyzka
+            : 0,
+
         isVat23: turbinesStore.isVat23,
       });
   }, [
@@ -61,7 +70,9 @@ export function TurbinesMutations({ turbinesData }: TurbinesMutationsType) {
     turbinesCalcStore.transportCost,
     turbinesCalcStore.inverterBaseCost,
     turbinesCalcStore.greaterPowerFee,
+    turbinesStore.turbinesDetails.turbinesCount,
     turbinesStore.isVat23,
+    turbinesData?.addons,
   ]);
 
   useEffect(() => {
@@ -69,14 +80,14 @@ export function TurbinesMutations({ turbinesData }: TurbinesMutationsType) {
       mutations.setOfficeMarkup({
         creatorId: sessionData.user.creatorId ?? undefined,
         constantFee: sessionData.user.imposedFeeTurbines,
-        perKwfee: sessionData.user.feePerkwTurbines,
-        systemPower: turbinesStore.turbinesDetails.roundedTotalPower,
+        perPcsFee: sessionData.user.feePerkwTurbines,
+        turbinesCount: turbinesStore.turbinesDetails.turbinesCount,
         consultantFee: store.markupAmount,
         hasUserContract: store.hasContract,
       });
   }, [
     sessionData?.user,
-    turbinesStore.turbinesDetails.roundedTotalPower,
+    turbinesStore.turbinesDetails.turbinesCount,
     store.markupAmount,
     store.hasContract,
   ]);
@@ -86,6 +97,8 @@ export function TurbinesMutations({ turbinesData }: TurbinesMutationsType) {
       const basesCost =
         turbinesStore.turbinesDetails.smallBaseCount *
           turbinesData.addons["podstawa dachowa"] +
+        turbinesStore.turbinesDetails.mediumBaseCount *
+          turbinesData.addons["podstawa dachowa1000/1500"] +
         turbinesStore.turbinesDetails.biggerBaseCount *
           turbinesData.addons["podstawa dachowa3000"];
       store.updateTurbinesCalc("turbinesBasesCost", basesCost);
@@ -94,13 +107,14 @@ export function TurbinesMutations({ turbinesData }: TurbinesMutationsType) {
         turbinesStore.turbinesDetails.turbinesCount !== 0
           ? turbinesData.addons["montaż bazowo"] +
             turbinesData.addons["montaż dodatkowo"] *
-              (turbinesStore.turbinesDetails.turbinesCount - 2)
+              turbinesStore.turbinesDetails.turbinesCount
           : 0;
       store.updateTurbinesCalc("turbinesMontageCost", montageCost);
 
       const transportCost =
         turbinesStore.turbinesDetails.turbinesCount !== 0
-          ? turbinesData.addons.wysylka
+          ? turbinesData.addons.wysylka *
+            turbinesStore.turbinesDetails.turbinesCount
           : 0;
       store.updateTurbinesCalc("transportCost", transportCost);
 
@@ -110,10 +124,5 @@ export function TurbinesMutations({ turbinesData }: TurbinesMutationsType) {
           : 0;
       store.updateTurbinesCalc("greaterPowerFee", greaterPowerFee);
     }
-  }, [
-    turbinesData?.addons,
-    turbinesStore.turbinesDetails.smallBaseCount,
-    turbinesStore.turbinesDetails.biggerBaseCount,
-    turbinesStore.turbinesDetails.turbinesCount,
-  ]);
+  }, [turbinesData?.addons, turbinesStore.turbinesDetails.turbinesCount]);
 }

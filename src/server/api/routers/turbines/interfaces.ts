@@ -8,6 +8,7 @@ export interface TurbinesData {
 }
 export interface Addons {
   "podstawa dachowa": number;
+  "podstawa dachowa1000/1500": number;
   "podstawa dachowa3000": number;
   strunobeton: number;
   stalowy: {
@@ -24,6 +25,11 @@ export interface Addons {
   wysylka: number;
   "podstawa inwertera": number;
   "instalacja powyzej 3kw": number;
+
+  "inwerter 1fazowy": number;
+  kable: number;
+  zwyzka: number;
+  cenaZaKazdyWat: number;
 }
 
 export interface TurbineCalcData extends Turbines {

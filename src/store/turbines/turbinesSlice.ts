@@ -12,6 +12,7 @@ export interface TurbinesSlice {
       roundedTotalPower: number;
       turbinesCount: number;
       smallBaseCount: number;
+      mediumBaseCount: number;
       biggerBaseCount: number;
     };
 
@@ -54,6 +55,7 @@ export const turbinesSlice: StateCreator<TurbinesSlice> = (set) => ({
       roundedTotalPower: 0,
       turbinesCount: 0,
       smallBaseCount: 0,
+      mediumBaseCount: 0,
       biggerBaseCount: 0,
     },
 

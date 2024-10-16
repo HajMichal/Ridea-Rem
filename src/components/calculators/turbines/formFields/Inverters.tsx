@@ -17,21 +17,35 @@ const Inverters = ({ addons }: InvertersType) => {
   } = useTurbines();
 
   useEffect(() => {
-    if (addons)
+    if (addons) {
       mutations.setInverterCost({
         isThreePhasesInverter: turbinesStore.isThreePhasesInverter,
         isHybridInverter: turbinesStore.isHybridInverter,
         threePhaseInvCost: addons["inwerter 3fazowy"],
         hybridInvCost: addons["inwerter hybrydowy"],
+        singlePhaseInvCost:
+          turbinesStore.turbinesDetails.totalPower !== 0
+            ? addons["inwerter 1fazowy"]
+            : 0,
       });
-  }, [turbinesStore.isThreePhasesInverter, turbinesStore.isHybridInverter]);
+    }
+  }, [
+    turbinesStore.isThreePhasesInverter,
+    turbinesStore.isHybridInverter,
+    turbinesStore.turbinesDetails.totalPower,
+  ]);
 
   useEffect(() => {
+    if (turbinesStore.turbinesDetails.totalPower >= 3.6) {
+      updateTurbinesStore("isThreePhasesInverter", true);
+    }
+
     // Usunac to pole i wymienic na formułe (kwota z bazy danych) * moc instalacji w Watach
     if (addons) {
-      const invBase = addons["podstawa inwertera"];
+      const priceForEachWatt = addons["cenaZaKazdyWat"];
+      // totalPower is given in kW so we have to multiply by 1000
       const invBaseCost =
-        turbinesStore.turbinesDetails.totalPower !== 0 ? invBase : 0;
+        turbinesStore.turbinesDetails.totalPower * 1000 * priceForEachWatt;
       updateTurbinesCalcStore("inverterBaseCost", invBaseCost);
     }
   }, [turbinesStore.turbinesDetails.totalPower]);

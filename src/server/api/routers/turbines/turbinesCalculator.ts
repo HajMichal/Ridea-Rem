@@ -9,6 +9,7 @@ export const turbinesCalculator = createTRPCRouter({
       z.object({
         isThreePhasesInverter: z.boolean(),
         isHybridInverter: z.boolean(),
+        singlePhaseInvCost: z.number(),
         threePhaseInvCost: z.number(),
         hybridInvCost: z.number(),
       })
@@ -52,6 +53,8 @@ export const turbinesCalculator = createTRPCRouter({
         greaterPowerFee: z.number(),
         inverterBase: z.number(),
         feesAmount: z.number(),
+        cableCost: z.number(),
+        zwyzka: z.number(),
 
         isVat23: z.boolean(),
       })
@@ -70,8 +73,8 @@ export const turbinesCalculator = createTRPCRouter({
   setOfficeMarkup: protectedProcedure
     .input(
       z.object({
-        perKwfee: z.number(),
-        systemPower: z.number(),
+        perPcsFee: z.number(),
+        turbinesCount: z.number(),
         consultantFee: z.number(),
         constantFee: z.number(),
         hasUserContract: z.boolean(),
@@ -83,7 +86,7 @@ export const turbinesCalculator = createTRPCRouter({
         ? input.consultantFee + input.consultantFee * tax32
         : input.consultantFee;
       const officeFeeValue =
-        Math.round(input.perKwfee * input.systemPower) + input.constantFee;
+        Math.round(input.perPcsFee * input.turbinesCount) + input.constantFee;
 
       const creator = await ctx.prisma.user.findFirst({
         where: { id: input.creatorId },
@@ -93,13 +96,13 @@ export const turbinesCalculator = createTRPCRouter({
         },
       });
       const officeFeeForBoss = creator
-        ? Math.round(creator.feePerkwTurbines * input.systemPower) +
+        ? Math.round(creator.feePerkwTurbines * input.turbinesCount) +
           creator.imposedFeeTurbines
         : 0;
 
       const markupSumValue = Number(
         (
-          input.perKwfee * input.systemPower +
+          input.perPcsFee * input.turbinesCount +
           consultantFee +
           input.constantFee +
           officeFeeForBoss
