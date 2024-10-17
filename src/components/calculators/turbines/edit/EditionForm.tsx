@@ -76,7 +76,12 @@ const EditionForm = ({ data, menagers }: Props) => {
                 className="m-1 grid w-full grid-cols-12 items-center gap-2 xl:w-3/4"
               >
                 <div className="col-start-3 col-end-7 flex h-full items-center justify-end">
-                  <p className="text-md mt-1 text-right">
+                  <p
+                    className={`text-md mt-1 text-right ${
+                      (key === "montaż dodatkowo" || key === "montaż bazowo") &&
+                      "text-brand"
+                    }`}
+                  >
                     {dataNamesMappings[key] ?? key.toUpperCase()}:
                   </p>
                 </div>
@@ -151,4 +156,6 @@ const dataNamesMappings: Record<string, string> = {
   zwyzka: "ZWYŻKA",
   kable: "KABLE / ZABEZPIECZENIA",
   cenaZaKazdyWat: "CENA ZA KAŻDY WAT INSTALACJI",
+  "montaż bazowo": "PROWIZJA BIURA",
+  "montaż dodatkowo": "PROWIZJA BIURA OD SZT",
 };
