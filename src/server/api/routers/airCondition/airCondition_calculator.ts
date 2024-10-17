@@ -127,7 +127,6 @@ export const airConditionCalculator = createTRPCRouter({
       })
     )
     .mutation(async ({ ctx, input }) => {
-      console.log(input);
       const consultantMarkup = input.hasUserContract
         ? input.consultantMarkup + input.consultantMarkup * tax32
         : input.consultantMarkup;

@@ -24,7 +24,6 @@ declare global {
       "montaż bazowo": number;
       "montaż dodatkowo": number;
       wysylka: number;
-      "podstawa inwertera": number;
       "instalacja powyzej 3kw": number;
 
       "inwerter 1fazowy": number;
