@@ -41,7 +41,7 @@ export const RemoveUser = ({ user }: RemoveUserType) => {
       removeMenagerCalcDataPhotovoltaic(user.id);
       removeMenagerCalcDataTurbines(user.id);
       removeMenagerAirConditionJson(user.id);
-      removeMenagerHeatPumpJson(user.name);
+      removeMenagerHeatPumpJson(user.id);
       removeMenagerForCompanyJson(user.name);
       removeMenagerHeatHomeJson(user.name);
     }
