@@ -25,13 +25,13 @@ interface TurbinesFormulasType {
 export function TurbinesFormulas({ turbinesData }: TurbinesFormulasType) {
   return (
     <div id="FORM" className="h-full p-3 laptop:w-[55%] laptop:min-w-[500px] ">
-      <h1
-        style={{ textShadow: " 24px 24px #bebebe" }}
-        className="z-50 mb-10 font-orkneyBold text-5xl font-semibold"
-      >
-        TURBINY WIATROWE
-      </h1>
-      <ScrollArea h={"78%"}>
+      <ScrollArea className="h-[78%] xl:h-[85%]">
+        <h1
+          style={{ textShadow: " 24px 24px #bebebe" }}
+          className="z-50 mb-10 font-orkneyBold text-5xl font-semibold"
+        >
+          TURBINY WIATROWE
+        </h1>
         <div className="laptop:mr-4">
           <h2 className="font-orkneyBold">TURBINY</h2>
           <Turbines turbines={turbinesData?.turbines} />

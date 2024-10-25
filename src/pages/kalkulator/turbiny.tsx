@@ -33,7 +33,7 @@ const Turbiny = () => {
       <div className="w-full">
         <Navbar />
         {turbinesData && (
-          <div className="flex h-full flex-wrap justify-center overflow-scroll p-4 laptop:overflow-hidden">
+          <div className="flex h-full flex-wrap justify-center overflow-auto p-4 xl:overflow-hidden">
             <TurbinesFormulas turbinesData={turbinesData} />
             <Preview />
           </div>
