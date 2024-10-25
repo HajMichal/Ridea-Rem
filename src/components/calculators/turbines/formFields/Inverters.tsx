@@ -60,14 +60,12 @@ const Inverters = ({ addons }: InvertersType) => {
     updateTurbinesStore("isHybridInverter", e == "true");
   return (
     <>
-      {!turbinesStore.threePhases && (
-        <SelectComponent
-          title="DOPŁATA DO INWERTERA 3 FAZOWEGO"
-          value={turbinesStore.isThreePhasesInverter}
-          onChange={handle3PhaseInverterChange}
-          data={YESNO}
-        />
-      )}
+      <SelectComponent
+        title="DOPŁATA DO INWERTERA 3 FAZOWEGO"
+        value={turbinesStore.isThreePhasesInverter}
+        onChange={handle3PhaseInverterChange}
+        data={YESNO}
+      />
       {(turbinesStore.threePhases || turbinesStore.isThreePhasesInverter) && (
         <SelectComponent
           title="DOPŁATA DO INWERTERA HYBRYDOWEGO"

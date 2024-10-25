@@ -8,9 +8,6 @@ const Phases = () => {
   const handleChange = (e: string | null) => {
     const isThreePhases = e === "3";
     updateTurbinesStore("threePhases", isThreePhases);
-
-    if (isThreePhases) updateTurbinesStore("isThreePhasesInverter", false);
-    else updateTurbinesStore("isHybridInverter", false);
   };
   return (
     <SelectComponent

@@ -35,7 +35,6 @@ export function TurbinesFormulas({ turbinesData }: TurbinesFormulasType) {
         <div className="laptop:mr-4">
           <h2 className="font-orkneyBold">TURBINY</h2>
           <Turbines turbines={turbinesData?.turbines} />
-          <Phases />
           <Inverters addons={turbinesData?.addons} />
           {/* <MastFoundation /> */}
           <MastType
@@ -52,6 +51,7 @@ export function TurbinesFormulas({ turbinesData }: TurbinesFormulasType) {
           <EstimatedDotationSum />
           <IsVat />
           <h2 className="mt-8 font-orkneyBold">DANE TECHNICZNE - ANKIETA</h2>
+          <Phases />
           <ConstructionType />
           <RoofCoverage />
           <RoofPitch />

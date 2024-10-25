@@ -10,7 +10,7 @@ export const turbinesMenagerRouter = createTRPCRouter({
     const user = ctx.session?.user;
     if (!user) return null;
 
-    return await ctx.prisma.turbines.findUnique({
+    return await ctx.prisma.turbines.findFirst({
       where: {
         userId: user.role === 3 ? user.creatorId : user.id,
       },

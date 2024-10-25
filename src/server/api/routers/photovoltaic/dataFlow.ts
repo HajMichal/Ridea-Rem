@@ -11,7 +11,7 @@ export const pvMenagerRouter = createTRPCRouter({
     const user = ctx.session?.user;
     if (!user) return null;
 
-    return await ctx.prisma.photovoltaic.findUnique({
+    return await ctx.prisma.photovoltaic.findFirst({
       where: {
         userId: user.role === 3 ? user.creatorId : user.id,
       },
@@ -21,7 +21,7 @@ export const pvMenagerRouter = createTRPCRouter({
     const user = ctx.session?.user;
     if (!user) return null;
 
-    return await ctx.prisma.photovoltaic.findUnique({
+    return await ctx.prisma.photovoltaic.findFirst({
       where: {
         userId: user.role === 3 ? user.creatorId : user.id,
       },
@@ -34,7 +34,7 @@ export const pvMenagerRouter = createTRPCRouter({
     const user = ctx.session?.user;
     if (!user) return null;
 
-    return await ctx.prisma.photovoltaic.findUnique({
+    return await ctx.prisma.photovoltaic.findFirst({
       where: {
         userId: user.role === 3 ? user.creatorId : user.id,
       },

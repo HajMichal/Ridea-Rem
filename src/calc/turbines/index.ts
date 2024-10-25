@@ -96,7 +96,6 @@ interface TurbinesTotalCost {
   };
 }
 export function setTurbinesTotalCost({ input }: TurbinesTotalCost) {
-  console.log(input);
   // const values = Object.values(input).filter((val) => typeof val === "number");
   const values = Object.values(input).filter(
     (val): val is number => typeof val === "number"
