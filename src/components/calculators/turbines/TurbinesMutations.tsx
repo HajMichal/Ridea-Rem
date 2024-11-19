@@ -45,7 +45,10 @@ export function TurbinesMutations({ turbinesData }: TurbinesMutationsType) {
         transportCost: turbinesCalcStore.transportCost,
         inverterBase: turbinesCalcStore.inverterBaseCost,
         greaterPowerFee: turbinesCalcStore.greaterPowerFee,
-        feesAmount: turbinesCalcStore.officeMarkup.markupSumValue,
+        feesAmount:
+          turbinesStore.turbinesDetails.turbinesCount !== 0
+            ? turbinesCalcStore.officeMarkup.markupSumValue
+            : 0,
         cableCost:
           turbinesStore.turbinesDetails.turbinesCount !== 0
             ? turbinesData.addons.kable
