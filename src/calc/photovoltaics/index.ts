@@ -323,6 +323,7 @@ interface TotalAddonCostType {
   cableACCost: number;
   mateboxCost: number;
   ditchingCost: number;
+  eniga: number;
 }
 export function totalAddonCost({ input }: { input: TotalAddonCostType }) {
   return Number(
@@ -338,7 +339,8 @@ export function totalAddonCost({ input }: { input: TotalAddonCostType }) {
       input.voucherholiday +
       input.cableACCost +
       input.mateboxCost +
-      input.ditchingCost
+      input.ditchingCost +
+      input.eniga
     ).toFixed(2)
   );
 }

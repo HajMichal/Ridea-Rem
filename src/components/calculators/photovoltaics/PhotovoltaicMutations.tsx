@@ -301,22 +301,24 @@ export function PhotovoltaicMutations({
   ]);
 
   useEffect(() => {
-    mutations.set_addon_cost({
-      bloczki: photovoltaicCalcStore.bloczki_price,
-      ekierki: photovoltaicCalcStore.ekierki_price,
-      grunt: photovoltaicCalcStore.grunt_price,
-      hybridInwerter: photovoltaicCalcStore.hybridInwerter_price,
-      tigo: photovoltaicCalcStore.tigo_price,
-      promotionAmount: photovoltaicStore.isPromotion
-        ? 0
-        : photovoltaicStore.promotionAmount,
-      voucherholiday: photovoltaicStore.holidayVoucher ? 1500 : 0,
-      carPort: photovoltaicCalcStore.carPortCost,
-      markup_costs: photovoltaicCalcStore.markup_costs.markupSumValue ?? 0,
-      cableACCost: photovoltaicCalcStore.cableACCost,
-      mateboxCost: photovoltaicCalcStore.mateboxCost,
-      ditchingCost: photovoltaicCalcStore.ditchCost,
-    });
+    if (data?.addons)
+      mutations.set_addon_cost({
+        bloczki: photovoltaicCalcStore.bloczki_price,
+        ekierki: photovoltaicCalcStore.ekierki_price,
+        grunt: photovoltaicCalcStore.grunt_price,
+        hybridInwerter: photovoltaicCalcStore.hybridInwerter_price,
+        tigo: photovoltaicCalcStore.tigo_price,
+        promotionAmount: photovoltaicStore.isPromotion
+          ? 0
+          : photovoltaicStore.promotionAmount,
+        voucherholiday: photovoltaicStore.holidayVoucher ? 1500 : 0,
+        carPort: photovoltaicCalcStore.carPortCost,
+        markup_costs: photovoltaicCalcStore.markup_costs.markupSumValue ?? 0,
+        cableACCost: photovoltaicCalcStore.cableACCost,
+        mateboxCost: photovoltaicCalcStore.mateboxCost,
+        ditchingCost: photovoltaicCalcStore.ditchCost,
+        eniga: photovoltaicStore.isEniga ? data.addons.eniga : 0,
+      });
   }, [
     photovoltaicCalcStore.bloczki_price,
     photovoltaicCalcStore.ekierki_price,
@@ -332,6 +334,8 @@ export function PhotovoltaicMutations({
     photovoltaicCalcStore.mateboxCost,
     photovoltaicCalcStore.ditchCost,
     mutations.set_addon_cost,
+    photovoltaicStore.isEniga,
+    data,
   ]);
 
   useEffect(() => {

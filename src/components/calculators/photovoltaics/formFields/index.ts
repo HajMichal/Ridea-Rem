@@ -30,6 +30,7 @@ import IsPromotion from "./YESNO/IsPromotion";
 import IsVoucherHoliday from "./YESNO/IsVoucherHoliday";
 import Installments from "./Installments";
 import Promotion from "./Promotion";
+import IsEniga from "./YESNO/IsEniga";
 
 export {
   EnergyPrice,
@@ -64,4 +65,5 @@ export {
   IsVoucherHoliday,
   Installments,
   Promotion,
+  IsEniga,
 };

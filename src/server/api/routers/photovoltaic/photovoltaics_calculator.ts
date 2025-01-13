@@ -167,6 +167,7 @@ export const photovoltaics_calculator = createTRPCRouter({
         cableACCost: z.number(),
         mateboxCost: z.number(),
         ditchingCost: z.number(),
+        eniga: z.number(),
       })
     )
     .mutation(calc.totalAddonCost),

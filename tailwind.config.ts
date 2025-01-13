@@ -5,6 +5,9 @@ module.exports = {
   content: ["./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
+      height: {
+        heightMinusNavbar: `calc(100vh - 105px)`,
+      },
       colors: {
         ...blackA,
         ...violet,

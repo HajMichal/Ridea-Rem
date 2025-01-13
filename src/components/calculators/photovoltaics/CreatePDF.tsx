@@ -205,9 +205,7 @@ const PhotovoltaicDocument = ({
 
         <View style={styles.pricingSection}>
           <View style={styles.estimatedProfit}>
-            <Text style={styles.estimatedProfitTitleBold}>
-              ŚREDNIO MIESIĘCZNY ZYSK
-            </Text>
+            <Text style={styles.estimatedProfitTitleBold}>ZYSK MIESIĘCZNY</Text>
             <Text style={styles.estimatedProfitTitle}>
               Z INSTALACJI FOTOWOLTAICZNEJ
             </Text>
@@ -222,9 +220,7 @@ const PhotovoltaicDocument = ({
             <View style={styles.brandUnderScore} />
           </View>
           <View style={styles.estimatedProfit}>
-            <Text style={styles.estimatedProfitTitleBold}>
-              ŚREDNIO ROCZNY ZYSK
-            </Text>
+            <Text style={styles.estimatedProfitTitleBold}>ZYSK ROCZNY</Text>
             <Text style={styles.estimatedProfitTitle}>
               Z INSTALACJI FOTOWOLTAICZNEJ
             </Text>
@@ -238,7 +234,7 @@ const PhotovoltaicDocument = ({
           </View>
           <View style={styles.estimatedProfit}>
             <Text style={styles.estimatedProfitTitleBold}>
-              ŚREDNIO 10 LETNI ZYSK
+              ZYSK W OKRESIE 10 LAT
             </Text>
             <Text style={styles.estimatedProfitTitle}>
               Z INSTALACJI FOTOWOLTAICZNEJ
@@ -464,9 +460,14 @@ const PhotovoltaicDocument = ({
             </Text>
           </View>
           <View style={styles.saveRow}>
+            <Text style={styles.savePrice}>ENGIA</Text>
+            <Text style={styles.savePrice}>
+              {photovoltaicStore.isEniga ? "TAK" : "NIE"}
+            </Text>
+          </View>
+          <View style={styles.saveRow}>
             <Text style={styles.savePrice}>MENADŻER ENERGII - EMS</Text>
             <Text style={styles.savePrice}>
-              {" "}
               {photovoltaicStore.emsDotation ? "TAK" : "NIE"}
             </Text>
           </View>

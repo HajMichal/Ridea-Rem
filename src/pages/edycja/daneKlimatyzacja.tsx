@@ -33,7 +33,7 @@ function DaneKlimatyzacja() {
             color="lime"
             defaultValue={"cm1sg5o1v0000v5a0vkp09znd"}
           >
-            <Tabs.List className="fixed z-50 w-min bg-backgroundGray">
+            <Tabs.List className="hide-scroll-bar fixed z-50 h-heightMinusNavbar w-min overflow-y-scroll bg-backgroundGray">
               <Checkbox.Group value={menagers} onChange={setMenagers}>
                 {allMenagersData?.map((menagerData, index) => {
                   return (

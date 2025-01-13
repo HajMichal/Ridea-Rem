@@ -34,6 +34,7 @@ import {
   IsVoucherHoliday,
   Installments,
   Promotion,
+  IsEniga,
 } from "./formFields";
 import { type PhotovoltaicDataToCalculation } from "~/server/api/routers/photovoltaic/interfaces";
 
@@ -74,6 +75,7 @@ function PhotovoltaicFormulas({ photovoltaicData }: PhotovoltaicFormulasType) {
           />
           <IsHeatStore />
           <ChooseBoiler boilersData={photovoltaicData?.boilers} />
+          <IsEniga />
           <IsEms />
           <IsEnergyStore />
           <ChooseEnergyStore energyStoreData={photovoltaicData?.energyStore} />
