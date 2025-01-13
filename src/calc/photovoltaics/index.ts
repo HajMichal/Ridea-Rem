@@ -17,11 +17,13 @@ interface EstimatedKWHProdType {
   southRoof: boolean;
   system_power: number;
 }
+
+// produkcja z PV
 export function estimatedKWHProd({ input }: { input: EstimatedKWHProdType }) {
   if (input.southRoof) {
-    return 1020 * input.system_power;
+    return 1050 * input.system_power;
   } else {
-    return 920 * input.system_power;
+    return 950 * input.system_power;
   }
 }
 
@@ -562,11 +564,9 @@ export function energyStoreDotationValue({
   if (value < 0 || !input.isEnergyStoreDotation) {
     return 0;
   }
-  if (value >= 32000) {
+  if (value >= 34000) {
     return 17000;
-  }
-
-  if (value < 32000) {
+  } else {
     return Number(
       (value * staticData.PERCENT_TO_HEATSTORE_DOTATION).toFixed(2)
     );
