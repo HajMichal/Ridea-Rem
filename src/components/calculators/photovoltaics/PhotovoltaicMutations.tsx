@@ -397,11 +397,13 @@ export function PhotovoltaicMutations({
         creditPercentage: data.creditPercentage,
         instalmentNumber: photovoltaicStore.installmentNumber,
         finall_installation_cost:
-          photovoltaicCalcStore.finall_installation_cost,
+          photovoltaicCalcStore.finall_installation_cost -
+          photovoltaicCalcStore.termoModernization,
         grossInstalltaionBeforeDotationsCost:
           photovoltaicCalcStore.totalInstallationCosts.total_gross_cost,
       });
   }, [
+    photovoltaicCalcStore.termoModernization,
     photovoltaicCalcStore.finall_installation_cost,
     photovoltaicStore.installmentNumber,
     photovoltaicCalcStore.totalInstallationCosts.total_gross_cost,
