@@ -9,10 +9,6 @@ export function systemPower({ input }: { input: SystemPowerType }) {
   return Number(((input.modulesCount * input.panelPower) / 1000).toFixed(2));
 }
 
-export function priceTrend({ input }: { input: number }) {
-  return Number((input * staticData.ENERGY_LIMIT_PERCENT + input).toFixed(2));
-}
-
 interface EstimatedKWHProdType {
   southRoof: boolean;
   system_power: number;
@@ -37,189 +33,108 @@ export function autoconsumption({ input }: { input: AutoconsumptionType }) {
   );
 }
 
-interface TotalPaymentEnergyTransferType {
-  recentYearTrendUsage: number;
-  autoconsumption: number;
-  usageLimit: number;
-  priceInLimit: number;
-  priceOutOfLimit: number;
+interface AutoconsumptionProfitType {
+  trendPrice: number;
+  pvProduction: number;
 }
-export function totalPaymentEnergyTransfer({
+export function autoconsumptionProfit({
   input,
 }: {
-  input: TotalPaymentEnergyTransferType;
+  input: AutoconsumptionProfitType;
 }) {
-  const difference = input.recentYearTrendUsage - input.autoconsumption;
-  if (difference > input.usageLimit) {
-    return Number(
-      (
-        input.priceInLimit *
-          staticData.ENERGY_LIMIT_PERCENT *
-          input.usageLimit +
-        input.priceOutOfLimit *
-          staticData.ENERGY_LIMIT_PERCENT *
-          (difference - input.usageLimit)
-      ).toFixed(2)
-    );
-  } else {
-    return Number(
-      (
-        difference *
-        (input.priceInLimit * staticData.ENERGY_LIMIT_PERCENT)
-      ).toFixed(2)
-    );
-  }
+  return Number((input.pvProduction * input.trendPrice).toFixed(2));
 }
 
-interface TotalEnergyTrendFeeType {
-  recentYearTrendUsage: number;
-  autoconsumption: number;
-  usageLimit: number;
-  priceInLimit: number;
-  priceOutOfLimit: number;
-  accumulated_funds_on_account: number;
-}
-export function totalEnergyTrendFee({
-  input,
-}: {
-  input: TotalEnergyTrendFeeType;
-}) {
-  const difference = input.recentYearTrendUsage - input.autoconsumption;
-  if (difference > input.usageLimit) {
-    const firstPart =
-      input.priceInLimit * input.usageLimit +
-      input.priceOutOfLimit * (difference - input.usageLimit);
-    const result = firstPart - input.accumulated_funds_on_account;
-    return result < 0 ? 0 : Number(result.toFixed(2));
-  } else {
-    const secondPart = difference * input.priceInLimit;
-    const result = secondPart - input.accumulated_funds_on_account;
-    return result < 0 ? 0 : Number(result.toFixed(2));
-  }
-}
-
-interface EnergySoldToDistributorType {
+interface EnergySoldWithOverproducedTrendType {
   estimated_kWh_prod: number;
   autoconsumption: number;
+  trendSellPrice: number;
 }
-export function energySoldToDistributor({
+export function energySoldWithOverproducedTrend({
   input,
 }: {
-  input: EnergySoldToDistributorType;
+  input: EnergySoldWithOverproducedTrendType;
 }) {
-  return Number(Math.round(input.estimated_kWh_prod - input.autoconsumption));
-}
-
-interface AccumulatedFundsOnAccountType {
-  estiamtedSellPriceToOsd: number;
-  autoconsumption: number;
-}
-export function accumulated_funds_on_account({
-  input,
-}: {
-  input: AccumulatedFundsOnAccountType;
-}) {
-  return Number(
-    (input.autoconsumption * input.estiamtedSellPriceToOsd).toFixed(2)
+  const overproducedTrendInKw = Number(
+    (input.estimated_kWh_prod - input.autoconsumption).toFixed(2)
   );
+  const energySold = Number(
+    (overproducedTrendInKw * input.trendSellPrice).toFixed(2)
+  );
+
+  return { overproducedTrendInKw, energySold };
 }
 
-interface YearlyBillWithoutPhotovolaticsType {
-  recentYearTrendUsage: number;
-  usageLimit: number;
-  limit_price_trend: number;
-  outOfLimit_price_trend: number;
+interface FutureProfitsWithPVType {
+  autoconsumptionProfit: number;
+  energySold: number;
+  monthlyBill: number;
 }
-export function yearlyBillWithoutPhotovolatics({
+export function futureProfitsWithPV({
   input,
 }: {
-  input: YearlyBillWithoutPhotovolaticsType;
+  input: FutureProfitsWithPVType;
 }) {
-  if (input.recentYearTrendUsage > input.usageLimit) {
-    return Number(
-      (
-        input.limit_price_trend * input.usageLimit +
-        input.outOfLimit_price_trend *
-          (input.recentYearTrendUsage - input.usageLimit)
-      ).toFixed(2)
-    );
-  } else {
-    return Number(
-      (input.recentYearTrendUsage * input.limit_price_trend).toFixed(2)
-    );
-  }
-}
+  const yearlyBill = input.monthlyBill * 12;
+  const possibleProfit =
+    input.energySold + input.autoconsumptionProfit - yearlyBill;
 
-interface YearlyTotalFeesType {
-  energyPrice: number;
-  recentYearTrendUsage: number;
-  energyPriceInLimit: number;
-  usageLimit: number;
-}
-export function yearlyTotalFees({ input }: { input: YearlyTotalFeesType }) {
-  if (input.recentYearTrendUsage > input.usageLimit) {
+  if (possibleProfit > 0) {
     return {
-      yearly_total_trend_fee: Number(
-        (
-          input.energyPriceInLimit * input.usageLimit +
-          input.energyPrice * (input.recentYearTrendUsage - input.usageLimit)
-        ).toFixed(2)
-      ),
-      yearly_total_fee_for_energy_transfer: Number(
-        (
-          input.energyPriceInLimit *
-            staticData.ENERGY_LIMIT_PERCENT *
-            input.usageLimit +
-          input.energyPrice *
-            staticData.ENERGY_LIMIT_PERCENT *
-            (input.recentYearTrendUsage - input.usageLimit)
-        ).toFixed(2)
-      ),
+      monthlyProfit: input.monthlyBill,
+      yearlyProfit: Number(yearlyBill.toFixed(2)),
+      tenYearsProfit: Number((yearlyBill * 10).toFixed(2)),
     };
   } else {
     return {
-      yearly_total_trend_fee: Number(
-        (input.recentYearTrendUsage * input.energyPriceInLimit).toFixed(2)
-      ),
-      yearly_total_fee_for_energy_transfer: Number(
-        (
-          input.recentYearTrendUsage *
-          input.energyPriceInLimit *
-          staticData.ENERGY_LIMIT_PERCENT
-        ).toFixed(2)
-      ),
+      monthlyProfit: 0,
+      yearlyProfit: 0,
+      tenYearsProfit: 0,
     };
   }
 }
 
-interface YearlyCostsWithPhotovoltaicsType {
-  total_energy_trend_fee: number;
-  total_payment_energy_transfer: number;
-}
-export function yearlyCostsWithPhotovoltaics({
-  input,
-}: {
-  input: YearlyCostsWithPhotovoltaicsType;
-}) {
-  return Number(
-    (
-      input.total_energy_trend_fee + input.total_payment_energy_transfer
-    ).toFixed(2)
-  );
-}
-
-interface TotalSaveType {
-  yearly_costs_with_photovoltaics: number;
-  yearly_bill_without_photovolatics: number;
-}
-export function totalSave({ input }: { input: TotalSaveType }) {
-  return Number(
-    (
-      input.yearly_bill_without_photovolatics -
-      input.yearly_costs_with_photovoltaics
-    ).toFixed(2)
-  );
-}
+// interface YearlyTotalFeesType {
+//   energyPrice: number;
+//   recentYearTrendUsage: number;
+//   energyPriceInLimit: number;
+//   usageLimit: number;
+// }
+// export function yearlyTotalFees({ input }: { input: YearlyTotalFeesType }) {
+//   if (input.recentYearTrendUsage > input.usageLimit) {
+//     return {
+//       yearly_total_trend_fee: Number(
+//         (
+//           input.energyPriceInLimit * input.usageLimit +
+//           input.energyPrice * (input.recentYearTrendUsage - input.usageLimit)
+//         ).toFixed(2)
+//       ),
+//       yearly_total_fee_for_energy_transfer: Number(
+//         (
+//           input.energyPriceInLimit *
+//             staticData.ENERGY_LIMIT_PERCENT *
+//             input.usageLimit +
+//           input.energyPrice *
+//             staticData.ENERGY_LIMIT_PERCENT *
+//             (input.recentYearTrendUsage - input.usageLimit)
+//         ).toFixed(2)
+//       ),
+//     };
+//   } else {
+//     return {
+//       yearly_total_trend_fee: Number(
+//         (input.recentYearTrendUsage * input.energyPriceInLimit).toFixed(2)
+//       ),
+//       yearly_total_fee_for_energy_transfer: Number(
+//         (
+//           input.recentYearTrendUsage *
+//           input.energyPriceInLimit *
+//           staticData.ENERGY_LIMIT_PERCENT
+//         ).toFixed(2)
+//       ),
+//     };
+//   }
+// }
 
 interface PriceFor1KWType {
   system_power: number;
@@ -431,54 +346,6 @@ export function finallInstallationCost({
   input: FinallInstallationCostType;
 }) {
   return Number(input.amount_after_dotation.toFixed(2));
-}
-
-interface EstiamtedPriceForTrendIn1KWHType {
-  recentYearTrendUsage: number;
-  yearly_bill_without_photovolatics: number;
-}
-export function estiamtedPriceForTrendIn1KWH({
-  // A4 E28
-  input,
-}: {
-  input: EstiamtedPriceForTrendIn1KWHType;
-}) {
-  return Number(
-    (
-      input.yearly_bill_without_photovolatics / input.recentYearTrendUsage
-    ).toFixed(2)
-  );
-}
-
-interface SaveOnAutoconsumption {
-  autoconsumption: number;
-  estiamtedPriceForTrendIn1KWH: number;
-}
-export function saveOnAutoconsumption({
-  //A4 F20
-  input,
-}: {
-  input: SaveOnAutoconsumption;
-}) {
-  return Number(
-    (input.autoconsumption * input.estiamtedPriceForTrendIn1KWH).toFixed(2)
-  );
-}
-
-interface YearlyProfitForInstallationType {
-  accumulated_funds_on_account: number;
-  saveOnAutoconsumption: number;
-}
-export function yearlyProfitForInstallation({
-  input,
-}: {
-  input: YearlyProfitForInstallationType;
-}) {
-  return Number(
-    (input.accumulated_funds_on_account + input.saveOnAutoconsumption).toFixed(
-      2
-    )
-  );
 }
 
 interface PaymentReturnTimeType {

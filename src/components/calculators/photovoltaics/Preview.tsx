@@ -8,8 +8,7 @@ interface PreviewType {
   heatStorePrice?: number;
 }
 export function Preview({ heatStorePrice }: PreviewType) {
-  const { photovoltaicCalcStore, photovoltaicStore, loading } =
-    usePhotovoltaic();
+  const { photovoltaicCalcStore, photovoltaicStore } = usePhotovoltaic();
   const [parent] = useAutoAnimate();
 
   return (
@@ -21,10 +20,7 @@ export function Preview({ heatStorePrice }: PreviewType) {
         PODGLĄD
       </h2>
       <div className="flex h-full ">
-        {loading.outOfLimit_price_trend_loading ||
-        loading.yearly_bill_without_photovolatics_loading ||
-        loading.yearly_costs_with_photovoltaics_loading ||
-        loading.yearly_total_fees_loading ? (
+        {!photovoltaicCalcStore ? (
           <Loader color="yellow" size="lg" variant="dots" className="mt-40" />
         ) : (
           <div className="flex w-full flex-wrap justify-between font-orkneyBold font-semibold">
@@ -36,22 +32,7 @@ export function Preview({ heatStorePrice }: PreviewType) {
                 title="MONTAŻ NA FIRMĘ"
                 calculations={photovoltaicStore.vat23}
               />
-              <TextComponent
-                title="CENA PRĄDU BEZ INSTALACJI FOTOWOLTAICZNEJ"
-                calculations={
-                  photovoltaicCalcStore.yearly_bill_without_photovolatics
-                }
-                color="red"
-                size="xl"
-              />
-              <TextComponent
-                title="CENA ENERGII W LIMICIE"
-                calculations={photovoltaicCalcStore.limit_price_trend}
-              />
-              <TextComponent
-                title="CENA ENERGII POZA LIMITEM"
-                calculations={photovoltaicCalcStore.outOfLimit_price_trend}
-              />
+
               <TextComponent
                 title="ILOŚĆ MODUŁÓW"
                 calculations={photovoltaicStore.modulesCount}
@@ -63,24 +44,31 @@ export function Preview({ heatStorePrice }: PreviewType) {
                 unit="KW"
               />
               <TextComponent
-                title="RACHUNEK ROCZNY Z FOTOWOLTAIKĄ"
+                title="ZYSK MIESIĘCZNY"
                 calculations={
-                  photovoltaicCalcStore.yearly_costs_with_photovoltaics
+                  photovoltaicCalcStore.futureProfitsWithPV.monthlyProfit
                 }
+                unit="zł"
                 color="green"
               />
               <TextComponent
-                title="ŁĄCZNA OPŁATA ENERGII ELEKTRYCZNEJ Z PV"
-                calculations={photovoltaicCalcStore.total_energy_trend_fee}
-                color="yellow"
+                title="ZYSK ROCZNY"
+                calculations={
+                  photovoltaicCalcStore.futureProfitsWithPV.yearlyProfit
+                }
+                unit="zł"
+                color="green"
               />
               <TextComponent
-                title="ŁĄCZNA OPŁATA ZA PRZESYŁ ENERGII ELEKTRYCZNEJ"
+                title="ZYSK W OKRESIE 10 LAT"
                 calculations={
-                  photovoltaicCalcStore.total_payment_energy_transfer
+                  photovoltaicCalcStore.futureProfitsWithPV.tenYearsProfit
                 }
-                color="orange"
+                unit="zł"
+                color="green"
+                size="xl"
               />
+
               <TextComponent
                 title="DACH POŁUDNIOWY"
                 calculations={photovoltaicStore.southRoof}

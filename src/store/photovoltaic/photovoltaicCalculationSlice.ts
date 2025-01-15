@@ -1,19 +1,17 @@
 import { type StateCreator } from "zustand";
 
 export interface PhotovoltaicCalculations {
-  limit_price_trend: number;
-  outOfLimit_price_trend: number;
   system_power: number;
   estimated_kWh_prod: number;
   autoconsumption: number;
-  total_payment_energy_transfer: number;
+  autoconsumptionProfit: number;
+  overproducedTrendInKw: number;
   energy_sold_to_distributor: number;
-  accumulated_funds_on_account: number;
-  total_energy_trend_fee: number;
-  yearly_bill_without_photovolatics: number;
-  yearly_total_fees: number;
-  yearly_costs_with_photovoltaics: number;
-  total_save: number;
+  futureProfitsWithPV: {
+    monthlyProfit: number;
+    yearlyProfit: number;
+    tenYearsProfit: number;
+  };
   installationAndPer1KW_price:
     | {
         price_per_1KW: number;
@@ -44,9 +42,6 @@ export interface PhotovoltaicCalculations {
   heatStoreCost: number;
   finall_installation_cost: number;
   heatStore_energyManager_costs: number;
-  estiamted_price_for_trend_in_1KWH: number;
-  save_on_autoconsumption: number;
-  yearly_profit_for_installation: number;
   payment_return_time: { years: number; months: number };
   termoModernization: number;
   loanForPurcharse: {
@@ -82,19 +77,17 @@ export const photovoltaicCalculationSlice: StateCreator<
   PhotovoltaicCalculationSlice
 > = (set) => ({
   photovoltaicCalculations: {
-    limit_price_trend: 0,
-    outOfLimit_price_trend: 0,
     system_power: 0,
     estimated_kWh_prod: 0,
     autoconsumption: 0,
-    total_payment_energy_transfer: 0,
+    autoconsumptionProfit: 0,
     energy_sold_to_distributor: 0,
-    accumulated_funds_on_account: 0,
-    total_energy_trend_fee: 0,
-    yearly_bill_without_photovolatics: 0,
-    yearly_total_fees: 0,
-    yearly_costs_with_photovoltaics: 0,
-    total_save: 0,
+    overproducedTrendInKw: 0,
+    futureProfitsWithPV: {
+      monthlyProfit: 0,
+      yearlyProfit: 0,
+      tenYearsProfit: 0,
+    },
     installationAndPer1KW_price: {
       base_installation_price: 0,
       price_per_1KW: 0,
@@ -122,9 +115,6 @@ export const photovoltaicCalculationSlice: StateCreator<
     heatStoreCost: 0,
     finall_installation_cost: 0,
     heatStore_energyManager_costs: 0,
-    estiamted_price_for_trend_in_1KWH: 0,
-    save_on_autoconsumption: 0,
-    yearly_profit_for_installation: 0,
     payment_return_time: { years: 0, months: 0 },
     termoModernization: 0,
     loanForPurcharse: {

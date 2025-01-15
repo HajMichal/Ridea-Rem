@@ -27,12 +27,12 @@ export interface PhotovoltaicsSlice {
     isEniga: boolean;
     ditchLength: number;
     taxCredit: number;
-    usageLimit: number;
+    trendPrice: number;
     modulesCount: number;
     autoconsumptionInPercent: number;
     energyPriceInLimit: number;
     energyPrice: number;
-    recentYearTrendUsage: number;
+    monthlyBill: number;
     energyStore: {
       name: string;
       price: number;
@@ -84,12 +84,12 @@ export const photovoltaicsSlice: StateCreator<PhotovoltaicsSlice> = (set) => ({
     ditchLength: 0,
     promotionAmount: 0,
     taxCredit: 0.12,
-    usageLimit: 0,
+    trendPrice: 0,
     modulesCount: 0,
     autoconsumptionInPercent: 0.1,
     energyPriceInLimit: 0,
     energyPrice: 0,
-    recentYearTrendUsage: 0,
+    monthlyBill: 0,
     tigoCount: 0,
     cableAC: 0,
     panelPower: smallestPanel,

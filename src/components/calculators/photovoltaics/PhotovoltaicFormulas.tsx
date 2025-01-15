@@ -9,9 +9,8 @@ import {
   ChooseVat,
   DitchLength,
   ChooseEccentrics,
-  EnergyConsumption,
-  EnergyPrice,
-  EnergyUsageLimit,
+  MonthlyTrendBill,
+  SetTrendPrice,
   IsDitching,
   IsEms,
   IsEnergyStore,
@@ -53,9 +52,8 @@ function PhotovoltaicFormulas({ photovoltaicData }: PhotovoltaicFormulasType) {
       <ScrollArea h={"78%"}>
         <div className="laptop:mr-4">
           <h2 className="font-orkneyBold">CENA ENERGII</h2>
-          <EnergyPrice />
-          <EnergyConsumption />
-          <EnergyUsageLimit />
+          <MonthlyTrendBill />
+          <SetTrendPrice />
 
           <h2 className="mt-5 font-orkneyBold">INSTALACJA FOTOWOLTAICZNA</h2>
           <ChooseVat />

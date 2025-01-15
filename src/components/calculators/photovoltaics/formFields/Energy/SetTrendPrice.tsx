@@ -2,25 +2,25 @@ import { memo, type ChangeEvent } from "react";
 import { InputComponent } from "~/components";
 import { usePhotovoltaic } from "~/hooks/usePhotovoltaic";
 
-const EnergyUsageLimit = () => {
+const SetTrendPrice = () => {
   const { photovoltaicStore, updatePhotovoltaic } = usePhotovoltaic();
 
-  const handleUsageLimit = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleTrendPrice = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.valueAsNumber;
     updatePhotovoltaic(
-      "usageLimit",
+      "trendPrice",
       value <= 0 || Number.isNaN(value) ? 0 : value
     );
   };
   return (
     <InputComponent
-      title="LIMIT ZUŻYCIA"
-      onChange={handleUsageLimit}
-      step={500}
+      title="CENA PRĄDU"
+      onChange={handleTrendPrice}
+      step={0.1}
       value={
-        photovoltaicStore.usageLimit === 0 ? "" : photovoltaicStore.usageLimit
+        photovoltaicStore.trendPrice === 0 ? "" : photovoltaicStore.trendPrice
       }
     />
   );
 };
-export default memo(EnergyUsageLimit);
+export default memo(SetTrendPrice);

@@ -1,6 +1,5 @@
-import EnergyPrice from "./Energy/EnergyPrice";
-import EnergyConsumption from "./Energy/EnergyConsumption";
-import EnergyUsageLimit from "./Energy/EnergyUsageLimit";
+import MonthlyTrendBill from "./Energy/MonthlyTrendBill";
+import SetTrendPrice from "./Energy/SetTrendPrice";
 import ChooseVat from "./Choose/ChooseVat";
 import ChooseSolar from "./Choose/ChooseSolar";
 import ModulesCount from "./ModulesCount";
@@ -33,9 +32,8 @@ import Promotion from "./Promotion";
 import IsEniga from "./YESNO/IsEniga";
 
 export {
-  EnergyPrice,
-  EnergyConsumption,
-  EnergyUsageLimit,
+  MonthlyTrendBill,
+  SetTrendPrice,
   ChooseVat,
   ChooseSolar,
   ModulesCount,
