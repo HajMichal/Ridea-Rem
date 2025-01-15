@@ -23,7 +23,6 @@ export const InputComponent = ({
     <div className="mt-2 flex items-center gap-2 font-orkneyLight">
       <input
         type="number"
-        onKeyDown={(e) => e.key === "." && e.preventDefault()}
         onChange={onChange}
         step={step}
         value={value}

@@ -33,7 +33,7 @@ const DanePompyCiepla = () => {
             color="lime"
             defaultValue={"cm21oh0ku0000k8pjfxlk54pa"}
           >
-            <Tabs.List className="fixed z-50 w-min bg-backgroundGray">
+            <Tabs.List className="hide-scroll-bar fixed z-50 h-heightMinusNavbar w-min overflow-y-scroll bg-backgroundGray">
               <Checkbox.Group value={menagers} onChange={setMenagers}>
                 {allMenagersData?.map((menagerCalcData, index) => {
                   return (

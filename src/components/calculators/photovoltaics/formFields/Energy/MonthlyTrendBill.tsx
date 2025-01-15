@@ -2,28 +2,26 @@ import { type ChangeEvent, memo } from "react";
 import { InputComponent } from "~/components";
 import { usePhotovoltaic } from "~/hooks/usePhotovoltaic";
 
-const EnergyConsumption = () => {
+const MonthlyTrendBill = () => {
   const { updatePhotovoltaic, photovoltaicStore } = usePhotovoltaic();
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.valueAsNumber;
     updatePhotovoltaic(
-      "recentYearTrendUsage",
+      "monthlyBill",
       value <= 0 || Number.isNaN(value) ? 0 : value
     );
   };
 
   return (
     <InputComponent
-      title="ILOŚĆ ENERGII ZUŻYWANEJ ŚREDNIO ROCZNIE"
+      title="DOTYCHCZASOWY RACHUNEK"
       onChange={handleChange}
-      step={500}
+      step={250}
       value={
-        photovoltaicStore.recentYearTrendUsage === 0
-          ? ""
-          : photovoltaicStore.recentYearTrendUsage
+        photovoltaicStore.monthlyBill === 0 ? "" : photovoltaicStore.monthlyBill
       }
     />
   );
 };
-export default memo(EnergyConsumption);
+export default memo(MonthlyTrendBill);

@@ -29,7 +29,7 @@ const DaneFotowoltaiki_firm = () => {
         <Navbar />
         <div className="max-h-[88%] w-full overflow-y-scroll">
           <Tabs color="gray" defaultValue="Adrian Szymborski">
-            <Tabs.List className="fixed z-50 w-full bg-backgroundGray">
+            <Tabs.List className="hide-scroll-bar fixed z-50 h-heightMinusNavbar w-full overflow-y-scroll bg-backgroundGray">
               {entireJsonData?.kalkulator.map((eachUserRate, index) => {
                 const dynamicKey = Object.keys(eachUserRate)[0];
                 return (

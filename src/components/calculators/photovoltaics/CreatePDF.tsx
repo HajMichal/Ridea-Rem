@@ -184,7 +184,7 @@ const PhotovoltaicDocument = ({
           <View style={styles.saveRow}>
             <Text style={styles.saveTitle}>ZYSK Z KONSUMPCJI WŁASNEJ</Text>
             <Text style={styles.savePrice}>
-              {photovoltaicCalcStore.save_on_autoconsumption} ZŁ
+              {photovoltaicCalcStore.autoconsumptionProfit} ZŁ
             </Text>
           </View>
           <View style={styles.saveRow}>
@@ -195,50 +195,40 @@ const PhotovoltaicDocument = ({
               {photovoltaicCalcStore.energy_sold_to_distributor} KWH
             </Text>
           </View>
-          <View style={styles.saveRow}>
+          {/* <View style={styles.saveRow}>
             <Text style={styles.saveTitle}>WARTOŚĆ SPRZEDANEJ ENERGII</Text>
             <Text style={styles.savePrice}>
               {photovoltaicCalcStore.accumulated_funds_on_account.toFixed(2)} ZŁ
             </Text>
-          </View>
+          </View> */}
         </View>
 
         <View style={styles.pricingSection}>
           <View style={styles.estimatedProfit}>
-            <Text style={styles.estimatedProfitTitleBold}>
-              ŚREDNIO MIESIĘCZNY ZYSK
-            </Text>
+            <Text style={styles.estimatedProfitTitleBold}>ZYSK MIESIĘCZNY</Text>
             <Text style={styles.estimatedProfitTitle}>
               Z INSTALACJI FOTOWOLTAICZNEJ
             </Text>
             <Text
               style={{ ...styles.estimatedPrice, fontSize: 20, marginTop: 8 }}
             >
-              {(
-                photovoltaicCalcStore.yearly_profit_for_installation / 12
-              ).toFixed(2)}
+              {photovoltaicCalcStore.futureProfitsWithPV.monthlyProfit}
               ZŁ
             </Text>
             <View style={styles.brandUnderScore} />
           </View>
           <View style={styles.estimatedProfit}>
-            <Text style={styles.estimatedProfitTitleBold}>
-              ŚREDNIO ROCZNY ZYSK
-            </Text>
+            <Text style={styles.estimatedProfitTitleBold}>ZYSK ROCZNY</Text>
             <Text style={styles.estimatedProfitTitle}>
               Z INSTALACJI FOTOWOLTAICZNEJ
             </Text>
             <Text style={styles.estimatedPrice}>
-              {" "}
-              {photovoltaicCalcStore.yearly_profit_for_installation.toFixed(
-                2
-              )}{" "}
-              ZŁ
+              {photovoltaicCalcStore.futureProfitsWithPV.yearlyProfit} ZŁ
             </Text>
           </View>
           <View style={styles.estimatedProfit}>
             <Text style={styles.estimatedProfitTitleBold}>
-              ŚREDNIO 10 LETNI ZYSK
+              ZYSK W OKRESIE 10 LAT
             </Text>
             <Text style={styles.estimatedProfitTitle}>
               Z INSTALACJI FOTOWOLTAICZNEJ
@@ -246,9 +236,7 @@ const PhotovoltaicDocument = ({
             <Text
               style={{ ...styles.estimatedPrice, fontSize: 20, marginTop: 8 }}
             >
-              {(
-                photovoltaicCalcStore.yearly_profit_for_installation * 10
-              ).toFixed(2)}{" "}
+              {photovoltaicCalcStore.futureProfitsWithPV.tenYearsProfit}
               ZŁ
             </Text>
             <View style={styles.brandUnderScore} />
@@ -464,9 +452,14 @@ const PhotovoltaicDocument = ({
             </Text>
           </View>
           <View style={styles.saveRow}>
+            <Text style={styles.savePrice}>ENGIA</Text>
+            <Text style={styles.savePrice}>
+              {photovoltaicStore.isEniga ? "TAK" : "NIE"}
+            </Text>
+          </View>
+          <View style={styles.saveRow}>
             <Text style={styles.savePrice}>MENADŻER ENERGII - EMS</Text>
             <Text style={styles.savePrice}>
-              {" "}
               {photovoltaicStore.emsDotation ? "TAK" : "NIE"}
             </Text>
           </View>

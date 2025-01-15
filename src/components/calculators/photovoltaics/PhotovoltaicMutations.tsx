@@ -66,153 +66,44 @@ export function PhotovoltaicMutations({
     mutations.set_autoconsumption,
   ]);
   useEffect(() => {
-    if (
-      photovoltaicCalcStore.autoconsumption &&
-      photovoltaicStore.energyPriceInLimit &&
-      photovoltaicStore.energyPrice &&
-      photovoltaicStore.recentYearTrendUsage
-    )
-      mutations.set_total_payment_energy_transfer({
-        autoconsumption: photovoltaicCalcStore.autoconsumption,
-        priceInLimit: photovoltaicStore.energyPriceInLimit,
-        priceOutOfLimit: photovoltaicStore.energyPrice,
-        recentYearTrendUsage: photovoltaicStore.recentYearTrendUsage,
-        usageLimit: photovoltaicStore.usageLimit,
+    if (data && photovoltaicCalcStore.estimated_kWh_prod)
+      mutations.setAutoconsumptionProfit({
+        pvProduction: photovoltaicCalcStore.estimated_kWh_prod,
+        trendPrice: data.electricityPrice,
       });
   }, [
-    photovoltaicCalcStore.autoconsumption,
-    debouncedPhotovStore.energyPriceInLimit,
-    debouncedPhotovStore.usageLimit,
-    debouncedPhotovStore.energyPrice,
-    debouncedPhotovStore.recentYearTrendUsage,
-    mutations.set_total_payment_energy_transfer,
+    photovoltaicCalcStore.estimated_kWh_prod,
+    mutations.setAutoconsumptionProfit,
+    data,
   ]);
+
   useEffect(() => {
     if (
+      data &&
       photovoltaicCalcStore.autoconsumption &&
       photovoltaicCalcStore.estimated_kWh_prod
-    )
-      mutations.set_energy_sold_to_distributor({
+    ) {
+      mutations.setEnergySoldWithOverproducedTrend({
         autoconsumption: photovoltaicCalcStore.autoconsumption,
         estimated_kWh_prod: photovoltaicCalcStore.estimated_kWh_prod,
-      });
-  }, [
-    photovoltaicCalcStore.autoconsumption,
-    photovoltaicCalcStore.estimated_kWh_prod,
-    mutations.set_energy_sold_to_distributor,
-  ]);
-  useEffect(() => {
-    if (
-      photovoltaicCalcStore.energy_sold_to_distributor &&
-      data?.electricityPrice
-    )
-      mutations.set_accumulated_funds_on_account({
-        autoconsumption: photovoltaicCalcStore.energy_sold_to_distributor,
-        estiamtedSellPriceToOsd: data.electricityPrice,
-      });
-  }, [
-    photovoltaicCalcStore.energy_sold_to_distributor,
-    mutations.set_accumulated_funds_on_account,
-  ]);
-  useEffect(() => {
-    if (
-      photovoltaicCalcStore.accumulated_funds_on_account &&
-      photovoltaicCalcStore.autoconsumption &&
-      photovoltaicStore.energyPriceInLimit &&
-      photovoltaicStore.energyPrice &&
-      photovoltaicStore.recentYearTrendUsage
-    ) {
-      mutations.set_total_energy_trend_fee({
-        accumulated_funds_on_account:
-          photovoltaicCalcStore.accumulated_funds_on_account,
-        autoconsumption: photovoltaicCalcStore.autoconsumption,
-        priceInLimit: photovoltaicStore.energyPriceInLimit,
-        priceOutOfLimit: photovoltaicStore.energyPrice,
-        usageLimit: photovoltaicStore.usageLimit,
-        recentYearTrendUsage: photovoltaicStore.recentYearTrendUsage,
+        trendSellPrice: data.electricityPrice,
       });
     }
   }, [
-    photovoltaicCalcStore.accumulated_funds_on_account,
+    data,
     photovoltaicCalcStore.autoconsumption,
-    debouncedPhotovStore.energyPriceInLimit,
-    debouncedPhotovStore.energyPrice,
-    debouncedPhotovStore.usageLimit,
-    debouncedPhotovStore.recentYearTrendUsage,
-    mutations.set_total_energy_trend_fee,
+    photovoltaicCalcStore.estimated_kWh_prod,
   ]);
   useEffect(() => {
-    if (
-      photovoltaicCalcStore.limit_price_trend &&
-      photovoltaicCalcStore.outOfLimit_price_trend &&
-      photovoltaicStore.recentYearTrendUsage
-    )
-      mutations.set_yearly_bill_without_photovolatics({
-        limit_price_trend: photovoltaicCalcStore.limit_price_trend,
-        outOfLimit_price_trend: photovoltaicCalcStore.outOfLimit_price_trend,
-        recentYearTrendUsage: photovoltaicStore.recentYearTrendUsage,
-        usageLimit: photovoltaicStore.usageLimit,
-      });
+    mutations.setFutureProfitsWithPV({
+      autoconsumptionProfit: photovoltaicCalcStore.autoconsumptionProfit,
+      energySold: photovoltaicCalcStore.autoconsumptionProfit,
+      monthlyBill: photovoltaicStore.monthlyBill,
+    });
   }, [
-    debouncedPhotovStore.usageLimit,
-    debouncedPhotovStore.recentYearTrendUsage,
-    photovoltaicCalcStore.outOfLimit_price_trend,
-    photovoltaicCalcStore.limit_price_trend,
-    mutations.set_yearly_bill_without_photovolatics,
-  ]);
-  useEffect(() => {
-    if (
-      photovoltaicStore.energyPriceInLimit &&
-      photovoltaicStore.energyPrice &&
-      photovoltaicStore.recentYearTrendUsage
-    )
-      mutations.set_yearly_total_fees({
-        energyPriceInLimit: photovoltaicStore.energyPriceInLimit,
-        energyPrice: photovoltaicStore.energyPrice,
-        recentYearTrendUsage: photovoltaicStore.recentYearTrendUsage,
-        usageLimit: photovoltaicStore.usageLimit,
-      });
-  }, [
-    debouncedPhotovStore.usageLimit,
-    debouncedPhotovStore.recentYearTrendUsage,
-    debouncedPhotovStore.energyPriceInLimit,
-    debouncedPhotovStore.energyPrice,
-    mutations.set_yearly_total_fees,
-  ]);
-  useEffect(() => {
-    if (
-      // eslint-disable-next-line
-      (photovoltaicCalcStore.total_energy_trend_fee ||
-        photovoltaicCalcStore.total_energy_trend_fee === 0) &&
-      // eslint-disable-next-line
-      (photovoltaicCalcStore.total_payment_energy_transfer ||
-        photovoltaicCalcStore.total_payment_energy_transfer === 0)
-    )
-      mutations.set_yearly_costs_with_photovoltaics({
-        total_energy_trend_fee: photovoltaicCalcStore.total_energy_trend_fee,
-        total_payment_energy_transfer:
-          photovoltaicCalcStore.total_payment_energy_transfer,
-      });
-  }, [
-    photovoltaicCalcStore.total_energy_trend_fee,
-    photovoltaicCalcStore.total_payment_energy_transfer,
-    mutations.set_yearly_costs_with_photovoltaics,
-  ]);
-  useEffect(() => {
-    if (
-      photovoltaicCalcStore.yearly_costs_with_photovoltaics &&
-      photovoltaicCalcStore.yearly_bill_without_photovolatics
-    )
-      mutations.set_total_save({
-        yearly_bill_without_photovolatics:
-          photovoltaicCalcStore.yearly_bill_without_photovolatics,
-        yearly_costs_with_photovoltaics:
-          photovoltaicCalcStore.yearly_costs_with_photovoltaics,
-      });
-  }, [
-    photovoltaicCalcStore.yearly_costs_with_photovoltaics,
-    photovoltaicCalcStore.yearly_bill_without_photovolatics,
-    mutations.set_total_save,
+    photovoltaicCalcStore.autoconsumptionProfit,
+    photovoltaicCalcStore.autoconsumptionProfit,
+    photovoltaicStore.monthlyBill,
   ]);
 
   const getDataDependsOnPanelPower = () => {
@@ -301,22 +192,24 @@ export function PhotovoltaicMutations({
   ]);
 
   useEffect(() => {
-    mutations.set_addon_cost({
-      bloczki: photovoltaicCalcStore.bloczki_price,
-      ekierki: photovoltaicCalcStore.ekierki_price,
-      grunt: photovoltaicCalcStore.grunt_price,
-      hybridInwerter: photovoltaicCalcStore.hybridInwerter_price,
-      tigo: photovoltaicCalcStore.tigo_price,
-      promotionAmount: photovoltaicStore.isPromotion
-        ? 0
-        : photovoltaicStore.promotionAmount,
-      voucherholiday: photovoltaicStore.holidayVoucher ? 1500 : 0,
-      carPort: photovoltaicCalcStore.carPortCost,
-      markup_costs: photovoltaicCalcStore.markup_costs.markupSumValue ?? 0,
-      cableACCost: photovoltaicCalcStore.cableACCost,
-      mateboxCost: photovoltaicCalcStore.mateboxCost,
-      ditchingCost: photovoltaicCalcStore.ditchCost,
-    });
+    if (data?.addons)
+      mutations.set_addon_cost({
+        bloczki: photovoltaicCalcStore.bloczki_price,
+        ekierki: photovoltaicCalcStore.ekierki_price,
+        grunt: photovoltaicCalcStore.grunt_price,
+        hybridInwerter: photovoltaicCalcStore.hybridInwerter_price,
+        tigo: photovoltaicCalcStore.tigo_price,
+        promotionAmount: photovoltaicStore.isPromotion
+          ? 0
+          : photovoltaicStore.promotionAmount,
+        voucherholiday: photovoltaicStore.holidayVoucher ? 1500 : 0,
+        carPort: photovoltaicCalcStore.carPortCost,
+        markup_costs: photovoltaicCalcStore.markup_costs.markupSumValue ?? 0,
+        cableACCost: photovoltaicCalcStore.cableACCost,
+        mateboxCost: photovoltaicCalcStore.mateboxCost,
+        ditchingCost: photovoltaicCalcStore.ditchCost,
+        eniga: photovoltaicStore.isEniga ? data.addons.eniga : 0,
+      });
   }, [
     photovoltaicCalcStore.bloczki_price,
     photovoltaicCalcStore.ekierki_price,
@@ -332,8 +225,9 @@ export function PhotovoltaicMutations({
     photovoltaicCalcStore.mateboxCost,
     photovoltaicCalcStore.ditchCost,
     mutations.set_addon_cost,
+    photovoltaicStore.isEniga,
+    data,
   ]);
-
   useEffect(() => {
     if (
       photovoltaicCalcStore.installationAndPer1KW_price?.base_installation_price
@@ -467,56 +361,15 @@ export function PhotovoltaicMutations({
         amount_after_dotation: photovoltaicCalcStore.amount_after_dotation,
       });
   }, [photovoltaicCalcStore.amount_after_dotation]);
-  useEffect(() => {
-    if (
-      photovoltaicStore.recentYearTrendUsage &&
-      photovoltaicCalcStore.yearly_bill_without_photovolatics
-    )
-      mutations.set_estiamted_price_for_trend_in_1KWH({
-        recentYearTrendUsage: photovoltaicStore.recentYearTrendUsage,
-        yearly_bill_without_photovolatics:
-          photovoltaicCalcStore.yearly_bill_without_photovolatics,
-      });
-  }, [
-    photovoltaicCalcStore.yearly_bill_without_photovolatics,
-    photovoltaicStore.recentYearTrendUsage,
-    mutations.set_estiamted_price_for_trend_in_1KWH,
-  ]);
-  useEffect(() => {
-    if (
-      photovoltaicCalcStore.autoconsumption &&
-      photovoltaicCalcStore.estiamted_price_for_trend_in_1KWH
-    )
-      mutations.set_save_on_autoconsumption({
-        autoconsumption: photovoltaicCalcStore.autoconsumption,
-        estiamtedPriceForTrendIn1KWH:
-          photovoltaicCalcStore.estiamted_price_for_trend_in_1KWH,
-      });
-  }, [
-    photovoltaicCalcStore.autoconsumption,
-    photovoltaicCalcStore.estiamted_price_for_trend_in_1KWH,
-    mutations.set_save_on_autoconsumption,
-  ]);
-  useEffect(() => {
-    mutations.set_yearly_profit_for_installation({
-      accumulated_funds_on_account:
-        photovoltaicCalcStore.accumulated_funds_on_account,
-      saveOnAutoconsumption: photovoltaicCalcStore.save_on_autoconsumption,
-    });
-  }, [
-    photovoltaicCalcStore.accumulated_funds_on_account,
-    photovoltaicCalcStore.save_on_autoconsumption,
-    mutations.set_yearly_profit_for_installation,
-  ]);
 
   useEffect(() => {
     mutations.set_payment_return_time({
       finallInstallationCost: photovoltaicCalcStore.finall_installation_cost,
-      yearlyProfit: photovoltaicCalcStore.yearly_profit_for_installation,
+      yearlyProfit: photovoltaicCalcStore.futureProfitsWithPV.yearlyProfit,
     });
   }, [
     photovoltaicCalcStore.finall_installation_cost,
-    photovoltaicCalcStore.yearly_profit_for_installation,
+    photovoltaicCalcStore.futureProfitsWithPV,
     mutations.set_payment_return_time,
   ]);
 

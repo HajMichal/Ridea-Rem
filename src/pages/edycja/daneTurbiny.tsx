@@ -37,7 +37,7 @@ const DaneTurbiny = () => {
             color="lime"
             defaultValue={"cm0o4ylab0000q4dcocvv1heu"}
           >
-            <Tabs.List className="fixed z-50 w-min bg-backgroundGray">
+            <Tabs.List className="hide-scroll-bar fixed z-50 h-heightMinusNavbar w-min overflow-y-scroll bg-backgroundGray">
               <Checkbox.Group value={menagers} onChange={setMenagers}>
                 {allMenagersData?.map((menagerCalcData, index) => {
                   return (

@@ -4,7 +4,6 @@ import calc from "../../../../calc/photovoltaics";
 import { tax32 } from "~/constans/taxPercentage";
 
 export const photovoltaics_calculator = createTRPCRouter({
-  price_trend: protectedProcedure.input(z.number()).mutation(calc.priceTrend),
   system_power: protectedProcedure
     .input(
       z.object({
@@ -24,82 +23,33 @@ export const photovoltaics_calculator = createTRPCRouter({
       })
     )
     .mutation(calc.autoconsumption),
-  total_payment_energy_transfer: protectedProcedure
+  autoconsumptionProfit: protectedProcedure
     .input(
       z.object({
-        recentYearTrendUsage: z.number(),
-        autoconsumption: z.number(),
-        usageLimit: z.number(),
-        priceInLimit: z.number(),
-        priceOutOfLimit: z.number(),
+        trendPrice: z.number(),
+        pvProduction: z.number(),
       })
     )
-    .mutation(calc.totalPaymentEnergyTransfer),
-  total_energy_trend_fee: protectedProcedure
-    .input(
-      z.object({
-        recentYearTrendUsage: z.number(),
-        autoconsumption: z.number(),
-        usageLimit: z.number(),
-        priceInLimit: z.number(),
-        priceOutOfLimit: z.number(),
-        accumulated_funds_on_account: z.number(),
-      })
-    )
-    .mutation(calc.totalEnergyTrendFee),
-  energy_sold_to_distributor: protectedProcedure
-    .input(
-      z.object({
-        autoconsumption: z.number(),
-        estimated_kWh_prod: z.number(),
-      })
-    )
-    .mutation(calc.energySoldToDistributor),
-  accumulated_funds_on_account: protectedProcedure
-    .input(
-      z.object({
-        autoconsumption: z.number(),
-        estiamtedSellPriceToOsd: z.number(),
-      })
-    )
-    .mutation(calc.accumulated_funds_on_account),
-  yearly_bill_without_photovolatics: protectedProcedure
-    .input(
-      z.object({
-        limit_price_trend: z.number(),
-        outOfLimit_price_trend: z.number(),
-        recentYearTrendUsage: z.number(),
-        usageLimit: z.number(),
-      })
-    )
-    .mutation(calc.yearlyBillWithoutPhotovolatics),
-  yearly_total_fees: protectedProcedure
-    .input(
-      z.object({
-        energyPriceInLimit: z.number(),
-        energyPrice: z.number(),
-        recentYearTrendUsage: z.number(),
-        usageLimit: z.number(),
-      })
-    )
-    .mutation(calc.yearlyTotalFees),
-  yearly_costs_with_photovoltaics: protectedProcedure
-    .input(
-      z.object({
-        total_energy_trend_fee: z.number(),
-        total_payment_energy_transfer: z.number(),
-      })
-    )
-    .mutation(calc.yearlyCostsWithPhotovoltaics),
-  total_save: protectedProcedure
-    .input(
-      z.object({
-        yearly_bill_without_photovolatics: z.number(),
-        yearly_costs_with_photovoltaics: z.number(),
-      })
-    )
-    .mutation(calc.totalSave),
+    .mutation(calc.autoconsumptionProfit),
 
+  energySoldWithOverproducedTrend: protectedProcedure
+    .input(
+      z.object({
+        estimated_kWh_prod: z.number(),
+        autoconsumption: z.number(),
+        trendSellPrice: z.number(),
+      })
+    )
+    .mutation(calc.energySoldWithOverproducedTrend),
+  futureProfitsWithPV: protectedProcedure
+    .input(
+      z.object({
+        autoconsumptionProfit: z.number(),
+        energySold: z.number(),
+        monthlyBill: z.number(),
+      })
+    )
+    .mutation(calc.futureProfitsWithPV),
   price_for_1_KW: protectedProcedure
     .input(
       z.object({
@@ -167,6 +117,7 @@ export const photovoltaics_calculator = createTRPCRouter({
         cableACCost: z.number(),
         mateboxCost: z.number(),
         ditchingCost: z.number(),
+        eniga: z.number(),
       })
     )
     .mutation(calc.totalAddonCost),
@@ -268,30 +219,6 @@ export const photovoltaics_calculator = createTRPCRouter({
       })
     )
     .mutation(calc.finallInstallationCost),
-  estiamted_price_for_trend_in_1KWH: protectedProcedure
-    .input(
-      z.object({
-        recentYearTrendUsage: z.number(),
-        yearly_bill_without_photovolatics: z.number(),
-      })
-    )
-    .mutation(calc.estiamtedPriceForTrendIn1KWH),
-  save_on_autoconsumption: protectedProcedure
-    .input(
-      z.object({
-        autoconsumption: z.number(),
-        estiamtedPriceForTrendIn1KWH: z.number(),
-      })
-    )
-    .mutation(calc.saveOnAutoconsumption),
-  yearly_profit_for_installation: protectedProcedure
-    .input(
-      z.object({
-        accumulated_funds_on_account: z.number(),
-        saveOnAutoconsumption: z.number(),
-      })
-    )
-    .mutation(calc.yearlyProfitForInstallation),
   payment_return_time: protectedProcedure
     .input(
       z.object({

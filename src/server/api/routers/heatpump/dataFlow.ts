@@ -97,7 +97,7 @@ export const heatPumpDataFlowRouter = createTRPCRouter({
       }
     }),
   remove: adminProcedure.input(z.string()).mutation(async ({ ctx, input }) => {
-    await ctx.prisma.photovoltaic.delete({
+    await ctx.prisma.heatPump.delete({
       where: {
         userId: input,
       },

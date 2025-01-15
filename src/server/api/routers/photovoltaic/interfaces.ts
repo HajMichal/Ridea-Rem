@@ -52,6 +52,7 @@ export interface PhotovoltaicDataToCalculation extends Photovoltaic {
     matebox: number;
     kableAC: number;
     przekopy: number;
+    eniga: number;
   };
   boilers: Record<string, number>;
   energyStore: Record<string, number>;
