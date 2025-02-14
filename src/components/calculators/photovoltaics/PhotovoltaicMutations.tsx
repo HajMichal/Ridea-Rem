@@ -66,15 +66,14 @@ export function PhotovoltaicMutations({
     mutations.set_autoconsumption,
   ]);
   useEffect(() => {
-    if (data && photovoltaicCalcStore.estimated_kWh_prod)
-      mutations.setAutoconsumptionProfit({
-        pvProduction: photovoltaicCalcStore.estimated_kWh_prod,
-        trendPrice: data.electricityPrice,
-      });
+    mutations.setAutoconsumptionProfit({
+      pvProduction: photovoltaicCalcStore.autoconsumption,
+      trendPrice: photovoltaicStore.trendPrice,
+    });
   }, [
-    photovoltaicCalcStore.estimated_kWh_prod,
+    photovoltaicCalcStore.autoconsumption,
     mutations.setAutoconsumptionProfit,
-    data,
+    photovoltaicStore.trendPrice,
   ]);
 
   useEffect(() => {

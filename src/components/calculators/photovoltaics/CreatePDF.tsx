@@ -192,7 +192,13 @@ const PhotovoltaicDocument = ({
               PRZEWIDYWANA ILOŚĆ SPRZEDANYCH KWH DO ZE
             </Text>
             <Text style={styles.savePrice}>
-              {photovoltaicCalcStore.energy_sold_to_distributor} KWH
+              {photovoltaicCalcStore.overproducedTrendInKw} KWH
+            </Text>
+          </View>
+          <View style={styles.saveRow}>
+            <Text style={styles.saveTitle}>PRZEWIDYWANY ZYSK ZE SPRZEDAŻY</Text>
+            <Text style={styles.savePrice}>
+              {photovoltaicCalcStore.energy_sold_to_distributor} ZŁ
             </Text>
           </View>
           {/* <View style={styles.saveRow}>

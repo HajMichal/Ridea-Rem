@@ -42,6 +42,7 @@ export function autoconsumptionProfit({
 }: {
   input: AutoconsumptionProfitType;
 }) {
+  console.log(input);
   return Number((input.pvProduction * input.trendPrice).toFixed(2));
 }
 
