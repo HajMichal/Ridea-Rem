@@ -433,8 +433,8 @@ export function energyStoreDotationValue({
   if (value < 0 || !input.isEnergyStoreDotation) {
     return 0;
   }
-  if (value >= 34000) {
-    return 17000;
+  if (value >= 32000) {
+    return 16000;
   } else {
     return Number(
       (value * staticData.PERCENT_TO_HEATSTORE_DOTATION).toFixed(2)
