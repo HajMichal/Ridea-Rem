@@ -96,13 +96,11 @@ export function PhotovoltaicMutations({
   useEffect(() => {
     mutations.setFutureProfitsWithPV({
       autoconsumptionProfit: photovoltaicCalcStore.autoconsumptionProfit,
-      energySold: photovoltaicCalcStore.autoconsumptionProfit,
-      monthlyBill: photovoltaicStore.monthlyBill,
+      energySold: photovoltaicCalcStore.energy_sold_to_distributor,
     });
   }, [
     photovoltaicCalcStore.autoconsumptionProfit,
-    photovoltaicCalcStore.autoconsumptionProfit,
-    photovoltaicStore.monthlyBill,
+    photovoltaicCalcStore.energy_sold_to_distributor,
   ]);
 
   const getDataDependsOnPanelPower = () => {

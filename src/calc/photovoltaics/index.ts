@@ -42,7 +42,6 @@ export function autoconsumptionProfit({
 }: {
   input: AutoconsumptionProfitType;
 }) {
-  console.log(input);
   return Number((input.pvProduction * input.trendPrice).toFixed(2));
 }
 
@@ -69,30 +68,19 @@ export function energySoldWithOverproducedTrend({
 interface FutureProfitsWithPVType {
   autoconsumptionProfit: number;
   energySold: number;
-  monthlyBill: number;
 }
 export function futureProfitsWithPV({
   input,
 }: {
   input: FutureProfitsWithPVType;
 }) {
-  const yearlyBill = input.monthlyBill * 12;
-  const possibleProfit =
-    input.energySold + input.autoconsumptionProfit - yearlyBill;
+  const estimatedYearlyProfit = input.energySold + input.autoconsumptionProfit;
 
-  if (possibleProfit > 0) {
-    return {
-      monthlyProfit: input.monthlyBill,
-      yearlyProfit: Number(yearlyBill.toFixed(2)),
-      tenYearsProfit: Number((yearlyBill * 10).toFixed(2)),
-    };
-  } else {
-    return {
-      monthlyProfit: 0,
-      yearlyProfit: 0,
-      tenYearsProfit: 0,
-    };
-  }
+  return {
+    monthlyProfit: Number((estimatedYearlyProfit / 12).toFixed(2)),
+    yearlyProfit: Number(estimatedYearlyProfit.toFixed(2)),
+    tenYearsProfit: Number((estimatedYearlyProfit * 10).toFixed(2)),
+  };
 }
 
 // interface YearlyTotalFeesType {

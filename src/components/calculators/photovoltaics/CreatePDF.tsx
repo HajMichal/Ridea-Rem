@@ -218,8 +218,7 @@ const PhotovoltaicDocument = ({
             <Text
               style={{ ...styles.estimatedPrice, fontSize: 20, marginTop: 8 }}
             >
-              {photovoltaicCalcStore.futureProfitsWithPV.monthlyProfit}
-              ZŁ
+              {photovoltaicCalcStore.futureProfitsWithPV.monthlyProfit} ZŁ
             </Text>
             <View style={styles.brandUnderScore} />
           </View>
@@ -242,8 +241,7 @@ const PhotovoltaicDocument = ({
             <Text
               style={{ ...styles.estimatedPrice, fontSize: 20, marginTop: 8 }}
             >
-              {photovoltaicCalcStore.futureProfitsWithPV.tenYearsProfit}
-              ZŁ
+              {photovoltaicCalcStore.futureProfitsWithPV.tenYearsProfit} ZŁ
             </Text>
             <View style={styles.brandUnderScore} />
           </View>
@@ -514,7 +512,8 @@ const PhotovoltaicDocument = ({
           <View style={styles.saveRow}>
             <Text style={styles.savePrice}>INWERTER HYBRYDOWY</Text>
             <Text style={styles.savePrice}>
-              {photovoltaicStore.isInwerterChoosed ? "TAK" : "NIE"}
+              {/* {photovoltaicStore.isInwerterChoosed ? "TAK" : "NIE"} */}
+              {photovoltaicStore.isEnergyStoreDotation ? "TAK" : "NIE"}
             </Text>
           </View>
           <View style={styles.saveRow}>

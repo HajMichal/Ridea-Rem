@@ -46,7 +46,6 @@ export const photovoltaics_calculator = createTRPCRouter({
       z.object({
         autoconsumptionProfit: z.number(),
         energySold: z.number(),
-        monthlyBill: z.number(),
       })
     )
     .mutation(calc.futureProfitsWithPV),

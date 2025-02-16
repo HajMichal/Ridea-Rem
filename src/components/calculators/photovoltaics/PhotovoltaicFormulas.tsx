@@ -16,7 +16,7 @@ import {
   IsEnergyStore,
   IsGroundMontage,
   IsHeatStore,
-  IsHybridInverter,
+  // IsHybridInverter,
   IsSouthRoof,
   ModulesCount,
   TigoCount,
@@ -42,7 +42,7 @@ interface PhotovoltaicFormulasType {
 }
 function PhotovoltaicFormulas({ photovoltaicData }: PhotovoltaicFormulasType) {
   return (
-    <div id="FORM" className="h-full p-3 laptop:w-[55%] laptop:min-w-[500px] ">
+    <div id="FORM" className="laptop:w-[55%] laptop:min-w-[500px] h-full p-3 ">
       <h1
         style={{ textShadow: " 24px 24px #bebebe" }}
         className="z-50 mb-10 font-orkneyBold text-5xl font-semibold"
@@ -68,9 +68,9 @@ function PhotovoltaicFormulas({ photovoltaicData }: PhotovoltaicFormulasType) {
           <ChooseEccentrics />
           <IsRoofSystem />
           <TigoCount />
-          <IsHybridInverter
+          {/* <IsHybridInverter
             price={photovoltaicData?.addons.inwerterHybrydowy}
-          />
+          /> */}
           <IsHeatStore />
           <ChooseBoiler boilersData={photovoltaicData?.boilers} />
           <IsEniga />
