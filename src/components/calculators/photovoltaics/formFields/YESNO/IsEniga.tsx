@@ -11,7 +11,7 @@ const IsEniga = () => {
 
   return (
     <SelectComponent
-      title="ENIGA"
+      title="PSTRYK ENERGIA"
       value={photovoltaicStore.isEniga}
       onChange={handleChange}
       data={YESNO}
