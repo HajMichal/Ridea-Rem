@@ -181,4 +181,5 @@ const dataNamesMappings: Record<string, string> = {
   menagerEnergii: "MENAGER ENERGII",
   creditPercentage: "OPROCENTOWANIE KREDYTU",
   electricityPrice: "CENA SPRZEDAŻY",
+  eniga: "PSTRYK ENERGIA",
 };

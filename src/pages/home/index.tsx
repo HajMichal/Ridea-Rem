@@ -49,7 +49,7 @@ export default function Home() {
         </Link>
         <Link
           href="/pliki"
-          className="rounded-l-full bg-brand p-2 pl-5 pr-52 font-orkney text-2xl duration-150 hover:-translate-x-10 xl:mt-[30%]"
+          className="rounded-l-full bg-brand p-2 pl-5 pr-52 font-orkney text-2xl duration-150 hover:-translate-x-10 xl:mt-[20%]"
         >
           Pliki
         </Link>
