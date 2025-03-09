@@ -129,7 +129,7 @@ export function Preview({ heatStorePrice }: PreviewType) {
                 calculations={photovoltaicStore.isHeatStore}
               />
               <TextComponent
-                title="ENIGA"
+                title="PSTRYK ENERGIA"
                 calculations={photovoltaicStore.isEniga}
               />
               <TextComponent

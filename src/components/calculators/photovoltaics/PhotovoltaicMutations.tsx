@@ -66,15 +66,14 @@ export function PhotovoltaicMutations({
     mutations.set_autoconsumption,
   ]);
   useEffect(() => {
-    if (data && photovoltaicCalcStore.estimated_kWh_prod)
-      mutations.setAutoconsumptionProfit({
-        pvProduction: photovoltaicCalcStore.estimated_kWh_prod,
-        trendPrice: data.electricityPrice,
-      });
+    mutations.setAutoconsumptionProfit({
+      pvProduction: photovoltaicCalcStore.autoconsumption,
+      trendPrice: photovoltaicStore.trendPrice,
+    });
   }, [
-    photovoltaicCalcStore.estimated_kWh_prod,
+    photovoltaicCalcStore.autoconsumption,
     mutations.setAutoconsumptionProfit,
-    data,
+    photovoltaicStore.trendPrice,
   ]);
 
   useEffect(() => {
@@ -97,13 +96,11 @@ export function PhotovoltaicMutations({
   useEffect(() => {
     mutations.setFutureProfitsWithPV({
       autoconsumptionProfit: photovoltaicCalcStore.autoconsumptionProfit,
-      energySold: photovoltaicCalcStore.autoconsumptionProfit,
-      monthlyBill: photovoltaicStore.monthlyBill,
+      energySold: photovoltaicCalcStore.energy_sold_to_distributor,
     });
   }, [
     photovoltaicCalcStore.autoconsumptionProfit,
-    photovoltaicCalcStore.autoconsumptionProfit,
-    photovoltaicStore.monthlyBill,
+    photovoltaicCalcStore.energy_sold_to_distributor,
   ]);
 
   const getDataDependsOnPanelPower = () => {
@@ -377,7 +374,7 @@ export function PhotovoltaicMutations({
     if (photovoltaicCalcStore.totalInstallationCosts.total_gross_cost) {
       mutations.set_energyStoreDotationValue({
         gross_instalation_cost:
-          photovoltaicCalcStore.totalInstallationCosts.total_installation_cost,
+          photovoltaicCalcStore.totalInstallationCosts.total_gross_cost,
         isEnergyStoreDotation: photovoltaicStore.isEnergyStoreDotation,
       });
     }

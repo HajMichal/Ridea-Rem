@@ -192,7 +192,13 @@ const PhotovoltaicDocument = ({
               PRZEWIDYWANA ILOŚĆ SPRZEDANYCH KWH DO ZE
             </Text>
             <Text style={styles.savePrice}>
-              {photovoltaicCalcStore.energy_sold_to_distributor} KWH
+              {photovoltaicCalcStore.overproducedTrendInKw} KWH
+            </Text>
+          </View>
+          <View style={styles.saveRow}>
+            <Text style={styles.saveTitle}>PRZEWIDYWANY ZYSK ZE SPRZEDAŻY</Text>
+            <Text style={styles.savePrice}>
+              {photovoltaicCalcStore.energy_sold_to_distributor} ZŁ
             </Text>
           </View>
           {/* <View style={styles.saveRow}>
@@ -212,8 +218,7 @@ const PhotovoltaicDocument = ({
             <Text
               style={{ ...styles.estimatedPrice, fontSize: 20, marginTop: 8 }}
             >
-              {photovoltaicCalcStore.futureProfitsWithPV.monthlyProfit}
-              ZŁ
+              {photovoltaicCalcStore.futureProfitsWithPV.monthlyProfit} ZŁ
             </Text>
             <View style={styles.brandUnderScore} />
           </View>
@@ -236,8 +241,7 @@ const PhotovoltaicDocument = ({
             <Text
               style={{ ...styles.estimatedPrice, fontSize: 20, marginTop: 8 }}
             >
-              {photovoltaicCalcStore.futureProfitsWithPV.tenYearsProfit}
-              ZŁ
+              {photovoltaicCalcStore.futureProfitsWithPV.tenYearsProfit} ZŁ
             </Text>
             <View style={styles.brandUnderScore} />
           </View>
@@ -452,7 +456,7 @@ const PhotovoltaicDocument = ({
             </Text>
           </View>
           <View style={styles.saveRow}>
-            <Text style={styles.savePrice}>ENGIA</Text>
+            <Text style={styles.savePrice}>PSTRYK ENERGIA</Text>
             <Text style={styles.savePrice}>
               {photovoltaicStore.isEniga ? "TAK" : "NIE"}
             </Text>
@@ -508,7 +512,8 @@ const PhotovoltaicDocument = ({
           <View style={styles.saveRow}>
             <Text style={styles.savePrice}>INWERTER HYBRYDOWY</Text>
             <Text style={styles.savePrice}>
-              {photovoltaicStore.isInwerterChoosed ? "TAK" : "NIE"}
+              {/* {photovoltaicStore.isInwerterChoosed ? "TAK" : "NIE"} */}
+              {photovoltaicStore.isEnergyStoreDotation ? "TAK" : "NIE"}
             </Text>
           </View>
           <View style={styles.saveRow}>

@@ -24,7 +24,7 @@ interface TurbinesFormulasType {
 }
 export function TurbinesFormulas({ turbinesData }: TurbinesFormulasType) {
   return (
-    <div id="FORM" className="h-full p-3 laptop:w-[55%] laptop:min-w-[500px] ">
+    <div id="FORM" className="laptop:w-[55%] laptop:min-w-[500px] h-full p-3 ">
       <ScrollArea className="h-[78%] xl:h-[85%]">
         <h1
           style={{ textShadow: " 24px 24px #bebebe" }}
@@ -46,7 +46,7 @@ export function TurbinesFormulas({ turbinesData }: TurbinesFormulasType) {
           {/* <BatteryController controller={turbinesData?.energyStore["T30 controller"]} /> */}
           {/* <EnergyMenagerCounter energyStoreCounter={turbinesData?.energyStore.licznik} /> */}
           {/* <BatteryCapacity batteries={turbinesData?.energyStore.battery} /> */}
-          <Matebox mateboxPrice={turbinesData?.energyStore.matebox} />
+          {/* <Matebox mateboxPrice={turbinesData?.energyStore.matebox} /> */}
           <Installments />
           <EstimatedDotationSum />
           <IsVat />

@@ -68,30 +68,19 @@ export function energySoldWithOverproducedTrend({
 interface FutureProfitsWithPVType {
   autoconsumptionProfit: number;
   energySold: number;
-  monthlyBill: number;
 }
 export function futureProfitsWithPV({
   input,
 }: {
   input: FutureProfitsWithPVType;
 }) {
-  const yearlyBill = input.monthlyBill * 12;
-  const possibleProfit =
-    input.energySold + input.autoconsumptionProfit - yearlyBill;
+  const estimatedYearlyProfit = input.energySold + input.autoconsumptionProfit;
 
-  if (possibleProfit > 0) {
-    return {
-      monthlyProfit: input.monthlyBill,
-      yearlyProfit: Number(yearlyBill.toFixed(2)),
-      tenYearsProfit: Number((yearlyBill * 10).toFixed(2)),
-    };
-  } else {
-    return {
-      monthlyProfit: 0,
-      yearlyProfit: 0,
-      tenYearsProfit: 0,
-    };
-  }
+  return {
+    monthlyProfit: Number((estimatedYearlyProfit / 12).toFixed(2)),
+    yearlyProfit: Number(estimatedYearlyProfit.toFixed(2)),
+    tenYearsProfit: Number((estimatedYearlyProfit * 10).toFixed(2)),
+  };
 }
 
 // interface YearlyTotalFeesType {
@@ -433,8 +422,8 @@ export function energyStoreDotationValue({
   if (value < 0 || !input.isEnergyStoreDotation) {
     return 0;
   }
-  if (value >= 34000) {
-    return 17000;
+  if (value >= 32000) {
+    return 16000;
   } else {
     return Number(
       (value * staticData.PERCENT_TO_HEATSTORE_DOTATION).toFixed(2)
