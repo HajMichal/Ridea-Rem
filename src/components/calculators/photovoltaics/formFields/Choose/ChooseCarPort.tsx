@@ -22,12 +22,13 @@ const ChooseCarPort = ({ carPort }: CarPortType) => {
     usePhotovoltaic();
 
   const handleChange = (e: string | null) => {
-    updatePhotovoltaic("choosedCarPort", String(e));
+    const newValue = String(e);
+
+    updatePhotovoltaic("choosedCarPort", newValue);
+
     if (carPort) {
       const carPortCost =
-        photovoltaicStore.choosedCarPort !== "0_stan"
-          ? carPort[photovoltaicStore.choosedCarPort]
-          : 0;
+        newValue !== "0_stan" ? carPort[newValue as keyof typeof carPort] : 0;
       updatePhotovoltaicCalcs("carPortCost", carPortCost);
     }
   };
