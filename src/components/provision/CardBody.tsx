@@ -12,9 +12,10 @@ import type {
 
 interface CardBodyType {
   user: UserProvisionType;
+  close: () => void;
 }
 
-export const CardBody = ({ user }: CardBodyType) => {
+export const CardBody = ({ user, close }: CardBodyType) => {
   const [editData, setEditData] = useState<DataToProvisionEdit>({
     provisionAmount: 0,
     provisionName: "",
@@ -59,7 +60,7 @@ export const CardBody = ({ user }: CardBodyType) => {
           })}
         </div>
         <div className="flex items-center justify-center">
-          <RemoveUser user={user} />
+          <RemoveUser user={user} close={close} />
         </div>
       </div>
     </div>

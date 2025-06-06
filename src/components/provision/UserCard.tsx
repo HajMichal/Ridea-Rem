@@ -9,7 +9,7 @@ interface UserCard {
 }
 
 export const UserCard = ({ user }: UserCard) => {
-  const [opened, { toggle }] = useDisclosure(false);
+  const [opened, { toggle, close }] = useDisclosure(false);
 
   return (
     <>
@@ -19,7 +19,7 @@ export const UserCard = ({ user }: UserCard) => {
         transitionDuration={200}
         transitionTimingFunction="linear"
       >
-        <CardBody user={user} />
+        <CardBody user={user} close={close} />
         <UserEmployees user={user} />
       </Collapse>
     </>

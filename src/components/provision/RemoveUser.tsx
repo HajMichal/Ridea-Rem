@@ -6,8 +6,9 @@ import toast from "react-hot-toast";
 
 interface RemoveUserType {
   user: UserProvisionType;
+  close: () => void;
 }
-export const RemoveUser = ({ user }: RemoveUserType) => {
+export const RemoveUser = ({ user, close }: RemoveUserType) => {
   const [removeUserModal, setRemoveUserModal] = useState(false);
   const handleRemoveUserModal = () => setRemoveUserModal(!removeUserModal);
 
@@ -45,6 +46,7 @@ export const RemoveUser = ({ user }: RemoveUserType) => {
       removeMenagerForCompanyJson(user.name);
       removeMenagerHeatHomeJson(user.name);
     }
+    close();
   };
 
   return (

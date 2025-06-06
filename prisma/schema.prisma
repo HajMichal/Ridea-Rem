@@ -33,7 +33,7 @@ model User {
   imposedFeeAirCondition Int       @default(0)
   imposedFeeTurbines     Int       @default(0)
   feePerkwTurbines       Int       @default(0)
-  creator                User?     @relation("creatorWorker", fields: [creatorId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  creator                User?     @relation("creatorWorker", fields: [creatorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   workers                User[]    @relation("creatorWorker")
 
   @@index([creatorId])
